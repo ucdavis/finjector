@@ -1,8 +1,36 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+})
+.AddCookie()
+.AddOpenIdConnect(oidc =>
+{
+    oidc.ClientId = builder.Configuration["Authentication:ClientId"];
+    oidc.ClientSecret = builder.Configuration["Authentication:ClientSecret"];
+    oidc.Authority = builder.Configuration["Authentication:Authority"];
+    oidc.ResponseType = OpenIdConnectResponseType.Code;
+    oidc.Scope.Add("openid");
+    oidc.Scope.Add("profile");
+    oidc.Scope.Add("email");
+    oidc.Scope.Add("ucdProfile");
+    oidc.Scope.Add("eduPerson");
+    oidc.TokenValidationParameters = new TokenValidationParameters
+    {
+        NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+    };
+});
 
 var app = builder.Build();
 
@@ -17,6 +45,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

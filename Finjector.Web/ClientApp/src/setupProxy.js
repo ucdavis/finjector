@@ -6,6 +6,10 @@ const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_H
 
 const context = [
   "/weatherforecast",
+  "/account/login",
+  "/signin-oidc",
+  "/signout-oidc",
+  "/signout-callback-oidc"
 ];
 
 const onError = (err, req, resp, target) => {
