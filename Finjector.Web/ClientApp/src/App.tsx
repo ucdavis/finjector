@@ -2,6 +2,9 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+// TODO: if cal wants sass, replace this
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   // TODO: move to helper or make it a conditional route
   // We need to check for the existance of a specific cookie to ensure the user is logged in
