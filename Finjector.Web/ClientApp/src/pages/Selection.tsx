@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 /*
  * Page for selecting a CCOA string
@@ -7,12 +8,18 @@ import React from "react";
  */
 
 const Selection = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const el = searchParams.get("el"); // passed in element id to update
+
+  const hasError = window.opener == null || el == null;
+
   const onSubmit = (ccoa: string) => {
     const opener = window.opener as Window;
 
     if (opener) {
       const openerInput = opener.document.getElementById(
-        "ccoa"
+        el || ""
       ) as HTMLInputElement;
 
       if (openerInput) {
@@ -27,7 +34,11 @@ const Selection = () => {
     <div>
       <h1>Selection</h1>
       <div>
-        <p>Your favorite CCOA strings</p>
+        {hasError && (
+          <div className="alert alert-danger" role="alert">
+            This page has not been configured correctly. Please read the docs.
+          </div>
+        )}
         <div className="card" style={{ width: "50%" }}>
           <div className="card-body">
             <h5 className="card-title">Dobalina Lab</h5>

@@ -47,8 +47,8 @@ function Home() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Welcome to F(inancial) Injector!</p>
-        <Link className="App-link" to="/about">
-          About page
+        <Link className="App-link" to="/popuptest">
+          Click here for a sample finjection page!
         </Link>
       </header>
     </div>
