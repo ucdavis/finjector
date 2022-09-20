@@ -7,6 +7,9 @@ import "./App.css";
 
 // TODO: if cal wants sass, replace this
 import "bootstrap/dist/css/bootstrap.min.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   // TODO: move to helper or make it a conditional route
@@ -22,12 +25,14 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
@@ -37,10 +42,7 @@ function Home() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Welcome to F(inancial) Injector!</p>
-        <Link
-          className="App-link"
-          to="/about"
-        >
+        <Link className="App-link" to="/about">
           About page
         </Link>
       </header>
@@ -54,10 +56,7 @@ function About() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Sample About page!</p>
-        <Link
-          className="App-link"
-          to="/"
-        >
+        <Link className="App-link" to="/">
           Back home
         </Link>
       </header>

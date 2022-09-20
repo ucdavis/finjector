@@ -16,7 +16,8 @@ public class AccountController : Controller
     public IActionResult Login(string? returnUrl)
     {
         // attempt to add custom cookie
-        this.httpContextAccessor.HttpContext?.Response.Cookies.Append("ASPNET_AUTH_SESSION", "true", new CookieOptions { 
+        this.httpContextAccessor.HttpContext?.Response.Cookies.Append("ASPNET_AUTH_SESSION", "true", new CookieOptions
+        {
             HttpOnly = false, // need client to read it
             Secure = true,
             SameSite = SameSiteMode.Lax,
