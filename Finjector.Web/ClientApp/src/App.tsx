@@ -8,7 +8,7 @@ function App() {
   // If they are not logged in, we need to redirect them to the login page
   const cookies = document.cookie;
 
-  if (cookies.split(';').some(c => c === 'ASPNET_AUTH_SESSION=true')) {
+  if (cookies.split(';').some(c => c.trim() === 'ASPNET_AUTH_SESSION=true')) {
     // we have a valid cookie, so we can render the app
   } else {
     // we don't have a valid cookie, so we need to redirect to the login page
@@ -20,7 +20,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Welcome to F(inancial) Injector!
         </p>
         <a
           className="App-link"

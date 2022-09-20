@@ -9,6 +9,6 @@ On first run, it'll auto install all nuget and npm packages.  But if you are upd
 
 Otherwise, it's the same as any other app:
 
-`npm start`
+In the Finjector.Web directory, type `npm start`
 
 This will launch a "landing page" which spins up our client code and waits for it to be ready.  Once ready it'll auto swap to `https://localhost:3000` and our react code.
