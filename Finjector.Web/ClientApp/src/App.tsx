@@ -1,9 +1,12 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+
+import logo from "./logo.svg";
+import "./App.css";
 
 // TODO: if cal wants sass, replace this
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   // TODO: move to helper or make it a conditional route
@@ -11,28 +14,52 @@ function App() {
   // If they are not logged in, we need to redirect them to the login page
   const cookies = document.cookie;
 
-  if (cookies.split(';').some(c => c.trim() === 'ASPNET_AUTH_SESSION=true')) {
+  if (cookies.split(";").some((c) => c.trim() === "ASPNET_AUTH_SESSION=true")) {
     // we have a valid cookie, so we can render the app
   } else {
     // we don't have a valid cookie, so we need to redirect to the login page
-    window.location.href = '/account/login';
+    window.location.href = "/account/login";
   }
 
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+function Home() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Welcome to F(inancial) Injector!
-        </p>
-        <a
+        <p>Welcome to F(inancial) Injector!</p>
+        <Link
           className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+          to="/about"
         >
-          Learn React
-        </a>
+          About page
+        </Link>
+      </header>
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>Sample About page!</p>
+        <Link
+          className="App-link"
+          to="/"
+        >
+          Back home
+        </Link>
       </header>
     </div>
   );
