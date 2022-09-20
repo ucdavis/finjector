@@ -8,6 +8,7 @@ import "./App.css";
 // TODO: if cal wants sass, replace this
 import "bootstrap/dist/css/bootstrap.min.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useUserInfoQuery } from "./queries/userQueries";
 
 const queryClient = new QueryClient();
 
@@ -51,11 +52,13 @@ function Home() {
 }
 
 function About() {
+  const user = useUserInfoQuery();
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Sample About page!</p>
+        <p>Sample About page! {user.isSuccess && user.data['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']}</p>
         <Link className="App-link" to="/">
           Back home
         </Link>
