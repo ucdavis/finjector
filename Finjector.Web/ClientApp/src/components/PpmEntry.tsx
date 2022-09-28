@@ -1,10 +1,25 @@
 import React from "react";
-import { ChartType, PpmSegments } from "../types";
+
+import { ChartType } from "../types";
+import {
+  fromPpmSegmentString,
+  toPpmSegmentString,
+} from "../util/segmentValidation";
 
 import SegmentSearch from "./SegmentSearch";
 
-const PpmEntry = () => {
-  const [ppmSegments, setPpmSegments] = React.useState<PpmSegments>({});
+interface Props {
+  chart: string;
+  setChart: (chart: string) => void;
+}
+
+const PpmEntry = (props: Props) => {
+  const ppmSegments = fromPpmSegmentString(props.chart);
+
+  const updateSegment = (key: string, value: string) => {
+    const newSegments = { ...ppmSegments, [key]: value };
+    props.setChart(toPpmSegmentString(newSegments));
+  };
 
   return (
     <div>
@@ -13,7 +28,7 @@ const PpmEntry = () => {
         chartType={ChartType.PPM}
         segmentName="Project"
         segmentValue={ppmSegments.project}
-        setSegmentValue={(v) => setPpmSegments((p) => ({ ...p, project: v }))}
+        setSegmentValue={(v) => updateSegment("project", v)}
       ></SegmentSearch>
     </div>
   );

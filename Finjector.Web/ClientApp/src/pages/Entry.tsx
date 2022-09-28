@@ -14,7 +14,9 @@ import "react-bootstrap-typeahead/css/Typeahead.css";
 const Entry = () => {
   const { chart } = useParams();
 
-  // TODO: set based on chart from params
+  const [chartSegmentString, setChartSegmentString] = React.useState<string>(
+    chart || "CP00000001-000001-0000000-000000-0000000-00000"
+  );
   const [chartType, setChartType] = React.useState<ChartType>(ChartType.PPM);
 
   return (
@@ -24,7 +26,7 @@ const Entry = () => {
       <ChartTypeSelector chartType={chartType} setChartType={setChartType} />
       <hr />
       <h2>{chartType} Chart Details</h2>
-      {chartType === ChartType.GL ? <GlEntry /> : <PpmEntry />}
+      {chartType === ChartType.GL ? <GlEntry /> : <PpmEntry chart={chartSegmentString} setChart={setChartSegmentString} />}
     </div>
   );
 };

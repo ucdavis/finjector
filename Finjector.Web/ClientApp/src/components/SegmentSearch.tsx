@@ -12,8 +12,6 @@ interface Props {
 }
 
 const SegmentSearch = (props: Props) => {
-  console.log(props);
-
   const segmentQuery = useSegmentQuery(
     ChartType.PPM,
     props.segmentName,

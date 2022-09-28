@@ -23,10 +23,6 @@ export interface GlSegments {
   flex2?: string;
 }
 
-//   toSegmentString(): string {
-//     return `${this.entity}-${this.fund}-${this.department}-${this.account}-${this.purpose}-${this.program}-${this.project}-${this.activity}-${this.interEntity}-${this.flex1}-${this.flex2}`;
-//   }
-
 export interface PpmSegments {
   project?: string;
   task?: string;
@@ -34,11 +30,4 @@ export interface PpmSegments {
   expenditureType?: string;
   award?: string | null;
   fundingSource?: string | null;
-
-  //   toSegmentString(): string {
-  //     if (!this.award && !this.fundingSource) {
-  //       return `${this.project}-${this.task}-${this.organization}-${this.expenditureType}`;
-  //     }
-  //     return `${this.project}-${this.task}-${this.organization}-${this.expenditureType}-${this.award}-${this.fundingSource}`;
-  //   }
 }
