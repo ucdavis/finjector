@@ -1,5 +1,4 @@
 /* Inject as script tag in html to gain access to Finjector window object */
-
 window.Finjector = {};
 
 // call this function to open popup and get chart data

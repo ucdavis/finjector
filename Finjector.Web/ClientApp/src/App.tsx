@@ -13,6 +13,7 @@ import PopupTest from "./pages/PopupTest";
 import Selection from "./pages/Selection";
 import Landing from "./pages/Landing";
 import Selected from "./pages/Selected";
+import Entry from "./pages/Entry";
 
 const queryClient = new QueryClient();
 
@@ -37,8 +38,9 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/popuptest" element={<PopupTest />} />
           <Route path="/selection" element={<Selection />} />
-          <Route path="/selected/:chart" element={<Selected />} />
           <Route path="/landing" element={<Landing />} />
+          <Route path="/entry/:chart" element={<Entry />} />
+          <Route path="/selected/:chart" element={<Selected />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
