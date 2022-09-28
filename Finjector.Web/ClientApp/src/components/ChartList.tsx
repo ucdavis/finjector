@@ -33,7 +33,7 @@ const ChartList = (props: Props) => {
               Edit
             </Link>
             <Link
-              to={`/select/${chart.segmentString}`}
+              to={`/selected/${chart.segmentString}`}
               className="btn btn-primary ms-2"
             >
               Use

@@ -12,6 +12,7 @@ import { useUserInfoQuery } from "./queries/userQueries";
 import PopupTest from "./pages/PopupTest";
 import Selection from "./pages/Selection";
 import Landing from "./pages/Landing";
+import Selected from "./pages/Selected";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/popuptest" element={<PopupTest />} />
           <Route path="/selection" element={<Selection />} />
+          <Route path="/selected/:chart" element={<Selected />} />
           <Route path="/landing" element={<Landing />} />
         </Routes>
       </BrowserRouter>
