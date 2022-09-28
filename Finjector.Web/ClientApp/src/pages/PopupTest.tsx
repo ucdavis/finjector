@@ -47,6 +47,9 @@ const PopupTest = () => {
   const openPopup = () => {
     popupCenter("/selection?el=ccoa", "popup", 600, 600);
   };
+  const openDevPopup = () => {
+    popupCenter("/landing?el=ccoa", "popup", 600, 600);
+  };
 
   return (
     <div className="App">
@@ -58,8 +61,12 @@ const PopupTest = () => {
             id="ccoa"
             name="ccoa"
             placeholder="Enter CCOA string"
+            onChange={(e) => {
+              console.log(e.target.value);
+            }}
           />
           <input type="button" value="Lookup" onClick={openPopup} />
+          <input type="button" value="Dev Lookup" onClick={openDevPopup} />
         </form>
       </header>
     </div>

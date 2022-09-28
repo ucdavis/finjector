@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useUserInfoQuery } from "./queries/userQueries";
 import PopupTest from "./pages/PopupTest";
 import Selection from "./pages/Selection";
+import Landing from "./pages/Landing";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/popuptest" element={<PopupTest />} />
           <Route path="/selection" element={<Selection />} />
+          <Route path="/landing" element={<Landing />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
@@ -62,7 +64,13 @@ function About() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Sample About page! {user.isSuccess && user.data['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']}</p>
+        <p>
+          Sample About page!{" "}
+          {user.isSuccess &&
+            user.data[
+              "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+            ]}
+        </p>
         <Link className="App-link" to="/">
           Back home
         </Link>
