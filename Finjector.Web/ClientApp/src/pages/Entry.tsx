@@ -6,6 +6,11 @@ import PpmEntry from "../components/PpmEntry";
 
 import { ChartType } from "../types";
 
+// CSS
+// https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
+import "react-bootstrap-typeahead/css/Typeahead.css";
+// import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
+
 const Entry = () => {
   const { chart } = useParams();
 
