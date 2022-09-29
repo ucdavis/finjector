@@ -54,7 +54,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
+    name: "login",
+    pattern: "{controller=Account}/{action=Login}", 
+    defaults: new { controller = "Account", action = "Login" });
+
+app.MapControllerRoute(
+    name: "api",
     pattern: "/api/{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html");;
