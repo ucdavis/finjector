@@ -31,3 +31,8 @@ export interface PpmSegments {
   award?: string | null;
   fundingSource?: string | null;
 }
+
+export interface SearchResult {
+  code: string;
+  name: string;
+}

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 using AggieEnterpriseApi;
 using AggieEnterpriseApi.Extensions;
@@ -13,20 +14,21 @@ namespace Finjector.Web.Controllers;
 [Authorize]
 public class PpmSearchController : ControllerBase
 {
-    public PpmSearchController()
+    private readonly FinancialOptions _financialOptions;
+    private readonly IAggieEnterpriseClient _apiClient;
+
+    public PpmSearchController(IOptions<FinancialOptions> options)
     {
+        _financialOptions = options.Value;
+        _apiClient = AggieEnterpriseApi.GraphQlClient.Get(_financialOptions.ApiUrl!, _financialOptions.ApiToken!);
     }
 
     [HttpGet("project")]
     public async Task<IActionResult> Project(string query)
     {
-        // TODO: update AE API to include search for each type
-
-        var client = AggieEnterpriseApi.GraphQlClient.Get(url, token);
-
         var filter = new PpmProjectFilterInput { Name = new StringFilterInput { Contains = query } };
 
-        var result = await client.PpmProjectSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.PpmProjectSearch.ExecuteAsync(filter, query);
 
         var data = result.ReadData();
 

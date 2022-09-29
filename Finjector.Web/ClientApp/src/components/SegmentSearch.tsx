@@ -22,7 +22,6 @@ const SegmentSearch = (props: Props) => {
     props.setSegmentValue(query);
   };
 
-  console.log(segmentQuery.data);
   return (
     <AsyncTypeahead
       filterBy={() => true} // don't filter since we're doing it on the server
@@ -35,6 +34,7 @@ const SegmentSearch = (props: Props) => {
       placeholder={`Search for ${props.segmentName}...`}
       renderMenuItemChildren={(option: any) => (
         <>
+          <h5>{option.code}</h5>
           <span>{option.name}</span>
         </>
       )}

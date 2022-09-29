@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
+using Finjector.Web.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<FinancialOptions>(builder.Configuration.GetSection("Financial"));
 
 builder.Services.AddControllersWithViews();
 
