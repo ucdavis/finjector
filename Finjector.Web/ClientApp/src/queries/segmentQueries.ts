@@ -17,7 +17,7 @@ export const useSegmentQuery = (
       );
     },
     {
-      enabled: query?.length > 2,
+      enabled: query?.length > 2, // matches the minimum length of our async search
       staleTime: 1000 * 60, // don't requery same search term for 1 minute
     }
   );

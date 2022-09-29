@@ -57,7 +57,6 @@ const Entry = () => {
           }
         />
       )}
-      { chartData && <pre>{JSON.stringify(chartData, null, 2)}</pre> }
     </div>
   );
 };

@@ -23,6 +23,7 @@ const PpmEntry = (props: Props) => {
         segmentData={props.segments.project}
         setSegmentValue={(v) => updateSegment("project", v)}
       ></SegmentSearch>
+      <pre>{JSON.stringify(props.segments, null, 2)}</pre>
     </div>
   );
 };
