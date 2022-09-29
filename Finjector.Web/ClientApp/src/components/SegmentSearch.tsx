@@ -28,14 +28,14 @@ const SegmentSearch = (props: Props) => {
       filterBy={() => true} // don't filter since we're doing it on the server
       id="async-example"
       isLoading={segmentQuery.isLoading}
-      labelKey="summary" // TODO: change to match something unique from server response
+      labelKey="code" // TODO: change to match something unique from server response
       minLength={3}
       onSearch={handleSearch}
       options={segmentQuery.data || []} // data
       placeholder={`Search for ${props.segmentName}...`}
       renderMenuItemChildren={(option: any) => (
         <>
-          <span>testing, option values rendered here {option.summary}</span>
+          <span>{option.name}</span>
         </>
       )}
     />

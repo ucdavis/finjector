@@ -8,7 +8,7 @@ export const useSegmentQuery = (
   query: string
 ) =>
   useQuery(["segments", chartType, segmentName, query], () =>
-    doFetch<any>(fetch("/weatherforecast?" + query)), {
+    doFetch<any>(fetch("/api/ppmsearch/project?query=" + query)), {
       enabled: query?.length > 2,
       staleTime: 1000 * 60 // don't requery same search term for 1 minute
     }
