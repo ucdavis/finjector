@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ChartType } from "../types";
+import { ChartType, SegmentData } from "../types";
 import { doFetch } from "../util/api";
 
 export const useSegmentQuery = (
@@ -12,7 +12,7 @@ export const useSegmentQuery = (
     () => {
       const controller = chartType === ChartType.GL ? "glsearch" : "ppmsearch";
 
-      return doFetch<any>(
+      return doFetch<SegmentData[]>(
         fetch(`/api/${controller}/${segmentName}?query=${query}`)
       );
     },

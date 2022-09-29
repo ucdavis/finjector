@@ -11,7 +11,9 @@ export const toPpmSegmentString = (ppm: PpmSegments): string => {
   return `${ppm.project}-${ppm.task}-${ppm.organization}-${ppm.expenditureType}-${ppm.award}-${ppm.fundingSource}`;
 };
 
-export const fromPpmSegmentString = (segmentString: string): PpmSegments => {
+export const fromPpmSegmentString = (
+  segmentString: string
+): Partial<PpmSegments> => {
   const segments = segmentString.split("-");
 
   // There are two possible PPM segment strings - either 4 or 6 segment varieties.
@@ -19,19 +21,19 @@ export const fromPpmSegmentString = (segmentString: string): PpmSegments => {
 
   if (isRequiredOnly) {
     return {
-      project: segments[0],
-      task: segments[1],
-      organization: segments[2],
-      expenditureType: segments[3],
+      project: { code: segments[0], name: "" },
+      task: { code: segments[1], name: "" },
+      organization: { code: segments[2], name: "" },
+      expenditureType: { code: segments[3], name: "" },
     };
   } else {
     return {
-      project: segments[0],
-      task: segments[1],
-      organization: segments[2],
-      expenditureType: segments[3],
-      award: segments[4],
-      fundingSource: segments[5],
+      project: { code: segments[0], name: "" },
+      task: { code: segments[1], name: "" },
+      organization: { code: segments[2], name: "" },
+      expenditureType: { code: segments[3], name: "" },
+      award: { code: segments[4], name: "" },
+      fundingSource: { code: segments[5], name: "" },
     };
   }
 };
@@ -40,16 +42,16 @@ export const fromGlSegmentString = (segmentString: string): GlSegments => {
   const segments = segmentString.split("-");
 
   return {
-    entity: segments[0],
-    fund: segments[1],
-    department: segments[2],
-    account: segments[3],
-    purpose: segments[4],
-    program: segments[5],
-    project: segments[6],
-    activity: segments[7],
-    interEntity: segments[8],
-    flex1: segments[9],
-    flex2: segments[10],
+    entity: { code: segments[0], name: "" },
+    fund: { code: segments[1], name: "" },
+    department: { code: segments[2], name: "" },
+    account: { code: segments[3], name: "" },
+    purpose: { code: segments[4], name: "" },
+    program: { code: segments[5], name: "" },
+    project: { code: segments[6], name: "" },
+    activity: { code: segments[7], name: "" },
+    interEntity: { code: segments[8], name: "" },
+    flex1: { code: segments[9], name: "" },
+    flex2: { code: segments[10], name: "" },
   };
 };

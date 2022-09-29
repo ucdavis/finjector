@@ -2,32 +2,34 @@ import React from "react";
 
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import { useSegmentQuery } from "../queries/segmentQueries";
-import { ChartType } from "../types";
+import { ChartType, SegmentData } from "../types";
 
 interface Props {
   chartType: ChartType;
-  segmentName: string; // the segment to search for
-  segmentValue?: string; // the value of the segment
-  setSegmentValue: (segmentValue: string) => void;
+  segmentName: string; // the segment name/key to search for
+  segmentData: SegmentData;
+  setSegmentValue: (data: SegmentData) => void;
 }
 
 const SegmentSearch = (props: Props) => {
   const segmentQuery = useSegmentQuery(
     ChartType.PPM,
     props.segmentName,
-    props.segmentValue || ""
+    props.segmentData.code
   );
 
   const handleSearch = (query: string) => {
-    props.setSegmentValue(query);
+    props.setSegmentValue({ ...props.segmentData, code: query });
   };
+
+  // TODO, update name when selected
 
   return (
     <AsyncTypeahead
       filterBy={() => true} // don't filter since we're doing it on the server
       id="async-example"
       isLoading={segmentQuery.isLoading}
-      labelKey="code" // TODO: change to match something unique from server response
+      labelKey="code"
       minLength={3}
       onSearch={handleSearch}
       options={segmentQuery.data || []} // data

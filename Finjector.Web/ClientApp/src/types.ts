@@ -10,29 +10,29 @@ export enum ChartType {
 }
 
 export interface GlSegments {
-  account?: string;
-  activity?: string;
-  department?: string;
-  entity?: string;
-  fund?: string;
-  program?: string;
-  project?: string;
-  purpose?: string;
-  interEntity?: string;
-  flex1?: string;
-  flex2?: string;
+  account: SegmentData;
+  activity: SegmentData;
+  department: SegmentData;
+  entity: SegmentData;
+  fund: SegmentData;
+  program: SegmentData;
+  project: SegmentData;
+  purpose: SegmentData;
+  interEntity: SegmentData;
+  flex1: SegmentData;
+  flex2: SegmentData;
 }
 
 export interface PpmSegments {
-  project?: string;
-  task?: string;
-  organization?: string;
-  expenditureType?: string;
-  award?: string | null;
-  fundingSource?: string | null;
+  project: SegmentData;
+  task: SegmentData;
+  organization: SegmentData;
+  expenditureType: SegmentData;
+  award: SegmentData;
+  fundingSource: SegmentData;
 }
 
-export interface SearchResult {
+export interface SegmentData {
   code: string;
   name: string;
 }

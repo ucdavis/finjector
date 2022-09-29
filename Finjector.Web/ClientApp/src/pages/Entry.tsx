@@ -4,29 +4,60 @@ import ChartTypeSelector from "../components/ChartTypeSelector";
 import GlEntry from "../components/GlEntry";
 import PpmEntry from "../components/PpmEntry";
 
-import { ChartType } from "../types";
+import { ChartType, GlSegments, PpmSegments, SegmentData } from "../types";
 
 // CSS
 // https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
 import "react-bootstrap-typeahead/css/Typeahead.css";
-// import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
+import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
+import {
+  buildInitialGlSegments,
+  buildInitialPpmSegments,
+} from "../util/segmentHelpers";
+
+interface ChartData {
+  chartType: ChartType;
+  glSegments: GlSegments;
+  ppmSegments: PpmSegments;
+}
 
 const Entry = () => {
   const { chart } = useParams();
 
-  const [chartSegmentString, setChartSegmentString] = React.useState<string>(
-    chart || "CP00000001-000001-0000000-000000-0000000-00000"
-  );
-  const [chartType, setChartType] = React.useState<ChartType>(ChartType.PPM);
+  // TODO: use chart to set initial state if present
+
+  const [chartData, setChartData] = React.useState<ChartData>({
+    chartType: ChartType.PPM,
+    glSegments: buildInitialGlSegments(),
+    ppmSegments: buildInitialPpmSegments(),
+  });
 
   return (
     <div>
       <h1>Entry</h1>
       <hr />
-      <ChartTypeSelector chartType={chartType} setChartType={setChartType} />
+      <ChartTypeSelector
+        chartType={chartData.chartType}
+        setChartType={(chartType) =>
+          setChartData((d) => ({ ...d, chartType: chartType }))
+        }
+      />
       <hr />
-      <h2>{chartType} Chart Details</h2>
-      {chartType === ChartType.GL ? <GlEntry /> : <PpmEntry chart={chartSegmentString} setChart={setChartSegmentString} />}
+      <h2>{chartData.chartType} Chart Details</h2>
+      {chartData.chartType === ChartType.GL ? (
+        <GlEntry />
+      ) : (
+        <PpmEntry
+          segments={chartData.ppmSegments}
+          setSegment={(name: string, segment: SegmentData) =>
+            setChartData((c) => ({
+              ...c,
+              ppmSegments: { ...c.ppmSegments, [name]: segment },
+            }))
+          }
+        />
+      )}
+      { chartData && <pre>{JSON.stringify(chartData, null, 2)}</pre> }
     </div>
   );
 };
