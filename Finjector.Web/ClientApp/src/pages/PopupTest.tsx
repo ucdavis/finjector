@@ -11,13 +11,17 @@ declare global {
 }
 
 const PopupTest = () => {
+  const [coa, setCoa] = React.useState<string>("");
+
   const openPopup = () => {
-    window.Finjector.findChartSegmentString('/selection');
+    window.Finjector.findChartSegmentString("/selection");
   };
   const openDevPopup = async () => {
     const chart = await window.Finjector.findChartSegmentString();
 
-    console.log('awaited result', chart);
+    if (chart && chart.status === "success") {
+      setCoa(chart.data);
+    }
   };
 
   return (
@@ -30,9 +34,8 @@ const PopupTest = () => {
             id="ccoa"
             name="ccoa"
             placeholder="Enter CCOA string"
-            onChange={(e) => {
-              console.log(e.target.value);
-            }}
+            onChange={(e) => setCoa(e.target.value)}
+            value={coa}
           />
           <input type="button" value="Lookup" onClick={openPopup} />
           <input type="button" value="Dev Lookup" onClick={openDevPopup} />
