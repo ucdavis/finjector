@@ -20,8 +20,7 @@ public class AccountController : Controller
         {
             HttpOnly = false, // need client to read it
             Secure = true,
-            SameSite = SameSiteMode.Lax,
-            Expires = DateTime.Now.AddDays(7) // auth cookie should last a lot longer, and if so this will just refresh it
+            SameSite = SameSiteMode.Lax
         });
 
         // redirect to return url if it exists, otherwise /
