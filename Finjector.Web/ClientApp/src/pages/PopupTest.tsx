@@ -13,9 +13,6 @@ declare global {
 const PopupTest = () => {
   const [coa, setCoa] = React.useState<string>("");
 
-  const openPopup = () => {
-    window.Finjector.findChartSegmentString("/selection");
-  };
   const openDevPopup = async () => {
     const chart = await window.Finjector.findChartSegmentString();
 
@@ -37,7 +34,6 @@ const PopupTest = () => {
             onChange={(e) => setCoa(e.target.value)}
             value={coa}
           />
-          <input type="button" value="Lookup" onClick={openPopup} />
           <input type="button" value="Dev Lookup" onClick={openDevPopup} />
         </form>
       </header>
