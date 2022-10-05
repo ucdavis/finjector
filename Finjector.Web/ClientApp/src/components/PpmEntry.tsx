@@ -17,12 +17,38 @@ const PpmEntry = (props: Props) => {
   return (
     <div>
       <h1>PpmEntry</h1>
-      <SegmentSearch
-        chartType={ChartType.PPM}
-        segmentName="project"
-        segmentData={props.segments.project}
-        setSegmentValue={(v) => updateSegment("project", v)}
-      ></SegmentSearch>
+
+      <form>
+        <SegmentSearch
+          chartType={ChartType.PPM}
+          segmentName="project"
+          segmentData={props.segments.project}
+          setSegmentValue={(v) => updateSegment("project", v)}
+        ></SegmentSearch>
+
+        <SegmentSearch
+          chartType={ChartType.PPM}
+          segmentName="task"
+          segmentData={props.segments.task}
+          setSegmentValue={(v) => updateSegment("task", v)}
+        ></SegmentSearch>
+
+        <SegmentSearch
+          chartType={ChartType.PPM}
+          segmentName="organization"
+          segmentData={props.segments.organization}
+          setSegmentValue={(v) => updateSegment("organization", v)}
+        ></SegmentSearch>
+
+        <SegmentSearch
+          chartType={ChartType.PPM}
+          segmentName="expenditureType"
+          segmentData={props.segments.expenditureType}
+          setSegmentValue={(v) => updateSegment("expenditureType", v)}
+        ></SegmentSearch>
+      </form>
+
+      <hr />
       <pre>{JSON.stringify(props.segments, null, 2)}</pre>
     </div>
   );

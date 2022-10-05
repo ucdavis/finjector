@@ -12,6 +12,9 @@ interface Props {
 }
 
 const SegmentSearch = (props: Props) => {
+  // takes camelCaseString and splits into words
+  const prettifiedName = props.segmentName.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
+
   const segmentQuery = useSegmentQuery(
     ChartType.PPM,
     props.segmentName,
@@ -38,25 +41,31 @@ const SegmentSearch = (props: Props) => {
   // 3. we only care about setting full segment info (code+name) when a selection is made
   // 4. this does result in an extra query when the full value is selected -- we could optimize but this is minor and might actually prove useful
   return (
-    <AsyncTypeahead
-      filterBy={() => true} // don't filter since we're doing it on the server
-      id="async-example"
-      isLoading={segmentQuery.isFetching}
-      labelKey="code"
-      minLength={3}
-      onSearch={() => {}}
-      onInputChange={handleInputChange}
-      onChange={handleSelected}
-      useCache={false}
-      options={segmentQuery.data || []} // data
-      placeholder={`Search for ${props.segmentName}...`}
-      renderMenuItemChildren={(option: any) => (
-        <>
-          <h5>{option.code}</h5>
-          <span>{option.name}</span>
-        </>
-      )}
-    />
+    <div className="mb-3">
+      <label className="form-label text-uppercase">{prettifiedName}</label>
+      <AsyncTypeahead
+        filterBy={() => true} // don't filter since we're doing it on the server
+        id="async-example"
+        isLoading={segmentQuery.isFetching}
+        labelKey="code"
+        minLength={3}
+        onSearch={() => {}}
+        onInputChange={handleInputChange}
+        onChange={handleSelected}
+        useCache={false}
+        options={segmentQuery.data || []} // data
+        placeholder={`Search for ${props.segmentName}...`}
+        renderMenuItemChildren={(option: any) => (
+          <>
+            <h5>{option.code}</h5>
+            <span>{option.name}</span>
+          </>
+        )}
+      />
+      <div id="emailHelp" className="form-text">
+        {props.segmentData.name}
+      </div>
+    </div>
   );
 };
 

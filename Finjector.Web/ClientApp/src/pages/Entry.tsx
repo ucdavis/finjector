@@ -33,7 +33,7 @@ const Entry = () => {
   });
 
   return (
-    <div>
+    <div className="p-3">
       <h1>Entry</h1>
       <hr />
       <ChartTypeSelector
