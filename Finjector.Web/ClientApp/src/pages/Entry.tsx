@@ -4,7 +4,7 @@ import ChartTypeSelector from "../components/ChartTypeSelector";
 import GlEntry from "../components/GlEntry";
 import PpmEntry from "../components/PpmEntry";
 
-import { ChartType, GlSegments, PpmSegments, SegmentData } from "../types";
+import { ChartData, ChartType, SegmentData } from "../types";
 
 // CSS
 // https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
@@ -14,12 +14,9 @@ import {
   buildInitialGlSegments,
   buildInitialPpmSegments,
 } from "../util/segmentHelpers";
+import CoaDisplay from "../components/CoaDisplay";
+import SaveAndUseButton from "../components/SaveAndUseButton";
 
-interface ChartData {
-  chartType: ChartType;
-  glSegments: GlSegments;
-  ppmSegments: PpmSegments;
-}
 
 const Entry = () => {
   const { chart } = useParams();
@@ -57,6 +54,8 @@ const Entry = () => {
           }
         />
       )}
+      <CoaDisplay chartData={chartData} />
+      <SaveAndUseButton chartData={chartData} />
     </div>
   );
 };

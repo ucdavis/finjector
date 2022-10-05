@@ -36,3 +36,9 @@ export interface SegmentData {
   code: string;
   name: string;
 }
+
+export interface ChartData {
+  chartType: ChartType;
+  glSegments: GlSegments;
+  ppmSegments: PpmSegments;
+}

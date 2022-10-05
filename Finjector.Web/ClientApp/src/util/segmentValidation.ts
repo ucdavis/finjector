@@ -1,14 +1,14 @@
 import { GlSegments, PpmSegments } from "../types";
 
 export const toGlSegmentString = (gl: GlSegments): string => {
-  return `${gl.entity}-${gl.fund}-${gl.department}-${gl.account}-${gl.purpose}-${gl.program}-${gl.project}-${gl.activity}-${gl.interEntity}-${gl.flex1}-${gl.flex2}`;
+  return `${gl.entity.code}-${gl.fund.code}-${gl.department.code}-${gl.account.code}-${gl.purpose.code}-${gl.program.code}-${gl.project.code}-${gl.activity.code}-${gl.interEntity.code}-${gl.flex1.code}-${gl.flex2.code}`;
 };
 
 export const toPpmSegmentString = (ppm: PpmSegments): string => {
-  if (!ppm.award && !ppm.fundingSource) {
-    return `${ppm.project}-${ppm.task}-${ppm.organization}-${ppm.expenditureType}`;
+  if (!ppm.award.code && !ppm.fundingSource.code) {
+    return `${ppm.project.code}-${ppm.task.code}-${ppm.organization.code}-${ppm.expenditureType.code}`;
   }
-  return `${ppm.project}-${ppm.task}-${ppm.organization}-${ppm.expenditureType}-${ppm.award}-${ppm.fundingSource}`;
+  return `${ppm.project.code}-${ppm.task.code}-${ppm.organization.code}-${ppm.expenditureType}-${ppm.award}-${ppm.fundingSource.code}`;
 };
 
 export const fromPpmSegmentString = (
