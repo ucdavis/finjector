@@ -1,4 +1,4 @@
-import { GlSegments, PpmSegments } from "../types";
+import { ChartData, ChartType, GlSegments, PpmSegments } from "../types";
 
 export const toGlSegmentString = (gl: GlSegments): string => {
   return `${gl.entity.code}-${gl.fund.code}-${gl.department.code}-${gl.account.code}-${gl.purpose.code}-${gl.program.code}-${gl.project.code}-${gl.activity.code}-${gl.interEntity.code}-${gl.flex1.code}-${gl.flex2.code}`;
@@ -9,6 +9,13 @@ export const toPpmSegmentString = (ppm: PpmSegments): string => {
     return `${ppm.project.code}-${ppm.task.code}-${ppm.organization.code}-${ppm.expenditureType.code}`;
   }
   return `${ppm.project.code}-${ppm.task.code}-${ppm.organization.code}-${ppm.expenditureType}-${ppm.award}-${ppm.fundingSource.code}`;
+};
+
+export const toSegmentString = (chartData: ChartData): string => {
+  const { chartType, glSegments, ppmSegments } = chartData;
+  return chartType === ChartType.GL
+    ? toGlSegmentString(glSegments)
+    : toPpmSegmentString(ppmSegments);
 };
 
 export const fromPpmSegmentString = (

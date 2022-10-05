@@ -14,11 +14,12 @@ export const useGetSavedCharts = () =>
 // save new chart
 export const useSaveChart = () =>
   useMutation((chart: Chart) => {
-    const charts = JSON.parse(localStorage.getItem(chartStorageKey) || "[]");
+    const charts: Chart[] = JSON.parse(localStorage.getItem(chartStorageKey) || "[]");
     charts.push(chart);
     localStorage.setItem(chartStorageKey, JSON.stringify(charts));
 
-    return Promise.resolve(charts);
+    // return the saved chart
+    return Promise.resolve(chart);
   });
 
 // TODO: update existing chart
