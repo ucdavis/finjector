@@ -97,4 +97,14 @@ public class PpmSearchController : ControllerBase
 
         return Ok(projects.DistinctBy(p => p.Code));
     }
+
+    [HttpGet("fullstring")]
+    public async Task<IActionResult> FullString(string segmentString) {
+        var result = await _apiClient.PpmStringSegmentsValidate.ExecuteAsync(segmentString);
+
+        var data = result.ReadData();
+
+        // TODO: need to get full segment values from the data        
+        return Ok(data.PpmStringSegmentsValidate);
+    }
 }
