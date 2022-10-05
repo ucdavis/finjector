@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import ChartList from "../components/ChartList";
 import { useGetSavedCharts } from "../queries/storedChartQueries";
 
@@ -19,7 +21,7 @@ const Landing = () => {
         />
       </div>
       <hr />
-      <button className="btn btn-primary">Create new chart</button>
+      <Link to="/entry" className="btn btn-primary">Create new chart</Link>
       <ChartList charts={savedCharts.data} />
     </div>
   );

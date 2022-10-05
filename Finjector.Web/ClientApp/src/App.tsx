@@ -39,7 +39,10 @@ function App() {
           <Route path="/popuptest" element={<PopupTest />} />
           <Route path="/selection" element={<Selection />} />
           <Route path="/landing" element={<Landing />} />
-          <Route path="/entry/:chart" element={<Entry />} />
+          <Route path="/entry">
+            <Route path="" element={<Entry />} />
+            <Route path=":chart" element={<Entry />} />
+          </Route>
           <Route path="/selected/:chart" element={<Selected />} />
         </Routes>
       </BrowserRouter>
