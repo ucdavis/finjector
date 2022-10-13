@@ -1,34 +1,42 @@
-import { ChartData, ChartType, GlSegments, PpmSegments } from "../types";
+import {
+  ChartData,
+  ChartType,
+  GlSegments,
+  PpmSegments,
+  SegmentData,
+} from "../types";
 
 export const toGlSegmentString = (gl: GlSegments): string => {
-  return `${gl.entity.code || glSegmentDefaults.entity}-${
-    gl.fund.code || glSegmentDefaults.fund
-  }-${gl.department.code || glSegmentDefaults.department}-${
-    gl.account.code || glSegmentDefaults.account
-  }-${gl.purpose.code || glSegmentDefaults.purpose}-${
-    gl.program.code || glSegmentDefaults.program
-  }-${gl.project.code || glSegmentDefaults.project}-${
-    gl.activity.code || glSegmentDefaults.activity
-  }-${gl.interEntity.code || glSegmentDefaults.interEntity}-${
-    gl.flex1.code || glSegmentDefaults.flex1
-  }-${gl.flex2.code || glSegmentDefaults.flex2}`;
+  return `${getSegmentValue(gl.entity)}-${getSegmentValue(
+    gl.fund
+  )}-${getSegmentValue(gl.department)}-${getSegmentValue(
+    gl.account
+  )}-${getSegmentValue(gl.purpose)}-${getSegmentValue(
+    gl.program
+  )}-${getSegmentValue(gl.project)}-${getSegmentValue(
+    gl.activity
+  )}-${getSegmentValue(gl.interEntity)}-${getSegmentValue(
+    gl.flex1
+  )}-${getSegmentValue(gl.flex2)}`;
 };
 
 export const toPpmSegmentString = (ppm: PpmSegments): string => {
   if (!ppm.award.code && !ppm.fundingSource.code) {
-    return `${ppm.project.code || ppmSegmentDefaults.project}-${
-      ppm.task.code || ppmSegmentDefaults.task
-    }-${ppm.organization.code || ppmSegmentDefaults.organization}-${
-      ppm.expenditureType.code || ppmSegmentDefaults.expenditureType
-    }`;
+    return `${getSegmentValue(ppm.project)}-${getSegmentValue(
+      ppm.task
+    )}-${getSegmentValue(ppm.organization)}-${getSegmentValue(
+      ppm.expenditureType
+    )}`;
   }
-  return `${ppm.project.code || ppmSegmentDefaults.project}-${
-    ppm.task.code || ppmSegmentDefaults.task
-  }-${ppm.organization.code || ppmSegmentDefaults.organization}-${
-    ppm.expenditureType || ppmSegmentDefaults.expenditureType
-  }-${ppm.award || ppmSegmentDefaults.award}-${
-    ppm.fundingSource.code || ppmSegmentDefaults.fundingSource
-  }`;
+  return `${getSegmentValue(ppm.project)}-${getSegmentValue(
+    ppm.task
+  )}-${getSegmentValue(ppm.organization)}-${getSegmentValue(
+    ppm.expenditureType
+  )}-${getSegmentValue(ppm.award)}-${getSegmentValue(ppm.fundingSource)}`;
+};
+
+export const getSegmentValue = (segment: SegmentData): string => {
+  return segment.isValid ? segment.code : segment.default;
 };
 
 export const toSegmentString = (chartData: ChartData): string => {
@@ -48,19 +56,69 @@ export const fromPpmSegmentString = (
 
   if (isRequiredOnly) {
     return {
-      project: { code: segments[0], name: "" },
-      task: { code: segments[1], name: "" },
-      organization: { code: segments[2], name: "" },
-      expenditureType: { code: segments[3], name: "" },
+      project: {
+        code: segments[0],
+        name: "",
+        isValid: false,
+        default: ppmSegmentDefaults.project,
+      },
+      task: {
+        code: segments[1],
+        name: "",
+        isValid: false,
+        default: ppmSegmentDefaults.task,
+      },
+      organization: {
+        code: segments[2],
+        name: "",
+        isValid: false,
+        default: ppmSegmentDefaults.organization,
+      },
+      expenditureType: {
+        code: segments[3],
+        name: "",
+        isValid: false,
+        default: ppmSegmentDefaults.expenditureType,
+      },
     };
   } else {
     return {
-      project: { code: segments[0], name: "" },
-      task: { code: segments[1], name: "" },
-      organization: { code: segments[2], name: "" },
-      expenditureType: { code: segments[3], name: "" },
-      award: { code: segments[4], name: "" },
-      fundingSource: { code: segments[5], name: "" },
+      project: {
+        code: segments[0],
+        name: "",
+        isValid: false,
+        default: ppmSegmentDefaults.project,
+      },
+      task: {
+        code: segments[1],
+        name: "",
+        isValid: false,
+        default: ppmSegmentDefaults.task,
+      },
+      organization: {
+        code: segments[2],
+        name: "",
+        isValid: false,
+        default: ppmSegmentDefaults.organization,
+      },
+      expenditureType: {
+        code: segments[3],
+        name: "",
+        isValid: false,
+        default: ppmSegmentDefaults.expenditureType,
+      },
+      award: {
+        code: segments[4],
+        name: "",
+        isValid: false,
+        default: ppmSegmentDefaults.award,
+      },
+      fundingSource: {
+        code: segments[5],
+        name: "",
+        isValid: false,
+        default: ppmSegmentDefaults.fundingSource,
+      },
     };
   }
 };
@@ -69,21 +127,76 @@ export const fromGlSegmentString = (segmentString: string): GlSegments => {
   const segments = segmentString.split("-");
 
   return {
-    entity: { code: segments[0], name: "" },
-    fund: { code: segments[1], name: "" },
-    department: { code: segments[2], name: "" },
-    account: { code: segments[3], name: "" },
-    purpose: { code: segments[4], name: "" },
-    program: { code: segments[5], name: "" },
-    project: { code: segments[6], name: "" },
-    activity: { code: segments[7], name: "" },
-    interEntity: { code: segments[8], name: "" },
-    flex1: { code: segments[9], name: "" },
-    flex2: { code: segments[10], name: "" },
+    entity: {
+      code: segments[0],
+      name: "",
+      isValid: false,
+      default: glSegmentDefaults.entity,
+    },
+    fund: {
+      code: segments[1],
+      name: "",
+      isValid: false,
+      default: glSegmentDefaults.fund,
+    },
+    department: {
+      code: segments[2],
+      name: "",
+      isValid: false,
+      default: glSegmentDefaults.department,
+    },
+    account: {
+      code: segments[3],
+      name: "",
+      isValid: false,
+      default: glSegmentDefaults.account,
+    },
+    purpose: {
+      code: segments[4],
+      name: "",
+      isValid: false,
+      default: glSegmentDefaults.purpose,
+    },
+    program: {
+      code: segments[5],
+      name: "",
+      isValid: false,
+      default: glSegmentDefaults.program,
+    },
+    project: {
+      code: segments[6],
+      name: "",
+      isValid: false,
+      default: glSegmentDefaults.project,
+    },
+    activity: {
+      code: segments[7],
+      name: "",
+      isValid: false,
+      default: glSegmentDefaults.activity,
+    },
+    interEntity: {
+      code: segments[8],
+      name: "",
+      isValid: false,
+      default: glSegmentDefaults.interEntity,
+    },
+    flex1: {
+      code: segments[9],
+      name: "",
+      isValid: false,
+      default: glSegmentDefaults.flex1,
+    },
+    flex2: {
+      code: segments[10],
+      name: "",
+      isValid: false,
+      default: glSegmentDefaults.flex2,
+    },
   };
 };
 
-export const glSegmentDefaults = {
+export const glSegmentDefaults: { [index: string]: string } = {
   entity: "0000",
   fund: "00000",
   department: "0000000",
@@ -97,7 +210,7 @@ export const glSegmentDefaults = {
   flex2: "000000",
 };
 
-export const ppmSegmentDefaults = {
+export const ppmSegmentDefaults: { [index: string]: string } = {
   project: "0000000000",
   task: "000000",
   organization: "0000000",
