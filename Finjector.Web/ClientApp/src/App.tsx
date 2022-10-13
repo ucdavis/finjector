@@ -41,9 +41,9 @@ function App() {
           <Route path="/landing" element={<Landing />} />
           <Route path="/entry">
             <Route path="" element={<Entry />} />
-            <Route path=":chart" element={<Entry />} />
+            <Route path=":id/:chart" element={<Entry />} />
           </Route>
-          <Route path="/selected/:chart" element={<Selected />} />
+          <Route path="/selected/:id/:chart" element={<Selected />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

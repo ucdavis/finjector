@@ -63,7 +63,7 @@ const SegmentSearch = (props: Props) => {
         )}
       />
       <div id="emailHelp" className="form-text">
-        {props.segmentData.name}
+        {props.segmentData.name || `${props.segmentName} not selected`}
       </div>
     </div>
   );
