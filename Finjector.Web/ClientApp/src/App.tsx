@@ -14,6 +14,7 @@ import Selection from "./pages/Selection";
 import Landing from "./pages/Landing";
 import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
+import Paste from "./pages/Paste";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ function App() {
             <Route path="" element={<Entry />} />
             <Route path=":id/:chart" element={<Entry />} />
           </Route>
+          <Route path="/paste" element={<Paste />} />
           <Route path="/selected/:id/:chart" element={<Selected />} />
         </Routes>
       </BrowserRouter>
