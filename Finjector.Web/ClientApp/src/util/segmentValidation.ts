@@ -1,14 +1,34 @@
 import { ChartData, ChartType, GlSegments, PpmSegments } from "../types";
 
 export const toGlSegmentString = (gl: GlSegments): string => {
-  return `${gl.entity.code}-${gl.fund.code}-${gl.department.code}-${gl.account.code}-${gl.purpose.code}-${gl.program.code}-${gl.project.code}-${gl.activity.code}-${gl.interEntity.code}-${gl.flex1.code}-${gl.flex2.code}`;
+  return `${gl.entity.code || glSegmentDefaults.entity}-${
+    gl.fund.code || glSegmentDefaults.fund
+  }-${gl.department.code || glSegmentDefaults.department}-${
+    gl.account.code || glSegmentDefaults.account
+  }-${gl.purpose.code || glSegmentDefaults.purpose}-${
+    gl.program.code || glSegmentDefaults.program
+  }-${gl.project.code || glSegmentDefaults.project}-${
+    gl.activity.code || glSegmentDefaults.activity
+  }-${gl.interEntity.code || glSegmentDefaults.interEntity}-${
+    gl.flex1.code || glSegmentDefaults.flex1
+  }-${gl.flex2.code || glSegmentDefaults.flex2}`;
 };
 
 export const toPpmSegmentString = (ppm: PpmSegments): string => {
   if (!ppm.award.code && !ppm.fundingSource.code) {
-    return `${ppm.project.code}-${ppm.task.code}-${ppm.organization.code}-${ppm.expenditureType.code}`;
+    return `${ppm.project.code || ppmSegmentDefaults.project}-${
+      ppm.task.code || ppmSegmentDefaults.task
+    }-${ppm.organization.code || ppmSegmentDefaults.organization}-${
+      ppm.expenditureType.code || ppmSegmentDefaults.expenditureType
+    }`;
   }
-  return `${ppm.project.code}-${ppm.task.code}-${ppm.organization.code}-${ppm.expenditureType}-${ppm.award}-${ppm.fundingSource.code}`;
+  return `${ppm.project.code || ppmSegmentDefaults.project}-${
+    ppm.task.code || ppmSegmentDefaults.task
+  }-${ppm.organization.code || ppmSegmentDefaults.organization}-${
+    ppm.expenditureType || ppmSegmentDefaults.expenditureType
+  }-${ppm.award || ppmSegmentDefaults.award}-${
+    ppm.fundingSource.code || ppmSegmentDefaults.fundingSource
+  }`;
 };
 
 export const toSegmentString = (chartData: ChartData): string => {
@@ -61,4 +81,27 @@ export const fromGlSegmentString = (segmentString: string): GlSegments => {
     flex1: { code: segments[9], name: "" },
     flex2: { code: segments[10], name: "" },
   };
+};
+
+export const glSegmentDefaults = {
+  entity: "0000",
+  fund: "00000",
+  department: "0000000",
+  account: "000000",
+  purpose: "00",
+  program: "000",
+  project: "0000000000",
+  activity: "000000",
+  interEntity: "0000",
+  flex1: "000000",
+  flex2: "000000",
+};
+
+export const ppmSegmentDefaults = {
+  project: "0000000000",
+  task: "000000",
+  organization: "0000000",
+  expenditureType: "000000",
+  award: "0000000",
+  fundingSource: "00000",
 };

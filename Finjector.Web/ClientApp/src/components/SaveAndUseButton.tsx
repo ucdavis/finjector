@@ -20,6 +20,7 @@ const SaveAndUseButton = (props: Props) => {
     // TODO: should we check to make sure it's not already saved?
 
     const chartToSave: Chart = {
+      id: "",
       chartType: props.chartData.chartType,
       displayName: "TODO: Saved Chart",
       segmentString: toSegmentString(props.chartData),

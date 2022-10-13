@@ -1,4 +1,5 @@
 export interface Chart {
+  id: string;
   segmentString: string;
   displayName: string;
   chartType: ChartType;
