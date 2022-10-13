@@ -39,3 +39,22 @@ export const useSegmentStringQuery = (
       enabled: segmentString?.length > 0,
     }
   );
+
+export const useSegmentValidateQuery = (
+  chartType: ChartType,
+  segmentString: string,
+  enabled: boolean
+) =>
+  useQuery(
+    ["validate", chartType, segmentString],
+    () => {
+      const controller = chartType === ChartType.GL ? "glsearch" : "ppmsearch";
+
+      return doFetch<any>(
+        fetch(`/api/${controller}/validate?segmentString=${segmentString}`)
+      );
+    },
+    {
+      enabled,
+    }
+  );
