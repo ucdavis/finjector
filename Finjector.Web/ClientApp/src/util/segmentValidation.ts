@@ -21,7 +21,7 @@ export const toGlSegmentString = (gl: GlSegments): string => {
 };
 
 export const toPpmSegmentString = (ppm: PpmSegments): string => {
-  if (!ppm.award.code && !ppm.fundingSource.code) {
+  if (isPpmWithoutAward(ppm)) {
     return `${getSegmentValue(ppm.project)}-${getSegmentValue(
       ppm.task
     )}-${getSegmentValue(ppm.organization)}-${getSegmentValue(
@@ -35,8 +35,55 @@ export const toPpmSegmentString = (ppm: PpmSegments): string => {
   )}-${getSegmentValue(ppm.award)}-${getSegmentValue(ppm.fundingSource)}`;
 };
 
+const isPpmWithoutAward = (ppm: PpmSegments): boolean => {
+  return !ppm.award.code && !ppm.fundingSource.code;
+};
+
 export const getSegmentValue = (segment: SegmentData): string => {
   return segment.isValid ? segment.code : segment.default;
+};
+
+export const chartDataValid = (chartData: ChartData): boolean => {
+  if (chartData.chartType === ChartType.GL) {
+    return glSegmentsValid(chartData.glSegments);
+  }
+  return ppmSegmentsValid(chartData.ppmSegments);
+};
+
+export const ppmSegmentsValid = (ppmSegments: PpmSegments): boolean => {
+  if (isPpmWithoutAward(ppmSegments)) {
+    return (
+      ppmSegments.project.isValid &&
+      ppmSegments.task.isValid &&
+      ppmSegments.organization.isValid &&
+      ppmSegments.expenditureType.isValid
+    );
+  } else {
+    return (
+      ppmSegments.project.isValid &&
+      ppmSegments.task.isValid &&
+      ppmSegments.organization.isValid &&
+      ppmSegments.expenditureType.isValid &&
+      ppmSegments.award.isValid &&
+      ppmSegments.fundingSource.isValid
+    );
+  }
+};
+
+export const glSegmentsValid = (glSegments: GlSegments): boolean => {
+  return (
+    glSegments.entity.isValid &&
+    glSegments.fund.isValid &&
+    glSegments.department.isValid &&
+    glSegments.account.isValid &&
+    glSegments.purpose.isValid &&
+    glSegments.program.isValid &&
+    glSegments.project.isValid &&
+    glSegments.activity.isValid &&
+    glSegments.interEntity.isValid &&
+    glSegments.flex1.isValid &&
+    glSegments.flex2.isValid
+  );
 };
 
 export const toSegmentString = (chartData: ChartData): string => {
@@ -79,6 +126,18 @@ export const fromPpmSegmentString = (
         name: "",
         isValid: false,
         default: ppmSegmentDefaults.expenditureType,
+      },
+      award: {
+        code: "",
+        name: "",
+        isValid: true,
+        default: ppmSegmentDefaults.award,
+      },
+      fundingSource: {
+        code: "",
+        name: "",
+        isValid: true,
+        default: ppmSegmentDefaults.fundingSource,
       },
     };
   } else {
@@ -178,19 +237,19 @@ export const fromGlSegmentString = (segmentString: string): GlSegments => {
     interEntity: {
       code: segments[8],
       name: "",
-      isValid: false,
+      isValid: true,
       default: glSegmentDefaults.interEntity,
     },
     flex1: {
       code: segments[9],
       name: "",
-      isValid: false,
+      isValid: true,
       default: glSegmentDefaults.flex1,
     },
     flex2: {
       code: segments[10],
       name: "",
-      isValid: false,
+      isValid: true,
       default: glSegmentDefaults.flex2,
     },
   };

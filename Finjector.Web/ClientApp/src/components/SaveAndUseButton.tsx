@@ -30,7 +30,7 @@ const SaveAndUseButton = (props: Props) => {
       onSuccess: (data) => {
         console.log("saved chart", data);
 
-        navigate(`/selected/${data.segmentString}`);
+        navigate(`/selected/${data.id}/${data.segmentString}`);
       },
     });
   };

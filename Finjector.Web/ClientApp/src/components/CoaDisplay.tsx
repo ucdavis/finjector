@@ -1,6 +1,6 @@
 import React from "react";
 import { ChartData } from "../types";
-import { toSegmentString } from "../util/segmentValidation";
+import { chartDataValid, toSegmentString } from "../util/segmentValidation";
 
 interface Props {
   chartData: ChartData;
@@ -11,7 +11,11 @@ const CoaDisplay = (props: Props) => {
 
   const chartString = toSegmentString(props.chartData);
 
-  return <span>{chartString}</span>;
+  return (
+    <span>
+      {chartDataValid(props.chartData) ? "valid" : "invalid"} :: {chartString}
+    </span>
+  );
 };
 
 export default CoaDisplay;

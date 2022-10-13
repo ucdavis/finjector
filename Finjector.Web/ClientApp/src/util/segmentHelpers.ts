@@ -1,17 +1,19 @@
 import { GlSegments, PpmSegments } from "../types";
 import { glSegmentDefaults, ppmSegmentDefaults } from "./segmentValidation";
 
+// award and fund default to valid even if they are empty
 export const buildInitialPpmSegments = (): PpmSegments => {
   return {
     project: getDefaultSegment(ppmSegmentDefaults.project),
     task: getDefaultSegment(ppmSegmentDefaults.task),
     organization: getDefaultSegment(ppmSegmentDefaults.organization),
     expenditureType: getDefaultSegment(ppmSegmentDefaults.expenditureType),
-    award: getDefaultSegment(ppmSegmentDefaults.award),
-    fundingSource: getDefaultSegment(ppmSegmentDefaults.fundingSource),
+    award: getDefaultSegment(ppmSegmentDefaults.award, true),
+    fundingSource: getDefaultSegment(ppmSegmentDefaults.fundingSource, true),
   };
 };
 
+// interEntity and flex default to valid even if they are empty
 export const buildInitialGlSegments = (): GlSegments => {
   return {
     account: getDefaultSegment(glSegmentDefaults.account),
@@ -22,15 +24,18 @@ export const buildInitialGlSegments = (): GlSegments => {
     program: getDefaultSegment(glSegmentDefaults.program),
     project: getDefaultSegment(glSegmentDefaults.project),
     purpose: getDefaultSegment(glSegmentDefaults.purpose),
-    interEntity: getDefaultSegment(glSegmentDefaults.interEntity),
-    flex1: getDefaultSegment(glSegmentDefaults.flex1),
-    flex2: getDefaultSegment(glSegmentDefaults.flex2),
+    interEntity: getDefaultSegment(glSegmentDefaults.interEntity, true),
+    flex1: getDefaultSegment(glSegmentDefaults.flex1, true),
+    flex2: getDefaultSegment(glSegmentDefaults.flex2, true),
   };
 };
 
-const getDefaultSegment = (defaultCode: string) => ({
+const getDefaultSegment = (
+  defaultCode: string,
+  defaultValid: boolean = false
+) => ({
   code: "",
   name: "",
-  isValid: false,
+  isValid: defaultValid,
   default: defaultCode,
 });
