@@ -60,6 +60,7 @@ const SegmentSearch = (props: Props) => {
         minLength={3}
         onSearch={() => {}}
         onInputChange={handleInputChange}
+        defaultInputValue={props.segmentData.code}
         onChange={handleSelected}
         useCache={false}
         options={segmentQuery.data || []} // data

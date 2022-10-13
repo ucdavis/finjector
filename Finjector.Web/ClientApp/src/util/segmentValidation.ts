@@ -95,7 +95,7 @@ export const toSegmentString = (chartData: ChartData): string => {
 
 export const fromPpmSegmentString = (
   segmentString: string
-): Partial<PpmSegments> => {
+): PpmSegments => {
   const segments = segmentString.split("-");
 
   // There are two possible PPM segment strings - either 4 or 6 segment varieties.
