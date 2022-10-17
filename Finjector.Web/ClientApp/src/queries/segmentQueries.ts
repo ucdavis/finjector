@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ChartType, SegmentData } from "../types";
 import { doFetch } from "../util/api";
 
+// search a specific segment
 export const useSegmentQuery = (
   chartType: ChartType,
   segmentName: string,
@@ -22,6 +23,7 @@ export const useSegmentQuery = (
     }
   );
 
+// search a full segment string
 export const useSegmentStringQuery = (
   chartType: ChartType,
   segmentString: string
@@ -40,6 +42,7 @@ export const useSegmentStringQuery = (
     }
   );
 
+// validate a full segment string, including getting back segment data
 export const useSegmentValidateQuery = (
   chartType: ChartType,
   segmentString: string,
@@ -50,7 +53,7 @@ export const useSegmentValidateQuery = (
     () => {
       const controller = chartType === ChartType.GL ? "glsearch" : "ppmsearch";
 
-      return doFetch<any>(
+      return doFetch<SegmentValidateQueryResponse>(
         fetch(`/api/${controller}/validate?segmentString=${segmentString}`)
       );
     },
@@ -58,3 +61,14 @@ export const useSegmentValidateQuery = (
       enabled,
     }
   );
+
+export interface ValidationResponse {
+  errorMessages: string[];
+  valid: boolean;
+}
+
+export interface SegmentValidateQueryResponse {
+  segmentString: string;
+  segments: { [key: string]: string }; // dictionary of segment name to segment value
+  validationResponse: ValidationResponse;
+}

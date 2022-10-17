@@ -94,7 +94,8 @@ export const toSegmentString = (chartData: ChartData): string => {
 };
 
 export const fromPpmSegmentString = (
-  segmentString: string
+  segmentString: string,
+  validity: boolean = false
 ): PpmSegments => {
   const segments = segmentString.split("-");
 
@@ -106,31 +107,31 @@ export const fromPpmSegmentString = (
       project: {
         code: segments[0],
         name: "",
-        isValid: false,
+        isValid: validity,
         default: ppmSegmentDefaults.project,
       },
       task: {
         code: segments[1],
         name: "",
-        isValid: false,
+        isValid: validity,
         default: ppmSegmentDefaults.task,
       },
       organization: {
         code: segments[2],
         name: "",
-        isValid: false,
+        isValid: validity,
         default: ppmSegmentDefaults.organization,
       },
       expenditureType: {
         code: segments[3],
         name: "",
-        isValid: false,
+        isValid: validity,
         default: ppmSegmentDefaults.expenditureType,
       },
       award: {
         code: "",
         name: "",
-        isValid: true,
+        isValid: true, // always valid with required only
         default: ppmSegmentDefaults.award,
       },
       fundingSource: {
@@ -145,99 +146,102 @@ export const fromPpmSegmentString = (
       project: {
         code: segments[0],
         name: "",
-        isValid: false,
+        isValid: validity,
         default: ppmSegmentDefaults.project,
       },
       task: {
         code: segments[1],
         name: "",
-        isValid: false,
+        isValid: validity,
         default: ppmSegmentDefaults.task,
       },
       organization: {
         code: segments[2],
         name: "",
-        isValid: false,
+        isValid: validity,
         default: ppmSegmentDefaults.organization,
       },
       expenditureType: {
         code: segments[3],
         name: "",
-        isValid: false,
+        isValid: validity,
         default: ppmSegmentDefaults.expenditureType,
       },
       award: {
         code: segments[4],
         name: "",
-        isValid: false,
+        isValid: validity,
         default: ppmSegmentDefaults.award,
       },
       fundingSource: {
         code: segments[5],
         name: "",
-        isValid: false,
+        isValid: validity,
         default: ppmSegmentDefaults.fundingSource,
       },
     };
   }
 };
 
-export const fromGlSegmentString = (segmentString: string): GlSegments => {
+export const fromGlSegmentString = (
+  segmentString: string,
+  validity: boolean = false
+): GlSegments => {
   const segments = segmentString.split("-");
 
   return {
     entity: {
       code: segments[0],
       name: "",
-      isValid: false,
+      isValid: validity,
       default: glSegmentDefaults.entity,
     },
     fund: {
       code: segments[1],
       name: "",
-      isValid: false,
+      isValid: validity,
       default: glSegmentDefaults.fund,
     },
     department: {
       code: segments[2],
       name: "",
-      isValid: false,
+      isValid: validity,
       default: glSegmentDefaults.department,
     },
     account: {
       code: segments[3],
       name: "",
-      isValid: false,
+      isValid: validity,
       default: glSegmentDefaults.account,
     },
     purpose: {
       code: segments[4],
       name: "",
-      isValid: false,
+      isValid: validity,
       default: glSegmentDefaults.purpose,
     },
     program: {
       code: segments[5],
       name: "",
-      isValid: false,
+      isValid: validity,
       default: glSegmentDefaults.program,
     },
     project: {
       code: segments[6],
       name: "",
-      isValid: false,
+      isValid: validity,
       default: glSegmentDefaults.project,
     },
     activity: {
       code: segments[7],
       name: "",
-      isValid: false,
+      isValid: validity,
       default: glSegmentDefaults.activity,
     },
     interEntity: {
       code: segments[8],
       name: "",
-      isValid: true,
+      isValid: true, // always valid, as are the two flex segments
       default: glSegmentDefaults.interEntity,
     },
     flex1: {
