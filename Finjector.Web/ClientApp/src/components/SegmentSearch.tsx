@@ -13,7 +13,10 @@ interface Props {
 
 const SegmentSearch = (props: Props) => {
   // takes camelCaseString and splits into words
-  const prettifiedName = props.segmentName.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
+  const prettifiedName = props.segmentName.replace(
+    /([a-z0-9])([A-Z])/g,
+    "$1 $2"
+  );
 
   const segmentQuery = useSegmentQuery(
     ChartType.PPM,
@@ -22,7 +25,12 @@ const SegmentSearch = (props: Props) => {
   );
 
   const handleInputChange = (query: string) => {
-    props.setSegmentValue({ ...props.segmentData, code: query, name: "" });
+    props.setSegmentValue({
+      ...props.segmentData,
+      code: query,
+      name: "",
+      isValid: false,
+    });
   };
 
   const handleSelected = (selected: any) => {
@@ -31,6 +39,7 @@ const SegmentSearch = (props: Props) => {
         ...props.segmentData,
         code: selected[0].code,
         name: selected[0].name,
+        isValid: true,
       });
     }
   };
@@ -51,6 +60,7 @@ const SegmentSearch = (props: Props) => {
         minLength={3}
         onSearch={() => {}}
         onInputChange={handleInputChange}
+        defaultInputValue={props.segmentData.code}
         onChange={handleSelected}
         useCache={false}
         options={segmentQuery.data || []} // data
@@ -63,7 +73,7 @@ const SegmentSearch = (props: Props) => {
         )}
       />
       <div id="emailHelp" className="form-text">
-        {props.segmentData.name}
+        {props.segmentData.name || `${props.segmentName} not selected`}
       </div>
     </div>
   );

@@ -40,7 +40,6 @@ const PpmEntry = (props: Props) => {
           setSegmentValue={(v) => updateSegment("organization", v)}
         ></SegmentSearch>
 
-        (bug in API, must get value exactly for now, ex: 770000)
         <SegmentSearch
           chartType={ChartType.PPM}
           segmentName="expenditureType"

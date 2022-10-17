@@ -20,6 +20,7 @@ const SaveAndUseButton = (props: Props) => {
     // TODO: should we check to make sure it's not already saved?
 
     const chartToSave: Chart = {
+      id: "",
       chartType: props.chartData.chartType,
       displayName: "TODO: Saved Chart",
       segmentString: toSegmentString(props.chartData),
@@ -29,7 +30,7 @@ const SaveAndUseButton = (props: Props) => {
       onSuccess: (data) => {
         console.log("saved chart", data);
 
-        navigate(`/selected/${data.segmentString}`);
+        navigate(`/selected/${data.id}/${data.segmentString}`);
       },
     });
   };
