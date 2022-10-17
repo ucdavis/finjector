@@ -1,0 +1,219 @@
+.btn {
+  white-space: nowrap;
+  display: inline-block;
+  padding: 8px 24px;
+  box-shadow: 0 -3px 0 rgba(0, 0, 0, 0.15) inset, 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: $primary-color;
+  border-radius: 2px;
+  font-size: 1.1rem;
+  letter-spacing: 0.025em;
+  color: #fff !important;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  border: none;
+  font-family: $sans-bold;
+  &:active,
+  &:focus {
+    background-color: darken($primary-color, 5);
+  }
+  &:hover {
+    color: #fff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 -3px 0 rgba(0, 0, 0, 0.15) inset,
+      0 3px 6px rgba(0, 0, 0, 0.08);
+    background-color: lighten($primary-color, 5);
+    text-decoration: none;
+  }
+}
+.btn-primary {
+  .table & {
+    font-size: 0.9rem;
+    color: $primary-color !important;
+    background-color: #fff;
+    box-shadow: none;
+    padding: 1% 2%;
+    &:hover {
+      transform: none;
+      color: $primary-color;
+      background-color: transparentize($primary-color, 0.9);
+    }
+  }
+  &:hover {
+    background-color: lighten($primary-color, 7);
+    border-color: lighten($primary-color, 7);
+  }
+}
+.btn-outline-disabled {
+  background-color: #fff;
+  border-color: $secondary-font;
+  color: $secondary-font;
+  &:hover {
+    background-color: #fff;
+    border-color: lighten($secondary-font, 7);
+    color: lighten($secondary-font, 7);
+  }
+}
+.btn-outline {
+  background-color: #fff;
+  border-color: $primary-color;
+  color: $primary-color;
+  &:hover {
+    background-color: #fff;
+    border-color: lighten($primary-color, 7);
+    color: lighten($primary-color, 7);
+  }
+}
+.btn-outline-danger {
+  background-color: #fff;
+  border-color: $merlot;
+  color: $merlot;
+  &:hover {
+    background-color: #fff;
+    border-color: lighten($merlot, 9);
+    color: lighten($merlot, 9);
+  }
+}
+.btn-secondary {
+  background-color: $california;
+  border-color: $california;
+  color: #fff;
+  &:hover {
+    background-color: lighten($california, 7);
+    border-color: lighten($california, 7);
+    color: #fff;
+  }
+}
+.btn-sunflower {
+  background-color: #d5b804;
+  border-color: #d5b804;
+  color: #fff;
+  &:hover {
+    background-color: lighten(#d5b804, 7);
+    border-color: lighten(#d5b804, 7);
+    color: #fff;
+  }
+}
+.btn-danger {
+  background-color: $merlot;
+  border-color: $merlot;
+  color: #fff;
+  &:hover {
+    background-color: lighten($merlot, 7);
+    border-color: lighten($merlot, 7);
+    color: #fff;
+  }
+  .table & {
+    font-size: 0.9rem;
+    color: $merlot !important;
+    background-color: #fff;
+    box-shadow: none;
+    padding: 1% 2%;
+    &:hover {
+      transform: none;
+      color: $merlot;
+      background-color: transparentize($merlot, 0.9);
+    }
+  }
+}
+.btn-sm {
+  font-size: 1rem;
+}
+.box-shadow {
+  box-shadow: $box-shadow;
+}
+.btn:focus,
+.btn.focus {
+  box-shadow: none;
+}
+.btn-link {
+  color: $primary-color;
+  background: rgba(0, 0, 0, 0);
+  border: 0px;
+  box-shadow: none;
+  &:hover {
+    color: darken($primary-color, 3);
+  }
+}
+
+.page-item.active .page-link {
+  background-color: transparentize($primary-color, 0.3);
+  border-color: transparentize($primary-color, 0.3);
+}
+.page-link {
+  color: $primary-color;
+}
+.svg-inline--fa {
+  padding-left: 4px;
+}
+.primary-color {
+  color: $primary-color;
+}
+.primary-font {
+  color: $primary-font;
+}
+.bold-font {
+  font-family: $sans-bold;
+}
+
+.california-bg {
+  background-color: transparentize($california, 0.9);
+  a {
+    color: $california;
+    &:hover {
+      color: transparentize($california, 0.9);
+    }
+  }
+}
+.sunflower-bg {
+  background-color: transparentize(#d5b804, 0.9);
+  a {
+    color: #d5b804;
+
+    &:hover {
+      color: transparentize(#d5b804, 0.9);
+    }
+  }
+}
+.merlot-bg {
+  background-color: transparentize($merlot, 0.9);
+  a {
+    color: $merlot;
+
+    &:hover {
+      color: transparentize($merlot, 0.9);
+    }
+  }
+}
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: $primary-color;
+}
+
+// forms
+
+label {
+  color: $primary-font;
+}
+.form-select {
+  background-color: $primary-bg;
+  border: 1px solid $borders;
+  color: $primary-font;
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 0.1rem transparentize($primary-color, 0.75);
+  }
+}
+hr {
+  border-color: $borders;
+}
+.form-control {
+  background-color: $primary-bg;
+  border: 1px solid $borders;
+  color: $primary-font;
+}
+.form-control:focus {
+  background-color: $primary-bg;
+  border-color: $primary-color;
+  color: $primary-font;
+  box-shadow: 0 0 0 0.1rem transparentize($primary-color, 0.75);
+}
