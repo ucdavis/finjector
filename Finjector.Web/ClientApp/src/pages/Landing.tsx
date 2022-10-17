@@ -21,7 +21,12 @@ const Landing = () => {
         />
       </div>
       <hr />
-      <Link to="/entry" className="btn btn-primary">Create new chart</Link>
+      <Link to="/entry" className="btn btn-primary">
+        Create new chart from scratch
+      </Link>
+      <Link to="/paste" className="ms-3 btn btn-primary">
+        Create new chart from paste
+      </Link>
       <ChartList charts={savedCharts.data} />
     </div>
   );

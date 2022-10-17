@@ -50,6 +50,7 @@ export const chartDataValid = (chartData: ChartData): boolean => {
   return ppmSegmentsValid(chartData.ppmSegments);
 };
 
+// TODO: validate segment length, make sure not undefined
 export const ppmSegmentsValid = (ppmSegments: PpmSegments): boolean => {
   if (isPpmWithoutAward(ppmSegments)) {
     return (
