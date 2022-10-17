@@ -1,5 +1,5 @@
 const Paste = () => {
-  const onPaste = (e: any) => {
+  const onChange = (e: any) => {
     console.log("Pasted!", e.target.value);
   };
   return (
@@ -12,7 +12,7 @@ const Paste = () => {
           <textarea
             className="form-control"
             id="coa-input"
-            onChange={onPaste}
+            onChange={onChange}
             placeholder="ex: 1311-63031-9300531-508210-44-G29-CM00000039-510139-0000-000000-000000"
           ></textarea>
         </div>
