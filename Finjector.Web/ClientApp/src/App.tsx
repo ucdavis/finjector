@@ -3,7 +3,6 @@ import React from "react";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 
 import logo from "./logo.svg";
-import "./App.css";
 
 // TODO: if cal wants sass, replace this
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -54,14 +53,9 @@ function App() {
 
 function Home() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Welcome to F(inancial) Injector!</p>
-        <Link className="App-link" to="/popuptest">
-          Click here for a sample finjection page!
-        </Link>
-      </header>
+    <div>
+      <p>Welcome to F(inancial) Injector!</p>
+      <Link to="/popuptest">Click here for a sample finjection page!</Link>
     </div>
   );
 }
