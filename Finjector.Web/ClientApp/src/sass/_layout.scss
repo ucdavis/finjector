@@ -13,10 +13,10 @@ body {
 
 .container {
   padding: 0;
-  width: 98%;
+  width: 96%;
   max-width: 1440px;
   @include breakpoint(sm) {
-    width: 96%;
+    width: 92%;
   }
   @include breakpoint(md) {
     width: 90%;
@@ -25,15 +25,23 @@ body {
     width: 86%;
   }
 }
-header {
-  color: #fff;
-  padding: 1% 0;
-  a {
+.header {
+  background-color: $primary-color;
+  margin-bottom: 1.5%;
+  background-image: url("https://registration.ucdavis.edu/Images/Media/gunrock_banner_final.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: auto;
+  padding-top: 2%;
+  h1 {
+    font-size: 1.2rem;
     color: #fff;
-    &:hover {
-      color: rgba(255, 255, 255, 0.9);
-      text-decoration: none;
-    }
+  }
+  p {
+    color: #fff;
+  }
+  a.profile-link {
+    color: rgba(255, 255, 255, 0.85);
   }
 }
 // nav

@@ -12,7 +12,6 @@ const Landing = () => {
 
   return (
     <div>
-      <h1>Finjector</h1>
       <div className="mb-3">
         <input
           type="search"
@@ -21,12 +20,18 @@ const Landing = () => {
         />
       </div>
       <hr />
-      <Link to="/entry" className="btn btn-primary">
-        Create new chart from scratch
-      </Link>
-      <Link to="/paste" className="ms-3 btn btn-primary">
-        Create new chart from paste
-      </Link>
+      <div className="row justify-content-between">
+        <div className="d-grid gap-2">
+          <Link to="/entry" className="btn btn-primary">
+            Create new chart from scratch
+          </Link>
+
+          <Link to="/paste" className="btn btn-primary">
+            Create new chart from paste
+          </Link>
+        </div>
+      </div>
+
       <ChartList charts={savedCharts.data} />
     </div>
   );
