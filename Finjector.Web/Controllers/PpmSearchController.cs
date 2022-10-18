@@ -107,11 +107,11 @@ public class PpmSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var projects = data.PpmAwardSearch.Data.Select(d => new SearchResult(d.AwardNumber, d.Name));
+        var projects = data.PpmAwardSearch.Data.Select(d => new SearchResult(d.AwardNumber ?? string.Empty, d.Name ?? string.Empty));
 
         if (data.PpmAwardByNumber != null)
         {
-            projects = projects.Append(new SearchResult(data.PpmAwardByNumber.AwardNumber, data.PpmAwardByNumber.Name));
+            projects = projects.Append(new SearchResult(data.PpmAwardByNumber.AwardNumber ?? string.Empty, data.PpmAwardByNumber.Name ?? string.Empty));
         }
 
         return Ok(projects.DistinctBy(p => p.Code));
