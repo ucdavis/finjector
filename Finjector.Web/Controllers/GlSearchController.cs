@@ -32,14 +32,14 @@ public class GlSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var projects = data.ErpEntitySearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.ErpEntitySearch.Data.Select(d => new SearchResult(d.Code, d.Name));
 
         if (data.ErpEntity != null)
         {
-            projects = projects.Append(new SearchResult(data.ErpEntity.Code, data.ErpEntity.Name));
+            searchResults = searchResults.Append(new SearchResult(data.ErpEntity.Code, data.ErpEntity.Name));
         }
 
-        return Ok(projects.DistinctBy(p => p.Code));
+        return Ok(searchResults.DistinctBy(p => p.Code));
     }
     
     [HttpGet("fund")]
@@ -51,14 +51,130 @@ public class GlSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var projects = data.ErpFundSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.ErpFundSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
 
         if (data.ErpFund != null)
         {
-            projects = projects.Append(new SearchResult(data.ErpFund.Code, data.ErpFund.Name));
+            searchResults = searchResults.Append(new SearchResult(data.ErpFund.Code, data.ErpFund.Name));
         }
 
-        return Ok(projects.DistinctBy(p => p.Code));
+        return Ok(searchResults.DistinctBy(p => p.Code));
+    }
+    
+    [HttpGet("department")]
+    public async Task<IActionResult> Department(string query)
+    {
+        var filter = new ErpFinancialDepartmentFilterInput() { Name = new StringFilterInput { Contains = query } };
+
+        var result = await _apiClient.ErpDepartmentSearch.ExecuteAsync(filter, query);
+
+        var data = result.ReadData();
+
+        var searchResults = data.ErpFinancialDepartmentSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+
+        if (data.ErpFinancialDepartment != null)
+        {
+            searchResults = searchResults.Append(new SearchResult(data.ErpFinancialDepartment.Code, data.ErpFinancialDepartment.Name));
+        }
+
+        return Ok(searchResults.DistinctBy(p => p.Code));
+    }
+    
+    [HttpGet("purpose")]
+    public async Task<IActionResult> Purpose(string query)
+    {
+        var filter = new ErpPurposeFilterInput() { Name = new StringFilterInput { Contains = query } };
+
+        var result = await _apiClient.ErpPurposeSearch.ExecuteAsync(filter, query);
+
+        var data = result.ReadData();
+
+        var searchResults = data.ErpPurposeSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+
+        if (data.ErpPurpose != null)
+        {
+            searchResults = searchResults.Append(new SearchResult(data.ErpPurpose.Code, data.ErpPurpose.Name));
+        }
+
+        return Ok(searchResults.DistinctBy(p => p.Code));
+    }
+    
+    [HttpGet("account")]
+    public async Task<IActionResult> Account(string query)
+    {
+        var filter = new ErpAccountFilterInput() { Name = new StringFilterInput { Contains = query } };
+
+        var result = await _apiClient.ErpAccountSearch.ExecuteAsync(filter, query);
+
+        var data = result.ReadData();
+
+        var searchResults = data.ErpAccountSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+
+        if (data.ErpAccount != null)
+        {
+            searchResults = searchResults.Append(new SearchResult(data.ErpAccount.Code, data.ErpAccount.Name));
+        }
+
+        return Ok(searchResults.DistinctBy(p => p.Code));
+    }
+    
+    [HttpGet("project")]
+    public async Task<IActionResult> Project(string query)
+    {
+        var filter = new ErpProjectFilterInput() { Name = new StringFilterInput { Contains = query } };
+
+        var result = await _apiClient.ErpProjectSearch.ExecuteAsync(filter, query);
+
+        var data = result.ReadData();
+
+        var searchResults = data.ErpProjectSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+
+        if (data.ErpProject != null)
+        {
+            searchResults = searchResults.Append(new SearchResult(data.ErpProject.Code, data.ErpProject.Name));
+        }
+
+        return Ok(searchResults.DistinctBy(p => p.Code));
+    }
+    
+        
+    [HttpGet("program")]
+    public async Task<IActionResult> Program(string query)
+    {
+        var filter = new ErpProgramFilterInput() { Name = new StringFilterInput { Contains = query } };
+
+        var result = await _apiClient.ErpProgramSearch.ExecuteAsync(filter, query);
+
+        var data = result.ReadData();
+
+        var searchResults = data.ErpProgramSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+
+        if (data.ErpProgram != null)
+        {
+            searchResults = searchResults.Append(new SearchResult(data.ErpProgram.Code, data.ErpProgram.Name));
+        }
+
+        return Ok(searchResults.DistinctBy(p => p.Code));
+    }
+    
+        
+    [HttpGet("activity")]
+    public async Task<IActionResult> Activity(string query)
+    {
+        var filter = new ErpActivityFilterInput() { Name = new StringFilterInput { Contains = query } };
+
+        var result = await _apiClient.ErpActivitySearch.ExecuteAsync(filter, query);
+
+        var data = result.ReadData();
+
+        var searchResults = data.ErpActivitySearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+
+        if (data.ErpActivity != null)
+        {
+            searchResults = searchResults.Append(new SearchResult(data.ErpActivity.Code, data.ErpActivity.Name));
+        }
+
+        return Ok(searchResults.DistinctBy(p => p.Code));
     }
     
     // TODO: combine these two validation methods unless we need to get segment names separately

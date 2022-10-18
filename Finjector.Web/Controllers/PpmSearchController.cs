@@ -32,14 +32,14 @@ public class PpmSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var projects = data.PpmProjectSearch.Data.Select(d => new SearchResult(d.ProjectNumber, d.Name));
+        var searchResults = data.PpmProjectSearch.Data.Select(d => new SearchResult(d.ProjectNumber, d.Name));
 
         if (data.PpmProjectByNumber != null)
         {
-            projects = projects.Append(new SearchResult(data.PpmProjectByNumber.ProjectNumber, data.PpmProjectByNumber.Name));
+            searchResults = searchResults.Append(new SearchResult(data.PpmProjectByNumber.ProjectNumber, data.PpmProjectByNumber.Name));
         }
 
-        return Ok(projects.DistinctBy(p => p.Code));
+        return Ok(searchResults.DistinctBy(p => p.Code));
     }
 
 
@@ -88,14 +88,14 @@ public class PpmSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var projects = data.PpmExpenditureTypeSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.PpmExpenditureTypeSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
 
         if (data.PpmExpenditureTypeByCode != null)
         {
-            projects = projects.Append(new SearchResult(data.PpmExpenditureTypeByCode.Code, data.PpmExpenditureTypeByCode.Name));
+            searchResults = searchResults.Append(new SearchResult(data.PpmExpenditureTypeByCode.Code, data.PpmExpenditureTypeByCode.Name));
         }
 
-        return Ok(projects.DistinctBy(p => p.Code));
+        return Ok(searchResults.DistinctBy(p => p.Code));
     }
     
     [HttpGet("award")]
@@ -107,14 +107,14 @@ public class PpmSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var projects = data.PpmAwardSearch.Data.Select(d => new SearchResult(d.AwardNumber ?? string.Empty, d.Name ?? string.Empty));
+        var searchResults = data.PpmAwardSearch.Data.Select(d => new SearchResult(d.AwardNumber ?? string.Empty, d.Name ?? string.Empty));
 
         if (data.PpmAwardByNumber != null)
         {
-            projects = projects.Append(new SearchResult(data.PpmAwardByNumber.AwardNumber ?? string.Empty, data.PpmAwardByNumber.Name ?? string.Empty));
+            searchResults = searchResults.Append(new SearchResult(data.PpmAwardByNumber.AwardNumber ?? string.Empty, data.PpmAwardByNumber.Name ?? string.Empty));
         }
 
-        return Ok(projects.DistinctBy(p => p.Code));
+        return Ok(searchResults.DistinctBy(p => p.Code));
     }
     
     [HttpGet("fundingSource")]
@@ -126,14 +126,14 @@ public class PpmSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var projects = data.PpmFundingSourceSearch.Data.Select(d => new SearchResult(d.FundingSourceNumber, d.Name));
+        var searchResults = data.PpmFundingSourceSearch.Data.Select(d => new SearchResult(d.FundingSourceNumber, d.Name));
 
         if (data.PpmFundingSourceByNumber != null)
         {
-            projects = projects.Append(new SearchResult(data.PpmFundingSourceByNumber.FundingSourceNumber, data.PpmFundingSourceByNumber.Name));
+            searchResults = searchResults.Append(new SearchResult(data.PpmFundingSourceByNumber.FundingSourceNumber, data.PpmFundingSourceByNumber.Name));
         }
 
-        return Ok(projects.DistinctBy(p => p.Code));
+        return Ok(searchResults.DistinctBy(p => p.Code));
     }
 
     [HttpGet("fullstring")]
