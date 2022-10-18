@@ -97,6 +97,44 @@ public class PpmSearchController : ControllerBase
 
         return Ok(projects.DistinctBy(p => p.Code));
     }
+    
+    [HttpGet("award")]
+    public async Task<IActionResult> Award(string query)
+    {
+        var filter = new PpmAwardFilterInput() { Name = new StringFilterInput { Contains = query } };
+
+        var result = await _apiClient.PpmAwardSearch.ExecuteAsync(filter, query);
+
+        var data = result.ReadData();
+
+        var projects = data.PpmAwardSearch.Data.Select(d => new SearchResult(d.AwardNumber, d.Name));
+
+        if (data.PpmAwardByNumber != null)
+        {
+            projects = projects.Append(new SearchResult(data.PpmAwardByNumber.AwardNumber, data.PpmAwardByNumber.Name));
+        }
+
+        return Ok(projects.DistinctBy(p => p.Code));
+    }
+    
+    [HttpGet("fundingSource")]
+    public async Task<IActionResult> FundingSource(string query)
+    {
+        var filter = new PpmFundingSourceFilterInput() { Name = new StringFilterInput { Contains = query } };
+
+        var result = await _apiClient.PpmFundingSourceSearch.ExecuteAsync(filter, query);
+
+        var data = result.ReadData();
+
+        var projects = data.PpmFundingSourceSearch.Data.Select(d => new SearchResult(d.FundingSourceNumber, d.Name));
+
+        if (data.PpmFundingSourceByNumber != null)
+        {
+            projects = projects.Append(new SearchResult(data.PpmFundingSourceByNumber.FundingSourceNumber, data.PpmFundingSourceByNumber.Name));
+        }
+
+        return Ok(projects.DistinctBy(p => p.Code));
+    }
 
     [HttpGet("fullstring")]
     public async Task<IActionResult> FullString(string segmentString)
