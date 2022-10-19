@@ -14,8 +14,11 @@ const Selected = () => {
           status: "success",
           data: chart,
         },
-        "*"
+        window.opener.origin // only send to the origin that opened the window
       );
+
+      // message sent, close the window
+      window.close();
     } else {
       setError("No opener window");
     }
