@@ -14,8 +14,7 @@ window.Finjector.findChartSegmentString = (url) => {
       }
 
       if (event.data.source === "finjector") {
-        // go the data we want, so remove the listener, close the window, and return the promise result
-        newWindow.close();
+        // go the data we want, so remove the listener and return the promise result
         window.removeEventListener("message", messageHandler);
 
         if (event.data.status === "success") {
