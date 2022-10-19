@@ -27,7 +27,8 @@ function App() {
     // we have a valid cookie, so we can render the app
   } else {
     // we don't have a valid cookie, so we need to redirect to the login page
-    window.location.href = "/account/login";
+    window.location.href = `/account/login?returnUrl=${window.location.href}`;
+    return null;
   }
 
   return (
