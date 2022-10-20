@@ -19,14 +19,15 @@ const Landing = () => {
           placeholder="Search my saved charts"
         />
       </div>
+
       <hr />
       <div className="row justify-content-between">
         <div className="d-grid gap-2">
-          <Link to="/entry" className="btn btn-primary">
+          <Link to="/entry" className="btn btn-new">
             Create new chart from scratch
           </Link>
 
-          <Link to="/paste" className="btn btn-primary">
+          <Link to="/paste" className="btn btn-new">
             Create new chart from paste
           </Link>
         </div>

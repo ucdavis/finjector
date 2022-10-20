@@ -1,7 +1,7 @@
 @import "bootstrap/scss/_functions";
 @import "bootstrap/scss/_variables";
 @import "@ucdavis/gunrockin/sass/gunrockin.scss";
-$primary-color: $putahcreek;
+$primary-color: $delta;
 $secondary-color: $poppy;
 $theme-colors: (
   primary: $primary-color,
@@ -10,7 +10,8 @@ $theme-colors: (
 @import "bootstrap/scss/bootstrap";
 @import "@ucdavis/gunrockin/sass/_typography.scss";
 
-$primary-bg: #fefefe;
+$primary-bg: transparentize($primary-color, 0.96);
+
 $borders: #c9c3ce;
 $primary-font: rgba(31, 31, 31, 0.99); //
 $secondary-font: rgba(31, 31, 31, 0.7); //
@@ -18,6 +19,37 @@ $tertiary-font: rgba(31, 31, 31, 0.48); //
 
 $danger: $merlot;
 $error-color: $danger;
+
+:root {
+  --bs-btn-hover-border-color: #e6e7e9;
+  --bs-btn-active-border-color: #e6e7e9;
+  --bs-pagination-padding-x: 0.75rem;
+  --bs-pagination-padding-y: 0.375rem;
+  --bs-pagination-font-size: 1rem;
+  --bs-pagination-color: #00544c;
+  --bs-pagination-bg: #fff;
+  --bs-pagination-border-width: 1px;
+  --bs-pagination-border-color: #dee2e6;
+  --bs-pagination-border-radius: 0.375rem;
+  --bs-pagination-hover-color: #00544c;
+  --bs-pagination-hover-bg: #e9ecef;
+  --bs-pagination-hover-border-color: #dee2e6;
+  --bs-pagination-focus-color: #00544c;
+  --bs-pagination-focus-bg: #e9ecef;
+  --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(0, 84, 76, 0.25);
+  --bs-pagination-active-color: #fff;
+  --bs-pagination-active-bg: #00544c;
+  --bs-pagination-active-border-color: #00544c;
+  --bs-pagination-disabled-color: #6c757d;
+  --bs-pagination-disabled-bg: #fff;
+  --bs-pagination-disabled-border-color: #dee2e6;
+  --bs-btn-color: #00544c;
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-color: #00544c;
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-color: #00544c;
+}
 
 @media (min-width: 576px) {
   .modal-dialog {
