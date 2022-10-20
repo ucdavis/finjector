@@ -17,9 +17,21 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
 })
-.AddCookie()
+.AddCookie(options =>
+{
+    options.LoginPath = new PathString("/Account/Login/");
+    options.Events.OnRedirectToLogin = (ctx) =>
+    {
+        // API requests shouldn't redirect to login
+        if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
+            ctx.Response.StatusCode = 401;
+        else
+            ctx.Response.Redirect(ctx.RedirectUri);
+
+        return Task.CompletedTask;
+    };
+})
 .AddOpenIdConnect(oidc =>
 {
     oidc.ClientId = builder.Configuration["Authentication:ClientId"];
@@ -62,6 +74,6 @@ app.MapControllerRoute(
     name: "api",
     pattern: "/api/{controller}/{action=Index}/{id?}");
 
-app.MapFallbackToFile("index.html");;
+app.MapFallbackToFile("index.html");
 
 app.Run();

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +13,7 @@ public class AccountController : Controller
         this.httpContextAccessor = _httpContextAccessor;
     }
 
-    [Authorize] // trigger authentication
+    [Authorize(AuthenticationSchemes = OpenIdConnectDefaults.AuthenticationScheme)] // trigger authentication
     public IActionResult Login(string? returnUrl)
     {
         // attempt to add custom cookie
