@@ -4,9 +4,6 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 
 import logo from "./logo.svg";
 
-// TODO: if cal wants sass, replace this
-import "bootstrap/dist/css/bootstrap.min.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useUserInfoQuery } from "./queries/userQueries";
 import PopupTest from "./pages/PopupTest";
 import Selection from "./pages/Selection";
@@ -15,24 +12,15 @@ import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
 import Paste from "./pages/Paste";
 
-const queryClient = new QueryClient();
-
 function App() {
-  // TODO: move to helper or make it a conditional route
-  // We need to check for the existance of a specific cookie to ensure the user is logged in
-  // If they are not logged in, we need to redirect them to the login page
-  const cookies = document.cookie;
+  const userInfoQuery = useUserInfoQuery();
 
-  if (cookies.split(";").some((c) => c.trim() === "ASPNET_AUTH_SESSION=true")) {
-    // we have a valid cookie, so we can render the app
-  } else {
-    // we don't have a valid cookie, so we need to redirect to the login page
-    window.location.href = `/account/login?returnUrl=${window.location.href}`;
-    return null;
+  // wait until we get user info to render
+  if (userInfoQuery.isLoading) {
+    return <div>Loading...</div>;
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -48,7 +36,6 @@ function App() {
           <Route path="/selected/:id/:chart" element={<Selected />} />
         </Routes>
       </BrowserRouter>
-    </QueryClientProvider>
   );
 }
 
