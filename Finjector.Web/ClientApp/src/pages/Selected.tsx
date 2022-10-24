@@ -14,8 +14,11 @@ const Selected = () => {
           status: "success",
           data: chart,
         },
-        "*"
+        "*" // send to all, we don't know the origin
       );
+
+      // message sent, close the window
+      window.close();
     } else {
       setError("No opener window");
     }
@@ -24,7 +27,10 @@ const Selected = () => {
   return (
     <div>
       <h1>Selected {chart}</h1>
-      <p>Temp page as popup communicates result.  Should only see if there is an error or setup issue.</p>
+      <p>
+        Temp page as popup communicates result. Should only see if there is an
+        error or setup issue.
+      </p>
       {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );

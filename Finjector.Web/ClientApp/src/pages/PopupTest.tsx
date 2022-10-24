@@ -14,7 +14,9 @@ const PopupTest = () => {
   const [coa, setCoa] = React.useState<string>("");
 
   const openDevPopup = async () => {
-    const chart = await window.Finjector.findChartSegmentString();
+    const chart = await window.Finjector.findChartSegmentString(
+      "https://localhost:3000/landing"
+    );
 
     if (chart && chart.status === "success") {
       setCoa(chart.data);

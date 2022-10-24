@@ -4,18 +4,17 @@ window.Finjector = {};
 // call this function to open popup and get chart data
 window.Finjector.findChartSegmentString = (url) => {
   return new Promise((resolve, reject) => {
-    const uri = url || "/landing"; // TODO: make this configurable & full URL goes here
+    const uri = new URL(url);
 
-    const newWindow = popupCenter(uri, "popup", 600, 600);
+    const newWindow = popupCenter(uri.href, "popup", 600, 600);
 
     const messageHandler = (event) => {
-      if (event.origin !== newWindow.origin) {
+      if (event.origin !== uri.origin) {
         return;
       }
 
       if (event.data.source === "finjector") {
-        // go the data we want, so remove the listener, close the window, and return the promise result
-        newWindow.close();
+        // go the data we want, so remove the listener and return the promise result
         window.removeEventListener("message", messageHandler);
 
         if (event.data.status === "success") {
