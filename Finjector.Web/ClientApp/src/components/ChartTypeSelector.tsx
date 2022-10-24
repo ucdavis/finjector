@@ -11,9 +11,8 @@ const ChartTypeSelector = (props: Props) => {
 
   return (
     <>
-      <h2>Type of CoA?</h2>
-      <p>Select which type of account you will build</p>
-      <div>
+      <div className="chart-type">
+        <p>Select which type of account you will build</p>
         <input
           type="radio"
           className="btn-check"
@@ -23,8 +22,8 @@ const ChartTypeSelector = (props: Props) => {
           checked={chartType === ChartType.GL}
           onChange={() => setChartType(ChartType.GL)}
         />
-        <label className="btn btn-outline-primary" htmlFor="option1">
-          GL
+        <label className="btn btn-outline me-3" htmlFor="option1">
+          GL CoA
         </label>
 
         <input
@@ -36,8 +35,8 @@ const ChartTypeSelector = (props: Props) => {
           checked={chartType === ChartType.PPM}
           onChange={() => setChartType(ChartType.PPM)}
         />
-        <label className="btn btn-outline-primary" htmlFor="option2">
-          PPM
+        <label className="btn btn-outline btn-outline-active" htmlFor="option2">
+          PPM CoA
         </label>
       </div>
     </>

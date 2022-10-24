@@ -54,8 +54,13 @@ p {
   }
 }
 label {
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   text-transform: capitalize;
+  color: $primary-font;
+}
+.form-text {
+  color: $secondary-font;
+  font-size: 0.8rem;
 }
 a {
   color: $primary-color;

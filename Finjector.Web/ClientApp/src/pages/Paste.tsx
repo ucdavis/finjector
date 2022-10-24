@@ -52,6 +52,7 @@ const Paste = () => {
 
   return (
     <div className="p-3">
+      <h2>Paste in existing CoA</h2>
       <form>
         <div className="mb-3">
           <label htmlFor="coa-input" className="form-label">

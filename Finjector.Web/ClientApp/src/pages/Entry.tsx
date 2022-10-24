@@ -90,32 +90,50 @@ const Entry = () => {
   }
 
   return (
-    <div className="p-3">
-      <h1>Entry</h1>
-      <hr />
+    <div className="main">
+      <h1>Create new Chart</h1>
       <ChartTypeSelector
         chartType={chartData.chartType}
         setChartType={(chartType) =>
           setChartData((d) => ({ ...d, chartType: chartType }))
         }
       />
-      <hr />
-      <h2>{chartData.chartType} Chart Details</h2>
-      {chartData.chartType === ChartType.GL ? (
-        <GlEntry />
-      ) : (
-        <PpmEntry
-          segments={chartData.ppmSegments}
-          setSegment={(name: string, segment: SegmentData) =>
-            setChartData((c) => ({
-              ...c,
-              ppmSegments: { ...c.ppmSegments, [name]: segment },
-            }))
-          }
-        />
-      )}
-      <CoaDisplay chartData={chartData} />
-      <SaveAndUseButton chartData={chartData} />
+      <div className="mt-4 mb-4">
+        <h2>{chartData.chartType} Chart Details</h2>
+        {chartData.chartType === ChartType.GL ? (
+          <GlEntry />
+        ) : (
+          <PpmEntry
+            segments={chartData.ppmSegments}
+            setSegment={(name: string, segment: SegmentData) =>
+              setChartData((c) => ({
+                ...c,
+                ppmSegments: { ...c.ppmSegments, [name]: segment },
+              }))
+            }
+          />
+        )}
+        <CoaDisplay chartData={chartData} />
+        <SaveAndUseButton chartData={chartData} />
+        <button type="button" className="btn btn-primary">
+          Primary
+        </button>
+        <button type="button" className="btn btn-secondary">
+          Secondary
+        </button>
+        <button type="button" className="btn btn-success">
+          Success
+        </button>
+        <button type="button" className="btn btn-danger">
+          Danger
+        </button>
+        <button type="button" className="btn btn-warning">
+          Warning
+        </button>
+        <button type="button" className="btn btn-link">
+          Link
+        </button>
+      </div>
     </div>
   );
 };
