@@ -15,10 +15,8 @@ const PpmEntry = (props: Props) => {
   };
 
   return (
-    <div>
-      <h1>PpmEntry</h1>
-
-      <form>
+    <div className="form-data-entry">
+      <form className="row">
         <SegmentSearch
           chartType={ChartType.PPM}
           segmentName="project"
@@ -48,7 +46,6 @@ const PpmEntry = (props: Props) => {
         ></SegmentSearch>
       </form>
 
-      <hr />
       <pre>{JSON.stringify(props.segments, null, 2)}</pre>
     </div>
   );

@@ -1,16 +1,23 @@
 @import "bootstrap/scss/_functions";
 @import "bootstrap/scss/_variables";
 @import "@ucdavis/gunrockin/sass/gunrockin.scss";
-$primary-color: $cabernet;
-$secondary-color: $poppy;
+$primary-color: $delta;
+$secondary-color: $putahcreek;
 $theme-colors: (
   primary: $primary-color,
   secondary: $secondary-color,
+  warning: $sunflower,
+  danger: $doubledecker,
+  link: $primary-color,
+  success: $quad,
+  info: $recpool,
 );
 @import "bootstrap/scss/bootstrap";
 @import "@ucdavis/gunrockin/sass/_typography.scss";
 
-$primary-bg: #fefefe;
+$bg-primary: transparentize($primary-color, 0.96);
+
+$primary-bg: #fff;
 $borders: #c9c3ce;
 $primary-font: rgba(31, 31, 31, 0.99); //
 $secondary-font: rgba(31, 31, 31, 0.7); //

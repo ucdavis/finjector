@@ -50,7 +50,7 @@ const SegmentSearch = (props: Props) => {
   // 3. we only care about setting full segment info (code+name) when a selection is made
   // 4. this does result in an extra query when the full value is selected -- we could optimize but this is minor and might actually prove useful
   return (
-    <div className="mb-3">
+    <div className="mb-3 col-sm-6">
       <label className="form-label text-uppercase">{prettifiedName}</label>
       <AsyncTypeahead
         filterBy={() => true} // don't filter since we're doing it on the server

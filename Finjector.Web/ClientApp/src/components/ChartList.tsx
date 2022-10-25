@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 
 import { Chart } from "../types";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+
 interface Props {
   charts: Chart[] | undefined;
 }
@@ -18,7 +21,7 @@ const ChartList = (props: Props) => {
     <ul className="list-group">
       {charts.map((chart) => (
         <li
-          className="list-group-item d-flex justify-content-between align-items-center"
+          className="list-group-item d-flex justify-content-between align-items-center saved-list-item"
           key={chart.segmentString}
         >
           <div className="ms-2 me-auto">
@@ -28,14 +31,16 @@ const ChartList = (props: Props) => {
           <div>
             <Link
               to={`/entry/${chart.id}/${chart.segmentString}`}
-              className="btn btn-primary ms-2"
+              className="btn btn-link"
             >
+              <FontAwesomeIcon icon={faPencil} />
               Edit
             </Link>
             <Link
               to={`/selected/${chart.id}/${chart.segmentString}`}
-              className="btn btn-primary ms-2"
+              className="btn btn-link"
             >
+              <FontAwesomeIcon icon={faPaperPlane} />
               Use
             </Link>
           </div>
