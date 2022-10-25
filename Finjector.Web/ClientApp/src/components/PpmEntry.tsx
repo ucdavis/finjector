@@ -29,6 +29,7 @@ const PpmEntry = (props: Props) => {
           segmentName="task"
           segmentData={props.segments.task}
           segmentDependency={props.segments.project}
+          segmentDependencyRequired={true}
           setSegmentValue={(v) => updateSegment("task", v)}
         ></SegmentSearch>
 
