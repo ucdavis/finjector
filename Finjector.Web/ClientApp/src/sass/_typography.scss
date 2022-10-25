@@ -28,7 +28,17 @@ h5 {
   text-transform: uppercase;
   color: $primary-font;
   font-size: 1.2rem;
-  font-family: $sans-bold;
+  font-family: $sans-reg;
+  margin-bottom: 0px;
+}
+.dropdown-item {
+  color: $secondary-font;
+  font-size: 0.8rem;
+  h5 {
+    margin-bottom: 0px;
+    color: $primary-font;
+    font-size: 1rem;
+  }
 }
 .current-year {
   font-weight: 400;
