@@ -34,7 +34,7 @@ const getDefaultSegment = (
   defaultCode: string,
   defaultValid: boolean = false
 ) => ({
-  code: "",
+  code: defaultValid ? defaultCode : "",
   name: "",
   isValid: defaultValid,
   default: defaultCode,

@@ -21,7 +21,7 @@ const SegmentSearch = (props: Props) => {
   );
 
   const segmentQuery = useSegmentQuery(
-    ChartType.PPM,
+    props.chartType,
     props.segmentName,
     props.segmentData.code,
     props.segmentDependency?.code
@@ -56,7 +56,10 @@ const SegmentSearch = (props: Props) => {
     <div className="mb-3 col-sm-6">
       <label className="form-label text-uppercase">{prettifiedName}</label>
       <AsyncTypeahead
-        disabled={props.segmentDependencyRequired && !props.segmentDependency?.isValid}
+        id={"typeahead" + props.segmentName}
+        disabled={
+          props.segmentDependencyRequired && !props.segmentDependency?.isValid
+        }
         filterBy={() => true} // don't filter since we're doing it on the server
         isLoading={segmentQuery.isFetching}
         labelKey="code"
