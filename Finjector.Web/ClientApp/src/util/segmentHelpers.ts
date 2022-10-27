@@ -24,17 +24,18 @@ export const buildInitialGlSegments = (): GlSegments => {
     program: getDefaultSegment(glSegmentDefaults.program),
     project: getDefaultSegment(glSegmentDefaults.project),
     purpose: getDefaultSegment(glSegmentDefaults.purpose),
-    interEntity: getDefaultSegment(glSegmentDefaults.interEntity, true),
-    flex1: getDefaultSegment(glSegmentDefaults.flex1, true),
-    flex2: getDefaultSegment(glSegmentDefaults.flex2, true),
+    interEntity: getDefaultSegment(glSegmentDefaults.interEntity, true, true),
+    flex1: getDefaultSegment(glSegmentDefaults.flex1, true, true),
+    flex2: getDefaultSegment(glSegmentDefaults.flex2, true, true),
   };
 };
 
 const getDefaultSegment = (
   defaultCode: string,
-  defaultValid: boolean = false
+  defaultValid: boolean = false,
+  setDefaultCode: boolean = false
 ) => ({
-  code: defaultValid ? defaultCode : "",
+  code: setDefaultCode ? defaultCode : "",
   name: "",
   isValid: defaultValid,
   default: defaultCode,
