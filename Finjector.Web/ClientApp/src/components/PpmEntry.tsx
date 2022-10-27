@@ -10,8 +10,8 @@ interface Props {
 }
 
 const PpmEntry = (props: Props) => {
-  const updateSegment = (key: string, value: SegmentData) => {
-    props.setSegment(key, value);
+  const updateSegment = (value: SegmentData) => {
+    props.setSegment(value.segmentName, value);
   };
 
   return (
@@ -19,32 +19,28 @@ const PpmEntry = (props: Props) => {
       <form className="row">
         <SegmentSearch
           chartType={ChartType.PPM}
-          segmentName="project"
           segmentData={props.segments.project}
-          setSegmentValue={(v) => updateSegment("project", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
 
         <SegmentSearch
           chartType={ChartType.PPM}
-          segmentName="task"
           segmentData={props.segments.task}
           segmentDependency={props.segments.project}
           segmentDependencyRequired={true}
-          setSegmentValue={(v) => updateSegment("task", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
 
         <SegmentSearch
           chartType={ChartType.PPM}
-          segmentName="organization"
           segmentData={props.segments.organization}
-          setSegmentValue={(v) => updateSegment("organization", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
 
         <SegmentSearch
           chartType={ChartType.PPM}
-          segmentName="expenditureType"
           segmentData={props.segments.expenditureType}
-          setSegmentValue={(v) => updateSegment("expenditureType", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
       </form>
 

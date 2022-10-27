@@ -9,8 +9,8 @@ interface Props {
 }
 
 const GlEntry = (props: Props) => {
-  const updateSegment = (key: string, value: SegmentData) => {
-    props.setSegment(key, value);
+  const updateSegment = (value: SegmentData) => {
+    props.setSegment(value.segmentName, value);
   };
 
   return (
@@ -18,58 +18,50 @@ const GlEntry = (props: Props) => {
       <form className="row">
         <SegmentSearch
           chartType={ChartType.GL}
-          segmentName="entity"
           segmentData={props.segments.entity}
-          setSegmentValue={(v) => updateSegment("entity", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
 
         <SegmentSearch
           chartType={ChartType.GL}
-          segmentName="fund"
           segmentData={props.segments.fund}
-          setSegmentValue={(v) => updateSegment("fund", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
 
         <SegmentSearch
           chartType={ChartType.GL}
-          segmentName="department"
           segmentData={props.segments.department}
-          setSegmentValue={(v) => updateSegment("department", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
 
         <SegmentSearch
           chartType={ChartType.GL}
-          segmentName="purpose"
           segmentData={props.segments.purpose}
-          setSegmentValue={(v) => updateSegment("purpose", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
 
         <SegmentSearch
           chartType={ChartType.GL}
-          segmentName="account"
           segmentData={props.segments.account}
-          setSegmentValue={(v) => updateSegment("account", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
 
         <SegmentSearch
           chartType={ChartType.GL}
-          segmentName="project"
           segmentData={props.segments.project}
-          setSegmentValue={(v) => updateSegment("project", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
 
         <SegmentSearch
           chartType={ChartType.GL}
-          segmentName="program"
           segmentData={props.segments.program}
-          setSegmentValue={(v) => updateSegment("program", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
 
         <SegmentSearch
           chartType={ChartType.GL}
-          segmentName="activity"
           segmentData={props.segments.activity}
-          setSegmentValue={(v) => updateSegment("activity", v)}
+          setSegmentValue={updateSegment}
         ></SegmentSearch>
       </form>
 

@@ -6,7 +6,6 @@ import { ChartType, SegmentData } from "../types";
 
 interface Props {
   chartType: ChartType;
-  segmentName: string; // the segment name/key to search for
   segmentData: SegmentData;
   segmentDependency?: SegmentData; // optional segment data that this segment depends on
   segmentDependencyRequired?: boolean; // optional flag to indicate that the dependency is required
@@ -15,14 +14,14 @@ interface Props {
 
 const SegmentSearch = (props: Props) => {
   // takes camelCaseString and splits into words
-  const prettifiedName = props.segmentName.replace(
+  const prettifiedName = props.segmentData.segmentName.replace(
     /([a-z0-9])([A-Z])/g,
     "$1 $2"
   );
 
   const segmentQuery = useSegmentQuery(
     props.chartType,
-    props.segmentName,
+    props.segmentData.segmentName,
     props.segmentData.code,
     props.segmentDependency?.code
   );
@@ -56,7 +55,7 @@ const SegmentSearch = (props: Props) => {
     <div className="mb-3 col-sm-6">
       <label className="form-label text-uppercase">{prettifiedName}</label>
       <AsyncTypeahead
-        id={"typeahead" + props.segmentName}
+        id={"typeahead" + props.segmentData.segmentName}
         disabled={
           props.segmentDependencyRequired && !props.segmentDependency?.isValid
         }
@@ -70,7 +69,7 @@ const SegmentSearch = (props: Props) => {
         onChange={handleSelected}
         useCache={false}
         options={segmentQuery.data || []} // data
-        placeholder={`Search for ${props.segmentName}...`}
+        placeholder={`Search for ${props.segmentData.segmentName}...`}
         renderMenuItemChildren={(option: any) => (
           <>
             <h5>{option.code}</h5>
@@ -79,7 +78,7 @@ const SegmentSearch = (props: Props) => {
         )}
       />
       <div className="form-text">
-        {props.segmentData.name || `${props.segmentName} not selected`}
+        {props.segmentData.name || `${props.segmentData.segmentName} not selected`}
       </div>
     </div>
   );
