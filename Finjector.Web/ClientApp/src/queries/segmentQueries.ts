@@ -6,15 +6,16 @@ import { doFetch } from "../util/api";
 export const useSegmentQuery = (
   chartType: ChartType,
   segmentName: string,
-  query: string
+  query: string,
+  dependency?: string
 ) =>
   useQuery(
-    ["segments", chartType, segmentName, query],
+    ["segments", chartType, segmentName, query, dependency],
     () => {
       const controller = chartType === ChartType.GL ? "glsearch" : "ppmsearch";
 
       return doFetch<SegmentData[]>(
-        fetch(`/api/${controller}/${segmentName}?query=${query}`)
+        fetch(`/api/${controller}/${segmentName}?query=${query}&dependency=${dependency}`)
       );
     },
     {

@@ -28,6 +28,8 @@ const PpmEntry = (props: Props) => {
           chartType={ChartType.PPM}
           segmentName="task"
           segmentData={props.segments.task}
+          segmentDependency={props.segments.project}
+          segmentDependencyRequired={true}
           setSegmentValue={(v) => updateSegment("task", v)}
         ></SegmentSearch>
 

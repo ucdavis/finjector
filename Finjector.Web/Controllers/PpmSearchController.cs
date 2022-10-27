@@ -43,12 +43,28 @@ public class PpmSearchController : ControllerBase
     }
 
 
-    // TODO: task is special and will need to take the project number into account eventually
-    // query will search task name
+    // Task search is special because we only search within a specific project, given here as "dependency" param
     [HttpGet("task")]
-    public async Task<IActionResult> Task(string query)
+    public async Task<IActionResult> Task(string query, string dependency)
     {
-        var projectId = "300000008444977";
+        if (string.IsNullOrEmpty(dependency))
+        {
+            return BadRequest("Dependency is required");
+        }
+
+        // first, we need to get the project ID from the dependency
+        var project = await _apiClient.PpmProjectSearch.ExecuteAsync(new PpmProjectFilterInput { ProjectNumber = new StringFilterInput { Eq = dependency } }, dependency);
+
+        var projectData = project.ReadData();
+
+        if (projectData.PpmProjectByNumber == null)
+        {
+            return NotFound();
+        }
+
+        var projectId = projectData.PpmProjectByNumber.Id.ToString();
+
+        // now we can query for tasks related to that project
         var filter = new PpmTaskFilterInput { TaskNumber = new StringFilterInput { Contains = query }, ProjectId = new StringFilterInput { Eq = projectId } };
 
         var result = await _apiClient.PpmTaskSearch.ExecuteAsync(filter);

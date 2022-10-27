@@ -8,6 +8,8 @@ interface Props {
   chartType: ChartType;
   segmentName: string; // the segment name/key to search for
   segmentData: SegmentData;
+  segmentDependency?: SegmentData; // optional segment data that this segment depends on
+  segmentDependencyRequired?: boolean; // optional flag to indicate that the dependency is required
   setSegmentValue: (data: SegmentData) => void;
 }
 
@@ -21,7 +23,8 @@ const SegmentSearch = (props: Props) => {
   const segmentQuery = useSegmentQuery(
     ChartType.PPM,
     props.segmentName,
-    props.segmentData.code
+    props.segmentData.code,
+    props.segmentDependency?.code
   );
 
   const handleInputChange = (query: string) => {
@@ -53,8 +56,8 @@ const SegmentSearch = (props: Props) => {
     <div className="mb-3 col-sm-6">
       <label className="form-label text-uppercase">{prettifiedName}</label>
       <AsyncTypeahead
+        disabled={props.segmentDependencyRequired && !props.segmentDependency?.isValid}
         filterBy={() => true} // don't filter since we're doing it on the server
-        id="async-example"
         isLoading={segmentQuery.isFetching}
         labelKey="code"
         minLength={3}
@@ -72,7 +75,7 @@ const SegmentSearch = (props: Props) => {
           </>
         )}
       />
-      <div id="emailHelp" className="form-text">
+      <div className="form-text">
         {props.segmentData.name || `${props.segmentName} not selected`}
       </div>
     </div>
