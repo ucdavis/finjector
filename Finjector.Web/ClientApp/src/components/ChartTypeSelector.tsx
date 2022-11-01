@@ -11,7 +11,6 @@ const ChartTypeSelector = (props: Props) => {
 
   const activeClass = "btn-outline-active";
 
-  console.log("ChartTypeSelector", chartType);
   return (
     <>
       <div className="chart-type">

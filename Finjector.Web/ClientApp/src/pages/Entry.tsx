@@ -21,6 +21,7 @@ import {
   fromGlSegmentString,
   fromPpmSegmentString,
 } from "../util/segmentValidation";
+import NameEntry from "../components/NameEntry";
 
 const Entry = () => {
   const { id } = useParams();
@@ -121,8 +122,15 @@ const Entry = () => {
             }
           />
         )}
+        <h1>CoA Name</h1>
+        <NameEntry
+          chart={savedChart}
+          updateDisplayName={(n) =>
+            setSavedChart((c) => ({ ...c, displayName: n }))
+          }
+        />
         <CoaDisplay chartData={chartData} />
-        <SaveAndUseButton chartData={chartData} />
+        <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
         <button type="button" className="btn btn-primary">
           Primary
         </button>

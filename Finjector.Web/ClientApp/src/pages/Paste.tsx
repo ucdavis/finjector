@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import CoaDisplay from "../components/CoaDisplay";
+import NameEntry from "../components/NameEntry";
 import SaveAndUseButton from "../components/SaveAndUseButton";
 import { Chart, ChartType, ChartData } from "../types";
 import {
@@ -67,8 +68,15 @@ const Paste = () => {
           ></textarea>
         </div>
       </form>
+      <h1>CoA Name</h1>
+        <NameEntry
+          chart={savedChart}
+          updateDisplayName={(n) =>
+            setSavedChart((c) => ({ ...c, displayName: n }))
+          }
+        />
       <CoaDisplay chartData={chartData} />
-      <SaveAndUseButton chartData={chartData} />
+      <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
     </div>
   );
 };
