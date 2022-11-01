@@ -150,6 +150,8 @@ const Entry = () => {
           Link
         </button>
       </div>
+
+      <pre>{JSON.stringify(chartData.chartType === ChartType.PPM ? chartData.ppmSegments : chartData.glSegments, null, 2)}</pre>
     </div>
   );
 };

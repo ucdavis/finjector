@@ -65,8 +65,6 @@ const GlEntry = (props: Props) => {
           setSegmentValue={updateSegment}
         ></SegmentSearch>
       </form>
-
-      <pre>{JSON.stringify(props.segments, null, 2)}</pre>
     </div>
   );
 };
