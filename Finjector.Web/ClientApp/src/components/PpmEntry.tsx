@@ -42,6 +42,18 @@ const PpmEntry = (props: Props) => {
           segmentData={props.segments.expenditureType}
           setSegmentValue={updateSegment}
         ></SegmentSearch>
+
+        <SegmentSearch
+          chartType={ChartType.PPM}
+          segmentData={props.segments.award}
+          setSegmentValue={updateSegment}
+        ></SegmentSearch>
+
+        <SegmentSearch
+          chartType={ChartType.PPM}
+          segmentData={props.segments.fundingSource}
+          setSegmentValue={updateSegment}
+        ></SegmentSearch>
       </form>
 
       <pre>{JSON.stringify(props.segments, null, 2)}</pre>
