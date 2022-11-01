@@ -39,6 +39,10 @@ const isPpmWithoutAward = (ppm: PpmSegments): boolean => {
   return !ppm.award.code && !ppm.fundingSource.code;
 };
 
+export const isGlSegmentString = (segmentString: string): boolean => {
+  return segmentString.split("-").length === 11;
+};
+
 export const getSegmentValue = (segment: SegmentData): string => {
   return segment.isValid ? segment.code : segment.default;
 };
