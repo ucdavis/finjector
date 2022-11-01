@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import CoaDisplay from "../components/CoaDisplay";
+import NameEntry from "../components/NameEntry";
 import SaveAndUseButton from "../components/SaveAndUseButton";
 import { Chart, ChartType, ChartData } from "../types";
 import {
@@ -9,13 +10,14 @@ import {
 import {
   fromGlSegmentString,
   fromPpmSegmentString,
+  isGlSegmentString,
 } from "../util/segmentValidation";
 
 const Paste = () => {
   const [coa, setCoa] = React.useState<string>("");
 
   // TODO: need to determine from string
-  const chartType = true ? ChartType.PPM : ChartType.GL;
+  const chartType = isGlSegmentString(coa) ? ChartType.GL : ChartType.PPM;
 
   // paste never starts with existing data, always start default
   const [savedChart, setSavedChart] = React.useState<Chart>({
@@ -48,6 +50,8 @@ const Paste = () => {
           ? fromPpmSegmentString(coa, valid)
           : buildInitialPpmSegments(),
     });
+
+    setSavedChart((saved) => ({ ...saved, chartType, segmentString: coa }));
   }, [chartType, coa]);
 
   return (
@@ -67,8 +71,15 @@ const Paste = () => {
           ></textarea>
         </div>
       </form>
+      <h1>CoA Name</h1>
+      <NameEntry
+        chart={savedChart}
+        updateDisplayName={(n) =>
+          setSavedChart((c) => ({ ...c, displayName: n }))
+        }
+      />
       <CoaDisplay chartData={chartData} />
-      <SaveAndUseButton chartData={chartData} />
+      <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
     </div>
   );
 };

@@ -51,14 +51,31 @@ export const useSaveChart = () =>
       localStorage.getItem(chartStorageKey) || "[]"
     );
 
-    // add unique id to chart
-    const newChart = { ...chart, id: uuidv4() };
+    let savedChart: Chart;
 
-    charts.push(newChart);
+    // if we have an id, update the existing chart
+    if (chart.id) {
+      const existingChart = charts.find((c) => c.id === chart.id);
+
+      if (existingChart) {
+        existingChart.displayName = chart.displayName;
+        existingChart.segmentString = chart.segmentString;
+        existingChart.chartType = chart.chartType;
+        savedChart = existingChart;
+      } else {
+        throw new Error("Chart not found with ID " + chart.id);
+      }
+    } else {
+      // otherwise, add a new chart
+      // add unique id to chart
+      const newChart = { ...chart, id: uuidv4() };
+
+      charts.push(newChart);
+      savedChart = newChart;
+    }
+
     localStorage.setItem(chartStorageKey, JSON.stringify(charts));
 
     // return the saved chart
-    return Promise.resolve(newChart);
+    return Promise.resolve(savedChart);
   });
-
-// TODO: update existing chart
