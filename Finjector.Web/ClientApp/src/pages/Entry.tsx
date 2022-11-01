@@ -21,6 +21,9 @@ import {
   fromGlSegmentString,
   fromPpmSegmentString,
 } from "../util/segmentValidation";
+import NameEntry from "../components/NameEntry";
+import { mapSegmentQueryData } from "../util/segmentMapping";
+import EditButtons from "../components/EditButtons";
 
 const Entry = () => {
   const { id } = useParams();
@@ -60,25 +63,11 @@ const Entry = () => {
             : buildInitialPpmSegments(),
       };
 
-      // TODO: this is hacky until we have a unified way of loading/validating segments
-      // TODO: move to validation helper function after mapping return
-      if (chart.chartType === ChartType.PPM) {
-        const segmentMap = savedChartQuery.data.validateResponse.segments;
-
-        Object.keys(savedChartData.ppmSegments).forEach(
-          (segmentName: string) => {
-            const segment = (savedChartData.ppmSegments as any)[segmentName];
-            const mapValue = segmentMap[segmentName];
-
-            if (mapValue) {
-              segment.name = mapValue;
-              segment.isValid = true;
-            }
-          }
-        );
-      } else if (chart.chartType === ChartType.GL) {
-        // not supported yet
-      }
+      mapSegmentQueryData(
+        chart.chartType,
+        savedChartData,
+        savedChartQuery.data
+      );
 
       setChartData(savedChartData);
     }
@@ -121,27 +110,30 @@ const Entry = () => {
             }
           />
         )}
+        <h1>CoA Name</h1>
+        <NameEntry
+          chart={savedChart}
+          updateDisplayName={(n) =>
+            setSavedChart((c) => ({ ...c, displayName: n }))
+          }
+        />
         <CoaDisplay chartData={chartData} />
-        <SaveAndUseButton chartData={chartData} />
-        <button type="button" className="btn btn-primary">
-          Primary
-        </button>
-        <button type="button" className="btn btn-secondary">
-          Secondary
-        </button>
-        <button type="button" className="btn btn-success">
-          Success
-        </button>
-        <button type="button" className="btn btn-danger">
-          Danger
-        </button>
-        <button type="button" className="btn btn-warning">
-          Warning
-        </button>
-        <button type="button" className="btn btn-link">
-          Link
-        </button>
+        {savedChart.id ? (
+          <EditButtons chartData={chartData} savedChart={savedChart} />
+        ) : (
+          <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
+        )}
       </div>
+
+      <pre>
+        {JSON.stringify(
+          chartData.chartType === ChartType.PPM
+            ? chartData.ppmSegments
+            : chartData.glSegments,
+          null,
+          2
+        )}
+      </pre>
     </div>
   );
 };
