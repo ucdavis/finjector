@@ -38,6 +38,7 @@ const GlEntry = (props: Props) => {
           chartType={ChartType.GL}
           segmentData={props.segments.purpose}
           setSegmentValue={updateSegment}
+          minQueryLength={2}
         ></SegmentSearch>
 
         <SegmentSearch

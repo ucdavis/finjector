@@ -7,7 +7,8 @@ export const useSegmentQuery = (
   chartType: ChartType,
   segmentName: string,
   query: string,
-  dependency?: string
+  dependency?: string,
+  minQueryLength = 3
 ) =>
   useQuery(
     ["segments", chartType, segmentName, query, dependency],
@@ -15,11 +16,13 @@ export const useSegmentQuery = (
       const controller = chartType === ChartType.GL ? "glsearch" : "ppmsearch";
 
       return doFetch<SegmentData[]>(
-        fetch(`/api/${controller}/${segmentName}?query=${query}&dependency=${dependency}`)
+        fetch(
+          `/api/${controller}/${segmentName}?query=${query}&dependency=${dependency}`
+        )
       );
     },
     {
-      enabled: query?.length > 2, // matches the minimum length of our async search
+      enabled: query?.length >= minQueryLength, // matches the minimum length of our async search
       staleTime: 1000 * 60, // don't requery same search term for 1 minute
     }
   );

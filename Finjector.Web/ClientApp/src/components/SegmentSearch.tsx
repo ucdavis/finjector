@@ -10,9 +10,12 @@ interface Props {
   segmentDependency?: SegmentData; // optional segment data that this segment depends on
   segmentDependencyRequired?: boolean; // optional flag to indicate that the dependency is required
   setSegmentValue: (data: SegmentData) => void;
+  minQueryLength?: number;
 }
 
 const SegmentSearch = (props: Props) => {
+  const minQueryLength = props.minQueryLength || 3;
+
   // takes camelCaseString and splits into words
   const prettifiedName = props.segmentData.segmentName.replace(
     /([a-z0-9])([A-Z])/g,
@@ -23,7 +26,8 @@ const SegmentSearch = (props: Props) => {
     props.chartType,
     props.segmentData.segmentName,
     props.segmentData.code,
-    props.segmentDependency?.code
+    props.segmentDependency?.code,
+    minQueryLength
   );
 
   const handleInputChange = (query: string) => {
@@ -62,7 +66,7 @@ const SegmentSearch = (props: Props) => {
         filterBy={() => true} // don't filter since we're doing it on the server
         isLoading={segmentQuery.isFetching}
         labelKey="code"
-        minLength={3}
+        minLength={minQueryLength}
         onSearch={() => {}}
         onInputChange={handleInputChange}
         defaultInputValue={props.segmentData.code}
@@ -78,7 +82,8 @@ const SegmentSearch = (props: Props) => {
         )}
       />
       <div className="form-text">
-        {props.segmentData.name || `${props.segmentData.segmentName} not selected`}
+        {props.segmentData.name ||
+          `${props.segmentData.segmentName} not selected`}
       </div>
     </div>
   );
