@@ -101,7 +101,15 @@ const Entry = () => {
       <div className="mt-4 mb-4">
         <h2>{chartData.chartType} Chart Details</h2>
         {chartData.chartType === ChartType.GL ? (
-          <GlEntry />
+          <GlEntry
+            segments={chartData.glSegments}
+            setSegment={(name: string, segment: SegmentData) =>
+              setChartData((c) => ({
+                ...c,
+                glSegments: { ...c.glSegments, [name]: segment },
+              }))
+            }
+          />
         ) : (
           <PpmEntry
             segments={chartData.ppmSegments}
