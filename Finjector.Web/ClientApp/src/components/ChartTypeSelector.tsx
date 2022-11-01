@@ -9,6 +9,9 @@ interface Props {
 const ChartTypeSelector = (props: Props) => {
   const { chartType, setChartType } = props;
 
+  const activeClass = "btn-outline-active";
+
+  console.log("ChartTypeSelector", chartType);
   return (
     <>
       <div className="chart-type">
@@ -22,7 +25,12 @@ const ChartTypeSelector = (props: Props) => {
           checked={chartType === ChartType.GL}
           onChange={() => setChartType(ChartType.GL)}
         />
-        <label className="btn btn-outline me-3" htmlFor="option1">
+        <label
+          className={`btn btn-outline me-3 ${
+            chartType === ChartType.GL ? activeClass : ""
+          }`}
+          htmlFor="option1"
+        >
           GL CoA
         </label>
 
@@ -35,7 +43,12 @@ const ChartTypeSelector = (props: Props) => {
           checked={chartType === ChartType.PPM}
           onChange={() => setChartType(ChartType.PPM)}
         />
-        <label className="btn btn-outline btn-outline-active" htmlFor="option2">
+        <label
+          className={`btn btn-outline ${
+            chartType === ChartType.PPM ? activeClass : ""
+          }`}
+          htmlFor="option2"
+        >
           PPM CoA
         </label>
       </div>

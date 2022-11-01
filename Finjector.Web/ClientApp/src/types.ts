@@ -36,6 +36,7 @@ export interface PpmSegments {
 export interface SegmentData {
   code: string;
   name: string;
+  segmentName: string;
   default: string;
   isValid: boolean;
 }
