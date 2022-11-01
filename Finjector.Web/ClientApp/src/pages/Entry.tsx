@@ -22,6 +22,7 @@ import {
   fromPpmSegmentString,
 } from "../util/segmentValidation";
 import NameEntry from "../components/NameEntry";
+import { mapSegmentQueryData } from "../util/segmentMapping";
 
 const Entry = () => {
   const { id } = useParams();
@@ -61,25 +62,7 @@ const Entry = () => {
             : buildInitialPpmSegments(),
       };
 
-      // TODO: this is hacky until we have a unified way of loading/validating segments
-      // TODO: move to validation helper function after mapping return
-      if (chart.chartType === ChartType.PPM) {
-        const segmentMap = savedChartQuery.data.validateResponse.segments;
-
-        Object.keys(savedChartData.ppmSegments).forEach(
-          (segmentName: string) => {
-            const segment = (savedChartData.ppmSegments as any)[segmentName];
-            const mapValue = segmentMap[segmentName];
-
-            if (mapValue) {
-              segment.name = mapValue;
-              segment.isValid = true;
-            }
-          }
-        );
-      } else if (chart.chartType === ChartType.GL) {
-        // not supported yet
-      }
+      mapSegmentQueryData(chart.chartType, savedChartData, savedChartQuery.data);
 
       setChartData(savedChartData);
     }
@@ -151,7 +134,15 @@ const Entry = () => {
         </button>
       </div>
 
-      <pre>{JSON.stringify(chartData.chartType === ChartType.PPM ? chartData.ppmSegments : chartData.glSegments, null, 2)}</pre>
+      <pre>
+        {JSON.stringify(
+          chartData.chartType === ChartType.PPM
+            ? chartData.ppmSegments
+            : chartData.glSegments,
+          null,
+          2
+        )}
+      </pre>
     </div>
   );
 };
