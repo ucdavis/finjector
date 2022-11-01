@@ -37,7 +37,8 @@ const CoaDisplay = (props: Props) => {
       segmentValidate.data &&
       segmentValidate.data.validationResponse.valid === false
     ) {
-      message = segmentValidate.data.validationResponse.errorMessages[0]; // show the first error message
+      message =
+        segmentValidate.data.validationResponse.errorMessages.join(". "); // show the first error message
       alertType = "danger";
     } else if (
       segmentValidate.data &&
