@@ -19,8 +19,6 @@ const CoaDisplay = (props: Props) => {
     chartStructureValid
   );
 
-  console.log(segmentValidate);
-
   const getValidateMessage = () => {
     let alertType = "info";
     let message = "";
