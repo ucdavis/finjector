@@ -79,3 +79,21 @@ export const useSaveChart = () =>
     // return the saved chart
     return Promise.resolve(savedChart);
   });
+
+// delete chart
+export const useRemoveChart = () =>
+  useMutation((chart: Chart) => {
+    const charts: Chart[] = JSON.parse(
+      localStorage.getItem(chartStorageKey) || "[]"
+    );
+
+    const index = charts.findIndex((c) => c.id === chart.id);
+
+    if (index > -1) {
+      charts.splice(index, 1);
+    }
+
+    localStorage.setItem(chartStorageKey, JSON.stringify(charts));
+
+    return Promise.resolve(chart);
+  });

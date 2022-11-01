@@ -23,6 +23,7 @@ import {
 } from "../util/segmentValidation";
 import NameEntry from "../components/NameEntry";
 import { mapSegmentQueryData } from "../util/segmentMapping";
+import EditButtons from "../components/EditButtons";
 
 const Entry = () => {
   const { id } = useParams();
@@ -62,7 +63,11 @@ const Entry = () => {
             : buildInitialPpmSegments(),
       };
 
-      mapSegmentQueryData(chart.chartType, savedChartData, savedChartQuery.data);
+      mapSegmentQueryData(
+        chart.chartType,
+        savedChartData,
+        savedChartQuery.data
+      );
 
       setChartData(savedChartData);
     }
@@ -113,25 +118,11 @@ const Entry = () => {
           }
         />
         <CoaDisplay chartData={chartData} />
-        <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
-        <button type="button" className="btn btn-primary">
-          Primary
-        </button>
-        <button type="button" className="btn btn-secondary">
-          Secondary
-        </button>
-        <button type="button" className="btn btn-success">
-          Success
-        </button>
-        <button type="button" className="btn btn-danger">
-          Danger
-        </button>
-        <button type="button" className="btn btn-warning">
-          Warning
-        </button>
-        <button type="button" className="btn btn-link">
-          Link
-        </button>
+        {savedChart.id ? (
+          <EditButtons chartData={chartData} savedChart={savedChart} />
+        ) : (
+          <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
+        )}
       </div>
 
       <pre>
