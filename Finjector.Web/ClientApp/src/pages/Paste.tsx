@@ -16,6 +16,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
+import { Link } from "react-router-dom";
+
 const Paste = () => {
   const [coa, setCoa] = React.useState<string>("");
 
@@ -59,10 +61,10 @@ const Paste = () => {
 
   return (
     <div className="main">
-      <a className="back-link" href="/landing">
+      <Link className="backlink" to="/landing">
         <FontAwesomeIcon icon={faArrowLeft} />
         Back
-      </a>
+      </Link>
       <h2>Paste in existing CoA</h2>
       <form>
         <div className="mb-3">

@@ -28,6 +28,8 @@ import NameEntry from "../components/NameEntry";
 import { mapSegmentQueryData } from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
 
+import { Link } from "react-router-dom";
+
 const Entry = () => {
   const { id } = useParams();
 
@@ -83,10 +85,10 @@ const Entry = () => {
 
   return (
     <div className="main">
-      <a className="back-link" href="/landing">
+      <Link className="backlink" to="/landing">
         <FontAwesomeIcon icon={faArrowLeft} />
         Back
-      </a>
+      </Link>
 
       <h2>Chart Type</h2>
       <ChartTypeSelector
