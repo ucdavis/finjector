@@ -110,3 +110,10 @@ hr {
   color: $primary-font;
   box-shadow: 0 0 0 0.1rem transparentize($primary-color, 0.75);
 }
+.back-link {
+  text-decoration: none;
+  margin-bottom: 8px;
+  svg {
+    margin-right: 8px;
+  }
+}

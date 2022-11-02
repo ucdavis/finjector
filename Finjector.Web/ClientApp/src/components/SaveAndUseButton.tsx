@@ -16,8 +16,11 @@ const SaveAndUseButton = (props: Props) => {
   const saveMutation = useSaveChart();
 
   const saveAndUse = () => {
-    const chartToSave: Chart = { ...props.savedChart, segmentString: toSegmentString(props.chartData) };
-    
+    const chartToSave: Chart = {
+      ...props.savedChart,
+      segmentString: toSegmentString(props.chartData),
+    };
+
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
         console.log("saved chart", data);
@@ -28,14 +31,16 @@ const SaveAndUseButton = (props: Props) => {
   };
 
   return (
-    <button
-      className="btn btn-primary"
-      type="button"
-      disabled={saveMutation.isLoading || !props.savedChart.displayName}
-      onClick={saveAndUse}
-    >
-      Save and use
-    </button>
+    <div className="d-grid">
+      <button
+        className="btn btn-primary"
+        type="button"
+        disabled={saveMutation.isLoading || !props.savedChart.displayName}
+        onClick={saveAndUse}
+      >
+        Save and use
+      </button>
+    </div>
   );
 };
 

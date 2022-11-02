@@ -53,9 +53,11 @@ const CoaDisplay = (props: Props) => {
   };
 
   return (
-    <div>
+    <div className="pt-2">
       {getValidateMessage()}
-      <span>{chartString}</span>
+      <div className="text-center">
+        <p>{chartString}</p>
+      </div>
     </div>
   );
 };
