@@ -2,6 +2,9 @@
 
 This project is available for use by any UC Davis website as a convenient option to lookup, create, and store the CCOA values used by Aggie Enterprise.  If your project needs to collect CCOA values (GL or PPM strings) from your users, call today to find out if Finjector is right for you.
 
+![Finjector Example](https://im.ezgif.com/tmp/ezgif-1-81684d5de3.gif)
+
+
 # Configure
 
 The simplest way to setup Finjector is to include [our tiny helper JS script](https://github.com/ucdavis/finjector/blob/main/Finjector.Web/ClientApp/public/finjector.js) in your site's HTML
