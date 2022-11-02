@@ -14,9 +14,34 @@ When your client is ready to enter a CCOA value, you can call
 
 `const result = window.Finjector.findChartSegmentString();`
 
-This will popup our UI and walk the user through the process of finding, saving and selecting a CCOA string.  The `result` return value is a `Promise` which will resolve with the full CCOA string.
+This will popup our UI and walk the user through the process of finding, saving and selecting a CCOA string.  The `result` return value is a `Promise` which will resolve with the following object.
 
-Once you hafve the full CCOA string, you may want to do extra validation or just stick the value into an input box and be on your way.
+```
+{
+    "status": "success",
+    "data": "<CCOA segment string>"
+}
+
+```
+
+Once you have the full CCOA string, you may want to do extra validation or just stick the value into an input box and be on your way.
+
+# JQUERY Example Configuration
+
+In this example we'll use JQuery to popup finjector in response to a click of a the "lookup chart" button. 
+
+```
+$("#ccoa-picker").on("click",
+    async function () {
+        const chart = await window.Finjector.findChartSegmentString();
+        if (chart?.status === "success") {
+            $("#ccoa-input").val(chart.data);
+        }
+        else {
+            alert("Something went wrong with the CCOA picker")
+        }
+    });
+```
 
 # Manual Configuration
 
