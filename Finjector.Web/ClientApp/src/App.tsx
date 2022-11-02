@@ -5,8 +5,6 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import logo from "./logo.svg";
 
 import { useUserInfoQuery } from "./queries/userQueries";
-import PopupTest from "./pages/PopupTest";
-import Selection from "./pages/Selection";
 import Landing from "./pages/Landing";
 import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
@@ -26,10 +24,8 @@ function App() {
         <Header />
         <div className="container">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Landing />} />
             <Route path="/about" element={<About />} />
-            <Route path="/popuptest" element={<PopupTest />} />
-            <Route path="/selection" element={<Selection />} />
             <Route path="/landing" element={<Landing />} />
             <Route path="/entry">
               <Route path="" element={<Entry />} />
