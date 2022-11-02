@@ -13,6 +13,11 @@ import {
   isGlSegmentString,
 } from "../util/segmentValidation";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
+import { Link } from "react-router-dom";
+
 const Paste = () => {
   const [coa, setCoa] = React.useState<string>("");
 
@@ -55,13 +60,15 @@ const Paste = () => {
   }, [chartType, coa]);
 
   return (
-    <div className="p-3">
+    <div className="main">
+      <Link className="back-link" to="/landing">
+        <FontAwesomeIcon icon={faArrowLeft} />
+        Back
+      </Link>
       <h2>Paste in existing CoA</h2>
       <form>
         <div className="mb-3">
-          <label htmlFor="coa-input" className="form-label">
-            Paste in a copied account number
-          </label>
+          <p>Paste in a copied account number</p>
           <textarea
             className="form-control"
             id="coa-input"
@@ -71,7 +78,7 @@ const Paste = () => {
           ></textarea>
         </div>
       </form>
-      <h1>CoA Name</h1>
+      <h2>CoA Name</h2>
       <NameEntry
         chart={savedChart}
         updateDisplayName={(n) =>

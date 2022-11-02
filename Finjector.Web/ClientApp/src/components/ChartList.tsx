@@ -21,14 +21,14 @@ const ChartList = (props: Props) => {
     <ul className="list-group">
       {charts.map((chart) => (
         <li
-          className="list-group-item d-flex justify-content-between align-items-center saved-list-item"
+          className="fin-item d-flex justify-content-between align-items-center saved-list-item"
           key={chart.id}
         >
-          <div className="ms-2 me-auto">
+          <div className="col-9 ms-2 me-auto">
             <div className="fw-bold"> {chart.displayName}</div>
             {chart.segmentString}
           </div>
-          <div>
+          <div className="col-3">
             <Link
               to={`/entry/${chart.id}/${chart.segmentString}`}
               className="btn btn-link"

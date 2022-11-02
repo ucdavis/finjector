@@ -6,6 +6,9 @@ import PpmEntry from "../components/PpmEntry";
 
 import { Chart, ChartData, ChartType, SegmentData } from "../types";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
 // CSS
 // https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
 import "react-bootstrap-typeahead/css/Typeahead.css";
@@ -24,6 +27,8 @@ import {
 import NameEntry from "../components/NameEntry";
 import { mapSegmentQueryData } from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
+
+import { Link } from "react-router-dom";
 
 const Entry = () => {
   const { id } = useParams();
@@ -80,7 +85,12 @@ const Entry = () => {
 
   return (
     <div className="main">
-      <h1>Create new Chart</h1>
+      <Link className="back-link" to="/landing">
+        <FontAwesomeIcon icon={faArrowLeft} />
+        Back
+      </Link>
+
+      <h2>Chart Type</h2>
       <ChartTypeSelector
         chartType={chartData.chartType}
         setChartType={(chartType) =>
@@ -110,7 +120,7 @@ const Entry = () => {
             }
           />
         )}
-        <h1>CoA Name</h1>
+        <h2>CoA Name</h2>
         <NameEntry
           chart={savedChart}
           updateDisplayName={(n) =>
