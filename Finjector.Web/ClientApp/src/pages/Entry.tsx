@@ -85,7 +85,7 @@ const Entry = () => {
 
   return (
     <div className="main">
-      <Link className="backlink" to="/landing">
+      <Link className="back-link" to="/landing">
         <FontAwesomeIcon icon={faArrowLeft} />
         Back
       </Link>
