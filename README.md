@@ -10,7 +10,7 @@ This project is available for use by any UC Davis website as a convenient option
 The simplest way to setup Finjector is to include [our tiny helper JS script](https://github.com/ucdavis/finjector/blob/main/Finjector.Web/ClientApp/public/finjector.js) in your site's HTML
 
 ```
-<script src="https://finjector.ucdavis.edu?v=1" />
+<script src="https://finjector.ucdavis.edu/finjector.js?v=1"></script>
 ```
 
 When your client is ready to enter a CCOA value, you can call
