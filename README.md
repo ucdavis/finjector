@@ -1,7 +1,28 @@
-# finjector
-Financial CCOA Lookup As A Service
+# Finjector - Financial CCOA Lookup 
 
-## Run it
+This project is available for use by any UC Davis website as a convenient option to lookup, create, and store the CCOA values used by Aggie Enterprise.  If your project needs to collect CCOA values (GL or PPM strings) from your users, call today to find out if Finjector is right for you.
+
+# Configure
+
+The simplest way to setup Finjector is to include [our tiny helper JS script](https://github.com/ucdavis/finjector/blob/main/Finjector.Web/ClientApp/public/finjector.js) in your site's HTML
+
+```
+<script src="https://finjector.ucdavis.edu?v=1" />
+```
+
+When your client is ready to enter a CCOA value, you can call
+
+`const result = window.Finjector.findChartSegmentString();`
+
+This will popup our UI and walk the user through the process of finding, saving and selecting a CCOA string.  The `result` return value is a `Promise` which will resolve with the full CCOA string.
+
+Once you hafve the full CCOA string, you may want to do extra validation or just stick the value into an input box and be on your way.
+
+# Manual Configuration
+
+Finjector is just a popup window so you don't really need our tiny helper JS script.  It will help you popup a window that's a nice size and well centered, and will take care of validating and destructuring the window `message` response, so we do recommend you use it.  But you can always take a look at the code and just handle it yourself.
+
+## Development: How to run it
 
 You'll need user-secrets from 1pass.
 
