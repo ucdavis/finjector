@@ -4,7 +4,7 @@ window.Finjector = {};
 // call this function to open popup and get chart data
 window.Finjector.findChartSegmentString = (url) => {
   return new Promise((resolve, reject) => {
-    const uri = new URL(url);
+    const uri = new URL(url || "https://finjector.ucdavis.edu");
 
     const newWindow = popupCenter(uri.href, "popup", 600, 600);
 
