@@ -26,7 +26,7 @@ public class PpmSearchController : ControllerBase
     [HttpGet("project")]
     public async Task<IActionResult> Project(string query)
     {
-        var filter = new PpmProjectFilterInput { Name = new StringFilterInput { Contains = query } };
+        var filter = new PpmProjectFilterInput { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
 
         var result = await _apiClient.PpmProjectSearch.ExecuteAsync(filter, query);
 
@@ -65,7 +65,7 @@ public class PpmSearchController : ControllerBase
         var projectId = projectData.PpmProjectByNumber.Id.ToString();
 
         // now we can query for tasks related to that project
-        var filter = new PpmTaskFilterInput { TaskNumber = new StringFilterInput { Contains = query }, ProjectId = new StringFilterInput { Eq = projectId } };
+        var filter = new PpmTaskFilterInput { TaskNumber = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") }, ProjectId = new StringFilterInput { Eq = projectId } };
 
         var result = await _apiClient.PpmTaskSearch.ExecuteAsync(filter);
 
@@ -79,8 +79,8 @@ public class PpmSearchController : ControllerBase
     [HttpGet("organization")]
     public async Task<IActionResult> Organization(string query)
     {
-        var filter = new PpmOrganizationFilterInput { Name = new StringFilterInput { Contains = query } };
-
+        var filter = new PpmOrganizationFilterInput { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
+        
         var result = await _apiClient.PpmOrganizationSearch.ExecuteAsync(filter, query);
 
         var data = result.ReadData();
@@ -98,7 +98,7 @@ public class PpmSearchController : ControllerBase
     [HttpGet("expenditureType")]
     public async Task<IActionResult> ExpenditureType(string query)
     {
-        var filter = new PpmExpenditureTypeFilterInput { Name = new StringFilterInput { Contains = query } };
+        var filter = new PpmExpenditureTypeFilterInput { Name = new StringFilterInput { Contains = query?.Trim()?.Replace(" ", "%") } };
 
         var result = await _apiClient.PpmExpenditureTypeSearch.ExecuteAsync(filter, query);
 
@@ -136,7 +136,7 @@ public class PpmSearchController : ControllerBase
     [HttpGet("fundingSource")]
     public async Task<IActionResult> FundingSource(string query)
     {
-        var filter = new PpmFundingSourceFilterInput() { Name = new StringFilterInput { Contains = query } };
+        var filter = new PpmFundingSourceFilterInput() { Name = new StringFilterInput { Contains = query?.Trim()?.Replace(" ", "%") } };
 
         var result = await _apiClient.PpmFundingSourceSearch.ExecuteAsync(filter, query);
 
