@@ -7,6 +7,8 @@ import { useGetSavedCharts } from "../queries/storedChartQueries";
 // Main landing screen for popup
 
 const Landing = () => {
+  const [search, setSearch] = React.useState("");
+
   // TODO: add a loading state -- for now not needed because localstorage is synchronous
   const savedCharts = useGetSavedCharts();
 
@@ -17,6 +19,8 @@ const Landing = () => {
           type="search"
           className="form-control"
           placeholder="Search my saved charts"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 
@@ -33,7 +37,7 @@ const Landing = () => {
         </div>
       </div>
 
-      <ChartList charts={savedCharts.data} />
+      <ChartList charts={savedCharts.data} filter={search} />
     </div>
   );
 };
