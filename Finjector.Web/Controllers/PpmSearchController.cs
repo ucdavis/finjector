@@ -98,7 +98,7 @@ public class PpmSearchController : ControllerBase
     [HttpGet("expenditureType")]
     public async Task<IActionResult> ExpenditureType(string query)
     {
-        var filter = new PpmExpenditureTypeFilterInput { Name = new StringFilterInput { Contains = query?.Trim()?.Replace(" ", "%") } };
+        var filter = new PpmExpenditureTypeFilterInput { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
 
         var result = await _apiClient.PpmExpenditureTypeSearch.ExecuteAsync(filter, query);
 
@@ -136,7 +136,7 @@ public class PpmSearchController : ControllerBase
     [HttpGet("fundingSource")]
     public async Task<IActionResult> FundingSource(string query)
     {
-        var filter = new PpmFundingSourceFilterInput() { Name = new StringFilterInput { Contains = query?.Trim()?.Replace(" ", "%") } };
+        var filter = new PpmFundingSourceFilterInput() { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
 
         var result = await _apiClient.PpmFundingSourceSearch.ExecuteAsync(filter, query);
 
