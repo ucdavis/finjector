@@ -8,6 +8,7 @@ import { faPencil, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   charts: Chart[] | undefined;
+  filter: string;
 }
 
 const ChartList = (props: Props) => {
@@ -17,9 +18,18 @@ const ChartList = (props: Props) => {
     return <div>Loading...</div>;
   }
 
+  const filterLowercase = props.filter.toLowerCase();
+
+  const filteredCharts = charts.filter((chart) => {
+    return (
+      chart.displayName.toLowerCase().includes(filterLowercase) ||
+      chart.segmentString.toLowerCase().includes(filterLowercase)
+    );
+  });
+
   return (
     <ul className="list-group">
-      {charts.map((chart) => (
+      {filteredCharts.map((chart) => (
         <li
           className="fin-item d-flex justify-content-between align-items-center saved-list-item"
           key={chart.id}
