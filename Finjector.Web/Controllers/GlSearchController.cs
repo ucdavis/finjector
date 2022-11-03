@@ -26,7 +26,7 @@ public class GlSearchController : ControllerBase
     [HttpGet("entity")]
     public async Task<IActionResult> Entity(string query)
     {
-        var filter = new ErpEntityFilterInput() { Name = new StringFilterInput { Contains = query } };
+        var filter = new ErpEntityFilterInput() { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
 
         var result = await _apiClient.ErpEntitySearch.ExecuteAsync(filter, query);
 
@@ -45,7 +45,7 @@ public class GlSearchController : ControllerBase
     [HttpGet("fund")]
     public async Task<IActionResult> Fund(string query)
     {
-        var filter = new ErpFundFilterInput() { Name = new StringFilterInput { Contains = query } };
+        var filter = new ErpFundFilterInput() { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
 
         var result = await _apiClient.ErpFundSearch.ExecuteAsync(filter, query);
 
@@ -64,7 +64,7 @@ public class GlSearchController : ControllerBase
     [HttpGet("department")]
     public async Task<IActionResult> Department(string query)
     {
-        var filter = new ErpFinancialDepartmentFilterInput() { Name = new StringFilterInput { Contains = query } };
+        var filter = new ErpFinancialDepartmentFilterInput() { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
 
         var result = await _apiClient.ErpDepartmentSearch.ExecuteAsync(filter, query);
 
@@ -83,7 +83,7 @@ public class GlSearchController : ControllerBase
     [HttpGet("purpose")]
     public async Task<IActionResult> Purpose(string query)
     {
-        var filter = new ErpPurposeFilterInput() { Name = new StringFilterInput { Contains = query } };
+        var filter = new ErpPurposeFilterInput() { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
 
         var result = await _apiClient.ErpPurposeSearch.ExecuteAsync(filter, query);
 
@@ -102,7 +102,7 @@ public class GlSearchController : ControllerBase
     [HttpGet("account")]
     public async Task<IActionResult> Account(string query)
     {
-        var filter = new ErpAccountFilterInput() { Name = new StringFilterInput { Contains = query } };
+        var filter = new ErpAccountFilterInput() { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
 
         var result = await _apiClient.ErpAccountSearch.ExecuteAsync(filter, query);
 
@@ -121,7 +121,7 @@ public class GlSearchController : ControllerBase
     [HttpGet("project")]
     public async Task<IActionResult> Project(string query)
     {
-        var filter = new ErpProjectFilterInput() { Name = new StringFilterInput { Contains = query } };
+        var filter = new ErpProjectFilterInput() { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
 
         var result = await _apiClient.ErpProjectSearch.ExecuteAsync(filter, query);
 
@@ -141,7 +141,7 @@ public class GlSearchController : ControllerBase
     [HttpGet("program")]
     public async Task<IActionResult> Program(string query)
     {
-        var filter = new ErpProgramFilterInput() { Name = new StringFilterInput { Contains = query } };
+        var filter = new ErpProgramFilterInput() { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
 
         var result = await _apiClient.ErpProgramSearch.ExecuteAsync(filter, query);
 
@@ -161,7 +161,7 @@ public class GlSearchController : ControllerBase
     [HttpGet("activity")]
     public async Task<IActionResult> Activity(string query)
     {
-        var filter = new ErpActivityFilterInput() { Name = new StringFilterInput { Contains = query } };
+        var filter = new ErpActivityFilterInput() { Name = new StringFilterInput { Contains = query.Trim().Replace(" ", "%") } };
 
         var result = await _apiClient.ErpActivitySearch.ExecuteAsync(filter, query);
 
