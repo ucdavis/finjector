@@ -37,7 +37,7 @@ const Entry = () => {
 
   const [savedChart, setSavedChart] = React.useState<Chart>({
     id: "",
-    chartType: ChartType.GL,
+    chartType: ChartType.PPM,
     displayName: "",
     segmentString: "",
   });
@@ -78,6 +78,11 @@ const Entry = () => {
     }
   }, [savedChartQuery.data]);
 
+  const changeChartType = (chartType: ChartType) => {
+    setChartData((d) => ({ ...d, chartType: chartType }));
+    setSavedChart((c) => ({ ...c, chartType: chartType }));
+  };
+
   // if we have a saved chart, make sure it's been loaded before continuing
   if (id && !savedChart.id) {
     return <div>Loading...</div>;
@@ -93,9 +98,7 @@ const Entry = () => {
       <h2>Chart Type</h2>
       <ChartTypeSelector
         chartType={chartData.chartType}
-        setChartType={(chartType) =>
-          setChartData((d) => ({ ...d, chartType: chartType }))
-        }
+        setChartType={changeChartType}
       />
       <div className="mt-4 mb-4">
         <h2>{chartData.chartType} Chart Details</h2>
@@ -143,6 +146,7 @@ const Entry = () => {
           null,
           2
         )}
+        <pre>{JSON.stringify(savedChart, null, 2)}</pre>
       </pre>
     </div>
   );
