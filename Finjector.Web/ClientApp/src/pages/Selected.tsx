@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { HomeLink } from "../components/HomeLink";
 
 const Selected = () => {
   const { chart } = useParams();
 
-  const [error, setError] = React.useState<string>();
+  const [hasOpener, setHasOpener] = React.useState<boolean>(!!window.opener);
+  const [hasCopied, setHasCopied] = React.useState<boolean>(false);
 
   useEffect(() => {
     if (window.opener) {
@@ -20,18 +22,39 @@ const Selected = () => {
       // message sent, close the window
       window.close();
     } else {
-      setError("No opener window");
+      setHasOpener(false);
     }
   }, [chart]);
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(chart || "").then(() => {
+      setHasCopied(true);
+    });
+  };
+
   return (
     <div>
-      <h1>Selected {chart}</h1>
-      <p>
-        Temp page as popup communicates result. Should only see if there is an
-        error or setup issue.
-      </p>
-      {error && <div className="alert alert-danger">{error}</div>}
+      <h1>Chart Selected</h1>
+      <p>{chart}</p>
+      {hasOpener ? (
+        <p>Finjector will close this window shortly.</p>
+      ) : (
+        <div>
+          <p>
+            You've selected a chart but aren't using Finjector inside a popup
+            window.
+          </p>
+          <p>
+            Click copy to copy this to your clipboard, or head back home to work
+            with another chart.
+          </p>
+          <button className="btn btn-primary" onClick={copyToClipboard}>
+            {hasCopied ? "Copied!" : "Copy"}
+          </button>
+          <hr />
+          <HomeLink>Go Home</HomeLink>
+        </div>
+      )}
     </div>
   );
 };
