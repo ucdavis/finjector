@@ -3,6 +3,7 @@ import React from "react";
 import { ChartType, PpmSegments, SegmentData } from "../types";
 
 import SegmentSearch from "./SegmentSearch";
+import TaskSelector from "./TaskSelector";
 
 interface Props {
   segments: PpmSegments;
@@ -23,13 +24,11 @@ const PpmEntry = (props: Props) => {
           setSegmentValue={updateSegment}
         ></SegmentSearch>
 
-        <SegmentSearch
-          chartType={ChartType.PPM}
+        <TaskSelector
           segmentData={props.segments.task}
           segmentDependency={props.segments.project}
-          segmentDependencyRequired={true}
           setSegmentValue={updateSegment}
-        ></SegmentSearch>
+        ></TaskSelector>
 
         <SegmentSearch
           chartType={ChartType.PPM}

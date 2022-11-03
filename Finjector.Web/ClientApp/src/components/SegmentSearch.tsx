@@ -7,8 +7,6 @@ import { ChartType, SegmentData } from "../types";
 interface Props {
   chartType: ChartType;
   segmentData: SegmentData;
-  segmentDependency?: SegmentData; // optional segment data that this segment depends on
-  segmentDependencyRequired?: boolean; // optional flag to indicate that the dependency is required
   setSegmentValue: (data: SegmentData) => void;
   minQueryLength?: number;
 }
@@ -26,7 +24,7 @@ const SegmentSearch = (props: Props) => {
     props.chartType,
     props.segmentData.segmentName,
     props.segmentData.code,
-    props.segmentDependency?.code,
+    "",
     minQueryLength
   );
 
@@ -60,9 +58,6 @@ const SegmentSearch = (props: Props) => {
       <label className="form-label text-uppercase">{prettifiedName}</label>
       <AsyncTypeahead
         id={"typeahead" + props.segmentData.segmentName}
-        disabled={
-          props.segmentDependencyRequired && !props.segmentDependency?.isValid
-        }
         filterBy={() => true} // don't filter since we're doing it on the server
         isLoading={segmentQuery.isFetching}
         labelKey="code"

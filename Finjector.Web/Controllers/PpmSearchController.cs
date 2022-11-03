@@ -42,6 +42,23 @@ public class PpmSearchController : ControllerBase
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
 
+    [HttpGet("tasksByProject")]
+    public async Task<IActionResult> TasksByProject(string projectNumber)
+    {
+        var result = await _apiClient.PpmProjectWithTasks.ExecuteAsync(projectNumber);
+
+        var data = result.ReadData();
+
+        if (data.PpmProjectByNumber == null) {
+            return NotFound();
+        }
+
+        if (data.PpmProjectByNumber.Tasks == null) {
+            return Ok(new SearchResult[] { });
+        }
+
+        return Ok(data.PpmProjectByNumber.Tasks.Select(t => new SearchResult(t.TaskNumber, t.Name)));
+    }
 
     // Task search is special because we only search within a specific project, given here as "dependency" param
     [HttpGet("task")]
