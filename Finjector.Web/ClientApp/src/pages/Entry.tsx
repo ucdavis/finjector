@@ -6,9 +6,6 @@ import PpmEntry from "../components/PpmEntry";
 
 import { Chart, ChartData, ChartType, SegmentData } from "../types";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-
 // CSS
 // https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
 import "react-bootstrap-typeahead/css/Typeahead.css";
@@ -27,8 +24,7 @@ import {
 import NameEntry from "../components/NameEntry";
 import { mapSegmentQueryData } from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
-
-import { Link } from "react-router-dom";
+import { HomeLink } from "../components/HomeLink";
 
 const Entry = () => {
   const { id } = useParams();
@@ -83,6 +79,15 @@ const Entry = () => {
     setSavedChart((c) => ({ ...c, chartType: chartType }));
   };
 
+  if (savedChartQuery.isError) {
+    return (
+      <>
+        <h1>Error loading chart</h1>
+        <HomeLink>Go Back</HomeLink>
+      </>
+    );
+  }
+
   // if we have a saved chart, make sure it's been loaded before continuing
   if (id && !savedChart.id) {
     return <div>Loading...</div>;
@@ -90,10 +95,7 @@ const Entry = () => {
 
   return (
     <div className="main">
-      <Link className="back-link" to="/landing">
-        <FontAwesomeIcon icon={faArrowLeft} />
-        Back
-      </Link>
+      <HomeLink>Back</HomeLink>
 
       <h2>Chart Type</h2>
       <ChartTypeSelector
