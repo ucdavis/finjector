@@ -5,7 +5,7 @@ $primary-color: $delta;
 $secondary-color: $putahcreek;
 $theme-colors: (
   primary: $primary-color,
-  secondary: $secondary-color,
+  secondary: lighten($primary-color, 7),
   warning: $sunflower,
   danger: $doubledecker,
   link: $primary-color,

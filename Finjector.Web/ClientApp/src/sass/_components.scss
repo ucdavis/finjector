@@ -132,3 +132,14 @@ hr {
   background-color: inherit;
   border-color: none;
 }
+.loading-wrapper {
+  margin: 0 auto;
+  width: 300px;
+  text-align: center;
+  p {
+    color: $secondary-font;
+  }
+  img {
+    width: 100px;
+  }
+}

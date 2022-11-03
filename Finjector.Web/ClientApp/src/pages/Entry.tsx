@@ -91,7 +91,12 @@ const Entry = () => {
 
   // if we have a saved chart, make sure it's been loaded before continuing
   if (id && !savedChart.id) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-wrapper">
+        <img src="/media/loading.gif" alt="Money sign with colors" />
+        <p>Loading ...</p>
+      </div>
+    );
   }
 
   return (
