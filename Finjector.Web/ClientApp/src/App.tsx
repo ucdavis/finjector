@@ -20,31 +20,22 @@ function App() {
   }
 
   return (
-      <BrowserRouter>
-        <Header />
-        <div className="container">
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/landing" element={<Landing />} />
-            <Route path="/entry">
-              <Route path="" element={<Entry />} />
-              <Route path=":id/:chart" element={<Entry />} />
-            </Route>
-            <Route path="/paste" element={<Paste />} />
-            <Route path="/selected/:id/:chart" element={<Selected />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-  );
-}
-
-function Home() {
-  return (
-    <div>
-      <p>Welcome to F(inancial) Injector!</p>
-      <Link to="/popuptest">Click here for a sample finjection page!</Link>
-    </div>
+    <BrowserRouter>
+      <Header />
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/landing" element={<Landing />} />
+          <Route path="/entry">
+            <Route path="" element={<Entry />} />
+            <Route path=":id/:chart" element={<Entry />} />
+          </Route>
+          <Route path="/paste" element={<Paste />} />
+          <Route path="/selected/:id/:chart" element={<Selected />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
