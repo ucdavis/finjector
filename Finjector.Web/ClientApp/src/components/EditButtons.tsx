@@ -63,10 +63,10 @@ const EditButtons = (props: Props) => {
   };
 
   return (
-    <>
+    <div className="d-flex p-2">
       <button
         type="button"
-        className="btn btn-danger"
+        className="btn btn-danger flex-fill me-3"
         disabled={removeMutation.isLoading}
         onClick={remove}
       >
@@ -74,24 +74,24 @@ const EditButtons = (props: Props) => {
       </button>
       <button
         type="button"
-        className="btn btn-secondary"
+        className="btn btn-secondary flex-fill me-3"
         disabled={saveMutation.isLoading || !props.savedChart.displayName}
         onClick={copy}
       >
         Copy
       </button>
       <button
-        className="btn btn-primary"
+        className="btn btn-primary flex-fill me-3"
         type="button"
         disabled={saveMutation.isLoading || !props.savedChart.displayName}
         onClick={save}
       >
         Save
       </button>
-      <button className="btn btn-primary" type="button" onClick={use}>
+      <button className="btn btn-primary flex-fill" type="button" onClick={use}>
         Use
       </button>
-    </>
+    </div>
   );
 };
 

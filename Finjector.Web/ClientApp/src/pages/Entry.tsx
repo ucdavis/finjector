@@ -24,6 +24,7 @@ import {
 import NameEntry from "../components/NameEntry";
 import { mapSegmentQueryData } from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
+import { ChartDebugInfo } from "../components/ChartDebugInfo";
 import { HomeLink } from "../components/HomeLink";
 
 const Entry = () => {
@@ -139,17 +140,7 @@ const Entry = () => {
           <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
         )}
       </div>
-
-      <pre>
-        {JSON.stringify(
-          chartData.chartType === ChartType.PPM
-            ? chartData.ppmSegments
-            : chartData.glSegments,
-          null,
-          2
-        )}
-        <pre>{JSON.stringify(savedChart, null, 2)}</pre>
-      </pre>
+      <ChartDebugInfo chartData={chartData} />
     </div>
   );
 };
