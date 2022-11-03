@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import { Link } from "react-router-dom";
+import { ChartDebugInfo } from "../components/ChartDebugInfo";
 
 const Paste = () => {
   const [coa, setCoa] = React.useState<string>("");
@@ -87,6 +88,7 @@ const Paste = () => {
       />
       <CoaDisplay chartData={chartData} />
       <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
+      <ChartDebugInfo chartData={chartData} />
     </div>
   );
 };
