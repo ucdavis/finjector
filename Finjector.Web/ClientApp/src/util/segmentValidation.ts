@@ -5,6 +5,10 @@ import {
   PpmSegments,
   SegmentData,
 } from "../types";
+import {
+  buildInitialGlSegments,
+  buildInitialPpmSegments,
+} from "./segmentHelpers";
 
 export const toGlSegmentString = (gl: GlSegments): string => {
   return `${getSegmentValue(gl.entity)}-${getSegmentValue(
@@ -105,6 +109,11 @@ export const fromPpmSegmentString = (
   const segments = segmentString.split("-");
 
   // There are two possible PPM segment strings - either 4 or 6 segment varieties.
+
+  if (segments.length !== 4 && segments.length !== 6) {
+    return buildInitialPpmSegments();
+  }
+
   const isRequiredOnly = segments.length;
 
   if (isRequiredOnly) {
@@ -205,6 +214,10 @@ export const fromGlSegmentString = (
   validity: boolean = false
 ): GlSegments => {
   const segments = segmentString.split("-");
+
+  if (segments.length !== 11) {
+    return buildInitialGlSegments();
+  }
 
   return {
     entity: {

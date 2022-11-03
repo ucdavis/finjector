@@ -26,6 +26,7 @@ import { mapSegmentQueryData } from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
 import { ChartDebugInfo } from "../components/ChartDebugInfo";
 import { HomeLink } from "../components/HomeLink";
+import { ChartLoadingError } from "../components/ChartLoadingError";
 
 const Entry = () => {
   const { id } = useParams();
@@ -83,7 +84,8 @@ const Entry = () => {
   if (savedChartQuery.isError) {
     return (
       <>
-        <h1>Error loading chart</h1>
+        <ChartLoadingError />
+        <hr />
         <HomeLink>Go Back</HomeLink>
       </>
     );
