@@ -27,6 +27,21 @@ export const useSegmentQuery = (
     }
   );
 
+// grab all tasks for the given project
+export const useTaskQuery = (projectNumber: string, projectValid: boolean) =>
+  useQuery(
+    ["segments", ChartType.PPM, "task", projectNumber],
+    () => {
+      return doFetch<SegmentData[]>(
+        fetch(`/api/ppmsearch/tasksByProject?projectNumber=${projectNumber}`)
+      );
+    },
+    {
+      enabled: projectValid,
+      staleTime: 1000 * 60, // don't requery same search term for 1 minute
+    }
+  );
+
 // search a full segment string
 export const useSegmentStringQuery = (
   chartType: ChartType,
