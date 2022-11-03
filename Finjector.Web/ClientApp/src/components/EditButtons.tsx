@@ -81,7 +81,7 @@ const EditButtons = (props: Props) => {
         Copy
       </button>
       <button
-        className="btn btn-primary flex-fill me-3"
+        className="btn btn-secondary flex-fill me-3"
         type="button"
         disabled={saveMutation.isLoading || !props.savedChart.displayName}
         onClick={save}
