@@ -6,9 +6,6 @@ import PpmEntry from "../components/PpmEntry";
 
 import { Chart, ChartData, ChartType, SegmentData } from "../types";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-
 // CSS
 // https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
 import "react-bootstrap-typeahead/css/Typeahead.css";
@@ -27,8 +24,7 @@ import {
 import NameEntry from "../components/NameEntry";
 import { mapSegmentQueryData } from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
-
-import { Link } from "react-router-dom";
+import { HomeLink } from "../components/HomeLink";
 
 const Entry = () => {
   const { id } = useParams();
@@ -37,7 +33,7 @@ const Entry = () => {
 
   const [savedChart, setSavedChart] = React.useState<Chart>({
     id: "",
-    chartType: ChartType.GL,
+    chartType: ChartType.PPM,
     displayName: "",
     segmentString: "",
   });
@@ -78,6 +74,20 @@ const Entry = () => {
     }
   }, [savedChartQuery.data]);
 
+  const changeChartType = (chartType: ChartType) => {
+    setChartData((d) => ({ ...d, chartType: chartType }));
+    setSavedChart((c) => ({ ...c, chartType: chartType }));
+  };
+
+  if (savedChartQuery.isError) {
+    return (
+      <>
+        <h1>Error loading chart</h1>
+        <HomeLink>Go Back</HomeLink>
+      </>
+    );
+  }
+
   // if we have a saved chart, make sure it's been loaded before continuing
   if (id && !savedChart.id) {
     return <div>Loading...</div>;
@@ -85,17 +95,12 @@ const Entry = () => {
 
   return (
     <div className="main">
-      <Link className="back-link" to="/landing">
-        <FontAwesomeIcon icon={faArrowLeft} />
-        Back
-      </Link>
+      <HomeLink>Back</HomeLink>
 
       <h2>Chart Type</h2>
       <ChartTypeSelector
         chartType={chartData.chartType}
-        setChartType={(chartType) =>
-          setChartData((d) => ({ ...d, chartType: chartType }))
-        }
+        setChartType={changeChartType}
       />
       <div className="mt-4 mb-4">
         <h2>{chartData.chartType} Chart Details</h2>
@@ -143,6 +148,7 @@ const Entry = () => {
           null,
           2
         )}
+        <pre>{JSON.stringify(savedChart, null, 2)}</pre>
       </pre>
     </div>
   );
