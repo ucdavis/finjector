@@ -29,6 +29,7 @@ import { mapSegmentQueryData } from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
 
 import { Link } from "react-router-dom";
+import { ChartDebugInfo } from "../components/ChartDebugInfo";
 
 const Entry = () => {
   const { id } = useParams();
@@ -134,16 +135,7 @@ const Entry = () => {
           <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
         )}
       </div>
-
-      <pre>
-        {JSON.stringify(
-          chartData.chartType === ChartType.PPM
-            ? chartData.ppmSegments
-            : chartData.glSegments,
-          null,
-          2
-        )}
-      </pre>
+      <ChartDebugInfo chartData={chartData} />
     </div>
   );
 };
