@@ -11,7 +11,7 @@ interface Props {
 }
 
 const TaskSelector = (props: Props) => {
-  const [selection, setSelection] = React.useState<SegmentData[]>([]);
+  const [selection, setSelection] = React.useState<SegmentData[]>([props.segmentData]);
 
   const taskQuery = useTaskQuery(
     props.segmentDependency.code,
