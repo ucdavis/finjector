@@ -2,7 +2,7 @@
 
 This project is available for use by any UC Davis website as a convenient option to lookup, create, and store the CCOA values used by Aggie Enterprise.  If your project needs to collect CCOA values (GL or PPM strings) from your users, call today to find out if Finjector is right for you.
 
-![Finjector Example](https://im.ezgif.com/tmp/ezgif-1-81684d5de3.gif)
+![Finjector Example](https://i.imgur.com/bbfBc4j.gif)
 
 
 # Configure
@@ -28,6 +28,27 @@ This will popup our UI and walk the user through the process of finding, saving 
 ```
 
 Once you have the full CCOA string, you may want to do extra validation or just stick the value into an input box and be on your way.
+
+# JavaScript Example Configuration (no libraries)
+
+In this example we use raw JS to hookup a click listener to our lookup button and use it to launch Finjector.  We take the resulting value and insert into our input box.
+
+```
+const lookup = document.getElementById('lookup');
+const ccoaInput = document.getElementById('ccoa-input');
+
+lookup.addEventListener('click', (e) => {
+    e.preventDefault();
+    const ccoa = ccoaInput.value;
+
+    window.Finjector.findChartSegmentString()
+        .then(response => {
+            if (response.status === "success") {
+                ccoaInput.value = response.data;
+            }
+        })
+});
+```
 
 # JQUERY Example Configuration
 
