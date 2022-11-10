@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-
 using AggieEnterpriseApi;
 using AggieEnterpriseApi.Extensions;
-
 using Finjector.Web.Models;
 using Finjector.Web.Extensions;
 
@@ -33,11 +31,14 @@ public class PpmSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var searchResults = data.PpmProjectSearch.Data.Select(d => new SearchResult(d.ProjectNumber, d.Name));
+        var searchResults = data.PpmProjectSearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.ProjectNumber, d.Name));
 
-        if (data.PpmProjectByNumber != null)
+        if (data.PpmProjectByNumber is { EligibleForUse: true })
         {
-            searchResults = searchResults.Append(new SearchResult(data.PpmProjectByNumber.ProjectNumber, data.PpmProjectByNumber.Name));
+            searchResults =
+                searchResults.Append(new SearchResult(data.PpmProjectByNumber.ProjectNumber,
+                    data.PpmProjectByNumber.Name));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
@@ -50,15 +51,18 @@ public class PpmSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        if (data.PpmProjectByNumber == null) {
+        if (data.PpmProjectByNumber == null)
+        {
             return NotFound();
         }
 
-        if (data.PpmProjectByNumber.Tasks == null) {
+        if (data.PpmProjectByNumber.Tasks == null)
+        {
             return Ok(new SearchResult[] { });
         }
 
-        return Ok(data.PpmProjectByNumber.Tasks.Select(t => new SearchResult(t.TaskNumber, t.Name)));
+        return Ok(data.PpmProjectByNumber.Tasks.Where(a => a.EligibleForUse)
+            .Select(t => new SearchResult(t.TaskNumber, t.Name)));
     }
 
     // Task search is special because we only search within a specific project, given here as "dependency" param
@@ -71,7 +75,8 @@ public class PpmSearchController : ControllerBase
         }
 
         // first, we need to get the project ID from the dependency
-        var project = await _apiClient.PpmProjectSearch.ExecuteAsync(new PpmProjectFilterInput { ProjectNumber = new StringFilterInput { Eq = dependency } }, dependency);
+        var project = await _apiClient.PpmProjectSearch.ExecuteAsync(
+            new PpmProjectFilterInput { ProjectNumber = new StringFilterInput { Eq = dependency } }, dependency);
 
         var projectData = project.ReadData();
 
@@ -83,13 +88,18 @@ public class PpmSearchController : ControllerBase
         var projectId = projectData.PpmProjectByNumber.Id.ToString();
 
         // now we can query for tasks related to that project
-        var filter = new PpmTaskFilterInput { TaskNumber = new StringFilterInput { Contains = query.ToFuzzyQuery() }, ProjectId = new StringFilterInput { Eq = projectId } };
+        var filter = new PpmTaskFilterInput
+        {
+            TaskNumber = new StringFilterInput { Contains = query.ToFuzzyQuery() },
+            ProjectId = new StringFilterInput { Eq = projectId }
+        };
 
         var result = await _apiClient.PpmTaskSearch.ExecuteAsync(filter);
 
         var data = result.ReadData();
 
-        var tasks = data.PpmTaskSearch.Data.Select(d => new SearchResult(d.TaskNumber, d.Name));
+        var tasks = data.PpmTaskSearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.TaskNumber, d.Name));
 
         return Ok(tasks.DistinctBy(p => p.Code));
     }
@@ -97,15 +107,17 @@ public class PpmSearchController : ControllerBase
     [HttpGet("organization")]
     public async Task<IActionResult> Organization(string query)
     {
-        var filter = new PpmOrganizationFilterInput { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
-        
+        var filter = new PpmOrganizationFilterInput
+            { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+
         var result = await _apiClient.PpmOrganizationSearch.ExecuteAsync(filter, query);
 
         var data = result.ReadData();
 
-        var orgs = data.PpmOrganizationSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var orgs = data.PpmOrganizationSearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.PpmOrganization != null)
+        if (data.PpmOrganization is { EligibleForUse: true })
         {
             orgs = orgs.Append(new SearchResult(data.PpmOrganization.Code, data.PpmOrganization.Name));
         }
@@ -116,22 +128,25 @@ public class PpmSearchController : ControllerBase
     [HttpGet("expenditureType")]
     public async Task<IActionResult> ExpenditureType(string query)
     {
-        var filter = new PpmExpenditureTypeFilterInput { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+        var filter = new PpmExpenditureTypeFilterInput
+            { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
         var result = await _apiClient.PpmExpenditureTypeSearch.ExecuteAsync(filter, query);
 
         var data = result.ReadData();
 
-        var searchResults = data.PpmExpenditureTypeSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.PpmExpenditureTypeSearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.PpmExpenditureTypeByCode != null)
+        if (data.PpmExpenditureTypeByCode is { EligibleForUse: true })
         {
-            searchResults = searchResults.Append(new SearchResult(data.PpmExpenditureTypeByCode.Code, data.PpmExpenditureTypeByCode.Name));
+            searchResults = searchResults.Append(new SearchResult(data.PpmExpenditureTypeByCode.Code,
+                data.PpmExpenditureTypeByCode.Name));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
-    
+
     [HttpGet("award")]
     public async Task<IActionResult> Award(string query)
     {
@@ -141,30 +156,37 @@ public class PpmSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var searchResults = data.PpmAwardSearch.Data.Select(d => new SearchResult(d.AwardNumber ?? string.Empty, d.Name ?? string.Empty));
+        var searchResults =
+            data.PpmAwardSearch.Data.Where(a => a.EligibleForUse).Select(
+                d => new SearchResult(d.AwardNumber ?? string.Empty, d.Name ?? string.Empty));
 
-        if (data.PpmAwardByNumber != null)
+        if (data.PpmAwardByNumber is { EligibleForUse: true })
         {
-            searchResults = searchResults.Append(new SearchResult(data.PpmAwardByNumber.AwardNumber ?? string.Empty, data.PpmAwardByNumber.Name ?? string.Empty));
+            searchResults = searchResults.Append(new SearchResult(data.PpmAwardByNumber.AwardNumber ?? string.Empty,
+                data.PpmAwardByNumber.Name ?? string.Empty));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
-    
+
     [HttpGet("fundingSource")]
     public async Task<IActionResult> FundingSource(string query)
     {
-        var filter = new PpmFundingSourceFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+        var filter = new PpmFundingSourceFilterInput()
+            { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
         var result = await _apiClient.PpmFundingSourceSearch.ExecuteAsync(filter, query);
 
         var data = result.ReadData();
 
-        var searchResults = data.PpmFundingSourceSearch.Data.Select(d => new SearchResult(d.FundingSourceNumber, d.Name));
+        var searchResults =
+            data.PpmFundingSourceSearch.Data.Where(a => a.EligibleForUse)
+                .Select(d => new SearchResult(d.FundingSourceNumber, d.Name));
 
-        if (data.PpmFundingSourceByNumber != null)
+        if (data.PpmFundingSourceByNumber is { EligibleForUse: true })
         {
-            searchResults = searchResults.Append(new SearchResult(data.PpmFundingSourceByNumber.FundingSourceNumber, data.PpmFundingSourceByNumber.Name));
+            searchResults = searchResults.Append(new SearchResult(data.PpmFundingSourceByNumber.FundingSourceNumber,
+                data.PpmFundingSourceByNumber.Name));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
