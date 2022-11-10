@@ -13,10 +13,8 @@ import {
   isGlSegmentString,
 } from "../util/segmentValidation";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { HomeLink } from "../components/HomeLink";
 
-import { Link } from "react-router-dom";
 import { ChartDebugInfo } from "../components/ChartDebugInfo";
 
 const Paste = () => {
@@ -62,10 +60,7 @@ const Paste = () => {
 
   return (
     <div className="main">
-      <Link className="back-link" to="/landing">
-        <FontAwesomeIcon icon={faArrowLeft} />
-        Back
-      </Link>
+      <HomeLink>Back</HomeLink>
       <h2>Paste in existing CoA</h2>
       <form>
         <div className="mb-3">
