@@ -35,7 +35,7 @@ public class GlSearchController : ControllerBase
 
         var searchResults = data.ErpEntitySearch.Data.Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpEntity != null)
+        if (data.ErpEntity is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpEntity.Code, data.ErpEntity.Name));
         }
@@ -54,7 +54,7 @@ public class GlSearchController : ControllerBase
 
         var searchResults = data.ErpFundSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpFund != null)
+        if (data.ErpFund is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpFund.Code, data.ErpFund.Name));
         }
@@ -73,7 +73,7 @@ public class GlSearchController : ControllerBase
 
         var searchResults = data.ErpFinancialDepartmentSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpFinancialDepartment != null)
+        if (data.ErpFinancialDepartment is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpFinancialDepartment.Code, data.ErpFinancialDepartment.Name));
         }
@@ -92,7 +92,7 @@ public class GlSearchController : ControllerBase
 
         var searchResults = data.ErpPurposeSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpPurpose != null)
+        if (data.ErpPurpose is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpPurpose.Code, data.ErpPurpose.Name));
         }
@@ -111,7 +111,7 @@ public class GlSearchController : ControllerBase
 
         var searchResults = data.ErpAccountSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpAccount != null)
+        if (data.ErpAccount is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpAccount.Code, data.ErpAccount.Name));
         }
@@ -130,7 +130,7 @@ public class GlSearchController : ControllerBase
 
         var searchResults = data.ErpProjectSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpProject != null)
+        if (data.ErpProject is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpProject.Code, data.ErpProject.Name));
         }
@@ -150,7 +150,7 @@ public class GlSearchController : ControllerBase
 
         var searchResults = data.ErpProgramSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpProgram != null)
+        if (data.ErpProgram is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpProgram.Code, data.ErpProgram.Name));
         }
@@ -170,7 +170,7 @@ public class GlSearchController : ControllerBase
 
         var searchResults = data.ErpActivitySearch.Data.Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpActivity != null)
+        if (data.ErpActivity is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpActivity.Code, data.ErpActivity.Name));
         }
