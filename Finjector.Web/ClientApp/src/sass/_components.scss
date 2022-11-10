@@ -30,6 +30,7 @@
   &:hover {
     background-color: transparentize($primary-color, 0.85);
     border: 1px solid $borders;
+    color: $primary-color;
   }
 }
 
