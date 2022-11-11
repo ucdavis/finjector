@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-
 using AggieEnterpriseApi;
 using AggieEnterpriseApi.Extensions;
-
 using Finjector.Web.Models;
 using Finjector.Web.Extensions;
 
@@ -33,16 +31,17 @@ public class GlSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var searchResults = data.ErpEntitySearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.ErpEntitySearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpEntity != null)
+        if (data.ErpEntity is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpEntity.Code, data.ErpEntity.Name));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
-    
+
     [HttpGet("fund")]
     public async Task<IActionResult> Fund(string query)
     {
@@ -52,35 +51,40 @@ public class GlSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var searchResults = data.ErpFundSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.ErpFundSearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpFund != null)
+        if (data.ErpFund is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpFund.Code, data.ErpFund.Name));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
-    
+
     [HttpGet("department")]
     public async Task<IActionResult> Department(string query)
     {
-        var filter = new ErpFinancialDepartmentFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+        var filter = new ErpFinancialDepartmentFilterInput()
+            { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
         var result = await _apiClient.ErpDepartmentSearch.ExecuteAsync(filter, query);
 
         var data = result.ReadData();
 
-        var searchResults = data.ErpFinancialDepartmentSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.ErpFinancialDepartmentSearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpFinancialDepartment != null)
+        if (data.ErpFinancialDepartment is { EligibleForUse: true })
         {
-            searchResults = searchResults.Append(new SearchResult(data.ErpFinancialDepartment.Code, data.ErpFinancialDepartment.Name));
+            searchResults =
+                searchResults.Append(new SearchResult(data.ErpFinancialDepartment.Code,
+                    data.ErpFinancialDepartment.Name));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
-    
+
     [HttpGet("purpose")]
     public async Task<IActionResult> Purpose(string query)
     {
@@ -90,16 +94,17 @@ public class GlSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var searchResults = data.ErpPurposeSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.ErpPurposeSearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpPurpose != null)
+        if (data.ErpPurpose is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpPurpose.Code, data.ErpPurpose.Name));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
-    
+
     [HttpGet("account")]
     public async Task<IActionResult> Account(string query)
     {
@@ -109,16 +114,17 @@ public class GlSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var searchResults = data.ErpAccountSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.ErpAccountSearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpAccount != null)
+        if (data.ErpAccount is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpAccount.Code, data.ErpAccount.Name));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
-    
+
     [HttpGet("project")]
     public async Task<IActionResult> Project(string query)
     {
@@ -128,17 +134,18 @@ public class GlSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var searchResults = data.ErpProjectSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.ErpProjectSearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpProject != null)
+        if (data.ErpProject is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpProject.Code, data.ErpProject.Name));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
-    
-        
+
+
     [HttpGet("program")]
     public async Task<IActionResult> Program(string query)
     {
@@ -148,17 +155,18 @@ public class GlSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var searchResults = data.ErpProgramSearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.ErpProgramSearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpProgram != null)
+        if (data.ErpProgram is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpProgram.Code, data.ErpProgram.Name));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
-    
-        
+
+
     [HttpGet("activity")]
     public async Task<IActionResult> Activity(string query)
     {
@@ -168,16 +176,17 @@ public class GlSearchController : ControllerBase
 
         var data = result.ReadData();
 
-        var searchResults = data.ErpActivitySearch.Data.Select(d => new SearchResult(d.Code, d.Name));
+        var searchResults = data.ErpActivitySearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.Code, d.Name));
 
-        if (data.ErpActivity != null)
+        if (data.ErpActivity is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpActivity.Code, data.ErpActivity.Name));
         }
 
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
-    
+
     // TODO: combine these two validation methods unless we need to get segment names separately
     [HttpGet("fullstring")]
     public async Task<IActionResult> FullString(string segmentString)
