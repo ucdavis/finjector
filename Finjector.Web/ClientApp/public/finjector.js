@@ -26,6 +26,10 @@ window.Finjector.findChartSegmentString = (url) => {
     };
 
     if (newWindow) {
+      // remove any existing listeners
+      window.removeEventListener("message", messageHandler);
+
+      // add a listener to get the data from the popup
       window.addEventListener("message", messageHandler, false);
     }
   });
