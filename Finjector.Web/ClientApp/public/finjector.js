@@ -1,8 +1,16 @@
 /* Inject as script tag in html to gain access to Finjector window object */
-window.Finjector = {};
+window.Finjector = {
+  messageCallback: undefined,
+};
 
 // call this function to open popup and get chart data
 window.Finjector.findChartSegmentString = (url) => {
+
+  // only allow one callback to be active at a time
+  if (window.Finjector.messageCallback) {
+    window.removeEventListener("message", window.Finjector.messageCallback);
+  }
+
   return new Promise((resolve, reject) => {
     const uri = new URL(url || "https://finjector.ucdavis.edu");
 
@@ -25,10 +33,9 @@ window.Finjector.findChartSegmentString = (url) => {
       }
     };
 
-    if (newWindow) {
-      // remove any existing listeners
-      window.removeEventListener("message", messageHandler);
+    window.Finjector.messageCallback = messageHandler;
 
+    if (newWindow) {
       // add a listener to get the data from the popup
       window.addEventListener("message", messageHandler, false);
     }
