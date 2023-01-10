@@ -6,6 +6,7 @@ import logo from "./logo.svg";
 
 import { useUserInfoQuery } from "./queries/userQueries";
 import Landing from "./pages/Landing";
+import About from "./pages/About";
 import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
 import Paste from "./pages/Paste";
@@ -36,28 +37,6 @@ function App() {
         </Routes>
       </div>
     </BrowserRouter>
-  );
-}
-
-function About() {
-  const user = useUserInfoQuery();
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Sample About page!{" "}
-          {user.isSuccess &&
-            user.data[
-              "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
-            ]}
-        </p>
-        <Link className="App-link" to="/">
-          Back home
-        </Link>
-      </header>
-    </div>
   );
 }
 
