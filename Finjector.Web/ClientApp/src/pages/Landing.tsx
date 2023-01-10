@@ -24,7 +24,6 @@ const Landing = () => {
         />
       </div>
 
-      <hr />
       <div className="row justify-content-between">
         <div className="d-grid gap-2">
           <Link to="/entry" className="btn btn-new">
@@ -38,6 +37,10 @@ const Landing = () => {
       </div>
 
       <ChartList charts={savedCharts.data} filter={search} />
+      <hr />
+      <Link className="App-link" to="/about">
+        About
+      </Link>
     </div>
   );
 };

@@ -45,17 +45,23 @@ function About() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Sample About page!{" "}
           {user.isSuccess &&
             user.data[
               "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
             ]}
         </p>
+        <p>
+          This application was developed by the CAES Dean's Offic Computer
+          Resource Unit! <hr />
+          It uses the Aggie Enterprise Graph QL to build a COA from the campus
+          data source
+        </p>
         <Link className="App-link" to="/">
           Back home
         </Link>
+        <hr />
+        <a href="https://caeshelp.ucdavis.edu/?appname=Finjector">Help</a>
       </header>
     </div>
   );
