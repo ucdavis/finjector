@@ -37,10 +37,6 @@ const Landing = () => {
       </div>
 
       <ChartList charts={savedCharts.data} filter={search} />
-      <hr />
-      <Link className="App-link" to="/about">
-        About
-      </Link>
     </div>
   );
 };
