@@ -27,8 +27,11 @@ const About = () => {
         </p>
         <p>
           This application was developed by the CAES Dean's Office{" "}
-          <a href="#">Computer Resources Unit</a>. It&nbsp;uses the Aggie
-          Enterprise Graph QL to build a COA from the campus data source.
+          <a href="https://computing.caes.ucdavis.edu/">
+            Computer Resources Unit
+          </a>
+          . It&nbsp;uses the Aggie Enterprise Graph QL to build a COA from the
+          campus data source.
         </p>
         You can submit a support ticket:{" "}
         <a href="https://caeshelp.ucdavis.edu/?appname=Finjector">here</a>
