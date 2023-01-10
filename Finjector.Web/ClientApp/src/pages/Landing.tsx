@@ -23,7 +23,7 @@ const Landing = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-
+      <hr />
       <div className="row justify-content-between">
         <div className="d-grid gap-2">
           <Link to="/entry" className="btn btn-new">
