@@ -27,7 +27,11 @@ const About = () => {
         </p>
         <p>
           This application was developed by the CAES Dean's Office{" "}
-          <a target="_blank" href="https://computing.caes.ucdavis.edu">
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://computing.caes.ucdavis.edu"
+          >
             Computer Resources Unit
           </a>
           . It&nbsp;uses the Aggie Enterprise Graph QL to build a COA from the
