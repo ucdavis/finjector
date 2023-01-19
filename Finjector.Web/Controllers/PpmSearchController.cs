@@ -27,7 +27,7 @@ public class PpmSearchController : ControllerBase
     {
         var filter = new PpmProjectFilterInput { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.PpmProjectSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.PpmProjectSearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
@@ -110,7 +110,7 @@ public class PpmSearchController : ControllerBase
         var filter = new PpmOrganizationFilterInput
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.PpmOrganizationSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.PpmOrganizationSearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
@@ -131,7 +131,7 @@ public class PpmSearchController : ControllerBase
         var filter = new PpmExpenditureTypeFilterInput
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.PpmExpenditureTypeSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.PpmExpenditureTypeSearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
@@ -152,7 +152,7 @@ public class PpmSearchController : ControllerBase
     {
         var filter = new PpmAwardFilterInput() { Name = new StringFilterInput { Contains = query } };
 
-        var result = await _apiClient.PpmAwardSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.PpmAwardSearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
@@ -175,7 +175,7 @@ public class PpmSearchController : ControllerBase
         var filter = new PpmFundingSourceFilterInput()
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.PpmFundingSourceSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.PpmFundingSourceSearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
