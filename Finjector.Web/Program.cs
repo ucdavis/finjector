@@ -53,9 +53,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Configure Antiforgery to use cookies
-builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
-
 builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
 builder.Services.Configure<CosmosOptions>(builder.Configuration.GetSection("CosmosDb"));
 
@@ -89,16 +86,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Add endpoint that sets the XSRF-TOKEN cookie
-app.MapGet("api/antiforgery/token", (IAntiforgery forgeryService, HttpContext context) =>
-{
-    var tokens = forgeryService.GetAndStoreTokens(context);
-    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken!,
-            new CookieOptions { HttpOnly = false });
-
-    return Results.Ok();
-}).RequireAuthorization();
 
 app.MapControllerRoute(
     name: "login",

@@ -12,7 +12,6 @@ namespace Finjector.Web.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-[AutoValidateAntiforgeryToken]
 public class ChartsController : ControllerBase
 {
     private readonly IHttpContextAccessor _httpContextAccessor;

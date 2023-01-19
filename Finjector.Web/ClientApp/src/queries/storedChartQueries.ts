@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 
 import { Chart, ChartType } from "../types";
-import { authenticatedFetch, doFetch } from "../util/api";
+import { doFetch } from "../util/api";
 
 // Using query functions here in case we change to async/stored stirngs later
 export const useGetSavedCharts = () =>
@@ -43,7 +43,7 @@ export const useSaveChart = () =>
   useMutation(async (chart: Chart) => {
     const savedChart: Chart = { ...chart, id: chart.id || uuidv4() };
 
-    await authenticatedFetch(`/api/charts/save`, {
+    await fetch(`/api/charts/save`, {
       method: "POST",
       body: JSON.stringify(savedChart),
       headers: {
@@ -59,7 +59,7 @@ export const useSaveChart = () =>
 // delete chart
 export const useRemoveChart = () =>
   useMutation(async (chart: Chart) => {
-    await authenticatedFetch(`/api/charts/delete/${chart.id}`, {
+    await fetch(`/api/charts/delete/${chart.id}`, {
       method: "DELETE",
     });
 
