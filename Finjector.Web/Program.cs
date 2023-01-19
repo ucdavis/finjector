@@ -4,6 +4,10 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
 using Finjector.Web.Models;
+using Finjector.Core.Models;
+using Finjector.Core.Services;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +53,27 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Configure Antiforgery to use cookies
+builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+
+builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
+builder.Services.Configure<CosmosOptions>(builder.Configuration.GetSection("CosmosDb"));
+
+// It's an SDK best practice to use a singleton instance of CosmosClient
+builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();
+
+builder.Services.PostConfigure<ApiBehaviorOptions>(options =>
+{
+    var builtInFactory = options.InvalidModelStateResponseFactory;
+
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        // Get an instance of ILogger (see below) and log accordingly.
+
+        return builtInFactory(context);
+    };
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -64,6 +89,16 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Add endpoint that sets the XSRF-TOKEN cookie
+app.MapGet("api/antiforgery/token", (IAntiforgery forgeryService, HttpContext context) =>
+{
+    var tokens = forgeryService.GetAndStoreTokens(context);
+    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken!,
+            new CookieOptions { HttpOnly = false });
+
+    return Results.Ok();
+}).RequireAuthorization();
 
 app.MapControllerRoute(
     name: "login",
