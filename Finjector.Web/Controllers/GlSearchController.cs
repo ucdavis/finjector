@@ -27,7 +27,7 @@ public class GlSearchController : ControllerBase
     {
         var filter = new ErpEntityFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.ErpEntitySearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.ErpEntitySearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
@@ -47,7 +47,7 @@ public class GlSearchController : ControllerBase
     {
         var filter = new ErpFundFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.ErpFundSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.ErpFundSearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
@@ -68,7 +68,7 @@ public class GlSearchController : ControllerBase
         var filter = new ErpFinancialDepartmentFilterInput()
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.ErpDepartmentSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.ErpDepartmentSearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
@@ -90,7 +90,7 @@ public class GlSearchController : ControllerBase
     {
         var filter = new ErpPurposeFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.ErpPurposeSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.ErpPurposeSearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
@@ -110,7 +110,7 @@ public class GlSearchController : ControllerBase
     {
         var filter = new ErpAccountFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.ErpAccountSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.ErpAccountSearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
@@ -130,7 +130,7 @@ public class GlSearchController : ControllerBase
     {
         var filter = new ErpProjectFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.ErpProjectSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.ErpProjectSearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
@@ -151,7 +151,7 @@ public class GlSearchController : ControllerBase
     {
         var filter = new ErpProgramFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.ErpProgramSearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.ErpProgramSearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
@@ -172,7 +172,7 @@ public class GlSearchController : ControllerBase
     {
         var filter = new ErpActivityFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-        var result = await _apiClient.ErpActivitySearch.ExecuteAsync(filter, query);
+        var result = await _apiClient.ErpActivitySearch.ExecuteAsync(filter, query.Trim());
 
         var data = result.ReadData();
 
