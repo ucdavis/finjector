@@ -59,18 +59,6 @@ builder.Services.Configure<CosmosOptions>(builder.Configuration.GetSection("Cosm
 // It's an SDK best practice to use a singleton instance of CosmosClient
 builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();
 
-builder.Services.PostConfigure<ApiBehaviorOptions>(options =>
-{
-    var builtInFactory = options.InvalidModelStateResponseFactory;
-
-    options.InvalidModelStateResponseFactory = context =>
-    {
-        // Get an instance of ILogger (see below) and log accordingly.
-
-        return builtInFactory(context);
-    };
-});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
