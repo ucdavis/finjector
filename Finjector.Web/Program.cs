@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<FinancialOptions>(builder.Configuration.GetSection("Financial"));
+builder.Services.Configure<CosmosOptions>(builder.Configuration.GetSection("CosmosDb"));
 
 builder.Services.AddControllersWithViews();
 
@@ -52,9 +53,6 @@ builder.Services.AddAuthentication(options =>
         NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
     };
 });
-
-builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
-builder.Services.Configure<CosmosOptions>(builder.Configuration.GetSection("CosmosDb"));
 
 // It's an SDK best practice to use a singleton instance of CosmosClient
 builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();

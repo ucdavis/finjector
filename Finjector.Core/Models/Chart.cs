@@ -6,8 +6,6 @@ namespace Finjector.Core.Models;
 
 public class Chart
 {
-    // CosmosDb requires a lower case "id" property and makes use of Newtonsoft.Json
-    [Newtonsoft.Json.JsonProperty("id")]
     [StringLength(36)]
     public string Id { get; set; } = Guid.NewGuid().ToString();
     [StringLength(10)]

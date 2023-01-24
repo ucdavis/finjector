@@ -22,14 +22,26 @@ public class CosmosDbService : IDisposable, ICosmosDbService
     public const string ChartContainerName = "charts";
 
 
-    public CosmosDbService(IOptions<ConnectionStrings> connectionStrings, IOptions<CosmosOptions> cosmosOptions)
+    public CosmosDbService(IOptions<CosmosOptions> cosmosOptions)
     {
         _cosmosOptions = cosmosOptions.Value;
         _cosmosClient = new Lazy<Task<CosmosClient>>(async () =>
         {
-            var client = new CosmosClient(connectionStrings.Value.CosmosDbEndpoint);
+            var client = new CosmosClient(_cosmosOptions.Endpoint, _cosmosOptions.Key, new CosmosClientOptions
+            {
+                // Gateway is necessary for connecting to an Azure Cosmos DB when debugging locally
+                // in order to avoid 503 Service Unavailable errors.
+                ConnectionMode = _cosmosOptions.UseGateway ? ConnectionMode.Gateway : ConnectionMode.Direct,
+                SerializerOptions = new CosmosSerializationOptions
+                {
+                    PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
+                }
+            });
             var database = await client.CreateDatabaseIfNotExistsAsync(_cosmosOptions.DatabaseName);
-            var container = await database.Database.CreateContainerIfNotExistsAsync(ChartContainerName, "/" + nameof(Chart.IamId));
+            var containerProperties = new ContainerProperties(id: ChartContainerName, partitionKeyPath: "/iamId");
+            containerProperties.IndexingPolicy.IncludedPaths.Add(new IncludedPath { Path = "/*" });
+            containerProperties.IndexingPolicy.ExcludedPaths.Add(new ExcludedPath { Path = "/segmentString/*" });
+            var container = await database.Database.CreateContainerIfNotExistsAsync(containerProperties);
 
             return client;
         });
@@ -40,7 +52,7 @@ public class CosmosDbService : IDisposable, ICosmosDbService
         var client = await _cosmosClient.Value;
         var container = client.GetContainer(_cosmosOptions.DatabaseName, ChartContainerName);
         var iterator = container.GetItemQueryIterator<Chart>(
-            new QueryDefinition("SELECT * FROM charts WHERE charts.IamId = @iamId")
+            new QueryDefinition("SELECT * FROM charts WHERE charts.iamId = @iamId")
                 .WithParameter("@iamId", iamId));
 
         var charts = await iterator.ToAsyncEnumerable().ToListAsync();
