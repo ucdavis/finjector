@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using Finjector.Core.Models;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 namespace Finjector.Core.Services;
 
@@ -71,6 +72,7 @@ public class CosmosDbService : IDisposable, ICosmosDbService
 
     public async Task AddOrUpdateChart(Chart chart)
     {
+        Log.Information("Adding or updating chart {ChartId}", chart.Id);
         var client = await _cosmosClient.Value;
         var container = client.GetContainer(_cosmosOptions.DatabaseName, ChartContainerName);
         var partitionKey = new PartitionKey(chart.IamId);
@@ -79,6 +81,7 @@ public class CosmosDbService : IDisposable, ICosmosDbService
 
     public async Task DeleteChart(string id, string iamId)
     {
+        Log.Information("Deleting chart {ChartId}", id);
         var client = await _cosmosClient.Value;
         var container = client.GetContainer(_cosmosOptions.DatabaseName, ChartContainerName);
         var partitionKey = new PartitionKey(iamId);
