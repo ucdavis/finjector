@@ -72,7 +72,7 @@ public class CosmosDbService : IDisposable, ICosmosDbService
 
     public async Task AddOrUpdateChart(Chart chart)
     {
-        Log.Information("Adding or updating chart {ChartId}", chart.Id);
+        Log.Information("Adding or updating chart {ChartId} for iam {IamId}", chart.Id, chart.IamId);
         var client = await _cosmosClient.Value;
         var container = client.GetContainer(_cosmosOptions.DatabaseName, ChartContainerName);
         var partitionKey = new PartitionKey(chart.IamId);
@@ -81,7 +81,7 @@ public class CosmosDbService : IDisposable, ICosmosDbService
 
     public async Task DeleteChart(string id, string iamId)
     {
-        Log.Information("Deleting chart {ChartId}", id);
+        Log.Information("Deleting chart {ChartId} for iam {IamId}", id, iamId);
         var client = await _cosmosClient.Value;
         var container = client.GetContainer(_cosmosOptions.DatabaseName, ChartContainerName);
         var partitionKey = new PartitionKey(iamId);
