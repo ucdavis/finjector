@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finjector.Web", "Finjector.Web\Finjector.Web.csproj", "{27C1FF4F-E172-4D4E-BD20-6BE6EB2381BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "finjector.core", "finjector.core\finjector.core.csproj", "{4890E411-D03E-4BA9-8C3B-D6E333F82C79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finjector.Core", "Finjector.Core\Finjector.Core.csproj", "{4890E411-D03E-4BA9-8C3B-D6E333F82C79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
