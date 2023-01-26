@@ -14,21 +14,21 @@ namespace Finjector.Web.Controllers;
 [Authorize]
 public class ChartsController : ControllerBase
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ICosmosDbService _cosmosDbService;
+    private readonly IIamIdService _iamIdService;
     public const string IamIdClaimType = "ucdPersonIAMID";
 
-    public ChartsController(IHttpContextAccessor httpContextAccessor, ICosmosDbService cosmosDbService)
+    public ChartsController(ICosmosDbService cosmosDbService, IIamIdService iamIdService)
     {
-        _httpContextAccessor = httpContextAccessor;
         _cosmosDbService = cosmosDbService;
+        _iamIdService = iamIdService;
     }
 
     // fetch by id
     [HttpGet("{id}")]
     public async Task<IActionResult> GetChart(string id)
     {
-        var iamId = GetIamId();
+        var iamId = await _iamIdService.GetIamId();
 
         if (iamId == null)
         {
@@ -48,7 +48,7 @@ public class ChartsController : ControllerBase
     [HttpGet("all")]
     public async Task<IActionResult> AllCharts()
     {
-        var iamId = GetIamId();
+        var iamId = await _iamIdService.GetIamId();
 
         if (iamId == null)
         {
@@ -63,7 +63,7 @@ public class ChartsController : ControllerBase
     [HttpPost("save")]
     public async Task<IActionResult> SaveChart([FromBody] ChartViewModel chartViewModel)
     {
-        var iamId = GetIamId();
+        var iamId = await _iamIdService.GetIamId();
 
         if (iamId == null)
         {
@@ -87,7 +87,7 @@ public class ChartsController : ControllerBase
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteChart(string id)
     {
-        var iamId = GetIamId();
+        var iamId = await _iamIdService.GetIamId();
 
         if (iamId == null)
         {
@@ -97,11 +97,5 @@ public class ChartsController : ControllerBase
         await _cosmosDbService.DeleteChart(id, iamId);
 
         return Ok();
-    }
-
-    private string? GetIamId()
-    {
-        var iamId = _httpContextAccessor?.HttpContext?.User.FindFirstValue(IamIdClaimType);
-        return iamId;
     }
 }

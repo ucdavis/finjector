@@ -13,6 +13,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
+using Finjector.Web;
 
 #if DEBUG
 Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
@@ -54,6 +55,7 @@ try
     // Add services to the container.
     builder.Services.Configure<FinancialOptions>(builder.Configuration.GetSection("Financial"));
     builder.Services.Configure<CosmosOptions>(builder.Configuration.GetSection("CosmosDb"));
+    builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Authentication"));
 
     builder.Services.AddControllersWithViews();
 
@@ -96,6 +98,8 @@ try
 
     // It's an SDK best practice to use a singleton instance of CosmosClient
     builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();
+    
+    builder.Services.AddScoped<IIamIdService, IamIdService>();
 
     var app = builder.Build();
 
