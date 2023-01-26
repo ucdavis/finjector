@@ -14,6 +14,8 @@ using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
 using Finjector.Web;
+using Microsoft.AspNetCore.Authentication;
+using Finjector.Web.Handlers;
 
 #if DEBUG
 Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
@@ -99,7 +101,8 @@ try
     // It's an SDK best practice to use a singleton instance of CosmosClient
     builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();
     
-    builder.Services.AddScoped<IIamIdService, IamIdService>();
+    // Add the IamId to claims if not provided by CAS
+    builder.Services.AddScoped<IClaimsTransformation, IamIdClaimFallbackTransformer>();
 
     var app = builder.Build();
 

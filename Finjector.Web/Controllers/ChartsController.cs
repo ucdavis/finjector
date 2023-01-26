@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Finjector.Web.Models;
 using Finjector.Core.Services;
 using Finjector.Core.Models;
+using Finjector.Web.Handlers;
 
 namespace Finjector.Web.Controllers;
 
@@ -15,20 +16,18 @@ namespace Finjector.Web.Controllers;
 public class ChartsController : ControllerBase
 {
     private readonly ICosmosDbService _cosmosDbService;
-    private readonly IIamIdService _iamIdService;
     public const string IamIdClaimType = "ucdPersonIAMID";
 
-    public ChartsController(ICosmosDbService cosmosDbService, IIamIdService iamIdService)
+    public ChartsController(ICosmosDbService cosmosDbService)
     {
         _cosmosDbService = cosmosDbService;
-        _iamIdService = iamIdService;
     }
 
     // fetch by id
     [HttpGet("{id}")]
     public async Task<IActionResult> GetChart(string id)
     {
-        var iamId = await _iamIdService.GetIamId();
+        var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
 
         if (iamId == null)
         {
@@ -48,7 +47,7 @@ public class ChartsController : ControllerBase
     [HttpGet("all")]
     public async Task<IActionResult> AllCharts()
     {
-        var iamId = await _iamIdService.GetIamId();
+        var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
 
         if (iamId == null)
         {
@@ -63,7 +62,7 @@ public class ChartsController : ControllerBase
     [HttpPost("save")]
     public async Task<IActionResult> SaveChart([FromBody] ChartViewModel chartViewModel)
     {
-        var iamId = await _iamIdService.GetIamId();
+        var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
 
         if (iamId == null)
         {
@@ -87,7 +86,7 @@ public class ChartsController : ControllerBase
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteChart(string id)
     {
-        var iamId = await _iamIdService.GetIamId();
+        var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
 
         if (iamId == null)
         {

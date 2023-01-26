@@ -1,48 +1,36 @@
 using System;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Finjector.Web.Models;
-using Ietws;
 using Microsoft.Extensions.Options;
+using Ietws;
 
-namespace Finjector.Web
+namespace Finjector.Web.Handlers
 {
-    public interface IIamIdService
+    public class IamIdClaimFallbackTransformer : IClaimsTransformation
     {
-        Task<string?> GetIamId();
-    }
-
-    public class IamIdService : IIamIdService
-    {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        public const string ClaimType = "ucdPersonIAMID";
         private readonly AuthOptions _authOptions;
 
-        public const string IamIdClaimType = "ucdPersonIAMID";
-
-        public IamIdService(IHttpContextAccessor httpContextAccessor, IOptions<AuthOptions> authOptions)
+        public IamIdClaimFallbackTransformer(IOptions<AuthOptions> authOptions)
         {
-            _httpContextAccessor = httpContextAccessor;
             _authOptions = authOptions.Value;
         }
 
-        public async Task<string?> GetIamId()
+        public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
-            var iamId = _httpContextAccessor.HttpContext?.User.FindFirstValue(IamIdClaimType);
-
+            var iamId = principal.FindFirstValue(ClaimType);
             if (!string.IsNullOrWhiteSpace(iamId))
             {
-                return iamId;
+                return principal;
             }
 
-            return await GetIamIdFallback();
-        }
-
-        private async Task<string?> GetIamIdFallback()
-        {
-            var kerbId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            // if we don't have an IAM ID, try to get it from kerberos and save it in the claims
+            var kerbId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (string.IsNullOrWhiteSpace(kerbId))
             {
-                return null;
+                return principal;
             }
 
             var clientws = new IetClient(_authOptions.IamKey);
@@ -50,7 +38,7 @@ namespace Finjector.Web
 
             if (ucdKerbResult.ResponseData.Results.Length == 0)
             {
-                return null;
+                return principal;
             }
 
             if (ucdKerbResult.ResponseData.Results.Length != 1)
@@ -64,7 +52,12 @@ namespace Finjector.Web
             }
 
             var ucdKerbPerson = ucdKerbResult.ResponseData.Results.First();
-            return ucdKerbPerson.IamId;
+            principal.AddIdentity(new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimType, ucdKerbPerson.IamId)
+            }));
+
+            return principal;
         }
     }
 }
