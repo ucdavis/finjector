@@ -35,7 +35,7 @@ steps:
     publishWebProjects: true
     zipAfterPublish: false
     modifyOutputPath: false
-    projects: './Finjector.Web/Finjector.Web.csproj'
+    projects: '**/*.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/'
 
 - task: PublishBuildArtifacts@1

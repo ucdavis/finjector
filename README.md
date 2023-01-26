@@ -8,7 +8,7 @@ This project is available for use by any UC Davis website as a convenient option
 
 [Follow this link to view a live example](https://ucdavis.github.io/finjector/).  Clicking on the "Lookup" button next to the chart string entry box will bring up the Finjector UI.
 
-You can then create a new GL or PPM account from scratch, or paste in an existing one.  We'll use local storage to remember prior choices, so if do the lookup again you can just press "Use" and it'll be inserted instantly.
+You can then create a new GL or PPM account from scratch, or paste in an existing one.  We keep track of prior choices, so if do the lookup again you can just press "Use" and it'll be inserted instantly.
 
 Try using the example PPM account listed below the input box, and choose "Create new chart from paste" to get started quickly.  If you build from scratch, PPM is suggested because there are only four fields, compared to 8 for GL.
 

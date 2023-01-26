@@ -1,6 +1,4 @@
-export const doFetch = async <T>(
-  fetchCall: Promise<Response>
-): Promise<T> => {
+export const doFetch = async <T>(fetchCall: Promise<Response>): Promise<T> => {
   const res = await fetchCall;
 
   if (!res.ok) {

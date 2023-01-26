@@ -9,7 +9,6 @@ import { useGetSavedCharts } from "../queries/storedChartQueries";
 const Landing = () => {
   const [search, setSearch] = React.useState("");
 
-  // TODO: add a loading state -- for now not needed because localstorage is synchronous
   const savedCharts = useGetSavedCharts();
 
   return (
