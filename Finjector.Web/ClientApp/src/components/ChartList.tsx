@@ -35,8 +35,10 @@ const ChartList = (props: Props) => {
           key={chart.id}
         >
           <div className="col-9 ms-2 me-auto">
-            <div className="fw-bold"> {chart.displayName}</div>
-            {chart.segmentString}
+            <div className="fw-bold "> {chart.displayName}</div>
+            <span style={{ wordWrap: "break-word" }}>
+              {chart.segmentString}
+            </span>
           </div>
           <div className="col-3">
             <Link
