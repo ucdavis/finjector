@@ -14,34 +14,28 @@ namespace Finjector.Web.Controllers;
 public class GlSearchController : ControllerBase
 {
     private readonly FinancialOptions _financialOptions;
-    private readonly IAggieEnterpriseClient _apiClient;
+    private IAggieEnterpriseClient _apiClient;
 
     public GlSearchController(IOptions<FinancialOptions> options)
     {
         _financialOptions = options.Value;
-        _apiClient = AggieEnterpriseApi.GraphQlClient.Get(_financialOptions.ApiUrl!, _financialOptions.ApiToken!);
+        //_apiClient = AggieEnterpriseApi.GraphQlClient.Get(_financialOptions.ApiUrl!, _financialOptions.ApiToken!);
+        _apiClient = GraphQlClient.Get(_financialOptions.ApiUrl!, _financialOptions.TokenEndpoint!, _financialOptions.ConsumerKey!, _financialOptions.ConsumerSecret!, $"{_financialOptions.ScopeApp}-{_financialOptions.ScopeEnv}");
     }
-
     [HttpGet("entity")]
     public async Task<IActionResult> Entity(string query)
     {
         var filter = new ErpEntityFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
-
         var result = await _apiClient.ErpEntitySearch.ExecuteAsync(filter, query.Trim());
-
         var data = result.ReadData();
-
         var searchResults = data.ErpEntitySearch.Data.Where(a => a.EligibleForUse)
-            .Select(d => new SearchResult(d.Code, d.Name));
-
+        .Select(d => new SearchResult(d.Code, d.Name));
         if (data.ErpEntity is { EligibleForUse: true })
         {
             searchResults = searchResults.Append(new SearchResult(data.ErpEntity.Code, data.ErpEntity.Name));
         }
-
         return Ok(searchResults.DistinctBy(p => p.Code));
     }
-
     [HttpGet("fund")]
     public async Task<IActionResult> Fund(string query)
     {

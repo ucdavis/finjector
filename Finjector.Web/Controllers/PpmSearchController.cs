@@ -14,12 +14,13 @@ namespace Finjector.Web.Controllers;
 public class PpmSearchController : ControllerBase
 {
     private readonly FinancialOptions _financialOptions;
-    private readonly IAggieEnterpriseClient _apiClient;
+    private IAggieEnterpriseClient _apiClient;
 
     public PpmSearchController(IOptions<FinancialOptions> options)
     {
         _financialOptions = options.Value;
-        _apiClient = AggieEnterpriseApi.GraphQlClient.Get(_financialOptions.ApiUrl!, _financialOptions.ApiToken!);
+        //_apiClient = AggieEnterpriseApi.GraphQlClient.Get(_financialOptions.ApiUrl!, _financialOptions.ApiToken!);
+        _apiClient = GraphQlClient.Get(_financialOptions.ApiUrl!, _financialOptions.TokenEndpoint!, _financialOptions.ConsumerKey!, _financialOptions.ConsumerSecret!, $"{_financialOptions.ScopeApp}-{_financialOptions.ScopeEnv}");
     }
 
     [HttpGet("project")]
