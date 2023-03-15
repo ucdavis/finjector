@@ -44,7 +44,8 @@ if (Uri.TryCreate(loggingSection.GetValue<string>("ElasticUrl"), UriKind.Absolut
 {
     loggerConfig.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(elasticUri)
     {
-        IndexFormat = "aspnet-finjector-{0:yyyy.MM}"
+        IndexFormat = "aspnet-finjector-{0:yyyy.MM}",
+        TypeName = null
     });
 }
 
