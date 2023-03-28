@@ -72,6 +72,7 @@ public class CosmosDbService : IDisposable, ICosmosDbService
 
     public async Task AddOrUpdateChart(Chart chart)
     {
+        chart.SegmentString = chart.SegmentString.Trim();
         Log.Information("Adding or updating chart {ChartId} for iam {IamId}", chart.Id, chart.IamId);
         var client = await _cosmosClient.Value;
         var container = client.GetContainer(_cosmosOptions.DatabaseName, ChartContainerName);
