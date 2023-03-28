@@ -14,8 +14,13 @@ interface Props {
 const ChartList = (props: Props) => {
   const { charts } = props;
 
-  if (!charts) {
-    return <div>Loading...</div>;
+    if (!charts) {
+        return(
+            <div className="loading-wrapper">
+                <img src="/media/loading.gif" alt="Money sign with colors" />
+                <p>Loading Chart List...</p>
+            </div>
+        );
   }
 
   const filterLowercase = props.filter.toLowerCase();
