@@ -144,3 +144,48 @@ hr {
     width: 100px;
   }
 }
+//
+.wrapper {
+  text-align: center;
+}
+.squiggle-path {
+  stroke-dasharray: 180;
+  stroke-dashoffset: 180;
+  animation: dash 3s infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.pencil-write {
+  animation: slide-right 3s infinite;
+  /*   transform: translate(69%,18%); */
+}
+@keyframes slide-right {
+  0% {
+    transform: translate(2%, 25%);
+  }
+  12% {
+    transform: translate(10%, 20%);
+  }
+  16% {
+    transform: translate(16%, 23%);
+  }
+  20% {
+    transform: translate(25%, 20%);
+  }
+  40% {
+    transform: translate(40%, 25%);
+  }
+  41% {
+    transform: translate(45%, 21%);
+  }
+  63% {
+    transform: translate(67%, 25%);
+  }
+  100% {
+    transform: translate(69%, 18%);
+  }
+}
