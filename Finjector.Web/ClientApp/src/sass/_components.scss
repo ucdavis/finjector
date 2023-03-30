@@ -151,7 +151,7 @@ hr {
 .squiggle-path {
   stroke-dasharray: 180;
   stroke-dashoffset: 180;
-  animation: dash 3s infinite;
+  animation: dash 2s infinite;
 }
 
 @keyframes dash {
@@ -160,7 +160,7 @@ hr {
   }
 }
 .pencil-write {
-  animation: slide-right 3s infinite;
+  animation: slide-right 2s infinite;
   /*   transform: translate(69%,18%); */
 }
 @keyframes slide-right {
@@ -176,10 +176,10 @@ hr {
   20% {
     transform: translate(25%, 20%);
   }
-  40% {
+  38% {
     transform: translate(40%, 25%);
   }
-  41% {
+  42% {
     transform: translate(45%, 21%);
   }
   63% {

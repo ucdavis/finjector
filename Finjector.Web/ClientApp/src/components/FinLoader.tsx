@@ -59,6 +59,7 @@ export const FinLoader = () => (
         </g>
       </g>
     </svg>
+    <p>Loading Charts...</p>
   </div>
 );
 export default FinLoader;
