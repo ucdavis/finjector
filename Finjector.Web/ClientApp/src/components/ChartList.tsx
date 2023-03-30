@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import FinLoader from "./FinLoader";
 
 import { Chart } from "../types";
 
@@ -14,13 +15,8 @@ interface Props {
 const ChartList = (props: Props) => {
   const { charts } = props;
 
-    if (!charts) {
-        return(
-            <div className="loading-wrapper">
-                <img src="/media/loading.gif" alt="Money sign with colors" />
-                <p>Loading Chart List...</p>
-            </div>
-        );
+  if (!charts) {
+    return <FinLoader />;
   }
 
   const filterLowercase = props.filter.toLowerCase();

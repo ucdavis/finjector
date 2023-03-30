@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import ChartTypeSelector from "../components/ChartTypeSelector";
 import GlEntry from "../components/GlEntry";
 import PpmEntry from "../components/PpmEntry";
+import FinLoader from "../components/FinLoader";
 
 import { Chart, ChartData, ChartType, SegmentData } from "../types";
 
@@ -93,12 +94,7 @@ const Entry = () => {
 
   // if we have a saved chart, make sure it's been loaded before continuing
   if (id && !savedChart.id) {
-    return (
-      <div className="loading-wrapper">
-        <img src="/media/loading.gif" alt="Money sign with colors" />
-        <p>Loading ...</p>
-      </div>
-    );
+    return <FinLoader />;
   }
 
   return (
