@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AggieEnterpriseApi;
+using AggieEnterpriseApi.Extensions;
+using AggieEnterpriseApi.Types;
+using Finjector.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using AggieEnterpriseApi;
-using AggieEnterpriseApi.Extensions;
-using Finjector.Web.Models;
-using Finjector.Web.Extensions;
-using AggieEnterpriseApi.Types;
-using Serilog;
 
 namespace Finjector.Web.Controllers;
 
