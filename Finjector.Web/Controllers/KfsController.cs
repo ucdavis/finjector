@@ -25,25 +25,32 @@ public class KfsController : ControllerBase
     [HttpGet("lookup")]
     public async Task<string> Lookup(string kfsString)
     {
-        var parts = kfsString.Split('-');
-
-        var chart = parts[0];
-        var accountPart = parts[1];
-        var subAcct = parts.Length > 2 ? parts[2] : null;
-
-        var result = await _apiClient.KfsConvertAccount.ExecuteAsync(chart, accountPart, subAcct);
-        var data = result.ReadData();
-        if (data.KfsConvertAccount.GlSegments != null)
+        try
         {
-            var tempGlSegments = new GlSegments(data.KfsConvertAccount.GlSegments);
+            var parts = kfsString.Split('-');
 
-            return tempGlSegments.ToSegmentString();
+            var chart = parts[0];
+            var accountPart = parts[1];
+            var subAcct = parts.Length > 2 ? parts[2] : null;
+
+            var result = await _apiClient.KfsConvertAccount.ExecuteAsync(chart, accountPart, subAcct);
+            var data = result.ReadData();
+            if (data.KfsConvertAccount.GlSegments != null)
+            {
+                var tempGlSegments = new GlSegments(data.KfsConvertAccount.GlSegments);
+
+                return tempGlSegments.ToSegmentString();
+            }
+            if (data.KfsConvertAccount.PpmSegments != null)
+            {
+                var tempPpmSegments = new PpmSegments(data.KfsConvertAccount.PpmSegments);
+                return tempPpmSegments.ToSegmentString();
+            }
+            return string.Empty;
         }
-        if (data.KfsConvertAccount.PpmSegments != null)
+        catch (Exception)
         {
-            var tempPpmSegments = new PpmSegments(data.KfsConvertAccount.PpmSegments);
-            return tempPpmSegments.ToSegmentString();
+            return string.Empty;
         }
-        return string.Empty;
     }
 }
