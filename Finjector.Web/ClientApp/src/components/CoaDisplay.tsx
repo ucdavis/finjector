@@ -56,7 +56,23 @@ const CoaDisplay = (props: Props) => {
     <div className="pt-2">
       {getValidateMessage()}
       <div className="text-center">
-        <p>{chartString}</p>
+        <p>
+          {chartString}
+          {segmentValidate.data?.segments.award && (
+            <div>
+              <label className="form-label text-uppercase">Award:</label>{" "}
+              {segmentValidate.data?.segments.award}
+            </div>
+          )}
+          {segmentValidate.data?.segments.fundingSource && (
+            <div>
+              <label className="form-label text-uppercase">
+                Funding Source:
+              </label>{" "}
+              {segmentValidate.data?.segments.fundingSource}
+            </div>
+          )}
+        </p>
       </div>
     </div>
   );
