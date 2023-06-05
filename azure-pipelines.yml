@@ -28,6 +28,21 @@ steps:
   inputs:
     versionSpec: '14.x'
 
+- task: Npm@1
+  displayName: 'Run Client Tests'
+  inputs:
+    command: 'custom'
+    workingDir: './Finjector.Web/ClientApp'
+    customCommand: 'run citest'
+
+- task: PublishTestResults@2
+  displayName: 'Publish Client Test Results'
+  inputs:
+    searchFolder: './Finjector.Web/ClientApp'
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/test-results.trx'
+    testRunTitle: 'Client Tests'
+
 - task: DotNetCoreCLI@2
   displayName: 'Publish Web'
   inputs:
