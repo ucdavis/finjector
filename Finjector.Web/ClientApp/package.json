@@ -34,7 +34,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "citest": "react-scripts test --reporters default --reporters jest-trx-results-processor",
+    "citest": "cross-env CI=true react-scripts test --reporters default --reporters jest-trx-results-processor",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@types/uuid": "^8.3.4",
+    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^8.5.0",
     "jest-trx-results-processor": "^3.0.1",
     "nock": "^13.3.1",
