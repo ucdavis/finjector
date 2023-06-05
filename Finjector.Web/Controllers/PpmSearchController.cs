@@ -196,21 +196,21 @@ public class PpmSearchController : ControllerBase
     [HttpGet("fullstring")]
     public async Task<IActionResult> FullString(string segmentString)
     {
-        var result = await _apiClient.PpmStringSegmentsValidate.ExecuteAsync(segmentString);
+        var result = await _apiClient.PpmSegmentStringValidate.ExecuteAsync(segmentString);
 
         var data = result.ReadData();
 
         // TODO: need to get full segment values from the data        
-        return Ok(data.PpmStringSegmentsValidate);
+        return Ok(data.PpmSegmentStringValidate);
     }
 
     [HttpGet("validate")]
     public async Task<IActionResult> Validate(string segmentString)
     {
-        var result = await _apiClient.PpmStringSegmentsValidate.ExecuteAsync(segmentString);
+        var result = await _apiClient.PpmSegmentStringValidate.ExecuteAsync(segmentString);
 
         var data = result.ReadData();
 
-        return Ok(data.PpmStringSegmentsValidate);
+        return Ok(data.PpmSegmentStringValidate);
     }
 }
