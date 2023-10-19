@@ -50,7 +50,6 @@ const Entry = () => {
 
   // if we load up new data, update the chart
   useEffect(() => {
-    console.log(savedChartQuery.data);
     if (savedChartQuery.data) {
       const { chart } = savedChartQuery.data;
       setSavedChart(chart);
