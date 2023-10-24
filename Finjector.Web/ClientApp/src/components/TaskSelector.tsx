@@ -20,7 +20,7 @@ const TaskSelector = (props: Props) => {
 
   // if the segment dependency is not valid, clear the selection
   React.useEffect(() => {
-    if (!props.segmentDependency.isValid) {
+    if (!props.segmentDependency.isValid && selection.length > 0) {
       setSelection([]);
 
       // clear the segment data

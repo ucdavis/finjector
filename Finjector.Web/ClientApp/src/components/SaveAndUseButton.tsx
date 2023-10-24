@@ -23,8 +23,6 @@ const SaveAndUseButton = (props: Props) => {
 
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
-        console.log("saved chart", data);
-
         navigate(`/selected/${data.id}/${data.segmentString}`);
       },
     });
