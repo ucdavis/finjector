@@ -16,13 +16,13 @@ namespace Finjector.Core.Domain
         public Folder Folder { get; set; } = null!;
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(200)]
         [Display(Name = "Name")]
         public string Name { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength(80)] //Actually 70 I think, but a little play...
-        public string Coa { get; set; }
+        [MaxLength(128)] //Actually 70 I think, but a little play...
+        public string SegmentString { get; set; }
 
         [MaxLength(3)]
         public string ChartType { get; set; } = string.Empty;
