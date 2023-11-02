@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -31,5 +32,12 @@ namespace Finjector.Core.Domain
 
         [MaxLength(300)]
         public string Description { get; set; } = string.Empty;
+
+        internal static void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<History>().HasOne(a => a.User).WithMany().HasForeignKey(a => a.userId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<History>().HasOne(a => a.Team).WithMany().HasForeignKey(a => a.TeamId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<History>().HasOne(a => a.Folder).WithMany().HasForeignKey(a => a.FolderId).OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

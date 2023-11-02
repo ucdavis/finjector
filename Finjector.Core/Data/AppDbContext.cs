@@ -37,6 +37,11 @@ namespace Finjector.Core.Data
             Coa.OnModelCreating(builder);
             Folder.OnModelCreating(builder);
             FolderPermission.OnModelCreating(builder);
+            Team.OnModelCreating(builder);
+            TeamPermission.OnModelCreating(builder);
+            Role.OnModelCreating(builder);
+            User.OnModelCreating(builder);
+            History.OnModelCreating(builder);
         }
     }
 }
