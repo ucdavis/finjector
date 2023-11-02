@@ -22,14 +22,14 @@ namespace Finjector.Core.Data
         {
         }
 
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Coa> Coas { get; set; }
-        public virtual DbSet<Folder> Folders { get; set; }
-        public virtual DbSet<FolderPermission> FolderPermissions { get; set; }
-        public virtual DbSet<History> Histories { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<Team> Teams { get; set; }
-        public virtual DbSet<TeamPermission> TeamPermissions { get; set; }
+        public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<Coa> Coas { get; set; } = null!;
+        public virtual DbSet<Folder> Folders { get; set; } = null!;
+        public virtual DbSet<FolderPermission> FolderPermissions { get; set; } = null!;
+        public virtual DbSet<History> Histories { get; set; } = null!;
+        public virtual DbSet<Role> Roles { get; set; } = null!;
+        public virtual DbSet<Team> Teams { get; set; } = null!;
+        public virtual DbSet<TeamPermission> TeamPermissions { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
