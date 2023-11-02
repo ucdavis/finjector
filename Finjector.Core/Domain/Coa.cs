@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,9 +23,16 @@ namespace Finjector.Core.Domain
 
         [Required]
         [MaxLength(128)] //Actually 70 I think, but a little play...
-        public string SegmentString { get; set; }
+        public string SegmentString { get; set; } = string.Empty;
 
         [MaxLength(3)]
         public string ChartType { get; set; } = string.Empty;
+
+        internal static void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //Indexes?
+            modelBuilder.Entity<Coa>().HasIndex(a => a.FolderId);
+    
+        }
     }
 }
