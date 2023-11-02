@@ -16,6 +16,9 @@ using Serilog.Sinks.Elasticsearch;
 using Finjector.Web;
 using Microsoft.AspNetCore.Authentication;
 using Finjector.Web.Handlers;
+using Finjector.Core.Data;
+using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 #if DEBUG
 Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
@@ -120,6 +123,16 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
+
+    builder.Services.AddDbContextPool<AppDbContext, AppDbContextSqlServer>((serviceProvider, o) =>
+    {
+    o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+            sqlOptions =>
+            {
+                sqlOptions.MigrationsAssembly("Finjector.Core");
+            });
+    });
+
 
     app.MapControllerRoute(
         name: "login",
