@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,5 +24,11 @@ namespace Finjector.Core.Domain
         public int UserId { get; set; }
         [Required]
         public User User { get; set; } = null!;
+
+
+        internal static void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //Nothing yet
+        }
     }
 }
