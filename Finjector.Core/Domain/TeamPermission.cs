@@ -27,7 +27,7 @@ namespace Finjector.Core.Domain
 
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TeamPermission>().HasIndex(a => a.TeamId);
+            //Nothing yet
         }
     }
 }

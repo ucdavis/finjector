@@ -30,8 +30,7 @@ namespace Finjector.Core.Domain
 
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Indexes?
-            modelBuilder.Entity<Coa>().HasIndex(a => a.FolderId);
+            //Nothing yet
     
         }
     }

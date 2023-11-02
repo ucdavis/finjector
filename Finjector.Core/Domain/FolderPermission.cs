@@ -28,7 +28,7 @@ namespace Finjector.Core.Domain
 
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FolderPermission>().HasIndex(a => a.FolderId);
+            //Nothing yet
         }
     }
 }
