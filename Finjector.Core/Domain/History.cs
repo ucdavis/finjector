@@ -20,7 +20,7 @@ namespace Finjector.Core.Domain
         public int? FolderId { get; set; }
         public Folder? Folder { get; set; }
 
-        public int userId { get; set; }
+        public int UserId { get; set; }
         [Required]
         public User User { get; set; } = null!;
 
@@ -35,7 +35,7 @@ namespace Finjector.Core.Domain
 
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<History>().HasOne(a => a.User).WithMany().HasForeignKey(a => a.userId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<History>().HasOne(a => a.User).WithMany().HasForeignKey(a => a.UserId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<History>().HasOne(a => a.Team).WithMany().HasForeignKey(a => a.TeamId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<History>().HasOne(a => a.Folder).WithMany().HasForeignKey(a => a.FolderId).OnDelete(DeleteBehavior.Restrict);
         }
