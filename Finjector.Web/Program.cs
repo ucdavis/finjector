@@ -108,6 +108,15 @@ try
     // Add the IamId to claims if not provided by CAS
     builder.Services.AddScoped<IClaimsTransformation, IamIdClaimFallbackTransformer>();
 
+    builder.Services.AddDbContextPool<AppDbContext, AppDbContextSqlServer>((serviceProvider, o) =>
+    {
+    o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+            sqlOptions =>
+            {
+                sqlOptions.MigrationsAssembly("Finjector.Core");
+            });
+    });
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -123,16 +132,6 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
-
-    builder.Services.AddDbContextPool<AppDbContext, AppDbContextSqlServer>((serviceProvider, o) =>
-    {
-    o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-            sqlOptions =>
-            {
-                sqlOptions.MigrationsAssembly("Finjector.Core");
-            });
-    });
-
 
     app.MapControllerRoute(
         name: "login",
