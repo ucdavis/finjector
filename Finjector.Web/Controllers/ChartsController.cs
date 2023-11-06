@@ -16,11 +16,17 @@ namespace Finjector.Web.Controllers;
 public class ChartsController : ControllerBase
 {
     private readonly ICosmosDbService _cosmosDbService;
+    private readonly IIdentityService _identityService;
+    private readonly ICheckUser _checkUser;
     public const string IamIdClaimType = "ucdPersonIAMID";
 
-    public ChartsController(ICosmosDbService cosmosDbService)
+
+
+    public ChartsController(ICosmosDbService cosmosDbService, IIdentityService identityService, ICheckUser checkUser)
     {
         _cosmosDbService = cosmosDbService;
+        _identityService = identityService;
+        _checkUser = checkUser;
     }
 
     // fetch by id
@@ -53,6 +59,14 @@ public class ChartsController : ControllerBase
         {
             return Unauthorized();
         }
+
+        var user = await _identityService.GetByIam(iamId);
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        await _checkUser.UpdateUser(user);
 
         var charts = await _cosmosDbService.GetCharts(iamId);
 

@@ -32,5 +32,12 @@ namespace Finjector.Core.Domain
                 .HasForeignKey(p => p.RoleId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
+
+        public class Codes
+        {
+            public const string Admin = "Admin";
+            public const string Edit = "Edit";
+            public const string View = "View";
+        }
     }
 }
