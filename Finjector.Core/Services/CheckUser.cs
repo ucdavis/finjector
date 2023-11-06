@@ -62,6 +62,16 @@ namespace Finjector.Core.Services
                         Owner = newUser,
                         IsPersonal = true
                     };
+                    team.TeamPermissions.Add(new TeamPermission
+                    {
+                        Role = await _context.Roles.SingleAsync(r => r.Name == Role.Codes.Admin),
+                        User = newUser
+                    });
+                    team.Folders.Add(new Folder
+                    {
+                        Name = "Default",
+                        Team = team
+                    });
 
 
                     user.IsActive = true;
@@ -72,6 +82,7 @@ namespace Finjector.Core.Services
                 catch (Exception ex)
                 {
                     var xxx = ex.Message;
+                    throw new Exception("Error creating user");
                 }
                 //team.TeamPermissions.Add(new TeamPermission
                 //{
