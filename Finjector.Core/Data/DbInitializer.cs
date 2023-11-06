@@ -22,19 +22,6 @@ namespace Finjector.Core.Data
             await CheckCreateRoles(Role.Codes.Admin);
             await CheckCreateRoles(Role.Codes.Edit);
             await CheckCreateRoles(Role.Codes.View);
-
-            //var user = new User
-            //{
-            //    Email = "fake@fake.com",
-            //    FirstName = "Fake",
-            //    LastName = "User",
-            //    Iam = "fake",
-            //    Kerberos = "fake",
-            //    IsActive = true
-            //};
-            //_dbContext.Users.Add(user);
-
-            await _dbContext.SaveChangesAsync();
         }
 
         private async Task CheckCreateRoles(string admin)
@@ -44,6 +31,7 @@ namespace Finjector.Core.Data
                 return;
             }
             _dbContext.Roles.Add(new Role { Name = admin });
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
