@@ -1,5 +1,6 @@
 ﻿using Finjector.Core.Data;
 using Finjector.Core.Domain;
+using Finjector.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Finjector.Core.Services
     public interface ICheckUser
     {
         Task<User> UpdateUser(User user);
+        Task UpdateCharts(User user, List<Chart> charts);
     }
 
     public class CheckUser : ICheckUser
@@ -21,6 +23,28 @@ namespace Finjector.Core.Services
         public CheckUser(AppDbContext context)
         {
             _context = context;
+        }
+
+        public async Task UpdateCharts(User user, List<Chart> charts)
+        {
+            var teams = await _context.Teams.Where(a => a.Owner.Iam == user.Iam && a.IsPersonal).Include(a => a.Folders).ThenInclude(a => a.Coas).ToListAsync();
+            var defaultFolder = teams.SelectMany(a => a.Folders).FirstOrDefault(a => a.Name == "Default" && a.Coas.Count == 0);
+            if(charts != null && defaultFolder != null)
+            {
+                var charts2 = charts.Where(a => a.IamId == user.Iam);
+                foreach(var chart in charts)
+                {
+                    var coa = new Coa
+                    {
+                        ChartType = chart.ChartType,
+                        Name = chart.DisplayName,
+                        SegmentString = chart.SegmentString,
+                        FolderId = defaultFolder.Id
+                    };
+                    _context.Coas.Add(coa);
+                }
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<User> UpdateUser(User user)
@@ -84,18 +108,7 @@ namespace Finjector.Core.Services
                     var xxx = ex.Message;
                     throw new Exception("Error creating user");
                 }
-                //team.TeamPermissions.Add(new TeamPermission
-                //{
-                //    Role = await _context.Roles.SingleAsync(r => r.Name == Role.Codes.Admin),
-                //    User = user
-                //});
-                //team.Folders.Add(new Folder
-                //{
-                //    Name = "Personal",
-                //    Team = team
-                //});
 
-                //_context.Teams.Add(team);
 
             }
 
