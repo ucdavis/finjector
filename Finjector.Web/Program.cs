@@ -107,6 +107,8 @@ try
     
     // Add the IamId to claims if not provided by CAS
     builder.Services.AddScoped<IClaimsTransformation, IamIdClaimFallbackTransformer>();
+    builder.Services.AddScoped<IIdentityService, IdentityService>(); //Lookup IAM to get user
+    builder.Services.AddScoped<ICheckUser, CheckUser>(); 
 
     builder.Services.AddDbContextPool<AppDbContext, AppDbContextSqlServer>((serviceProvider, o) =>
     {
@@ -118,6 +120,7 @@ try
     });
 
     var app = builder.Build();
+   
 
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
@@ -144,8 +147,29 @@ try
 
     app.MapFallbackToFile("index.html");
 
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        try
+        {
+            var context = services.GetRequiredService<AppDbContext>();
+            var initialize = new DbInitializer(context);
+            initialize.Initialize().GetAwaiter().GetResult();
+            //context.Database.Migrate();
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "An error occurred while migrating or initializing the database.");
+        }
+    }
+
+
+
     Log.Information("Starting web host");
+
     app.Run();
+
+
     return 0;
 }
 catch (Exception ex)
