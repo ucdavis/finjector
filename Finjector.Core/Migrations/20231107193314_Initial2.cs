@@ -5,10 +5,40 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Finjector.Core.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "CoaDetails",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ChartType = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    Entity = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
+                    EntityDetails = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Fund = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    FundDetails = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Department = table.Column<string>(type: "nvarchar(7)", maxLength: 7, nullable: false),
+                    DepartmentDetails = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Purpose = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
+                    PurposeDetails = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NaturalAccount = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    NaturalAccountDetails = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Project = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    ProjectDetails = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Program = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    ProgramDetails = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Activity = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    ActivityDetails = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Task = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    TaskDetails = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoaDetails", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
@@ -133,6 +163,11 @@ namespace Finjector.Core.Migrations
                 {
                     table.PrimaryKey("PK_Coas", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Coas_CoaDetails_SegmentString",
+                        column: x => x.SegmentString,
+                        principalTable: "CoaDetails",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Coas_Folders_FolderId",
                         column: x => x.FolderId,
                         principalTable: "Folders",
@@ -215,6 +250,11 @@ namespace Finjector.Core.Migrations
                 column: "FolderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Coas_SegmentString",
+                table: "Coas",
+                column: "SegmentString");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FolderPermissions_FolderId",
                 table: "FolderPermissions",
                 column: "FolderId");
@@ -289,6 +329,9 @@ namespace Finjector.Core.Migrations
 
             migrationBuilder.DropTable(
                 name: "TeamPermissions");
+
+            migrationBuilder.DropTable(
+                name: "CoaDetails");
 
             migrationBuilder.DropTable(
                 name: "Folders");

@@ -35,9 +35,6 @@ namespace Finjector.Core.Migrations
                         .HasMaxLength(3)
                         .HasColumnType("nvarchar(3)");
 
-                    b.Property<string>("DetailId")
-                        .HasColumnType("nvarchar(128)");
-
                     b.Property<int>("FolderId")
                         .HasColumnType("int");
 
@@ -53,9 +50,9 @@ namespace Finjector.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DetailId");
-
                     b.HasIndex("FolderId");
+
+                    b.HasIndex("SegmentString");
 
                     b.ToTable("Coas");
                 });
@@ -163,7 +160,7 @@ namespace Finjector.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CoaDetail");
+                    b.ToTable("CoaDetails");
                 });
 
             modelBuilder.Entity("Finjector.Core.Domain.Folder", b =>
@@ -390,14 +387,16 @@ namespace Finjector.Core.Migrations
 
             modelBuilder.Entity("Finjector.Core.Domain.Coa", b =>
                 {
-                    b.HasOne("Finjector.Core.Domain.CoaDetail", "Detail")
-                        .WithMany("Coas")
-                        .HasForeignKey("DetailId");
-
                     b.HasOne("Finjector.Core.Domain.Folder", "Folder")
                         .WithMany("Coas")
                         .HasForeignKey("FolderId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Finjector.Core.Domain.CoaDetail", "Detail")
+                        .WithMany()
+                        .HasForeignKey("SegmentString")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Detail");
@@ -505,11 +504,6 @@ namespace Finjector.Core.Migrations
                     b.Navigation("Team");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Finjector.Core.Domain.CoaDetail", b =>
-                {
-                    b.Navigation("Coas");
                 });
 
             modelBuilder.Entity("Finjector.Core.Domain.Folder", b =>

@@ -63,17 +63,15 @@ namespace Finjector.Core.Domain
         [MaxLength(50)]
         public string TaskDetails { get; set; } = string.Empty;
 
-        [JsonIgnore]
-        public ICollection<Coa> Coas { get; set; } = new List<Coa>();
 
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
             //CoaDetail can have many Coa's abd the Coa's have one CoaDetail with the segment string as the key
             modelBuilder.Entity<CoaDetail>()
-                .HasMany(c => c.Coas)
+                .HasMany<Coa>()
                 .WithOne(c => c.Detail)
                 .HasForeignKey(c => c.SegmentString)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
         }
 
     }
