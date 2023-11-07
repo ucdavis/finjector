@@ -73,7 +73,7 @@ namespace Finjector.Core.Domain
                 .HasMany(c => c.Coas)
                 .WithOne(c => c.Detail)
                 .HasForeignKey(c => c.SegmentString)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

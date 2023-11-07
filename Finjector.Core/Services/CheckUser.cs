@@ -27,43 +27,68 @@ namespace Finjector.Core.Services
 
         public async Task UpdateCharts(User user, List<Chart> charts)
         {
-            var teams = await _context.Teams.Where(a => a.Owner.Iam == user.Iam && a.IsPersonal).Include(a => a.Folders).ThenInclude(a => a.Coas).ToListAsync();
-            var defaultFolder = teams.SelectMany(a => a.Folders).FirstOrDefault(a => a.Name == "Default" && a.Coas.Count == 0);
-            if(charts != null && defaultFolder != null)
+            try
             {
-                var charts2 = charts.Where(a => a.IamId == user.Iam);
-                foreach(var chart in charts)
+                var teams = await _context.Teams.Where(a => a.Owner.Iam == user.Iam && a.IsPersonal).Include(a => a.Folders).ThenInclude(a => a.Coas).ToListAsync();
+                var defaultFolder = teams.SelectMany(a => a.Folders).FirstOrDefault(a => a.Name == "Default" && a.Coas.Count == 0);
+                if (charts != null && defaultFolder != null)
                 {
-                    var coa = new Coa
+                    var charts2 = charts.Where(a => a.IamId == user.Iam);
+                    foreach (var chart in charts)
                     {
-                        ChartType = chart.ChartType,
-                        Name = chart.DisplayName,
-                        SegmentString = chart.SegmentString,
-                        FolderId = defaultFolder.Id
-                    };
-                    _context.Coas.Add(coa);
+                        var detail = await _context.CoaDetails.FirstOrDefaultAsync(a => a.Id == chart.SegmentString);
+                        if (detail == null)
+                        {
+                            detail = new CoaDetail
+                            {
+                                Id = chart.SegmentString,
+                                ChartType = chart.ChartType,
+                                Entity = "3110"
+
+                            };
+                            _context.CoaDetails.Add(detail);
+                            await _context.SaveChangesAsync();
+
+                            var coa = new Coa
+                            {
+                                ChartType = chart.ChartType,
+                                Name = chart.DisplayName,
+                                SegmentString = chart.SegmentString,
+                                FolderId = defaultFolder.Id
+                            };
+
+
+                            coa.Detail = detail;
+                            _context.Coas.Add(coa);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
                 }
-                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                var xxx = ex.Message;
             }
         }
 
         public async Task<User> UpdateUser(User user)
         {
+
             var foundUser = _context.Users.FirstOrDefault(u => u.Iam == user.Iam);
             if (foundUser != null)
             {
                 var update = false;
-                if(foundUser.FirstName != user.FirstName)
+                if (foundUser.FirstName != user.FirstName)
                 {
                     foundUser.FirstName = user.FirstName;
                     update = true;
                 }
-                if(foundUser.LastName != user.LastName)
+                if (foundUser.LastName != user.LastName)
                 {
                     foundUser.LastName = user.LastName;
                     update = true;
                 }
-                if(update)
+                if (update)
                 {
                     await _context.SaveChangesAsync();
                 }
