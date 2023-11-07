@@ -15,6 +15,9 @@ namespace Finjector.Core.Domain
         [MaxLength(128)]
         public string Id { get; set; } = string.Empty; //This is the segment string in the Coa table
 
+        [MaxLength(3)]
+        public string ChartType { get; set; } = string.Empty;
+
         [MaxLength(4)]
         public string Entity { get; set; } = string.Empty;
         [MaxLength(50)]
