@@ -30,12 +30,19 @@ namespace Finjector.Core.Services
             try
             {
                 var teams = await _context.Teams.Where(a => a.Owner.Iam == user.Iam && a.IsPersonal).Include(a => a.Folders).ThenInclude(a => a.Coas).ToListAsync();
-                var defaultFolder = teams.SelectMany(a => a.Folders).FirstOrDefault(a => a.Name == "Default" && a.Coas.Count == 0);
+                var defaultFolder = teams.SelectMany(a => a.Folders).FirstOrDefault(a => a.Name == "Default");
                 if (charts != null && defaultFolder != null)
                 {
+                    var existingCharts = await _context.Coas.Where(a => a.FolderId == defaultFolder.Id).ToListAsync();
+
                     var charts2 = charts.Where(a => a.IamId == user.Iam);
                     foreach (var chart in charts)
                     {
+                        if(existingCharts.Any(a => a.SegmentString == chart.SegmentString && a.Name == chart.DisplayName))
+                        {
+                            continue;
+                        }
+
                         var detail = await _context.CoaDetails.FirstOrDefaultAsync(a => a.Id == chart.SegmentString);
                         if (detail == null)
                         {
@@ -43,18 +50,16 @@ namespace Finjector.Core.Services
                             _context.CoaDetails.Add(detail);
                             await _context.SaveChangesAsync();
 
-                            var coa = new Coa
-                            {
-                                ChartType = chart.ChartType,
-                                Name = chart.DisplayName,
-                                SegmentString = chart.SegmentString,
-                                FolderId = defaultFolder.Id
-                            };
-
-
-                            coa.Detail = detail;
-                            _context.Coas.Add(coa);
                         }
+                        var coa = new Coa
+                        {
+                            ChartType = chart.ChartType,
+                            Name = chart.DisplayName,
+                            SegmentString = chart.SegmentString,
+                            FolderId = defaultFolder.Id
+                        };
+                        coa.Detail = detail;
+                        _context.Coas.Add(coa);
                         await _context.SaveChangesAsync();
                     }
                 }
