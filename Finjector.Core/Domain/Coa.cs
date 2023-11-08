@@ -30,7 +30,7 @@ namespace Finjector.Core.Domain
         public string ChartType { get; set; } = string.Empty;
 
         
-
+        public DateTime Updated { get; set; } = DateTime.UtcNow;
 
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
