@@ -30,37 +30,36 @@ namespace Finjector.Core.Services
             try
             {
                 var teams = await _context.Teams.Where(a => a.Owner.Iam == user.Iam && a.IsPersonal).Include(a => a.Folders).ThenInclude(a => a.Coas).ToListAsync();
-                var defaultFolder = teams.SelectMany(a => a.Folders).FirstOrDefault(a => a.Name == "Default" && a.Coas.Count == 0);
+                var defaultFolder = teams.SelectMany(a => a.Folders).FirstOrDefault(a => a.Name == "Default");
                 if (charts != null && defaultFolder != null)
                 {
+                    var existingCharts = await _context.Coas.Where(a => a.FolderId == defaultFolder.Id).ToListAsync();
+
                     var charts2 = charts.Where(a => a.IamId == user.Iam);
                     foreach (var chart in charts)
                     {
+                        if(existingCharts.Any(a => a.SegmentString == chart.SegmentString && a.Name == chart.DisplayName))
+                        {
+                            continue;
+                        }
+
                         var detail = await _context.CoaDetails.FirstOrDefaultAsync(a => a.Id == chart.SegmentString);
                         if (detail == null)
                         {
-                            detail = new CoaDetail
-                            {
-                                Id = chart.SegmentString,
-                                ChartType = chart.ChartType,
-                                Entity = "3110"
-
-                            };
+                            detail = SplitIntoSegements(chart.SegmentString, chart.ChartType);
                             _context.CoaDetails.Add(detail);
                             await _context.SaveChangesAsync();
 
-                            var coa = new Coa
-                            {
-                                ChartType = chart.ChartType,
-                                Name = chart.DisplayName,
-                                SegmentString = chart.SegmentString,
-                                FolderId = defaultFolder.Id
-                            };
-
-
-                            coa.Detail = detail;
-                            _context.Coas.Add(coa);
                         }
+                        var coa = new Coa
+                        {
+                            ChartType = chart.ChartType,
+                            Name = chart.DisplayName,
+                            SegmentString = chart.SegmentString,
+                            FolderId = defaultFolder.Id
+                        };
+                        coa.Detail = detail;
+                        _context.Coas.Add(coa);
                         await _context.SaveChangesAsync();
                     }
                 }
@@ -69,6 +68,37 @@ namespace Finjector.Core.Services
             {
                 var xxx = ex.Message;
             }
+        }
+
+        private CoaDetail SplitIntoSegements(string segmentString, string chartType)
+        {
+            var rtValue = new CoaDetail()
+            {
+                Id = segmentString,
+                ChartType = chartType
+            };
+            if (chartType == "PPM")
+            {
+                var parts = segmentString.Split('-');
+                rtValue.Project        = parts[0];
+                rtValue.Task           = parts[1];
+                rtValue.Department     = parts[2];
+                rtValue.NaturalAccount = parts[3];
+            }
+            if (chartType == "GL")
+            {
+                var parts = segmentString.Split('-');
+                rtValue.Entity         = parts[0];
+                rtValue.Fund           = parts[1];
+                rtValue.Department     = parts[2];
+                rtValue.NaturalAccount = parts[3];
+                rtValue.Purpose        = parts[4];
+                rtValue.Program        = parts[5];
+                rtValue.Project        = parts[6];
+                rtValue.Activity       = parts[7];
+            }
+
+            return rtValue;
         }
 
         public async Task<User> UpdateUser(User user)

@@ -70,7 +70,7 @@ public class ChartsController : ControllerBase
 
         var charts = await _cosmosDbService.GetCharts(iamId);
 
-        //await _checkUser.UpdateCharts(user, charts); //Just put here to populate my charts into the COas
+        await _checkUser.UpdateCharts(user, charts); //Just put here to populate my charts into the COas
 
         return Ok(charts);
     }
