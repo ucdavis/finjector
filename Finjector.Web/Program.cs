@@ -16,6 +16,9 @@ using Serilog.Sinks.Elasticsearch;
 using Finjector.Web;
 using Microsoft.AspNetCore.Authentication;
 using Finjector.Web.Handlers;
+using Finjector.Core.Data;
+using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 #if DEBUG
 Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
@@ -104,8 +107,20 @@ try
     
     // Add the IamId to claims if not provided by CAS
     builder.Services.AddScoped<IClaimsTransformation, IamIdClaimFallbackTransformer>();
+    builder.Services.AddScoped<IIdentityService, IdentityService>(); //Lookup IAM to get user
+    builder.Services.AddScoped<ICheckUser, CheckUser>(); 
+
+    builder.Services.AddDbContextPool<AppDbContext, AppDbContextSqlServer>((serviceProvider, o) =>
+    {
+    o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+            sqlOptions =>
+            {
+                sqlOptions.MigrationsAssembly("Finjector.Core");
+            });
+    });
 
     var app = builder.Build();
+   
 
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
@@ -132,8 +147,29 @@ try
 
     app.MapFallbackToFile("index.html");
 
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        try
+        {
+            var context = services.GetRequiredService<AppDbContext>();
+            var initialize = new DbInitializer(context);
+            initialize.Initialize().GetAwaiter().GetResult();
+            //context.Database.Migrate();
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "An error occurred while migrating or initializing the database.");
+        }
+    }
+
+
+
     Log.Information("Starting web host");
+
     app.Run();
+
+
     return 0;
 }
 catch (Exception ex)
