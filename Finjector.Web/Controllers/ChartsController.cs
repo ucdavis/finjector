@@ -6,6 +6,8 @@ using Finjector.Web.Models;
 using Finjector.Core.Services;
 using Finjector.Core.Models;
 using Finjector.Web.Handlers;
+using Finjector.Core.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Finjector.Web.Controllers;
 
@@ -15,6 +17,7 @@ namespace Finjector.Web.Controllers;
 [Authorize]
 public class ChartsController : ControllerBase
 {
+    private readonly AppDbContext _context;
     private readonly ICosmosDbService _cosmosDbService;
     private readonly IIdentityService _identityService;
     private readonly ICheckUser _checkUser;
@@ -22,8 +25,9 @@ public class ChartsController : ControllerBase
 
 
 
-    public ChartsController(ICosmosDbService cosmosDbService, IIdentityService identityService, ICheckUser checkUser)
+    public ChartsController(AppDbContext context, ICosmosDbService cosmosDbService, IIdentityService identityService, ICheckUser checkUser)
     {
+        _context = context;
         _cosmosDbService = cosmosDbService;
         _identityService = identityService;
         _checkUser = checkUser;
@@ -67,10 +71,26 @@ public class ChartsController : ControllerBase
         }
 
         await _checkUser.UpdateUser(user);
+        user = await _context.Users.SingleAsync(a => a.Iam == iamId);
 
         var charts = await _cosmosDbService.GetCharts(iamId);
 
+
         await _checkUser.UpdateCharts(user, charts); //Just put here to populate my charts into the COas
+
+        var teamsAccess = await _context.TeamPermissions.Include(a => a.Team).ThenInclude(a => a.Folders).ThenInclude(a => a.Coas).Where(a => a.UserId == user.Id).ToListAsync();
+        var foldersAccess = await _context.FolderPermissions.Include(a => a.Folder).ThenInclude(a => a.Coas).Where(a => a.UserId == user.Id).ToListAsync();
+
+        //select all the coas out of the teamAccess
+        var coas = teamsAccess.SelectMany(a => a.Team.Folders).SelectMany(a => a.Coas).ToList();
+        var fcoas = foldersAccess.SelectMany(a => a.Folder.Coas).ToList();
+
+        coas.AddRange(fcoas);
+        coas = coas.Distinct().ToList();
+
+        charts = coas.Select(a => new Chart() { ChartType = a.ChartType, DisplayName = a.Name, Id = a.Id.ToString(), SegmentString = a.SegmentString, IamId = iamId }).ToList();
+
+
 
         return Ok(charts);
     }

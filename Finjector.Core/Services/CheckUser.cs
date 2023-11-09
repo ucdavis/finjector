@@ -35,7 +35,7 @@ namespace Finjector.Core.Services
                 {
                     var existingCharts = await _context.Coas.Where(a => a.FolderId == defaultFolder.Id).ToListAsync();
 
-                    var charts2 = charts.Where(a => a.IamId == user.Iam);
+                    
                     foreach (var chart in charts)
                     {
                         if(existingCharts.Any(a => a.SegmentString == chart.SegmentString && a.Name == chart.DisplayName))
