@@ -44,12 +44,19 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
 
-        var chart = await _cosmosDbService.GetChart(id, iamId);
+
+
+
+        //convert id to an int
+        int idConverted = int.Parse(id);
+
+        var chart = await _context.Coas.Where(a => a.Id == idConverted).Select(a => new Chart{ Id = a.Id.ToString(), DisplayName = a.Name, ChartType = a.ChartType, IamId = iamId, SegmentString = a.SegmentString }).SingleOrDefaultAsync();
 
         if (chart == null)
         {
             return NotFound();
         }
+
 
         return Ok(chart);
     }
