@@ -1,62 +1,29 @@
 import React, { useEffect } from "react";
-import CoaDisplay from "../components/CoaDisplay";
-import NameEntry from "../components/NameEntry";
-import SaveAndUseButton from "../components/SaveAndUseButton";
-import { Chart, ChartType, ChartData } from "../types";
 import {
-  buildInitialGlSegments,
-  buildInitialPpmSegments,
-} from "../util/segmentHelpers";
-import {
-  fromGlSegmentString,
-  fromPpmSegmentString,
   isGlSegmentString,
+  isPpmSegmentString,
 } from "../util/segmentValidation";
 
 import { HomeLink } from "../components/HomeLink";
-
-import { ChartDebugInfo } from "../components/ChartDebugInfo";
+import { useNavigate } from "react-router-dom";
 
 const Paste = () => {
+  const navigate = useNavigate();
+
   const [coa, setCoa] = React.useState<string>("");
 
-  // TODO: need to determine from string
-  const chartType = isGlSegmentString(coa) ? ChartType.GL : ChartType.PPM;
+  const [error, setError] = React.useState<string>("");
 
-  // paste never starts with existing data, always start default
-  const [savedChart, setSavedChart] = React.useState<Chart>({
-    id: "",
-    chartType,
-    displayName: "",
-    segmentString: "",
-  });
-
-  // in progress chart data
-  const [chartData, setChartData] = React.useState<ChartData>({
-    chartType,
-    glSegments: buildInitialGlSegments(),
-    ppmSegments: buildInitialPpmSegments(),
-  });
-
+  // when coa changes, validate it and show errors if any
   useEffect(() => {
-    // whenever coa changes, update chartData
-    // pass validity==true if there is a coa value, since we are pasting
-    const valid = coa.length > 0;
+    const coaValid = isGlSegmentString(coa) || isPpmSegmentString(coa);
 
-    setChartData({
-      chartType,
-      glSegments:
-        chartType === ChartType.GL
-          ? fromGlSegmentString(coa, valid)
-          : buildInitialGlSegments(),
-      ppmSegments:
-        chartType === ChartType.PPM
-          ? fromPpmSegmentString(coa, valid)
-          : buildInitialPpmSegments(),
-    });
-
-    setSavedChart((saved) => ({ ...saved, chartType, segmentString: coa }));
-  }, [chartType, coa]);
+    if (coaValid || coa === "") {
+      setError("");
+    } else {
+      setError("CoA does not appear to be a valid GL or PPM segment string");
+    }
+  }, [coa]);
 
   return (
     <div className="main">
@@ -65,25 +32,30 @@ const Paste = () => {
       <form>
         <div className="mb-3">
           <p>Paste in a copied account number</p>
-          <textarea
+          <input
             className="form-control"
             id="coa-input"
             value={coa}
             onChange={(e) => setCoa(e.target.value)}
             placeholder="ex: 1311-63031-9300531-508210-44-G29-CM00000039-510139-0000-000000-000000"
-          ></textarea>
+          ></input>
         </div>
       </form>
-      <h2>CoA Name</h2>
-      <NameEntry
-        chart={savedChart}
-        updateDisplayName={(n) =>
-          setSavedChart((c) => ({ ...c, displayName: n }))
-        }
-      />
-      <CoaDisplay chartData={chartData} />
-      <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
-      <ChartDebugInfo chartData={chartData} />
+      {error && (
+        <div className={`alert alert-danger`} role="alert">
+          {error}
+        </div>
+      )}
+      <div className="d-grid">
+        <button
+          className="btn btn-primary"
+          type="button"
+          disabled={error !== "" || coa === ""}
+          onClick={() => navigate(`/entry/${coa}`)}
+        >
+          NEXT
+        </button>
+      </div>
     </div>
   );
 };
