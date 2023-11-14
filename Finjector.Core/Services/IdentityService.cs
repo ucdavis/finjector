@@ -13,7 +13,7 @@ namespace Finjector.Core.Services
     public interface IIdentityService
     {
         Task<User> GetByKerberos(string kerb);
-        Task<User> GetByIam(string iam);
+        Task<User?> GetByIam(string iam);
         Task<User> GetByEmail(string email);
     }
 
@@ -92,7 +92,7 @@ namespace Finjector.Core.Services
             return user;
         }
 
-        public async Task<User> GetByIam(string iam)
+        public async Task<User?> GetByIam(string iam)
         {
             var clientws = new IetClient(_authOptions.IamKey);
             var ucdKerbResult = await clientws.Kerberos.Search(KerberosSearchField.iamId, iam);
