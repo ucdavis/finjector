@@ -1,4 +1,5 @@
 import { ChartData, ChartType } from "../types";
+import { GlSegments, PpmSegments } from "../types";
 
 // only GL validation returns segment names, otherwise we just use segment codes
 export const mapSegmentQueryData = (
@@ -31,4 +32,15 @@ export const mapSegmentQueryData = (
       }
     });
   }
+};
+
+export const mapSegmentCodeToName = <T extends GlSegments | PpmSegments>(
+  segments: T
+): T => {
+  Object.keys(segments).forEach((segmentKey: string) => {
+    const segment = (segments as any)[segmentKey];
+    segment.name = segment.code;
+  });
+
+  return segments;
 };

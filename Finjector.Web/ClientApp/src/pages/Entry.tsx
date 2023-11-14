@@ -24,7 +24,7 @@ import {
   isGlSegmentString,
 } from "../util/segmentValidation";
 import NameEntry from "../components/NameEntry";
-import { mapSegmentQueryData } from "../util/segmentMapping";
+import { mapSegmentCodeToName, mapSegmentQueryData } from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
 import { ChartDebugInfo } from "../components/ChartDebugInfo";
 import { HomeLink } from "../components/HomeLink";
@@ -50,11 +50,11 @@ const Entry = () => {
     return {
       chartType: initializeFromGlSegmentString ? ChartType.GL : ChartType.PPM,
       glSegments: initializeFromGlSegmentString
-        ? fromGlSegmentString(chartSegmentString, true)
+        ? mapSegmentCodeToName(fromGlSegmentString(chartSegmentString, true))
         : buildInitialGlSegments(),
       ppmSegments:
         chartSegmentString && !initializeFromGlSegmentString
-          ? fromPpmSegmentString(chartSegmentString, true)
+          ? mapSegmentCodeToName(fromPpmSegmentString(chartSegmentString, true))
           : buildInitialPpmSegments(),
     };
   });
