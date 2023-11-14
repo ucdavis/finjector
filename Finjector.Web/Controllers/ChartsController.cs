@@ -18,15 +18,17 @@ public class ChartsController : ControllerBase
     private readonly ICosmosDbService _cosmosDbService;
     private readonly IIdentityService _identityService;
     private readonly ICheckUser _checkUser;
+    private readonly IAggieEnterpriseService _aggieEnterpriseService;
     public const string IamIdClaimType = "ucdPersonIAMID";
 
 
 
-    public ChartsController(ICosmosDbService cosmosDbService, IIdentityService identityService, ICheckUser checkUser)
+    public ChartsController(ICosmosDbService cosmosDbService, IIdentityService identityService, ICheckUser checkUser, IAggieEnterpriseService aggieEnterpriseService)
     {
         _cosmosDbService = cosmosDbService;
         _identityService = identityService;
         _checkUser = checkUser;
+        _aggieEnterpriseService = aggieEnterpriseService;
     }
 
     // fetch by id
@@ -46,6 +48,9 @@ public class ChartsController : ControllerBase
         {
             return NotFound();
         }
+
+        //Just to test
+        var rtValue = await _aggieEnterpriseService.GetAeDetailsAsync(chart.SegmentString);
 
         return Ok(chart);
     }
@@ -112,5 +117,13 @@ public class ChartsController : ControllerBase
         await _cosmosDbService.DeleteChart(id, iamId);
 
         return Ok();
+    }
+
+    [HttpGet("detail/{id}")]
+    public async Task<IActionResult> Details(string id)
+    {
+        var rtValue = await _aggieEnterpriseService.GetAeDetailsAsync(id);
+
+        return Ok(rtValue);
     }
 }
