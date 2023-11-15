@@ -169,6 +169,37 @@ namespace Finjector.Core.Services
                     }
                 }
 
+                if (data.ErpFinancialDepartment != null && data.ErpFinancialDepartment.Approvers != null)
+                {
+                    foreach (var approver in data.ErpFinancialDepartment.Approvers.Where(a => a.ApproverType == "Fiscal Officer Approver"))
+                    {
+                        aeDetails.Approvers.Add(new Approver
+                        {
+                            FirstName = approver.FirstName,
+                            LastName = approver.LastName,
+                            Email = approver.EmailAddress
+                        });
+                    }
+                }
+
+                try
+                {
+                    var nameParts = data.PpmProjectByNumber.PrimaryProjectManagerName.Split(' ');
+
+                    aeDetails.PpmProjectManager = new Approver
+                    {
+                        FirstName = nameParts[0],
+                        LastName = nameParts[nameParts.Length - 1],
+                        Email = data.PpmProjectByNumber.PrimaryProjectManagerEmail
+                    };
+                }
+                catch(Exception ex)
+                {
+                    aeDetails.Warnings.Add("Unable to get Project Manager");
+                }
+
+
+
                 return aeDetails;
             }
 
