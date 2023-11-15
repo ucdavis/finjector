@@ -28,7 +28,8 @@ function App() {
           <Route path="/landing" element={<Landing />} />
           <Route path="/entry">
             <Route path="" element={<Entry />} />
-            <Route path=":id/:chart" element={<Entry />} />
+            <Route path=":chartSegmentString" element={<Entry />} />
+            <Route path=":id/:chartSegmentString" element={<Entry />} />
           </Route>
           <Route path="/paste" element={<Paste />} />
           <Route path="/selected/:id/:chart" element={<Selected />} />

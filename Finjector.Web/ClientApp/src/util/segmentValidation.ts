@@ -44,7 +44,19 @@ const isPpmWithoutAward = (ppm: PpmSegments): boolean => {
 };
 
 export const isGlSegmentString = (segmentString: string): boolean => {
-  return segmentString.split("-").length === 11;
+  return (
+    segmentString.match(
+      "^[0-9]{3}[0-9AB]-[0-9A-Z]{5}-[0-9A-Z]{7}-[0-9A-Z]{6}-[0-9][0-9A-Z]-[0-9A-Z]{3}-[0-9A-Z]{10}-[0-9A-Z]{6}-0000-000000-000000$"
+    ) !== null
+  );
+};
+
+export const isPpmSegmentString = (segmentString: string): boolean => {
+  return (
+    segmentString.match(
+      "^[0-9A-Z]{10}-[0-9A-Z]{6}-[0-9A-Z]{7}-[0-9A-Z]{6}(-[0-9A-Z]{7}-[0-9A-Z]{5})?$"
+    ) !== null
+  );
 };
 
 export const getSegmentValue = (segment: SegmentData): string => {

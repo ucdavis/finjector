@@ -18,6 +18,7 @@ const SaveAndUseButton = (props: Props) => {
   const saveAndUse = () => {
     const chartToSave: Chart = {
       ...props.savedChart,
+      chartType: props.chartData.chartType,
       segmentString: toSegmentString(props.chartData),
     };
 
@@ -33,7 +34,7 @@ const SaveAndUseButton = (props: Props) => {
       <button
         className="btn btn-primary"
         type="button"
-        disabled={saveMutation.isLoading || !props.savedChart.displayName}
+        disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={saveAndUse}
       >
         Save and use

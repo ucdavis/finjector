@@ -41,19 +41,19 @@ export const useGetSavedChartWithData = (id: string) =>
 // save new chart
 export const useSaveChart = () =>
   useMutation(async (chart: Chart) => {
-    const savedChart: Chart = { ...chart, id: chart.id || uuidv4() };
-
-    await fetch(`/api/charts/save`, {
+    const response = await fetch(`/api/charts/save`, {
       method: "POST",
-      body: JSON.stringify(savedChart),
+      body: JSON.stringify(chart),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
     });
 
+    const responseChart = await response.json();
+
     // return the saved chart
-    return savedChart;
+    return responseChart;
   });
 
 // delete chart

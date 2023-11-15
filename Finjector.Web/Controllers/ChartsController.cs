@@ -1,39 +1,35 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-
+using Finjector.Core.Data;
+using Finjector.Core.Domain;
 using Finjector.Web.Models;
 using Finjector.Core.Services;
-using Finjector.Core.Models;
+using Finjector.Web.Extensions;
 using Finjector.Web.Handlers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Finjector.Web.Controllers;
-
 
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
 public class ChartsController : ControllerBase
 {
-    private readonly ICosmosDbService _cosmosDbService;
-    private readonly IIdentityService _identityService;
     private readonly ICheckUser _checkUser;
-    private readonly IAggieEnterpriseService _aggieEnterpriseService;
-    public const string IamIdClaimType = "ucdPersonIAMID";
+    private readonly AppDbContext _dbContext;
+    private readonly IIdentityService _identityService;
 
-
-
-    public ChartsController(ICosmosDbService cosmosDbService, IIdentityService identityService, ICheckUser checkUser, IAggieEnterpriseService aggieEnterpriseService)
+    public ChartsController(AppDbContext dbContext, IIdentityService identityService, ICheckUser checkUser)
     {
-        _cosmosDbService = cosmosDbService;
+        _dbContext = dbContext;
         _identityService = identityService;
         _checkUser = checkUser;
-        _aggieEnterpriseService = aggieEnterpriseService;
     }
 
     // fetch by id
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetChart(string id)
+    public async Task<IActionResult> GetChart(int id)
     {
         var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
 
@@ -41,8 +37,10 @@ public class ChartsController : ControllerBase
         {
             return Unauthorized();
         }
+        
+        // TODO: verify that user has permission to view this chart
 
-        var chart = await _cosmosDbService.GetChart(id, iamId);
+        var chart = await _dbContext.Coas.SingleOrDefaultAsync(c => c.Id == id);
 
         if (chart == null)
         {
@@ -71,12 +69,13 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
 
-        await _checkUser.UpdateUser(user);
-
-        var charts = await _cosmosDbService.GetCharts(iamId);
-
-        await _checkUser.UpdateCharts(user, charts); //Just put here to populate my charts into the COas
-
+        await _checkUser.MigrateUser(user);
+        
+        // get any chart that belongs to the user's folders or teams.  role doesn't matter.
+        var charts = await _dbContext.Coas.Where(c =>
+            c.Folder.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
+            c.Folder.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId)).ToListAsync();
+        
         return Ok(charts);
     }
 
@@ -89,23 +88,60 @@ public class ChartsController : ControllerBase
         {
             return Unauthorized();
         }
+        
+        // TODO: verify that user has permission to save this chart
+        
+        // TODO: add to team and folder if specified
+        
+        // TODO: default folder bool?  or just move name into central config?
 
-        var chart = new Chart()
+        // grab user's default folder
+        var defaultFolder = await _dbContext.Folders.Where(f => f.Team.IsPersonal && f.Team.Owner.Iam == iamId && f.Name == "Default").SingleOrDefaultAsync();
+        
+        if (defaultFolder == null)
         {
-            Id = chartViewModel.Id,
-            IamId = iamId,
-            SegmentString = chartViewModel.SegmentString,
-            DisplayName = chartViewModel.DisplayName,
-            ChartType = chartViewModel.ChartType,
-        };
+            // TODO: dynamically create default folder if needed
+            return NotFound();
+        }
+        
+        // TODO: do we want to update the coa detail here?  do an extra query for up to date info?  send more from the client?
+        var coaDetail = await _dbContext.CoaDetails.SingleOrDefaultAsync(cd => cd.Id == chartViewModel.SegmentString);
+        
+        if (coaDetail == null)
+        {
+            coaDetail = chartViewModel.SegmentString.ToCoADetail();
+            
+            await _dbContext.CoaDetails.AddAsync(coaDetail);
+        }
 
-        await _cosmosDbService.AddOrUpdateChart(chart);
+        
+        // get the chart or create a new one
+        Coa chart;
 
-        return Ok();
+        if (chartViewModel.Id != 0)
+        {
+            chart = await _dbContext.Coas.SingleAsync(c => c.Id == chartViewModel.Id);
+        }
+        else
+        {
+            chart = new Coa();
+            await _dbContext.Coas.AddAsync(chart);
+        }
+        
+        chart.Folder = defaultFolder;
+        chart.SegmentString = chartViewModel.SegmentString;
+        chart.Detail = coaDetail;
+        chart.Name = chartViewModel.Name;
+        chart.ChartType = chartViewModel.ChartType;
+        chart.Updated = DateTime.UtcNow;
+        
+        await _dbContext.SaveChangesAsync();
+
+        return Ok(chart);
     }
 
     [HttpDelete("delete/{id}")]
-    public async Task<IActionResult> DeleteChart(string id)
+    public async Task<IActionResult> DeleteChart(int id)
     {
         var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
 
@@ -113,9 +149,21 @@ public class ChartsController : ControllerBase
         {
             return Unauthorized();
         }
+        
+        // TODO: make sure they are allowed to delete this chart
 
-        await _cosmosDbService.DeleteChart(id, iamId);
-
+        // delete coa with id
+        var chart = await _dbContext.Coas.SingleOrDefaultAsync(c => c.Id == id);
+        
+        if (chart == null)
+        {
+            return NotFound();
+        }
+        
+        _dbContext.Coas.Remove(chart);
+        
+        await _dbContext.SaveChangesAsync();
+        
         return Ok();
     }
 

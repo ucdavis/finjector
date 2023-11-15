@@ -5,7 +5,7 @@ import { Chart } from "../types";
 
 interface Props {
   chart: Chart;
-  updateDisplayName: (name: string) => void;
+  updateName: (name: string) => void;
 }
 const NameEntry = (props: Props) => {
   return (
@@ -17,10 +17,10 @@ const NameEntry = (props: Props) => {
             required
             type="text"
             className="form-control"
-            valid={props.chart.displayName.length > 0}
-            invalid={props.chart.displayName.length === 0}
-            value={props.chart.displayName}
-            onChange={(e) => props.updateDisplayName(e.target.value)}
+            valid={props.chart.name.length > 0}
+            invalid={props.chart.name.length === 0}
+            value={props.chart.name}
+            onChange={(e) => props.updateName(e.target.value)}
           />
         </form>
       </div>
