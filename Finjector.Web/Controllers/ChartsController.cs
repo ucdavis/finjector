@@ -141,6 +141,8 @@ public class ChartsController : ControllerBase
         {
             return Unauthorized();
         }
+        
+        // TODO: make sure they are allowed to delete this chart
 
         // delete coa with id
         var chart = await _dbContext.Coas.SingleOrDefaultAsync(c => c.Id == id);
@@ -151,6 +153,8 @@ public class ChartsController : ControllerBase
         }
         
         _dbContext.Coas.Remove(chart);
+        
+        await _dbContext.SaveChangesAsync();
         
         return Ok();
     }

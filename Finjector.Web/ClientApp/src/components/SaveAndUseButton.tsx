@@ -18,6 +18,7 @@ const SaveAndUseButton = (props: Props) => {
   const saveAndUse = () => {
     const chartToSave: Chart = {
       ...props.savedChart,
+      chartType: props.chartData.chartType,
       segmentString: toSegmentString(props.chartData),
     };
 
