@@ -35,6 +35,16 @@ namespace Finjector.Core.Models
         public List<string> Errors { get; set; } = new List<string>();
         public List<string> Warnings { get; set; } = new List<string>();
 
+        public List<SegmentDetails> SegmentDetails { get; set; } = new List<SegmentDetails>();
+
+    }
+
+    public class SegmentDetails
+    {
+        public int Order { get; set; }
+        public string Entity { get; set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
     }
 
 }

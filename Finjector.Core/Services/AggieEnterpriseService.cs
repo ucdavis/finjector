@@ -70,6 +70,63 @@ namespace Finjector.Core.Services
                     }
                 }
 
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 1,
+                    Entity = "Entity",
+                    Code = data?.ErpEntity?.Code,
+                    Name = data?.ErpEntity?.Name
+                });
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 2,
+                    Entity = "Fund",
+                    Code = data?.ErpFund?.Code,
+                    Name = data?.ErpFund?.Name
+                });
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 3,
+                    Entity = "Department",
+                    Code = data?.ErpFinancialDepartment?.Code,
+                    Name = data?.ErpFinancialDepartment?.Name
+                });
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 4,
+                    Entity = "Account",
+                    Code = data?.ErpAccount?.Code,
+                    Name = data?.ErpAccount?.Name
+                });
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 5,
+                    Entity = "Purpose",
+                    Code = data?.ErpPurpose?.Code,
+                    Name = data?.ErpPurpose?.Name
+                });
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 6,
+                    Entity = "Program",
+                    Code = data?.ErpProgram?.Code,
+                    Name = data?.ErpProgram?.Name
+                });
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 7,
+                    Entity = "Project",
+                    Code = data?.ErpProject?.Code,
+                    Name = data?.ErpProject?.Name
+                });
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 8,
+                    Entity = "Activity",
+                    Code = data?.ErpActivity?.Code,
+                    Name = data?.ErpActivity?.Name
+                });
+
                 return aeDetails;
             }
             if(aeDetails.ChartType == FinancialChartStringType.Ppm.ToString().ToUpper())
