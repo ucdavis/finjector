@@ -90,6 +90,7 @@ public class ChartsController : ControllerBase
         // TODO: add to team and folder if specified
         
         // TODO: default folder bool?  or just move name into central config?
+
         // grab user's default folder
         var defaultFolder = await _dbContext.Folders.Where(f => f.Team.IsPersonal && f.Team.Owner.Iam == iamId && f.Name == "Default").SingleOrDefaultAsync();
         
@@ -99,18 +100,36 @@ public class ChartsController : ControllerBase
             return NotFound();
         }
         
+        // TODO: do we want to update the coa detail here?  do an extra query for up to date info?  send more from the client?
+        var coaDetail = await _dbContext.CoaDetails.SingleOrDefaultAsync(cd => cd.Id == chartViewModel.SegmentString);
+        
+        if (coaDetail == null)
+        {
+            // TODO: add detail on save
+            coaDetail = new CoaDetail()
+            {
+                Id = chartViewModel.SegmentString,
+                ChartType = chartViewModel.ChartType,
+            };
+            
+            await _dbContext.CoaDetails.AddAsync(coaDetail);
+        }
+
         var chart = new Coa()
         {
             Folder = defaultFolder,
             SegmentString = chartViewModel.SegmentString,
-            Name = chartViewModel.DisplayName,
+            Detail = coaDetail,
+            Name = chartViewModel.Name,
             ChartType = chartViewModel.ChartType,
             Updated = DateTime.UtcNow
         };
 
         await _dbContext.Coas.AddAsync(chart);
 
-        return Ok();
+        await _dbContext.SaveChangesAsync();
+
+        return Ok(chart);
     }
 
     [HttpDelete("delete/{id}")]

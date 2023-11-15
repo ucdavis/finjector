@@ -144,8 +144,8 @@ const Entry = () => {
         <h2>CoA Name</h2>
         <NameEntry
           chart={savedChart}
-          updateDisplayName={(n) =>
-            setSavedChart((c) => ({ ...c, displayName: n }))
+          updateName={(n) =>
+            setSavedChart((c) => ({ ...c, name: n }))
           }
         />
         <CoaDisplay chartData={chartData} />
