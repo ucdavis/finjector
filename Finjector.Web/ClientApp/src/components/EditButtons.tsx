@@ -36,8 +36,8 @@ const EditButtons = (props: Props) => {
     // create a new chart based on the starting point of current chart
     const chartToSave: Chart = {
       ...props.savedChart,
-      id: "",
-      displayName: `${props.savedChart.displayName} (copy)`,
+      id: 0,
+      name: `${props.savedChart.name} (copy)`,
       segmentString: toSegmentString(props.chartData),
     };
 
@@ -75,7 +75,7 @@ const EditButtons = (props: Props) => {
       <button
         type="button"
         className="btn btn-secondary flex-fill me-3"
-        disabled={saveMutation.isLoading || !props.savedChart.displayName}
+        disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={copy}
       >
         Duplicate
@@ -83,7 +83,7 @@ const EditButtons = (props: Props) => {
       <button
         className="btn btn-secondary flex-fill me-3"
         type="button"
-        disabled={saveMutation.isLoading || !props.savedChart.displayName}
+        disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={save}
       >
         Save

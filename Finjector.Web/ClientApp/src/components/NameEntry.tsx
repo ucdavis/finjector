@@ -17,9 +17,9 @@ const NameEntry = (props: Props) => {
             required
             type="text"
             className="form-control"
-            valid={props.chart.displayName.length > 0}
-            invalid={props.chart.displayName.length === 0}
-            value={props.chart.displayName}
+            valid={props.chart.name.length > 0}
+            invalid={props.chart.name.length === 0}
+            value={props.chart.name}
             onChange={(e) => props.updateDisplayName(e.target.value)}
           />
         </form>

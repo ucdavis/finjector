@@ -23,7 +23,7 @@ const ChartList = (props: Props) => {
 
   const filteredCharts = charts.filter((chart) => {
     return (
-      chart.displayName.toLowerCase().includes(filterLowercase) ||
+      chart.name.toLowerCase().includes(filterLowercase) ||
       chart.segmentString.toLowerCase().includes(filterLowercase)
     );
   });
@@ -36,7 +36,7 @@ const ChartList = (props: Props) => {
           key={chart.id}
         >
           <div className="col-9 ms-2 me-auto">
-            <div className="fw-bold "> {chart.displayName}</div>
+            <div className="fw-bold "> {chart.name}</div>
             <span style={{ wordWrap: "break-word" }}>
               {chart.segmentString}
             </span>

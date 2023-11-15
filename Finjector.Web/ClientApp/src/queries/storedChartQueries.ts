@@ -41,7 +41,7 @@ export const useGetSavedChartWithData = (id: string) =>
 // save new chart
 export const useSaveChart = () =>
   useMutation(async (chart: Chart) => {
-    const savedChart: Chart = { ...chart, id: chart.id || uuidv4() };
+    const savedChart: Chart = { ...chart, id: chart.id || 0 };
 
     await fetch(`/api/charts/save`, {
       method: "POST",

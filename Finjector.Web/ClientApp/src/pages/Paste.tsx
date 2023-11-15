@@ -25,10 +25,12 @@ const Paste = () => {
 
   // paste never starts with existing data, always start default
   const [savedChart, setSavedChart] = React.useState<Chart>({
-    id: "",
+    id: 0,
     chartType,
-    displayName: "",
+    name: "",
     segmentString: "",
+    folderId: 0,
+    updated: new Date(),
   });
 
   // in progress chart data

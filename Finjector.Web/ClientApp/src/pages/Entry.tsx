@@ -35,10 +35,12 @@ const Entry = () => {
   const savedChartQuery = useGetSavedChartWithData(id || "");
 
   const [savedChart, setSavedChart] = React.useState<Chart>({
-    id: "",
+    id: 0,
     chartType: ChartType.PPM,
-    displayName: "",
+    name: "",
     segmentString: "",
+    folderId: 0,
+    updated: new Date(),
   });
 
   // in progress chart data

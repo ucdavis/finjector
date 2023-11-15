@@ -33,7 +33,7 @@ const SaveAndUseButton = (props: Props) => {
       <button
         className="btn btn-primary"
         type="button"
-        disabled={saveMutation.isLoading || !props.savedChart.displayName}
+        disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={saveAndUse}
       >
         Save and use

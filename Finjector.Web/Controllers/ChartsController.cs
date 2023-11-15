@@ -37,6 +37,8 @@ public class ChartsController : ControllerBase
         {
             return Unauthorized();
         }
+        
+        // TODO: verify that user has permission to view this chart
 
         var chart = await _dbContext.Coas.SingleOrDefaultAsync(c => c.Id == id);
 
@@ -68,8 +70,8 @@ public class ChartsController : ControllerBase
         
         // get any chart that belongs to the user's folders or teams.  role doesn't matter.
         var charts = await _dbContext.Coas.Where(c =>
-            c.Folder.FolderPermissions.Any(fp => fp.UserId == user.Id) ||
-            c.Folder.Team.TeamPermissions.Any(tp => tp.UserId == user.Id)).ToListAsync();
+            c.Folder.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
+            c.Folder.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId)).ToListAsync();
         
         return Ok(charts);
     }
@@ -84,17 +86,13 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
         
-        var user = await _identityService.GetByIam(iamId);
-        if (user == null)
-        {
-            return Unauthorized();
-        }
+        // TODO: verify that user has permission to save this chart
         
         // TODO: add to team and folder if specified
         
         // TODO: default folder bool?  or just move name into central config?
         // grab user's default folder
-        var defaultFolder = await _dbContext.Folders.Where(f => f.Team.IsPersonal && f.Team.OwnerId == user.Id && f.Name == "Default").SingleOrDefaultAsync();
+        var defaultFolder = await _dbContext.Folders.Where(f => f.Team.IsPersonal && f.Team.Owner.Iam == iamId && f.Name == "Default").SingleOrDefaultAsync();
         
         if (defaultFolder == null)
         {

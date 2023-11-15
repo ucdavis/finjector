@@ -1,8 +1,10 @@
 export interface Chart {
-  id: string;
+  id: number;
   segmentString: string;
-  displayName: string;
+  name: string;
   chartType: ChartType;
+  folderId?: number;
+  updated: Date;
 }
 
 export enum ChartType {
