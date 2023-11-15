@@ -36,10 +36,12 @@ const Entry = () => {
   const savedChartQuery = useGetSavedChartWithData(id || "");
 
   const [savedChart, setSavedChart] = React.useState<Chart>({
-    id: "",
+    id: 0,
     chartType: ChartType.PPM,
-    displayName: "",
+    name: "",
     segmentString: "",
+    folderId: 0,
+    updated: new Date(),
   });
 
   // in progress chart data
@@ -142,8 +144,8 @@ const Entry = () => {
         <h2>CoA Name</h2>
         <NameEntry
           chart={savedChart}
-          updateDisplayName={(n) =>
-            setSavedChart((c) => ({ ...c, displayName: n }))
+          updateName={(n) =>
+            setSavedChart((c) => ({ ...c, name: n }))
           }
         />
         <CoaDisplay chartData={chartData} />

@@ -14,15 +14,15 @@ namespace Finjector.Core.Domain
         public int Id { get; set; }
 
         [MaxLength(10)]
-        public string Iam { get; set; }
+        public string Iam { get; set; } = string.Empty;
 
         [MaxLength(20)]
-        public string Kerberos { get; set; }
+        public string Kerberos { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(300)]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         public bool IsActive { get; set; } = true;
 
@@ -31,12 +31,12 @@ namespace Finjector.Core.Domain
         [Required]
         [MaxLength(50)]
         [Display(Name = "First Name")]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(50)]
         [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+        public string LastName { get; set; } = string.Empty;
 
 
         [Display(Name = "Name")]

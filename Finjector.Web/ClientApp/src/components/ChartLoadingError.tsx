@@ -9,7 +9,7 @@ export const ChartLoadingError = () => {
   const removeMutation = useRemoveChart();
 
   const remove = () => {
-    removeMutation.mutate({ id: id || "" } as Chart, {
+    removeMutation.mutate({ id: id || 0 } as Chart, {
       onSuccess: () => {
         navigate("/");
       },

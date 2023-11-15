@@ -14,16 +14,42 @@ namespace Finjector.Core.Services
     {
         Task<User> UpdateUser(User user);
         Task UpdateCharts(User user, List<Chart> charts);
+        
+        Task MigrateUser(User user);
     }
 
     public class CheckUser : ICheckUser
     {
         private readonly AppDbContext _context;
+        private readonly ICosmosDbService _cosmosDbService;
 
-        public CheckUser(AppDbContext context)
+        public CheckUser(AppDbContext context, ICosmosDbService cosmosDbService)
         {
             _context = context;
+            _cosmosDbService = cosmosDbService;
         }
+
+        // migrate user and their charts from cosmos to sql
+        public async Task MigrateUser(User user)
+        {
+            // if user has a personal team, then they have already been migrated
+            var teams = await _context.Teams.Where(a => a.Owner.Iam == user.Iam && a.IsPersonal).SingleOrDefaultAsync();
+            
+            if (teams != null)
+            {
+                return;
+            }
+            
+            // update user and create their personal team folder if needed
+            await UpdateUser(user);
+            
+            // now get all their charts from cosmos
+            var charts = await _cosmosDbService.GetCharts(user.Iam);
+            
+            // and update the sql db
+            await UpdateCharts(user, charts);
+        }
+        
 
         public async Task UpdateCharts(User user, List<Chart> charts)
         {
