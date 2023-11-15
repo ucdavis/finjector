@@ -19,7 +19,21 @@ namespace Finjector.Core.Models
                 return string.Join(" ", Error);
             }
         }
+
+        public string Warning
+        {
+            get
+            {
+                if (Warnings.Count <= 0)
+                {
+                    return string.Empty;
+                }
+
+                return string.Join(" ", Warnings);
+            }
+        }
         public List<string> Errors { get; set; } = new List<string>();
+        public List<string> Warnings { get; set; } = new List<string>();
 
     }
 

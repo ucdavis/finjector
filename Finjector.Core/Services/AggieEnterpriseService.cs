@@ -52,6 +52,25 @@ namespace Finjector.Core.Services
                     activity: glSegments.Activity);
 
                 var data = result.ReadData();
+
+                aeDetails.IsValid = data.GlValidateChartstring.ValidationResponse.Valid;
+                if(!aeDetails.IsValid && data.GlValidateChartstring.ValidationResponse.ErrorMessages != null)
+                {
+                    foreach(var error in data.GlValidateChartstring.ValidationResponse.ErrorMessages)
+                    {
+                        aeDetails.Errors.Add(error);
+                    }
+                }
+
+                if(data.GlValidateChartstring.Warnings != null)
+                {
+                    foreach(var warning in data.GlValidateChartstring.Warnings)
+                    {
+                        aeDetails.Warnings.Add($"{warning.SegmentName} - {warning.Warning}");
+                    }
+                }
+
+                return aeDetails;
             }
             if(aeDetails.ChartType == FinancialChartStringType.Ppm.ToString().ToUpper())
             {
@@ -64,6 +83,23 @@ namespace Finjector.Core.Services
                     organization: ppmSegments.Organization);
 
                 var data = result.ReadData();
+                aeDetails.IsValid = data.PpmSegmentStringValidate.ValidationResponse.Valid;
+                if (!aeDetails.IsValid && data.PpmSegmentStringValidate.ValidationResponse.ErrorMessages != null)
+                {
+                    foreach (var error in data.PpmSegmentStringValidate.ValidationResponse.ErrorMessages)
+                    {
+                        aeDetails.Errors.Add(error);
+                    }
+                }
+                if (data.PpmSegmentStringValidate.Warnings != null)
+                {
+                    foreach (var warning in data.PpmSegmentStringValidate.Warnings)
+                    {
+                        aeDetails.Warnings.Add($"{warning.SegmentName} - {warning.Warning}");
+                    }
+                }
+
+                return aeDetails;
             }
 
             aeDetails.Errors.Add("Unknow Error");
