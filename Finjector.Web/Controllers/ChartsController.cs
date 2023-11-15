@@ -5,6 +5,7 @@ using Finjector.Core.Data;
 using Finjector.Core.Domain;
 using Finjector.Web.Models;
 using Finjector.Core.Services;
+using Finjector.Web.Extensions;
 using Finjector.Web.Handlers;
 using Microsoft.EntityFrameworkCore;
 
@@ -105,12 +106,7 @@ public class ChartsController : ControllerBase
         
         if (coaDetail == null)
         {
-            // TODO: add detail on save
-            coaDetail = new CoaDetail()
-            {
-                Id = chartViewModel.SegmentString,
-                ChartType = chartViewModel.ChartType,
-            };
+            coaDetail = chartViewModel.SegmentString.ToCoADetail();
             
             await _dbContext.CoaDetails.AddAsync(coaDetail);
         }
