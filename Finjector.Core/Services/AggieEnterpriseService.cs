@@ -198,6 +198,21 @@ namespace Finjector.Core.Services
                     aeDetails.Warnings.Add("Unable to get Project Manager");
                 }
 
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 1,
+                    Entity = "Project",
+                    Code = data.PpmProjectByNumber.ProjectNumber,
+                    Name = data.PpmProjectByNumber.Name
+                });
+
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 1,
+                    Entity = "Task",
+                    Code = data.PpmProjectByNumber.ProjectNumber,
+                    Name = data.PpmProjectByNumber.Name
+                });
 
 
                 return aeDetails;
