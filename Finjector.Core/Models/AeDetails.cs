@@ -37,6 +37,10 @@ namespace Finjector.Core.Models
 
         public List<SegmentDetails> SegmentDetails { get; set; } = new List<SegmentDetails>();
 
+        public List<Approver> Approvers { get; set; } = new List<Approver>();
+
+        public Approver PpmProjectManager { get; set; } = new Approver();
+
     }
 
     public class SegmentDetails
@@ -45,6 +49,20 @@ namespace Finjector.Core.Models
         public string Entity { get; set; } = string.Empty;
         public string Code { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
+    }
+
+    public class Approver
+    {
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Name
+        {
+            get
+            {
+                return $"{LastName}, {FirstName}";
+            }
+        }
     }
 
 }

@@ -127,6 +127,19 @@ namespace Finjector.Core.Services
                     Name = data?.ErpActivity?.Name
                 });
 
+                if (data.ErpFinancialDepartment != null && data.ErpFinancialDepartment.Approvers != null)
+                {
+                    foreach (var approver in data.ErpFinancialDepartment.Approvers.Where(a => a.ApproverType == "Fiscal Officer Approver"))
+                    {
+                        aeDetails.Approvers.Add(new Approver
+                        {
+                            FirstName = approver.FirstName,
+                            LastName = approver.LastName,
+                            Email = approver.EmailAddress
+                        });
+                    }
+                }
+
                 return aeDetails;
             }
             if(aeDetails.ChartType == FinancialChartStringType.Ppm.ToString().ToUpper())
