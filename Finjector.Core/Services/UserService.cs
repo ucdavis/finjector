@@ -6,7 +6,7 @@ namespace Finjector.Core.Services;
 
 public interface IUserService
 {
-    Task EnsureUserExists(User user);
+    Task<User> EnsureUserExists(string iamId);
 
     /// <summary>
     /// make sure the user has the ability to access a given CoA
@@ -15,16 +15,35 @@ public interface IUserService
     /// <param name="iamId"></param>
     /// <param name="role">Use either edit or view -- admin will be treated like edit in the context of a chart</param>
     /// <returns></returns>
-    Task<bool> VerifyAccess(int chartId, string iamId, string role);
+    Task<bool> VerifyChartAccess(int chartId, string iamId, string role);
+
+    /// <summary>
+    /// make sure the user has the ability to access a given folder
+    /// </summary>
+    /// <param name="folderId"></param>
+    /// <param name="iamId"></param>
+    /// <param name="role">admin > edit > view</param>
+    /// <returns></returns>
+    Task<bool> VerifyFolderAccess(int folderId, string iamId, string role);
+
+    Task<Folder> GetPersonalFolder(string iamId);
 }
 
 public class UserService : IUserService
 {
     private readonly AppDbContext _dbContext;
+    private readonly IIdentityService _identityService;
 
-    public UserService(AppDbContext dbContext)
+    public UserService(AppDbContext dbContext, IIdentityService identityService)
     {
         _dbContext = dbContext;
+        _identityService = identityService;
+    }
+
+    public async Task<Folder> GetPersonalFolder(string iamId)
+    {
+        return await _dbContext.Folders.SingleAsync(f =>
+            f.Team.IsPersonal && f.Team.Owner.Iam == iamId && f.Name == Folder.DefaultFolderName);
     }
 
     /// <summary>
@@ -34,8 +53,14 @@ public class UserService : IUserService
     /// <param name="iamId"></param>
     /// <param name="role">Use either edit or view -- admin will be treated like edit in the context of a chart</param>
     /// <returns></returns>
-    public async Task<bool> VerifyAccess(int chartId, string iamId, string role)
+    public async Task<bool> VerifyChartAccess(int chartId, string iamId, string role)
     {
+        // make sure we have valid inputs
+        if (string.IsNullOrWhiteSpace(iamId) || string.IsNullOrWhiteSpace(role))
+        {
+            return false;
+        }
+        
         if (role == Role.Codes.View)
         {
             // if we are just talking view, then any db role will have access
@@ -53,28 +78,83 @@ public class UserService : IUserService
              c.Folder.Team.TeamPermissions.Any(tp =>
                  tp.User.Iam == iamId && (tp.Role.Name == Role.Codes.Admin || tp.Role.Name == Role.Codes.Edit))));
     }
+    
+    /// <summary>
+    /// make sure the user has the ability to access a given folder
+    /// </summary>
+    /// <param name="folderId"></param>
+    /// <param name="iamId"></param>
+    /// <param name="role">admin > edit > view</param>
+    /// <returns></returns>
+    public async Task<bool> VerifyFolderAccess(int folderId, string iamId, string role)
+    {
+        // make sure we have valid inputs
+        if (string.IsNullOrWhiteSpace(iamId) || string.IsNullOrWhiteSpace(role))
+        {
+            return false;
+        }
+        
+        if (role == Role.Codes.View)
+        {
+            // if we are just talking view, then any db role will have access
+            return await _dbContext.Folders.AnyAsync(f =>
+                f.Id == folderId &&
+                (f.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
+                 f.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId)));
+        } else if (role == Role.Codes.Edit)
+        {
+            // if we are talking edit, then you need to be an admin or editor 
+            return await _dbContext.Folders.AnyAsync(f =>
+                f.Id == folderId &&
+                (f.FolderPermissions.Any(fp =>
+                     fp.User.Iam == iamId && (fp.Role.Name == Role.Codes.Admin || fp.Role.Name == Role.Codes.Edit)) ||
+                 f.Team.TeamPermissions.Any(tp =>
+                     tp.User.Iam == iamId && (tp.Role.Name == Role.Codes.Admin || tp.Role.Name == Role.Codes.Edit))));
+        }
+        else if (role == Role.Codes.Admin)
+        {
+            // for admin, you have to be an admin
+            return await _dbContext.Folders.AnyAsync(f =>
+                f.Id == folderId &&
+                (f.FolderPermissions.Any(fp =>
+                     fp.User.Iam == iamId && (fp.Role.Name == Role.Codes.Admin)) ||
+                 f.Team.TeamPermissions.Any(tp =>
+                     tp.User.Iam == iamId && (tp.Role.Name == Role.Codes.Admin))));
+        }
+        
+        // if we get here, then we don't have a valid role
+        return false;
+    }
 
     // Ensure the user already exists and has a personal team w/ default folder
-    public async Task EnsureUserExists(User user)
+    public async Task<User> EnsureUserExists(string iamId)
     {
-        if (user.Id == 0)
+        var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Iam == iamId);
+        
+        if (user == null)
         {
-            var userExists = await _dbContext.Users.AnyAsync(u => u.Iam == user.Iam);
-
-            if (!userExists)
+            // user not found in database, so create them via IAM
+            user = await _identityService.GetByIam(iamId);
+            
+            // if we still don't have a user, then we can't do anything
+            if (user == null)
             {
-                // user not found in database, so add them
-                await _dbContext.Users.AddAsync(user);
-                await _dbContext.SaveChangesAsync();
+                throw new Exception("User not found in IAM with IamID " + iamId);
             }
+            
+            // we have a user from IAM, so add them to our database
+            await _dbContext.Users.AddAsync(user);
+            await _dbContext.SaveChangesAsync();
         }
-
+        
+        // now we have a valid user in the db
+        
         // if user has a personal team, then we are good
         var teams = await _dbContext.Teams.Where(a => a.Owner.Iam == user.Iam && a.IsPersonal).SingleOrDefaultAsync();
 
         if (teams != null)
         {
-            return;
+            return user;
         }
 
         // user doesn't have a personal team, create one for them
@@ -98,5 +178,7 @@ public class UserService : IUserService
         _dbContext.Users.Add(user);
         _dbContext.Teams.Add(team);
         await _dbContext.SaveChangesAsync();
+        
+        return user;
     }
 }
