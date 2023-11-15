@@ -19,12 +19,14 @@ public class ChartsController : ControllerBase
     private readonly AppDbContext _dbContext;
     private readonly IIdentityService _identityService;
     private readonly ICheckUser _checkUser;
+    private readonly IUserService _userService;
 
-    public ChartsController(AppDbContext dbContext, IIdentityService identityService, ICheckUser checkUser)
+    public ChartsController(AppDbContext dbContext, IIdentityService identityService, ICheckUser checkUser, IUserService userService)
     {
         _dbContext = dbContext;
         _identityService = identityService;
         _checkUser = checkUser;
+        _userService = userService;
     }
 
     // fetch by id
@@ -33,12 +35,11 @@ public class ChartsController : ControllerBase
     {
         var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
 
-        if (iamId == null)
+        // verify that user has permission to view this chart
+        if (await _userService.VerifyChartAccess(id, iamId, Role.Codes.View) == false)
         {
             return Unauthorized();
         }
-        
-        // TODO: verify that user has permission to view this chart
 
         var chart = await _dbContext.Coas.SingleOrDefaultAsync(c => c.Id == id);
 
@@ -86,20 +87,32 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
         
-        // TODO: verify that user has permission to save this chart
+        // make sure user exists in the db
+        await _userService.EnsureUserExists(iamId);
         
-        // TODO: add to team and folder if specified
-        
-        // TODO: default folder bool?  or just move name into central config?
-
-        // grab user's default folder
-        var defaultFolder = await _dbContext.Folders.Where(f => f.Team.IsPersonal && f.Team.Owner.Iam == iamId && f.Name == "Default").SingleOrDefaultAsync();
-        
-        if (defaultFolder == null)
+        // verify that user has permission to save this chart if it already exists
+        if (chartViewModel.Id > 0)
         {
-            // TODO: dynamically create default folder if needed
-            return NotFound();
+            if (await _userService.VerifyChartAccess(chartViewModel.Id, iamId, Role.Codes.Edit) == false)
+            {
+                return Unauthorized();
+            }
         }
+        else if (chartViewModel.FolderId > 0)
+        {
+            // new chart, make sure they have permission to save in this folder
+            if (await _userService.VerifyFolderAccess(chartViewModel.FolderId, iamId, Role.Codes.Edit) == false)
+            {
+                return Unauthorized();
+            } 
+        }
+        else
+        {
+            // new chart, no folder specified, so just save in the user's default folder
+        }
+
+        // use the requested folder if specified, otherwise use the user's default folder
+        var folderToUse = chartViewModel.FolderId > 0 ? await _dbContext.Folders.SingleAsync(f => f.Id == chartViewModel.FolderId) : await _userService.GetPersonalFolder(iamId);
         
         // TODO: do we want to update the coa detail here?  do an extra query for up to date info?  send more from the client?
         var coaDetail = await _dbContext.CoaDetails.SingleOrDefaultAsync(cd => cd.Id == chartViewModel.SegmentString);
@@ -111,11 +124,10 @@ public class ChartsController : ControllerBase
             await _dbContext.CoaDetails.AddAsync(coaDetail);
         }
 
-        
         // get the chart or create a new one
         Coa chart;
 
-        if (chartViewModel.Id != 0)
+        if (chartViewModel.Id > 0)
         {
             chart = await _dbContext.Coas.SingleAsync(c => c.Id == chartViewModel.Id);
         }
@@ -125,7 +137,7 @@ public class ChartsController : ControllerBase
             await _dbContext.Coas.AddAsync(chart);
         }
         
-        chart.Folder = defaultFolder;
+        chart.Folder = folderToUse;
         chart.SegmentString = chartViewModel.SegmentString;
         chart.Detail = coaDetail;
         chart.Name = chartViewModel.Name;
@@ -142,12 +154,11 @@ public class ChartsController : ControllerBase
     {
         var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
 
-        if (iamId == null)
+        // make sure they are allowed to delete this chart
+        if (await _userService.VerifyChartAccess(id, iamId, Role.Codes.Edit) == false)
         {
             return Unauthorized();
         }
-        
-        // TODO: make sure they are allowed to delete this chart
 
         // delete coa with id
         var chart = await _dbContext.Coas.SingleOrDefaultAsync(c => c.Id == id);
