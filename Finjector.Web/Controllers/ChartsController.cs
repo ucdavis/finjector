@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Finjector.Web.Controllers;
 
-
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
@@ -66,7 +65,7 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
 
-        await _checkUser.UpdateUser(user);
+        await _checkUser.MigrateUser(user);
         
         // get any chart that belongs to the user's folders or teams.  role doesn't matter.
         var charts = await _dbContext.Coas.Where(c =>
