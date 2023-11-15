@@ -21,16 +21,17 @@ import { useGetSavedChartWithData } from "../queries/storedChartQueries";
 import {
   fromGlSegmentString,
   fromPpmSegmentString,
+  isGlSegmentString,
 } from "../util/segmentValidation";
 import NameEntry from "../components/NameEntry";
-import { mapSegmentQueryData } from "../util/segmentMapping";
+import { mapSegmentCodeToName, mapSegmentQueryData } from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
 import { ChartDebugInfo } from "../components/ChartDebugInfo";
 import { HomeLink } from "../components/HomeLink";
 import { ChartLoadingError } from "../components/ChartLoadingError";
 
 const Entry = () => {
-  const { id } = useParams();
+  const { id, chartSegmentString } = useParams();
 
   const savedChartQuery = useGetSavedChartWithData(id || "");
 
@@ -42,10 +43,20 @@ const Entry = () => {
   });
 
   // in progress chart data
-  const [chartData, setChartData] = React.useState<ChartData>({
-    chartType: ChartType.PPM,
-    glSegments: buildInitialGlSegments(),
-    ppmSegments: buildInitialPpmSegments(),
+  const [chartData, setChartData] = React.useState<ChartData>(() => {
+    const initializeFromGlSegmentString =
+      chartSegmentString && isGlSegmentString(chartSegmentString);
+
+    return {
+      chartType: initializeFromGlSegmentString ? ChartType.GL : ChartType.PPM,
+      glSegments: initializeFromGlSegmentString
+        ? mapSegmentCodeToName(fromGlSegmentString(chartSegmentString, true))
+        : buildInitialGlSegments(),
+      ppmSegments:
+        chartSegmentString && !initializeFromGlSegmentString
+          ? mapSegmentCodeToName(fromPpmSegmentString(chartSegmentString, true))
+          : buildInitialPpmSegments(),
+    };
   });
 
   // if we load up new data, update the chart
