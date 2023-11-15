@@ -1,5 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { v4 as uuidv4 } from "uuid";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Chart, ChartType } from "../types";
 import { doFetch } from "../util/api";
@@ -39,29 +38,49 @@ export const useGetSavedChartWithData = (id: string) =>
   );
 
 // save new chart
-export const useSaveChart = () =>
-  useMutation(async (chart: Chart) => {
-    const response = await fetch(`/api/charts/save`, {
-      method: "POST",
-      body: JSON.stringify(chart),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+export const useSaveChart = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (chart: Chart) => {
+      const response = await fetch(`/api/charts/save`, {
+        method: "POST",
+        body: JSON.stringify(chart),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const responseChart = await response.json();
+
+      // return the saved chart
+      return responseChart;
+    },
+    {
+      onSuccess: (chart) => {
+        // invalidate the charts query so we can get the new chart
+        queryClient.invalidateQueries(["charts", "me"]);
+        queryClient.invalidateQueries(["charts", "saved", chart.id]);
       },
-    });
-
-    const responseChart = await response.json();
-
-    // return the saved chart
-    return responseChart;
-  });
+    }
+  );
+};
 
 // delete chart
-export const useRemoveChart = () =>
-  useMutation(async (chart: Chart) => {
+export const useRemoveChart = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(async (chart: Chart) => {
     await fetch(`/api/charts/delete/${chart.id}`, {
       method: "DELETE",
     });
 
     return chart;
+  }, {
+    onSuccess: (chart) => {
+      // invalidate the charts query so we re-query the list
+      queryClient.invalidateQueries(["charts", "me"]);
+    }
   });
+};
