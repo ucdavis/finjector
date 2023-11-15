@@ -17,14 +17,16 @@ namespace Finjector.Web.Controllers;
 public class ChartsController : ControllerBase
 {
     private readonly ICheckUser _checkUser;
+    private readonly IAggieEnterpriseService _aggieEnterpriseService;
     private readonly AppDbContext _dbContext;
     private readonly IIdentityService _identityService;
 
-    public ChartsController(AppDbContext dbContext, IIdentityService identityService, ICheckUser checkUser)
+    public ChartsController(AppDbContext dbContext, IIdentityService identityService, ICheckUser checkUser, IAggieEnterpriseService aggieEnterpriseService)
     {
         _dbContext = dbContext;
         _identityService = identityService;
         _checkUser = checkUser;
+        _aggieEnterpriseService = aggieEnterpriseService;
     }
 
     // fetch by id
