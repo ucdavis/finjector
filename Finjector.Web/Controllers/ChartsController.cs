@@ -115,18 +115,27 @@ public class ChartsController : ControllerBase
             await _dbContext.CoaDetails.AddAsync(coaDetail);
         }
 
-        var chart = new Coa()
+        
+        // get the chart or create a new one
+        Coa chart;
+
+        if (chartViewModel.Id != 0)
         {
-            Folder = defaultFolder,
-            SegmentString = chartViewModel.SegmentString,
-            Detail = coaDetail,
-            Name = chartViewModel.Name,
-            ChartType = chartViewModel.ChartType,
-            Updated = DateTime.UtcNow
-        };
-
-        await _dbContext.Coas.AddAsync(chart);
-
+            chart = await _dbContext.Coas.SingleAsync(c => c.Id == chartViewModel.Id);
+        }
+        else
+        {
+            chart = new Coa();
+            await _dbContext.Coas.AddAsync(chart);
+        }
+        
+        chart.Folder = defaultFolder;
+        chart.SegmentString = chartViewModel.SegmentString;
+        chart.Detail = coaDetail;
+        chart.Name = chartViewModel.Name;
+        chart.ChartType = chartViewModel.ChartType;
+        chart.Updated = DateTime.UtcNow;
+        
         await _dbContext.SaveChangesAsync();
 
         return Ok(chart);
