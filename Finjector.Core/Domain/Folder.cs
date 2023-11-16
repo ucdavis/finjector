@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Finjector.Core.Domain
 {
@@ -34,6 +30,9 @@ namespace Finjector.Core.Domain
         [JsonIgnore]
         public List<FolderPermission> FolderPermissions { get; set; } = new List<FolderPermission>();
 
+        [NotMapped]
+        public static string DefaultFolderName = "Default";
+        
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Coa>()
