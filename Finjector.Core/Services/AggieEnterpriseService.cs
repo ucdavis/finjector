@@ -245,7 +245,16 @@ namespace Finjector.Core.Services
                     Name = string.Empty
                 });
 
+                var entity = data.PpmProjectByNumber.LegalEntityCode ?? "0000";
+                var fund = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingFundCode ?? "00000";
+                var dept = data?.ErpFinancialDepartment?.Code ?? "0000000";
+                var account = data?.PpmExpenditureTypeByCode?.Code ?? "000000";
+                var purpose = data?.PpmTaskByProjectNumberAndTaskNumber.GlPostingPurposeCode ?? "00";
+                var program = data?.PpmTaskByProjectNumberAndTaskNumber.GlPostingProgramCode ?? "000";
+                var project = data.PpmProjectByNumber.ProjectNumber ?? "0000000000";
+                var activity = data?.PpmTaskByProjectNumberAndTaskNumber.GlPostingActivityCode ?? "000000";
 
+                aeDetails.PpmGlString = $"{entity}-{fund}-{dept}-{account}-{purpose}-{program}-{project}-{activity}-0000-000000-000000";
 
 
                 return aeDetails;
