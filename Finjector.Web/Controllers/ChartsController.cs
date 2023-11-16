@@ -5,7 +5,7 @@ using Finjector.Core.Data;
 using Finjector.Core.Domain;
 using Finjector.Web.Models;
 using Finjector.Core.Services;
-using Finjector.Web.Extensions;
+using Finjector.Core.Extensions;
 using Finjector.Web.Handlers;
 using Microsoft.EntityFrameworkCore;
 

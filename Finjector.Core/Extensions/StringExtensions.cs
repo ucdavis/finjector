@@ -1,7 +1,7 @@
 ﻿using AggieEnterpriseApi.Validation;
 using Finjector.Core.Domain;
 
-namespace Finjector.Web.Extensions
+namespace Finjector.Core.Extensions
 {
     public static class StringExtensions
     {
