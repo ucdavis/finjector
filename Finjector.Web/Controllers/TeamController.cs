@@ -13,12 +13,10 @@ namespace Finjector.Web.Controllers;
 public class TeamController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
-    private readonly IUserService _userService;
 
-    public TeamController(AppDbContext dbContext, IUserService userService)
+    public TeamController(AppDbContext dbContext)
     {
         _dbContext = dbContext;
-        _userService = userService;
     }
 
     /// <summary>
@@ -51,17 +49,23 @@ public class TeamController : ControllerBase
         return Ok(teamResults);
     }
 
+    /// <summary>
+    /// Returns the details of a specific team
+    /// Includes team info, permissions for that team, as well as some metadata about the folders
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetTeam(int id)
+    public async Task<IActionResult> Get(int id)
     {
         var iamId = Request.GetCurrentUserIamId();
 
-        var team = await _dbContext.Teams.Include(t => t.TeamPermissions)
+        var team = await _dbContext.Teams
             .Select(t => new
             {
                 t.Id,
                 t.Name,
-                Permissions = t.TeamPermissions.Select(p => p.Role.Name)
+                MyTeamPermissions = t.TeamPermissions.Where(tp => tp.User.Iam == iamId).Select(p => p.Role.Name)
             })
             .SingleOrDefaultAsync(t => t.Id == id);
 
@@ -87,8 +91,6 @@ public class TeamController : ControllerBase
 
         return Ok(new { team, folders });
     }
-
-    // todo -- get folders for team, including coas
 
     // todo -- create team
 

@@ -12,6 +12,24 @@ export enum ChartType {
   PPM = "PPM",
 }
 
+export interface Team {
+  id: number;
+  name: string;
+}
+
+/* ----- Query specific response types ------- */
+
+export interface TeamResponse {
+  team: Team;
+  folderCount: number;
+  teamPermissionCount: number;
+  folderPermissionCount: number;
+  chartCount: number;
+  admins: string[];
+}
+
+/* ----- End Query specific response types ------- */
+
 export interface GlSegments {
   account: SegmentData;
   activity: SegmentData;
