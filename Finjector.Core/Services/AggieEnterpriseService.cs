@@ -150,7 +150,10 @@ namespace Finjector.Core.Services
                     projectNumberString: ppmSegments.Project, 
                     segmentString: segmentString, 
                     taskNumber: ppmSegments.Task, 
-                    organization: ppmSegments.Organization);
+                    organization: ppmSegments.Organization,
+                    expendCode: ppmSegments.ExpenditureType
+                    );
+
 
                 var data = result.ReadData();
                 aeDetails.IsValid = data.PpmSegmentStringValidate.ValidationResponse.Valid;
@@ -208,11 +211,41 @@ namespace Finjector.Core.Services
 
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 1,
+                    Order = 2,
                     Entity = "Task",
-                    Code = data.PpmProjectByNumber.ProjectNumber,
-                    Name = data.PpmProjectByNumber.Name
+                    Code = data.PpmTaskByProjectNumberAndTaskNumber.TaskNumber,
+                    Name = data.PpmTaskByProjectNumberAndTaskNumber.Name
                 });
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 3,
+                    Entity = "Organization",
+                    Code = data?.ErpFinancialDepartment?.Code,
+                    Name = data?.ErpFinancialDepartment?.Name
+                });
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 4,
+                    Entity = "Expenditure Type",
+                    Code = data?.PpmExpenditureTypeByCode?.Code,
+                    Name = data?.PpmExpenditureTypeByCode?.Name
+                });
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 5,
+                    Entity = "Award",
+                    Code = data?.PpmSegmentStringValidate.Segments.Award,
+                    Name = string.Empty
+                });
+                aeDetails.SegmentDetails.Add(new SegmentDetails
+                {
+                    Order = 6,
+                    Entity = "Funding Source",
+                    Code = data?.PpmSegmentStringValidate.Segments.FundingSource,
+                    Name = string.Empty
+                });
+
+
 
 
                 return aeDetails;
