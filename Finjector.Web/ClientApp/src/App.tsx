@@ -9,6 +9,7 @@ import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
 import Paste from "./pages/Paste";
 import Header from "./shared/Header";
+import MyTeams from "./pages/Teams/MyTeams";
 
 function App() {
   const userInfoQuery = useUserInfoQuery();
@@ -26,6 +27,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/about" element={<About />} />
           <Route path="/landing" element={<Landing />} />
+          <Route path="/teams" element={<MyTeams />} />
           <Route path="/entry">
             <Route path="" element={<Entry />} />
             <Route path=":chartSegmentString" element={<Entry />} />
