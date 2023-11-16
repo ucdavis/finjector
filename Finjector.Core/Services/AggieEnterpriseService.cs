@@ -19,6 +19,7 @@ namespace Finjector.Core.Services
     {
         private readonly FinancialOptions _financialOptions;
         private IAggieEnterpriseClient _apiClient;
+        private const string FiscalOfficer = "Fiscal Officer Approver";
 
         public AggieEnterpriseService(IOptions<FinancialOptions> options)
         {
@@ -136,7 +137,7 @@ namespace Finjector.Core.Services
 
                 if (data.ErpFinancialDepartment != null && data.ErpFinancialDepartment.Approvers != null)
                 {
-                    foreach (var approver in data.ErpFinancialDepartment.Approvers.Where(a => a.ApproverType == "Fiscal Officer Approver"))
+                    foreach (var approver in data.ErpFinancialDepartment.Approvers.Where(a => a.ApproverType == FiscalOfficer))
                     {
                         aeDetails.Approvers.Add(new Approver
                         {
