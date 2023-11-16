@@ -38,7 +38,7 @@ namespace Finjector.Web.Extensions
             var rtValue = new CoaDetail()
             {
                 Id = value,
-                ChartType = chartType == FinancialChartStringType.Ppm ? "PPM" : "GL"
+                ChartType = chartType == FinancialChartStringType.Ppm ? Coa.ChartTypes.PPM : Coa.ChartTypes.GL
             };
             
             if (chartType == FinancialChartStringType.Ppm)

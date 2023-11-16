@@ -5,6 +5,7 @@ using AggieEnterpriseApi;
 using AggieEnterpriseApi.Extensions;
 using Finjector.Web.Models;
 using Finjector.Web.Extensions;
+using Finjector.Core.Models;
 
 namespace Finjector.Web.Controllers;
 

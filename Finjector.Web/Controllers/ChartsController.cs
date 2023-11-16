@@ -16,17 +16,19 @@ namespace Finjector.Web.Controllers;
 [Authorize]
 public class ChartsController : ControllerBase
 {
+    private readonly IAggieEnterpriseService _aggieEnterpriseService;
     private readonly AppDbContext _dbContext;
     private readonly IIdentityService _identityService;
     private readonly ICheckUser _checkUser;
     private readonly IUserService _userService;
 
-    public ChartsController(AppDbContext dbContext, IIdentityService identityService, ICheckUser checkUser, IUserService userService)
+    public ChartsController(AppDbContext dbContext, IIdentityService identityService, ICheckUser checkUser, IUserService userService, IAggieEnterpriseService aggieEnterpriseService)
     {
         _dbContext = dbContext;
         _identityService = identityService;
         _checkUser = checkUser;
         _userService = userService;
+        _aggieEnterpriseService = aggieEnterpriseService;
     }
 
     // fetch by id
@@ -47,6 +49,9 @@ public class ChartsController : ControllerBase
         {
             return NotFound();
         }
+
+        //Just to test
+        //var rtValue = await _aggieEnterpriseService.GetAeDetailsAsync(chart.SegmentString);
 
         return Ok(chart);
     }
@@ -173,5 +178,13 @@ public class ChartsController : ControllerBase
         await _dbContext.SaveChangesAsync();
         
         return Ok();
+    }
+
+    [HttpGet("detail/{id}")]
+    public async Task<IActionResult> Details(string id)
+    {
+        var rtValue = await _aggieEnterpriseService.GetAeDetailsAsync(id);
+
+        return Ok(rtValue);
     }
 }
