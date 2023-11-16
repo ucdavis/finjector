@@ -1,10 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using AggieEnterpriseApi;
-using AggieEnterpriseApi.Extensions;
-using Finjector.Core.Extensions;
-using Finjector.Core.Models;
 using Finjector.Core.Services;
 
 namespace Finjector.Web.Controllers;
@@ -73,12 +68,12 @@ public class GlSearchController : ControllerBase
     [HttpGet("fullstring")]
     public async Task<IActionResult> FullString(string segmentString)
     {
-        return Ok(await _aggieEnterpriseService.Validate(segmentString));
+        return Ok(await _aggieEnterpriseService.GlValidate(segmentString));
     }
 
     [HttpGet("validate")]
     public async Task<IActionResult> Validate(string segmentString)
     {
-        return Ok(await _aggieEnterpriseService.Validate(segmentString));
+        return Ok(await _aggieEnterpriseService.GlValidate(segmentString));
     }
 }
