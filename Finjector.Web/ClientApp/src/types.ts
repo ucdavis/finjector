@@ -17,15 +17,29 @@ export interface Team {
   name: string;
 }
 
+export interface Folder {
+  id: number;
+  name: string;
+}
+
 /* ----- Query specific response types ------- */
 
-export interface TeamResponse {
+export interface TeamsResponseModel {
   team: Team;
   folderCount: number;
   teamPermissionCount: number;
   folderPermissionCount: number;
   chartCount: number;
   admins: string[];
+}
+
+export interface TeamResponseModel {
+  team: Team;
+  folders: [{
+    folder: Folder;
+    chartCount: number;
+    folderMemberCount: number;
+  }];
 }
 
 /* ----- End Query specific response types ------- */

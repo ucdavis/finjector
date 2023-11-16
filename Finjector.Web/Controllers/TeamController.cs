@@ -83,7 +83,7 @@ public class TeamController : ControllerBase
             .Select(f => new
             {
                 Folder = f.Key,
-                CoaCount = f.SelectMany(c => c.Coas).Count(),
+                ChartCount = f.SelectMany(c => c.Coas).Count(),
                 FolderMemberCount =
                     f.SelectMany(c => c.FolderPermissions).Count(),
             })

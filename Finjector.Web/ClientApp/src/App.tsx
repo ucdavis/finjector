@@ -10,6 +10,7 @@ import Entry from "./pages/Entry";
 import Paste from "./pages/Paste";
 import Header from "./shared/Header";
 import MyTeams from "./pages/Teams/MyTeams";
+import Team from "./pages/Teams/Team";
 
 function App() {
   const userInfoQuery = useUserInfoQuery();
@@ -27,7 +28,10 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/about" element={<About />} />
           <Route path="/landing" element={<Landing />} />
-          <Route path="/teams" element={<MyTeams />} />
+          <Route path="/teams">
+            <Route path="" element={<MyTeams />} />
+            <Route path=":id" element={<Team />} />
+          </Route>
           <Route path="/entry">
             <Route path="" element={<Entry />} />
             <Route path=":chartSegmentString" element={<Entry />} />

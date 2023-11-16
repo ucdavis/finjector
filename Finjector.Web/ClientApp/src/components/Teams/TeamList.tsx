@@ -2,11 +2,11 @@ import React from "react";
 
 import FinLoader from "../FinLoader";
 
-import { TeamResponse } from "../../types";
+import { TeamsResponseModel } from "../../types";
 import { Link } from "react-router-dom";
 
 interface Props {
-  teamsInfo: TeamResponse[] | undefined;
+  teamsInfo: TeamsResponseModel[] | undefined;
   filter: string;
 }
 
