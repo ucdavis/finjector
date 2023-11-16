@@ -202,18 +202,22 @@ namespace Finjector.Core.Services
 
                 try
                 {
-                    var nameParts = data.PpmProjectByNumber.PrimaryProjectManagerName.Split(' ');
-
-                    aeDetails.PpmProjectManager = new Approver
+                    if (data.PpmProjectByNumber != null && data.PpmProjectByNumber.PrimaryProjectManagerName != null)
                     {
-                        FirstName = nameParts[0],
-                        LastName  = nameParts[nameParts.Length - 1],
-                        Email     = data.PpmProjectByNumber.PrimaryProjectManagerEmail
-                    };
+                        var nameParts = data.PpmProjectByNumber.PrimaryProjectManagerName.Split(' ');
+
+                        aeDetails.PpmProjectManager = new Approver
+                        {
+                            FirstName = nameParts[0],
+                            LastName = nameParts[nameParts.Length - 1],
+                            Email = data.PpmProjectByNumber.PrimaryProjectManagerEmail
+                        };
+                    }
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     aeDetails.Warnings.Add("Unable to get Project Manager");
+                    aeDetails.PpmProjectManager = new Approver();
                 }
 
                 aeDetails.SegmentDetails.Add(new SegmentDetails
