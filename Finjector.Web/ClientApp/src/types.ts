@@ -20,6 +20,10 @@ export interface Team {
 export interface Folder {
   id: number;
   name: string;
+  teamId: number;
+  teamName: string;
+  myFolderPermissions: string[];
+  myTeamPermissions: string[];
 }
 
 /* ----- Query specific response types ------- */
@@ -35,11 +39,18 @@ export interface TeamsResponseModel {
 
 export interface TeamResponseModel {
   team: Team;
-  folders: [{
-    folder: Folder;
-    chartCount: number;
-    folderMemberCount: number;
-  }];
+  folders: [
+    {
+      folder: Folder;
+      chartCount: number;
+      folderMemberCount: number;
+    }
+  ];
+}
+
+export interface FolderResponseModel {
+  folder: Folder;
+  charts: Chart[];
 }
 
 /* ----- End Query specific response types ------- */

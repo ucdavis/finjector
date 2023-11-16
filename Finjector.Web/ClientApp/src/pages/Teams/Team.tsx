@@ -26,7 +26,7 @@ const Team: React.FC = () => {
         className="btn btn-outline-secondary flex-fill me-3"
         type="button"
       >
-        Create New Team
+        Create New Folder
       </button>
     </div>
   );

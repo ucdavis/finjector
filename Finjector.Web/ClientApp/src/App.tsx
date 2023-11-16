@@ -11,6 +11,7 @@ import Paste from "./pages/Paste";
 import Header from "./shared/Header";
 import MyTeams from "./pages/Teams/MyTeams";
 import Team from "./pages/Teams/Team";
+import Folder from "./pages/Teams/Folder";
 
 function App() {
   const userInfoQuery = useUserInfoQuery();
@@ -31,6 +32,7 @@ function App() {
           <Route path="/teams">
             <Route path="" element={<MyTeams />} />
             <Route path=":id" element={<Team />} />
+            <Route path=":id/folders/:folderId" element={<Folder />} />
           </Route>
           <Route path="/entry">
             <Route path="" element={<Entry />} />
