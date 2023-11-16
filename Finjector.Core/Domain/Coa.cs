@@ -36,5 +36,12 @@ namespace Finjector.Core.Domain
         {
             //Placeholder    
         }
+
+        public class ChartTypes
+        {
+            public const string GL = "GL";
+            public const string PPM = "PPM";
+            public const string Invalid = "INV";
+        }
     }
 }

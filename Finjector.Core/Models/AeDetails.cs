@@ -1,11 +1,15 @@
 ﻿
 
+using AggieEnterpriseApi.Validation;
+
 namespace Finjector.Core.Models
 {
     public class AeDetails
     {
         public bool IsValid { get; set; } = true;
         public string ChartType { get; set; } = string.Empty;
+
+        public FinancialChartStringType ChartStringType { get; set; } = FinancialChartStringType.Invalid;
 
         public string Error
         {

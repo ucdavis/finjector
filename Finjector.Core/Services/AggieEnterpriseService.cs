@@ -29,15 +29,16 @@ namespace Finjector.Core.Services
         public async Task<AeDetails> GetAeDetailsAsync(string segmentString)
         {
             AeDetails aeDetails = new AeDetails();
-            aeDetails.ChartType = string.IsNullOrEmpty(segmentString) ? FinancialChartStringType.Invalid.ToString() : GetChartType(segmentString).ToString().ToUpper();
-            if(aeDetails.ChartType == FinancialChartStringType.Invalid.ToString())
+            aeDetails.ChartStringType = string.IsNullOrEmpty(segmentString) ? FinancialChartStringType.Invalid : GetChartType(segmentString);
+            aeDetails.ChartType = aeDetails.ChartStringType.ToString().ToUpper();
+            if(aeDetails.ChartStringType == FinancialChartStringType.Invalid)
             {
                 aeDetails.Errors.Add("Invalid Chart Type");
                 aeDetails.IsValid = false;
                 return aeDetails;
             }
 
-            if(aeDetails.ChartType == FinancialChartStringType.Gl.ToString().ToUpper())
+            if(aeDetails.ChartStringType == FinancialChartStringType.Gl)
             {
                 var glSegments = FinancialChartValidation.GetGlSegments(segmentString);
                 var result = await _apiClient.DisplayDetailsGl.ExecuteAsync(
@@ -142,7 +143,7 @@ namespace Finjector.Core.Services
 
                 return aeDetails;
             }
-            if(aeDetails.ChartType == FinancialChartStringType.Ppm.ToString().ToUpper())
+            if(aeDetails.ChartStringType == FinancialChartStringType.Ppm)
             {
                 var ppmSegments = FinancialChartValidation.GetPpmSegments(segmentString);
                 var result = await _apiClient.DisplayDetailsPpm.ExecuteAsync(
