@@ -1,4 +1,5 @@
 ﻿using Finjector.Core.Models;
+using Finjector.Core.Extensions;
 using Microsoft.Extensions.Options;
 using AggieEnterpriseApi;
 using AggieEnterpriseApi.Extensions;
@@ -13,6 +14,15 @@ namespace Finjector.Core.Services
         FinancialChartStringType GetChartType(string segmentString);
 
         Task<AeDetails> GetAeDetailsAsync(string segmentString);
+        Task<IEnumerable<SearchResult>> Entity(string query);
+        Task<IEnumerable<SearchResult>> Fund(string query);
+        Task<IEnumerable<SearchResult>> Department(string query);
+        Task<IEnumerable<SearchResult>> Purpose(string query);
+        Task<IEnumerable<SearchResult>> Account(string query);
+        Task<IEnumerable<SearchResult>> Project(string query);
+        Task<IEnumerable<SearchResult>> Program(string query);
+        Task<IEnumerable<SearchResult>> Activity(string query);
+        Task<IGlValidateChartstring_GlValidateChartstring> Validate(string segmentString);
     }
 
     public class AggieEnterpriseService : IAggieEnterpriseService
@@ -288,6 +298,165 @@ namespace Finjector.Core.Services
         public FinancialChartStringType GetChartType(string segmentString)
         {
             return FinancialChartValidation.GetFinancialChartStringType(segmentString);
+        }
+
+        public async Task<IEnumerable<SearchResult>> Entity(string query)
+        {
+            var filter = new ErpEntityFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+            var result = await _apiClient.ErpEntitySearch.ExecuteAsync(filter, query.Trim());
+            var data = result.ReadData();
+            var searchResults = data.ErpEntitySearch.Data.Where(a => a.EligibleForUse)
+            .Select(d => new SearchResult(d.Code, d.Name));
+            if (data.ErpEntity is { EligibleForUse: true })
+            {
+                searchResults = searchResults.Append(new SearchResult(data.ErpEntity.Code, data.ErpEntity.Name));
+            }
+             return  searchResults.DistinctBy(p => p.Code);
+        }
+
+        public async Task<IEnumerable<SearchResult>> Fund(string query)
+        {
+            var filter = new ErpFundFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+
+            var result = await _apiClient.ErpFundSearch.ExecuteAsync(filter, query.Trim());
+
+            var data = result.ReadData();
+
+            var searchResults = data.ErpFundSearch.Data.Where(a => a.EligibleForUse)
+                .Select(d => new SearchResult(d.Code, d.Name));
+
+            if (data.ErpFund is { EligibleForUse: true })
+            {
+                searchResults = searchResults.Append(new SearchResult(data.ErpFund.Code, data.ErpFund.Name));
+            }
+
+            return searchResults.DistinctBy(p => p.Code);
+        }
+
+        public async Task<IEnumerable<SearchResult>> Department(string query)
+        {
+            var filter = new ErpFinancialDepartmentFilterInput()
+            { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+
+            var result = await _apiClient.ErpDepartmentSearch.ExecuteAsync(filter, query.Trim());
+
+            var data = result.ReadData();
+
+            var searchResults = data.ErpFinancialDepartmentSearch.Data.Where(a => a.EligibleForUse)
+                .Select(d => new SearchResult(d.Code, d.Name));
+
+            if (data.ErpFinancialDepartment is { EligibleForUse: true })
+            {
+                searchResults =
+                    searchResults.Append(new SearchResult(data.ErpFinancialDepartment.Code,
+                        data.ErpFinancialDepartment.Name));
+            }
+
+            return searchResults.DistinctBy(p => p.Code);
+        }
+
+        public async Task<IEnumerable<SearchResult>> Purpose(string query)
+        {
+            var filter = new ErpPurposeFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+
+            var result = await _apiClient.ErpPurposeSearch.ExecuteAsync(filter, query.Trim());
+
+            var data = result.ReadData();
+
+            var searchResults = data.ErpPurposeSearch.Data.Where(a => a.EligibleForUse)
+                .Select(d => new SearchResult(d.Code, d.Name));
+
+            if (data.ErpPurpose is { EligibleForUse: true })
+            {
+                searchResults = searchResults.Append(new SearchResult(data.ErpPurpose.Code, data.ErpPurpose.Name));
+            }
+
+            return searchResults.DistinctBy(p => p.Code);
+        }
+
+        public async Task<IEnumerable<SearchResult>> Account(string query)
+        {
+            var filter = new ErpAccountFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+
+            var result = await _apiClient.ErpAccountSearch.ExecuteAsync(filter, query.Trim());
+
+            var data = result.ReadData();
+
+            var searchResults = data.ErpAccountSearch.Data.Where(a => a.EligibleForUse)
+                .Select(d => new SearchResult(d.Code, d.Name));
+
+            if (data.ErpAccount is { EligibleForUse: true })
+            {
+                searchResults = searchResults.Append(new SearchResult(data.ErpAccount.Code, data.ErpAccount.Name));
+            }
+
+            return searchResults.DistinctBy(p => p.Code);
+        }
+
+        public async Task<IEnumerable<SearchResult>> Project(string query)
+        {
+            var filter = new ErpProjectFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+
+            var result = await _apiClient.ErpProjectSearch.ExecuteAsync(filter, query.Trim());
+
+            var data = result.ReadData();
+
+            var searchResults = data.ErpProjectSearch.Data.Where(a => a.EligibleForUse)
+                .Select(d => new SearchResult(d.Code, d.Name));
+
+            if (data.ErpProject is { EligibleForUse: true })
+            {
+                searchResults = searchResults.Append(new SearchResult(data.ErpProject.Code, data.ErpProject.Name));
+            }
+
+            return searchResults.DistinctBy(p => p.Code);
+        }
+
+        public async Task<IEnumerable<SearchResult>> Program(string query)
+        {
+            var filter = new ErpProgramFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+
+            var result = await _apiClient.ErpProgramSearch.ExecuteAsync(filter, query.Trim());
+
+            var data = result.ReadData();
+
+            var searchResults = data.ErpProgramSearch.Data.Where(a => a.EligibleForUse)
+                .Select(d => new SearchResult(d.Code, d.Name));
+
+            if (data.ErpProgram is { EligibleForUse: true })
+            {
+                searchResults = searchResults.Append(new SearchResult(data.ErpProgram.Code, data.ErpProgram.Name));
+            }
+
+            return searchResults.DistinctBy(p => p.Code);
+        }
+
+        public async Task<IEnumerable<SearchResult>> Activity(string query)
+        {
+            var filter = new ErpActivityFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
+
+            var result = await _apiClient.ErpActivitySearch.ExecuteAsync(filter, query.Trim());
+
+            var data = result.ReadData();
+
+            var searchResults = data.ErpActivitySearch.Data.Where(a => a.EligibleForUse)
+                .Select(d => new SearchResult(d.Code, d.Name));
+
+            if (data.ErpActivity is { EligibleForUse: true })
+            {
+                searchResults = searchResults.Append(new SearchResult(data.ErpActivity.Code, data.ErpActivity.Name));
+            }
+
+            return searchResults.DistinctBy(p => p.Code);
+        }
+
+        public async Task<IGlValidateChartstring_GlValidateChartstring> Validate(string segmentString)
+        {
+            var result = await _apiClient.GlValidateChartstring.ExecuteAsync(segmentString, true);
+
+            var data = result.ReadData();
+
+            return data.GlValidateChartstring;
         }
     }
 }
