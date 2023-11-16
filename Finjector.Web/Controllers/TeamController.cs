@@ -38,31 +38,65 @@ public class TeamController : ControllerBase
             {
                 Team = tg.Key,
                 FolderCount = tg.Select(c => c.Folder.Id).Distinct().Count(),
-                Admins = tg.SelectMany(c => c.Folder.Team.TeamPermissions.Select(p => p.User.FirstName + " " + p.User.LastName)).Distinct(),
-                TeamPermissionCount = tg.SelectMany(c => c.Folder.Team.TeamPermissions.Select(p => p.UserId)).Distinct().Count(),
-                FolderPermissionCount = tg.SelectMany(c => c.Folder.FolderPermissions.Select(p => p.UserId)).Distinct().Count(),
+                Admins = tg.SelectMany(c =>
+                    c.Folder.Team.TeamPermissions.Select(p => p.User.FirstName + " " + p.User.LastName)).Distinct(),
+                TeamPermissionCount = tg.SelectMany(c => c.Folder.Team.TeamPermissions.Select(p => p.UserId)).Distinct()
+                    .Count(),
+                FolderPermissionCount = tg.SelectMany(c => c.Folder.FolderPermissions.Select(p => p.UserId)).Distinct()
+                    .Count(),
                 ChartCount = tg.Count()
             })
             .ToListAsync();
-        
+
         return Ok(teamResults);
     }
 
-    public async Task<IActionResult> Get(int id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetTeam(int id)
     {
-        // todo -- verify that user has permission to view this team
-        
-        // todo -- return team info
-        // todo: include folders, count of charts, and permissions
+        var iamId = Request.GetCurrentUserIamId();
+
+        var team = await _dbContext.Teams.Include(t => t.TeamPermissions)
+            .Select(t => new
+            {
+                t.Id,
+                t.Name,
+                Permissions = t.TeamPermissions.Select(p => p.Role.Name)
+            })
+            .SingleOrDefaultAsync(t => t.Id == id);
+
+        if (team == null)
+        {
+            return NotFound();
+        }
+
+        // get all folders in this team that user has access to, and include count of team members and coas
+        var folders = await _dbContext.Folders.Where(f =>
+                f.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
+                f.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId))
+            .Where(f => f.Team.Id == id)
+            .GroupBy(f => new { f.Id, f.Name })
+            .Select(f => new
+            {
+                Folder = f.Key,
+                CoaCount = f.SelectMany(c => c.Coas).Count(),
+                FolderMemberCount =
+                    f.SelectMany(c => c.FolderPermissions).Count(),
+            })
+            .ToListAsync();
+
+        return Ok(new { team, folders });
     }
-    
+
+    // todo -- get folders for team, including coas
+
     // todo -- create team
-    
+
     // todo -- update team
-    
+
     // todo -- delete team
-    
+
     // todo -- add user to team
-    
+
     // todo -- remove user from team
 }
