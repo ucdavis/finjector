@@ -47,21 +47,23 @@ namespace Finjector.Core.Models
 
         public string PpmGlString { get; set; } = string.Empty;
 
+        public bool HasWarnings { get {  return Warnings.Count > 0; } }
+
     }
 
     public class SegmentDetails
     {
         public int Order { get; set; }
-        public string Entity { get; set; } = string.Empty;
-        public string Code { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
+        public string? Entity { get; set; } = string.Empty;
+        public string? Code { get; set; } = string.Empty;
+        public string? Name { get; set; } = string.Empty;
     }
 
     public class Approver
     {
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
+        public string? FirstName { get; set; } = string.Empty;
+        public string? LastName { get; set; } = string.Empty;
+        public string? Email { get; set; } = string.Empty;
         public string Name
         {
             get

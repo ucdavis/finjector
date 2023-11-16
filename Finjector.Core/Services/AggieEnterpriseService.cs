@@ -53,6 +53,12 @@ namespace Finjector.Core.Services
                     activity: glSegments.Activity);
 
                 var data = result.ReadData();
+                if(data == null)
+                {
+                    aeDetails.Errors.Add("Unable to get data from Aggie Enterprise");
+                    aeDetails.IsValid = false;
+                    return aeDetails;
+                }
 
                 aeDetails.IsValid = data.GlValidateChartstring.ValidationResponse.Valid;
                 if(!aeDetails.IsValid && data.GlValidateChartstring.ValidationResponse.ErrorMessages != null)
@@ -73,59 +79,59 @@ namespace Finjector.Core.Services
 
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 1,
+                    Order  = 1,
                     Entity = "Entity",
-                    Code = data?.ErpEntity?.Code,
-                    Name = data?.ErpEntity?.Name
+                    Code   = data.ErpEntity?.Code,
+                    Name   = data.ErpEntity?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 2,
+                    Order  = 2,
                     Entity = "Fund",
-                    Code = data?.ErpFund?.Code,
-                    Name = data?.ErpFund?.Name
+                    Code   = data.ErpFund?.Code,
+                    Name   = data.ErpFund?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 3,
+                    Order  = 3,
                     Entity = "Department",
-                    Code = data?.ErpFinancialDepartment?.Code,
-                    Name = data?.ErpFinancialDepartment?.Name
+                    Code   = data.ErpFinancialDepartment?.Code,
+                    Name   = data.ErpFinancialDepartment?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 4,
+                    Order  = 4,
                     Entity = "Account",
-                    Code = data?.ErpAccount?.Code,
-                    Name = data?.ErpAccount?.Name
+                    Code   = data.ErpAccount?.Code,
+                    Name   = data.ErpAccount?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 5,
+                    Order  = 5,
                     Entity = "Purpose",
-                    Code = data?.ErpPurpose?.Code,
-                    Name = data?.ErpPurpose?.Name
+                    Code   = data.ErpPurpose?.Code,
+                    Name   = data.ErpPurpose?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 6,
+                    Order  = 6,
                     Entity = "Program",
-                    Code = data?.ErpProgram?.Code,
-                    Name = data?.ErpProgram?.Name
+                    Code   = data.ErpProgram?.Code,
+                    Name   = data.ErpProgram?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 7,
+                    Order  = 7,
                     Entity = "Project",
-                    Code = data?.ErpProject?.Code,
-                    Name = data?.ErpProject?.Name
+                    Code   = data.ErpProject?.Code,
+                    Name   = data.ErpProject?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 8,
+                    Order  = 8,
                     Entity = "Activity",
-                    Code = data?.ErpActivity?.Code,
-                    Name = data?.ErpActivity?.Name
+                    Code   = data.ErpActivity?.Code,
+                    Name   = data.ErpActivity?.Name
                 });
 
                 if (data.ErpFinancialDepartment != null && data.ErpFinancialDepartment.Approvers != null)
@@ -135,8 +141,8 @@ namespace Finjector.Core.Services
                         aeDetails.Approvers.Add(new Approver
                         {
                             FirstName = approver.FirstName,
-                            LastName = approver.LastName,
-                            Email = approver.EmailAddress
+                            LastName  = approver.LastName,
+                            Email     = approver.EmailAddress
                         });
                     }
                 }
@@ -157,6 +163,14 @@ namespace Finjector.Core.Services
 
 
                 var data = result.ReadData();
+                if (data == null)
+                {
+                    aeDetails.Errors.Add("Unable to get data from Aggie Enterprise");
+                    aeDetails.IsValid = false;
+                    return aeDetails;
+                }
+
+
                 aeDetails.IsValid = data.PpmSegmentStringValidate.ValidationResponse.Valid;
                 if (!aeDetails.IsValid && data.PpmSegmentStringValidate.ValidationResponse.ErrorMessages != null)
                 {
@@ -180,8 +194,8 @@ namespace Finjector.Core.Services
                         aeDetails.Approvers.Add(new Approver
                         {
                             FirstName = approver.FirstName,
-                            LastName = approver.LastName,
-                            Email = approver.EmailAddress
+                            LastName  = approver.LastName,
+                            Email     = approver.EmailAddress
                         });
                     }
                 }
@@ -193,8 +207,8 @@ namespace Finjector.Core.Services
                     aeDetails.PpmProjectManager = new Approver
                     {
                         FirstName = nameParts[0],
-                        LastName = nameParts[nameParts.Length - 1],
-                        Email = data.PpmProjectByNumber.PrimaryProjectManagerEmail
+                        LastName  = nameParts[nameParts.Length - 1],
+                        Email     = data.PpmProjectByNumber.PrimaryProjectManagerEmail
                     };
                 }
                 catch(Exception ex)
@@ -204,56 +218,56 @@ namespace Finjector.Core.Services
 
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 1,
+                    Order  = 1,
                     Entity = "Project",
-                    Code = data.PpmProjectByNumber.ProjectNumber,
-                    Name = data.PpmProjectByNumber.Name
+                    Code   = data.PpmProjectByNumber?.ProjectNumber,
+                    Name   = data.PpmProjectByNumber?.Name
                 });
 
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 2,
+                    Order  = 2,
                     Entity = "Task",
-                    Code = data.PpmTaskByProjectNumberAndTaskNumber.TaskNumber,
-                    Name = data.PpmTaskByProjectNumberAndTaskNumber.Name
+                    Code   = data.PpmTaskByProjectNumberAndTaskNumber?.TaskNumber,
+                    Name   = data.PpmTaskByProjectNumberAndTaskNumber?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 3,
+                    Order  = 3,
                     Entity = "Organization",
-                    Code = data?.ErpFinancialDepartment?.Code,
-                    Name = data?.ErpFinancialDepartment?.Name
+                    Code   = data.ErpFinancialDepartment?.Code,
+                    Name   = data.ErpFinancialDepartment?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 4,
+                    Order  = 4,
                     Entity = "Expenditure Type",
-                    Code = data?.PpmExpenditureTypeByCode?.Code,
-                    Name = data?.PpmExpenditureTypeByCode?.Name
+                    Code   = data.PpmExpenditureTypeByCode?.Code,
+                    Name   = data.PpmExpenditureTypeByCode?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 5,
+                    Order  = 5,
                     Entity = "Award",
-                    Code = data?.PpmSegmentStringValidate.Segments.Award,
-                    Name = string.Empty
+                    Code   = data.PpmSegmentStringValidate.Segments.Award,
+                    Name   = string.Empty
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 6,
+                    Order  = 6,
                     Entity = "Funding Source",
-                    Code = data?.PpmSegmentStringValidate.Segments.FundingSource,
-                    Name = string.Empty
+                    Code   = data.PpmSegmentStringValidate.Segments.FundingSource,
+                    Name   = string.Empty
                 });
 
-                var entity = data.PpmProjectByNumber.LegalEntityCode ?? "0000";
-                var fund = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingFundCode ?? "00000";
-                var dept = data?.ErpFinancialDepartment?.Code ?? "0000000";
-                var account = data?.PpmExpenditureTypeByCode?.Code ?? "000000";
-                var purpose = data?.PpmTaskByProjectNumberAndTaskNumber.GlPostingPurposeCode ?? "00";
-                var program = data?.PpmTaskByProjectNumberAndTaskNumber.GlPostingProgramCode ?? "000";
-                var project = data.PpmProjectByNumber.ProjectNumber ?? "0000000000";
-                var activity = data?.PpmTaskByProjectNumberAndTaskNumber.GlPostingActivityCode ?? "000000";
+                var entity   = data.PpmProjectByNumber?.LegalEntityCode ?? "0000";
+                var fund     = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingFundCode ?? "00000";
+                var dept     = data.ErpFinancialDepartment?.Code ?? "0000000";
+                var account  = data.PpmExpenditureTypeByCode?.Code ?? "000000";
+                var purpose  = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingPurposeCode ?? "00";
+                var program  = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingProgramCode ?? "000";
+                var project  = data.PpmProjectByNumber?.ProjectNumber ?? "0000000000";
+                var activity = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingActivityCode ?? "000000";
 
                 aeDetails.PpmGlString = $"{entity}-{fund}-{dept}-{account}-{purpose}-{program}-{project}-{activity}-0000-000000-000000";
 
