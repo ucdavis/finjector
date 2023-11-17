@@ -110,6 +110,7 @@ try
     builder.Services.AddScoped<IIdentityService, IdentityService>(); //Lookup IAM to get user
     builder.Services.AddScoped<ICheckUser, CheckUser>();
     builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddScoped<IAggieEnterpriseService, AggieEnterpriseService>();
 
     builder.Services.AddDbContextPool<AppDbContext, AppDbContextSqlServer>((serviceProvider, o) =>
     {

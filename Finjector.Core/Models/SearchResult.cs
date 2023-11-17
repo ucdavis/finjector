@@ -1,4 +1,4 @@
-namespace Finjector.Web.Models
+namespace Finjector.Core.Models
 {
     public class SearchResult
     {
