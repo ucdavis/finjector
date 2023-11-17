@@ -20,7 +20,7 @@ export const buildInitialGlSegments = (): GlSegments => {
     activity: getDefaultSegment(glSegmentDefaults.activity, "activity"),
     department: getDefaultSegment(glSegmentDefaults.department, "department"),
     entity: getDefaultSegment(glSegmentDefaults.entity, "entity"),
-    fund: getDefaultSegment(glSegmentDefaults.fund, "fund", true),
+    fund: getDefaultSegment(glSegmentDefaults.fund, "fund"),
     program: getDefaultSegment(glSegmentDefaults.program, "program"),
     project: getDefaultSegment(glSegmentDefaults.project, "project"),
     purpose: getDefaultSegment(glSegmentDefaults.purpose, "purpose"),
