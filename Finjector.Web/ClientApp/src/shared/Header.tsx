@@ -27,10 +27,10 @@ const Header = () => (
             Charts
           </Link>
           <CenteredBullet />
-          <Link className="header-link" to="/teams">
-            Teams
-          </Link>
-          <CenteredBullet />
+          {/*<Link className="header-link" to="/teams">*/}
+          {/*  Teams*/}
+          {/*</Link>*/}
+          {/*<CenteredBullet />*/}
           <Link className="header-link" to="/about">
             About
           </Link>
