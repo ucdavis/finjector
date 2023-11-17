@@ -284,6 +284,29 @@ namespace Finjector.Core.Services
                     Name   = string.Empty
                 });
 
+                var awardDetail = aeDetails.SegmentDetails.Single(s => s.Entity == "Award");
+                if(!string.IsNullOrWhiteSpace( awardDetail.Code))
+                {
+                    var awardResult = await Award(awardDetail.Code);
+                    var awardData = awardResult.Where(a => a.Code == awardDetail.Code).FirstOrDefault();
+                    if(awardData != null)
+                    {
+                        awardDetail.Name = awardData.Name;
+                    }
+                    
+                }
+
+                var fundingSourceDetail = aeDetails.SegmentDetails.Single(s => s.Entity == "Funding Source");
+                if(!string.IsNullOrWhiteSpace(fundingSourceDetail.Code))
+                {
+                    var fundingSourceResult = await FundingSource(fundingSourceDetail.Code);
+                    var fundingSourceData = fundingSourceResult.Where(a => a.Code == fundingSourceDetail.Code).FirstOrDefault();
+                    if(fundingSourceData != null)
+                    {
+                        fundingSourceDetail.Name = fundingSourceData.Name;
+                    }
+                }
+
                 var entity   = data.PpmProjectByNumber?.LegalEntityCode ?? "0000";
                 var fund     = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingFundCode ?? "00000";
                 var dept     = data.ErpFinancialDepartment?.Code ?? "0000000";
