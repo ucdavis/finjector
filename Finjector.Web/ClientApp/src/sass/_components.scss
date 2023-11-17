@@ -181,10 +181,7 @@ hr {
   stroke-dashoffset: 180;
   animation: dash 2s infinite;
 }
-.page-title {
-  border-bottom: 1px solid $borders;
-  margin-bottom: 16px;
-}
+
 @keyframes dash {
   to {
     stroke-dashoffset: 0;

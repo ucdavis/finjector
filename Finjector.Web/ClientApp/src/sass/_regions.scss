@@ -1,5 +1,5 @@
 .saved-list-item {
-  margin-top: 1%;
+  margin-top: 2%;
   border: 1px solid $borders;
   list-style: none;
   // &:hover {
@@ -8,6 +8,7 @@
   .row-title {
     text-transform: uppercase;
     font-family: $sans-bold;
+    margin-bottom: 0px;
   }
   .row-subtitle {
     margin-bottom: 0px;
@@ -16,18 +17,18 @@
 .coa-row {
   border-radius: 4px;
   border: 1px solid $borders !important;
-  padding: 1%;
+  padding: 8px;
 }
 .team-row {
   border-radius: 4px;
   border: 1px solid $borders !important;
   .team-info {
-    padding: 1%;
+    padding: 20px 8px 12px 8px;
   }
   .team-actions {
     background-color: $bg-primary;
     border-top: 1px solid $borders;
-    padding: 1%;
+    padding: 10px 20px;
   }
 }
 .stat-icon {
@@ -36,5 +37,13 @@
   font-family: $sans-bold;
   svg {
     margin-right: 8px;
+  }
+}
+.page-title {
+  border-bottom: 1px solid $borders;
+}
+.page-info {
+  p {
+    margin-bottom: 0;
   }
 }

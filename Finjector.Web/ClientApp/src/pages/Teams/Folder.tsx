@@ -14,14 +14,20 @@ const Folder: React.FC = () => {
 
   return (
     <div>
-      <SearchBar
-        placeholderText="Search Within Group"
-        search={search}
-        setSearch={setSearch}
-      />
-
-      <h3>Folder name: {folderModel.data?.folder.name}</h3>
-      <h3>Team name: {folderModel.data?.folder.teamName}</h3>
+      <div className="page-title">
+        <h1>{folderModel.data?.folder.name}</h1>
+      </div>
+      <div className="page-info mb-3">
+        <p>Team - {folderModel.data?.folder.teamName}</p>
+        <p>Admins: x y z</p>
+      </div>
+      <div className="mb-3">
+        <SearchBar
+          placeholderText="Search Within Group"
+          search={search}
+          setSearch={setSearch}
+        />
+      </div>
       <ChartList charts={folderModel.data?.charts} filter={search} />
     </div>
   );
