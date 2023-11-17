@@ -296,6 +296,17 @@ namespace Finjector.Core.Services
                     
                 }
 
+                var fundingSourceDetail = aeDetails.SegmentDetails.Single(s => s.Entity == "Funding Source");
+                if(!string.IsNullOrWhiteSpace(fundingSourceDetail.Code))
+                {
+                    var fundingSourceResult = await FundingSource(fundingSourceDetail.Code);
+                    var fundingSourceData = fundingSourceResult.Where(a => a.Code == fundingSourceDetail.Code).FirstOrDefault();
+                    if(fundingSourceData != null)
+                    {
+                        fundingSourceDetail.Name = fundingSourceData.Name;
+                    }
+                }
+
                 var entity   = data.PpmProjectByNumber?.LegalEntityCode ?? "0000";
                 var fund     = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingFundCode ?? "00000";
                 var dept     = data.ErpFinancialDepartment?.Code ?? "0000000";
