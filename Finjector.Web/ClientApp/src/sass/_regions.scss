@@ -1,7 +1,40 @@
 .saved-list-item {
-  margin-top: 2%;
+  margin-top: 1%;
   border: 1px solid $borders;
+  list-style: none;
   // &:hover {
   //   background-color: $bg-primary;
   // }
+  .row-title {
+    text-transform: uppercase;
+    font-family: $sans-bold;
+  }
+  .row-subtitle {
+    margin-bottom: 0px;
+  }
+}
+.coa-row {
+  border-radius: 4px;
+  border: 1px solid $borders !important;
+  padding: 1%;
+}
+.team-row {
+  border-radius: 4px;
+  border: 1px solid $borders !important;
+  .team-info {
+    padding: 1%;
+  }
+  .team-actions {
+    background-color: $bg-primary;
+    border-top: 1px solid $borders;
+    padding: 1%;
+  }
+}
+.stat-icon {
+  margin-right: 16px;
+  color: $secondary-font;
+  font-family: $sans-bold;
+  svg {
+    margin-right: 8px;
+  }
 }

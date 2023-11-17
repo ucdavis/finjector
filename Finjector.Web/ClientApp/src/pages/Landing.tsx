@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import ChartList from "../components/ChartList";
 import { useGetSavedCharts } from "../queries/storedChartQueries";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faPaste } from "@fortawesome/free-solid-svg-icons";
+
 // Main landing screen for popup
 
 const Landing = () => {
@@ -28,10 +31,12 @@ const Landing = () => {
       <div className="row justify-content-between">
         <div className="d-grid gap-2 d-md-block">
           <Link to="/entry" className="btn btn-new me-3">
+            <FontAwesomeIcon icon={faPlus} />
             New CoA from Scratch
           </Link>
 
           <Link to="/paste" className="btn btn-new">
+            <FontAwesomeIcon icon={faPaste} />
             New CoA from Paste
           </Link>
         </div>

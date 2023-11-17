@@ -137,17 +137,19 @@ hr {
   color: $primary-font;
   box-shadow: 0 0 0 0.1rem transparentize($primary-color, 0.75);
 }
+.bold-link {
+  font-family: $sans-bold;
+  text-decoration: none;
+  svg {
+    margin-right: 8px;
+  }
+}
 .back-link {
   text-decoration: none;
   margin-bottom: 8px;
   svg {
     margin-right: 8px;
   }
-}
-.fin-item {
-  border-radius: 4px;
-  border: 1px solid $borders !important;
-  padding: 1%;
 }
 
 .btn-check:checked + .btn,

@@ -32,7 +32,7 @@ const ChartList = (props: Props) => {
     <ul className="list-group">
       {filteredCharts.map((chart) => (
         <li
-          className="fin-item is-ppm d-flex justify-content-between align-items-center saved-list-item"
+          className="coa-row is-ppm d-flex justify-content-between align-items-center saved-list-item"
           key={chart.id}
         >
           <div className="col-9 ms-2 me-auto">
