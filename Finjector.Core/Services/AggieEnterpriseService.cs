@@ -30,6 +30,7 @@ namespace Finjector.Core.Services
         Task<IEnumerable<SearchResult>> Organization(string query);
         Task<IEnumerable<SearchResult>> ExpenditureType(string query);
         Task<IEnumerable<SearchResult>> Award(string query);
+        Task<IPpmAward_PpmAwardByNumber?> GetAward(string query);
         Task<IEnumerable<SearchResult>> FundingSource(string query);
         Task<IPpmSegmentStringValidate_PpmSegmentStringValidate> PpmValidate(string segmentString);
     }
@@ -287,11 +288,11 @@ namespace Finjector.Core.Services
                 var awardDetail = aeDetails.SegmentDetails.Single(s => s.Entity == "Award");
                 if(!string.IsNullOrWhiteSpace( awardDetail.Code))
                 {
-                    var awardResult = await Award(awardDetail.Code);
-                    var awardData = awardResult.Where(a => a.Code == awardDetail.Code).FirstOrDefault();
-                    if(awardData != null)
+                    var awardResult = await GetAward(awardDetail.Code);
+                    if(awardResult != null && awardResult.EligibleForUse)
                     {
-                        awardDetail.Name = awardData.Name;
+                        awardDetail.Name = awardResult.Name;
+                        //TODO Use info to populate gl fields
                     }
                     
                 }
@@ -317,6 +318,7 @@ namespace Finjector.Core.Services
                 var activity = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingActivityCode ?? "000000";
 
                 aeDetails.PpmGlString = $"{entity}-{fund}-{dept}-{account}-{purpose}-{program}-{project}-{activity}-0000-000000-000000";
+                //TODO: Add PPM GL string to aeDetails to Match Cal's design
 
 
                 return aeDetails;
@@ -630,6 +632,16 @@ namespace Finjector.Core.Services
             }
 
             return searchResults.DistinctBy(p => p.Code);
+        }
+
+        public async Task<IPpmAward_PpmAwardByNumber?> GetAward(string query)
+        {
+
+            var result = await _apiClient.PpmAward.ExecuteAsync(query.ToUpper().Trim());
+
+            var data = result.ReadData();
+
+            return data.PpmAwardByNumber;
         }
 
         public async Task<IEnumerable<SearchResult>> FundingSource(string query)

@@ -51,7 +51,7 @@ public class ChartsController : ControllerBase
         }
 
         //Just to test
-        //var rtValue = await _aggieEnterpriseService.GetAeDetailsAsync(chart.SegmentString);
+        var rtValue = await _aggieEnterpriseService.GetAeDetailsAsync(chart.SegmentString);
 
         return Ok(chart);
     }
