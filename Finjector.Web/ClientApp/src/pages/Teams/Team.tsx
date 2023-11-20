@@ -19,7 +19,11 @@ const Team: React.FC = () => {
       </div>
       <div className="mb-3"></div>
       <SearchBar
-        placeholderText="Search My Teams"
+        placeholderText={
+          !!teamModel.data?.team.name
+            ? `Search Within ${teamModel.data?.team.name}`
+            : "Search My Teams"
+        }
         search={search}
         setSearch={setSearch}
       />
