@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faLayerGroup,
+  faFolderOpen,
   faUsers,
   faBolt,
   faList,
@@ -46,7 +46,7 @@ const ChartList = (props: Props) => {
             </div>
             <div className="col-3 d-flex justify-content-end">
               <div className="stat-icon">
-                <FontAwesomeIcon icon={faLayerGroup} />
+                <FontAwesomeIcon icon={faFolderOpen} />
                 {teamInfo.folderCount}{" "}
               </div>
               <div className="stat-icon">

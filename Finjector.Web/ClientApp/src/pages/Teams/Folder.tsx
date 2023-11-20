@@ -23,7 +23,7 @@ const Folder: React.FC = () => {
       </div>
       <div className="mb-3">
         <SearchBar
-          placeholderText="Search Within Group"
+          placeholderText="Search Within Folder"
           search={search}
           setSearch={setSearch}
         />
