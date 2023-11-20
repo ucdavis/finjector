@@ -270,35 +270,92 @@ namespace Finjector.Core.Services
                     Code   = data.PpmExpenditureTypeByCode?.Code,
                     Name   = data.PpmExpenditureTypeByCode?.Name
                 });
-                aeDetails.SegmentDetails.Add(new SegmentDetails
+                if (!string.IsNullOrWhiteSpace(data.PpmSegmentStringValidate.Segments.Award))
                 {
-                    Order  = 5,
-                    Entity = "Award",
-                    Code   = data.PpmSegmentStringValidate.Segments.Award,
-                    Name   = string.Empty
-                });
-                aeDetails.SegmentDetails.Add(new SegmentDetails
-                {
-                    Order  = 6,
-                    Entity = "Funding Source",
-                    Code   = data.PpmSegmentStringValidate.Segments.FundingSource,
-                    Name   = string.Empty
-                });
+                    aeDetails.SegmentDetails.Add(new SegmentDetails
+                    {
+                        Order = 5,
+                        Entity = "Award",
+                        Code = data.PpmSegmentStringValidate.Segments.Award,
+                        Name = string.Empty
+                    });
+                }
 
-                var awardDetail = aeDetails.SegmentDetails.Single(s => s.Entity == "Award");
-                if(!string.IsNullOrWhiteSpace( awardDetail.Code))
+                if (!string.IsNullOrWhiteSpace(data.PpmSegmentStringValidate.Segments.FundingSource))
+                {
+                    aeDetails.SegmentDetails.Add(new SegmentDetails
+                    {
+                        Order = 6,
+                        Entity = "Funding Source",
+                        Code = data.PpmSegmentStringValidate.Segments.FundingSource,
+                        Name = string.Empty
+                    });
+                }
+
+                if (data.PpmProjectByNumber?.LegalEntityCode != null)
+                {
+                    var segment = new SegmentDetails
+                    {
+                        Order = 7,
+                        Entity = "Legal Entity",
+                        Code = data.PpmProjectByNumber.LegalEntityCode,
+                    };
+                    var entityResult = await Entity(segment.Code);
+                    var entityData = entityResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                    if (entityData != null)
+                    {
+                        segment.Name = entityData.Name;
+                    }
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+
+                //Award specific GL info
+                var awardDetail = aeDetails.SegmentDetails.SingleOrDefault(s => s.Entity == "Award");
+                if(awardDetail != null)
                 {
                     var awardResult = await GetAward(awardDetail.Code);
                     if(awardResult != null && awardResult.EligibleForUse)
                     {
                         awardDetail.Name = awardResult.Name;
-                        //TODO Use info to populate gl fields
+                        if(awardResult.GlFundCode != null)
+                        {
+                            var segment = new SegmentDetails
+                            {
+                                Order = 8,
+                                Entity = "GL Fund",
+                                Code = awardResult.GlFundCode,
+                            };
+                            var fundResult = await Fund(segment.Code);
+                            var fundData = fundResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                            if(fundData != null)
+                            {
+                                segment.Name = fundData.Name;
+                            }
+
+                            aeDetails.SegmentDetails.Add(segment);
+                        }
+                        if(awardResult.GlPurposeCode != null)
+                        {
+                            var segment = new SegmentDetails
+                            {
+                                Order = 9,
+                                Entity = "GL Purpose",
+                                Code = awardResult.GlPurposeCode,
+                            };
+                            var purposeResult = await Purpose(segment.Code);
+                            var purposeData = purposeResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                            if(purposeData != null)
+                            {
+                                segment.Name = purposeData.Name;
+                            }
+                            aeDetails.SegmentDetails.Add(segment);
+                        }
                     }
-                    
+
                 }
 
-                var fundingSourceDetail = aeDetails.SegmentDetails.Single(s => s.Entity == "Funding Source");
-                if(!string.IsNullOrWhiteSpace(fundingSourceDetail.Code))
+                var fundingSourceDetail = aeDetails.SegmentDetails.SingleOrDefault(s => s.Entity == "Funding Source");
+                if(fundingSourceDetail != null && fundingSourceDetail.Code != null)
                 {
                     var fundingSourceResult = await FundingSource(fundingSourceDetail.Code);
                     var fundingSourceData = fundingSourceResult.Where(a => a.Code == fundingSourceDetail.Code).FirstOrDefault();
@@ -307,6 +364,75 @@ namespace Finjector.Core.Services
                         fundingSourceDetail.Name = fundingSourceData.Name;
                     }
                 }
+
+
+
+                if(data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingFundCode != null)
+                {
+                    var segment = new SegmentDetails
+                    {
+                        Order = 10,
+                        Entity = "GL Posting Fund",
+                        Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingFundCode,
+                    };
+                    var fundResult = await Fund(segment.Code);
+                    var fundData = fundResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                    if(fundData != null)
+                    {
+                        segment.Name = fundData.Name;
+                    }
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+                if(data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingPurposeCode != null)
+                {
+                    var segment = new SegmentDetails
+                    {
+                        Order = 11,
+                        Entity = "GL Posting Purpose",
+                        Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingPurposeCode,
+                    };
+                    var purposeResult = await Purpose(segment.Code);
+                    var purposeData = purposeResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                    if(purposeData != null)
+                    {
+                        segment.Name = purposeData.Name;
+                    }
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+
+                if(data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingProgramCode != null)
+                {
+                    var segment = new SegmentDetails
+                    {
+                        Order = 12,
+                        Entity = "GL Posting Program",
+                        Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingProgramCode,
+                    };
+                    var programResult = await Program(segment.Code);
+                    var programData = programResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                    if(programData != null)
+                    {
+                        segment.Name = programData.Name;
+                    }
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+                if(data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingActivityCode != null)
+                {
+                    var segment = new SegmentDetails
+                    {
+                        Order = 13,
+                        Entity = "GL Posting Activity",
+                        Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingActivityCode,
+                    };
+                    var activityResult = await Activity(segment.Code);
+                    var activityData = activityResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                    if(activityData != null)
+                    {
+                        segment.Name = activityData.Name;
+                    }
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+
 
                 var entity   = data.PpmProjectByNumber?.LegalEntityCode ?? "0000";
                 var fund     = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingFundCode ?? "00000";
@@ -634,9 +760,12 @@ namespace Finjector.Core.Services
             return searchResults.DistinctBy(p => p.Code);
         }
 
-        public async Task<IPpmAward_PpmAwardByNumber?> GetAward(string query)
+        public async Task<IPpmAward_PpmAwardByNumber?> GetAward(string? query)
         {
-
+            if(string.IsNullOrWhiteSpace(query))
+            {
+                return null;
+            }
             var result = await _apiClient.PpmAward.ExecuteAsync(query.ToUpper().Trim());
 
             var data = result.ReadData();
