@@ -463,7 +463,7 @@ namespace Finjector.Core.Services
         public async Task<IEnumerable<SearchResult>> Entity(string query)
         {
             var filter = new ErpEntityFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
-            var result = await _apiClient.ErpEntitySearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpEntitySearch.ExecuteAsync(filter, query.ToUpperTrim());
             var data = result.ReadData();
             var searchResults = data.ErpEntitySearch.Data.Where(a => a.EligibleForUse)
             .Select(d => new SearchResult(d.Code, d.Name));
@@ -478,7 +478,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpFundFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpFundSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpFundSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -498,7 +498,7 @@ namespace Finjector.Core.Services
             var filter = new ErpFinancialDepartmentFilterInput()
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpDepartmentSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpDepartmentSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -519,7 +519,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpPurposeFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpPurposeSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpPurposeSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -538,7 +538,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpAccountFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpAccountSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpAccountSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -557,7 +557,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpProjectFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpProjectSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpProjectSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -576,7 +576,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpProgramFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpProgramSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpProgramSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -595,7 +595,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpActivityFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpActivitySearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpActivitySearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -623,7 +623,7 @@ namespace Finjector.Core.Services
         {
             var filter = new PpmProjectFilterInput { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.PpmProjectSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.PpmProjectSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -703,7 +703,7 @@ namespace Finjector.Core.Services
             var filter = new PpmOrganizationFilterInput
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.PpmOrganizationSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.PpmOrganizationSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -723,7 +723,7 @@ namespace Finjector.Core.Services
             var filter = new PpmExpenditureTypeFilterInput
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.PpmExpenditureTypeSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.PpmExpenditureTypeSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -743,7 +743,7 @@ namespace Finjector.Core.Services
         {
             var filter = new PpmAwardFilterInput() { Name = new StringFilterInput { Contains = query } };
 
-            var result = await _apiClient.PpmAwardSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.PpmAwardSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -766,7 +766,7 @@ namespace Finjector.Core.Services
             {
                 return null;
             }
-            var result = await _apiClient.PpmAward.ExecuteAsync(query.ToUpper().Trim());
+            var result = await _apiClient.PpmAward.ExecuteAsync(query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -778,7 +778,7 @@ namespace Finjector.Core.Services
             var filter = new PpmFundingSourceFilterInput()
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.PpmFundingSourceSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.PpmFundingSourceSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
