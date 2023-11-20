@@ -34,8 +34,8 @@ const ChartList = (props: Props) => {
   return (
     <ul className="list-group">
       {filteredTeamsInfo.map((teamInfo) => (
-        <li className="team-row saved-list-item" key={teamInfo.team.id}>
-          <div className="team-info d-flex justify-content-between align-items-center">
+        <li className="fin-row saved-list-item" key={teamInfo.team.id}>
+          <div className="fin-info d-flex justify-content-between align-items-center">
             <div className="col-9 ms-2 me-auto">
               <h3 className="row-title">{teamInfo.team.name}</h3>
               <p className="row-subtitle">
@@ -59,7 +59,7 @@ const ChartList = (props: Props) => {
               </div>
             </div>
           </div>
-          <div className="team-actions">
+          <div className="fin-actions">
             <Link className="bold-link" to={`/teams/${teamInfo.team.id}`}>
               <FontAwesomeIcon icon={faList} />
               Go to Team

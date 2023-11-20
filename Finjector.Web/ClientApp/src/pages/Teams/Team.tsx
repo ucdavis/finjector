@@ -14,18 +14,19 @@ const Team: React.FC = () => {
 
   return (
     <div>
+      <div className="page-title mb-3">
+        <h1>{teamModel.data?.team.name}</h1>
+      </div>
+      <div className="mb-3"></div>
       <SearchBar
         placeholderText="Search My Teams"
         search={search}
         setSearch={setSearch}
       />
-
-      <h3>Team name: {teamModel.data?.team.name}</h3>
-      <FolderList teamModel={teamModel.data} filter={search} />
-      <button
-        className="btn btn-outline-secondary flex-fill me-3"
-        type="button"
-      >
+      <div className="mb-3">
+        <FolderList teamModel={teamModel.data} filter={search} />
+      </div>
+      <button className="btn btn-new me-3" type="button">
         Create New Folder
       </button>
     </div>
