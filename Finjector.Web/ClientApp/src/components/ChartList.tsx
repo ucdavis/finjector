@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import FinLoader from "./FinLoader";
 
-import { Chart } from "../types";
+import { Chart, ChartType } from "../types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
@@ -33,7 +33,7 @@ const ChartList = (props: Props) => {
       {filteredCharts.map((chart) => (
         <li
           className={`coa-row ${
-            chart.chartType === "PPM" ? "is-ppm" : "is-gl"
+            chart.chartType === ChartType.PPM ? "is-ppm" : "is-gl"
           } d-flex justify-content-between align-items-center saved-list-item`}
           key={chart.id}
         >
