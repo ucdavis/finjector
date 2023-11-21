@@ -1,4 +1,4 @@
-export interface Chart {
+export interface Coa {
   id: number;
   segmentString: string;
   name: string;
@@ -47,4 +47,31 @@ export interface ChartData {
   chartType: ChartType;
   glSegments: GlSegments;
   ppmSegments: PpmSegments;
+}
+
+export interface AeDetails {
+  isValid: boolean;
+  chartType: string;
+  chartStringType: ChartType;
+  errors: string[];
+  warnings: string[];
+  segmentDetails: SegmentDetails[];
+  approvers: Approver[];
+  ppmProjectManager: Approver;
+  ppmGlString: string;
+  hasWarnings: boolean;
+}
+
+export interface SegmentDetails {
+  order: number;
+  entity: string | null;
+  code: string | null;
+  name: string | null;
+}
+
+export interface Approver {
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  name: string;
 }

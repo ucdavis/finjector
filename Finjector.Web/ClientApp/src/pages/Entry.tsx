@@ -5,7 +5,7 @@ import GlEntry from "../components/GlEntry";
 import PpmEntry from "../components/PpmEntry";
 import FinLoader from "../components/FinLoader";
 
-import { Chart, ChartData, ChartType, SegmentData } from "../types";
+import { Coa, ChartData, ChartType, SegmentData } from "../types";
 
 // CSS
 // https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
@@ -24,7 +24,10 @@ import {
   isGlSegmentString,
 } from "../util/segmentValidation";
 import NameEntry from "../components/NameEntry";
-import { mapSegmentCodeToName, mapSegmentQueryData } from "../util/segmentMapping";
+import {
+  mapSegmentCodeToName,
+  mapSegmentQueryData,
+} from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
 import { ChartDebugInfo } from "../components/ChartDebugInfo";
 import { HomeLink } from "../components/HomeLink";
@@ -35,7 +38,7 @@ const Entry = () => {
 
   const savedChartQuery = useGetSavedChartWithData(id || "");
 
-  const [savedChart, setSavedChart] = React.useState<Chart>({
+  const [savedChart, setSavedChart] = React.useState<Coa>({
     id: 0,
     chartType: ChartType.PPM,
     name: "",
@@ -144,9 +147,7 @@ const Entry = () => {
         <h2>CoA Name</h2>
         <NameEntry
           chart={savedChart}
-          updateName={(n) =>
-            setSavedChart((c) => ({ ...c, name: n }))
-          }
+          updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
         />
         <CoaDisplay chartData={chartData} />
         {savedChart.id ? (

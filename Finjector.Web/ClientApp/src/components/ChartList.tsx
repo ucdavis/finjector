@@ -2,13 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import FinLoader from "./FinLoader";
 
-import { Chart } from "../types";
+import { Coa } from "../types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
-  charts: Chart[] | undefined;
+  charts: Coa[] | undefined;
   filter: string;
 }
 
@@ -42,6 +42,13 @@ const ChartList = (props: Props) => {
             </span>
           </div>
           <div className="col-3">
+            <Link
+              to={`/details/${chart.id}/${chart.segmentString}`}
+              className="btn btn-link"
+            >
+              <FontAwesomeIcon icon={faPencil} />
+              Details
+            </Link>
             <Link
               to={`/entry/${chart.id}/${chart.segmentString}`}
               className="btn btn-link"
