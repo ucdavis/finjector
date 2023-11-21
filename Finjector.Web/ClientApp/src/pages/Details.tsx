@@ -13,9 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
-  console.log("id", id);
-  console.log("chartSegmentString", chartSegmentString);
-
   const chartDetailsQuery = useGetChartDetails(chartSegmentString || "");
 
   const [chartDetails, setSavedChart] = React.useState<AeDetails>({
@@ -76,13 +73,48 @@ const Details = () => {
   return (
     <div className="main">
       <div className="row">
-        <div className="col">
+        <div className="col-10">
           <HomeLink>Back</HomeLink>
         </div>
-        <div>
-          <Button className="btn btn-primary">Edit COA</Button>
+        <div className="col">
+          <Link
+            to={`/entry/${
+              id ? `${id}/${chartSegmentString}` : `${chartSegmentString}`
+            }`}
+          >
+            <Button className="btn btn-primary">Edit COA</Button>{" "}
+          </Link>
           <Button className="btn btn-primary">Share COA</Button>
         </div>
+      </div>
+      <div className="card">
+        <div className="row">
+          <div className="col">
+            This chart string is {chartDetails.isValid ? "valid" : "invalid"}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            {chartDetails.errors.length} errors and{" "}
+            {chartDetails.warnings.length} warnings
+          </div>
+        </div>
+        {chartDetails.errors.length > 0 && (
+          <div className="col">
+            <div className="row">Errors</div>
+            {chartDetails.errors.map((error) => {
+              return <div className="row">{error}</div>;
+            })}
+          </div>
+        )}
+        {chartDetails.hasWarnings && chartDetails.warnings.length > 0 && (
+          <div className="col">
+            <div className="row">Warnings</div>
+            {chartDetails.warnings.map((warning) => {
+              return <div className="row">{warning}</div>;
+            })}
+          </div>
+        )}
       </div>
       <div className="mt-4 mb-4">
         <h2>{chartDetails.chartType} Chart Details</h2>
@@ -128,36 +160,6 @@ const Details = () => {
                 })}
               </div>
             </div>
-          </div>
-          <div className="card">
-            <div className="row">
-              <div className="col">
-                This chart string is{" "}
-                {chartDetails.isValid ? "valid" : "invalid"}
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                {chartDetails.errors.length} errors and{" "}
-                {chartDetails.warnings.length} warnings
-              </div>
-            </div>
-            {chartDetails.errors.length > 0 && (
-              <div className="col">
-                <div className="row">Errors</div>
-                {chartDetails.errors.map((error) => {
-                  return <div className="row">{error}</div>;
-                })}
-              </div>
-            )}
-            {chartDetails.hasWarnings && chartDetails.warnings.length > 0 && (
-              <div className="col">
-                <div className="row">Warnings</div>
-                {chartDetails.warnings.map((warning) => {
-                  return <div className="row">{warning}</div>;
-                })}
-              </div>
-            )}
           </div>
           <ChartDebugInfo chartDetails={chartDetails} />
         </div>
