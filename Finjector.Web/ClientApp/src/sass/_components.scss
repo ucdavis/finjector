@@ -229,8 +229,8 @@ hr {
   }
 }
 .is-gl {
-  border-left: 6px solid $gl;
-  .coa-type {
-    color: $gl;
-  }
+    border-left: 6px solid $gl !important;
+    .coa-type {
+        color: $gl;
+    }
 }
