@@ -227,10 +227,25 @@ hr {
   .coa-type {
     color: $ppm;
   }
+  .unique-bg {
+    background-color: $ppm-bg;
+    h4 {
+      color: $ppm;
+    }
+  }
 }
 .is-gl {
   border-left: 6px solid $gl;
   .coa-type {
     color: $gl;
   }
+  .unique-bg {
+    background-color: $gl-bg;
+    h4 {
+      color: $gl;
+    }
+  }
+}
+.primary-font {
+  color: $primary-font !important;
 }
