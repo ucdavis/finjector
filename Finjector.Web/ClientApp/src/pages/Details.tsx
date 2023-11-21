@@ -70,6 +70,8 @@ const Details = () => {
     return <FinLoader />;
   }
 
+  const isPpmOrGlClassName =
+    chartDetails.chartStringType === ChartType.PPM ? "is-ppm" : "is-gl";
   return (
     <div className="main">
       <div className="page-title">
@@ -121,8 +123,7 @@ const Details = () => {
           </div>
         )}
       </div>
-      <div className="mt-4 mb-4 is-ppm">
-        <h2>{chartDetails.chartType} Chart Details</h2>
+      <div className={`mt-4 mb-4 ${isPpmOrGlClassName}`}>
         <div className="coa-row d-flex justify-content-between align-items-center saved-list-item">
           <div className="col-9 ms-2 me-auto">
             <div className="coa-type">
@@ -173,8 +174,8 @@ const Details = () => {
             </div>
           </div>
         </div>
-        <ChartDebugInfo chartDetails={chartDetails} />
       </div>
+      <ChartDebugInfo chartDetails={chartDetails} />
     </div>
   );
 };
