@@ -21,6 +21,16 @@ namespace Finjector.Core.Extensions
             return value.Trim().Replace(" ", "%");
         }
 
+        public static string ToUpperTrim(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return string.Empty;
+            }
+
+            return value.Trim().ToUpper();
+        }
+
         /// <summary>
         /// Return segmented detail values from a CoA string
         /// </summary>
