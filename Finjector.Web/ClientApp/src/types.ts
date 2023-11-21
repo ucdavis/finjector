@@ -50,7 +50,7 @@ export interface TeamResponseModel {
 
 export interface FolderResponseModel {
   folder: Folder;
-  charts: Chart[];
+  charts: Coa[];
 }
 
 /* ----- End Query specific response types ------- */
