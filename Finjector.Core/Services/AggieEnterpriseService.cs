@@ -90,7 +90,7 @@ namespace Finjector.Core.Services
                     }
                 }
 
-                if(data.GlValidateChartstring.Warnings != null)
+                if(data.GlValidateChartstring.Warnings != null && data.GlValidateChartstring.Warnings.Count() > 0)
                 {
                     foreach(var warning in data.GlValidateChartstring.Warnings)
                     {
