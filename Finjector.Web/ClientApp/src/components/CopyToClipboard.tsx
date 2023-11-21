@@ -48,7 +48,6 @@ const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
             transition: "opacity 0.2s ease-in-out",
           }}
           onClick={handleCopy}
-          title={titleText}
         >
           <FontAwesomeIcon icon={faCopy} />
         </div>
