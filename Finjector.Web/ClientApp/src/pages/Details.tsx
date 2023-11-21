@@ -72,8 +72,11 @@ const Details = () => {
 
   return (
     <div className="main">
+      <div className="page-title">
+        <h1>{chartDetails.chartType} CoA</h1>
+      </div>
       <div className="row">
-        <div className="col-10">
+        <div className="col-9">
           <HomeLink>Back</HomeLink>
         </div>
         <div className="col">
@@ -82,9 +85,11 @@ const Details = () => {
               id ? `${id}/${chartSegmentString}` : `${chartSegmentString}`
             }`}
           >
-            <Button className="btn btn-primary">Edit COA</Button>{" "}
+            <Button className="btn btn-new me-3">Edit COA</Button>{" "}
           </Link>
-          <Button className="btn btn-primary">Share COA</Button>
+          <Link to="/share">
+            <Button className="btn btn-new">Share COA</Button>
+          </Link>
         </div>
       </div>
       <div className="card">
@@ -116,53 +121,59 @@ const Details = () => {
           </div>
         )}
       </div>
-      <div className="mt-4 mb-4">
+      <div className="mt-4 mb-4 is-ppm">
         <h2>{chartDetails.chartType} Chart Details</h2>
-        <div className="row-big">
-          <div className="segment-title">{chartDetails.chartType}</div>
-          <div className="row">
-            <div className="col">
-              <h1>{chartDetails.ppmGlString}</h1>
+        <div className="coa-row d-flex justify-content-between align-items-center saved-list-item">
+          <div className="col-9 ms-2 me-auto">
+            <div className="coa-type">
+              <span>{chartDetails.chartType}</span>
             </div>
-            <div className="col-1">
-              <Link
-                to={`/selected/${id}/${chartDetails.ppmGlString}`}
-                className="btn btn-link"
-              >
-                <FontAwesomeIcon icon={faPaperPlane} />
-                Use
-              </Link>
-            </div>
+            <h1>{chartDetails.ppmGlString}</h1>
           </div>
-          <div className="card">
-            {chartDetails.segmentDetails.map((segment) => {
-              return (
-                <div className="row">
-                  <div className="col-3 segment-title">{segment.entity}</div>
-                  <div className="col">
-                    <span className="details-segment-info">{segment.code}</span>{" "}
-                    {segment.name}
-                  </div>
-                </div>
-              );
-            })}
+          <div className="col-1">
+            <Link
+              to={`/selected/${id}/${chartDetails.ppmGlString}`}
+              className="btn btn-link"
+            >
+              <FontAwesomeIcon icon={faPaperPlane} />
+              Use
+            </Link>
           </div>
-          <div className="card">
-            <div className="row">
-              <div className="col-3 segment-title">Financial Officer(s)</div>
-              <div className="col">
-                {chartDetails.approvers.map((approver) => {
-                  return (
-                    <div className="row">
-                      {approver.name} ({approver.email})
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <ChartDebugInfo chartDetails={chartDetails} />
         </div>
+        <div className="card">
+          {chartDetails.segmentDetails.map((segment) => {
+            return (
+              <div className="row">
+                <div className="col-3 coa-type">{segment.entity}</div>
+                <div className="col">
+                  <span className="fw-bold">{segment.code}</span> {segment.name}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="card">
+          <div className="row">
+            <div className="col-3 fw-bold">Financial Officer(s)</div>
+            <div className="col">
+              {chartDetails.approvers.map((approver) => {
+                return (
+                  <div>
+                    {approver.name} ({approver.email})
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-3 fw-bold">Project Manager</div>
+            <div className="col">
+              {chartDetails.ppmProjectManager.name} (
+              {chartDetails.ppmProjectManager.email})
+            </div>
+          </div>
+        </div>
+        <ChartDebugInfo chartDetails={chartDetails} />
       </div>
     </div>
   );
