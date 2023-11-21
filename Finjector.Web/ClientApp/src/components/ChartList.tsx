@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import FinLoader from "./FinLoader";
 
-import { Chart } from "../types";
+import { Chart, ChartType } from "../types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
@@ -32,12 +32,14 @@ const ChartList = (props: Props) => {
     <ul className="list-group">
       {filteredCharts.map((chart) => (
         <li
-          className="coa-row is-ppm d-flex justify-content-between align-items-center saved-list-item"
+          className={`coa-row ${
+            chart.chartType === ChartType.PPM ? "is-ppm" : "is-gl"
+          } d-flex justify-content-between align-items-center saved-list-item`}
           key={chart.id}
         >
           <div className="col-9 ms-2 me-auto">
             <div className="coa-type">
-              <span>ppm</span>
+              <span>{chart.chartType}</span>
             </div>
             <div className="fw-bold "> {chart.name}</div>
             <span style={{ wordWrap: "break-word" }}>
