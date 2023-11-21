@@ -5,6 +5,14 @@ import FinLoader from "../FinLoader";
 import { TeamsResponseModel } from "../../types";
 import { Link } from "react-router-dom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFolderOpen,
+  faUsers,
+  faBolt,
+  faList,
+} from "@fortawesome/free-solid-svg-icons";
+
 interface Props {
   teamsInfo: TeamsResponseModel[] | undefined;
   filter: string;
@@ -26,20 +34,36 @@ const ChartList = (props: Props) => {
   return (
     <ul className="list-group">
       {filteredTeamsInfo.map((teamInfo) => (
-        <li
-          className="fin-item d-flex justify-content-between align-items-center saved-list-item"
-          key={teamInfo.team.id}
-        >
-          <div className="col-9 ms-2 me-auto">
-            <div className="fw-bold "> {teamInfo.team.name}</div>
-            <Link to={`/teams/${teamInfo.team.id}`}>Go to Team</Link>
-            <span style={{ wordWrap: "break-word" }}>
-              Admins: {teamInfo.admins.join(", ")}
-            </span>
+        <li className="fin-row saved-list-item" key={teamInfo.team.id}>
+          <div className="fin-info d-flex justify-content-between align-items-center">
+            <div className="col-9 ms-2 me-auto">
+              <h3 className="row-title">{teamInfo.team.name}</h3>
+              <p className="row-subtitle">
+                <span style={{ wordWrap: "break-word" }}>
+                  Admins: {teamInfo.admins.join(", ")}
+                </span>
+              </p>
+            </div>
+            <div className="col-3 d-flex justify-content-end">
+              <div className="stat-icon">
+                <FontAwesomeIcon icon={faFolderOpen} />
+                {teamInfo.folderCount}{" "}
+              </div>
+              <div className="stat-icon">
+                <FontAwesomeIcon icon={faUsers} />
+                {teamInfo.teamPermissionCount + teamInfo.folderPermissionCount}
+              </div>
+              <div className="stat-icon">
+                <FontAwesomeIcon icon={faBolt} />
+                {teamInfo.chartCount}
+              </div>
+            </div>
           </div>
-          <div className="col-3">
-            {teamInfo.chartCount} | {teamInfo.folderCount} |{" "}
-            {teamInfo.teamPermissionCount + teamInfo.folderPermissionCount}
+          <div className="fin-actions">
+            <Link className="bold-link" to={`/teams/${teamInfo.team.id}`}>
+              <FontAwesomeIcon icon={faList} />
+              Go to Team
+            </Link>
           </div>
         </li>
       ))}

@@ -25,8 +25,12 @@ describe("Landing", () => {
     render(wrappedView());
 
     // should see the create new chart buttons
-    expect(screen.getByRole("link", { name: /create new chart from scratch/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /create new chart from paste/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /New CoA from Scratch/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /New CoA from Paste/i })
+    ).toBeInTheDocument();
   });
 
   it("loads saved charts", async () => {
@@ -41,7 +45,6 @@ describe("Landing", () => {
       expect(screen.getByText("Chart 1")).toBeInTheDocument();
     });
   });
-
 });
 
 const wrappedView = () => (

@@ -26,9 +26,7 @@ describe("App", () => {
 
     // should see landing page
     await waitFor(() => {
-      expect(
-        screen.getByText("Create new chart from scratch")
-      ).toBeInTheDocument();
+      expect(screen.getByText("New CoA from Scratch")).toBeInTheDocument();
     });
   });
 });
