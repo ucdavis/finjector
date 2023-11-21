@@ -6,13 +6,15 @@ import { UncontrolledTooltip } from "reactstrap";
 interface CopyToClipboardProps {
   value: string;
   children: React.ReactNode;
+  id?: string;
 }
 
 const copyToClipboardDefaultMessage = "copy to clipboard";
 
-const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
+const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
   value,
   children,
+  id,
 }) => {
   const [titleText, setTitleText] = useState<string>(
     copyToClipboardDefaultMessage
@@ -28,17 +30,17 @@ const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
 
   return (
     <div
-      id="copy-container"
+      id={`copy-container-hover-${id}`}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
       <div
-        id="copy-item-container"
+        id={`copy-item-container`}
         style={{ position: "relative", display: "inline-flex" }}
       >
         {children}
         <div
-          id="copy-button"
+          id={`copy-button-${id}`}
           style={{
             position: "absolute",
             right: "-25px",
@@ -52,11 +54,11 @@ const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
           <FontAwesomeIcon icon={faCopy} />
         </div>
       </div>
-      <UncontrolledTooltip placement="top" target="copy-button">
+      <UncontrolledTooltip placement="top" target={`copy-button-${id}`}>
         {titleText}
       </UncontrolledTooltip>
     </div>
   );
 };
 
-export default CopyToClipboard;
+export default CopyToClipboardHover;

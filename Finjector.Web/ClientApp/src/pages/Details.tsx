@@ -8,8 +8,10 @@ import { ChartDebugInfo } from "../components/ChartDebugInfo";
 import { HomeLink } from "../components/HomeLink";
 import { ChartLoadingError } from "../components/ChartLoadingError";
 import { Button } from "reactstrap";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CopyToClipboardHover from "../shared/CopyToClipboardHover";
+import CopyToClipboard from "../shared/CopyToClipboard";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -72,6 +74,7 @@ const Details = () => {
 
   const isPpmOrGlClassName =
     chartDetails.chartType === ChartType.PPM ? "is-ppm" : "is-gl";
+
   return (
     <div className="main">
       <div className="page-title">
@@ -129,22 +132,29 @@ const Details = () => {
             <div className="coa-type">
               <span>{chartDetails.chartType}</span>
             </div>
-            <h1>{chartDetails.ppmGlString}</h1>
+            <CopyToClipboardHover
+              value={chartDetails.ppmGlString}
+              id="copyPpmGlString"
+            >
+              <h1>{chartDetails.ppmGlString}</h1>
+            </CopyToClipboardHover>
           </div>
           <div className="col-1">
-            <Link
-              to={`/selected/${id}/${chartDetails.ppmGlString}`}
-              className="btn btn-link"
+            <CopyToClipboard
+              value={chartDetails.ppmGlString}
+              id="copyPpmGlStringButton"
             >
-              <FontAwesomeIcon icon={faPaperPlane} />
-              Use
-            </Link>
+              <div className="btn btn-link">
+                <FontAwesomeIcon icon={faCopy} />
+                Copy
+              </div>
+            </CopyToClipboard>
           </div>
         </div>
         <div className="card">
-          {chartDetails.segmentDetails.map((segment) => {
+          {chartDetails.segmentDetails.map((segment, i) => {
             return (
-              <div className="row">
+              <div className="row" key={i}>
                 <div className="col-3 coa-type">{segment.entity}</div>
                 <div className="col">
                   <span className="fw-bold">{segment.code}</span> {segment.name}
@@ -157,9 +167,9 @@ const Details = () => {
           <div className="row">
             <div className="col-3 fw-bold">Financial Officer(s)</div>
             <div className="col">
-              {chartDetails.approvers.map((approver) => {
+              {chartDetails.approvers.map((approver, i) => {
                 return (
-                  <div>
+                  <div key={i}>
                     {approver.name} ({approver.email})
                   </div>
                 );
