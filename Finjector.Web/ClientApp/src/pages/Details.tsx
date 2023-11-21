@@ -71,7 +71,7 @@ const Details = () => {
   }
 
   const isPpmOrGlClassName =
-    chartDetails.chartStringType === ChartType.PPM ? "is-ppm" : "is-gl";
+    chartDetails.chartType === ChartType.PPM ? "is-ppm" : "is-gl";
   return (
     <div className="main">
       <div className="page-title">
