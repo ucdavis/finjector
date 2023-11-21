@@ -1,7 +1,49 @@
 .saved-list-item {
   margin-top: 2%;
   border: 1px solid $borders;
+  list-style: none;
   // &:hover {
   //   background-color: $bg-primary;
   // }
+  .row-title {
+    text-transform: uppercase;
+    font-family: $sans-bold;
+    margin-bottom: 0px;
+  }
+  .row-subtitle {
+    margin-bottom: 0px;
+  }
+}
+.coa-row {
+  border-radius: 4px;
+  border: 1px solid $borders !important;
+  padding: 8px;
+}
+.fin-row {
+  border-radius: 4px;
+  border: 1px solid $borders !important;
+  .fin-info {
+    padding: 20px 8px 12px 8px;
+  }
+  .fin-actions {
+    background-color: $bg-primary;
+    border-top: 1px solid $borders;
+    padding: 10px 20px;
+  }
+}
+.stat-icon {
+  margin-right: 16px;
+  color: $secondary-font;
+  font-family: $sans-bold;
+  svg {
+    margin-right: 8px;
+  }
+}
+.page-title {
+  border-bottom: 1px solid $borders;
+}
+.page-info {
+  p {
+    margin-bottom: 0;
+  }
 }
