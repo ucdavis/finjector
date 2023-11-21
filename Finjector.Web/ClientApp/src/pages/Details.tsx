@@ -87,7 +87,7 @@ const Details = () => {
               id ? `${id}/${chartSegmentString}` : `${chartSegmentString}`
             }`}
           >
-            <Button className="btn btn-new me-3">Edit COA</Button>{" "}
+            <Button className="btn btn-new me-5">Edit COA</Button>
           </Link>
           <Link to="/share">
             <Button className="btn btn-new">Share COA</Button>
