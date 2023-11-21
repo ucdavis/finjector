@@ -131,14 +131,19 @@ const Details = () => {
           </div>
           <div className="card">
             <div className="row">
-              This chart string is {chartDetails.isValid ? "valid" : "invalid"}
+              <div className="col">
+                This chart string is{" "}
+                {chartDetails.isValid ? "valid" : "invalid"}
+              </div>
             </div>
             <div className="row">
-              {chartDetails.errors.length} errors and{" "}
-              {chartDetails.warnings.length} warnings
+              <div className="col">
+                {chartDetails.errors.length} errors and{" "}
+                {chartDetails.warnings.length} warnings
+              </div>
             </div>
             {chartDetails.errors.length > 0 && (
-              <div>
+              <div className="col">
                 <div className="row">Errors</div>
                 {chartDetails.errors.map((error) => {
                   return <div className="row">{error}</div>;
@@ -146,7 +151,7 @@ const Details = () => {
               </div>
             )}
             {chartDetails.hasWarnings && chartDetails.warnings.length > 0 && (
-              <div>
+              <div className="col">
                 <div className="row">Warnings</div>
                 {chartDetails.warnings.map((warning) => {
                   return <div className="row">{warning}</div>;
