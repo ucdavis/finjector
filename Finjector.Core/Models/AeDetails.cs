@@ -20,7 +20,7 @@ namespace Finjector.Core.Models
                     return string.Empty;
                 }
 
-                return string.Join(" ", Error);
+                return string.Join(" ", Errors);
             }
         }
 
