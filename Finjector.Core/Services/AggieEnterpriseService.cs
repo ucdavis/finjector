@@ -30,6 +30,7 @@ namespace Finjector.Core.Services
         Task<IEnumerable<SearchResult>> Organization(string query);
         Task<IEnumerable<SearchResult>> ExpenditureType(string query);
         Task<IEnumerable<SearchResult>> Award(string query);
+        Task<IPpmAward_PpmAwardByNumber?> GetAward(string query);
         Task<IEnumerable<SearchResult>> FundingSource(string query);
         Task<IPpmSegmentStringValidate_PpmSegmentStringValidate> PpmValidate(string segmentString);
     }
@@ -269,20 +270,169 @@ namespace Finjector.Core.Services
                     Code   = data.PpmExpenditureTypeByCode?.Code,
                     Name   = data.PpmExpenditureTypeByCode?.Name
                 });
-                aeDetails.SegmentDetails.Add(new SegmentDetails
+                if (!string.IsNullOrWhiteSpace(data.PpmSegmentStringValidate.Segments.Award))
                 {
-                    Order  = 5,
-                    Entity = "Award",
-                    Code   = data.PpmSegmentStringValidate.Segments.Award,
-                    Name   = string.Empty
-                });
-                aeDetails.SegmentDetails.Add(new SegmentDetails
+                    aeDetails.SegmentDetails.Add(new SegmentDetails
+                    {
+                        Order = 5,
+                        Entity = "Award",
+                        Code = data.PpmSegmentStringValidate.Segments.Award,
+                        Name = string.Empty
+                    });
+                }
+
+                if (!string.IsNullOrWhiteSpace(data.PpmSegmentStringValidate.Segments.FundingSource))
                 {
-                    Order  = 6,
-                    Entity = "Funding Source",
-                    Code   = data.PpmSegmentStringValidate.Segments.FundingSource,
-                    Name   = string.Empty
-                });
+                    aeDetails.SegmentDetails.Add(new SegmentDetails
+                    {
+                        Order = 6,
+                        Entity = "Funding Source",
+                        Code = data.PpmSegmentStringValidate.Segments.FundingSource,
+                        Name = string.Empty
+                    });
+                }
+
+                if (data.PpmProjectByNumber?.LegalEntityCode != null)
+                {
+                    var segment = new SegmentDetails
+                    {
+                        Order = 7,
+                        Entity = "Legal Entity",
+                        Code = data.PpmProjectByNumber.LegalEntityCode,
+                    };
+                    var entityResult = await Entity(segment.Code);
+                    var entityData = entityResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                    if (entityData != null)
+                    {
+                        segment.Name = entityData.Name;
+                    }
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+
+                //Award specific GL info
+                var awardDetail = aeDetails.SegmentDetails.SingleOrDefault(s => s.Entity == "Award");
+                if(awardDetail != null)
+                {
+                    var awardResult = await GetAward(awardDetail.Code);
+                    if(awardResult != null && awardResult.EligibleForUse)
+                    {
+                        awardDetail.Name = awardResult.Name;
+                        if(awardResult.GlFundCode != null)
+                        {
+                            var segment = new SegmentDetails
+                            {
+                                Order = 8,
+                                Entity = "GL Fund",
+                                Code = awardResult.GlFundCode,
+                            };
+                            var fundResult = await Fund(segment.Code);
+                            var fundData = fundResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                            if(fundData != null)
+                            {
+                                segment.Name = fundData.Name;
+                            }
+
+                            aeDetails.SegmentDetails.Add(segment);
+                        }
+                        if(awardResult.GlPurposeCode != null)
+                        {
+                            var segment = new SegmentDetails
+                            {
+                                Order = 9,
+                                Entity = "GL Purpose",
+                                Code = awardResult.GlPurposeCode,
+                            };
+                            var purposeResult = await Purpose(segment.Code);
+                            var purposeData = purposeResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                            if(purposeData != null)
+                            {
+                                segment.Name = purposeData.Name;
+                            }
+                            aeDetails.SegmentDetails.Add(segment);
+                        }
+                    }
+
+                }
+
+                var fundingSourceDetail = aeDetails.SegmentDetails.SingleOrDefault(s => s.Entity == "Funding Source");
+                if(fundingSourceDetail != null && fundingSourceDetail.Code != null)
+                {
+                    var fundingSourceResult = await FundingSource(fundingSourceDetail.Code);
+                    var fundingSourceData = fundingSourceResult.Where(a => a.Code == fundingSourceDetail.Code).FirstOrDefault();
+                    if(fundingSourceData != null)
+                    {
+                        fundingSourceDetail.Name = fundingSourceData.Name;
+                    }
+                }
+
+
+
+                if(data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingFundCode != null)
+                {
+                    var segment = new SegmentDetails
+                    {
+                        Order = 10,
+                        Entity = "GL Posting Fund",
+                        Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingFundCode,
+                    };
+                    var fundResult = await Fund(segment.Code);
+                    var fundData = fundResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                    if(fundData != null)
+                    {
+                        segment.Name = fundData.Name;
+                    }
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+                if(data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingPurposeCode != null)
+                {
+                    var segment = new SegmentDetails
+                    {
+                        Order = 11,
+                        Entity = "GL Posting Purpose",
+                        Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingPurposeCode,
+                    };
+                    var purposeResult = await Purpose(segment.Code);
+                    var purposeData = purposeResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                    if(purposeData != null)
+                    {
+                        segment.Name = purposeData.Name;
+                    }
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+
+                if(data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingProgramCode != null)
+                {
+                    var segment = new SegmentDetails
+                    {
+                        Order = 12,
+                        Entity = "GL Posting Program",
+                        Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingProgramCode,
+                    };
+                    var programResult = await Program(segment.Code);
+                    var programData = programResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                    if(programData != null)
+                    {
+                        segment.Name = programData.Name;
+                    }
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+                if(data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingActivityCode != null)
+                {
+                    var segment = new SegmentDetails
+                    {
+                        Order = 13,
+                        Entity = "GL Posting Activity",
+                        Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingActivityCode,
+                    };
+                    var activityResult = await Activity(segment.Code);
+                    var activityData = activityResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                    if(activityData != null)
+                    {
+                        segment.Name = activityData.Name;
+                    }
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+
 
                 var entity   = data.PpmProjectByNumber?.LegalEntityCode ?? "0000";
                 var fund     = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingFundCode ?? "00000";
@@ -294,6 +444,7 @@ namespace Finjector.Core.Services
                 var activity = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingActivityCode ?? "000000";
 
                 aeDetails.PpmGlString = $"{entity}-{fund}-{dept}-{account}-{purpose}-{program}-{project}-{activity}-0000-000000-000000";
+                //TODO: Add PPM GL string to aeDetails to Match Cal's design
 
 
                 return aeDetails;
@@ -312,7 +463,7 @@ namespace Finjector.Core.Services
         public async Task<IEnumerable<SearchResult>> Entity(string query)
         {
             var filter = new ErpEntityFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
-            var result = await _apiClient.ErpEntitySearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpEntitySearch.ExecuteAsync(filter, query.ToUpperTrim());
             var data = result.ReadData();
             var searchResults = data.ErpEntitySearch.Data.Where(a => a.EligibleForUse)
             .Select(d => new SearchResult(d.Code, d.Name));
@@ -327,7 +478,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpFundFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpFundSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpFundSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -347,7 +498,7 @@ namespace Finjector.Core.Services
             var filter = new ErpFinancialDepartmentFilterInput()
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpDepartmentSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpDepartmentSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -368,7 +519,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpPurposeFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpPurposeSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpPurposeSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -387,7 +538,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpAccountFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpAccountSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpAccountSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -406,7 +557,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpProjectFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpProjectSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpProjectSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -425,7 +576,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpProgramFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpProgramSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpProgramSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -444,7 +595,7 @@ namespace Finjector.Core.Services
         {
             var filter = new ErpActivityFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.ErpActivitySearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.ErpActivitySearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -472,7 +623,7 @@ namespace Finjector.Core.Services
         {
             var filter = new PpmProjectFilterInput { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.PpmProjectSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.PpmProjectSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -552,7 +703,7 @@ namespace Finjector.Core.Services
             var filter = new PpmOrganizationFilterInput
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.PpmOrganizationSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.PpmOrganizationSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -572,7 +723,7 @@ namespace Finjector.Core.Services
             var filter = new PpmExpenditureTypeFilterInput
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.PpmExpenditureTypeSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.PpmExpenditureTypeSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -592,7 +743,7 @@ namespace Finjector.Core.Services
         {
             var filter = new PpmAwardFilterInput() { Name = new StringFilterInput { Contains = query } };
 
-            var result = await _apiClient.PpmAwardSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.PpmAwardSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 
@@ -609,12 +760,25 @@ namespace Finjector.Core.Services
             return searchResults.DistinctBy(p => p.Code);
         }
 
+        public async Task<IPpmAward_PpmAwardByNumber?> GetAward(string? query)
+        {
+            if(string.IsNullOrWhiteSpace(query))
+            {
+                return null;
+            }
+            var result = await _apiClient.PpmAward.ExecuteAsync(query.ToUpperTrim());
+
+            var data = result.ReadData();
+
+            return data.PpmAwardByNumber;
+        }
+
         public async Task<IEnumerable<SearchResult>> FundingSource(string query)
         {
             var filter = new PpmFundingSourceFilterInput()
             { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
 
-            var result = await _apiClient.PpmFundingSourceSearch.ExecuteAsync(filter, query.Trim());
+            var result = await _apiClient.PpmFundingSourceSearch.ExecuteAsync(filter, query.ToUpperTrim());
 
             var data = result.ReadData();
 

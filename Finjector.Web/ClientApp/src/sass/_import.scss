@@ -18,10 +18,16 @@ $theme-colors: (
 $bg-primary: transparentize($primary-color, 0.96);
 
 $primary-bg: #fff;
-$borders: #c9c3ce;
+$borders: #e6e7e9;
 $primary-font: rgba(31, 31, 31, 0.99); //
 $secondary-font: rgba(31, 31, 31, 0.7); //
 $tertiary-font: rgba(31, 31, 31, 0.48); //
+
+$gl: #d9a611;
+$ppm: $gunrock;
+
+$gl-bg: transparentize(#d9a611, 0.96);
+$ppm-bg: transparentize($gunrock, 0.96);
 
 $danger: $merlot;
 $error-color: $danger;

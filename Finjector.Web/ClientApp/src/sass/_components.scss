@@ -13,24 +13,24 @@
 }
 .btn-link {
   box-shadow: none;
-  color: $primary-color;
+  color: $primary-font;
   &:hover {
     background-color: inherit;
-    color: (lighten($primary-color, 5));
+    color: (lighten($primary-font, 5));
   }
 }
 .btn-new {
   font-size: 1rem;
-  background-color: $bg-primary;
+  background-color: #fff;
   color: $primary-color;
-  border: 1px solid $borders;
+  border: 1px solid $primary-color;
   box-shadow: none;
   padding: 8px 16px;
   text-transform: none;
   &:hover {
     background-color: transparentize($primary-color, 0.85);
-    border: 1px solid $borders;
     color: $primary-color;
+    border: 1px solid $primary-color;
   }
 }
 
@@ -44,10 +44,36 @@
     color: lighten($primary-color, 7) !important;
   }
 }
-.btn-outline-active {
-  background-color: transparentize($primary-color, 0.85) !important;
+.btn-gl {
+  background-color: #fff;
+  color: $gl;
+  border-color: $gl;
+  box-shadow: none;
+  &:hover {
+    background-color: $gl-bg !important;
+    color: $gl !important;
+    border-color: $gl !important;
+  }
 }
-
+.btn-ppm {
+  background-color: #fff;
+  color: $ppm;
+  border-color: $ppm;
+  box-shadow: none;
+  &:hover {
+    background-color: $ppm-bg !important;
+    color: $ppm !important;
+    border-color: $ppm !important;
+  }
+}
+.btn-ppm.btn-outline-active {
+  background-color: $ppm !important;
+  color: #fff !important;
+}
+.btn-gl.btn-outline-active {
+  background-color: $gl !important;
+  color: #fff !important;
+}
 .california-bg {
   background-color: transparentize($california, 0.9);
   a {
@@ -111,17 +137,19 @@ hr {
   color: $primary-font;
   box-shadow: 0 0 0 0.1rem transparentize($primary-color, 0.75);
 }
+.bold-link {
+  font-family: $sans-bold;
+  text-decoration: none;
+  svg {
+    margin-right: 8px;
+  }
+}
 .back-link {
   text-decoration: none;
   margin-bottom: 8px;
   svg {
     margin-right: 8px;
   }
-}
-.fin-item {
-  border-radius: 4px;
-  border: 1px solid $borders !important;
-  padding: 1%;
 }
 
 .btn-check:checked + .btn,
@@ -187,5 +215,22 @@ hr {
   }
   100% {
     transform: translate(69%, 18%);
+  }
+}
+.coa-type {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-family: $sans-bold;
+}
+.is-ppm {
+  border-left: 6px solid $ppm !important;
+  .coa-type {
+    color: $ppm;
+  }
+}
+.is-gl {
+  border-left: 6px solid $gl;
+  .coa-type {
+    color: $gl;
   }
 }

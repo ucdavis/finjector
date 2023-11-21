@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AggieEnterpriseApi" Version="0.2.207" />
+    <PackageReference Include="AggieEnterpriseApi" Version="0.2.209" />
     <PackageReference Include="Ietws" Version="0.2.22" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.0" />
@@ -41,10 +41,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Finjector.Core\Finjector.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
