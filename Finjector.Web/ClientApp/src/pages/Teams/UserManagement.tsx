@@ -1,10 +1,15 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { usePermissionsQuery } from "../../queries/userQueries";
+import { AddUserPermission } from "./AddUserPermission";
 
 const UserManagement: React.FC = () => {
   // read (team) id and folderId from the url
   const { id, folderId } = useParams();
+
+  const [addPermissionActive, setAddPermissionActive] = React.useState(false);
+
+  const toggleAddPermission = () => setAddPermissionActive((p) => !p);
 
   // query for membership
   const membershipQuery = usePermissionsQuery(
@@ -18,16 +23,15 @@ const UserManagement: React.FC = () => {
 
   return (
     <div>
-        <h2>
-            Manage Permissions
-        </h2>
-      <button>+ Add New Role (TODO)</button>
+      <h2>Manage Permissions</h2>
+      <button onClick={toggleAddPermission}>+ Add New Role (TODO)</button>
       <table className="table">
         <thead>
           <tr>
             <th>User Name</th>
             <th>User Email</th>
             <th>Role Name</th>
+            <th>Remove Role</th>
           </tr>
         </thead>
         <tbody>
@@ -37,10 +41,17 @@ const UserManagement: React.FC = () => {
                 <td>{member.userName}</td>
                 <td>{member.userEmail}</td>
                 <td>{member.roleName}</td>
+                <td>
+                  <button>Remove</button>
+                </td>
               </tr>
             ))}
         </tbody>
       </table>
+      <AddUserPermission
+        active={addPermissionActive}
+        toggle={toggleAddPermission}
+      />
     </div>
   );
 };
