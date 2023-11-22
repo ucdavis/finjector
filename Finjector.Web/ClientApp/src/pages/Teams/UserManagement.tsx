@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { usePermissionsQuery } from "../../queries/userQueries";
 import { AddUserPermission } from "../../components/Teams/AddUserPermission";
 import { CollectionResourceType } from "../../types";

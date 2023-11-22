@@ -31,7 +31,7 @@ public class TeamController : ControllerBase
         var teamResults = await _dbContext.Coas.Where(c =>
                 c.Folder.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
                 c.Folder.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId))
-            .GroupBy(c => new { c.Folder.Team.Id, c.Folder.Team.Name })
+            .GroupBy(c => new { c.Folder.Team.Id, c.Folder.Team.Name, c.Folder.Team.IsPersonal })
             .Select(tg => new
             {
                 Team = tg.Key,
@@ -65,6 +65,7 @@ public class TeamController : ControllerBase
             {
                 t.Id,
                 t.Name,
+                t.IsPersonal,
                 MyTeamPermissions = t.TeamPermissions.Where(tp => tp.User.Iam == iamId).Select(p => p.Role.Name)
             })
             .SingleOrDefaultAsync(t => t.Id == id);

@@ -2,7 +2,7 @@ import React from "react";
 
 import FinLoader from "../FinLoader";
 
-import { TeamResponseModel, TeamsResponseModel } from "../../types";
+import { TeamResponseModel } from "../../types";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -54,12 +54,14 @@ const FolderList = (props: Props) => {
             >
               Go to Folder
             </Link>
-            <Link
-              className="bold-link"
-              to={`/teams/${teamModel.team.id}/folders/${folderInfo.folder.id}/permissions`}
-            >
-              Manage Users
-            </Link>
+            {!props.teamModel?.team.isPersonal && (
+              <Link
+                className="bold-link"
+                to={`/teams/${teamModel.team.id}/folders/${folderInfo.folder.id}/permissions`}
+              >
+                Manage Users
+              </Link>
+            )}
           </div>
         </li>
       ))}
