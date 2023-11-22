@@ -184,7 +184,7 @@ public class UserService : IUserService
     {
         var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Iam == iamId);
 
-        using var transaction = await _dbContext.Database.BeginTransactionAsync();
+        await using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
         try
         {
@@ -232,7 +232,6 @@ public class UserService : IUserService
                 Team = team
             });
 
-            _dbContext.Users.Add(user);
             _dbContext.Teams.Add(team);
             await _dbContext.SaveChangesAsync();
 
