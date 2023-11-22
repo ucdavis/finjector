@@ -26,6 +26,8 @@ export interface Folder {
   myTeamPermissions: string[];
 }
 
+export type CollectionResourceType = "team" | "folder";
+
 /* ----- Query specific response types ------- */
 
 export interface TeamsResponseModel {

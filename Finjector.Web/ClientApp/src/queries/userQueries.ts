@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { doFetch } from "../util/api";
-import { PermissionsResponseModel } from "../types";
+import { CollectionResourceType, PermissionsResponseModel } from "../types";
 
 // attempt to fetch user info -- if we get a 401, redirect to login
 export const useUserInfoQuery = () =>
@@ -19,9 +19,39 @@ export const useUserInfoQuery = () =>
   });
 
 // fetch permission info for a given team or folder
-export const usePermissionsQuery = (id: string, type: "team" | "folder") =>
+export const usePermissionsQuery = (id: string, type: CollectionResourceType) =>
   useQuery(["users", "permissions", type, id], async () => {
     return await doFetch<PermissionsResponseModel[]>(
       fetch(`/api/user/permissions/${type}/${id}`)
     );
   });
+
+// new mutation to add a user to a resource
+export const useAddUserMutation = (
+  id: string,
+  type: CollectionResourceType
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (data: { email: string; role: string }) => {
+      const res = await fetch(`/api/user/permissions/${type}/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`${res.status} ${res.statusText}`);
+      }
+    },
+    {
+      onSuccess: () => {
+        // invalidate the permissions query so we refetch
+        queryClient.invalidateQueries(["users", "permissions", type, id]);
+      },
+    }
+  );
+};

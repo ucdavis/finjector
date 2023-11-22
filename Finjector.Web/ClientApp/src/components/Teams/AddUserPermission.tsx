@@ -1,7 +1,11 @@
 import React from "react";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
+import { useAddUserMutation } from "../../queries/userQueries";
+import { CollectionResourceType } from "../../types";
 
 interface Props {
+  resourceId: string;
+  resourceType: CollectionResourceType;
   active: boolean;
   toggle: () => void;
 }
@@ -9,6 +13,11 @@ interface Props {
 export const AddUserPermission = (props: Props) => {
   const [role, setRole] = React.useState("");
   const [email, setEmail] = React.useState("");
+
+  const addUserMutation = useAddUserMutation(
+    props.resourceId,
+    props.resourceType
+  );
 
   const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setRole(event.target.value);
@@ -19,7 +28,17 @@ export const AddUserPermission = (props: Props) => {
   };
 
   const handleAssignRole = () => {
-    // TODO: Implement assign role logic
+    addUserMutation.mutate(
+      { role, email },
+      {
+        onSuccess: () => {
+          // TODO: add some nice toast here
+          setRole("");
+          setEmail("");
+          props.toggle();
+        },
+      }
+    );
   };
 
   return (

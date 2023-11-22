@@ -1,21 +1,22 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { usePermissionsQuery } from "../../queries/userQueries";
-import { AddUserPermission } from "./AddUserPermission";
+import { AddUserPermission } from "../../components/Teams/AddUserPermission";
+import { CollectionResourceType } from "../../types";
 
 const UserManagement: React.FC = () => {
   // read (team) id and folderId from the url
   const { id, folderId } = useParams();
+
+  const resourceId = folderId ? folderId : id ? id : "";
+  const resourceType: CollectionResourceType = folderId ? "folder" : "team";
 
   const [addPermissionActive, setAddPermissionActive] = React.useState(false);
 
   const toggleAddPermission = () => setAddPermissionActive((p) => !p);
 
   // query for membership
-  const membershipQuery = usePermissionsQuery(
-    folderId ? folderId : id ? id : "",
-    folderId ? "folder" : "team"
-  );
+  const membershipQuery = usePermissionsQuery(resourceId, resourceType);
 
   if (membershipQuery.isLoading) {
     return <div>Loading...</div>;
@@ -49,6 +50,8 @@ const UserManagement: React.FC = () => {
         </tbody>
       </table>
       <AddUserPermission
+        resourceId={resourceId}
+        resourceType={resourceType}
         active={addPermissionActive}
         toggle={toggleAddPermission}
       />
