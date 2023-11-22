@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { usePermissionsQuery } from "../../queries/userQueries";
 import { AddUserPermission } from "../../components/Teams/AddUserPermission";
 import { CollectionResourceType } from "../../types";
@@ -8,6 +8,8 @@ import { RemoveUserPermission } from "../../components/Teams/RemoveUserPermissio
 const UserManagement: React.FC = () => {
   // read (team) id and folderId from the url
   const { id, folderId } = useParams();
+
+  const navigate = useNavigate();
 
   const resourceId = folderId ? folderId : id ? id : "";
   const resourceType: CollectionResourceType = folderId ? "folder" : "team";
@@ -21,6 +23,25 @@ const UserManagement: React.FC = () => {
 
   if (membershipQuery.isLoading) {
     return <div>Loading...</div>;
+  }
+
+  // show error message if user is unauthorized
+  if (membershipQuery.isError) {
+    var err: Error = membershipQuery.error;
+
+    var errorContent = <div>Something went wrong...</div>;
+
+    if (err.message === "401 Unauthorized") {
+      errorContent = <div>You are not authorized to view this page</div>;
+    }
+
+    return (
+      <div>
+        <h2>Manage Permissions</h2>
+        {errorContent}
+        <button onClick={() => navigate(-1)}>Go Back</button>
+      </div>
+    );
   }
 
   return (

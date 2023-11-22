@@ -64,6 +64,10 @@ const ChartList = (props: Props) => {
               <FontAwesomeIcon icon={faList} />
               Go to Team
             </Link>
+            <Link className="bold-link" to={`/teams/${teamInfo.team.id}/permissions`}>
+              <FontAwesomeIcon icon={faList} />
+              Manage Users
+            </Link>
           </div>
         </li>
       ))}

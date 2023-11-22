@@ -20,11 +20,24 @@ export const useUserInfoQuery = () =>
 
 // fetch permission info for a given team or folder
 export const usePermissionsQuery = (id: string, type: CollectionResourceType) =>
-  useQuery(["users", "permissions", type, id], async () => {
-    return await doFetch<PermissionsResponseModel[]>(
-      fetch(`/api/user/permissions/${type}/${id}`)
-    );
-  });
+  useQuery(
+    ["users", "permissions", type, id],
+    async () => {
+      return await doFetch<PermissionsResponseModel[]>(
+        fetch(`/api/user/permissions/${type}/${id}`)
+      );
+    },
+    {
+      retry(failureCount, error: Error) {
+        if (error instanceof Error && error.message.startsWith("401")) {
+          return false;
+        }
+
+        // otherwise retry the normal amount
+        return failureCount < 3;
+      },
+    }
+  );
 
 // new mutation to add a user to a resource
 export const useAddUserMutation = (

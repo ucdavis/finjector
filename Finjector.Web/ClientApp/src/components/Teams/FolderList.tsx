@@ -54,6 +54,12 @@ const FolderList = (props: Props) => {
             >
               Go to Folder
             </Link>
+            <Link
+              className="bold-link"
+              to={`/teams/${teamModel.team.id}/folders/${folderInfo.folder.id}/permissions`}
+            >
+              Manage Users
+            </Link>
           </div>
         </li>
       ))}
