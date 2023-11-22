@@ -126,7 +126,7 @@ public class UserController : ControllerBase
         }
 
         // TODO: find user by email - if they exist, use that user, otherwise create a new user
-        var searchUser = await _identityService.GetByEmail(model.Email);
+        var searchUser = await _identityService.GetEmailOrKerb(model.Email);
 
         if (searchUser == null)
         {
