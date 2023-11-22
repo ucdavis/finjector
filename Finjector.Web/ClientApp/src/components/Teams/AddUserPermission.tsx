@@ -13,7 +13,7 @@ interface Props {
 export const AddUserPermission = (props: Props) => {
   const [role, setRole] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const [error, setError] = React.useState("something");
+  const [error, setError] = React.useState("");
 
   const addUserMutation = useAddUserMutation(
     props.resourceId,
@@ -38,6 +38,7 @@ export const AddUserPermission = (props: Props) => {
           // TODO: add some nice toast here
           setRole("");
           setEmail("");
+          setError("");
           props.toggle();
         },
         onError: (err: any) => {
@@ -87,9 +88,11 @@ export const AddUserPermission = (props: Props) => {
             type="button"
             className="btn btn-primary"
             onClick={handleAssignRole}
-            disabled={!formValid}
+            disabled={!formValid || addUserMutation.isLoading}
           >
-            Assign Role to User
+            {addUserMutation.isLoading
+              ? "Assigning Role..."
+              : "Assign Role to User"}
           </button>
         </form>
       </ModalBody>

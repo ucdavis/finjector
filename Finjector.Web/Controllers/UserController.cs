@@ -203,6 +203,67 @@ public class UserController : ControllerBase
     }
 
     /// <summary>
+    /// Remove the user from the permission for the given resource
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="id"></param>
+    /// <param name="model">contains email of user to be removed</param>
+    /// <returns></returns>
+    [HttpDelete("permissions/{type}/{id}")]
+    public async Task<IActionResult> RemovePermission(string type, int id, [FromBody] RemovePermissionsModel model)
+    {
+        var iamId = _httpContextAccessor.HttpContext?.Request.GetCurrentUserIamId();
+
+        if (string.IsNullOrWhiteSpace(iamId))
+        {
+            return Unauthorized();
+        }
+
+        if (await CanManagePermissions(type, id, iamId) == false)
+        {
+            return Unauthorized();
+        }
+
+        var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == model.Email);
+
+        if (user == null)
+        {
+            return BadRequest("User not found");
+        }
+
+        if (string.Equals(TeamResourceType, type, StringComparison.OrdinalIgnoreCase))
+        {
+            var teamPermission = await _dbContext.TeamPermissions
+                .SingleOrDefaultAsync(tp => tp.TeamId == id && tp.UserId == user.Id);
+
+            if (teamPermission == null)
+            {
+                return BadRequest("User does not have a permission for this resource");
+            }
+
+            _dbContext.TeamPermissions.Remove(teamPermission);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+        else
+        {
+            var folderPermission = await _dbContext.FolderPermissions
+                .SingleOrDefaultAsync(fp => fp.FolderId == id && fp.UserId == user.Id);
+
+            if (folderPermission == null)
+            {
+                return BadRequest("User does not have a permission for this resource");
+            }
+
+            _dbContext.FolderPermissions.Remove(folderPermission);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+    }
+
+    /// <summary>
     /// only admins can manage permissions
     /// </summary>
     /// <param name="type"></param>
@@ -217,6 +278,11 @@ public class UserController : ControllerBase
             : await _userService.VerifyChartAccess(id, iamId, Role.Codes.Admin);
         return hasAdminPermissions;
     }
+}
+
+public class RemovePermissionsModel
+{
+    [Required] public string Email { get; set; } = "";
 }
 
 public class AddPermissionsModel

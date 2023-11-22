@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { usePermissionsQuery } from "../../queries/userQueries";
 import { AddUserPermission } from "../../components/Teams/AddUserPermission";
 import { CollectionResourceType } from "../../types";
+import { RemoveUserPermission } from "../../components/Teams/RemoveUserPermissions";
 
 const UserManagement: React.FC = () => {
   // read (team) id and folderId from the url
@@ -43,7 +44,11 @@ const UserManagement: React.FC = () => {
                 <td>{member.userEmail}</td>
                 <td>{member.roleName}</td>
                 <td>
-                  <button>Remove</button>
+                  <RemoveUserPermission
+                    resourceId={resourceId}
+                    resourceType={resourceType}
+                    userEmail={member.userEmail}
+                  />
                 </td>
               </tr>
             ))}

@@ -56,3 +56,34 @@ export const useAddUserMutation = (
     }
   );
 };
+
+// new mutation to remove a user from a resource
+export const useRemoveUserMutation = (
+  id: string,
+  type: CollectionResourceType
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (data: { email: string }) => {
+      const res = await fetch(`/api/user/permissions/${type}/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`${res.statusText}: ${errorText}`);
+      }
+    },
+    {
+      onSuccess: () => {
+        // invalidate the permissions query so we refetch
+        queryClient.invalidateQueries(["users", "permissions", type, id]);
+      },
+    }
+  );
+};
