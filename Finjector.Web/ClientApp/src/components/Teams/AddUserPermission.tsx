@@ -35,11 +35,7 @@ export const AddUserPermission = (props: Props) => {
       { role, email },
       {
         onSuccess: () => {
-          // TODO: add some nice toast here
-          setRole("");
-          setEmail("");
-          setError("");
-          props.toggle();
+          resetForm();
         },
         onError: (err: any) => {
           setError(err.message);
@@ -48,9 +44,16 @@ export const AddUserPermission = (props: Props) => {
     );
   };
 
+  const resetForm = () => {
+    setRole("");
+    setEmail("");
+    setError("");
+    props.toggle();
+  };
+
   return (
-    <Modal isOpen={props.active} toggle={props.toggle}>
-      <ModalHeader toggle={props.toggle}>Add New Role</ModalHeader>
+    <Modal isOpen={props.active} toggle={resetForm}>
+      <ModalHeader toggle={resetForm}>Add New Role</ModalHeader>
       <ModalBody>
         <form>
           <div className="mb-3">
