@@ -15,6 +15,8 @@ namespace Finjector.Core.Services
         Task<User?> GetByKerberos(string kerb);
         Task<User?> GetByIam(string iam);
         Task<User?> GetByEmail(string email);
+
+        Task<User?> GetEmailOrKerb(string emailOrKerb);
     }
 
     public class IdentityService : IIdentityService
@@ -129,5 +131,16 @@ namespace Finjector.Core.Services
             return user;
         }
 
+        public async Task<User?> GetEmailOrKerb(string emailOrKerb)
+        {
+            if(emailOrKerb.Contains("@"))
+            {
+                return await GetByEmail(emailOrKerb);
+            }
+            else
+            {
+                return await GetByKerberos(emailOrKerb);
+            }
+        }
     }
 }
