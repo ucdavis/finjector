@@ -44,7 +44,8 @@ export const useAddUserMutation = (
       });
 
       if (!res.ok) {
-        throw new Error(`${res.status} ${res.statusText}`);
+        const errorText = await res.text();
+        throw new Error(`${res.statusText}: ${errorText}`);
       }
     },
     {

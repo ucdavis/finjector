@@ -13,11 +13,14 @@ interface Props {
 export const AddUserPermission = (props: Props) => {
   const [role, setRole] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [error, setError] = React.useState("something");
 
   const addUserMutation = useAddUserMutation(
     props.resourceId,
     props.resourceType
   );
+
+  const formValid = role !== "" && email !== "";
 
   const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setRole(event.target.value);
@@ -37,13 +40,16 @@ export const AddUserPermission = (props: Props) => {
           setEmail("");
           props.toggle();
         },
+        onError: (err: any) => {
+          setError(err.message);
+        },
       }
     );
   };
 
   return (
     <Modal isOpen={props.active} toggle={props.toggle}>
-      <ModalHeader toggle={props.toggle}>Add New Role (TODO)</ModalHeader>
+      <ModalHeader toggle={props.toggle}>Add New Role</ModalHeader>
       <ModalBody>
         <form>
           <div className="mb-3">
@@ -74,10 +80,14 @@ export const AddUserPermission = (props: Props) => {
               onChange={handleEmailChange}
             />
           </div>
+
+          {error && <div className="alert alert-danger">{error}</div>}
+
           <button
             type="button"
             className="btn btn-primary"
             onClick={handleAssignRole}
+            disabled={!formValid}
           >
             Assign Role to User
           </button>

@@ -25,7 +25,7 @@ const UserManagement: React.FC = () => {
   return (
     <div>
       <h2>Manage Permissions</h2>
-      <button onClick={toggleAddPermission}>+ Add New Role (TODO)</button>
+      <button onClick={toggleAddPermission}>+ Add New Role</button>
       <table className="table">
         <thead>
           <tr>
