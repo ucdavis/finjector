@@ -1,4 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
+import { doFetch } from "../util/api";
+import { PermissionsResponseModel } from "../types";
 
 // attempt to fetch user info -- if we get a 401, redirect to login
 export const useUserInfoQuery = () =>
@@ -14,4 +16,12 @@ export const useUserInfoQuery = () =>
     }
 
     throw new Error(`${res.status} ${res.statusText}`);
+  });
+
+// fetch permission info for a given team or folder
+export const usePermissionsQuery = (id: string, type: "team" | "folder") =>
+  useQuery(["users", "permissions", type, id], async () => {
+    return await doFetch<PermissionsResponseModel[]>(
+      fetch(`/api/user/permissions/${type}/${id}`)
+    );
   });

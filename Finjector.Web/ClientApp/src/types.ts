@@ -53,6 +53,13 @@ export interface FolderResponseModel {
   charts: Chart[];
 }
 
+export interface PermissionsResponseModel {
+  resourceName: string;
+  roleName: string;
+  userName: string;
+  userEmail: string;
+}
+
 /* ----- End Query specific response types ------- */
 
 export interface GlSegments {
