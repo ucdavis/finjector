@@ -39,6 +39,7 @@ public class FolderController : ControllerBase
                 f.Name,
                 TeamName = f.Team.Name,
                 TeamId = f.Team.Id,
+                TeamIsPersonal = f.Team.IsPersonal,
                 MyFolderPermissions = f.FolderPermissions.Where(fp => fp.User.Iam == iamId).Select(fp => fp.Role.Name),
                 MyTeamPermissions = f.Team.TeamPermissions.Where(tp => tp.User.Iam == iamId).Select(tp => tp.Role.Name),
             })

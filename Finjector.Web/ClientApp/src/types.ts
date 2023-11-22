@@ -15,6 +15,7 @@ export enum ChartType {
 export interface Team {
   id: number;
   name: string;
+  isPersonal: boolean;
 }
 
 export interface Folder {
@@ -25,6 +26,8 @@ export interface Folder {
   myFolderPermissions: string[];
   myTeamPermissions: string[];
 }
+
+export type CollectionResourceType = "team" | "folder";
 
 /* ----- Query specific response types ------- */
 
@@ -51,6 +54,13 @@ export interface TeamResponseModel {
 export interface FolderResponseModel {
   folder: Folder;
   charts: Chart[];
+}
+
+export interface PermissionsResponseModel {
+  resourceName: string;
+  roleName: string;
+  userName: string;
+  userEmail: string;
 }
 
 /* ----- End Query specific response types ------- */
