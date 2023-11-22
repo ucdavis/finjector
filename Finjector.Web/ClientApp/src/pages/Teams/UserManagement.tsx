@@ -48,6 +48,7 @@ const UserManagement: React.FC = () => {
     <div>
       <h2>Manage Permissions</h2>
       <button onClick={toggleAddPermission}>+ Add New Role</button>
+      <button onClick={() => navigate(-1)}>Go Back</button>
       <table className="table">
         <thead>
           <tr>
