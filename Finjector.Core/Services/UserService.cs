@@ -184,54 +184,66 @@ public class UserService : IUserService
     {
         var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Iam == iamId);
 
-        if (user == null)
-        {
-            // user not found in database, so create them via IAM
-            user = await _identityService.GetByIam(iamId);
+        using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
-            // if we still don't have a user, then we can't do anything
+        try
+        {
             if (user == null)
             {
-                throw new Exception("User not found in IAM with IamID " + iamId);
+                // user not found in database, so create them via IAM
+                user = await _identityService.GetByIam(iamId);
+
+                // if we still don't have a user, then we can't do anything
+                if (user == null)
+                {
+                    throw new Exception("User not found in IAM with IamID " + iamId);
+                }
+
+                // we have a user from IAM, so add them to our database
+                await _dbContext.Users.AddAsync(user);
+                await _dbContext.SaveChangesAsync();
             }
 
-            // we have a user from IAM, so add them to our database
-            await _dbContext.Users.AddAsync(user);
+            // now we have a valid user in the db
+
+            // if user has a personal team, then we are good
+            var teams = await _dbContext.Teams.Where(a => a.Owner.Iam == user.Iam && a.IsPersonal).SingleOrDefaultAsync();
+
+            if (teams != null)
+            {
+                return user;
+            }
+
+            // user doesn't have a personal team, create one for them
+            var team = new Team
+            {
+                Name = Team.PersonalTeamName,
+                Owner = user,
+                IsPersonal = true
+            };
+            team.TeamPermissions.Add(new TeamPermission
+            {
+                Role = await _dbContext.Roles.SingleAsync(r => r.Name == Role.Codes.Admin),
+                User = user
+            });
+            team.Folders.Add(new Folder
+            {
+                Name = Folder.DefaultFolderName,
+                Team = team
+            });
+
+            _dbContext.Users.Add(user);
+            _dbContext.Teams.Add(team);
             await _dbContext.SaveChangesAsync();
-        }
 
-        // now we have a valid user in the db
+            await transaction.CommitAsync();
 
-        // if user has a personal team, then we are good
-        var teams = await _dbContext.Teams.Where(a => a.Owner.Iam == user.Iam && a.IsPersonal).SingleOrDefaultAsync();
-
-        if (teams != null)
-        {
             return user;
         }
-
-        // user doesn't have a personal team, create one for them
-        var team = new Team
+        catch
         {
-            Name = Team.PersonalTeamName,
-            Owner = user,
-            IsPersonal = true
-        };
-        team.TeamPermissions.Add(new TeamPermission
-        {
-            Role = await _dbContext.Roles.SingleAsync(r => r.Name == Role.Codes.Admin),
-            User = user
-        });
-        team.Folders.Add(new Folder
-        {
-            Name = Folder.DefaultFolderName,
-            Team = team
-        });
-
-        _dbContext.Users.Add(user);
-        _dbContext.Teams.Add(team);
-        await _dbContext.SaveChangesAsync();
-
-        return user;
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 }
