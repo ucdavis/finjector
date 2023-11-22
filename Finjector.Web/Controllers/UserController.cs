@@ -266,16 +266,16 @@ public class UserController : ControllerBase
     /// <summary>
     /// only admins can manage permissions
     /// </summary>
-    /// <param name="type"></param>
-    /// <param name="id"></param>
-    /// <param name="iamId"></param>
+    /// <param name="type">team of folder</param>
+    /// <param name="id">id of resource</param>
+    /// <param name="iamId">iam of user</param>
     /// <returns></returns>
     private async Task<bool> CanManagePermissions(string type, int id, string iamId)
     {
         // only admin permissions can view permissions
         var hasAdminPermissions = string.Equals(TeamResourceType, type, StringComparison.OrdinalIgnoreCase)
-            ? await _userService.VerifyFolderAccess(id, iamId, Role.Codes.Admin)
-            : await _userService.VerifyChartAccess(id, iamId, Role.Codes.Admin);
+            ? await _userService.VerifyTeamAccess(id, iamId, Role.Codes.Admin)
+            : await _userService.VerifyFolderAccess(id, iamId, Role.Codes.Admin);
         return hasAdminPermissions;
     }
 }
