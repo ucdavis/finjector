@@ -235,7 +235,7 @@ hr {
   }
 }
 .is-gl {
-  border-left: 6px solid $gl;
+  border-left: 6px solid $gl !important;
   .coa-type {
     color: $gl;
   }
