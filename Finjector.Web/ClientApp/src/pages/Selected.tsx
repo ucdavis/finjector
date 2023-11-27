@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { HomeLink } from "../components/HomeLink";
+import CopyToClipboard from "../shared/CopyToClipboard";
 
 const Selected = () => {
   const { chart } = useParams();
@@ -35,7 +36,11 @@ const Selected = () => {
   return (
     <div>
       <h1>Chart Selected</h1>
-      <p>{chart}</p>
+      <p>
+        <CopyToClipboard value={chart || ""} id="copySelected">
+          <code>{chart}</code>
+        </CopyToClipboard>
+      </p>
       {hasOpener ? (
         <p>Finjector will close this window shortly.</p>
       ) : (
