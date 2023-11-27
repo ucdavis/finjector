@@ -87,7 +87,7 @@ const Details = () => {
               id ? `${id}/${chartSegmentString}` : `${chartSegmentString}`
             }`}
           >
-            <Button className="btn btn-new me-5">Edit COA</Button>
+            <Button className="btn btn-new me-3">Edit COA</Button>
           </Link>
           <Link to="/share">
             <Button className="btn btn-new">Share COA</Button>
@@ -149,7 +149,7 @@ const Details = () => {
                   <h4>{segment.entity}</h4>
                 </div>
                 <div className="col-9 coa-details-info-right">
-                  <span className="fw-bold primary-font me-2">
+                  <span className="fw-bold primary-font me-3">
                     {segment.code}
                   </span>{" "}
                   {segment.name}

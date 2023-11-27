@@ -28,15 +28,18 @@
     border-bottom: 1px solid $borders;
     .row {
       padding: 4px 0;
+      align-items: baseline;
     }
     h4 {
       text-transform: uppercase;
       font-size: 0.9rem;
       font-family: $sans-bold;
       color: $primary-font;
+      margin: 0;
     }
     .coa-details-info-right {
       color: $secondary-font;
+      font-size: 1rem;
     }
   }
 }
