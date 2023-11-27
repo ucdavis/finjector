@@ -77,20 +77,20 @@ const Details = () => {
 
   return (
     <div className="main">
-      <div className="page-title">
+      <div className="page-title mb-3">
         <h1>{chartDetails.chartType} CoA</h1>
       </div>
-      <div className="row">
-        <div className="col-9">
+      <div className="row display-content-between mb-3">
+        <div className="col-6">
           <HomeLink>Back</HomeLink>
         </div>
-        <div className="col">
+        <div className="col text-end">
           <Link
             to={`/entry/${
               id ? `${id}/${chartSegmentString}` : `${chartSegmentString}`
             }`}
           >
-            <Button className="btn btn-new me-3">Edit COA</Button>{" "}
+            <Button className="btn btn-new me-3">Edit COA</Button>
           </Link>
           <Link to="/share">
             <Button className="btn btn-new">Share COA</Button>
@@ -126,9 +126,9 @@ const Details = () => {
           </div>
         )}
       </div>
-      <div className={`mt-4 mb-4 ${isPpmOrGlClassName}`}>
-        <div className="coa-row d-flex justify-content-between align-items-center saved-list-item">
-          <div className="col-9 ms-2 me-auto">
+      <div className={`coa-details ${isPpmOrGlClassName}`}>
+        <div className="coa-details-title d-flex justify-content-between align-items-center">
+          <div className="col-11">
             <div className="coa-type">
               <span>{chartDetails.chartType}</span>
             </div>
@@ -151,23 +151,31 @@ const Details = () => {
             </CopyToClipboard>
           </div>
         </div>
-        <div className="card">
-          {chartDetails.segmentDetails.map((segment, i) => {
+        <div className="coa-details-info unique-bg">
+          {chartDetails.segmentDetails.map((segment) => {
             return (
-              <div className="row" key={i}>
-                <div className="col-3 coa-type">{segment.entity}</div>
-                <div className="col">
-                  <span className="fw-bold">{segment.code}</span> {segment.name}
+              <div className="row">
+                <div className="col-3">
+                  <h4>{segment.entity}</h4>
+                </div>
+                <div className="col-9 coa-details-info-right">
+                  <span className="fw-bold primary-font me-3">
+                    {segment.code}
+                  </span>{" "}
+                  {segment.name}
                 </div>
               </div>
             );
           })}
         </div>
-        <div className="card">
+        <div className="coa-details-info">
           <div className="row">
-            <div className="col-3 fw-bold">Financial Officer(s)</div>
-            <div className="col">
-              {chartDetails.approvers.map((approver, i) => {
+            <div className="col-3">
+              <h4>Financial Officer(s)</h4>
+            </div>
+            <div className="col coa-details-info-right">
+              {chartDetails.approvers.map((approver) => {
+
                 return (
                   <div key={i}>
                     {approver.name} ({approver.email})
@@ -177,8 +185,10 @@ const Details = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-3 fw-bold">Project Manager</div>
-            <div className="col">
+            <div className="col-3 coa-info-title">
+              <h4>Project Manager</h4>
+            </div>
+            <div className="col coa-details-info-right">
               {chartDetails.ppmProjectManager.name} (
               {chartDetails.ppmProjectManager.email})
             </div>
