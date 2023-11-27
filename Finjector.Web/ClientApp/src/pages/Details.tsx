@@ -174,8 +174,7 @@ const Details = () => {
               <h4>Financial Officer(s)</h4>
             </div>
             <div className="col coa-details-info-right">
-              {chartDetails.approvers.map((approver) => {
-
+              {chartDetails.approvers.map((approver, i) => {
                 return (
                   <div key={i}>
                     {approver.name} ({approver.email})

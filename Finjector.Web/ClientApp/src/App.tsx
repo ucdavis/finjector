@@ -13,6 +13,7 @@ import Header from "./shared/Header";
 import MyTeams from "./pages/Teams/MyTeams";
 import Team from "./pages/Teams/Team";
 import Folder from "./pages/Teams/Folder";
+import UserManagement from "./pages/Teams/UserManagement";
 
 function App() {
   const userInfoQuery = useUserInfoQuery();
@@ -34,6 +35,8 @@ function App() {
             <Route path="" element={<MyTeams />} />
             <Route path=":id" element={<Team />} />
             <Route path=":id/folders/:folderId" element={<Folder />} />
+            <Route path=":id/permissions" element={<UserManagement />} />
+            <Route path=":id/folders/:folderId/permissions" element={<UserManagement />} />
           </Route>
           <Route path="/entry">
             <Route path="" element={<Entry />} />
