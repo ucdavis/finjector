@@ -110,18 +110,15 @@ const Details = () => {
               </Alert>
             );
           })}
-        {chartDetails.hasWarnings && chartDetails.warnings.length > 0 && (
-          <div className="col">
-            <div className="row">Warnings</div>
-            {chartDetails.warnings.map((warning, i) => {
-              return (
-                <Alert color="warning" key={i}>
-                  {warning}
-                </Alert>
-              );
-            })}
-          </div>
-        )}
+        {chartDetails.hasWarnings &&
+          chartDetails.warnings.length > 0 &&
+          chartDetails.warnings.map((warning, i) => {
+            return (
+              <Alert color="warning" key={i}>
+                {warning}
+              </Alert>
+            );
+          })}
       </div>
       {invalid ? (
         renderLoadingOrError()
