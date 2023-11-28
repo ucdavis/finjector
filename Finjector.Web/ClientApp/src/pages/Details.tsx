@@ -8,12 +8,10 @@ import { ChartDebugInfo } from "../components/ChartDebugInfo";
 import { HomeLink } from "../components/HomeLink";
 import { ChartLoadingError } from "../components/ChartLoadingError";
 import { Alert, Button } from "reactstrap";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CopyToClipboardHover from "../shared/CopyToClipboardHover";
-import CopyToClipboard from "../shared/CopyToClipboard";
+
 import { renderNameAndEmail } from "../util/util";
 import { ChartNotFound } from "../components/ChartNotFound";
+import DetailsChartString from "../components/Details/DetailsChartString";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -134,30 +132,12 @@ const Details = () => {
         renderLoadingOrError()
       ) : (
         <div className={`coa-details ${isPpmOrGlClassName}`}>
-          <div className="coa-details-title d-flex justify-content-between align-items-center">
-            <div className="col-11">
-              <div className="coa-type">
-                <span>{chartDetails.chartType}</span>
-              </div>
-              <CopyToClipboardHover
-                value={chartDetails.chartString}
-                id="copyPpmGlString"
-              >
-                <h1>{chartDetails.chartString}</h1>
-              </CopyToClipboardHover>
-            </div>
-            <div className="col-1">
-              <CopyToClipboard
-                value={chartDetails.chartString}
-                id="copyPpmGlStringButton"
-              >
-                <div className="btn btn-link">
-                  <FontAwesomeIcon icon={faCopy} />
-                  Copy
-                </div>
-              </CopyToClipboard>
-            </div>
-          </div>
+          <DetailsChartString
+            chartType={chartDetails.chartType}
+            chartString={chartDetails.chartString}
+            isValid={chartDetails.isValid}
+            hasWarnings={chartDetails.hasWarnings}
+          />
           <div className="coa-details-info unique-bg">
             {chartDetails.segmentDetails.map((segment, i) => {
               return (
