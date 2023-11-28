@@ -183,10 +183,8 @@ public class ChartsController : ControllerBase
     [HttpGet("detail")]
     public async Task<IActionResult> Details(string segmentString)
     {
-        // var coaDetail = await _dbContext.CoaDetails.SingleOrDefaultAsync(cd => cd.Id == segmentString);
         var rtValue = await _aggieEnterpriseService.GetAeDetailsAsync(segmentString);
 
         return Ok(rtValue);
-        // return Ok(coaDetail);
     }
 }
