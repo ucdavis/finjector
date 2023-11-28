@@ -52,6 +52,7 @@ namespace Finjector.Core.Services
         {
             AeDetails aeDetails = new AeDetails();
 
+            //Try to convert KFS. Eventually remove this.
             try
             {
                 var saveSegmentString = segmentString;
@@ -155,56 +156,56 @@ namespace Finjector.Core.Services
                 {
                     Order  = 1,
                     Entity = "Entity",
-                    Code   = data.ErpEntity?.Code,
+                    Code   = data.ErpEntity?.Code ?? glSegments.Entity,
                     Name   = data.ErpEntity?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
                     Order  = 2,
                     Entity = "Fund",
-                    Code   = data.ErpFund?.Code,
+                    Code   = data.ErpFund?.Code ?? glSegments.Fund,
                     Name   = data.ErpFund?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
                     Order  = 3,
                     Entity = "Department",
-                    Code   = data.ErpFinancialDepartment?.Code,
+                    Code   = data.ErpFinancialDepartment?.Code ?? glSegments.Department,
                     Name   = data.ErpFinancialDepartment?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
                     Order  = 4,
                     Entity = "Account",
-                    Code   = data.ErpAccount?.Code,
+                    Code   = data.ErpAccount?.Code ?? glSegments.Account,
                     Name   = data.ErpAccount?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
                     Order  = 5,
                     Entity = "Purpose",
-                    Code   = data.ErpPurpose?.Code,
+                    Code   = data.ErpPurpose?.Code ?? glSegments.Purpose,
                     Name   = data.ErpPurpose?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
                     Order  = 6,
                     Entity = "Program",
-                    Code   = data.ErpProgram?.Code,
+                    Code   = data.ErpProgram?.Code ?? glSegments.Program,
                     Name   = data.ErpProgram?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
                     Order  = 7,
                     Entity = "Project",
-                    Code   = data.ErpProject?.Code,
+                    Code   = data.ErpProject?.Code ?? glSegments.Project,
                     Name   = data.ErpProject?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
                     Order  = 8,
                     Entity = "Activity",
-                    Code   = data.ErpActivity?.Code,
+                    Code   = data.ErpActivity?.Code ?? glSegments.Activity,
                     Name   = data.ErpActivity?.Name
                 });
 
@@ -298,7 +299,7 @@ namespace Finjector.Core.Services
                 {
                     Order  = 1,
                     Entity = "Project",
-                    Code   = data.PpmProjectByNumber?.ProjectNumber,
+                    Code   = data.PpmProjectByNumber?.ProjectNumber ?? ppmSegments.Project,
                     Name   = data.PpmProjectByNumber?.Name
                 });
 
@@ -306,21 +307,21 @@ namespace Finjector.Core.Services
                 {
                     Order  = 2,
                     Entity = "Task",
-                    Code   = data.PpmTaskByProjectNumberAndTaskNumber?.TaskNumber,
+                    Code   = data.PpmTaskByProjectNumberAndTaskNumber?.TaskNumber ?? ppmSegments.Task,
                     Name   = data.PpmTaskByProjectNumberAndTaskNumber?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
                     Order  = 3,
                     Entity = "Organization",
-                    Code   = data.ErpFinancialDepartment?.Code,
+                    Code   = data.ErpFinancialDepartment?.Code ?? ppmSegments.Organization,
                     Name   = data.ErpFinancialDepartment?.Name
                 });
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
                     Order  = 4,
                     Entity = "Expenditure Type",
-                    Code   = data.PpmExpenditureTypeByCode?.Code,
+                    Code   = data.PpmExpenditureTypeByCode?.Code ?? ppmSegments.ExpenditureType,
                     Name   = data.PpmExpenditureTypeByCode?.Name
                 });
                 if (!string.IsNullOrWhiteSpace(data.PpmSegmentStringValidate.Segments.Award))
