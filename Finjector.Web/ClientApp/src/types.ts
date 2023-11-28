@@ -106,6 +106,7 @@ export interface ChartData {
 export interface AeDetails {
   isValid: boolean;
   chartType: string;
+  chartString: string;
   chartStringType: ChartType;
   errors: string[];
   warnings: string[];

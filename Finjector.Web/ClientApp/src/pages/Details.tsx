@@ -22,6 +22,7 @@ const Details = () => {
   const [chartDetails, setSavedChart] = React.useState<AeDetails>({
     isValid: false,
     chartType: "",
+    chartString: chartSegmentString ?? "",
     chartStringType: ChartType.PPM,
     errors: [],
     warnings: [],
@@ -52,6 +53,7 @@ const Details = () => {
     chartDetailsQuery.isLoading ||
     chartDetailsQuery.isFetching ||
     !chartSegmentString ||
+    !chartDetails.chartString ||
     chartDetailsQuery.isError ||
     chartDetails.chartType === ChartType.INVALID;
 
@@ -70,7 +72,11 @@ const Details = () => {
         </div>
       );
     }
-    if (!chartSegmentString || chartDetails.chartType === ChartType.INVALID) {
+    if (
+      !chartSegmentString ||
+      !chartDetails.chartString ||
+      chartDetails.chartType === ChartType.INVALID
+    ) {
       return (
         <div className={`coa-details is-none`}>
           <ChartNotFound />
@@ -92,7 +98,9 @@ const Details = () => {
           <div className="col text-end">
             <Link
               to={`/entry/${
-                id ? `${id}/${chartSegmentString}` : `${chartSegmentString}`
+                id
+                  ? `${id}/${chartDetails.chartString}`
+                  : `${chartDetails.chartString}`
               }`}
             >
               <Button className="btn btn-new me-3">Edit COA</Button>
@@ -132,15 +140,15 @@ const Details = () => {
                 <span>{chartDetails.chartType}</span>
               </div>
               <CopyToClipboardHover
-                value={chartSegmentString}
+                value={chartDetails.chartString}
                 id="copyPpmGlString"
               >
-                <h1>{chartSegmentString}</h1>
+                <h1>{chartDetails.chartString}</h1>
               </CopyToClipboardHover>
             </div>
             <div className="col-1">
               <CopyToClipboard
-                value={chartSegmentString}
+                value={chartDetails.chartString}
                 id="copyPpmGlStringButton"
               >
                 <div className="btn btn-link">
