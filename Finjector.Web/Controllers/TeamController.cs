@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using Finjector.Core.Data;
+using Finjector.Core.Domain;
 using Finjector.Core.Services;
 using Finjector.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -28,23 +30,26 @@ public class TeamController : ControllerBase
     {
         var iamId = Request.GetCurrentUserIamId();
 
-        var teamResults = await _dbContext.Coas.Where(c =>
-                c.Folder.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
-                c.Folder.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId))
-            .GroupBy(c => new { c.Folder.Team.Id, c.Folder.Team.Name, c.Folder.Team.IsPersonal })
-            .Select(tg => new
+        var teamResults = await _dbContext.Teams.Where(t => t.TeamPermissions.Any(tp => tp.User.Iam == iamId
+                || t.Folders.Any(f => f.FolderPermissions.Any(fp => fp.User.Iam == iamId))
+            ))
+            .Select(t => new
             {
-                Team = tg.Key,
-                FolderCount = tg.Select(c => c.Folder.Id).Distinct().Count(),
-                Admins = tg.SelectMany(c =>
-                    c.Folder.Team.TeamPermissions.Select(p => p.User.FirstName + " " + p.User.LastName)).Distinct(),
-                TeamPermissionCount = tg.SelectMany(c => c.Folder.Team.TeamPermissions.Select(p => p.UserId)).Distinct()
+                Team = new
+                {
+                    t.Id,
+                    t.Name,
+                    t.IsPersonal
+                },
+                FolderCount = t.Folders.Count,
+                Admins = t.TeamPermissions.Select(p => p.User.FirstName + " " + p.User.LastName),
+                TeamPermissionCount = t.TeamPermissions.Select(p => p.UserId).Distinct().Count(),
+                FolderPermissionCount = t.Folders.SelectMany(f => f.FolderPermissions.Select(p => p.UserId)).Distinct()
                     .Count(),
-                FolderPermissionCount = tg.SelectMany(c => c.Folder.FolderPermissions.Select(p => p.UserId)).Distinct()
-                    .Count(),
-                ChartCount = tg.Count()
+                ChartCount = t.Folders.SelectMany(f => f.Coas).Count()
             })
-            .ToListAsync();
+            .ToListAsync(
+            );
 
         return Ok(teamResults);
     }
@@ -93,13 +98,58 @@ public class TeamController : ControllerBase
         return Ok(new { team, folders });
     }
 
-    // todo -- create team
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateTeamModel teamModel)
+    {
+        var iamId = Request.GetCurrentUserIamId();
+
+        var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Iam == iamId);
+
+        if (user == null)
+        {
+            return BadRequest("User not found");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        // get admin role
+        var adminRole = await _dbContext.Roles.SingleAsync(r => r.Name == Role.Codes.Admin);
+
+        // Create the team
+        var team = new Team
+        {
+            Name = teamModel.Name,
+            Description = teamModel.Description,
+            IsPersonal = false,
+            IsActive = true,
+            Owner = user,
+            TeamPermissions = new List<TeamPermission>
+            {
+                new TeamPermission
+                {
+                    Role = adminRole,
+                    User = user
+                }
+            }
+        };
+
+        // Add the team to the database
+        _dbContext.Teams.Add(team);
+        await _dbContext.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(Get), new { id = team.Id }, team);
+    }
 
     // todo -- update team
 
     // todo -- delete team
+}
 
-    // todo -- add user to team
-
-    // todo -- remove user from team
+public class CreateTeamModel
+{
+    [Required] [MaxLength(50)] public string Name { get; set; } = string.Empty;
+    [MaxLength(300)] public string? Description { get; set; }
 }

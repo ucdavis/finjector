@@ -1,6 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
 import { doFetch } from "../util/api";
-import {TeamResponseModel, TeamsResponseModel} from "../types";
+import { Team, TeamResponseModel, TeamsResponseModel } from "../types";
+
+const queryClient = new QueryClient();
 
 export const useGetMyTeams = () =>
   useQuery(["teams", "me"], async () => {
@@ -14,4 +16,25 @@ export const useGetTeam = (id: string | undefined) =>
       return await doFetch<TeamResponseModel>(fetch(`/api/team/${id}`));
     },
     { enabled: id !== undefined }
+  );
+
+export const useCreateTeamMutation = () =>
+  useMutation(
+    async (team: Team) => {
+      return await doFetch<Team>(
+        fetch(`/api/team/`, {
+          method: "POST",
+          body: JSON.stringify(team),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      );
+    },
+    {
+      onSuccess: () => {
+        // invalidate teams query so we refetch
+        queryClient.invalidateQueries(["teams", "me"]);
+      },
+    }
   );

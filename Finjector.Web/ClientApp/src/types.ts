@@ -15,6 +15,7 @@ export enum ChartType {
 export interface Team {
   id: number;
   name: string;
+  description?: string;
   isPersonal: boolean;
 }
 
