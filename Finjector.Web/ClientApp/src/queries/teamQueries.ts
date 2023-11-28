@@ -1,5 +1,5 @@
 import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
-import { doFetch } from "../util/api";
+import { doFetch, doFetchEmpty } from "../util/api";
 import {
   NameAndDescriptionModel,
   Team,
@@ -33,6 +33,23 @@ export const useCreateTeamMutation = () =>
           headers: {
             "Content-Type": "application/json",
           },
+        })
+      );
+    },
+    {
+      onSuccess: () => {
+        // invalidate teams query so we refetch
+        queryClient.invalidateQueries(["teams", "me"]);
+      },
+    }
+  );
+
+export const useDeleteTeamMutation = () =>
+  useMutation(
+    async (id: string) => {
+      return await doFetchEmpty(
+        fetch(`/api/team/${id}`, {
+          method: "DELETE",
         })
       );
     },

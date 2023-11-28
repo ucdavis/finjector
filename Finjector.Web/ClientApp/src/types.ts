@@ -17,6 +17,7 @@ export interface Team {
   name: string;
   description?: string;
   isPersonal: boolean;
+  myTeamPermissions: string[];
 }
 
 export interface Folder {

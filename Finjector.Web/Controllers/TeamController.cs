@@ -15,10 +15,12 @@ namespace Finjector.Web.Controllers;
 public class TeamController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
+    private readonly IUserService _userService;
 
-    public TeamController(AppDbContext dbContext)
+    public TeamController(AppDbContext dbContext, IUserService userService)
     {
         _dbContext = dbContext;
+        _userService = userService;
     }
 
     /// <summary>
@@ -145,5 +147,33 @@ public class TeamController : ControllerBase
 
     // todo -- update team
 
-    // todo -- delete team
+    /// <summary>
+    /// soft delete a team by setting IsActive to false
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var iamId = Request.GetCurrentUserIamId();
+        
+        // make sure they have permission to delete the team
+        if (await _userService.VerifyTeamAccess(id, iamId, Role.Codes.Admin) == false)
+        {
+            return Unauthorized();
+        }
+
+        var team = await _dbContext.Teams.SingleOrDefaultAsync(t => t.Id == id);
+
+        if (team == null)
+        {
+            return NotFound();
+        }
+        
+        team.IsActive = false;
+
+        await _dbContext.SaveChangesAsync();
+
+        return NoContent();
+    }
 }

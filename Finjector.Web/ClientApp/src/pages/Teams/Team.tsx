@@ -3,14 +3,20 @@ import { SearchBar } from "../../components/SearchBar";
 import { useGetTeam } from "../../queries/teamQueries";
 import { Link, useParams } from "react-router-dom";
 import FolderList from "../../components/Teams/FolderList";
+import FinLoader from "../../components/FinLoader";
+import DeleteTeam from "../../components/Teams/DeleteTeam";
 
 const Team: React.FC = () => {
   // get id from url
-  const { id } = useParams<{ id: string }>();
+  const { id = "" } = useParams<{ id: string }>();
 
   const [search, setSearch] = React.useState("");
 
   const teamModel = useGetTeam(id);
+
+  if (teamModel.isLoading) {
+    return <FinLoader />;
+  }
 
   return (
     <div>
@@ -27,12 +33,26 @@ const Team: React.FC = () => {
         search={search}
         setSearch={setSearch}
       />
+      <div>
+        <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
+          Create New Folder
+        </Link>
+        <Link to={`/teams/${id}/edit`} className="btn btn-new me-3">
+          Edit Team (TODO)
+        </Link>
+        <Link to={`/teams/${id}/permissions`} className="btn btn-new me-3">
+          Manage Team Users
+        </Link>
+        {teamModel.data?.team.myTeamPermissions.some((p) => p === "Admin") && (
+          <DeleteTeam teamId={id} onDeleted={() => {}} />
+        )}
+        <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
+          Leave Team
+        </Link>
+      </div>
       <div className="mb-3">
         <FolderList teamModel={teamModel.data} filter={search} />
       </div>
-      <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
-        Create New Folder
-      </Link>
     </div>
   );
 };
