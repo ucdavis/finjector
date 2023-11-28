@@ -7,11 +7,12 @@ import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/ChartDebugInfo";
 import { HomeLink } from "../components/HomeLink";
 import { ChartLoadingError } from "../components/ChartLoadingError";
-import { Button } from "reactstrap";
+import { Alert, Button } from "reactstrap";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CopyToClipboardHover from "../shared/CopyToClipboardHover";
 import CopyToClipboard from "../shared/CopyToClipboard";
+import { renderNameAndEmail } from "../util/util";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -23,22 +24,8 @@ const Details = () => {
     chartStringType: ChartType.PPM,
     errors: [],
     warnings: [],
-    segmentDetails: [
-      {
-        order: 0,
-        entity: null,
-        code: null,
-        name: null,
-      },
-    ],
-    approvers: [
-      {
-        firstName: null,
-        lastName: null,
-        email: null,
-        name: "",
-      },
-    ],
+    segmentDetails: [],
+    approvers: [],
     ppmProjectManager: {
       firstName: null,
       lastName: null,
@@ -68,7 +55,7 @@ const Details = () => {
   }
 
   // make sure it's been loaded before continuing
-  if (id && !chartDetails.ppmGlString) {
+  if (id && !chartDetails.segmentDetails) {
     return <FinLoader />;
   }
 
@@ -97,31 +84,24 @@ const Details = () => {
           </Link>
         </div>
       </div>
-      <div className="card">
-        <div className="row">
-          <div className="col">
-            This chart string is {chartDetails.isValid ? "valid" : "invalid"}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            {chartDetails.errors.length} errors and{" "}
-            {chartDetails.warnings.length} warnings
-          </div>
-        </div>
-        {chartDetails.errors.length > 0 && (
-          <div className="col">
-            <div className="row">Errors</div>
-            {chartDetails.errors.map((error) => {
-              return <div className="row">{error}</div>;
-            })}
-          </div>
-        )}
+      <div>
+        {chartDetails.errors.length > 0 &&
+          chartDetails.errors.map((error, i) => {
+            return (
+              <Alert color="danger" key={i}>
+                {error}
+              </Alert>
+            );
+          })}
         {chartDetails.hasWarnings && chartDetails.warnings.length > 0 && (
           <div className="col">
             <div className="row">Warnings</div>
-            {chartDetails.warnings.map((warning) => {
-              return <div className="row">{warning}</div>;
+            {chartDetails.warnings.map((warning, i) => {
+              return (
+                <Alert color="warning" key={i}>
+                  {warning}
+                </Alert>
+              );
             })}
           </div>
         )}
@@ -152,9 +132,9 @@ const Details = () => {
           </div>
         </div>
         <div className="coa-details-info unique-bg">
-          {chartDetails.segmentDetails.map((segment) => {
+          {chartDetails.segmentDetails.map((segment, i) => {
             return (
-              <div className="row">
+              <div className="row" key={i}>
                 <div className="col-3">
                   <h4>{segment.entity}</h4>
                 </div>
@@ -177,7 +157,7 @@ const Details = () => {
               {chartDetails.approvers.map((approver, i) => {
                 return (
                   <div key={i}>
-                    {approver.name} ({approver.email})
+                    {renderNameAndEmail(approver.name, approver.email)}
                   </div>
                 );
               })}
@@ -188,8 +168,10 @@ const Details = () => {
               <h4>Project Manager</h4>
             </div>
             <div className="col coa-details-info-right">
-              {chartDetails.ppmProjectManager.name} (
-              {chartDetails.ppmProjectManager.email})
+              {renderNameAndEmail(
+                chartDetails.ppmProjectManager.name,
+                chartDetails.ppmProjectManager.email
+              )}
             </div>
           </div>
         </div>
