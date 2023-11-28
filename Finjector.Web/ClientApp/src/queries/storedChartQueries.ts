@@ -12,13 +12,17 @@ export const useGetSavedCharts = () =>
   });
 
 export const useGetChartDetails = (segmentString: string) =>
-  useQuery(["charts", "detail", segmentString], async () => {
-    const chart = await doFetch<AeDetails>(
-      fetch(`/api/charts/detail?segmentString=${segmentString}`)
-    );
+  useQuery(
+    ["charts", "detail", segmentString],
+    async () => {
+      const chart = await doFetch<AeDetails>(
+        fetch(`/api/charts/detail?segmentString=${segmentString}`)
+      );
 
-    return chart;
-  });
+      return chart;
+    },
+    { enabled: segmentString.length > 0 }
+  );
 
 // pull saved chart and return hydrated chartData from server
 export const useGetSavedChartWithData = (id: string) =>

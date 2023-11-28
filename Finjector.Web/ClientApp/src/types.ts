@@ -10,6 +10,7 @@ export interface Coa {
 export enum ChartType {
   GL = "GL",
   PPM = "PPM",
+  INVALID = "INVALID",
 }
 
 export interface Team {

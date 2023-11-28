@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CopyToClipboardHover from "../shared/CopyToClipboardHover";
 import CopyToClipboard from "../shared/CopyToClipboard";
 import { renderNameAndEmail } from "../util/util";
+import { ChartNotFound } from "../components/ChartNotFound";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -44,33 +45,39 @@ const Details = () => {
     }
   }, [chartDetailsQuery.data]);
 
-  if (chartDetailsQuery.isError) {
-    return (
-      <>
-        <ChartLoadingError />
-        <hr />
-        <HomeLink>Go Back</HomeLink>
-      </>
-    );
-  }
-
-  if (!chartSegmentString) {
-    return (
-      <>
-        <ChartLoadingError />
-        <hr />
-        <HomeLink>Go Back</HomeLink>
-      </>
-    );
-  }
-
-  // make sure it's been loaded before continuing
-  if (id && !chartDetails.segmentDetails) {
-    return <FinLoader />;
-  }
-
   const isPpmOrGlClassName =
     chartDetails.chartType === ChartType.PPM ? "is-ppm" : "is-gl";
+
+  const invalid =
+    chartDetailsQuery.isLoading ||
+    chartDetailsQuery.isFetching ||
+    !chartSegmentString ||
+    chartDetailsQuery.isError ||
+    chartDetails.chartType === ChartType.INVALID;
+
+  const renderLoadingOrError = () => {
+    if (chartDetailsQuery.isLoading || chartDetailsQuery.isFetching) {
+      return (
+        <div className={`coa-details is-none`}>
+          <FinLoader />
+        </div>
+      );
+    }
+    if (chartDetailsQuery.isError) {
+      return (
+        <div className={`coa-details is-none`}>
+          <ChartLoadingError />
+        </div>
+      );
+    }
+    if (!chartSegmentString || chartDetails.chartType === ChartType.INVALID) {
+      return (
+        <div className={`coa-details is-none`}>
+          <ChartNotFound />
+        </div>
+      );
+    }
+  };
 
   return (
     <div className="main">
@@ -116,76 +123,102 @@ const Details = () => {
           </div>
         )}
       </div>
-      <div className={`coa-details ${isPpmOrGlClassName}`}>
-        <div className="coa-details-title d-flex justify-content-between align-items-center">
-          <div className="col-11">
-            <div className="coa-type">
-              <span>{chartDetails.chartType}</span>
-            </div>
-            <CopyToClipboardHover
-              value={chartSegmentString}
-              id="copyPpmGlString"
-            >
-              <h1>{chartSegmentString}</h1>
-            </CopyToClipboardHover>
-          </div>
-          <div className="col-1">
-            <CopyToClipboard
-              value={chartSegmentString}
-              id="copyPpmGlStringButton"
-            >
-              <div className="btn btn-link">
-                <FontAwesomeIcon icon={faCopy} />
-                Copy
+      {invalid ? (
+        renderLoadingOrError()
+      ) : (
+        <div className={`coa-details ${isPpmOrGlClassName}`}>
+          <div className="coa-details-title d-flex justify-content-between align-items-center">
+            <div className="col-11">
+              <div className="coa-type">
+                <span>{chartDetails.chartType}</span>
               </div>
-            </CopyToClipboard>
-          </div>
-        </div>
-        <div className="coa-details-info unique-bg">
-          {chartDetails.segmentDetails.map((segment, i) => {
-            return (
-              <div className="row" key={i}>
-                <div className="col-3">
-                  <h4>{segment.entity}</h4>
-                </div>
-                <div className="col-9 coa-details-info-right">
-                  <span className="fw-bold primary-font me-3">
-                    {segment.code}
-                  </span>{" "}
-                  {segment.name}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className="coa-details-info">
-          <div className="row">
-            <div className="col-3">
-              <h4>Financial Officer(s)</h4>
+              <CopyToClipboardHover
+                value={chartSegmentString}
+                id="copyPpmGlString"
+              >
+                <h1>{chartSegmentString}</h1>
+              </CopyToClipboardHover>
             </div>
-            <div className="col coa-details-info-right">
-              {chartDetails.approvers.map((approver, i) => {
-                return (
-                  <div key={i}>
-                    {renderNameAndEmail(approver.name, approver.email)}
+            <div className="col-1">
+              <CopyToClipboard
+                value={chartSegmentString}
+                id="copyPpmGlStringButton"
+              >
+                <div className="btn btn-link">
+                  <FontAwesomeIcon icon={faCopy} />
+                  Copy
+                </div>
+              </CopyToClipboard>
+            </div>
+          </div>
+          <div className="coa-details-info unique-bg">
+            {chartDetails.segmentDetails.map((segment, i) => {
+              return (
+                <div className="row" key={i}>
+                  <div className="col-3">
+                    <h4>{segment.entity}</h4>
                   </div>
-                );
-              })}
-            </div>
+                  <div className="col-9 coa-details-info-right">
+                    <span className="fw-bold primary-font me-3">
+                      {segment.code}
+                    </span>{" "}
+                    {segment.name}
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          <div className="row">
-            <div className="col-3 coa-info-title">
-              <h4>Project Manager</h4>
+          <div className="coa-details-info">
+            <div className="row">
+              <div className="col-3">
+                <h4>Financial Officer(s)</h4>
+              </div>
+              <div className="col coa-details-info-right">
+                {chartDetails.approvers.map((approver, i) => {
+                  return (
+                    <div key={i}>
+                      {renderNameAndEmail(approver.name, approver.email)}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="col coa-details-info-right">
-              {renderNameAndEmail(
-                chartDetails.ppmProjectManager.name,
-                chartDetails.ppmProjectManager.email
-              )}
-            </div>
+            {chartDetails.chartType === ChartType.PPM && (
+              <>
+                <div className="row">
+                  <div className="col-3 coa-info-title">
+                    <h4>Project Manager</h4>
+                  </div>
+                  <div className="col coa-details-info-right">
+                    {renderNameAndEmail(
+                      chartDetails.ppmProjectManager.name,
+                      chartDetails.ppmProjectManager.email
+                    )}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-3 coa-info-title">
+                    <h4>Project Name</h4>
+                  </div>
+                  <div className="col coa-details-info-right"></div>
+                </div>
+                <div className="row">
+                  <div className="col-3 coa-info-title">
+                    <h4>Project Start Date</h4>
+                  </div>
+                  <div className="col coa-details-info-right"></div>
+                </div>
+                <div className="row">
+                  <div className="col-3 coa-info-title">
+                    <h4>Project End Date</h4>
+                  </div>
+                  <div className="col coa-details-info-right"></div>
+                </div>
+              </>
+            )}
           </div>
         </div>
-      </div>
+      )}
       <ChartDebugInfo chartDetails={chartDetails} />
     </div>
   );

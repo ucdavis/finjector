@@ -36,7 +36,10 @@ function App() {
             <Route path=":id" element={<Team />} />
             <Route path=":id/folders/:folderId" element={<Folder />} />
             <Route path=":id/permissions" element={<UserManagement />} />
-            <Route path=":id/folders/:folderId/permissions" element={<UserManagement />} />
+            <Route
+              path=":id/folders/:folderId/permissions"
+              element={<UserManagement />}
+            />
           </Route>
           <Route path="/entry">
             <Route path="" element={<Entry />} />

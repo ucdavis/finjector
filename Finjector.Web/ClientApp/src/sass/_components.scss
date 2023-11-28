@@ -246,6 +246,9 @@ hr {
     }
   }
 }
+.is-none {
+  border-left: 6px solid $borders !important;
+}
 .primary-font {
   color: $primary-font !important;
 }

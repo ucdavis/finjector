@@ -3,18 +3,16 @@ export const renderNameAndEmail = (
   email: string | null
 ) => {
   if (
-    !!name &&
-    name.trim() !== "" &&
-    name !== ", " && //if first name, last name are empty, name returns this string
-    !!email &&
-    email.trim() !== ""
+    name !== ", " && // if first name, last name are empty, name returns this string
+    email
   ) {
-    return `${name} (${email})`;
-  } else if (name && name.trim() !== "") {
-    return name;
-  } else if (email && email.trim() !== "") {
-    return `(${email})`;
-  } else {
-    return "";
+    if (!!name && name.trim() !== "" && !!email && email.trim() !== "") {
+      return `${name} (${email})`;
+    } else if (!!name && name.trim() !== "") {
+      return name;
+    } else if (!!email && email.trim() !== "") {
+      return `(${email})`;
+    }
   }
+  return ""; // return an empty string if name is ", " or any other condition is not met
 };
