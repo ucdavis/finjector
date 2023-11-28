@@ -54,6 +54,16 @@ const Details = () => {
     );
   }
 
+  if (!chartSegmentString) {
+    return (
+      <>
+        <ChartLoadingError />
+        <hr />
+        <HomeLink>Go Back</HomeLink>
+      </>
+    );
+  }
+
   // make sure it's been loaded before continuing
   if (id && !chartDetails.segmentDetails) {
     return <FinLoader />;
@@ -113,15 +123,15 @@ const Details = () => {
               <span>{chartDetails.chartType}</span>
             </div>
             <CopyToClipboardHover
-              value={chartDetails.ppmGlString}
+              value={chartSegmentString}
               id="copyPpmGlString"
             >
-              <h1>{chartDetails.ppmGlString}</h1>
+              <h1>{chartSegmentString}</h1>
             </CopyToClipboardHover>
           </div>
           <div className="col-1">
             <CopyToClipboard
-              value={chartDetails.ppmGlString}
+              value={chartSegmentString}
               id="copyPpmGlStringButton"
             >
               <div className="btn btn-link">
