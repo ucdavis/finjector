@@ -78,7 +78,10 @@ namespace Finjector.Core.Models
         public Approver PpmProjectManager { get; set; } = new Approver();
         public string PpmGlString { get; set; } = string.Empty;
 
+        public string? ProjectStartDate { get; set; } = string.Empty;
+        public string? ProjectCompletionDate { get; set; } = string.Empty;
 
+        public string? ProjectStatus { get; set; } = string.Empty;
     }
 
 }
