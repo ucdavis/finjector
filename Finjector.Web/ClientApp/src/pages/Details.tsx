@@ -106,7 +106,7 @@ const Details = () => {
           chartDetails.errors.map((error, i) => {
             return (
               <Alert color="danger" key={i}>
-                {error}
+                Error: {error}
               </Alert>
             );
           })}
@@ -115,7 +115,7 @@ const Details = () => {
           chartDetails.warnings.map((warning, i) => {
             return (
               <Alert color="warning" key={i}>
-                {warning}
+                Warning: {warning}
               </Alert>
             );
           })}
