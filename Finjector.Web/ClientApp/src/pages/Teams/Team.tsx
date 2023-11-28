@@ -1,7 +1,7 @@
 import React from "react";
 import { SearchBar } from "../../components/SearchBar";
 import { useGetTeam } from "../../queries/teamQueries";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import FolderList from "../../components/Teams/FolderList";
 
 const Team: React.FC = () => {
@@ -30,9 +30,9 @@ const Team: React.FC = () => {
       <div className="mb-3">
         <FolderList teamModel={teamModel.data} filter={search} />
       </div>
-      <button className="btn btn-new me-3" type="button">
+      <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
         Create New Folder
-      </button>
+      </Link>
     </div>
   );
 };

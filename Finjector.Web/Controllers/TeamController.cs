@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
 using Finjector.Core.Data;
 using Finjector.Core.Domain;
 using Finjector.Core.Services;
 using Finjector.Web.Extensions;
+using Finjector.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -99,7 +99,7 @@ public class TeamController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateTeamModel teamModel)
+    public async Task<IActionResult> Create([FromBody] NameAndDescriptionModel teamModel)
     {
         var iamId = Request.GetCurrentUserIamId();
 
@@ -146,10 +146,4 @@ public class TeamController : ControllerBase
     // todo -- update team
 
     // todo -- delete team
-}
-
-public class CreateTeamModel
-{
-    [Required] [MaxLength(50)] public string Name { get; set; } = string.Empty;
-    [MaxLength(300)] public string? Description { get; set; }
 }

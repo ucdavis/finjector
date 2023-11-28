@@ -1,6 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { doFetch } from "../util/api";
-import { FolderResponseModel } from "../types";
+import { Folder, FolderResponseModel, NameAndDescriptionModel } from "../types";
+
+const queryClient = new QueryClient();
 
 export const useGetFolder = (id: string | undefined) =>
   useQuery(
@@ -9,4 +11,25 @@ export const useGetFolder = (id: string | undefined) =>
       return await doFetch<FolderResponseModel>(fetch(`/api/folder/${id}`));
     },
     { enabled: id !== undefined }
+  );
+
+export const useCreateFolderMutation = (teamId: string) =>
+  useMutation(
+    async (folder: NameAndDescriptionModel) => {
+      return await doFetch<Folder>(
+        fetch(`/api/folder?teamId=${teamId}`, {
+          method: "POST",
+          body: JSON.stringify(folder),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      );
+    },
+    {
+      onSuccess: () => {
+        // invalidate team query for this team so the new foldr shows up
+        queryClient.invalidateQueries(["teams", teamId]);
+      },
+    }
   );

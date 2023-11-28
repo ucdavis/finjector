@@ -1,6 +1,11 @@
 import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
 import { doFetch } from "../util/api";
-import { Team, TeamResponseModel, TeamsResponseModel } from "../types";
+import {
+  NameAndDescriptionModel,
+  Team,
+  TeamResponseModel,
+  TeamsResponseModel,
+} from "../types";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +25,7 @@ export const useGetTeam = (id: string | undefined) =>
 
 export const useCreateTeamMutation = () =>
   useMutation(
-    async (team: Team) => {
+    async (team: NameAndDescriptionModel) => {
       return await doFetch<Team>(
         fetch(`/api/team/`, {
           method: "POST",

@@ -1,13 +1,9 @@
 import { useState } from "react";
-
-export interface NameAndDescriptionFormProps {
-  name: string;
-  description?: string;
-}
+import { NameAndDescriptionModel } from "../../types";
 
 interface Props {
-  initialValues?: NameAndDescriptionFormProps;
-  onSubmit: (formData: NameAndDescriptionFormProps) => void;
+  initialValues?: NameAndDescriptionModel;
+  onSubmit: (formData: NameAndDescriptionModel) => void;
 }
 
 export default function FormComponent(props: Props) {
@@ -16,7 +12,6 @@ export default function FormComponent(props: Props) {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: any) => {
-    console.log(e.target.value, e.target.name);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 

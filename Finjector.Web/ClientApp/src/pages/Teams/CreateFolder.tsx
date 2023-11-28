@@ -1,23 +1,26 @@
 import React from "react";
-import { useCreateTeamMutation } from "../../queries/teamQueries";
-import { useNavigate } from "react-router-dom";
-import { NameAndDescriptionModel } from "../../types";
+import { useNavigate, useParams } from "react-router-dom";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
+import { useCreateFolderMutation } from "../../queries/folderQueries";
+import { NameAndDescriptionModel } from "../../types";
 
-const CreateTeam: React.FC = () => {
+const CreateFolder: React.FC = () => {
+  // get the team id from the url
+  const { id } = useParams<{ id: string }>();
+
   const navigate = useNavigate();
 
-  const createTeamMutation = useCreateTeamMutation();
+  const createFolderMutation = useCreateFolderMutation(id || "");
 
   const handleCreate = async (data: NameAndDescriptionModel) => {
-    await createTeamMutation.mutateAsync(
+    await createFolderMutation.mutateAsync(
       {
         name: data.name,
         description: data.description,
       },
       {
         onSuccess: () => {
-          navigate("/teams");
+          navigate(`/teams/${id}`);
         },
         onError: (err: any) => {
           console.log(err);
@@ -33,4 +36,4 @@ const CreateTeam: React.FC = () => {
   );
 };
 
-export default CreateTeam;
+export default CreateFolder;

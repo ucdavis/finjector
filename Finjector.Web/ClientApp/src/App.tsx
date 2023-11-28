@@ -14,6 +14,7 @@ import Team from "./pages/Teams/Team";
 import Folder from "./pages/Teams/Folder";
 import UserManagement from "./pages/Teams/UserManagement";
 import CreateTeam from "./pages/Teams/CreateTeam";
+import CreateFolder from "./pages/Teams/CreateFolder";
 
 function App() {
   const userInfoQuery = useUserInfoQuery();
@@ -35,6 +36,7 @@ function App() {
             <Route path="" element={<MyTeams />} />
             <Route path="create" element={<CreateTeam />} />
             <Route path=":id" element={<Team />} />
+            <Route path=":id/create" element={<CreateFolder />} />
             <Route path=":id/folders/:folderId" element={<Folder />} />
             <Route path=":id/permissions" element={<UserManagement />} />
             <Route
