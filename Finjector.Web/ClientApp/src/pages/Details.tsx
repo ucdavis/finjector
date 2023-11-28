@@ -88,18 +88,20 @@ const Details = () => {
         <div className="col-6">
           <HomeLink>Back</HomeLink>
         </div>
-        <div className="col text-end">
-          <Link
-            to={`/entry/${
-              id ? `${id}/${chartSegmentString}` : `${chartSegmentString}`
-            }`}
-          >
-            <Button className="btn btn-new me-3">Edit COA</Button>
-          </Link>
-          <Link to="/share">
-            <Button className="btn btn-new">Share COA</Button>
-          </Link>
-        </div>
+        {!invalid && (
+          <div className="col text-end">
+            <Link
+              to={`/entry/${
+                id ? `${id}/${chartSegmentString}` : `${chartSegmentString}`
+              }`}
+            >
+              <Button className="btn btn-new me-3">Edit COA</Button>
+            </Link>
+            <Link to="/share">
+              <Button className="btn btn-new">Share COA</Button>
+            </Link>
+          </div>
+        )}
       </div>
       <div>
         {chartDetails.errors.length > 0 &&
