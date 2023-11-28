@@ -1,25 +1,26 @@
 import React, { useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { useDeleteTeamMutation } from "../../queries/teamQueries";
+import { useLeaveTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
   teamId: string;
+  myPermissions: string[];
 }
 
-const DeleteTeam = (props: Props) => {
+const LeaveTeam = (props: Props) => {
   const navigate = useNavigate();
 
   const [modalOpen, setModalOpen] = useState(false);
 
-  const deleteMutation = useDeleteTeamMutation();
+  const leaveMutation = useLeaveTeamMutation();
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
   };
 
   const handleDelete = () => {
-    deleteMutation.mutate(props.teamId, {
+    leaveMutation.mutate(props.teamId, {
       onSuccess: () => {
         navigate("/teams");
         toggleModal();
@@ -30,19 +31,24 @@ const DeleteTeam = (props: Props) => {
   return (
     <>
       <button className="btn btn-new me-3" onClick={toggleModal}>
-        Delete Team
+        Leave Team
       </button>
       <Modal isOpen={modalOpen} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Delete Team</ModalHeader>
+        <ModalHeader toggle={toggleModal}>Leave Team</ModalHeader>
         <ModalBody>
-          Are you sure you want to delete this team? This team, any folders
-          within it will be removed.
+          Are you sure you want to leave this team?
+          {props.myPermissions.some((p) => p === "Admin") && (
+            <p>
+              You are an admin for this team. If you leave and there are no
+              other admins, the team will be deleted.
+            </p>
+          )}
         </ModalBody>
         <ModalFooter>
           <Button
             color="danger"
             onClick={handleDelete}
-            disabled={deleteMutation.isLoading}
+            disabled={leaveMutation.isLoading}
           >
             Delete
           </Button>
@@ -55,4 +61,4 @@ const DeleteTeam = (props: Props) => {
   );
 };
 
-export default DeleteTeam;
+export default LeaveTeam;

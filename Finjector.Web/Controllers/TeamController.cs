@@ -156,7 +156,7 @@ public class TeamController : ControllerBase
     public async Task<IActionResult> Delete(int id)
     {
         var iamId = Request.GetCurrentUserIamId();
-        
+
         // make sure they have permission to delete the team
         if (await _userService.VerifyTeamAccess(id, iamId, Role.Codes.Admin) == false)
         {
@@ -169,8 +169,46 @@ public class TeamController : ControllerBase
         {
             return NotFound();
         }
-        
+
         team.IsActive = false;
+
+        await _dbContext.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    /// <summary>
+    /// remove your permissions from a team.
+    /// If you are the only admin, just soft delete a team by setting IsActive to false
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPost("{id}/Leave")]
+    public async Task<IActionResult> Leave(int id)
+    {
+        var iamId = Request.GetCurrentUserIamId();
+
+        // get team admins
+        var teamAdmins = await _dbContext.TeamPermissions
+            .Where(tp => tp.TeamId == id && tp.Role.Name == Role.Codes.Admin)
+            .Include(teamPermission => teamPermission.User)
+            .ToListAsync();
+
+        // if they are the only team admin, then just delete the team
+        if (teamAdmins.Count == 1 && teamAdmins[0].User.Iam == iamId)
+        {
+            var team = await _dbContext.Teams.SingleAsync(t => t.Id == id);
+
+            team.IsActive = false;
+        }
+        else
+        {
+            // otherwise, just remove their permissions
+            var teamPermission = await _dbContext.TeamPermissions.Where(tp => tp.TeamId == id && tp.User.Iam == iamId)
+                .ToListAsync();
+
+            _dbContext.TeamPermissions.RemoveRange(teamPermission);
+        }
 
         await _dbContext.SaveChangesAsync();
 

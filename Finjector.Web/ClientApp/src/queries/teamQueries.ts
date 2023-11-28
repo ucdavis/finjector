@@ -60,3 +60,20 @@ export const useDeleteTeamMutation = () =>
       },
     }
   );
+
+export const useLeaveTeamMutation = () =>
+  useMutation(
+    async (id: string) => {
+      return await doFetchEmpty(
+        fetch(`/api/team/${id}/leave`, {
+          method: "POST",
+        })
+      );
+    },
+    {
+      onSuccess: () => {
+        // invalidate teams query so we refetch
+        queryClient.invalidateQueries(["teams", "me"]);
+      },
+    }
+  );

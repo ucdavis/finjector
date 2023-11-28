@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import FolderList from "../../components/Teams/FolderList";
 import FinLoader from "../../components/FinLoader";
 import DeleteTeam from "../../components/Teams/DeleteTeam";
+import LeaveTeam from "../../components/Teams/LeaveTeam";
 
 const Team: React.FC = () => {
   // get id from url
@@ -44,11 +45,12 @@ const Team: React.FC = () => {
           Manage Team Users
         </Link>
         {teamModel.data?.team.myTeamPermissions.some((p) => p === "Admin") && (
-          <DeleteTeam teamId={id} onDeleted={() => {}} />
+          <DeleteTeam teamId={id} />
         )}
-        <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
-          Leave Team
-        </Link>
+        <LeaveTeam
+          teamId={id}
+          myPermissions={teamModel.data?.team.myTeamPermissions || []}
+        />
       </div>
       <div className="mb-3">
         <FolderList teamModel={teamModel.data} filter={search} />
