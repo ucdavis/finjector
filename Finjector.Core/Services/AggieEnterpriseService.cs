@@ -5,7 +5,6 @@ using AggieEnterpriseApi;
 using AggieEnterpriseApi.Extensions;
 using AggieEnterpriseApi.Types;
 using AggieEnterpriseApi.Validation;
-using System.Security.Principal;
 
 
 namespace Finjector.Core.Services
