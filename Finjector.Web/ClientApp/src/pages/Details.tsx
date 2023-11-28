@@ -12,6 +12,7 @@ import { Alert, Button } from "reactstrap";
 import { renderNameAndEmail } from "../util/util";
 import { ChartNotFound } from "../components/ChartNotFound";
 import DetailsChartString from "../components/Details/DetailsChartString";
+import PpmDetails from "../components/Details/PpmDetails";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -171,37 +172,7 @@ const Details = () => {
               </div>
             </div>
             {chartDetails.chartType === ChartType.PPM && (
-              <>
-                <div className="row">
-                  <div className="col-3 coa-info-title">
-                    <h4>Project Manager</h4>
-                  </div>
-                  <div className="col coa-details-info-right">
-                    {renderNameAndEmail(
-                      chartDetails.ppmProjectManager.name,
-                      chartDetails.ppmProjectManager.email
-                    )}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-3 coa-info-title">
-                    <h4>Project Name</h4>
-                  </div>
-                  <div className="col coa-details-info-right"></div>
-                </div>
-                <div className="row">
-                  <div className="col-3 coa-info-title">
-                    <h4>Project Start Date</h4>
-                  </div>
-                  <div className="col coa-details-info-right"></div>
-                </div>
-                <div className="row">
-                  <div className="col-3 coa-info-title">
-                    <h4>Project End Date</h4>
-                  </div>
-                  <div className="col coa-details-info-right"></div>
-                </div>
-              </>
+              <PpmDetails ppmProjectManager={chartDetails.ppmProjectManager} />
             )}
           </div>
         </div>
