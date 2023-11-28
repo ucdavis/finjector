@@ -226,6 +226,8 @@ namespace Finjector.Core.Services
             }
             if(aeDetails.ChartStringType == FinancialChartStringType.Ppm)
             {
+                aeDetails.PpmDetails = new PpmDetails();
+
                 var ppmSegments = FinancialChartValidation.GetPpmSegments(segmentString);
                 var result = await _apiClient.DisplayDetailsPpm.ExecuteAsync(
                     projectNumber: ppmSegments.Project, 
@@ -281,7 +283,7 @@ namespace Finjector.Core.Services
                     {
                         var nameParts = data.PpmProjectByNumber.PrimaryProjectManagerName.Split(' ');
 
-                        aeDetails.PpmProjectManager = new Approver
+                        aeDetails.PpmDetails.PpmProjectManager = new Approver
                         {
                             FirstName = nameParts[0],
                             LastName = nameParts[nameParts.Length - 1],
@@ -292,7 +294,7 @@ namespace Finjector.Core.Services
                 catch(Exception)
                 {
                     aeDetails.Warnings.Add("Unable to get Project Manager");
-                    aeDetails.PpmProjectManager = new Approver();
+                    aeDetails.PpmDetails.PpmProjectManager = new Approver();
                 }
 
                 aeDetails.SegmentDetails.Add(new SegmentDetails
@@ -497,7 +499,7 @@ namespace Finjector.Core.Services
                 var project  = data.PpmProjectByNumber?.ProjectNumber ?? "0000000000";
                 var activity = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingActivityCode ?? "000000";
 
-                aeDetails.PpmGlString = $"{entity}-{fund}-{dept}-{account}-{purpose}-{program}-{project}-{activity}-0000-000000-000000";
+                aeDetails.PpmDetails.PpmGlString = $"{entity}-{fund}-{dept}-{account}-{purpose}-{program}-{project}-{activity}-0000-000000-000000";
                 //TODO: Add PPM GL string to aeDetails to Match Cal's design
 
 
