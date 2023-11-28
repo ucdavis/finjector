@@ -8,6 +8,7 @@ namespace Finjector.Core.Models
     {
         public bool IsValid { get; set; } = true;
         public string ChartType { get; set; } = string.Empty;
+        public string ChartString { get; set; } = string.Empty;
 
         public FinancialChartStringType ChartStringType { get; set; } = FinancialChartStringType.Invalid;
 
