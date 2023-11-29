@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useLeaveTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
+import FinjectorButton from "../Shared/FinjectorButton";
 
 interface Props {
   teamId: string;
@@ -30,9 +31,7 @@ const LeaveTeam = (props: Props) => {
 
   return (
     <>
-      <button className="btn btn-new me-3" onClick={toggleModal}>
-        Leave Team
-      </button>
+      <FinjectorButton onClick={toggleModal}>Leave Team</FinjectorButton>
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>Leave Team</ModalHeader>
         <ModalBody>
@@ -45,16 +44,16 @@ const LeaveTeam = (props: Props) => {
           )}
         </ModalBody>
         <ModalFooter>
-          <Button
+          <FinjectorButton
             color="danger"
             onClick={handleDelete}
             disabled={leaveMutation.isLoading}
           >
-            Delete
-          </Button>
-          <Button color="secondary" onClick={toggleModal}>
+            Leave
+          </FinjectorButton>
+          <FinjectorButton color="secondary" onClick={toggleModal}>
             Cancel
-          </Button>
+          </FinjectorButton>
         </ModalFooter>
       </Modal>
     </>

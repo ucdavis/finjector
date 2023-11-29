@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { HomeLink } from "../components/HomeLink";
+import { HomeLink } from "../components/Shared/HomeLink";
 import CopyToClipboard from "../components/CopyToClipboard";
+import FinjectorButton from "../components/Shared/FinjectorButton";
 
 const Selected = () => {
   const { chart } = useParams();
@@ -53,9 +54,12 @@ const Selected = () => {
             Click copy to copy this to your clipboard, or head back home to work
             with another chart.
           </p>
-          <button className="btn btn-primary" onClick={copyToClipboard}>
+          <FinjectorButton
+            className="btn btn-primary"
+            onClick={copyToClipboard}
+          >
             {hasCopied ? "Copied!" : "Copy"}
-          </button>
+          </FinjectorButton>
           <hr />
           <HomeLink>Go Home</HomeLink>
         </div>

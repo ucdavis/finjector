@@ -1,5 +1,6 @@
 import { useRemoveUserMutation } from "../../queries/userQueries";
 import { CollectionResourceType } from "../../types";
+import FinjectorButton from "../Shared/FinjectorButton";
 
 interface Props {
   resourceId: string;
@@ -21,8 +22,11 @@ export const RemoveUserPermission = (props: Props) => {
   };
 
   return (
-    <button onClick={handleRemovePermission} disabled={removeInProgress}>
+    <FinjectorButton
+      onClick={handleRemovePermission}
+      disabled={removeInProgress}
+    >
       {removeInProgress ? "Removing..." : "Remove"}
-    </button>
+    </FinjectorButton>
   );
 };

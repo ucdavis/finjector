@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useRemoveChart } from "../queries/storedChartQueries";
 import { Chart } from "../types";
+import FinjectorButton from "./Shared/FinjectorButton";
 
 export const ChartLoadingError = () => {
   const navigate = useNavigate();
@@ -23,14 +24,13 @@ export const ChartLoadingError = () => {
         This is most likely because chart format is not supported. If you'd like
         to permanently remove this entry, click the button below.
       </p>
-      <button
-        type="button"
-        className="btn btn-danger"
+      <FinjectorButton
+        color="danger"
         disabled={removeMutation.isLoading}
         onClick={remove}
       >
         Remove
-      </button>
+      </FinjectorButton>
     </div>
   );
 };
