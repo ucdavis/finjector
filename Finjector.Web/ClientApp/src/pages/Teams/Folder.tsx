@@ -1,8 +1,8 @@
 import React from "react";
-import { SearchBar } from "../../components/SearchBar";
+import { SearchBar } from "../../components/Shared/SearchBar";
 import { useParams } from "react-router-dom";
 import { useGetFolder } from "../../queries/folderQueries";
-import ChartList from "../../components/ChartList";
+import ChartList from "../../components/Shared/ChartList";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {

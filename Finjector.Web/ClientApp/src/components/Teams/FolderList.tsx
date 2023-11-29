@@ -1,6 +1,6 @@
 import React from "react";
 
-import FinLoader from "../FinLoader";
+import FinLoader from "../Shared/FinLoader";
 
 import { TeamResponseModel } from "../../types";
 import { Link } from "react-router-dom";

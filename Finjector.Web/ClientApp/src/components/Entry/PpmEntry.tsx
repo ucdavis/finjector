@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ChartType, PpmSegments, SegmentData } from "../types";
+import { ChartType, PpmSegments, SegmentData } from "../../types";
 
 import SegmentSearch from "./SegmentSearch";
 import TaskSelector from "./TaskSelector";

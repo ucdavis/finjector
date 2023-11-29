@@ -1,8 +1,8 @@
 import React from "react";
 
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
-import { useSegmentQuery } from "../queries/segmentQueries";
-import { ChartType, SegmentData } from "../types";
+import { useSegmentQuery } from "../../queries/segmentQueries";
+import { ChartType, SegmentData } from "../../types";
 
 interface Props {
   chartType: ChartType;

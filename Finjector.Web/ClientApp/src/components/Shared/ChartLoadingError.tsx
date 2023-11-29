@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useRemoveChart } from "../queries/storedChartQueries";
-import { Chart } from "../types";
-import FinjectorButton from "./Shared/FinjectorButton";
+import { useRemoveChart } from "../../queries/storedChartQueries";
+import { Chart } from "../../types";
+import FinjectorButton from "./FinjectorButton";
 
 export const ChartLoadingError = () => {
   const navigate = useNavigate();

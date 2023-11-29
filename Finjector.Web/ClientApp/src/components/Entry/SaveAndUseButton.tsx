@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useSaveChart } from "../queries/storedChartQueries";
-import { Chart, ChartData } from "../types";
-import { toSegmentString } from "../util/segmentValidation";
-import FinjectorButton from "./Shared/FinjectorButton";
+import { useSaveChart } from "../../queries/storedChartQueries";
+import { Chart, ChartData } from "../../types";
+import { toSegmentString } from "../../util/segmentValidation";
+import FinjectorButton from "../Shared/FinjectorButton";
 
 interface Props {
   chartData: ChartData;

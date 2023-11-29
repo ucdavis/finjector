@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useRemoveChart, useSaveChart } from "../queries/storedChartQueries";
-import { Chart, ChartData } from "../types";
-import { toSegmentString } from "../util/segmentValidation";
-import FinjectorButton from "./Shared/FinjectorButton";
+import { useRemoveChart, useSaveChart } from "../../queries/storedChartQueries";
+import { Chart, ChartData } from "../../types";
+import { toSegmentString } from "../../util/segmentValidation";
+import FinjectorButton from "../Shared/FinjectorButton";
 
 const landingPage = "/landing";
 
@@ -14,7 +14,7 @@ interface Props {
 }
 
 // Handle remove, save, copy and use buttons
-const EditButtons = (props: Props) => {
+const EntryEditButtons = (props: Props) => {
   const navigate = useNavigate();
 
   const saveMutation = useSaveChart();
@@ -104,4 +104,4 @@ const EditButtons = (props: Props) => {
   );
 };
 
-export default EditButtons;
+export default EntryEditButtons;

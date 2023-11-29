@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import FinLoader from "./FinLoader";
 
-import { Chart, ChartType } from "../types";
+import { Chart, ChartType } from "../../types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
