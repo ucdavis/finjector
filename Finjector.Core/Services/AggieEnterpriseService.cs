@@ -5,7 +5,6 @@ using AggieEnterpriseApi;
 using AggieEnterpriseApi.Extensions;
 using AggieEnterpriseApi.Types;
 using AggieEnterpriseApi.Validation;
-using AggieEnterpriseApi.State;
 
 
 namespace Finjector.Core.Services
@@ -543,6 +542,7 @@ namespace Finjector.Core.Services
                 aeDetails.PpmDetails.ProjectStartDate = data.PpmProjectByNumber.ProjectStartDate;
                 aeDetails.PpmDetails.ProjectCompletionDate = data.PpmProjectByNumber.ProjectCompletionDate;
                 aeDetails.PpmDetails.ProjectStatus = data.PpmProjectByNumber.ProjectStatus;
+                aeDetails.PpmDetails.ProjectTypeName = data.PpmProjectByNumber.ProjectTypeName;
             }
         }
 
