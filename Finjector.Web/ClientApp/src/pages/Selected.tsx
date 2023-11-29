@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { HomeLink } from "../components/Shared/HomeLink";
 import CopyToClipboard from "../components/Shared/CopyToClipboard";
 import FinjectorButton from "../components/Shared/FinjectorButton";
+import { BackLinkBar } from "../components/Shared/BackLinkBar";
 
 const Selected = () => {
   const { chart } = useParams();
@@ -36,6 +36,7 @@ const Selected = () => {
 
   return (
     <div>
+      <BackLinkBar />
       <h1>Chart Selected</h1>
       <p>
         <CopyToClipboard value={chart || ""}>
@@ -60,8 +61,6 @@ const Selected = () => {
           >
             {hasCopied ? "Copied!" : "Copy"}
           </FinjectorButton>
-          <hr />
-          <HomeLink>Go Home</HomeLink>
         </div>
       )}
     </div>

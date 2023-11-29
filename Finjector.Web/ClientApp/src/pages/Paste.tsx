@@ -6,7 +6,7 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import FinjectorButton from "../components/Shared/FinjectorButton";
-import { BackLink } from "../components/Shared/BackLink";
+import { BackLinkBar } from "../components/Shared/BackLinkBar";
 
 const Paste = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Paste = () => {
 
   return (
     <div className="main">
-      <BackLink />
+      <BackLinkBar />
       <h2>Paste in existing CoA</h2>
       <form>
         <div className="mb-3">

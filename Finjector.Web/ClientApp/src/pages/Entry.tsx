@@ -31,7 +31,7 @@ import {
 import EntryEditButtons from "../components/Entry/EntryEditButtons";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
-import { BackLink } from "../components/Shared/BackLink";
+import { BackLinkBar } from "../components/Shared/BackLinkBar";
 
 const Entry = () => {
   const { id, chartSegmentString } = useParams();
@@ -102,7 +102,7 @@ const Entry = () => {
       <>
         <ChartLoadingError />
         <hr />
-        <BackLink />
+        <BackLinkBar />
       </>
     );
   }
@@ -114,7 +114,7 @@ const Entry = () => {
 
   return (
     <div className="main">
-      <BackLink />
+      <BackLinkBar />
 
       <h2>Chart Type</h2>
       <ChartTypeSelector

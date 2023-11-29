@@ -6,11 +6,14 @@ interface Props {
   children?: React.ReactNode;
 }
 
-export const HomeLink = (props: Props) => {
+export const HomeLinkBar = (props: Props) => {
   return (
-    <Link className="back-link" to="/">
-      <FontAwesomeIcon icon={faArrowLeft} />
-      {props.children ? props.children : "Go Home"}
-    </Link>
+    <>
+      <Link className="back-link" to="/">
+        <FontAwesomeIcon icon={faArrowLeft} />
+        {props.children ? props.children : "Go Home"}
+      </Link>
+      <hr />
+    </>
   );
 };

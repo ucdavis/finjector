@@ -4,7 +4,7 @@ import { usePermissionsQuery } from "../../queries/userQueries";
 import { AddUserPermission } from "../../components/Teams/AddUserPermission";
 import { CollectionResourceType } from "../../types";
 import { RemoveUserPermission } from "../../components/Teams/RemoveUserPermissions";
-import { BackLink } from "../../components/Shared/BackLink";
+import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
 
 const UserManagement: React.FC = () => {
@@ -39,14 +39,14 @@ const UserManagement: React.FC = () => {
       <div>
         <h2>Manage Permissions</h2>
         {errorContent}
-        <BackLink />
+        <BackLinkBar />
       </div>
     );
   }
 
   return (
     <div>
-      <BackLink />
+      <BackLinkBar />
       <h2>Manage Permissions</h2>
       <FinjectorButton onClick={toggleAddPermission}>
         + Add New Role

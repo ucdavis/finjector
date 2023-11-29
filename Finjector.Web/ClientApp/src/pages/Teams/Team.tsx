@@ -6,6 +6,7 @@ import FolderList from "../../components/Teams/FolderList";
 import FinLoader from "../../components/Shared/FinLoader";
 import DeleteTeam from "../../components/Teams/DeleteTeam";
 import LeaveTeam from "../../components/Teams/LeaveTeam";
+import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 
 const Team: React.FC = () => {
   // get id from url
@@ -21,6 +22,7 @@ const Team: React.FC = () => {
 
   return (
     <div>
+      <BackLinkBar />
       <div className="page-title mb-3">
         <h1>{teamModel.data?.team.name}</h1>
       </div>

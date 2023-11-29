@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useUserInfoQuery } from "../queries/userQueries";
-import { HomeLink } from "../components/Shared/HomeLink";
+import { HomeLinkBar } from "../components/Shared/HomeLinkBar";
 
 const About = () => {
   const userInfoQuery = useUserInfoQuery();
@@ -15,8 +15,7 @@ const About = () => {
   return (
     <div className="row">
       <div className="col-md-6">
-        <HomeLink />
-        <hr />
+        <HomeLinkBar />
         <p>
           <b>Current user:</b>{" "}
           {user.isSuccess &&
