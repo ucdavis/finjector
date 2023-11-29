@@ -27,13 +27,19 @@ const Details = () => {
     warnings: [],
     segmentDetails: [],
     approvers: [],
-    ppmProjectManager: {
-      firstName: null,
-      lastName: null,
-      email: null,
-      name: "",
+    ppmDetails: {
+      ppmProjectManager: {
+        firstName: null,
+        lastName: null,
+        email: null,
+        name: "",
+      },
+      ppmGlString: "",
+      projectCompletionDate: "",
+      projectStartDate: "",
+      projectStatus: "",
+      projectTypeName: "",
     },
-    ppmGlString: "",
     hasWarnings: false,
   });
 
@@ -172,7 +178,16 @@ const Details = () => {
               </div>
             </div>
             {chartDetails.chartType === ChartType.PPM && (
-              <PpmDetails ppmProjectManager={chartDetails.ppmProjectManager} />
+              <PpmDetails
+                ppmProjectManager={chartDetails.ppmDetails.ppmProjectManager}
+                projectCompletionDate={
+                  chartDetails.ppmDetails.projectCompletionDate
+                }
+                projectStartDate={chartDetails.ppmDetails.projectStartDate}
+                projectStatus={chartDetails.ppmDetails.projectStatus}
+                projectTypeName={chartDetails.ppmDetails.projectTypeName}
+                ppmGlString={chartDetails.ppmDetails.ppmGlString}
+              />
             )}
           </div>
         </div>

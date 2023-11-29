@@ -112,9 +112,17 @@ export interface AeDetails {
   warnings: string[];
   segmentDetails: SegmentDetails[];
   approvers: Approver[];
+  hasWarnings: boolean;
+  ppmDetails: PpmDetails;
+}
+
+export interface PpmDetails {
   ppmProjectManager: Approver;
   ppmGlString: string;
-  hasWarnings: boolean;
+  projectStartDate: string;
+  projectCompletionDate: string;
+  projectStatus: string;
+  projectTypeName: string;
 }
 
 export interface SegmentDetails {
