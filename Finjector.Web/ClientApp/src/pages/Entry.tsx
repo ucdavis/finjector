@@ -24,10 +24,13 @@ import {
   isGlSegmentString,
 } from "../util/segmentValidation";
 import NameEntry from "../components/NameEntry";
-import { mapSegmentCodeToName, mapSegmentQueryData } from "../util/segmentMapping";
+import {
+  mapSegmentCodeToName,
+  mapSegmentQueryData,
+} from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
 import { ChartDebugInfo } from "../components/ChartDebugInfo";
-import { HomeLink } from "../components/HomeLink";
+import { HomeLink } from "../components/Shared/HomeLink";
 import { ChartLoadingError } from "../components/ChartLoadingError";
 
 const Entry = () => {
@@ -144,9 +147,7 @@ const Entry = () => {
         <h2>CoA Name</h2>
         <NameEntry
           chart={savedChart}
-          updateName={(n) =>
-            setSavedChart((c) => ({ ...c, name: n }))
-          }
+          updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
         />
         <CoaDisplay chartData={chartData} />
         {savedChart.id ? (

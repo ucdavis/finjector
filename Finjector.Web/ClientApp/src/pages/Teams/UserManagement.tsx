@@ -1,15 +1,15 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { usePermissionsQuery } from "../../queries/userQueries";
 import { AddUserPermission } from "../../components/Teams/AddUserPermission";
 import { CollectionResourceType } from "../../types";
 import { RemoveUserPermission } from "../../components/Teams/RemoveUserPermissions";
+import { BackLink } from "../../components/Shared/BackLink";
+import FinjectorButton from "../../components/Shared/FinjectorButton";
 
 const UserManagement: React.FC = () => {
   // read (team) id and folderId from the url
   const { id, folderId } = useParams();
-
-  const navigate = useNavigate();
 
   const resourceId = folderId ? folderId : id ? id : "";
   const resourceType: CollectionResourceType = folderId ? "folder" : "team";
@@ -39,16 +39,18 @@ const UserManagement: React.FC = () => {
       <div>
         <h2>Manage Permissions</h2>
         {errorContent}
-        <button onClick={() => navigate(-1)}>Go Back</button>
+        <BackLink />
       </div>
     );
   }
 
   return (
     <div>
+      <BackLink />
       <h2>Manage Permissions</h2>
-      <button onClick={toggleAddPermission}>+ Add New Role</button>
-      <button onClick={() => navigate(-1)}>Go Back</button>
+      <FinjectorButton onClick={toggleAddPermission}>
+        + Add New Role
+      </FinjectorButton>
       <table className="table">
         <thead>
           <tr>

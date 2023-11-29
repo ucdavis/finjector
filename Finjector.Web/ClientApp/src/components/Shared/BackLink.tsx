@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-export const HomeLink = (props: Props) => {
+export const BackLink = (props: Props) => {
   return (
-    <Link className="back-link" to="/">
+    <Link to=".." className="back-link">
       <FontAwesomeIcon icon={faArrowLeft} />
-      {props.children}
+      {props.children ? props.children : "Go Back"}
     </Link>
   );
 };
