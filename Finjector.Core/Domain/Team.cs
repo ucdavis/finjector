@@ -42,6 +42,8 @@ namespace Finjector.Core.Domain
 
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Team>().HasQueryFilter(t => t.IsActive);
+            
             modelBuilder.Entity<Folder>()
                 .HasOne(a => a.Team)
                 .WithMany(a => a.Folders)

@@ -1,6 +1,8 @@
 using Finjector.Core.Data;
+using Finjector.Core.Domain;
 using Finjector.Core.Services;
 using Finjector.Web.Extensions;
+using Finjector.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +15,12 @@ namespace Finjector.Web.Controllers;
 public class TeamController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
+    private readonly IUserService _userService;
 
-    public TeamController(AppDbContext dbContext)
+    public TeamController(AppDbContext dbContext, IUserService userService)
     {
         _dbContext = dbContext;
+        _userService = userService;
     }
 
     /// <summary>
@@ -28,23 +32,26 @@ public class TeamController : ControllerBase
     {
         var iamId = Request.GetCurrentUserIamId();
 
-        var teamResults = await _dbContext.Coas.Where(c =>
-                c.Folder.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
-                c.Folder.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId))
-            .GroupBy(c => new { c.Folder.Team.Id, c.Folder.Team.Name, c.Folder.Team.IsPersonal })
-            .Select(tg => new
+        var teamResults = await _dbContext.Teams.Where(t => t.TeamPermissions.Any(tp => tp.User.Iam == iamId
+                || t.Folders.Any(f => f.FolderPermissions.Any(fp => fp.User.Iam == iamId))
+            ))
+            .Select(t => new
             {
-                Team = tg.Key,
-                FolderCount = tg.Select(c => c.Folder.Id).Distinct().Count(),
-                Admins = tg.SelectMany(c =>
-                    c.Folder.Team.TeamPermissions.Select(p => p.User.FirstName + " " + p.User.LastName)).Distinct(),
-                TeamPermissionCount = tg.SelectMany(c => c.Folder.Team.TeamPermissions.Select(p => p.UserId)).Distinct()
+                Team = new
+                {
+                    t.Id,
+                    t.Name,
+                    t.IsPersonal
+                },
+                FolderCount = t.Folders.Count,
+                Admins = t.TeamPermissions.Select(p => p.User.FirstName + " " + p.User.LastName),
+                TeamPermissionCount = t.TeamPermissions.Select(p => p.UserId).Distinct().Count(),
+                FolderPermissionCount = t.Folders.SelectMany(f => f.FolderPermissions.Select(p => p.UserId)).Distinct()
                     .Count(),
-                FolderPermissionCount = tg.SelectMany(c => c.Folder.FolderPermissions.Select(p => p.UserId)).Distinct()
-                    .Count(),
-                ChartCount = tg.Count()
+                ChartCount = t.Folders.SelectMany(f => f.Coas).Count()
             })
-            .ToListAsync();
+            .ToListAsync(
+            );
 
         return Ok(teamResults);
     }
@@ -93,13 +100,118 @@ public class TeamController : ControllerBase
         return Ok(new { team, folders });
     }
 
-    // todo -- create team
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] NameAndDescriptionModel teamModel)
+    {
+        var iamId = Request.GetCurrentUserIamId();
+
+        var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Iam == iamId);
+
+        if (user == null)
+        {
+            return BadRequest("User not found");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        // get admin role
+        var adminRole = await _dbContext.Roles.SingleAsync(r => r.Name == Role.Codes.Admin);
+
+        // Create the team
+        var team = new Team
+        {
+            Name = teamModel.Name,
+            Description = teamModel.Description,
+            IsPersonal = false,
+            IsActive = true,
+            Owner = user,
+            TeamPermissions = new List<TeamPermission>
+            {
+                new TeamPermission
+                {
+                    Role = adminRole,
+                    User = user
+                }
+            }
+        };
+
+        // Add the team to the database
+        _dbContext.Teams.Add(team);
+        await _dbContext.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(Get), new { id = team.Id }, team);
+    }
 
     // todo -- update team
 
-    // todo -- delete team
+    /// <summary>
+    /// soft delete a team by setting IsActive to false
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var iamId = Request.GetCurrentUserIamId();
 
-    // todo -- add user to team
+        // make sure they have permission to delete the team
+        if (await _userService.VerifyTeamAccess(id, iamId, Role.Codes.Admin) == false)
+        {
+            return Unauthorized();
+        }
 
-    // todo -- remove user from team
+        var team = await _dbContext.Teams.SingleOrDefaultAsync(t => t.Id == id);
+
+        if (team == null)
+        {
+            return NotFound();
+        }
+
+        team.IsActive = false;
+
+        await _dbContext.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    /// <summary>
+    /// remove your permissions from a team.
+    /// If you are the only admin, just soft delete a team by setting IsActive to false
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPost("{id}/Leave")]
+    public async Task<IActionResult> Leave(int id)
+    {
+        var iamId = Request.GetCurrentUserIamId();
+
+        // get team admins
+        var teamAdmins = await _dbContext.TeamPermissions
+            .Where(tp => tp.TeamId == id && tp.Role.Name == Role.Codes.Admin)
+            .Include(teamPermission => teamPermission.User)
+            .ToListAsync();
+
+        // if they are the only team admin, then just delete the team
+        if (teamAdmins.Count == 1 && teamAdmins[0].User.Iam == iamId)
+        {
+            var team = await _dbContext.Teams.SingleAsync(t => t.Id == id);
+
+            team.IsActive = false;
+        }
+        else
+        {
+            // otherwise, just remove their permissions
+            var teamPermission = await _dbContext.TeamPermissions.Where(tp => tp.TeamId == id && tp.User.Iam == iamId)
+                .ToListAsync();
+
+            _dbContext.TeamPermissions.RemoveRange(teamPermission);
+        }
+
+        await _dbContext.SaveChangesAsync();
+
+        return NoContent();
+    }
 }
