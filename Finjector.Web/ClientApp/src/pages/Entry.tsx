@@ -30,8 +30,8 @@ import {
 } from "../util/segmentMapping";
 import EditButtons from "../components/EditButtons";
 import { ChartDebugInfo } from "../components/ChartDebugInfo";
-import { HomeLink } from "../components/Shared/HomeLink";
 import { ChartLoadingError } from "../components/ChartLoadingError";
+import { BackLink } from "../components/Shared/BackLink";
 
 const Entry = () => {
   const { id, chartSegmentString } = useParams();
@@ -102,7 +102,7 @@ const Entry = () => {
       <>
         <ChartLoadingError />
         <hr />
-        <HomeLink>Go Back</HomeLink>
+        <BackLink />
       </>
     );
   }
@@ -114,7 +114,7 @@ const Entry = () => {
 
   return (
     <div className="main">
-      <HomeLink>Back</HomeLink>
+      <BackLink />
 
       <h2>Chart Type</h2>
       <ChartTypeSelector
