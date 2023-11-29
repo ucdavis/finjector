@@ -277,26 +277,6 @@ namespace Finjector.Core.Services
                     }
                 }
 
-                try
-                {
-                    if (data.PpmProjectByNumber != null && data.PpmProjectByNumber.PrimaryProjectManagerName != null)
-                    {
-                        var nameParts = data.PpmProjectByNumber.PrimaryProjectManagerName.Split(' ');
-
-                        aeDetails.PpmDetails.PpmProjectManager = new Approver
-                        {
-                            FirstName = nameParts[0],
-                            LastName = nameParts[nameParts.Length - 1],
-                            Email = data.PpmProjectByNumber.PrimaryProjectManagerEmail
-                        };
-                    }
-                }
-                catch(Exception)
-                {
-                    aeDetails.Warnings.Add("Unable to get Project Manager");
-                    aeDetails.PpmDetails.PpmProjectManager = new Approver();
-                }
-
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
                     Order  = 1,
@@ -499,9 +479,36 @@ namespace Finjector.Core.Services
                 var project  = data.PpmProjectByNumber?.ProjectNumber ?? "0000000000";
                 var activity = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingActivityCode ?? "000000";
 
-                aeDetails.PpmDetails.PpmGlString = $"{entity}-{fund}-{dept}-{account}-{purpose}-{program}-{project}-{activity}-0000-000000-000000";
-                //TODO: Add PPM GL string to aeDetails to Match Cal's design
+                #region PPM Details
+                try
+                {
+                    if (data.PpmProjectByNumber != null && data.PpmProjectByNumber.PrimaryProjectManagerName != null)
+                    {
+                        var nameParts = data.PpmProjectByNumber.PrimaryProjectManagerName.Split(' ');
 
+                        aeDetails.PpmDetails.PpmProjectManager = new Approver
+                        {
+                            FirstName = nameParts[0],
+                            LastName = nameParts[nameParts.Length - 1],
+                            Email = data.PpmProjectByNumber.PrimaryProjectManagerEmail
+                        };
+                    }
+                }
+                catch (Exception)
+                {
+                    aeDetails.Warnings.Add("Unable to get Project Manager");
+                    aeDetails.PpmDetails.PpmProjectManager = new Approver();
+                }
+
+
+                aeDetails.PpmDetails.PpmGlString = $"{entity}-{fund}-{dept}-{account}-{purpose}-{program}-{project}-{activity}-0000-000000-000000";
+                if(data.PpmProjectByNumber != null)
+                {
+                    aeDetails.PpmDetails.ProjectStartDate = data.PpmProjectByNumber.ProjectStartDate;
+                    aeDetails.PpmDetails.ProjectCompletionDate = data.PpmProjectByNumber.ProjectCompletionDate;
+                    aeDetails.PpmDetails.ProjectStatus = data.PpmProjectByNumber.ProjectStatus;
+                }
+                #endregion
 
                 return aeDetails;
             }
