@@ -51,7 +51,7 @@ namespace Finjector.Core.Services
         public async Task<AeDetails> GetAeDetailsAsync(string segmentString)
         {
             AeDetails aeDetails = new AeDetails();
-            if(segmentString == null)
+            if(string.IsNullOrWhiteSpace(segmentString))
             {
                 aeDetails.Errors.Add("Invalid Chart Type");
                 aeDetails.IsValid = false;
