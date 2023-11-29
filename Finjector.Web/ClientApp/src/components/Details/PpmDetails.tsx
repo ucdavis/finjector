@@ -55,12 +55,6 @@ const PpmDetails: React.FC<PpmDetailsProps> = ({
         </div>
         <div className="col coa-details-info-right">{projectStatus}</div>
       </div>
-      <div className="row">
-        <div className="col-3 coa-info-title">
-          <h4>GL Posting String</h4>
-        </div>
-        <div className="col coa-details-info-right">{ppmGlString}</div>
-      </div>
     </>
   );
 };

@@ -165,7 +165,7 @@ const Details = () => {
           <div className="coa-details-info">
             <div className="row">
               <div className="col-3">
-                <h4>Financial Officer(s)</h4>
+                <h4>Financial Department Approver(s)</h4>
               </div>
               <div className="col coa-details-info-right">
                 {chartDetails.approvers.map((approver, i) => {

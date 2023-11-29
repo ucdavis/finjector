@@ -526,6 +526,34 @@ namespace Finjector.Core.Services
                 }
                 aeDetails.SegmentDetails.Add(segment);
             }
+            if (data.PpmProjectByNumber?.ProjectOrganizationName != null)
+            {
+                try
+                {
+                    var parts = data.PpmProjectByNumber.ProjectOrganizationName.Split('-');
+
+                    var segment = new SegmentDetails
+                    {
+                        Order = 14,
+                        Entity = "Gl Financial Department",
+                        Code = parts[0].Trim(),
+                        Name = parts[1].Trim()
+                    };
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+                catch (Exception)
+                {
+                    aeDetails.Warnings.Add("Unable to get GL Financial Department");
+                    var segment = new SegmentDetails
+                    {
+                        Order = 14,
+                        Entity = "Gl Financial Department",
+                        Code = data.PpmProjectByNumber.ProjectOrganizationName,
+                        Name = string.Empty
+                    };
+                    aeDetails.SegmentDetails.Add(segment);
+                }
+            }
         }
 
         private void SetPpmDetails(AeDetails aeDetails, IDisplayDetailsPpmResult data)
