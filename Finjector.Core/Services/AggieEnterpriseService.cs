@@ -51,7 +51,94 @@ namespace Finjector.Core.Services
         public async Task<AeDetails> GetAeDetailsAsync(string segmentString)
         {
             AeDetails aeDetails = new AeDetails();
+            if(segmentString == null)
+            {
+                aeDetails.Errors.Add("Invalid Chart Type");
+                aeDetails.IsValid = false;
+                return aeDetails;
+            }
+            segmentString = await TryToConvertKfsAccount(aeDetails, segmentString);
 
+            aeDetails.ChartString = segmentString;
+
+
+            aeDetails.ChartStringType = string.IsNullOrEmpty(segmentString) ? FinancialChartStringType.Invalid : GetChartType(segmentString);
+            aeDetails.ChartType = aeDetails.ChartStringType.ToString().ToUpper();
+            if(aeDetails.ChartStringType == FinancialChartStringType.Invalid)
+            {
+                aeDetails.Errors.Add("Invalid Chart Type");
+                aeDetails.IsValid = false;
+                return aeDetails;
+            }
+
+            if(aeDetails.ChartStringType == FinancialChartStringType.Gl)
+            {
+                var glSegments = FinancialChartValidation.GetGlSegments(segmentString);
+                var result = await _apiClient.DisplayDetailsGl.ExecuteAsync(
+                    segmentString: segmentString, validateCVRs: true, 
+                    project: glSegments.Project, 
+                    entity: glSegments.Entity, 
+                    fund: glSegments.Fund, 
+                    dept: glSegments.Department, 
+                    account: glSegments.Account, 
+                    purpose: glSegments.Purpose, 
+                    program: glSegments.Program, 
+                    activity: glSegments.Activity);
+
+                var data = result.ReadData();
+                if(data == null)
+                {
+                    aeDetails.Errors.Add("Unable to get data from Aggie Enterprise");
+                    aeDetails.IsValid = false;
+                    return aeDetails;
+                }
+
+                SetGlValidationInfo(aeDetails, data);
+                SetGlSegmentDetails(aeDetails, glSegments, data);
+                SetGlOrgApprovers(aeDetails, data);
+
+                return aeDetails;
+            }
+            if(aeDetails.ChartStringType == FinancialChartStringType.Ppm)
+            {
+                
+                var ppmSegments = FinancialChartValidation.GetPpmSegments(segmentString);
+                var result = await _apiClient.DisplayDetailsPpm.ExecuteAsync(
+                    projectNumber: ppmSegments.Project, 
+                    projectNumberString: ppmSegments.Project, 
+                    segmentString: segmentString, 
+                    taskNumber: ppmSegments.Task, 
+                    organization: ppmSegments.Organization,
+                    expendCode: ppmSegments.ExpenditureType
+                    );
+
+
+                var data = result.ReadData();
+                if (data == null)
+                {
+                    aeDetails.Errors.Add("Unable to get data from Aggie Enterprise");
+                    aeDetails.IsValid = false;
+                    return aeDetails;
+                }
+
+                SetPpmValidationInfo(aeDetails, data);
+                SetPpmOrgApprovers(aeDetails, data);
+                SetPoetSegmentDetails(aeDetails, ppmSegments, data);
+                await SetExtraPpmSegmentDetails(aeDetails, data);
+                await SetAwardSpecificPpmGlInfo(aeDetails, data);
+                await SetPpmPostingSegmentDetails(aeDetails, data);
+                SetPpmDetails(aeDetails, data);
+
+                return aeDetails;
+            }
+
+            aeDetails.Errors.Add("Unknow Error");
+            aeDetails.IsValid = false;
+            return aeDetails;
+        }
+
+        private async Task<string> TryToConvertKfsAccount(AeDetails aeDetails, string segmentString)
+        {
             //Try to convert KFS. Eventually remove this.
             try
             {
@@ -101,166 +188,106 @@ namespace Finjector.Core.Services
                 //swallow it
             }
 
-            aeDetails.ChartString = segmentString;
-
-
-            aeDetails.ChartStringType = string.IsNullOrEmpty(segmentString) ? FinancialChartStringType.Invalid : GetChartType(segmentString);
-            aeDetails.ChartType = aeDetails.ChartStringType.ToString().ToUpper();
-            if(aeDetails.ChartStringType == FinancialChartStringType.Invalid)
-            {
-                aeDetails.Errors.Add("Invalid Chart Type");
-                aeDetails.IsValid = false;
-                return aeDetails;
-            }
-
-            if(aeDetails.ChartStringType == FinancialChartStringType.Gl)
-            {
-                var glSegments = FinancialChartValidation.GetGlSegments(segmentString);
-                var result = await _apiClient.DisplayDetailsGl.ExecuteAsync(
-                    segmentString: segmentString, validateCVRs: true, 
-                    project: glSegments.Project, 
-                    entity: glSegments.Entity, 
-                    fund: glSegments.Fund, 
-                    dept: glSegments.Department, 
-                    account: glSegments.Account, 
-                    purpose: glSegments.Purpose, 
-                    program: glSegments.Program, 
-                    activity: glSegments.Activity);
-
-                var data = result.ReadData();
-                if(data == null)
-                {
-                    aeDetails.Errors.Add("Unable to get data from Aggie Enterprise");
-                    aeDetails.IsValid = false;
-                    return aeDetails;
-                }
-
-                aeDetails.IsValid = data.GlValidateChartstring.ValidationResponse.Valid;
-                if(!aeDetails.IsValid && data.GlValidateChartstring.ValidationResponse.ErrorMessages != null)
-                {
-                    foreach(var error in data.GlValidateChartstring.ValidationResponse.ErrorMessages)
-                    {
-                        aeDetails.Errors.Add(error);
-                    }
-                }
-
-                if(data.GlValidateChartstring.Warnings != null && data.GlValidateChartstring.Warnings.Count() > 0)
-                {
-                    foreach(var warning in data.GlValidateChartstring.Warnings)
-                    {
-                        aeDetails.Warnings.Add($"{warning.SegmentName} - {warning.Warning}");
-                    }
-                }
-
-                aeDetails.SegmentDetails.Add(new SegmentDetails
-                {
-                    Order  = 1,
-                    Entity = "Entity",
-                    Code   = data.ErpEntity?.Code ?? glSegments.Entity,
-                    Name   = data.ErpEntity?.Name
-                });
-                aeDetails.SegmentDetails.Add(new SegmentDetails
-                {
-                    Order  = 2,
-                    Entity = "Fund",
-                    Code   = data.ErpFund?.Code ?? glSegments.Fund,
-                    Name   = data.ErpFund?.Name
-                });
-                aeDetails.SegmentDetails.Add(new SegmentDetails
-                {
-                    Order  = 3,
-                    Entity = "Department",
-                    Code   = data.ErpFinancialDepartment?.Code ?? glSegments.Department,
-                    Name   = data.ErpFinancialDepartment?.Name
-                });
-                aeDetails.SegmentDetails.Add(new SegmentDetails
-                {
-                    Order  = 4,
-                    Entity = "Account",
-                    Code   = data.ErpAccount?.Code ?? glSegments.Account,
-                    Name   = data.ErpAccount?.Name
-                });
-                aeDetails.SegmentDetails.Add(new SegmentDetails
-                {
-                    Order  = 5,
-                    Entity = "Purpose",
-                    Code   = data.ErpPurpose?.Code ?? glSegments.Purpose,
-                    Name   = data.ErpPurpose?.Name
-                });
-                aeDetails.SegmentDetails.Add(new SegmentDetails
-                {
-                    Order  = 6,
-                    Entity = "Program",
-                    Code   = data.ErpProgram?.Code ?? glSegments.Program,
-                    Name   = data.ErpProgram?.Name
-                });
-                aeDetails.SegmentDetails.Add(new SegmentDetails
-                {
-                    Order  = 7,
-                    Entity = "Project",
-                    Code   = data.ErpProject?.Code ?? glSegments.Project,
-                    Name   = data.ErpProject?.Name
-                });
-                aeDetails.SegmentDetails.Add(new SegmentDetails
-                {
-                    Order  = 8,
-                    Entity = "Activity",
-                    Code   = data.ErpActivity?.Code ?? glSegments.Activity,
-                    Name   = data.ErpActivity?.Name
-                });
-
-                if (data.ErpFinancialDepartment != null && data.ErpFinancialDepartment.Approvers != null)
-                {
-                    foreach (var approver in data.ErpFinancialDepartment.Approvers.Where(a => a.ApproverType == FiscalOfficer))
-                    {
-                        aeDetails.Approvers.Add(new Approver
-                        {
-                            FirstName = approver.FirstName,
-                            LastName  = approver.LastName,
-                            Email     = approver.EmailAddress
-                        });
-                    }
-                }
-
-                return aeDetails;
-            }
-            if(aeDetails.ChartStringType == FinancialChartStringType.Ppm)
-            {
-                
-                var ppmSegments = FinancialChartValidation.GetPpmSegments(segmentString);
-                var result = await _apiClient.DisplayDetailsPpm.ExecuteAsync(
-                    projectNumber: ppmSegments.Project, 
-                    projectNumberString: ppmSegments.Project, 
-                    segmentString: segmentString, 
-                    taskNumber: ppmSegments.Task, 
-                    organization: ppmSegments.Organization,
-                    expendCode: ppmSegments.ExpenditureType
-                    );
-
-
-                var data = result.ReadData();
-                if (data == null)
-                {
-                    aeDetails.Errors.Add("Unable to get data from Aggie Enterprise");
-                    aeDetails.IsValid = false;
-                    return aeDetails;
-                }
-
-                SetPpmValidationInfo(aeDetails, data);
-                SetPpmOrgApprovers(aeDetails, data);
-                SetPoetSegmentDetails(aeDetails, ppmSegments, data);
-                await SetExtraPpmSegmentDetails(aeDetails, data);
-                await SetAwardSpecificPpmGlInfo(aeDetails, data);
-                await SetPpmPostingSegmentDetails(aeDetails, data);
-                SetPpmDetails(aeDetails, data);
-
-                return aeDetails;
-            }
-
-            aeDetails.Errors.Add("Unknow Error");
-            aeDetails.IsValid = false;
-            return aeDetails;
+            return segmentString;
         }
+
+        private void SetGlValidationInfo(AeDetails aeDetails, IDisplayDetailsGlResult data)
+        {
+            aeDetails.IsValid = data.GlValidateChartstring.ValidationResponse.Valid;
+            if (!aeDetails.IsValid && data.GlValidateChartstring.ValidationResponse.ErrorMessages != null)
+            {
+                foreach (var error in data.GlValidateChartstring.ValidationResponse.ErrorMessages)
+                {
+                    aeDetails.Errors.Add(error);
+                }
+            }
+
+            if (data.GlValidateChartstring.Warnings != null && data.GlValidateChartstring.Warnings.Count() > 0)
+            {
+                foreach (var warning in data.GlValidateChartstring.Warnings)
+                {
+                    aeDetails.Warnings.Add($"{warning.SegmentName} - {warning.Warning}");
+                }
+            }
+        }
+
+        private void SetGlOrgApprovers(AeDetails aeDetails, IDisplayDetailsGlResult data)
+        {
+            if (data.ErpFinancialDepartment != null && data.ErpFinancialDepartment.Approvers != null)
+            {
+                foreach (var approver in data.ErpFinancialDepartment.Approvers.Where(a => a.ApproverType == FiscalOfficer))
+                {
+                    aeDetails.Approvers.Add(new Approver
+                    {
+                        FirstName = approver.FirstName,
+                        LastName = approver.LastName,
+                        Email = approver.EmailAddress
+                    });
+                }
+            }
+        }
+
+        private void SetGlSegmentDetails(AeDetails aeDetails, GlSegments glSegments, IDisplayDetailsGlResult data)
+        {
+
+            aeDetails.SegmentDetails.Add(new SegmentDetails
+            {
+                Order = 1,
+                Entity = "Entity",
+                Code = data.ErpEntity?.Code ?? glSegments.Entity,
+                Name = data.ErpEntity?.Name
+            });
+            aeDetails.SegmentDetails.Add(new SegmentDetails
+            {
+                Order = 2,
+                Entity = "Fund",
+                Code = data.ErpFund?.Code ?? glSegments.Fund,
+                Name = data.ErpFund?.Name
+            });
+            aeDetails.SegmentDetails.Add(new SegmentDetails
+            {
+                Order = 3,
+                Entity = "Department",
+                Code = data.ErpFinancialDepartment?.Code ?? glSegments.Department,
+                Name = data.ErpFinancialDepartment?.Name
+            });
+            aeDetails.SegmentDetails.Add(new SegmentDetails
+            {
+                Order = 4,
+                Entity = "Account",
+                Code = data.ErpAccount?.Code ?? glSegments.Account,
+                Name = data.ErpAccount?.Name
+            });
+            aeDetails.SegmentDetails.Add(new SegmentDetails
+            {
+                Order = 5,
+                Entity = "Purpose",
+                Code = data.ErpPurpose?.Code ?? glSegments.Purpose,
+                Name = data.ErpPurpose?.Name
+            });
+            aeDetails.SegmentDetails.Add(new SegmentDetails
+            {
+                Order = 6,
+                Entity = "Program",
+                Code = data.ErpProgram?.Code ?? glSegments.Program,
+                Name = data.ErpProgram?.Name
+            });
+            aeDetails.SegmentDetails.Add(new SegmentDetails
+            {
+                Order = 7,
+                Entity = "Project",
+                Code = data.ErpProject?.Code ?? glSegments.Project,
+                Name = data.ErpProject?.Name
+            });
+            aeDetails.SegmentDetails.Add(new SegmentDetails
+            {
+                Order = 8,
+                Entity = "Activity",
+                Code = data.ErpActivity?.Code ?? glSegments.Activity,
+                Name = data.ErpActivity?.Name
+            });
+        }
+
 
         private void SetPpmValidationInfo(AeDetails aeDetails, IDisplayDetailsPpmResult data)
         {
