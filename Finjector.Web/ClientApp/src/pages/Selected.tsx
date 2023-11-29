@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { HomeLink } from "../components/Shared/HomeLink";
-import CopyToClipboard from "../components/CopyToClipboard";
+import CopyToClipboard from "../components/Shared/CopyToClipboard";
 import FinjectorButton from "../components/Shared/FinjectorButton";
 
 const Selected = () => {
