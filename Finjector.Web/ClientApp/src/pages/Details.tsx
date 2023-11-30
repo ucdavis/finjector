@@ -12,7 +12,7 @@ import { Alert, Button } from "reactstrap";
 import { renderNameAndEmail } from "../util/util";
 import { ChartNotFound } from "../components/ChartNotFound";
 import DetailsChartString from "../components/Details/DetailsChartString";
-import PpmDetails from "../components/Details/PpmDetails";
+import PpmDetailsPage from "../components/Details/PpmDetails";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -27,13 +27,19 @@ const Details = () => {
     warnings: [],
     segmentDetails: [],
     approvers: [],
-    ppmProjectManager: {
-      firstName: null,
-      lastName: null,
-      email: null,
-      name: "",
+    ppmDetails: {
+      ppmProjectManager: {
+        firstName: null,
+        lastName: null,
+        email: null,
+        name: "",
+      },
+      ppmGlString: "",
+      projectCompletionDate: "",
+      projectStartDate: "",
+      projectStatus: "",
+      projectTypeName: "",
     },
-    ppmGlString: "",
     hasWarnings: false,
   });
 
@@ -157,9 +163,12 @@ const Details = () => {
             })}
           </div>
           <div className="coa-details-info">
+            {chartDetails.chartType === ChartType.PPM && (
+              <PpmDetailsPage details={chartDetails.ppmDetails} />
+            )}
             <div className="row">
               <div className="col-3">
-                <h4>Financial Officer(s)</h4>
+                <h4>Gl Financial Department SCM Approver(s)</h4>
               </div>
               <div className="col coa-details-info-right">
                 {chartDetails.approvers.map((approver, i) => {
@@ -171,9 +180,6 @@ const Details = () => {
                 })}
               </div>
             </div>
-            {chartDetails.chartType === ChartType.PPM && (
-              <PpmDetails ppmProjectManager={chartDetails.ppmProjectManager} />
-            )}
           </div>
         </div>
       )}
