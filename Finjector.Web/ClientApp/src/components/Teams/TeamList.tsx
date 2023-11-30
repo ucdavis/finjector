@@ -60,13 +60,13 @@ const ChartList = (props: Props) => {
             </div>
           </div>
           <div className="fin-actions">
-            <Link className="bold-link" to={`/teams/${teamInfo.team.id}`}>
+            <Link className="bold-link me-3" to={`/teams/${teamInfo.team.id}`}>
               <FontAwesomeIcon icon={faList} />
               Go to Team
             </Link>
             {!teamInfo.team.isPersonal && (
               <Link
-                className="bold-link"
+                className="bold-link me-3"
                 to={`/teams/${teamInfo.team.id}/permissions`}
               >
                 <FontAwesomeIcon icon={faList} />
