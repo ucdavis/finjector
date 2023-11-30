@@ -14,6 +14,7 @@ const Folder: React.FC = () => {
 
   return (
     <div>
+      <BackLinkBar />
       <div className="page-title">
         <h1>{folderModel.data?.folder.name}</h1>
       </div>

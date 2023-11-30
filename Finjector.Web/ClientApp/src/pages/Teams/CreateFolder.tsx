@@ -32,7 +32,7 @@ const CreateFolder: React.FC = () => {
 
   return (
     <div>
-      <BackLinkBar />
+      <BackLinkBar backToId={true} />
       <NameAndDescriptionForm onSubmit={handleCreate} />
     </div>
   );
