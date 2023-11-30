@@ -5,14 +5,13 @@ import FinLoader from "../components/Shared/FinLoader";
 import { AeDetails, ChartType } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
-import { HomeLinkBar } from "../components/Shared/HomeLinkBar";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
 import { Alert, Button } from "reactstrap";
-
 import { renderNameAndEmail } from "../util/util";
 import { ChartNotFound } from "../components/Shared/ChartNotFound";
 import DetailsChartString from "../components/Details/DetailsChartString";
 import PpmDetailsPage from "../components/Details/PpmDetails";
+import { BackLinkBar } from "../components/Shared/BackLinkBar";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -55,15 +54,14 @@ const Details = () => {
     chartDetails.chartType === ChartType.PPM ? "is-ppm" : "is-gl";
 
   const invalid =
-    chartDetailsQuery.isLoading ||
-    chartDetailsQuery.isFetching ||
+    (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) ||
+    chartDetails.chartType === ChartType.INVALID ||
     !chartSegmentString ||
     !chartDetails.chartString ||
-    chartDetailsQuery.isError ||
-    chartDetails.chartType === ChartType.INVALID;
+    chartDetailsQuery.isError;
 
   const renderLoadingOrError = () => {
-    if (chartDetailsQuery.isLoading || chartDetailsQuery.isFetching) {
+    if (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) {
       return (
         <div className={`coa-details is-none`}>
           <FinLoader />
@@ -97,7 +95,7 @@ const Details = () => {
       </div>
       <div className="row display-content-between mb-3">
         <div className="col-6">
-          <HomeLinkBar>Back</HomeLinkBar>
+          <BackLinkBar />
         </div>
         {!invalid && (
           <div className="col text-end">
