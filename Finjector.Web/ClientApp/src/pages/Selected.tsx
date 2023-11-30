@@ -38,11 +38,11 @@ const Selected = () => {
     <div>
       <BackLinkBar />
       <h1>Chart Selected</h1>
-      <p>
+      <div>
         <CopyToClipboard value={chart || ""}>
           <code>{chart}</code>
         </CopyToClipboard>
-      </p>
+      </div>
       {hasOpener ? (
         <p>Finjector will close this window shortly.</p>
       ) : (
