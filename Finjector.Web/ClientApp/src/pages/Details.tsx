@@ -12,7 +12,7 @@ import { Alert, Button } from "reactstrap";
 import { renderNameAndEmail } from "../util/util";
 import { ChartNotFound } from "../components/ChartNotFound";
 import DetailsChartString from "../components/Details/DetailsChartString";
-import PpmDetails from "../components/Details/PpmDetails";
+import PpmDetailsPage from "../components/Details/PpmDetails";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -164,16 +164,7 @@ const Details = () => {
           </div>
           <div className="coa-details-info">
             {chartDetails.chartType === ChartType.PPM && (
-              <PpmDetails
-                ppmProjectManager={chartDetails.ppmDetails.ppmProjectManager}
-                projectCompletionDate={
-                  chartDetails.ppmDetails.projectCompletionDate
-                }
-                projectStartDate={chartDetails.ppmDetails.projectStartDate}
-                projectStatus={chartDetails.ppmDetails.projectStatus}
-                projectTypeName={chartDetails.ppmDetails.projectTypeName}
-                ppmGlString={chartDetails.ppmDetails.ppmGlString}
-              />
+              <PpmDetailsPage details={chartDetails.ppmDetails} />
             )}
             <div className="row">
               <div className="col-3">
