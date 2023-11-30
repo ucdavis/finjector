@@ -5,7 +5,7 @@ using AggieEnterpriseApi;
 using AggieEnterpriseApi.Extensions;
 using AggieEnterpriseApi.Types;
 using AggieEnterpriseApi.Validation;
-
+using Serilog;
 
 namespace Finjector.Core.Services
 {
@@ -108,8 +108,8 @@ namespace Finjector.Core.Services
                     projectNumberString: ppmSegments.Project, 
                     segmentString: segmentString, 
                     taskNumber: ppmSegments.Task, 
-                    organization: ppmSegments.Organization,
-                    expendCode: ppmSegments.ExpenditureType
+                    expendCode: ppmSegments.ExpenditureType,
+                    organization: ppmSegments.Organization
                     );
 
 
@@ -308,18 +308,37 @@ namespace Finjector.Core.Services
             }
         }
 
-        private void SetPpmOrgApprovers(AeDetails aeDetails, IDisplayDetailsPpmResult data)
+        private async Task SetPpmOrgApprovers(AeDetails aeDetails, IDisplayDetailsPpmResult data)
         {
-            if (data.ErpFinancialDepartment != null && data.ErpFinancialDepartment.Approvers != null)
+            //PPM Org approvers are not from the organization, instead we have to dive into the project and parse it out.
+
+            if (data.PpmProjectByNumber?.ProjectOrganizationName != null)
             {
-                foreach (var approver in data.ErpFinancialDepartment.Approvers.Where(a => a.ApproverType == "Fiscal Officer Approver"))
+                try
                 {
-                    aeDetails.Approvers.Add(new Approver
+                    var parts = data.PpmProjectByNumber.ProjectOrganizationName.Split('-');
+                    var projectOrgCode = parts[0].Trim();
+
+                    var result = await _apiClient.ErpDepartmentApprovers.ExecuteAsync(projectOrgCode);
+                    var approvers = result.ReadData();
+                    if(approvers != null && approvers.ErpFinancialDepartment?.Approvers != null)
                     {
-                        FirstName = approver.FirstName,
-                        LastName = approver.LastName,
-                        Email = approver.EmailAddress
-                    });
+                        foreach (var approver in approvers.ErpFinancialDepartment.Approvers.Where(a => a.ApproverType == FiscalOfficer))
+                        {
+                            aeDetails.Approvers.Add(new Approver
+                            {
+                                FirstName = approver.FirstName,
+                                LastName = approver.LastName,
+                                Email = approver.EmailAddress
+                            });
+                        }
+                    }
+
+
+                }
+                catch (Exception)
+                {
+                    Log.Error($"Unable to get GL Financial Department for {data.PpmProjectByNumber?.ProjectOrganizationName}");
                 }
             }
         }
@@ -345,8 +364,8 @@ namespace Finjector.Core.Services
             {
                 Order = 3,
                 Entity = "Organization",
-                Code = data.ErpFinancialDepartment?.Code ?? ppmSegments.Organization,
-                Name = data.ErpFinancialDepartment?.Name
+                Code = data.PpmOrganization?.Code ?? ppmSegments.Organization,
+                Name = data.PpmOrganization?.Name
             });
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
@@ -562,7 +581,7 @@ namespace Finjector.Core.Services
 
             var entity = data.PpmProjectByNumber?.LegalEntityCode ?? "0000";
             var fund = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingFundCode ?? "00000";
-            var dept = data.ErpFinancialDepartment?.Code ?? "0000000";
+            var dept = data.PpmOrganization?.Code ?? "0000000"; //Maybe this should be the project's org? But we are not going to be displaying this for now so figure it out later.
             var account = data.PpmExpenditureTypeByCode?.Code ?? "000000";
             var purpose = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingPurposeCode ?? "00";
             var program = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingProgramCode ?? "000";
