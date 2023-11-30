@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import FinLoader from "./FinLoader";
 
@@ -8,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPencil,
   faPaperPlane,
-  faCircleInfo,
+  faScroll,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
@@ -55,7 +54,7 @@ const ChartList = (props: Props) => {
               to={`/details/${chart.id}/${chart.segmentString}`}
               className="btn btn-link"
             >
-              <FontAwesomeIcon icon={faCircleInfo} />
+              <FontAwesomeIcon icon={faScroll} />
               Details
             </Link>
             <Link
