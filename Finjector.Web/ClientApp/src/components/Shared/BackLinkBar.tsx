@@ -1,23 +1,25 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { useDebugValue } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
   children?: React.ReactNode;
-  backToId?: boolean; // for returning to, say, /teams/1 instead of /teams from /teams/1/create
 }
 
-export const BackLinkBar = (props: Props) => {
+export const BackLinkBar = ({ children }: Props) => {
+  const navigate = useNavigate();
+  const goBack = (event: React.MouseEvent) => {
+    event.preventDefault();
+    navigate(-1);
+  };
+
   return (
     <>
-      <Link
-        to=".."
-        className="back-link"
-        relative={props.backToId ? "path" : "route"}
-      >
+      <button onClick={goBack} className="back-link link-style">
         <FontAwesomeIcon icon={faArrowLeft} />
-        {props.children ? props.children : "Go Back"}
-      </Link>
+        {children ? children : "Go Back"}
+      </button>
       <hr />
     </>
   );
