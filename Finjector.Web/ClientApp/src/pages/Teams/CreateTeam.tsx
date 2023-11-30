@@ -30,6 +30,9 @@ const CreateTeam: React.FC = () => {
   return (
     <div>
       <BackLinkBar />
+      <div className="page-title mb-3">
+        <h1>Create New Team</h1>
+      </div>
       <NameAndDescriptionForm onSubmit={handleCreate} />
     </div>
   );
