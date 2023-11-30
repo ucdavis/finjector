@@ -363,14 +363,14 @@ namespace Finjector.Core.Services
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
                 Order = 3,
-                Entity = "Organization",
+                Entity = "Expenditure Organization",
                 Code = data.PpmOrganization?.Code ?? ppmSegments.Organization,
                 Name = data.PpmOrganization?.Name
             });
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
                 Order = 4,
-                Entity = "Expenditure Type",
+                Entity = "Expense Type",
                 Code = data.PpmExpenditureTypeByCode?.Code ?? ppmSegments.ExpenditureType,
                 Name = data.PpmExpenditureTypeByCode?.Name
             });
@@ -405,7 +405,7 @@ namespace Finjector.Core.Services
                 var segment = new SegmentDetails
                 {
                     Order = 7,
-                    Entity = "Legal Entity",
+                    Entity = "GL Entity",
                     Code = data.PpmProjectByNumber.LegalEntityCode,
                 };
                 var entityResult = await Entity(segment.Code);

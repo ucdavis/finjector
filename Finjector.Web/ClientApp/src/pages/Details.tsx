@@ -163,20 +163,6 @@ const Details = () => {
             })}
           </div>
           <div className="coa-details-info">
-            <div className="row">
-              <div className="col-3">
-                <h4>Financial Department Approver(s)</h4>
-              </div>
-              <div className="col coa-details-info-right">
-                {chartDetails.approvers.map((approver, i) => {
-                  return (
-                    <div key={i}>
-                      {renderNameAndEmail(approver.name, approver.email)}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
             {chartDetails.chartType === ChartType.PPM && (
               <PpmDetails
                 ppmProjectManager={chartDetails.ppmDetails.ppmProjectManager}
@@ -189,6 +175,20 @@ const Details = () => {
                 ppmGlString={chartDetails.ppmDetails.ppmGlString}
               />
             )}
+            <div className="row">
+              <div className="col-3">
+                <h4>Gl Financial Department SCM Approver(s)</h4>
+              </div>
+              <div className="col coa-details-info-right">
+                {chartDetails.approvers.map((approver, i) => {
+                  return (
+                    <div key={i}>
+                      {renderNameAndEmail(approver.name, approver.email)}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       )}
