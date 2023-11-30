@@ -1,8 +1,8 @@
 import React from "react";
 
-import { useSegmentValidateQuery } from "../queries/segmentQueries";
-import { ChartData } from "../types";
-import { chartDataValid, toSegmentString } from "../util/segmentValidation";
+import { useSegmentValidateQuery } from "../../queries/segmentQueries";
+import { ChartData } from "../../types";
+import { chartDataValid, toSegmentString } from "../../util/segmentValidation";
 
 interface Props {
   chartData: ChartData;

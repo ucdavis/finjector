@@ -1,5 +1,5 @@
 import React from "react";
-import { SearchBar } from "../../components/SearchBar";
+import { SearchBar } from "../../components/Shared/SearchBar";
 import { useGetMyTeams } from "../../queries/teamQueries";
 import TeamList from "../../components/Teams/TeamList";
 import { Link } from "react-router-dom";

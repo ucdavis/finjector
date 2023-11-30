@@ -1,9 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useSaveChart } from "../queries/storedChartQueries";
-import { Chart, ChartData } from "../types";
-import { toSegmentString } from "../util/segmentValidation";
+import { useSaveChart } from "../../queries/storedChartQueries";
+import { Chart, ChartData } from "../../types";
+import { toSegmentString } from "../../util/segmentValidation";
+import FinjectorButton from "../Shared/FinjectorButton";
 
 interface Props {
   chartData: ChartData;
@@ -31,14 +32,14 @@ const SaveAndUseButton = (props: Props) => {
 
   return (
     <div className="d-grid">
-      <button
+      <FinjectorButton
         className="btn btn-primary"
         type="button"
         disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={saveAndUse}
       >
         Save and use
-      </button>
+      </FinjectorButton>
     </div>
   );
 };

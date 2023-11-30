@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "reactstrap";
 
-import { Chart } from "../types";
+import { Chart } from "../../types";
 
 interface Props {
   chart: Chart;

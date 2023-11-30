@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NameAndDescriptionModel } from "../../types";
+import FinjectorButton from "../Shared/FinjectorButton";
 
 interface Props {
   initialValues?: NameAndDescriptionModel;
@@ -56,9 +57,13 @@ export default function FormComponent(props: Props) {
         <div className="invalid-feedback">Please provide a description.</div>
       </div>
 
-      <button type="submit" className="btn btn-primary" disabled={loading}>
+      <FinjectorButton
+        type="submit"
+        className="btn btn-primary"
+        disabled={loading}
+      >
         {loading ? "Creating..." : "Create"}
-      </button>
+      </FinjectorButton>
     </form>
   );
 }

@@ -1,8 +1,9 @@
 import React from "react";
-import { SearchBar } from "../../components/SearchBar";
+import { SearchBar } from "../../components/Shared/SearchBar";
 import { useParams } from "react-router-dom";
 import { useGetFolder } from "../../queries/folderQueries";
-import ChartList from "../../components/ChartList";
+import ChartList from "../../components/Shared/ChartList";
+import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -14,6 +15,7 @@ const Folder: React.FC = () => {
 
   return (
     <div>
+      <BackLinkBar />
       <div className="page-title">
         <h1>{folderModel.data?.folder.name}</h1>
       </div>

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useDeleteTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
+import FinjectorButton from "../Shared/FinjectorButton";
 
 interface Props {
   teamId: string;
@@ -29,9 +30,7 @@ const DeleteTeam = (props: Props) => {
 
   return (
     <>
-      <button className="btn btn-new me-3" onClick={toggleModal}>
-        Delete Team
-      </button>
+      <FinjectorButton onClick={toggleModal}>Delete Team</FinjectorButton>
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>Delete Team</ModalHeader>
         <ModalBody>
@@ -39,16 +38,16 @@ const DeleteTeam = (props: Props) => {
           within it will be removed.
         </ModalBody>
         <ModalFooter>
-          <Button
+          <FinjectorButton
             color="danger"
             onClick={handleDelete}
             disabled={deleteMutation.isLoading}
           >
             Delete
-          </Button>
-          <Button color="secondary" onClick={toggleModal}>
+          </FinjectorButton>
+          <FinjectorButton color="secondary" onClick={toggleModal}>
             Cancel
-          </Button>
+          </FinjectorButton>
         </ModalFooter>
       </Modal>
     </>

@@ -1,12 +1,17 @@
 import React from "react";
 
-import FinLoader from "../FinLoader";
+import FinLoader from "../Shared/FinLoader";
 
 import { TeamResponseModel } from "../../types";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faBolt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUsers,
+  faBolt,
+  faFolder,
+  faList,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   teamModel: TeamResponseModel | undefined;
@@ -49,16 +54,18 @@ const FolderList = (props: Props) => {
           </div>
           <div className="fin-actions">
             <Link
-              className="bold-link"
+              className="bold-link me-3"
               to={`/teams/${teamModel.team.id}/folders/${folderInfo.folder.id}`}
             >
+              <FontAwesomeIcon icon={faFolder} />
               Go to Folder
             </Link>
             {!props.teamModel?.team.isPersonal && (
               <Link
-                className="bold-link"
+                className="bold-link me-3"
                 to={`/teams/${teamModel.team.id}/folders/${folderInfo.folder.id}/permissions`}
               >
+                <FontAwesomeIcon icon={faList} />
                 Manage Users
               </Link>
             )}

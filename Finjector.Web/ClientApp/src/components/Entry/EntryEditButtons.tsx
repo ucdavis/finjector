@@ -1,9 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useRemoveChart, useSaveChart } from "../queries/storedChartQueries";
-import { Chart, ChartData } from "../types";
-import { toSegmentString } from "../util/segmentValidation";
+import { useRemoveChart, useSaveChart } from "../../queries/storedChartQueries";
+import { Chart, ChartData } from "../../types";
+import { toSegmentString } from "../../util/segmentValidation";
+import FinjectorButton from "../Shared/FinjectorButton";
 
 const landingPage = "/landing";
 
@@ -13,7 +14,7 @@ interface Props {
 }
 
 // Handle remove, save, copy and use buttons
-const EditButtons = (props: Props) => {
+const EntryEditButtons = (props: Props) => {
   const navigate = useNavigate();
 
   const saveMutation = useSaveChart();
@@ -64,35 +65,43 @@ const EditButtons = (props: Props) => {
 
   return (
     <div className="d-flex p-2">
-      <button
-        type="button"
-        className="btn btn-danger flex-fill me-3"
+      <FinjectorButton
+        color="danger"
+        className="flex-fill"
         disabled={removeMutation.isLoading}
         onClick={remove}
+        colorFill={true}
       >
         Remove
-      </button>
-      <button
-        type="button"
-        className="btn btn-secondary flex-fill me-3"
+      </FinjectorButton>
+      <FinjectorButton
+        color="secondary"
+        className="flex-fill"
         disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={copy}
+        colorFill={true}
       >
         Duplicate
-      </button>
-      <button
-        className="btn btn-secondary flex-fill me-3"
-        type="button"
+      </FinjectorButton>
+      <FinjectorButton
+        color="secondary"
+        className="flex-fill"
         disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={save}
+        colorFill={true}
       >
         Save
-      </button>
-      <button className="btn btn-primary flex-fill" type="button" onClick={use}>
+      </FinjectorButton>
+      <FinjectorButton
+        color="primary"
+        className="flex-fill"
+        onClick={use}
+        colorFill={true}
+      >
         Use
-      </button>
+      </FinjectorButton>
     </div>
   );
 };
 
-export default EditButtons;
+export default EntryEditButtons;
