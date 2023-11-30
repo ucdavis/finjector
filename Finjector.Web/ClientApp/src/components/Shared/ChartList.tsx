@@ -5,7 +5,11 @@ import FinLoader from "./FinLoader";
 import { Coa, ChartType } from "../../types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPencil,
+  faPaperPlane,
+  faCircleInfo,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   charts: Coa[] | undefined;
@@ -51,7 +55,7 @@ const ChartList = (props: Props) => {
               to={`/details/${chart.id}/${chart.segmentString}`}
               className="btn btn-link"
             >
-              <FontAwesomeIcon icon={faPencil} />
+              <FontAwesomeIcon icon={faCircleInfo} />
               Details
             </Link>
             <Link
