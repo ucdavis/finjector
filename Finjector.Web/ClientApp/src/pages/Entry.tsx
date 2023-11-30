@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ChartTypeSelector from "../components/ChartTypeSelector";
-import GlEntry from "../components/GlEntry";
-import PpmEntry from "../components/PpmEntry";
-import FinLoader from "../components/FinLoader";
+import ChartTypeSelector from "../components/Entry/ChartTypeSelector";
+import GlEntry from "../components/Entry/GlEntry";
+import PpmEntry from "../components/Entry/PpmEntry";
+import FinLoader from "../components/Shared/FinLoader";
 
 import { Coa, ChartData, ChartType, SegmentData } from "../types";
 
@@ -15,23 +15,23 @@ import {
   buildInitialGlSegments,
   buildInitialPpmSegments,
 } from "../util/segmentHelpers";
-import CoaDisplay from "../components/CoaDisplay";
-import SaveAndUseButton from "../components/SaveAndUseButton";
+import CoaDisplay from "../components/Entry/CoaDisplay";
+import SaveAndUseButton from "../components/Entry/SaveAndUseButton";
 import { useGetSavedChartWithData } from "../queries/storedChartQueries";
 import {
   fromGlSegmentString,
   fromPpmSegmentString,
   isGlSegmentString,
 } from "../util/segmentValidation";
-import NameEntry from "../components/NameEntry";
+import NameEntry from "../components/Entry/NameEntry";
 import {
   mapSegmentCodeToName,
   mapSegmentQueryData,
 } from "../util/segmentMapping";
-import EditButtons from "../components/EditButtons";
-import { ChartDebugInfo } from "../components/ChartDebugInfo";
-import { HomeLink } from "../components/HomeLink";
-import { ChartLoadingError } from "../components/ChartLoadingError";
+import EditButtons from "../components/Entry/EditButtons";
+import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
+import { HomeLink } from "../components/Shared/HomeLinkBar";
+import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
 
 const Entry = () => {
   const { id, chartSegmentString } = useParams();

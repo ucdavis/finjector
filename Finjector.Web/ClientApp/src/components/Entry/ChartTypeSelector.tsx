@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ChartType } from "../types";
+import { ChartType } from "../../types";
 
 interface Props {
   chartType: string;

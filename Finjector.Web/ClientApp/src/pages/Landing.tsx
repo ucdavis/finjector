@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import ChartList from "../components/ChartList";
+import ChartList from "../components/Shared/ChartList";
 import { useGetSavedCharts } from "../queries/storedChartQueries";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

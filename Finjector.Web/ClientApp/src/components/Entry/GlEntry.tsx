@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ChartType, GlSegments, SegmentData } from "../types";
+import { ChartType, GlSegments, SegmentData } from "../../types";
 import SegmentSearch from "./SegmentSearch";
 
 interface Props {

@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import FinLoader from "../components/FinLoader";
+import FinLoader from "../components/Shared/FinLoader";
 
 import { AeDetails, ChartType } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
-import { ChartDebugInfo } from "../components/ChartDebugInfo";
-import { HomeLink } from "../components/HomeLink";
-import { ChartLoadingError } from "../components/ChartLoadingError";
+import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
+import { HomeLink } from "../components/Shared/HomeLinkBar";
+import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
 import { Alert, Button } from "reactstrap";
 
 import { renderNameAndEmail } from "../util/util";
-import { ChartNotFound } from "../components/ChartNotFound";
+import { ChartNotFound } from "../components/Shared/ChartNotFound";
 import DetailsChartString from "../components/Details/DetailsChartString";
 import PpmDetailsPage from "../components/Details/PpmDetails";
 

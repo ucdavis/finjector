@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useRemoveChart } from "../queries/storedChartQueries";
-import { Coa } from "../types";
+import { useRemoveChart } from "../../queries/storedChartQueries";
+import { Coa } from "../../types";
 
 export const ChartLoadingError = () => {
   const navigate = useNavigate();

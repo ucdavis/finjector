@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Typeahead } from "react-bootstrap-typeahead";
-import { useTaskQuery } from "../queries/segmentQueries";
-import { SegmentData } from "../types";
+import { useTaskQuery } from "../../queries/segmentQueries";
+import { SegmentData } from "../../types";
 
 interface Props {
   segmentData: SegmentData; // task segment
@@ -11,7 +11,9 @@ interface Props {
 }
 
 const TaskSelector = (props: Props) => {
-  const [selection, setSelection] = React.useState<SegmentData[]>([props.segmentData]);
+  const [selection, setSelection] = React.useState<SegmentData[]>([
+    props.segmentData,
+  ]);
 
   const taskQuery = useTaskQuery(
     props.segmentDependency.code,

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { HomeLink } from "../components/HomeLink";
+import { HomeLink } from "../components/Shared/HomeLinkBar";
 import CopyToClipboard from "../shared/CopyToClipboard";
 
 const Selected = () => {

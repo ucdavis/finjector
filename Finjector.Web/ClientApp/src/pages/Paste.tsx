@@ -4,7 +4,7 @@ import {
   isPpmSegmentString,
 } from "../util/segmentValidation";
 
-import { HomeLink } from "../components/HomeLink";
+import { HomeLink } from "../components/Shared/HomeLinkBar";
 import { useNavigate } from "react-router-dom";
 
 const Paste = () => {

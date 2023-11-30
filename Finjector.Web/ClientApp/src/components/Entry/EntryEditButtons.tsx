@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useRemoveChart, useSaveChart } from "../queries/storedChartQueries";
-import { Coa, ChartData } from "../types";
-import { toSegmentString } from "../util/segmentValidation";
+import { useRemoveChart, useSaveChart } from "../../queries/storedChartQueries";
+import { Coa, ChartData } from "../../types";
+import { toSegmentString } from "../../util/segmentValidation";
 
 const landingPage = "/landing";
 

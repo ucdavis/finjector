@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "reactstrap";
 
-import { Coa } from "../types";
+import { Coa } from "../../types";
 
 interface Props {
   chart: Coa;
