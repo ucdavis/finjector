@@ -70,7 +70,7 @@ const EntryEditButtons = (props: Props) => {
         className="flex-fill"
         disabled={removeMutation.isLoading}
         onClick={remove}
-        fill={true}
+        colorFill={true}
       >
         Remove
       </FinjectorButton>
@@ -79,7 +79,7 @@ const EntryEditButtons = (props: Props) => {
         className="flex-fill"
         disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={copy}
-        fill={true}
+        colorFill={true}
       >
         Duplicate
       </FinjectorButton>
@@ -88,7 +88,7 @@ const EntryEditButtons = (props: Props) => {
         className="flex-fill"
         disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={save}
-        fill={true}
+        colorFill={true}
       >
         Save
       </FinjectorButton>
@@ -96,7 +96,7 @@ const EntryEditButtons = (props: Props) => {
         color="primary"
         className="flex-fill"
         onClick={use}
-        fill={true}
+        colorFill={true}
       >
         Use
       </FinjectorButton>
