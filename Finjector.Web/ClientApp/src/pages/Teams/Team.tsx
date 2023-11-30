@@ -55,17 +55,6 @@ const Team: React.FC = () => {
         />
       </div>
       <div className="mb-3">
-        <SearchBar
-          placeholderText={
-            !!teamModel.data?.team.name
-              ? `Search Within ${teamModel.data?.team.name}`
-              : "Search My Teams"
-          }
-          search={search}
-          setSearch={setSearch}
-        />
-      </div>
-      <div className="mb-3">
         <FolderList teamModel={teamModel.data} filter={search} />
       </div>
     </div>
