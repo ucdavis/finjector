@@ -28,10 +28,11 @@ import {
   mapSegmentCodeToName,
   mapSegmentQueryData,
 } from "../util/segmentMapping";
-import EditButtons from "../components/Entry/EditButtons";
+import EntryEditButtons from "../components/Entry/EntryEditButtons";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
-import { HomeLink } from "../components/Shared/HomeLinkBar";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
+import { BackLinkBar } from "../components/Shared/BackLinkBar";
+import { HomeLinkBar } from "../components/Shared/HomeLinkBar";
 
 const Entry = () => {
   const { id, chartSegmentString } = useParams();
@@ -102,7 +103,7 @@ const Entry = () => {
       <>
         <ChartLoadingError />
         <hr />
-        <HomeLink>Go Back</HomeLink>
+        <BackLinkBar />
       </>
     );
   }
@@ -114,7 +115,8 @@ const Entry = () => {
 
   return (
     <div className="main">
-      <HomeLink>Back</HomeLink>
+      {/* HomeLinkBar and not BackLinkBar bc we dont want to go to '/entry/', we want to go to '/' */}
+      <HomeLinkBar />
 
       <h2>Chart Type</h2>
       <ChartTypeSelector
@@ -151,7 +153,7 @@ const Entry = () => {
         />
         <CoaDisplay chartData={chartData} />
         {savedChart.id ? (
-          <EditButtons chartData={chartData} savedChart={savedChart} />
+          <EntryEditButtons chartData={chartData} savedChart={savedChart} />
         ) : (
           <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
         )}

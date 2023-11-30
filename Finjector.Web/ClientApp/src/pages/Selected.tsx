@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { HomeLink } from "../components/Shared/HomeLinkBar";
-import CopyToClipboard from "../shared/CopyToClipboard";
+import CopyToClipboard from "../components/Shared/CopyToClipboard";
+import FinjectorButton from "../components/Shared/FinjectorButton";
+import { BackLinkBar } from "../components/Shared/BackLinkBar";
 
 const Selected = () => {
   const { chart } = useParams();
@@ -35,12 +36,13 @@ const Selected = () => {
 
   return (
     <div>
+      <BackLinkBar />
       <h1>Chart Selected</h1>
-      <p>
-        <CopyToClipboard value={chart || ""} id="copySelected">
+      <div>
+        <CopyToClipboard value={chart || ""}>
           <code>{chart}</code>
         </CopyToClipboard>
-      </p>
+      </div>
       {hasOpener ? (
         <p>Finjector will close this window shortly.</p>
       ) : (
@@ -53,11 +55,12 @@ const Selected = () => {
             Click copy to copy this to your clipboard, or head back home to work
             with another chart.
           </p>
-          <button className="btn btn-primary" onClick={copyToClipboard}>
+          <FinjectorButton
+            className="btn btn-primary"
+            onClick={copyToClipboard}
+          >
             {hasCopied ? "Copied!" : "Copy"}
-          </button>
-          <hr />
-          <HomeLink>Go Home</HomeLink>
+          </FinjectorButton>
         </div>
       )}
     </div>

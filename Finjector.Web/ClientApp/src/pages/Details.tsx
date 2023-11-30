@@ -5,7 +5,7 @@ import FinLoader from "../components/Shared/FinLoader";
 import { AeDetails, ChartType } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
-import { HomeLink } from "../components/Shared/HomeLinkBar";
+import { HomeLinkBar } from "../components/Shared/HomeLinkBar";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
 import { Alert, Button } from "reactstrap";
 
@@ -97,7 +97,7 @@ const Details = () => {
       </div>
       <div className="row display-content-between mb-3">
         <div className="col-6">
-          <HomeLink>Back</HomeLink>
+          <HomeLinkBar>Back</HomeLinkBar>
         </div>
         {!invalid && (
           <div className="col text-end">

@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import { useAddUserMutation } from "../../queries/userQueries";
 import { CollectionResourceType } from "../../types";
+import FinjectorButton from "../Shared/FinjectorButton";
 
 interface Props {
   resourceId: string;
@@ -87,8 +88,8 @@ export const AddUserPermission = (props: Props) => {
 
           {error && <div className="alert alert-danger">{error}</div>}
 
-          <button
-            type="button"
+          <FinjectorButton
+            type="submit"
             className="btn btn-primary"
             onClick={handleAssignRole}
             disabled={!formValid || addUserMutation.isLoading}
@@ -96,7 +97,7 @@ export const AddUserPermission = (props: Props) => {
             {addUserMutation.isLoading
               ? "Assigning Role..."
               : "Assign Role to User"}
-          </button>
+          </FinjectorButton>
         </form>
       </ModalBody>
     </Modal>

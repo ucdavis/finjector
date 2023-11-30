@@ -4,8 +4,9 @@ import {
   isPpmSegmentString,
 } from "../util/segmentValidation";
 
-import { HomeLink } from "../components/Shared/HomeLinkBar";
 import { useNavigate } from "react-router-dom";
+import FinjectorButton from "../components/Shared/FinjectorButton";
+import { BackLinkBar } from "../components/Shared/BackLinkBar";
 
 const Paste = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Paste = () => {
 
   return (
     <div className="main">
-      <HomeLink>Back</HomeLink>
+      <BackLinkBar />
       <h2>Paste in existing CoA</h2>
       <form>
         <div className="mb-3">
@@ -47,14 +48,13 @@ const Paste = () => {
         </div>
       )}
       <div className="d-grid">
-        <button
+        <FinjectorButton
           className="btn btn-primary"
-          type="button"
           disabled={error !== "" || coa === ""}
           onClick={() => navigate(`/entry/${coa}`)}
         >
           NEXT
-        </button>
+        </FinjectorButton>
       </div>
     </div>
   );

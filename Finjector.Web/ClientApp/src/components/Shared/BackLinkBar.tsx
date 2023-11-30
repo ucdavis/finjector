@@ -4,14 +4,19 @@ import { Link } from "react-router-dom";
 
 interface Props {
   children?: React.ReactNode;
+  backToId?: boolean; // for returning to, say, /teams/1 instead of /teams from /teams/1/create
 }
 
-export const HomeLinkBar = (props: Props) => {
+export const BackLinkBar = (props: Props) => {
   return (
     <>
-      <Link className="back-link" to="/">
+      <Link
+        to=".."
+        className="back-link"
+        relative={props.backToId ? "path" : "route"}
+      >
         <FontAwesomeIcon icon={faArrowLeft} />
-        {props.children ? props.children : "Go Home"}
+        {props.children ? props.children : "Go Back"}
       </Link>
       <hr />
     </>

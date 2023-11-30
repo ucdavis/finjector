@@ -16,12 +16,15 @@ export enum ChartType {
 export interface Team {
   id: number;
   name: string;
+  description?: string;
   isPersonal: boolean;
+  myTeamPermissions: string[];
 }
 
 export interface Folder {
   id: number;
   name: string;
+  description?: string;
   teamId: number;
   teamName: string;
   myFolderPermissions: string[];
@@ -31,6 +34,12 @@ export interface Folder {
 export type CollectionResourceType = "team" | "folder";
 
 /* ----- Query specific response types ------- */
+
+export interface NameAndDescriptionModel {
+  name: string;
+  description?: string;
+}
+
 
 export interface TeamsResponseModel {
   team: Team;

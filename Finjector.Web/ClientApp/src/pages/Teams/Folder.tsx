@@ -3,6 +3,7 @@ import { SearchBar } from "../../components/Shared/SearchBar";
 import { useParams } from "react-router-dom";
 import { useGetFolder } from "../../queries/folderQueries";
 import ChartList from "../../components/Shared/ChartList";
+import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -14,7 +15,8 @@ const Folder: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title mb-3">
+      <BackLinkBar />
+      <div className="page-title">
         <h1>{folderModel.data?.folder.name}</h1>
       </div>
       <div className="page-info mb-3">
