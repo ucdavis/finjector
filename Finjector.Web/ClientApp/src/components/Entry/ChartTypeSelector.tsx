@@ -24,8 +24,9 @@ const ChartTypeSelector = (props: Props) => {
           checked={chartType === ChartType.GL}
           onChange={() => setChartType(ChartType.GL)}
         />
+        {/* should these be actual buttons? -river */}
         <label
-          className={`btn btn-gl me-3 ${
+          className={`btn btn-new btn-gl me-3 ${
             chartType === ChartType.GL ? activeClass : ""
           }`}
           htmlFor="option1"
@@ -43,7 +44,7 @@ const ChartTypeSelector = (props: Props) => {
           onChange={() => setChartType(ChartType.PPM)}
         />
         <label
-          className={`btn btn-ppm ${
+          className={`btn btn-new btn-ppm ${
             chartType === ChartType.PPM ? activeClass : ""
           }`}
           htmlFor="option2"
