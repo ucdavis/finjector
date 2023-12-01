@@ -10,11 +10,13 @@ interface FinjectorButtonProps
 const FinjectorButton: React.FC<FinjectorButtonProps> = ({
   children,
   className,
+  color,
   colorFill,
+  noMargin,
   ...props
 }) => {
-  const colorClassName = props.color ? `btn-${props.color}` : "";
-  const noMarginClassName = props.noMargin ? "" : "me-3";
+  const colorClassName = color ? `btn-${color}` : "";
+  const noMarginClassName = noMargin ? "" : "me-3";
   const colorFillClassName = !colorFill ? "btn-new" : "";
   return (
     <button

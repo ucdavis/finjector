@@ -12,6 +12,7 @@ import { ChartNotFound } from "../components/Shared/ChartNotFound";
 import DetailsChartString from "../components/Details/DetailsChartString";
 import PpmDetailsPage from "../components/Details/PpmDetails";
 import { BackLinkBar } from "../components/Shared/BackLinkBar";
+import FinjectorButton from "../components/Shared/FinjectorButton";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -106,10 +107,10 @@ const Details = () => {
                   : `${chartDetails.chartString}`
               }`}
             >
-              <Button className="btn btn-new me-3">Edit COA</Button>
+              <FinjectorButton>Edit COA</FinjectorButton>
             </Link>
             <Link to="/share">
-              <Button className="btn btn-new">Share COA</Button>
+              <FinjectorButton>Share COA</FinjectorButton>
             </Link>
           </div>
         )}
