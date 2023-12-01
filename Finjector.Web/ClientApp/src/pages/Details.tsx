@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import FinLoader from "../components/Shared/FinLoader";
 
-import { AeDetails, ChartType } from "../types";
+import { ChartType } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
@@ -20,48 +20,13 @@ const Details = () => {
   const { id, chartSegmentString } = useParams();
   const chartDetailsQuery = useGetChartDetails(chartSegmentString || "");
 
-  const [chartDetails, setSavedChart] = React.useState<AeDetails>({
-    isValid: false,
-    chartType: "",
-    chartString: chartSegmentString ?? "",
-    chartStringType: ChartType.PPM,
-    errors: [],
-    warnings: [],
-    segmentDetails: [],
-    approvers: [],
-    ppmDetails: {
-      ppmProjectManager: {
-        firstName: null,
-        lastName: null,
-        email: null,
-        name: "",
-      },
-      ppmGlString: "",
-      projectCompletionDate: "",
-      projectStartDate: "",
-      projectStatus: "",
-      projectTypeName: "",
-    },
-    hasWarnings: false,
-  });
-
-  // if we load up new data, update the chart
-  useEffect(() => {
-    if (chartDetailsQuery.data) {
-      const chart = chartDetailsQuery.data;
-      setSavedChart(chart);
-    }
-  }, [chartDetailsQuery.data]);
-
-  const isPpmOrGlClassName =
-    chartDetails.chartType === ChartType.PPM ? "is-ppm" : "is-gl";
+  const chartDetails = chartDetailsQuery.data;
 
   const invalid =
-    (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) ||
-    chartDetails.chartType === ChartType.INVALID ||
-    !chartSegmentString ||
-    !chartDetails.chartString ||
-    chartDetailsQuery.isError;
+    (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) || // if we're doing first fetch
+    chartDetailsQuery.isError || // if we've errored
+    !chartDetails?.chartString || // if we have no data
+    chartDetails.chartType === ChartType.INVALID; // if we have invalid data
 
   const renderLoadingOrError = () => {
     if (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) {
@@ -80,7 +45,7 @@ const Details = () => {
     }
     if (
       !chartSegmentString ||
-      !chartDetails.chartString ||
+      !chartDetails?.chartString ||
       chartDetails.chartType === ChartType.INVALID
     ) {
       return (
@@ -90,11 +55,13 @@ const Details = () => {
       );
     }
   };
+  const isPpmOrGlClassName =
+    chartDetails?.chartType === ChartType.PPM ? "is-ppm" : "is-gl";
 
   return (
     <div className="main">
       <div className="page-title mb-3">
-        <h1>{chartDetails.chartType} CoA</h1>
+        <h1>{chartDetails?.chartType} CoA</h1>
       </div>
       <div className="row display-content-between mb-3">
         <div className="col-6">
@@ -115,25 +82,28 @@ const Details = () => {
           </div>
         )}
       </div>
-      <div>
-        {chartDetails.errors.length > 0 &&
-          chartDetails.errors.map((error, i) => {
-            return (
-              <Alert color="danger" key={i}>
-                Error: {error}
-              </Alert>
-            );
-          })}
-        {chartDetails.hasWarnings &&
-          chartDetails.warnings.length > 0 &&
-          chartDetails.warnings.map((warning, i) => {
-            return (
-              <Alert color="warning" key={i}>
-                Warning: {warning}
-              </Alert>
-            );
-          })}
-      </div>
+      {!!chartDetails && (
+        <div>
+          {chartDetails.errors.length > 0 &&
+            chartDetails.errors.map((error, i) => {
+              return (
+                <Alert color="danger" key={i}>
+                  Error: {error}
+                </Alert>
+              );
+            })}
+          {!!chartDetails &&
+            chartDetails.hasWarnings &&
+            chartDetails.warnings.length > 0 &&
+            chartDetails.warnings.map((warning, i) => {
+              return (
+                <Alert color="warning" key={i}>
+                  Warning: {warning}
+                </Alert>
+              );
+            })}
+        </div>
+      )}
       {invalid ? (
         renderLoadingOrError()
       ) : (
