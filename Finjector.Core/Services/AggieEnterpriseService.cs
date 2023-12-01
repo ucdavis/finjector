@@ -370,7 +370,7 @@ namespace Finjector.Core.Services
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
                 Order = 4,
-                Entity = "Expense Type",
+                Entity = "Expenditure Type",
                 Code = data.PpmExpenditureTypeByCode?.Code ?? ppmSegments.ExpenditureType,
                 Name = data.PpmExpenditureTypeByCode?.Name
             });
