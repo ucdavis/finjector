@@ -32,7 +32,7 @@ const CreateFolder: React.FC = () => {
 
   return (
     <div>
-      <BackLinkBar backToId={true} />
+      <BackLinkBar />
       <div className="page-title mb-3">
         <h1>Create New Folder</h1> {/* in Team Name? -river */}
       </div>

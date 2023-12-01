@@ -1,4 +1,4 @@
-export interface Chart {
+export interface Coa {
   id: number;
   segmentString: string;
   name: string;
@@ -10,6 +10,7 @@ export interface Chart {
 export enum ChartType {
   GL = "GL",
   PPM = "PPM",
+  INVALID = "INVALID",
 }
 
 export interface Team {
@@ -62,7 +63,7 @@ export interface TeamResponseModel {
 
 export interface FolderResponseModel {
   folder: Folder;
-  charts: Chart[];
+  charts: Coa[];
 }
 
 export interface PermissionsResponseModel {
@@ -109,4 +110,40 @@ export interface ChartData {
   chartType: ChartType;
   glSegments: GlSegments;
   ppmSegments: PpmSegments;
+}
+
+export interface AeDetails {
+  isValid: boolean;
+  chartType: string;
+  chartString: string;
+  chartStringType: ChartType;
+  errors: string[];
+  warnings: string[];
+  segmentDetails: SegmentDetails[];
+  approvers: Approver[];
+  hasWarnings: boolean;
+  ppmDetails: PpmDetails;
+}
+
+export interface PpmDetails {
+  ppmProjectManager: Approver;
+  ppmGlString: string;
+  projectStartDate: string;
+  projectCompletionDate: string;
+  projectStatus: string;
+  projectTypeName: string;
+}
+
+export interface SegmentDetails {
+  order: number;
+  entity: string | null;
+  code: string | null;
+  name: string | null;
+}
+
+export interface Approver {
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  name: string;
 }

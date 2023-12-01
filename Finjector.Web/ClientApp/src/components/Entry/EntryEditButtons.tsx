@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useRemoveChart, useSaveChart } from "../../queries/storedChartQueries";
-import { Chart, ChartData } from "../../types";
+import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
 import FinjectorButton from "../Shared/FinjectorButton";
 
@@ -10,7 +10,7 @@ const landingPage = "/landing";
 
 interface Props {
   chartData: ChartData;
-  savedChart: Chart;
+  savedChart: Coa;
 }
 
 // Handle remove, save, copy and use buttons
@@ -21,7 +21,7 @@ const EntryEditButtons = (props: Props) => {
   const removeMutation = useRemoveChart();
 
   const save = () => {
-    const chartToSave: Chart = {
+    const chartToSave: Coa = {
       ...props.savedChart,
       segmentString: toSegmentString(props.chartData),
     };
@@ -35,7 +35,7 @@ const EntryEditButtons = (props: Props) => {
 
   const copy = () => {
     // create a new chart based on the starting point of current chart
-    const chartToSave: Chart = {
+    const chartToSave: Coa = {
       ...props.savedChart,
       id: 0,
       name: `${props.savedChart.name} (copy)`,

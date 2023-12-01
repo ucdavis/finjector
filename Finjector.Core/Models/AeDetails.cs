@@ -8,6 +8,7 @@ namespace Finjector.Core.Models
     {
         public bool IsValid { get; set; } = true;
         public string ChartType { get; set; } = string.Empty;
+        public string ChartString { get; set; } = string.Empty;
 
         public FinancialChartStringType ChartStringType { get; set; } = FinancialChartStringType.Invalid;
 
@@ -41,11 +42,10 @@ namespace Finjector.Core.Models
 
         public List<SegmentDetails> SegmentDetails { get; set; } = new List<SegmentDetails>();
 
-        public List<Approver> Approvers { get; set; } = new List<Approver>();
+        public List<Approver> Approvers { get; set; } = new List<Approver>();     
+        
+        public PpmDetails? PpmDetails { get; set; }
 
-        public Approver PpmProjectManager { get; set; } = new Approver();
-
-        public string PpmGlString { get; set; } = string.Empty;
 
         public bool HasWarnings { get {  return Warnings.Count > 0; } }
 
@@ -71,6 +71,19 @@ namespace Finjector.Core.Models
                 return $"{LastName}, {FirstName}";
             }
         }
+    }
+
+    public class PpmDetails
+    {
+        public Approver PpmProjectManager { get; set; } = new Approver();
+        public string PpmGlString { get; set; } = string.Empty;
+
+        public string? ProjectStartDate { get; set; } = string.Empty;
+        public string? ProjectCompletionDate { get; set; } = string.Empty;
+
+        public string? ProjectStatus { get; set; } = string.Empty;
+
+        public string? ProjectTypeName { get; set; } = string.Empty;
     }
 
 }

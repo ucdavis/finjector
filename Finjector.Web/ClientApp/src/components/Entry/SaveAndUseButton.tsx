@@ -2,13 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useSaveChart } from "../../queries/storedChartQueries";
-import { Chart, ChartData } from "../../types";
+import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
 import FinjectorButton from "../Shared/FinjectorButton";
 
 interface Props {
   chartData: ChartData;
-  savedChart: Chart;
+  savedChart: Coa;
 }
 
 const SaveAndUseButton = (props: Props) => {
@@ -17,7 +17,7 @@ const SaveAndUseButton = (props: Props) => {
   const saveMutation = useSaveChart();
 
   const saveAndUse = () => {
-    const chartToSave: Chart = {
+    const chartToSave: Coa = {
       ...props.savedChart,
       chartType: props.chartData.chartType,
       segmentString: toSegmentString(props.chartData),

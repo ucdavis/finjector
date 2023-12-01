@@ -8,6 +8,7 @@ import About from "./pages/About";
 import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
 import Paste from "./pages/Paste";
+import Details from "./pages/Details";
 import Header from "./shared/Header";
 import MyTeams from "./pages/Teams/MyTeams";
 import Team from "./pages/Teams/Team";
@@ -48,6 +49,10 @@ function App() {
             <Route path="" element={<Entry />} />
             <Route path=":chartSegmentString" element={<Entry />} />
             <Route path=":id/:chartSegmentString" element={<Entry />} />
+          </Route>
+          <Route path="/details">
+            <Route path=":chartSegmentString" element={<Details />} />
+            <Route path=":id/:chartSegmentString" element={<Details />} />
           </Route>
           <Route path="/paste" element={<Paste />} />
           <Route path="/selected/:id/:chart" element={<Selected />} />

@@ -13,7 +13,6 @@ export const HomeLinkBar = (props: Props) => {
         <FontAwesomeIcon icon={faArrowLeft} />
         {props.children ? props.children : "Go Home"}
       </Link>
-      <hr />
     </>
   );
 };

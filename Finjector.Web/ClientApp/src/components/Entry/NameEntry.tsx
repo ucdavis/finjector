@@ -1,10 +1,10 @@
 import React from "react";
 import { Input } from "reactstrap";
 
-import { Chart } from "../../types";
+import { Coa } from "../../types";
 
 interface Props {
-  chart: Chart;
+  chart: Coa;
   updateName: (name: string) => void;
 }
 const NameEntry = (props: Props) => {

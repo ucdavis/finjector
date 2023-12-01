@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useRemoveChart } from "../../queries/storedChartQueries";
-import { Chart } from "../../types";
+import { Coa } from "../../types";
 import FinjectorButton from "./FinjectorButton";
 
 export const ChartLoadingError = () => {
@@ -10,7 +10,7 @@ export const ChartLoadingError = () => {
   const removeMutation = useRemoveChart();
 
   const remove = () => {
-    removeMutation.mutate({ id: id || 0 } as Chart, {
+    removeMutation.mutate({ id: id || 0 } as Coa, {
       onSuccess: () => {
         navigate("/");
       },

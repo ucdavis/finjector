@@ -1,14 +1,17 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import FinLoader from "./FinLoader";
 
-import { Chart, ChartType } from "../../types";
+import { Coa, ChartType } from "../../types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPencil,
+  faBolt,
+  faScroll,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
-  charts: Chart[] | undefined;
+  charts: Coa[] | undefined;
   filter: string;
 }
 
@@ -48,17 +51,17 @@ const ChartList = (props: Props) => {
           </div>
           <div className="col-3 text-end">
             <Link
-              to={`/entry/${chart.id}/${chart.segmentString}`}
+              to={`/details/${chart.id}/${chart.segmentString}`}
               className="btn btn-link"
             >
-              <FontAwesomeIcon icon={faPencil} />
-              Edit
+              <FontAwesomeIcon icon={faScroll} />
+              Details
             </Link>
             <Link
               to={`/selected/${chart.id}/${chart.segmentString}`}
               className="btn btn-link"
             >
-              <FontAwesomeIcon icon={faPaperPlane} />
+              <FontAwesomeIcon icon={faBolt} />
               Use
             </Link>
           </div>

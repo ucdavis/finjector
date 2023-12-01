@@ -180,10 +180,10 @@ public class ChartsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("detail/{id}")]
-    public async Task<IActionResult> Details(string id)
+    [HttpGet("detail")]
+    public async Task<IActionResult> Details(string segmentString)
     {
-        var rtValue = await _aggieEnterpriseService.GetAeDetailsAsync(id);
+        var rtValue = await _aggieEnterpriseService.GetAeDetailsAsync(segmentString);
 
         return Ok(rtValue);
     }

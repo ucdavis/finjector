@@ -5,7 +5,7 @@ import GlEntry from "../components/Entry/GlEntry";
 import PpmEntry from "../components/Entry/PpmEntry";
 import FinLoader from "../components/Shared/FinLoader";
 
-import { Chart, ChartData, ChartType, SegmentData } from "../types";
+import { Coa, ChartData, ChartType, SegmentData } from "../types";
 
 // CSS
 // https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
@@ -32,14 +32,13 @@ import EntryEditButtons from "../components/Entry/EntryEditButtons";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
 import { BackLinkBar } from "../components/Shared/BackLinkBar";
-import { HomeLinkBar } from "../components/Shared/HomeLinkBar";
 
 const Entry = () => {
   const { id, chartSegmentString } = useParams();
 
   const savedChartQuery = useGetSavedChartWithData(id || "");
 
-  const [savedChart, setSavedChart] = React.useState<Chart>({
+  const [savedChart, setSavedChart] = React.useState<Coa>({
     id: 0,
     chartType: ChartType.PPM,
     name: "",
@@ -115,9 +114,7 @@ const Entry = () => {
 
   return (
     <div className="main">
-      {/* HomeLinkBar and not BackLinkBar bc we dont want to go to '/entry/', we want to go to '/' */}
-      <HomeLinkBar />
-
+      <BackLinkBar />
       <h2>Chart Type</h2>
       <ChartTypeSelector
         chartType={chartData.chartType}

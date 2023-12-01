@@ -1,22 +1,35 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Chart, ChartType } from "../types";
+import { Coa, ChartType, AeDetails } from "../types";
 import { doFetch } from "../util/api";
 
 // Using query functions here in case we change to async/stored stirngs later
 export const useGetSavedCharts = () =>
   useQuery(["charts", "me"], async () => {
-    const charts = await doFetch<Chart[]>(fetch(`/api/charts/all`));
+    const charts = await doFetch<Coa[]>(fetch(`/api/charts/all`));
 
     return charts;
   });
+
+export const useGetChartDetails = (segmentString: string) =>
+  useQuery(
+    ["charts", "detail", segmentString],
+    async () => {
+      const chart = await doFetch<AeDetails>(
+        fetch(`/api/charts/detail?segmentString=${segmentString}`)
+      );
+
+      return chart;
+    },
+    { enabled: segmentString.length > 0 }
+  );
 
 // pull saved chart and return hydrated chartData from server
 export const useGetSavedChartWithData = (id: string) =>
   useQuery(
     ["charts", "saved", id],
     async () => {
-      const chart = await doFetch<Chart>(fetch(`/api/charts/${id}`));
+      const chart = await doFetch<Coa>(fetch(`/api/charts/${id}`));
 
       if (chart) {
         // if we found the chart, load up segement values and validate
@@ -42,7 +55,7 @@ export const useSaveChart = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    async (chart: Chart) => {
+    async (chart: Coa) => {
       const response = await fetch(`/api/charts/save`, {
         method: "POST",
         body: JSON.stringify(chart),
@@ -71,16 +84,19 @@ export const useSaveChart = () => {
 export const useRemoveChart = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(async (chart: Chart) => {
-    await fetch(`/api/charts/delete/${chart.id}`, {
-      method: "DELETE",
-    });
+  return useMutation(
+    async (chart: Coa) => {
+      await fetch(`/api/charts/delete/${chart.id}`, {
+        method: "DELETE",
+      });
 
-    return chart;
-  }, {
-    onSuccess: (chart) => {
-      // invalidate the charts query so we re-query the list
-      queryClient.invalidateQueries(["charts", "me"]);
+      return chart;
+    },
+    {
+      onSuccess: (chart) => {
+        // invalidate the charts query so we re-query the list
+        queryClient.invalidateQueries(["charts", "me"]);
+      },
     }
-  });
+  );
 };
