@@ -6,7 +6,7 @@ import { AeDetails, ChartType } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
-import { Alert, Button } from "reactstrap";
+import { Alert } from "reactstrap";
 import { renderNameAndEmail } from "../util/util";
 import { ChartNotFound } from "../components/Shared/ChartNotFound";
 import DetailsChartString from "../components/Details/DetailsChartString";

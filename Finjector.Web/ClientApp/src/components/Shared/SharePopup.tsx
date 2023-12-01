@@ -1,14 +1,6 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
-import {
-  Input,
-  InputGroup,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from "reactstrap";
-import CopyToClipboardButton from "../../shared/CopyToClipboardButton";
+import { Input, InputGroup, Modal, ModalBody, ModalHeader } from "reactstrap";
+import CopyToClipboard from "../../shared/CopyToClipboard";
 import FinjectorButton from "./FinjectorButton";
 
 interface SharePopupProps {
@@ -18,12 +10,12 @@ interface SharePopupProps {
 
 const SharePopup: React.FC<SharePopupProps> = ({ chartString, teamId }) => {
   const [modal, setModal] = useState(false);
-  const location = useLocation();
 
   const toggle = () => setModal(!modal);
   const url = `${window.location.origin}/details/${
     teamId ? teamId + "/" : ""
   }${chartString}`;
+
   return (
     <>
       <FinjectorButton onClick={toggle}>Share</FinjectorButton>
@@ -34,9 +26,9 @@ const SharePopup: React.FC<SharePopupProps> = ({ chartString, teamId }) => {
         <ModalBody>
           <InputGroup>
             <Input value={url} />
-            <CopyToClipboardButton value={chartString}>
+            <CopyToClipboard value={url}>
               <FinjectorButton>Copy</FinjectorButton>
-            </CopyToClipboardButton>
+            </CopyToClipboard>
           </InputGroup>
         </ModalBody>
       </Modal>
