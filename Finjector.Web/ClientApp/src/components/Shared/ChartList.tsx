@@ -58,13 +58,6 @@ const ChartList = (props: Props) => {
               Details
             </Link>
             <Link
-              to={`/entry/${chart.id}/${chart.segmentString}`}
-              className="btn btn-link"
-            >
-              <FontAwesomeIcon icon={faPencil} />
-              Edit
-            </Link>
-            <Link
               to={`/selected/${chart.id}/${chart.segmentString}`}
               className="btn btn-link"
             >

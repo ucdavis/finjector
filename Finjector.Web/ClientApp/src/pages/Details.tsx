@@ -6,13 +6,15 @@ import { AeDetails, ChartType } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
-import { Alert, Button } from "reactstrap";
+import { Alert } from "reactstrap";
 import { renderNameAndEmail } from "../util/util";
 import { ChartNotFound } from "../components/Shared/ChartNotFound";
 import DetailsChartString from "../components/Details/DetailsChartString";
 import PpmDetailsPage from "../components/Details/PpmDetails";
 import { BackLinkBar } from "../components/Shared/BackLinkBar";
 import FinjectorButton from "../components/Shared/FinjectorButton";
+import SharePopup from "../components/Shared/SharePopup";
+import CopyToClipboardHover from "../shared/CopyToClipboardHover";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -109,9 +111,7 @@ const Details = () => {
             >
               <FinjectorButton>Edit COA</FinjectorButton>
             </Link>
-            <Link to="/share">
-              <FinjectorButton>Share COA</FinjectorButton>
-            </Link>
+            <SharePopup chartString={chartDetails.chartString} teamId={id} />
           </div>
         )}
       </div>
@@ -153,9 +153,19 @@ const Details = () => {
                   </div>
                   <div className="col-9 coa-details-info-right">
                     <span className="fw-bold primary-font me-3">
-                      {segment.code}
+                      <CopyToClipboardHover
+                        value={segment.code ?? ""}
+                        id={`segment-code-${i}`}
+                      >
+                        {segment.code}{" "}
+                      </CopyToClipboardHover>
                     </span>{" "}
-                    {segment.name}
+                    <CopyToClipboardHover
+                      value={segment.name ?? ""}
+                      id={`segment-name-${i}`}
+                    >
+                      {segment.name}{" "}
+                    </CopyToClipboardHover>{" "}
                   </div>
                 </div>
               );
@@ -173,7 +183,12 @@ const Details = () => {
                 {chartDetails.approvers.map((approver, i) => {
                   return (
                     <div key={i}>
-                      {renderNameAndEmail(approver.name, approver.email)}
+                      <CopyToClipboardHover
+                        value={approver.email ?? ""}
+                        id={`approver-${i}`}
+                      >
+                        {renderNameAndEmail(approver.name, approver.email)}
+                      </CopyToClipboardHover>
                     </div>
                   );
                 })}
