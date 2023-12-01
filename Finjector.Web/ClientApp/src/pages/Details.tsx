@@ -15,6 +15,7 @@ import { BackLinkBar } from "../components/Shared/BackLinkBar";
 import FinjectorButton from "../components/Shared/FinjectorButton";
 import SharePopup from "../components/Shared/SharePopup";
 import CopyToClipboardHover from "../shared/CopyToClipboardHover";
+import { DetailsRow } from "../components/Details/DetailsRow";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -117,27 +118,22 @@ const Details = () => {
           <div className="coa-details-info unique-bg">
             {chartDetails.segmentDetails.map((segment, i) => {
               return (
-                <div className="row" key={i}>
-                  <div className="col-3">
-                    <h4>{segment.entity}</h4>
-                  </div>
-                  <div className="col-9 coa-details-info-right">
-                    <span className="fw-bold primary-font me-3">
-                      <CopyToClipboardHover
-                        value={segment.code ?? ""}
-                        id={`segment-code-${i}`}
-                      >
-                        {segment.code}{" "}
-                      </CopyToClipboardHover>
-                    </span>{" "}
+                <DetailsRow header={segment.entity} key={i}>
+                  <span className="fw-bold primary-font me-3">
                     <CopyToClipboardHover
-                      value={segment.name ?? ""}
-                      id={`segment-name-${i}`}
+                      value={segment.code ?? ""}
+                      id={`segment-code-${i}`}
                     >
-                      {segment.name}{" "}
-                    </CopyToClipboardHover>{" "}
-                  </div>
-                </div>
+                      {segment.code}{" "}
+                    </CopyToClipboardHover>
+                  </span>
+                  <CopyToClipboardHover
+                    value={segment.name ?? ""}
+                    id={`segment-name-${i}`}
+                  >
+                    {segment.name}{" "}
+                  </CopyToClipboardHover>
+                </DetailsRow>
               );
             })}
           </div>
@@ -145,25 +141,20 @@ const Details = () => {
             {chartDetails.chartType === ChartType.PPM && (
               <PpmDetailsPage details={chartDetails.ppmDetails} />
             )}
-            <div className="row">
-              <div className="col-3">
-                <h4>Gl Financial Department SCM Approver(s)</h4>
-              </div>
-              <div className="col coa-details-info-right">
-                {chartDetails.approvers.map((approver, i) => {
-                  return (
-                    <div key={i}>
-                      <CopyToClipboardHover
-                        value={approver.email ?? ""}
-                        id={`approver-${i}`}
-                      >
-                        {renderNameAndEmail(approver.name, approver.email)}
-                      </CopyToClipboardHover>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            <DetailsRow header="GL Financial Department SCM Approver(s)">
+              {chartDetails.approvers.map((approver, i) => {
+                return (
+                  <div key={i}>
+                    <CopyToClipboardHover
+                      value={approver.email ?? ""}
+                      id={`approver-${i}`}
+                    >
+                      {renderNameAndEmail(approver.name, approver.email)}
+                    </CopyToClipboardHover>
+                  </div>
+                );
+              })}
+            </DetailsRow>
           </div>
         </div>
       )}
