@@ -14,6 +14,7 @@ import PpmDetailsPage from "../components/Details/PpmDetails";
 import { BackLinkBar } from "../components/Shared/BackLinkBar";
 import FinjectorButton from "../components/Shared/FinjectorButton";
 import SharePopup from "../components/Shared/SharePopup";
+import CopyToClipboardHover from "../shared/CopyToClipboardHover";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -152,9 +153,19 @@ const Details = () => {
                   </div>
                   <div className="col-9 coa-details-info-right">
                     <span className="fw-bold primary-font me-3">
-                      {segment.code}
+                      <CopyToClipboardHover
+                        value={segment.code ?? ""}
+                        id={`segment-code-${i}`}
+                      >
+                        {segment.code}{" "}
+                      </CopyToClipboardHover>
                     </span>{" "}
-                    {segment.name}
+                    <CopyToClipboardHover
+                      value={segment.name ?? ""}
+                      id={`segment-name-${i}`}
+                    >
+                      {segment.name}{" "}
+                    </CopyToClipboardHover>{" "}
                   </div>
                 </div>
               );
@@ -172,7 +183,12 @@ const Details = () => {
                 {chartDetails.approvers.map((approver, i) => {
                   return (
                     <div key={i}>
-                      {renderNameAndEmail(approver.name, approver.email)}
+                      <CopyToClipboardHover
+                        value={approver.email ?? ""}
+                        id={`approver-${i}`}
+                      >
+                        {renderNameAndEmail(approver.name, approver.email)}
+                      </CopyToClipboardHover>
                     </div>
                   );
                 })}

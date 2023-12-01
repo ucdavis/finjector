@@ -26,7 +26,7 @@ const SharePopup: React.FC<SharePopupProps> = ({ chartString, teamId }) => {
         <ModalBody>
           <InputGroup>
             <Input value={url} />
-            <CopyToClipboard value={url}>
+            <CopyToClipboard value={url} id="share-copy-url">
               <FinjectorButton>Copy</FinjectorButton>
             </CopyToClipboard>
           </InputGroup>
