@@ -7,10 +7,11 @@ import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faFolderOpen,
+  faFolder,
   faUsers,
-  faBolt,
+  faDollarSign,
   faList,
+  faDollar,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
@@ -46,7 +47,7 @@ const ChartList = (props: Props) => {
             </div>
             <div className="col-3 d-flex justify-content-end">
               <div className="stat-icon">
-                <FontAwesomeIcon icon={faFolderOpen} />
+                <FontAwesomeIcon icon={faFolder} />
                 {teamInfo.folderCount}{" "}
               </div>
               <div className="stat-icon">
@@ -54,7 +55,7 @@ const ChartList = (props: Props) => {
                 {teamInfo.teamPermissionCount + teamInfo.folderPermissionCount}
               </div>
               <div className="stat-icon">
-                <FontAwesomeIcon icon={faBolt} />
+                <FontAwesomeIcon icon={faDollarSign} />
                 {teamInfo.chartCount}
               </div>
             </div>
