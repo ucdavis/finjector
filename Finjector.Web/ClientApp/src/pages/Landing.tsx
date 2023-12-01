@@ -37,7 +37,7 @@ const Landing = () => {
 
           <Link to="/paste" className="btn btn-new">
             <FontAwesomeIcon icon={faPaperclip} />
-            New CoA from Paste
+            New Chartstring from Paste
           </Link>
         </div>
       </div>
