@@ -27,12 +27,12 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
     <div className="coa-details-title d-flex justify-content-between align-items-center">
       <div className="col-11">
         <div className="coa-type">
-          <span>
-            {chartType}{" "}
+          <span>{chartType} </span>
+          <div className="div">
             <Badge color={badgeColor} pill={true}>
               {isValid ? "Valid" : hasWarnings ? "Warning" : "Error"}
             </Badge>
-          </span>
+          </div>
         </div>
         <CopyToClipboardHover value={chartString} id="copyPpmGlString">
           <h1>{chartString}</h1>

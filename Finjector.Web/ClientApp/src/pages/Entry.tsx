@@ -32,7 +32,6 @@ import EntryEditButtons from "../components/Entry/EntryEditButtons";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
 import { BackLinkBar } from "../components/Shared/BackLinkBar";
-import { HomeLinkBar } from "../components/Shared/HomeLinkBar";
 
 const Entry = () => {
   const { id, chartSegmentString } = useParams();
@@ -115,9 +114,7 @@ const Entry = () => {
 
   return (
     <div className="main">
-      {/* HomeLinkBar and not BackLinkBar bc we dont want to go to '/entry/', we want to go to '/' */}
-      <HomeLinkBar />
-
+      <BackLinkBar />
       <h2>Chart Type</h2>
       <ChartTypeSelector
         chartType={chartData.chartType}
