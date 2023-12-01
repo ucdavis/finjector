@@ -28,8 +28,10 @@ const Paste = () => {
 
   return (
     <div className="main">
+      <div className="page-title mb-3">
+        <h1>New Chart String from paste</h1>
+      </div>
       <BackLinkBar />
-      <h2>Paste in existing CoA</h2>
       <form>
         <div className="mb-3">
           <p>Paste in a copied account number</p>

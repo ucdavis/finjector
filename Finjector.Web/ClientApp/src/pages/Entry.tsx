@@ -114,6 +114,9 @@ const Entry = () => {
 
   return (
     <div className="main">
+      <div className="page-title mb-3">
+        <h1>New Chart String</h1>
+      </div>
       <BackLinkBar />
       <h2>Chart Type</h2>
       <ChartTypeSelector
