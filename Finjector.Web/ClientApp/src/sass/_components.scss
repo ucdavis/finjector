@@ -256,3 +256,18 @@ hr {
 .copy-container-hover {
   display: inline;
 }
+
+.main {
+  .badge {
+    border-radius: 2px !important;
+    &.bg-danger {
+      background-color: #74011d !important;
+    }
+    &.bg-warning {
+      color: $primary-font !important;
+    }
+    &.bg-success {
+      background-color: #25681a !important;
+    }
+  }
+}

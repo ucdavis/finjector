@@ -5,7 +5,7 @@ import ChartList from "../components/Shared/ChartList";
 import { useGetSavedCharts } from "../queries/storedChartQueries";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faPaste } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faPaperclip } from "@fortawesome/free-solid-svg-icons";
 
 // Main landing screen for popup
 
@@ -32,12 +32,12 @@ const Landing = () => {
         <div className="d-grid gap-2 d-md-block">
           <Link to="/entry" className="btn btn-new me-3">
             <FontAwesomeIcon icon={faPlus} />
-            New CoA from Scratch
+            New Chartstring from Scratch
           </Link>
 
           <Link to="/paste" className="btn btn-new">
-            <FontAwesomeIcon icon={faPaste} />
-            New CoA from Paste
+            <FontAwesomeIcon icon={faPaperclip} />
+            New Chartstring from Paste
           </Link>
         </div>
       </div>

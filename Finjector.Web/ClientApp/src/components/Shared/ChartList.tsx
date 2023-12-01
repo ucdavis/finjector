@@ -6,7 +6,7 @@ import { Coa, ChartType } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPencil,
-  faPaperPlane,
+  faBolt,
   faScroll,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -61,7 +61,7 @@ const ChartList = (props: Props) => {
               to={`/selected/${chart.id}/${chart.segmentString}`}
               className="btn btn-link"
             >
-              <FontAwesomeIcon icon={faPaperPlane} />
+              <FontAwesomeIcon icon={faBolt} />
               Use
             </Link>
           </div>
