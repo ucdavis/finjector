@@ -12,9 +12,7 @@ const SharePopup: React.FC<SharePopupProps> = ({ chartString, teamId }) => {
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
-  const url = `${window.location.origin}/details/${
-    teamId ? teamId + "/" : ""
-  }${chartString}`;
+  const url = `${window.location.origin}/details/${chartString}`;
 
   return (
     <>
