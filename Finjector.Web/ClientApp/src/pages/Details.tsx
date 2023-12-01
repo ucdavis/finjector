@@ -13,6 +13,7 @@ import DetailsChartString from "../components/Details/DetailsChartString";
 import PpmDetailsPage from "../components/Details/PpmDetails";
 import { BackLinkBar } from "../components/Shared/BackLinkBar";
 import FinjectorButton from "../components/Shared/FinjectorButton";
+import SharePopup from "../components/Shared/SharePopup";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -109,9 +110,7 @@ const Details = () => {
             >
               <FinjectorButton>Edit COA</FinjectorButton>
             </Link>
-            <Link to="/share">
-              <FinjectorButton>Share COA</FinjectorButton>
-            </Link>
+            <SharePopup chartString={chartDetails.chartString} teamId={id} />
           </div>
         )}
       </div>
