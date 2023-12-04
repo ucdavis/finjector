@@ -2,10 +2,10 @@ import React, { useMemo } from "react";
 import { SearchBar } from "../../components/Shared/SearchBar";
 import { Link, useParams } from "react-router-dom";
 import { useGetFolder } from "../../queries/folderQueries";
-import ChartList from "../../components/Shared/ChartList";
 import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 import FinLoader from "../../components/Shared/FinLoader";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
+import ChartListSimple from "../../components/Shared/ChartListSimple";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -83,7 +83,7 @@ const Folder: React.FC = () => {
         </Link>
       )}
 
-      <ChartList charts={folderModel.data?.charts} filter={search} />
+      <ChartListSimple charts={folderModel.data?.charts} filter={search} />
     </div>
   );
 };

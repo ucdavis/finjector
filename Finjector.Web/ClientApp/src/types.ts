@@ -29,6 +29,7 @@ export interface Folder {
   teamName: string;
   myFolderPermissions: PermissionType[];
   myTeamPermissions: PermissionType[];
+  coas: Coa[];
 }
 
 export type CollectionResourceType = "team" | "folder";
@@ -36,6 +37,11 @@ export type CollectionResourceType = "team" | "folder";
 export type PermissionType = "Admin" | "Edit" | "View";
 
 /* ----- Query specific response types ------- */
+
+export interface TeamGroupedCoas {
+  team: Team;
+  folders: Folder[];
+}
 
 export interface NameAndDescriptionModel {
   name: string;
