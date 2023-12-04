@@ -61,7 +61,7 @@ public class UserService : IUserService
     public async Task<Folder> GetPersonalFolder(string iamId)
     {
         return await _dbContext.Folders.SingleAsync(f =>
-            f.Team.IsPersonal && f.Team.Owner.Iam == iamId && f.Name == Folder.DefaultFolderName);
+            f.Team.IsPersonal && f.Team.Owner.Iam == iamId && f.IsDefault);
     }
 
     /// <summary>
@@ -297,6 +297,7 @@ public class UserService : IUserService
             team.Folders.Add(new Folder
             {
                 Name = Folder.DefaultFolderName,
+                IsDefault = true,
                 Team = team
             });
 

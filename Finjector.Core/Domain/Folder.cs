@@ -24,6 +24,8 @@ namespace Finjector.Core.Domain
 
         public bool IsActive { get; set; } = true;
 
+        public bool IsDefault { get; set; } = false;
+
         [JsonIgnore]
         public List<Coa> Coas { get; set; } = new List<Coa>();
         
