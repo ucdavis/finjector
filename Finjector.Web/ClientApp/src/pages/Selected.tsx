@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import CopyToClipboard from "../components/Shared/CopyToClipboard";
-import FinjectorButton from "../components/Shared/FinjectorButton";
 import { BackLinkBar } from "../components/Shared/BackLinkBar";
+import CopyToClipboardHover from "../shared/CopyToClipboardHover";
+import CopyToClipboardButton from "../shared/CopyToClipboardButton";
 
 const Selected = () => {
   const { chart } = useParams();
 
   const [hasOpener, setHasOpener] = React.useState<boolean>(!!window.opener);
-  const [hasCopied, setHasCopied] = React.useState<boolean>(false);
 
   useEffect(() => {
     if (window.opener) {
@@ -28,12 +27,6 @@ const Selected = () => {
     }
   }, [chart]);
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(chart || "").then(() => {
-      setHasCopied(true);
-    });
-  };
-
   return (
     <div>
       <BackLinkBar />
@@ -42,9 +35,9 @@ const Selected = () => {
       </div>
 
       <div>
-        <CopyToClipboard value={chart || ""}>
+        <CopyToClipboardHover value={chart ?? ""} id="selected">
           <code>{chart}</code>
-        </CopyToClipboard>
+        </CopyToClipboardHover>
       </div>
       {hasOpener ? (
         <p>Finjector will close this window shortly.</p>
@@ -58,12 +51,7 @@ const Selected = () => {
             Click copy to copy this to your clipboard, or head back home to work
             with another chart.
           </p>
-          <FinjectorButton
-            className="btn btn-primary"
-            onClick={copyToClipboard}
-          >
-            {hasCopied ? "Copied!" : "Copy"}
-          </FinjectorButton>
+          <CopyToClipboardButton value={chart ?? ""} id="selected" />
         </div>
       )}
     </div>
