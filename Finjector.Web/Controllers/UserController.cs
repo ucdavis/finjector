@@ -114,7 +114,7 @@ public class UserController : ControllerBase
                 .ToArrayAsync();
 
             var permissions = teamPermissions.Concat(folderPermissions)
-                .OrderBy(p => p.UserName).ThenBy(p => p.Level).ToArray();
+                .OrderBy(p => p.Level).ThenBy(p => p.UserName).ToArray();
 
             return Ok(permissions);
         }
