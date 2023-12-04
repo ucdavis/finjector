@@ -46,24 +46,27 @@
 }
 .btn-gl {
   background-color: #fff;
-  color: $gl;
-  border-color: $gl;
-  box-shadow: none;
+  color: $primary-font;
+  box-shadow: $box-shadow;
+  border: 1px solid $borders;
+  border-left: 3px solid $gl;
   &:hover {
     background-color: $gl-bg !important;
     color: $gl !important;
     border-color: $gl !important;
+    border-left: 3px solid $gl;
   }
 }
 .btn-ppm {
   background-color: #fff;
-  color: $ppm;
-  border-color: $ppm;
-  box-shadow: none;
+  color: $primary-font;
+  border: 1px solid $borders;
+  border-left: 3px solid $ppm;
   &:hover {
     background-color: $ppm-bg !important;
     color: $ppm !important;
     border-color: $ppm !important;
+    border-left: 3px solid $ppm;
   }
 }
 .btn-ppm.btn-outline-active {

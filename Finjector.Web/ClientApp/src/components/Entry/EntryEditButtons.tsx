@@ -6,6 +6,14 @@ import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
 import FinjectorButton from "../Shared/FinjectorButton";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTrash,
+  faBolt,
+  faBookmark,
+  faClone,
+} from "@fortawesome/free-solid-svg-icons";
+
 const landingPage = "/landing";
 
 interface Props {
@@ -66,38 +74,31 @@ const EntryEditButtons = (props: Props) => {
   return (
     <div className="d-flex p-2">
       <FinjectorButton
-        color="danger"
         className="flex-fill"
         disabled={removeMutation.isLoading}
         onClick={remove}
-        colorFill={true}
       >
+        <FontAwesomeIcon icon={faTrash} />
         Remove
       </FinjectorButton>
       <FinjectorButton
-        color="secondary"
         className="flex-fill"
         disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={copy}
-        colorFill={true}
       >
+        <FontAwesomeIcon icon={faClone} />
         Duplicate
       </FinjectorButton>
       <FinjectorButton
-        color="secondary"
         className="flex-fill"
         disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={save}
-        colorFill={true}
       >
+        <FontAwesomeIcon icon={faBookmark} />
         Save
       </FinjectorButton>
-      <FinjectorButton
-        color="primary"
-        className="flex-fill"
-        onClick={use}
-        colorFill={true}
-      >
+      <FinjectorButton className="flex-fill" onClick={use}>
+        <FontAwesomeIcon icon={faBolt} />
         Use
       </FinjectorButton>
     </div>

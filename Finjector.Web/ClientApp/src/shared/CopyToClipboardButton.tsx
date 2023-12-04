@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FinjectorButton from "../components/Shared/FinjectorButton";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface CopyToClipboardButtonProps
