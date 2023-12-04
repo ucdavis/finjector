@@ -1,6 +1,19 @@
-import { Coa, ChartType } from "../types";
+import { Coa, ChartType, Team, Folder } from "../types";
 
 const fakeCharts: Coa[] = [];
+const fakeTeams: Team[] = [];
+const fakeFolders: Folder[] = [];
+
+// make 3 fake teams
+for (let i = 0; i < 3; i++) {
+  fakeTeams.push({
+    id: i,
+    name: `Team ${i}`,
+    description: `Team ${i} description`,
+    isPersonal: false,
+    myTeamPermissions: ["Admin", "Edit", "View"],
+  });
+}
 
 // make 3 fake charts
 for (let i = 0; i < 3; i++) {
@@ -15,4 +28,18 @@ for (let i = 0; i < 3; i++) {
   });
 }
 
-export { fakeCharts };
+// make 3 fake folders
+for (let i = 0; i < 3; i++) {
+  fakeFolders.push({
+    id: i,
+    name: `Folder ${i}`,
+    description: `Folder ${i} description`,
+    teamId: 0,
+    teamName: "Team 0",
+    myFolderPermissions: ["Admin", "Edit", "View"],
+    myTeamPermissions: ["Admin", "Edit", "View"],
+    coas: [...fakeCharts],
+  });
+}
+
+export { fakeCharts, fakeFolders, fakeTeams };

@@ -56,6 +56,7 @@ const UserManagement: React.FC = () => {
           <tr>
             <th>User Name</th>
             <th>User Email</th>
+            <th>Level</th>
             <th>Role Name</th>
             <th>Remove Role</th>
           </tr>
@@ -66,13 +67,16 @@ const UserManagement: React.FC = () => {
               <tr key={member.userEmail}>
                 <td>{member.userName}</td>
                 <td>{member.userEmail}</td>
+                <td>{member.level}</td>
                 <td>{member.roleName}</td>
                 <td>
-                  <RemoveUserPermission
-                    resourceId={resourceId}
-                    resourceType={resourceType}
-                    userEmail={member.userEmail}
-                  />
+                  {resourceType === member.level && (
+                    <RemoveUserPermission
+                      resourceId={resourceId}
+                      resourceType={resourceType}
+                      userEmail={member.userEmail}
+                    />
+                  )}
                 </td>
               </tr>
             ))}

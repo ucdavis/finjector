@@ -47,6 +47,7 @@ namespace Finjector.Web.Controllers
                     MyTeamPermissions = f.Team.TeamPermissions.Where(tp => tp.User.Iam == iamId)
                         .Select(tp => tp.Role.Name),
                 })
+                .AsSplitQuery()
                 .SingleOrDefaultAsync(f => f.Id == id);
 
             var charts = await _dbContext.Coas.Where(c => c.FolderId == id).ToListAsync();

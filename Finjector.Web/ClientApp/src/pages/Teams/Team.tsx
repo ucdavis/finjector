@@ -7,6 +7,7 @@ import FinLoader from "../../components/Shared/FinLoader";
 import DeleteTeam from "../../components/Teams/DeleteTeam";
 import LeaveTeam from "../../components/Teams/LeaveTeam";
 import { BackLinkBar } from "../../components/Shared/BackLinkBar";
+import { isPersonalOrDefault } from "../../util/teamDefinitions";
 
 const Team: React.FC = () => {
   // get id from url
@@ -20,11 +21,28 @@ const Team: React.FC = () => {
     return <FinLoader />;
   }
 
+  if (teamModel.error) {
+    return (
+      <div>
+        Something went wrong. Ensure you have permission to view this team.
+      </div>
+    );
+  }
+
+  const isTeamAdmin = teamModel.data?.team.myTeamPermissions.some(
+    (p) => p === "Admin"
+  );
+
+  const limitedTeam = isPersonalOrDefault(teamModel.data?.team.name);
+
   return (
     <div>
       <BackLinkBar />
       <div className="page-title mb-3">
         <h1>{teamModel.data?.team.name}</h1>
+        <Link to={`/teams/${id}/admins`} className="btn btn-link">
+          View Team Admins
+        </Link>
       </div>
       <div className="mb-3"></div>
       <SearchBar
@@ -37,22 +55,27 @@ const Team: React.FC = () => {
         setSearch={setSearch}
       />
       <div>
-        <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
-          Create New Folder
-        </Link>
-        <Link to={`/teams/${id}/edit`} className="btn btn-new me-3">
-          Edit Team (TODO)
-        </Link>
-        <Link to={`/teams/${id}/permissions`} className="btn btn-new me-3">
-          Manage Team Users
-        </Link>
-        {teamModel.data?.team.myTeamPermissions.some((p) => p === "Admin") && (
-          <DeleteTeam teamId={id} />
+        {!limitedTeam && isTeamAdmin && (
+          <>
+            <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
+              Create New Folder
+            </Link>
+            <Link to={`/teams/${id}/edit`} className="btn btn-new me-3">
+              Edit Team (TODO)
+            </Link>
+            <Link to={`/teams/${id}/permissions`} className="btn btn-new me-3">
+              Manage Team Users
+            </Link>
+            <DeleteTeam teamId={id} />
+          </>
         )}
-        <LeaveTeam
-          teamId={id}
-          myPermissions={teamModel.data?.team.myTeamPermissions || []}
-        />
+
+        {!limitedTeam && (
+          <LeaveTeam
+            teamId={id}
+            myPermissions={teamModel.data?.team.myTeamPermissions || []}
+          />
+        )}
       </div>
       <div className="mb-3">
         <FolderList teamModel={teamModel.data} filter={search} />

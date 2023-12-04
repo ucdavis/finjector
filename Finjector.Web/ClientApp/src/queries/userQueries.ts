@@ -39,6 +39,27 @@ export const usePermissionsQuery = (id: string, type: CollectionResourceType) =>
     }
   );
 
+// fetch admin info for a given team or folder
+export const useAdminsQuery = (id: string, type: CollectionResourceType) =>
+  useQuery(
+    ["users", "admins", type, id],
+    async () => {
+      return await doFetch<PermissionsResponseModel[]>(
+        fetch(`/api/user/admins/${type}/${id}`)
+      );
+    },
+    {
+      retry(failureCount, error: Error) {
+        if (error instanceof Error && error.message.startsWith("401")) {
+          return false;
+        }
+
+        // otherwise retry the normal amount
+        return failureCount < 3;
+      },
+    }
+  );
+
 // new mutation to add a user to a resource
 export const useAddUserMutation = (
   id: string,
