@@ -178,7 +178,7 @@ public class TeamController : ControllerBase
     }
 
     /// <summary>
-    /// remove your permissions from a team.
+    /// remove your permissions from a team AND any folder within that team
     /// If you are the only admin, just soft delete a team by setting IsActive to false
     /// </summary>
     /// <param name="id"></param>
@@ -206,8 +206,13 @@ public class TeamController : ControllerBase
             // otherwise, just remove their permissions
             var teamPermission = await _dbContext.TeamPermissions.Where(tp => tp.TeamId == id && tp.User.Iam == iamId)
                 .ToListAsync();
+            
+            var folderPermissions = await _dbContext.FolderPermissions
+                .Where(fp => fp.Folder.TeamId == id && fp.User.Iam == iamId)
+                .ToListAsync();
 
             _dbContext.TeamPermissions.RemoveRange(teamPermission);
+            _dbContext.FolderPermissions.RemoveRange(folderPermissions);
         }
 
         await _dbContext.SaveChangesAsync();
