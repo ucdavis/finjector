@@ -24,46 +24,52 @@ export default function FormComponent(props: Props) {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label htmlFor="name" className="form-label">
-          Name:
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          maxLength={50}
-        />
-        <div className="invalid-feedback">Please provide a name.</div>
-      </div>
+    <div className="row">
+      <div className="col-md-6">
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Name:
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              maxLength={50}
+            />
+            <div className="invalid-feedback">Please provide a name.</div>
+          </div>
 
-      <div className="mb-3">
-        <label htmlFor="description" className="form-label">
-          Description:
-        </label>
-        <textarea
-          className="form-control"
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          maxLength={300}
-        />
-        <div className="invalid-feedback">Please provide a description.</div>
-      </div>
+          <div className="mb-3">
+            <label htmlFor="description" className="form-label">
+              Description:
+            </label>
+            <textarea
+              className="form-control"
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              maxLength={300}
+            />
+            <div className="invalid-feedback">
+              Please provide a description.
+            </div>
+          </div>
 
-      <FinjectorButton
-        type="submit"
-        className="btn btn-primary"
-        disabled={loading}
-      >
-        {loading ? "Creating..." : "Create"}
-      </FinjectorButton>
-    </form>
+          <FinjectorButton
+            type="submit"
+            className="btn btn-primary"
+            disabled={loading}
+          >
+            {loading ? "Creating..." : "Create"}
+          </FinjectorButton>
+        </form>
+      </div>
+    </div>
   );
 }

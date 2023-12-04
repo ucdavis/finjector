@@ -87,13 +87,13 @@ a {
     color: darken($primary-color, 4);
   }
 }
-label {
-  text-transform: none !important;
-}
 li {
   color: $primary-font;
 }
 
 .discreet {
   color: $secondary-font;
+}
+.form-label {
+  text-transform: uppercase;
 }

@@ -39,7 +39,9 @@ const LeaveTeam = (props: Props) => {
         Leave Team
       </FinjectorButton>
       <Modal isOpen={modalOpen} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Leave Team</ModalHeader>
+        <ModalHeader tag="h2" toggle={toggleModal}>
+          Leave Team
+        </ModalHeader>
         <ModalBody>
           Are you sure you want to leave this team?
           {props.myPermissions.some((p) => p === "Admin") && (

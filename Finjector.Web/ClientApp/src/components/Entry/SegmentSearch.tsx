@@ -55,7 +55,7 @@ const SegmentSearch = (props: Props) => {
   // 4. this does result in an extra query when the full value is selected -- we could optimize but this is minor and might actually prove useful
   return (
     <div className="mb-3 col-sm-6">
-      <label className="form-label text-uppercase">{prettifiedName}</label>
+      <label className="form-label">{prettifiedName}</label>
       <AsyncTypeahead
         id={"typeahead" + props.segmentData.segmentName}
         filterBy={() => true} // don't filter since we're doing it on the server

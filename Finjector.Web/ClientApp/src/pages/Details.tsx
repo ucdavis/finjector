@@ -125,7 +125,7 @@ const Details = () => {
             {chartDetails.segmentDetails.map((segment, i) => {
               return (
                 <DetailsRow header={segment.entity} key={i}>
-                  <span className="fw-bold primary-font me-3">
+                  <span className="fw-bold primary-font me-4">
                     <CopyToClipboardHover
                       value={segment.code ?? ""}
                       id={`segment-code-${i}`}

@@ -44,7 +44,7 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
           id={`copy-button-hover-${id}`}
           style={{
             position: "absolute",
-            right: "-25px",
+            right: "-20px",
             top: 0,
             cursor: "pointer",
             opacity: isHovering ? 1 : 0,

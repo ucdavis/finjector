@@ -24,7 +24,7 @@ const SharePopup: React.FC<SharePopupProps> = ({ chartString, teamId }) => {
         Share
       </FinjectorButton>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle} tag="h4">
+        <ModalHeader tag="h2" toggle={toggle}>
           Share Chart String
         </ModalHeader>
         <ModalBody>

@@ -38,7 +38,9 @@ const DeleteTeam = (props: Props) => {
         Delete Team
       </FinjectorButton>
       <Modal isOpen={modalOpen} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Delete Team</ModalHeader>
+        <ModalHeader tag="h2" toggle={toggleModal}>
+          Delete Team
+        </ModalHeader>
         <ModalBody>
           Are you sure you want to delete this team? This team, any folders
           within it will be removed.
