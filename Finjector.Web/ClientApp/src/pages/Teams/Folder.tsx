@@ -5,6 +5,7 @@ import { useGetFolder } from "../../queries/folderQueries";
 import ChartList from "../../components/Shared/ChartList";
 import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 import FinLoader from "../../components/Shared/FinLoader";
+import { isPersonalOrDefault } from "../../util/teamDefinitions";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -31,6 +32,8 @@ const Folder: React.FC = () => {
     return <FinLoader />;
   }
 
+  const limitedFolder = isPersonalOrDefault(folderModel.data?.folder.name);
+
   return (
     <div>
       <BackLinkBar />
@@ -54,7 +57,7 @@ const Folder: React.FC = () => {
         />
       </div>
       {/* Admins can manage permissions */}
-      {combinedPermissions.some((p) => p === "Admin") && (
+      {!limitedFolder && combinedPermissions.some((p) => p === "Admin") && (
         <>
           <Link
             to={`/teams/${id}/folders/${folderId}/permissions`}
