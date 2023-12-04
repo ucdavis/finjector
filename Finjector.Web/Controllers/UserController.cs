@@ -45,7 +45,7 @@ public class UserController : ControllerBase
 
     /// <summary>
     /// get the permissions for a given resource.
-    /// Note: folder permissions are just for that folder and do not include inherited permissions from the team
+    /// NOTE: if folder, returns permissions for the containing team as well, using the "level" discriminator
     /// </summary>
     /// <param name="type">string value `team` or `folder`. If not "team" defaults to folder.</param>
     /// <param name="id">ID of the team of folder</param>
@@ -69,10 +69,11 @@ public class UserController : ControllerBase
 
         if (type == TeamResourceType)
         {
-            var permissions = await _dbContext.TeamPermissions
+            var teamPermissions = await _dbContext.TeamPermissions
                 .Where(tp => tp.TeamId == id)
                 .Select(tp => new PermissionsModel
                 {
+                    Level = "team",
                     RoleName = tp.Role.Name,
                     ResourceName = tp.Team.Name,
                     UserName = tp.User.Name,
@@ -81,14 +82,29 @@ public class UserController : ControllerBase
                 .AsNoTracking()
                 .ToArrayAsync();
 
-            return Ok(permissions);
+            return Ok(teamPermissions);
         }
         else
         {
-            var permissions = await _dbContext.FolderPermissions
+            var teamPermissions = await _dbContext.Folders
+                .Where(folder => folder.Id == id)
+                .SelectMany(f => f.Team.TeamPermissions)
+                .Select(tp => new PermissionsModel
+                {
+                    Level = "team",
+                    RoleName = tp.Role.Name,
+                    ResourceName = tp.Team.Name,
+                    UserName = tp.User.Name,
+                    UserEmail = tp.User.Email
+                })
+                .AsNoTracking()
+                .ToArrayAsync();
+
+            var folderPermissions = await _dbContext.FolderPermissions
                 .Where(fp => fp.FolderId == id)
                 .Select(fp => new PermissionsModel
                 {
+                    Level = "folder",
                     RoleName = fp.Role.Name,
                     ResourceName = fp.Folder.Name,
                     UserName = fp.User.Name,
@@ -96,6 +112,9 @@ public class UserController : ControllerBase
                 })
                 .AsNoTracking()
                 .ToArrayAsync();
+
+            var permissions = teamPermissions.Concat(folderPermissions)
+                .OrderBy(p => p.UserName).ThenBy(p => p.Level).ToArray();
 
             return Ok(permissions);
         }
@@ -293,6 +312,11 @@ public class AddPermissionsModel
 
 public class PermissionsModel
 {
+    /// <summary>
+    /// "team" or "folder"
+    /// </summary>
+    public string? Level { get; set; }
+
     public string? RoleName { get; set; }
     public string? ResourceName { get; set; }
     public string? UserName { get; set; }

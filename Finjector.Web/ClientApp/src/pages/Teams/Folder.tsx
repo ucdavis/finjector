@@ -50,12 +50,17 @@ const Folder: React.FC = () => {
       </div>
       {/* Admins can manage permissions */}
       {combinedPermissions.some((p) => p === "Admin") && (
-        <Link
-          to={`/teams/${id}/folders/${folderId}/permissions`}
-          className="btn btn-new me-3"
-        >
-          Manage Permissions
-        </Link>
+        <>
+          <Link
+            to={`/teams/${id}/folders/${folderId}/permissions`}
+            className="btn btn-new me-3"
+          >
+            Manage Permissions
+          </Link>
+          <Link to={`/teams/${id}/folders/${folderId}/edit`} className="btn btn-new me-3">
+            Edit Folder (TODO)
+          </Link>
+        </>
       )}
       {/* Editors & above can create new chart strings */}
       {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (

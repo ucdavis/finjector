@@ -68,6 +68,7 @@ export interface FolderResponseModel {
 }
 
 export interface PermissionsResponseModel {
+  level: string;
   resourceName: string;
   roleName: string;
   userName: string;
