@@ -39,7 +39,12 @@ const Folder: React.FC = () => {
       </div>
       <div className="page-info mb-3">
         <p>Team - {folderModel.data?.folder.teamName}</p>
-        <p>Admins: x y z</p>
+        <Link
+          to={`/teams/${id}/folders/${folderId}/admins`}
+          className="btn btn-link"
+        >
+          View Folder Admins
+        </Link>
       </div>
       <div className="mb-3">
         <SearchBar
@@ -57,7 +62,10 @@ const Folder: React.FC = () => {
           >
             Manage Permissions
           </Link>
-          <Link to={`/teams/${id}/folders/${folderId}/edit`} className="btn btn-new me-3">
+          <Link
+            to={`/teams/${id}/folders/${folderId}/edit`}
+            className="btn btn-new me-3"
+          >
             Edit Folder (TODO)
           </Link>
         </>

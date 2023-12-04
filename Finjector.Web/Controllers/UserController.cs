@@ -119,6 +119,83 @@ public class UserController : ControllerBase
             return Ok(permissions);
         }
     }
+    
+    /// <summary>
+    /// get the admins for a given resource. Can be accessed by anyone who can view the resource, unlike permissions
+    /// NOTE: if folder, returns permissions for the containing team as well, using the "level" discriminator
+    /// </summary>
+    /// <param name="type">string value `team` or `folder`. If not "team" defaults to folder.</param>
+    /// <param name="id">ID of the team of folder</param>
+    /// <returns></returns>
+    [HttpGet("admins/{type}/{id}")]
+    public async Task<IActionResult> Admins(string type, int id)
+    {
+        var iamId = _httpContextAccessor.HttpContext?.Request.GetCurrentUserIamId();
+
+        if (string.IsNullOrWhiteSpace(iamId))
+        {
+            return Unauthorized();
+        }
+
+        var canViewAdmins = await CanViewAdmins(type, id, iamId);
+
+        if (!canViewAdmins)
+        {
+            return Unauthorized();
+        }
+
+        if (type == TeamResourceType)
+        {
+            var teamPermissions = await _dbContext.TeamPermissions
+                .Where(tp => tp.TeamId == id)
+                .Select(tp => new PermissionsModel
+                {
+                    Level = "team",
+                    RoleName = tp.Role.Name,
+                    ResourceName = tp.Team.Name,
+                    UserName = tp.User.Name,
+                    UserEmail = tp.User.Email
+                })
+                .AsNoTracking()
+                .ToArrayAsync();
+
+            return Ok(teamPermissions);
+        }
+        else
+        {
+            var teamPermissions = await _dbContext.Folders
+                .Where(folder => folder.Id == id)
+                .SelectMany(f => f.Team.TeamPermissions)
+                .Select(tp => new PermissionsModel
+                {
+                    Level = "team",
+                    RoleName = tp.Role.Name,
+                    ResourceName = tp.Team.Name,
+                    UserName = tp.User.Name,
+                    UserEmail = tp.User.Email
+                })
+                .AsNoTracking()
+                .ToArrayAsync();
+
+            var folderPermissions = await _dbContext.FolderPermissions
+                .Where(fp => fp.FolderId == id)
+                .Select(fp => new PermissionsModel
+                {
+                    Level = "folder",
+                    RoleName = fp.Role.Name,
+                    ResourceName = fp.Folder.Name,
+                    UserName = fp.User.Name,
+                    UserEmail = fp.User.Email
+                })
+                .AsNoTracking()
+                .ToArrayAsync();
+
+            var permissions = teamPermissions.Concat(folderPermissions)
+                .OrderBy(p => p.Level).ThenBy(p => p.UserName).ToArray();
+
+            return Ok(permissions);
+        }
+    }
 
     /// <summary>
     /// add a permission to a given resource
@@ -296,6 +373,21 @@ public class UserController : ControllerBase
             ? await _userService.VerifyTeamAccess(id, iamId, Role.Codes.Admin)
             : await _userService.VerifyFolderAccess(id, iamId, Role.Codes.Admin);
         return hasAdminPermissions;
+    }
+    
+    /// <summary>
+    /// anyone with a role can view admins, even if they only have a role in a subfolder
+    /// </summary>
+    /// <param name="type">team of folder</param>
+    /// <param name="id">id of resource</param>
+    /// <param name="iamId">iam of user</param>
+    /// <returns></returns>
+    private async Task<bool> CanViewAdmins(string type, int id, string iamId)
+    {
+        var access = string.Equals(TeamResourceType, type, StringComparison.OrdinalIgnoreCase)
+            ? await _userService.VerifyFolderWithinTeamAccess(id, iamId, Role.Codes.View)
+            : await _userService.VerifyFolderAccess(id, iamId, Role.Codes.View);
+        return access;
     }
 }
 

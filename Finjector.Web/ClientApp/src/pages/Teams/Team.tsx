@@ -20,6 +20,10 @@ const Team: React.FC = () => {
     return <FinLoader />;
   }
 
+  if (teamModel.error) {
+    return <div>Something went wrong. Ensure you have permission to view this team.</div>;
+  }
+
   const isTeamAdmin = teamModel.data?.team.myTeamPermissions.some(
     (p) => p === "Admin"
   );
@@ -29,6 +33,9 @@ const Team: React.FC = () => {
       <BackLinkBar />
       <div className="page-title mb-3">
         <h1>{teamModel.data?.team.name}</h1>
+        <Link to={`/teams/${id}/admins`} className="btn btn-link">
+          View Team Admins
+        </Link>
       </div>
       <div className="mb-3"></div>
       <SearchBar

@@ -66,6 +66,12 @@ public class TeamController : ControllerBase
     public async Task<IActionResult> Get(int id)
     {
         var iamId = Request.GetCurrentUserIamId();
+        
+        // make sure they have permission to view the team
+        if (await _userService.VerifyFolderWithinTeamAccess(id, iamId, Role.Codes.View) == false)
+        {
+            return Unauthorized();
+        }
 
         var team = await _dbContext.Teams
             .Select(t => new
