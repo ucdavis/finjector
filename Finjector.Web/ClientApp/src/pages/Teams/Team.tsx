@@ -20,6 +20,10 @@ const Team: React.FC = () => {
     return <FinLoader />;
   }
 
+  const isTeamAdmin = teamModel.data?.team.myTeamPermissions.some(
+    (p) => p === "Admin"
+  );
+
   return (
     <div>
       <BackLinkBar />
@@ -37,15 +41,20 @@ const Team: React.FC = () => {
         setSearch={setSearch}
       />
       <div>
-        <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
-          Create New Folder
-        </Link>
-        <Link to={`/teams/${id}/edit`} className="btn btn-new me-3">
-          Edit Team (TODO)
-        </Link>
-        <Link to={`/teams/${id}/permissions`} className="btn btn-new me-3">
-          Manage Team Users
-        </Link>
+        {isTeamAdmin && (
+          <>
+            <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
+              Create New Folder
+            </Link>
+            <Link to={`/teams/${id}/edit`} className="btn btn-new me-3">
+              Edit Team (TODO)
+            </Link>
+            <Link to={`/teams/${id}/permissions`} className="btn btn-new me-3">
+              Manage Team Users
+            </Link>
+          </>
+        )}
+
         {teamModel.data?.team.myTeamPermissions.some((p) => p === "Admin") && (
           <DeleteTeam teamId={id} />
         )}

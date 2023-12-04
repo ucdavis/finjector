@@ -18,7 +18,7 @@ export interface Team {
   name: string;
   description?: string;
   isPersonal: boolean;
-  myTeamPermissions: string[];
+  myTeamPermissions: PermissionType[];
 }
 
 export interface Folder {
@@ -27,11 +27,13 @@ export interface Folder {
   description?: string;
   teamId: number;
   teamName: string;
-  myFolderPermissions: string[];
-  myTeamPermissions: string[];
+  myFolderPermissions: PermissionType[];
+  myTeamPermissions: PermissionType[];
 }
 
 export type CollectionResourceType = "team" | "folder";
+
+export type PermissionType = "Admin" | "Edit" | "View";
 
 /* ----- Query specific response types ------- */
 
@@ -39,7 +41,6 @@ export interface NameAndDescriptionModel {
   name: string;
   description?: string;
 }
-
 
 export interface TeamsResponseModel {
   team: Team;
