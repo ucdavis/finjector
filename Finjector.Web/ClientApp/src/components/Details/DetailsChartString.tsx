@@ -1,8 +1,6 @@
 import React from "react";
-import { faCopy, faPen } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CopyToClipboardHover from "../../shared/CopyToClipboardHover";
-import CopyToClipboard from "../../shared/CopyToClipboard";
+import CopyToClipboardButton from "../../shared/CopyToClipboardButton";
 import { Badge } from "reactstrap";
 
 interface DetailsChartStringProps {
@@ -39,12 +37,11 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
         </CopyToClipboardHover>
       </div>
       <div className="col-1">
-        <CopyToClipboard value={chartString} id="copyPpmGlStringButton">
-          <div className="btn btn-link">
-            <FontAwesomeIcon icon={faCopy} />
-            Copy
-          </div>
-        </CopyToClipboard>
+        <CopyToClipboardButton
+          value={chartString}
+          id="copyPpmGlStringButton"
+          link={true}
+        />
       </div>
     </div>
   );

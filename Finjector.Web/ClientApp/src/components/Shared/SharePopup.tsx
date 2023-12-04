@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Input, InputGroup, Modal, ModalBody, ModalHeader } from "reactstrap";
-import CopyToClipboard from "../../shared/CopyToClipboard";
+import CopyToClipboardButton from "../../shared/CopyToClipboardButton";
 import FinjectorButton from "./FinjectorButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,9 +30,7 @@ const SharePopup: React.FC<SharePopupProps> = ({ chartString, teamId }) => {
         <ModalBody>
           <InputGroup>
             <Input value={url} readOnly={true} />
-            <CopyToClipboard value={url} id="share-copy-url">
-              <FinjectorButton>Copy</FinjectorButton>
-            </CopyToClipboard>
+            <CopyToClipboardButton value={url} id="share-copy-url" />
           </InputGroup>
         </ModalBody>
       </Modal>
