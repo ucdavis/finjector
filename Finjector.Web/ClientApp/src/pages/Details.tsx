@@ -17,6 +17,9 @@ import SharePopup from "../components/Shared/SharePopup";
 import CopyToClipboardHover from "../shared/CopyToClipboardHover";
 import { DetailsRow } from "../components/Details/DetailsRow";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
+
 const Details = () => {
   const { id, chartSegmentString } = useParams();
   const chartDetailsQuery = useGetChartDetails(chartSegmentString || "");
@@ -77,7 +80,10 @@ const Details = () => {
                   : `${chartDetails.chartString}`
               }`}
             >
-              <FinjectorButton>Edit COA</FinjectorButton>
+              <FinjectorButton>
+                <FontAwesomeIcon icon={faPencil} />
+                Edit COA
+              </FinjectorButton>
             </Link>
             <SharePopup chartString={chartDetails.chartString} teamId={id} />
           </div>

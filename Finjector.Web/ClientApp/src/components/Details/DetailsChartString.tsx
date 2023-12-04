@@ -1,5 +1,5 @@
 import React from "react";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { faCopy, faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CopyToClipboardHover from "../../shared/CopyToClipboardHover";
 import CopyToClipboard from "../../shared/CopyToClipboard";

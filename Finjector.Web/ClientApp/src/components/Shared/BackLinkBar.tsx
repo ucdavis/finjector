@@ -16,7 +16,7 @@ export const BackLinkBar = ({ children }: Props) => {
 
   return (
     <>
-      <FinjectorLinkButton onClick={goBack} className="back-link">
+      <FinjectorLinkButton onClick={goBack} className="back-link mb-3">
         <FontAwesomeIcon icon={faArrowLeft} />
         {children ? children : "Back"}
       </FinjectorLinkButton>

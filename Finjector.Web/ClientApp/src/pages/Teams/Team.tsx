@@ -8,6 +8,9 @@ import DeleteTeam from "../../components/Teams/DeleteTeam";
 import LeaveTeam from "../../components/Teams/LeaveTeam";
 import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faUsers, faPencil } from "@fortawesome/free-solid-svg-icons";
+
 const Team: React.FC = () => {
   // get id from url
   const { id = "" } = useParams<{ id: string }>();
@@ -38,12 +41,15 @@ const Team: React.FC = () => {
       />
       <div>
         <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
+          <FontAwesomeIcon icon={faPlus} />
           Create New Folder
         </Link>
         <Link to={`/teams/${id}/edit`} className="btn btn-new me-3">
+          <FontAwesomeIcon icon={faPencil} />
           Edit Team (TODO)
         </Link>
         <Link to={`/teams/${id}/permissions`} className="btn btn-new me-3">
+          <FontAwesomeIcon icon={faUsers} />
           Manage Team Users
         </Link>
         {teamModel.data?.team.myTeamPermissions.some((p) => p === "Admin") && (

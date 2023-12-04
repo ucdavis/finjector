@@ -4,6 +4,9 @@ import { useLeaveTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
 import FinjectorButton from "../Shared/FinjectorButton";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
+
 interface Props {
   teamId: string;
   myPermissions: string[];
@@ -31,7 +34,10 @@ const LeaveTeam = (props: Props) => {
 
   return (
     <>
-      <FinjectorButton onClick={toggleModal}>Leave Team</FinjectorButton>
+      <FinjectorButton onClick={toggleModal}>
+        <FontAwesomeIcon icon={faPersonThroughWindow} />
+        Leave Team
+      </FinjectorButton>
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>Leave Team</ModalHeader>
         <ModalBody>
@@ -44,15 +50,16 @@ const LeaveTeam = (props: Props) => {
           )}
         </ModalBody>
         <ModalFooter>
+          <FinjectorButton color="secondary" onClick={toggleModal}>
+            Cancel
+          </FinjectorButton>
           <FinjectorButton
             color="danger"
             onClick={handleDelete}
             disabled={leaveMutation.isLoading}
           >
+            <FontAwesomeIcon icon={faPersonThroughWindow} />
             Leave
-          </FinjectorButton>
-          <FinjectorButton color="secondary" onClick={toggleModal}>
-            Cancel
           </FinjectorButton>
         </ModalFooter>
       </Modal>
