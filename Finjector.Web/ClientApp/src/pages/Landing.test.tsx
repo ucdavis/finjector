@@ -1,18 +1,25 @@
 import React from "react";
 
 import { cleanupApiMocks, mockApi } from "../util/test";
-import { fakeCharts } from "../util/mockData";
+import { fakeFolders, fakeTeams } from "../util/mockData";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Landing from "./Landing";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { TeamGroupedCoas } from "../types";
 
 afterAll(() => {
   cleanupApiMocks();
 });
 
 const mockSavedChartsCall = () => {
-  mockApi().get("/api/charts/all").reply(200, fakeCharts);
+  const fakeTeamGroups: TeamGroupedCoas[] = [
+    {
+      team: fakeTeams[0],
+      folders: [fakeFolders[0]],
+    },
+  ];
+  mockApi().get("/api/charts/all").reply(200, fakeTeamGroups);
 };
 
 // test main landing page
