@@ -16,13 +16,11 @@ const Folder: React.FC = () => {
   return (
     <div>
       <BackLinkBar />
-      <div className="page-title">
+      <div className="page-title mb-3">
         <h1>{folderModel.data?.folder.name}</h1>
+        <h4>{folderModel.data?.folder.teamName}</h4>
       </div>
-      <div className="page-info mb-3">
-        <p>Team - {folderModel.data?.folder.teamName}</p>
-        <p>Admins: x y z</p>
-      </div>
+      <div className="page-info mb-3"></div>
       <div className="mb-3">
         <SearchBar
           placeholderText="Search Within Folder"

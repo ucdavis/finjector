@@ -40,11 +40,11 @@ const UserManagement: React.FC = () => {
 
     return (
       <div>
+        <BackLinkBar />
         <div className="page-title mb-3">
           <h1>Manage Permissions for x y z</h1>
         </div>
         {errorContent}
-        <BackLinkBar />
       </div>
     );
   }

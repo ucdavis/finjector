@@ -37,7 +37,10 @@ const Selected = () => {
   return (
     <div>
       <BackLinkBar />
-      <h1>Chart Selected</h1>
+      <div className="page-title mb-3">
+        <h1>Chart Selected</h1>
+      </div>
+
       <div>
         <CopyToClipboard value={chart || ""}>
           <code>{chart}</code>
