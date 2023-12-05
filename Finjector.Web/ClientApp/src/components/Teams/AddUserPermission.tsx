@@ -31,7 +31,9 @@ export const AddUserPermission = (props: Props) => {
     setEmail(event.target.value);
   };
 
-  const handleAssignRole = () => {
+  const handleAssignRole = (e: React.FormEvent) => {
+    e.preventDefault();
+    
     addUserMutation.mutate(
       { role, email },
       {
@@ -56,7 +58,7 @@ export const AddUserPermission = (props: Props) => {
     <Modal isOpen={props.active} toggle={resetForm}>
       <ModalHeader toggle={resetForm}>Add New Role</ModalHeader>
       <ModalBody>
-        <form>
+        <form onSubmit={handleAssignRole}>
           <div className="mb-3">
             <label htmlFor="role" className="form-label">
               Role
@@ -91,7 +93,6 @@ export const AddUserPermission = (props: Props) => {
           <FinjectorButton
             type="submit"
             className="btn btn-primary"
-            onClick={handleAssignRole}
             disabled={!formValid || addUserMutation.isLoading}
           >
             {addUserMutation.isLoading

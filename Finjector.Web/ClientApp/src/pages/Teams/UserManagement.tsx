@@ -72,7 +72,7 @@ const UserManagement: React.FC = () => {
         <tbody>
           {membershipQuery.data &&
             membershipQuery.data.map((member) => (
-              <tr key={member.userEmail}>
+              <tr key={`${member.userEmail}-${member.level}`}>
                 <td>{member.userName}</td>
                 <td>{member.userEmail}</td>
                 <td>{member.level}</td>
