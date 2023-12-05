@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Finjector.Core.Data;
 using Finjector.Core.Domain;
 using Finjector.Core.Services;
@@ -8,6 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Finjector.Web.Controllers;
+
+public static class QueryExtensions
+{
+    public static Func<string, Expression<Func<Folder, bool>>> GetFolderCondition = (iamId) => (f =>
+            f.FolderPermissions.Any(fp => fp.User.Iam == iamId) || 
+            f.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId)
+        );
+}
 
 [ApiController]
 [Route("api/[controller]")]
@@ -31,6 +40,8 @@ public class TeamController : ControllerBase
     public async Task<IActionResult> Mine()
     {
         var iamId = Request.GetCurrentUserIamId();
+        
+        var folderCondition = QueryExtensions.GetFolderCondition(iamId);
 
         var teamResults = await _dbContext.Teams.Where(t => t.TeamPermissions.Any(tp => tp.User.Iam == iamId
                 || t.Folders.Any(f => f.FolderPermissions.Any(fp => fp.User.Iam == iamId))
@@ -44,7 +55,7 @@ public class TeamController : ControllerBase
                     t.Description,
                     t.IsPersonal
                 },
-                FolderCount = t.Folders.Count,
+                FolderCount = t.Folders.AsQueryable().Count(folderCondition),
                 Admins = t.TeamPermissions.Select(p => p.User.FirstName + " " + p.User.LastName),
                 TeamPermissionCount = t.TeamPermissions.Select(p => p.UserId).Distinct().Count(),
                 FolderPermissionCount = t.Folders.SelectMany(f => f.FolderPermissions.Select(p => p.UserId)).Distinct()
