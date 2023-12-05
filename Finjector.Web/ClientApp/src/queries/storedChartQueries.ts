@@ -15,6 +15,11 @@ export const useGetSavedCharts = () =>
     { refetchOnWindowFocus: false }
   );
 
+export const useGetChart = (id: string) =>
+  useQuery(["charts", "basic", id], async () => {
+    return await doFetch<Coa>(fetch(`/api/charts/${id}`));
+  });
+
 export const useGetChartDetails = (segmentString: string) =>
   useQuery(
     ["charts", "detail", segmentString],
