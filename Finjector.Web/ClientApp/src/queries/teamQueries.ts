@@ -10,13 +10,9 @@ import {
 const queryClient = new QueryClient();
 
 export const useGetMyTeams = () =>
-  useQuery(
-    ["teams", "me"],
-    async () => {
-      return await doFetch<TeamsResponseModel[]>(fetch(`/api/team`));
-    },
-    { refetchOnWindowFocus: false }
-  );
+  useQuery(["teams", "me"], async () => {
+    return await doFetch<TeamsResponseModel[]>(fetch(`/api/team`));
+  });
 
 export const useGetTeam = (id: string | undefined) =>
   useQuery(
@@ -24,7 +20,7 @@ export const useGetTeam = (id: string | undefined) =>
     async () => {
       return await doFetch<TeamResponseModel>(fetch(`/api/team/${id}`));
     },
-    { enabled: id !== undefined, refetchOnWindowFocus: false }
+    { enabled: id !== undefined }
   );
 
 export const useCreateTeamMutation = () =>
