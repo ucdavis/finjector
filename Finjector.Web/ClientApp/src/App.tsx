@@ -19,6 +19,7 @@ import CreateFolder from "./pages/Teams/CreateFolder";
 import AdminList from "./pages/Teams/AdminList";
 import EditTeam from "./pages/Teams/EditTeam";
 import EditFolder from "./pages/Teams/EditFolder";
+import Breadcrumbs from "./shared/Breadcrumbs";
 
 function App() {
   const userInfoQuery = useUserInfoQuery();
@@ -32,6 +33,7 @@ function App() {
     <BrowserRouter>
       <Header />
       <div className="container">
+        <Breadcrumbs />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/about" element={<About />} />
@@ -41,6 +43,7 @@ function App() {
             <Route path="create" element={<CreateTeam />} />
             <Route path=":id" element={<Team />} />
             <Route path=":id/edit" element={<EditTeam />} />
+            <Route path=":id/folders" element={<Team />} />
             <Route path=":id/folders/create" element={<CreateFolder />} />
             <Route path=":id/folders/:folderId" element={<Folder />} />
             <Route path=":id/folders/:folderId/edit" element={<EditFolder />} />
