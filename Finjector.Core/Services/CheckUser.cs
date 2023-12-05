@@ -56,7 +56,7 @@ namespace Finjector.Core.Services
             try
             {
                 var teams = await _context.Teams.Where(a => a.Owner.Iam == user.Iam && a.IsPersonal).Include(a => a.Folders).ThenInclude(a => a.Coas).ToListAsync();
-                var defaultFolder = teams.SelectMany(a => a.Folders).FirstOrDefault(a => a.Name == "Default");
+                var defaultFolder = teams.SelectMany(a => a.Folders).FirstOrDefault(a => a.IsDefault);
                 if (charts != null && defaultFolder != null)
                 {
                     var existingCharts = await _context.Coas.Where(a => a.FolderId == defaultFolder.Id).ToListAsync();
@@ -175,6 +175,7 @@ namespace Finjector.Core.Services
                     team.Folders.Add(new Folder
                     {
                         Name = "Default",
+                        IsDefault = true,
                         Team = team
                     });
 

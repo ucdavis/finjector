@@ -22,7 +22,8 @@ public class ChartsController : ControllerBase
     private readonly ICheckUser _checkUser;
     private readonly IUserService _userService;
 
-    public ChartsController(AppDbContext dbContext, IIdentityService identityService, ICheckUser checkUser, IUserService userService, IAggieEnterpriseService aggieEnterpriseService)
+    public ChartsController(AppDbContext dbContext, IIdentityService identityService, ICheckUser checkUser,
+        IUserService userService, IAggieEnterpriseService aggieEnterpriseService)
     {
         _dbContext = dbContext;
         _identityService = identityService;
@@ -73,13 +74,40 @@ public class ChartsController : ControllerBase
         }
 
         await _checkUser.MigrateUser(user);
-        
-        // get any chart that belongs to the user's folders or teams.  role doesn't matter.
-        var charts = await _dbContext.Coas.Where(c =>
-            c.Folder.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
-            c.Folder.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId)).ToListAsync();
-        
-        return Ok(charts);
+
+        // get any chart that belongs to the user's folders or teams.  role doesn't matter. nested group under team and folder
+        var charts = await _dbContext.Coas.Include(c => c.Folder).ThenInclude(f => f.Team).Where(c =>
+                c.Folder.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
+                c.Folder.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId))
+            .ToListAsync();
+
+
+        var groupedCharts = charts.GroupBy(c => c.Folder.Team)
+            .Select(g => new
+            {
+                Team = new
+                {
+                    g.Key.Id,
+                    g.Key.Name
+                },
+                Folders = g.GroupBy(c => c.Folder)
+                    .Select(g2 => new
+                    {
+                        g2.Key.Id,
+                        g2.Key.Name,
+                        Coas = g2.Select(c => new
+                        {
+                            c.Id,
+                            c.Name,
+                            c.ChartType,
+                            c.SegmentString,
+                            c.Updated
+                        }).ToList()
+                    })
+            }).ToList();
+
+
+        return Ok(groupedCharts);
     }
 
     [HttpPost("save")]
@@ -91,10 +119,10 @@ public class ChartsController : ControllerBase
         {
             return Unauthorized();
         }
-        
+
         // make sure user exists in the db
         await _userService.EnsureUserExists(iamId);
-        
+
         // verify that user has permission to save this chart if it already exists
         if (chartViewModel.Id > 0)
         {
@@ -109,7 +137,7 @@ public class ChartsController : ControllerBase
             if (await _userService.VerifyFolderAccess(chartViewModel.FolderId, iamId, Role.Codes.Edit) == false)
             {
                 return Unauthorized();
-            } 
+            }
         }
         else
         {
@@ -117,15 +145,17 @@ public class ChartsController : ControllerBase
         }
 
         // use the requested folder if specified, otherwise use the user's default folder
-        var folderToUse = chartViewModel.FolderId > 0 ? await _dbContext.Folders.SingleAsync(f => f.Id == chartViewModel.FolderId) : await _userService.GetPersonalFolder(iamId);
-        
+        var folderToUse = chartViewModel.FolderId > 0
+            ? await _dbContext.Folders.SingleAsync(f => f.Id == chartViewModel.FolderId)
+            : await _userService.GetPersonalFolder(iamId);
+
         // TODO: do we want to update the coa detail here?  do an extra query for up to date info?  send more from the client?
         var coaDetail = await _dbContext.CoaDetails.SingleOrDefaultAsync(cd => cd.Id == chartViewModel.SegmentString);
-        
+
         if (coaDetail == null)
         {
             coaDetail = chartViewModel.SegmentString.ToCoADetail();
-            
+
             await _dbContext.CoaDetails.AddAsync(coaDetail);
         }
 
@@ -141,14 +171,14 @@ public class ChartsController : ControllerBase
             chart = new Coa();
             await _dbContext.Coas.AddAsync(chart);
         }
-        
+
         chart.Folder = folderToUse;
         chart.SegmentString = chartViewModel.SegmentString;
         chart.Detail = coaDetail;
         chart.Name = chartViewModel.Name;
         chart.ChartType = chartViewModel.ChartType;
         chart.Updated = DateTime.UtcNow;
-        
+
         await _dbContext.SaveChangesAsync();
 
         return Ok(chart);
@@ -167,16 +197,16 @@ public class ChartsController : ControllerBase
 
         // delete coa with id
         var chart = await _dbContext.Coas.SingleOrDefaultAsync(c => c.Id == id);
-        
+
         if (chart == null)
         {
             return NotFound();
         }
-        
+
         _dbContext.Coas.Remove(chart);
-        
+
         await _dbContext.SaveChangesAsync();
-        
+
         return Ok();
     }
 

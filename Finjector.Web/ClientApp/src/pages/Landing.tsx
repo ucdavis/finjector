@@ -42,7 +42,7 @@ const Landing = () => {
         </div>
       </div>
 
-      <ChartList charts={savedCharts.data} filter={search} />
+      <ChartList teamGroups={savedCharts.data} filter={search} />
     </div>
   );
 };

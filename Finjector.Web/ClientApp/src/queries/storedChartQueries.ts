@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Coa, ChartType, AeDetails } from "../types";
+import { Coa, ChartType, AeDetails, TeamGroupedCoas } from "../types";
 import { doFetch } from "../util/api";
 
 // Using query functions here in case we change to async/stored stirngs later
 export const useGetSavedCharts = () =>
   useQuery(["charts", "me"], async () => {
-    const charts = await doFetch<Coa[]>(fetch(`/api/charts/all`));
+    const charts = await doFetch<TeamGroupedCoas[]>(fetch(`/api/charts/all`));
 
     return charts;
   });
