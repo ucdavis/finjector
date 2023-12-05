@@ -22,7 +22,9 @@ const ChartList = (props: Props) => {
 
     if (!query) return teamGroups;
 
-    const teamGroupsClone: TeamGroupedCoas[] = JSON.parse(JSON.stringify(teamGroups));
+    const teamGroupsClone: TeamGroupedCoas[] = JSON.parse(
+      JSON.stringify(teamGroups)
+    );
 
     // filter out charts that don't match the search filter
     return teamGroupsClone.filter((teamGroup) => {
@@ -59,7 +61,7 @@ const ChartList = (props: Props) => {
   return (
     <div>
       {filteredTeamGroups.map((teamGroup) => (
-        <div key={teamGroup.team.id}>
+        <div className="team-chart-wrapper" key={teamGroup.team.id}>
           <h2>{teamGroup.team.name}</h2>
           {teamGroup.folders.map((folder) => (
             <div key={folder.id}>
