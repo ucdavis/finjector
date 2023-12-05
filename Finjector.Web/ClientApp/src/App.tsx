@@ -9,7 +9,7 @@ import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
 import Paste from "./pages/Paste";
 import Details from "./pages/Details";
-import Header from "./shared/Header";
+import Header from "./components/Shared/Header";
 import MyTeams from "./pages/Teams/MyTeams";
 import Team from "./pages/Teams/Team";
 import Folder from "./pages/Teams/Folder";

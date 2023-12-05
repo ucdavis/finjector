@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Input, InputGroup, Modal, ModalBody, ModalHeader } from "reactstrap";
-import CopyToClipboardButton from "../../shared/CopyToClipboardButton";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 import FinjectorButton from "./FinjectorButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

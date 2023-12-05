@@ -14,7 +14,7 @@ import PpmDetailsPage from "../components/Details/PpmDetails";
 import { BackLinkBar } from "../components/Shared/BackLinkBar";
 import FinjectorButton from "../components/Shared/FinjectorButton";
 import SharePopup from "../components/Shared/SharePopup";
-import CopyToClipboardHover from "../shared/CopyToClipboardHover";
+import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
 import { DetailsRow } from "../components/Details/DetailsRow";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
