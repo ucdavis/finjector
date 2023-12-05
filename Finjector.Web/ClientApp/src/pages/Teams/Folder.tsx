@@ -8,7 +8,12 @@ import { isPersonalOrDefault } from "../../util/teamDefinitions";
 import ChartListSimple from "../../components/Shared/ChartListSimple";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserTie } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserTie,
+  faPlus,
+  faUsers,
+  faPencil,
+} from "@fortawesome/free-solid-svg-icons";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -68,12 +73,14 @@ const Folder: React.FC = () => {
             to={`/teams/${id}/folders/${folderId}/permissions`}
             className="btn btn-new me-3"
           >
+            <FontAwesomeIcon icon={faUsers} />
             Manage Permissions
           </Link>
           <Link
             to={`/teams/${id}/folders/${folderId}/edit`}
             className="btn btn-new me-3"
           >
+            <FontAwesomeIcon icon={faPencil} />
             Edit Folder (TODO)
           </Link>
         </>
@@ -84,6 +91,7 @@ const Folder: React.FC = () => {
           to={`/entry?folderId=${folderModel.data?.folder.id}`}
           className="btn btn-new me-3"
         >
+          <FontAwesomeIcon icon={faPlus} />
           Create New Chart String In {folderModel.data?.folder.name}
         </Link>
       )}
