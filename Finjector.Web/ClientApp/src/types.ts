@@ -51,8 +51,7 @@ export interface NameAndDescriptionModel {
 export interface TeamsResponseModel {
   team: Team;
   folderCount: number;
-  teamPermissionCount: number;
-  folderPermissionCount: number;
+  uniqueUserPermissionCount: number;
   chartCount: number;
   admins: string[];
 }
@@ -63,7 +62,7 @@ export interface TeamResponseModel {
     {
       folder: Folder;
       chartCount: number;
-      folderMemberCount: number;
+      uniqueUserPermissionCount: number;
     }
   ];
 }

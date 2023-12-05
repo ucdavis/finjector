@@ -32,6 +32,8 @@ public class TeamController : ControllerBase
     {
         var iamId = Request.GetCurrentUserIamId();
 
+        var folderCondition = QueryExtensions.GetFolderCondition(iamId);
+
         var teamResults = await _dbContext.Teams.Where(t => t.TeamPermissions.Any(tp => tp.User.Iam == iamId
                 || t.Folders.Any(f => f.FolderPermissions.Any(fp => fp.User.Iam == iamId))
             ))
@@ -44,12 +46,13 @@ public class TeamController : ControllerBase
                     t.Description,
                     t.IsPersonal
                 },
-                FolderCount = t.Folders.Count,
+                FolderCount = t.Folders.AsQueryable().Count(folderCondition),
                 Admins = t.TeamPermissions.Select(p => p.User.FirstName + " " + p.User.LastName),
-                TeamPermissionCount = t.TeamPermissions.Select(p => p.UserId).Distinct().Count(),
-                FolderPermissionCount = t.Folders.SelectMany(f => f.FolderPermissions.Select(p => p.UserId)).Distinct()
-                    .Count(),
-                ChartCount = t.Folders.SelectMany(f => f.Coas).Count()
+                // select permissions for team plus all folders within that team
+                UniqueUserPermissionCount = t.TeamPermissions.Select(p => p.UserId)
+                    .Union(t.Folders.AsQueryable().Where(folderCondition)
+                        .SelectMany(f => f.FolderPermissions.Select(p => p.UserId))).Distinct().Count(),
+                ChartCount = t.Folders.AsQueryable().Where(folderCondition).SelectMany(f => f.Coas).Count()
             })
             .ToListAsync(
             );
@@ -67,7 +70,7 @@ public class TeamController : ControllerBase
     public async Task<IActionResult> Get(int id)
     {
         var iamId = Request.GetCurrentUserIamId();
-        
+
         // make sure they have permission to view the team
         if (await _userService.VerifyFolderWithinTeamAccess(id, iamId, Role.Codes.View) == false)
         {
@@ -100,8 +103,10 @@ public class TeamController : ControllerBase
             {
                 Folder = f.Key,
                 ChartCount = f.SelectMany(c => c.Coas).Count(),
-                FolderMemberCount =
-                    f.SelectMany(c => c.FolderPermissions).Count(),
+                // select permissions for folder plus team
+                UniqueUserPermissionCount = f.SelectMany(c => c.Team.TeamPermissions.Select(t => t.UserId).Union(c.FolderPermissions.Select(p => p.UserId))).Distinct()
+                    .Count(),
+                
             })
             .ToListAsync();
 
@@ -214,7 +219,7 @@ public class TeamController : ControllerBase
             // otherwise, just remove their permissions
             var teamPermission = await _dbContext.TeamPermissions.Where(tp => tp.TeamId == id && tp.User.Iam == iamId)
                 .ToListAsync();
-            
+
             var folderPermissions = await _dbContext.FolderPermissions
                 .Where(fp => fp.Folder.TeamId == id && fp.User.Iam == iamId)
                 .ToListAsync();
