@@ -24,6 +24,7 @@ export const useSegmentQuery = (
     {
       enabled: query?.length >= minQueryLength, // matches the minimum length of our async search
       staleTime: 1000 * 60, // don't requery same search term for 1 minute
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -39,6 +40,7 @@ export const useTaskQuery = (projectNumber: string, projectValid: boolean) =>
     {
       enabled: projectValid,
       staleTime: 1000 * 60, // don't requery same search term for 1 minute
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -58,6 +60,7 @@ export const useSegmentStringQuery = (
     },
     {
       enabled: segmentString?.length > 0,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -78,6 +81,7 @@ export const useSegmentValidateQuery = (
     },
     {
       enabled,
+      refetchOnWindowFocus: false,
     }
   );
 

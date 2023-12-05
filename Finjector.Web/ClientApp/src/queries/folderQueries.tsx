@@ -10,7 +10,7 @@ export const useGetFolder = (id: string | undefined) =>
     async () => {
       return await doFetch<FolderResponseModel>(fetch(`/api/folder/${id}`));
     },
-    { enabled: id !== undefined }
+    { enabled: id !== undefined, refetchOnWindowFocus: false }
   );
 
 export const useCreateFolderMutation = (teamId: string) =>
