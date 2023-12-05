@@ -50,7 +50,7 @@ const Folder: React.FC = () => {
         <h4>{folderModel.data?.folder.teamName}</h4>
       </div>
       <div className="page-info mb-3">
-        <p>description</p>
+        <p>{folderModel.data?.folder.description}</p>
       </div>
       <div className="mb-3">
         <SearchBar

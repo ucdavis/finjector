@@ -50,7 +50,7 @@ const Team: React.FC = () => {
         <h1>{teamModel.data?.team.name}</h1>
       </div>
       <div className="page-info mb-3">
-        <p>description</p>
+        <p>{teamModel.data?.team.description}</p>
       </div>
       <div className="mb-3"></div>
       <SearchBar
