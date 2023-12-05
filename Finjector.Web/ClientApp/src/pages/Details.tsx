@@ -66,7 +66,7 @@ const Details = () => {
     <div className="main">
       <BackLinkBar />
       <div className="page-title mb-3">
-        <h1>{chartDetails?.chartType} CoA</h1>
+        <h1>{chartDetails?.chartType}</h1>
       </div>
       <div className="row display-content-between mb-3">
         <div className="col-6"></div>

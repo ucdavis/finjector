@@ -19,7 +19,9 @@ const Header = () => (
       <div className="row justify-content-between">
         <div className="col-6">
           <Link to="/">
-            <img src="/media/coa-logo.svg" alt="" />
+            <h1 className="d-flex align-items-center">
+              <img src="/media/ucdavis-white-logo.svg" alt="" /> Finjector
+            </h1>
           </Link>
         </div>
         <div className="col-6 text-end">
@@ -28,7 +30,7 @@ const Header = () => (
           </Link>
           <CenteredBullet />
           <Link className="header-link" to="/teams">
-           Teams
+            Teams
           </Link>
           <CenteredBullet />
           <Link className="header-link" to="/about">
