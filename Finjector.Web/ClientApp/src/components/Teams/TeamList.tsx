@@ -10,8 +10,7 @@ import {
   faFolder,
   faUsers,
   faDollarSign,
-  faList,
-  faDollar,
+  faSitemap,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
@@ -62,7 +61,7 @@ const ChartList = (props: Props) => {
           </div>
           <div className="fin-actions">
             <Link className="bold-link me-3" to={`/teams/${teamInfo.team.id}`}>
-              <FontAwesomeIcon icon={faList} />
+              <FontAwesomeIcon icon={faSitemap} />
               Go to Team
             </Link>
             {!teamInfo.team.isPersonal && (
@@ -70,7 +69,7 @@ const ChartList = (props: Props) => {
                 className="bold-link me-3"
                 to={`/teams/${teamInfo.team.id}/permissions`}
               >
-                <FontAwesomeIcon icon={faList} />
+                <FontAwesomeIcon icon={faUsers} />
                 Manage Users
               </Link>
             )}

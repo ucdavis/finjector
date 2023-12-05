@@ -7,6 +7,14 @@ import FinLoader from "../../components/Shared/FinLoader";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
 import ChartListSimple from "../../components/Shared/ChartListSimple";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUserTie,
+  faPlus,
+  faUsers,
+  faPencil,
+} from "@fortawesome/free-solid-svg-icons";
+
 // show folder info w/ charts
 const Folder: React.FC = () => {
   const { id, folderId } = useParams<{ id: string; folderId: string }>();
@@ -37,17 +45,12 @@ const Folder: React.FC = () => {
   return (
     <div>
       <BackLinkBar />
-      <div className="page-title">
+      <div className="page-title mb-3">
         <h1>{folderModel.data?.folder.name}</h1>
+        <h4>{folderModel.data?.folder.teamName}</h4>
       </div>
       <div className="page-info mb-3">
-        <p>Team - {folderModel.data?.folder.teamName}</p>
-        <Link
-          to={`/teams/${id}/folders/${folderId}/admins`}
-          className="btn btn-link"
-        >
-          View Folder Admins
-        </Link>
+        <p>{folderModel.data?.folder.description}</p>
       </div>
       <div className="mb-3">
         <SearchBar
@@ -56,6 +59,13 @@ const Folder: React.FC = () => {
           setSearch={setSearch}
         />
       </div>
+      <Link
+        to={`/teams/${id}/folders/${folderId}/admins`}
+        className="btn btn-new me-3"
+      >
+        <FontAwesomeIcon icon={faUserTie} />
+        View Folder Admins
+      </Link>
       {/* Admins can manage permissions */}
       {!limitedFolder && combinedPermissions.some((p) => p === "Admin") && (
         <>
@@ -63,12 +73,14 @@ const Folder: React.FC = () => {
             to={`/teams/${id}/folders/${folderId}/permissions`}
             className="btn btn-new me-3"
           >
+            <FontAwesomeIcon icon={faUsers} />
             Manage Permissions
           </Link>
           <Link
             to={`/teams/${id}/folders/${folderId}/edit`}
             className="btn btn-new me-3"
           >
+            <FontAwesomeIcon icon={faPencil} />
             Edit Folder (TODO)
           </Link>
         </>
@@ -79,6 +91,7 @@ const Folder: React.FC = () => {
           to={`/entry?folderId=${folderModel.data?.folder.id}`}
           className="btn btn-new me-3"
         >
+          <FontAwesomeIcon icon={faPlus} />
           Create New Chart String In {folderModel.data?.folder.name}
         </Link>
       )}

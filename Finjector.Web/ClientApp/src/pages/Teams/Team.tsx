@@ -9,6 +9,14 @@ import LeaveTeam from "../../components/Teams/LeaveTeam";
 import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlus,
+  faUsers,
+  faPencil,
+  faUserTie,
+} from "@fortawesome/free-solid-svg-icons";
+
 const Team: React.FC = () => {
   // get id from url
   const { id = "" } = useParams<{ id: string }>();
@@ -40,9 +48,9 @@ const Team: React.FC = () => {
       <BackLinkBar />
       <div className="page-title mb-3">
         <h1>{teamModel.data?.team.name}</h1>
-        <Link to={`/teams/${id}/admins`} className="btn btn-link">
-          View Team Admins
-        </Link>
+      </div>
+      <div className="page-info mb-3">
+        <p>{teamModel.data?.team.description}</p>
       </div>
       <div className="mb-3"></div>
       <SearchBar
@@ -54,16 +62,24 @@ const Team: React.FC = () => {
         search={search}
         setSearch={setSearch}
       />
+
       <div>
+        <Link to={`/teams/${id}/admins`} className="btn btn-new me-3">
+          <FontAwesomeIcon icon={faUserTie} />
+          View Team Admins
+        </Link>
         {!limitedTeam && isTeamAdmin && (
           <>
             <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
+              <FontAwesomeIcon icon={faPlus} />
               Create New Folder
             </Link>
             <Link to={`/teams/${id}/edit`} className="btn btn-new me-3">
+              <FontAwesomeIcon icon={faPencil} />
               Edit Team (TODO)
             </Link>
             <Link to={`/teams/${id}/permissions`} className="btn btn-new me-3">
+              <FontAwesomeIcon icon={faUsers} />
               Manage Team Users
             </Link>
             <DeleteTeam teamId={id} />

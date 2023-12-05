@@ -32,8 +32,21 @@ body {
   background-size: cover;
   padding: 12px 0;
   margin-bottom: 2%;
-  img {
-    width: 235px;
+  a {
+    text-decoration: none;
+    border-bottom: none !important;
+  }
+  h1 {
+    font-size: 1.3rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: $sans-reg;
+    color: #fff;
+    margin-bottom: 0;
+    letter-spacing: 0.08rem;
+    img {
+      margin-right: 4px;
+    }
   }
 }
 // nav
@@ -67,6 +80,8 @@ body {
     }
   }
 }
-footer {
+.footer {
   margin-bottom: 3%;
+  margin-top: 3%;
+  text-align: center;
 }

@@ -50,7 +50,7 @@ const TaskSelector = (props: Props) => {
 
   return (
     <div className="mb-3 col-sm-6">
-      <label className="form-label text-uppercase">Task</label>
+      <label className="form-label">Task</label>
       <Typeahead
         id="task-selector"
         labelKey="code"

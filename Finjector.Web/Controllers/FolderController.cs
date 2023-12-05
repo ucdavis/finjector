@@ -39,6 +39,7 @@ namespace Finjector.Web.Controllers
                 {
                     f.Id,
                     f.Name,
+                    f.Description,
                     TeamName = f.Team.Name,
                     TeamId = f.Team.Id,
                     TeamIsPersonal = f.Team.IsPersonal,

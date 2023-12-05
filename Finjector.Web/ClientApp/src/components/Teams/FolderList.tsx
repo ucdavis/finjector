@@ -8,9 +8,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
-  faBolt,
+  faDollarSign,
   faFolder,
-  faList,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
@@ -47,7 +46,7 @@ const FolderList = (props: Props) => {
                 {folderInfo.folderMemberCount}
               </div>
               <div className="stat-icon">
-                <FontAwesomeIcon icon={faBolt} />
+                <FontAwesomeIcon icon={faDollarSign} />
                 {folderInfo.chartCount}
               </div>
             </div>
@@ -65,7 +64,7 @@ const FolderList = (props: Props) => {
                 className="bold-link me-3"
                 to={`/teams/${teamModel.team.id}/folders/${folderInfo.folder.id}/permissions`}
               >
-                <FontAwesomeIcon icon={faList} />
+                <FontAwesomeIcon icon={faUsers} />
                 Manage Users
               </Link>
             )}

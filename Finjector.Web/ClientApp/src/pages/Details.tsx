@@ -17,6 +17,9 @@ import SharePopup from "../components/Shared/SharePopup";
 import CopyToClipboardHover from "../shared/CopyToClipboardHover";
 import { DetailsRow } from "../components/Details/DetailsRow";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
+
 const Details = () => {
   const { id, chartSegmentString } = useParams();
   const chartDetailsQuery = useGetChartDetails(chartSegmentString || "");
@@ -61,13 +64,12 @@ const Details = () => {
 
   return (
     <div className="main">
+      <BackLinkBar />
       <div className="page-title mb-3">
-        <h1>{chartDetails?.chartType} CoA</h1>
+        <h1>{chartDetails?.chartType}</h1>
       </div>
       <div className="row display-content-between mb-3">
-        <div className="col-6">
-          <BackLinkBar />
-        </div>
+        <div className="col-6"></div>
         {!invalid && (
           <div className="col text-end">
             <Link
@@ -77,7 +79,10 @@ const Details = () => {
                   : `${chartDetails.chartString}`
               }`}
             >
-              <FinjectorButton>Edit COA</FinjectorButton>
+              <FinjectorButton>
+                <FontAwesomeIcon icon={faPencil} />
+                Edit COA
+              </FinjectorButton>
             </Link>
             <SharePopup chartString={chartDetails.chartString} teamId={id} />
           </div>
@@ -119,7 +124,7 @@ const Details = () => {
             {chartDetails.segmentDetails.map((segment, i) => {
               return (
                 <DetailsRow header={segment.entity} key={i}>
-                  <span className="fw-bold primary-font me-3">
+                  <span className="fw-bold primary-font me-4">
                     <CopyToClipboardHover
                       value={segment.code ?? ""}
                       id={`segment-code-${i}`}

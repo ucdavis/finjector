@@ -7,6 +7,9 @@ import { RemoveUserPermission } from "../../components/Teams/RemoveUserPermissio
 import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
 const UserManagement: React.FC = () => {
   // read (team) id and folderId from the url
   const { id, folderId } = useParams();
@@ -37,9 +40,11 @@ const UserManagement: React.FC = () => {
 
     return (
       <div>
-        <h2>Manage Permissions</h2>
-        {errorContent}
         <BackLinkBar />
+        <div className="page-title mb-3">
+          <h1>Manage Permissions for x y z</h1>
+        </div>
+        {errorContent}
       </div>
     );
   }
@@ -47,9 +52,12 @@ const UserManagement: React.FC = () => {
   return (
     <div>
       <BackLinkBar />
-      <h2>Manage Permissions</h2>
-      <FinjectorButton onClick={toggleAddPermission}>
-        + Add New Role
+      <div className="page-title mb-3">
+        <h1>Manage Permissions for x y z</h1>
+      </div>
+      <FinjectorButton className="mb-3" onClick={toggleAddPermission}>
+        <FontAwesomeIcon icon={faPlus} />
+        Add New Role
       </FinjectorButton>
       <table className="table">
         <thead>

@@ -41,6 +41,7 @@ public class TeamController : ControllerBase
                 {
                     t.Id,
                     t.Name,
+                    t.Description,
                     t.IsPersonal
                 },
                 FolderCount = t.Folders.Count,
@@ -78,6 +79,7 @@ public class TeamController : ControllerBase
             {
                 t.Id,
                 t.Name,
+                t.Description,
                 t.IsPersonal,
                 MyTeamPermissions = t.TeamPermissions.Where(tp => tp.User.Iam == iamId).Select(p => p.Role.Name)
             })

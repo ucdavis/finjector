@@ -1,5 +1,5 @@
 .saved-list-item {
-  margin-top: 2%;
+  margin-top: 1.5%;
   border: 1px solid $borders;
   list-style: none;
   // &:hover {
@@ -15,7 +15,7 @@
   }
 }
 .coa-details {
-  margin-top: 2%;
+  margin-top: 1%;
   margin-bottom: 2%;
   border: 1px solid $borders;
   border-radius: 4px;
@@ -74,5 +74,28 @@
 .page-info {
   p {
     margin-bottom: 0;
+  }
+}
+.team-chart-wrapper {
+  margin-top: 2%;
+  h2 {
+    font-family: $sans-bold;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+  }
+  h3 {
+    color: $secondary-font;
+    font-family: $sans-bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+  .saved-list-item:first-child {
+    margin-top: 0;
+  }
+  .list-group {
+    padding-left: 16px;
+    border-left: 2px solid $borders;
+    margin-top: 12px;
+    border-radius: 0px;
   }
 }

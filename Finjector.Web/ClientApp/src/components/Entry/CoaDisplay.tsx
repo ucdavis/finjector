@@ -60,15 +60,13 @@ const CoaDisplay = (props: Props) => {
           {chartString}
           {segmentValidate.data?.segments.award && (
             <div>
-              <label className="form-label text-uppercase">Award:</label>{" "}
+              <label className="form-label">Award:</label>{" "}
               {segmentValidate.data?.segments.award}
             </div>
           )}
           {segmentValidate.data?.segments.fundingSource && (
             <div>
-              <label className="form-label text-uppercase">
-                Funding Source:
-              </label>{" "}
+              <label className="form-label">Funding Source:</label>{" "}
               {segmentValidate.data?.segments.fundingSource}
             </div>
           )}
