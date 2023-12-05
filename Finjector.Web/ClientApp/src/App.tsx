@@ -28,50 +28,42 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="page-wrap">
-        <Header />
-        <div className="container">
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/landing" element={<Landing />} />
-            <Route path="/teams">
-              <Route path="" element={<MyTeams />} />
-              <Route path="create" element={<CreateTeam />} />
-              <Route path=":id" element={<Team />} />
-              <Route path=":id/create" element={<CreateFolder />} />
-              <Route path=":id/folders/:folderId" element={<Folder />} />
-              <Route path=":id/permissions" element={<UserManagement />} />
+      <Header />
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/landing" element={<Landing />} />
+          <Route path="/teams">
+            <Route path="" element={<MyTeams />} />
+            <Route path="create" element={<CreateTeam />} />
+            <Route path=":id" element={<Team />} />
+            <Route path=":id/create" element={<CreateFolder />} />
+            <Route path=":id/folders/:folderId" element={<Folder />} />
+            <Route path=":id/permissions" element={<UserManagement />} />
 
-              <Route
-                path=":id/folders/:folderId/permissions"
-                element={<UserManagement />}
-              />
-              <Route path=":id/admins" element={<AdminList />} />
-              <Route
-                path=":id/folders/:folderId/admins"
-                element={<AdminList />}
-              />
-            </Route>
-            <Route path="/entry">
-              <Route path="" element={<Entry />} />
-              <Route path=":chartSegmentString" element={<Entry />} />
-              <Route path=":id/:chartSegmentString" element={<Entry />} />
-            </Route>
-            <Route path="/details">
-              <Route path=":chartSegmentString" element={<Details />} />
-              <Route path=":id/:chartSegmentString" element={<Details />} />
-            </Route>
-            <Route path="/paste" element={<Paste />} />
-            <Route path="/selected/:id/:chart" element={<Selected />} />
-          </Routes>
-        </div>
-      </div>
-      <div className="footer">
-        <p>
-          Copyright &copy; <span id="copywrite-year"></span> The Regents of the
-          University of California, Davis campus. All rights reserved.
-        </p>
+            <Route
+              path=":id/folders/:folderId/permissions"
+              element={<UserManagement />}
+            />
+            <Route path=":id/admins" element={<AdminList />} />
+            <Route
+              path=":id/folders/:folderId/admins"
+              element={<AdminList />}
+            />
+          </Route>
+          <Route path="/entry">
+            <Route path="" element={<Entry />} />
+            <Route path=":chartSegmentString" element={<Entry />} />
+            <Route path=":id/:chartSegmentString" element={<Entry />} />
+          </Route>
+          <Route path="/details">
+            <Route path=":chartSegmentString" element={<Details />} />
+            <Route path=":id/:chartSegmentString" element={<Details />} />
+          </Route>
+          <Route path="/paste" element={<Paste />} />
+          <Route path="/selected/:id/:chart" element={<Selected />} />
+        </Routes>
       </div>
     </BrowserRouter>
   );
