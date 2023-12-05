@@ -25,9 +25,9 @@ export default function FormComponent(props: Props) {
 
   return (
     <div className="row">
-      <div className="col-md-6">
+      <div className="col-md-7">
         <form className="form" onSubmit={handleSubmit}>
-          <div className="mb-3">
+          <div className="mb-4">
             <label htmlFor="name" className="form-label">
               Name:
             </label>
@@ -44,7 +44,7 @@ export default function FormComponent(props: Props) {
             <div className="invalid-feedback">Please provide a name.</div>
           </div>
 
-          <div className="mb-3">
+          <div className="mb-4">
             <label htmlFor="description" className="form-label">
               Description:
             </label>
