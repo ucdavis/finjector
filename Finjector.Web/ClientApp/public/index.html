@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-5F4GFQJMZJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-5F4GFQJMZJ");
+    </script>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
-      name="description"
-      content="This application was developed by the CAES Dean's Office Computer Resources Unit. It uses the Aggie Enterprise Graph QL to build a COA from the campus data source."
+      name="Finjector UC Davis Chart Strings"
+      content="This application was developed by the CAES Dean's Office Computer Resources Unit. It uses the Aggie Enterprise Graph QL to build a Chart String from the campus data source."
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
@@ -26,20 +40,6 @@
     -->
     <title>Finjector</title>
   </head>
-  <!-- Google tag (gtag.js) -->
-  <script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id=G-5F4GFQJMZJ"
-  ></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-
-    gtag("config", "G-5F4GFQJMZJ");
-  </script>
 
   <body>
     <div class="page-wrap">
