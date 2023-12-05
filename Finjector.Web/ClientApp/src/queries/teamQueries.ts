@@ -48,6 +48,28 @@ export const useCreateTeamMutation = () =>
     }
   );
 
+export const useUpdateTeamMutation = (id: string) =>
+  useMutation(
+    async (team: NameAndDescriptionModel) => {
+      return await doFetch<Team>(
+        fetch(`/api/team/${id}`, {
+          method: "PUT",
+          body: JSON.stringify(team),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      );
+    },
+    {
+      onSuccess: () => {
+        // invalidate teams query so we refetch
+        queryClient.invalidateQueries(["teams", "me"]);
+        queryClient.invalidateQueries(["teams", id]);
+      },
+    }
+  );
+
 export const useDeleteTeamMutation = () =>
   useMutation(
     async (id: string) => {

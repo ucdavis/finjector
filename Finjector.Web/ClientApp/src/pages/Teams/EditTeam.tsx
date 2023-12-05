@@ -1,20 +1,22 @@
 import React from "react";
+import { useGetTeam, useUpdateTeamMutation } from "../../queries/teamQueries";
 import { useNavigate, useParams } from "react-router-dom";
-import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import { useCreateFolderMutation } from "../../queries/folderQueries";
 import { NameAndDescriptionModel } from "../../types";
+import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
 import { BackLinkBar } from "../../components/Shared/BackLinkBar";
+import FinLoader from "../../components/Shared/FinLoader";
 
-const CreateFolder: React.FC = () => {
-  // get the team id from the url
+const EditTeam: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const navigate = useNavigate();
 
-  const createFolderMutation = useCreateFolderMutation(id || "");
+  const teamInfo = useGetTeam(id);
+
+  const updateTeamMutation = useUpdateTeamMutation(id || "");
 
   const handleCreate = async (data: NameAndDescriptionModel) => {
-    await createFolderMutation.mutateAsync(
+    await updateTeamMutation.mutateAsync(
       {
         name: data.name,
         description: data.description,
@@ -30,20 +32,26 @@ const CreateFolder: React.FC = () => {
     );
   };
 
+  if (teamInfo.isLoading) {
+    return <FinLoader />;
+  }
+
   return (
     <div>
       <BackLinkBar />
       <div className="page-title mb-3">
-        <h1>Create New Folder</h1> {/* in Team Name? -river */}
+        <h1>Edit Team</h1>
       </div>
       <NameAndDescriptionForm
-        buttonText={(loading) =>
-          loading ? "Creating..." : "Create New Folder"
-        }
+        initialValues={{
+          name: teamInfo.data?.team.name || "",
+          description: teamInfo.data?.team.description,
+        }}
+        buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
         onSubmit={handleCreate}
       />
     </div>
   );
 };
 
-export default CreateFolder;
+export default EditTeam;

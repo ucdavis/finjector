@@ -81,7 +81,7 @@ const Folder: React.FC = () => {
             className="btn btn-new me-3"
           >
             <FontAwesomeIcon icon={faPencil} />
-            Edit Folder (TODO)
+            Edit Folder
           </Link>
         </>
       )}

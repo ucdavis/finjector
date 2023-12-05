@@ -56,6 +56,38 @@ namespace Finjector.Web.Controllers
             return Ok(new { folder, charts });
         }
 
+        // PUT api/folder/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] NameAndDescriptionModel model)
+        {
+            var iamId = Request.GetCurrentUserIamId();
+
+            var folder = await _dbContext.Folders.FindAsync(id);
+            if (folder == null)
+            {
+                return NotFound();
+            }
+
+            // Check if the user has permission to update the folder
+            if (await _userService.VerifyFolderAccess(id, iamId, Role.Codes.Admin) == false)
+            {
+                return Unauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            folder.Name = model.Name;
+            folder.Description = model.Description;
+
+            _dbContext.Folders.Update(folder);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(folder);
+        }
+
         // POST api/folder?teamId=123
         [HttpPost]
         public async Task<IActionResult> Create(int teamId, [FromBody] NameAndDescriptionModel model)

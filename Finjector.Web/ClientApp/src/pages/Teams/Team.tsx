@@ -70,13 +70,13 @@ const Team: React.FC = () => {
         </Link>
         {!limitedTeam && isTeamAdmin && (
           <>
-            <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
+            <Link to={`/teams/${id}/folders/create`} className="btn btn-new me-3">
               <FontAwesomeIcon icon={faPlus} />
               Create New Folder
             </Link>
             <Link to={`/teams/${id}/edit`} className="btn btn-new me-3">
               <FontAwesomeIcon icon={faPencil} />
-              Edit Team (TODO)
+              Edit Team
             </Link>
             <Link to={`/teams/${id}/permissions`} className="btn btn-new me-3">
               <FontAwesomeIcon icon={faUsers} />
