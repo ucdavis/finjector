@@ -62,11 +62,12 @@ const Team: React.FC = () => {
         search={search}
         setSearch={setSearch}
       />
-      <Link to={`/teams/${id}/admins`} className="btn btn-new me-3">
-        <FontAwesomeIcon icon={faUserTie} />
-        View Team Admins
-      </Link>
+
       <div>
+        <Link to={`/teams/${id}/admins`} className="btn btn-new me-3">
+          <FontAwesomeIcon icon={faUserTie} />
+          View Team Admins
+        </Link>
         {!limitedTeam && isTeamAdmin && (
           <>
             <Link to={`/teams/${id}/create`} className="btn btn-new me-3">
