@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { BackLinkBar } from "../components/Shared/BackLinkBar";
 import CopyToClipboardHover from "../shared/CopyToClipboardHover";
 import CopyToClipboardButton from "../shared/CopyToClipboardButton";
 
@@ -29,7 +28,6 @@ const Selected = () => {
 
   return (
     <div>
-      <BackLinkBar />
       <div className="page-title mb-3">
         <h1>Chart Selected</h1>
       </div>

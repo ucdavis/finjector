@@ -4,7 +4,6 @@ import { usePermissionsQuery } from "../../queries/userQueries";
 import { AddUserPermission } from "../../components/Teams/AddUserPermission";
 import { CollectionResourceType } from "../../types";
 import { RemoveUserPermission } from "../../components/Teams/RemoveUserPermissions";
-import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -40,7 +39,6 @@ const UserManagement: React.FC = () => {
 
     return (
       <div>
-        <BackLinkBar />
         <div className="page-title mb-3">
           <h1>Manage Permissions for x y z</h1>
         </div>
@@ -51,7 +49,6 @@ const UserManagement: React.FC = () => {
 
   return (
     <div>
-      <BackLinkBar />
       <div className="page-title mb-3">
         <h1>Manage Permissions for x y z</h1>
       </div>

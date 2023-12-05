@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { SearchBar } from "../../components/Shared/SearchBar";
 import { Link, useParams } from "react-router-dom";
 import { useGetFolder } from "../../queries/folderQueries";
-import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 import FinLoader from "../../components/Shared/FinLoader";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
 import ChartListSimple from "../../components/Shared/ChartListSimple";
@@ -44,7 +43,6 @@ const Folder: React.FC = () => {
 
   return (
     <div>
-      <BackLinkBar />
       <div className="page-title mb-3">
         <h1>{folderModel.data?.folder.name}</h1>
         <h4>{folderModel.data?.folder.teamName}</h4>

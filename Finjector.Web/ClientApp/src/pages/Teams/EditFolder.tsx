@@ -1,9 +1,7 @@
 import React from "react";
-import { useUpdateTeamMutation } from "../../queries/teamQueries";
 import { useNavigate, useParams } from "react-router-dom";
 import { NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 import FinLoader from "../../components/Shared/FinLoader";
 import {
   useEditFolderMutation,
@@ -42,7 +40,6 @@ const EditFolder: React.FC = () => {
 
   return (
     <div>
-      <BackLinkBar />
       <div className="page-title mb-3">
         <h1>Edit Team</h1>
       </div>

@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 import { useAdminsQuery } from "../../queries/userQueries";
 import { CollectionResourceType } from "../../types";
 
@@ -31,14 +30,12 @@ const AdminList: React.FC = () => {
       <div>
         <h2>View Permissions</h2>
         {errorContent}
-        <BackLinkBar />
       </div>
     );
   }
 
   return (
     <div>
-      <BackLinkBar />
       <h2>View Admins</h2>
       <table className="table">
         <thead>

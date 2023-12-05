@@ -20,6 +20,7 @@ import AdminList from "./pages/Teams/AdminList";
 import EditTeam from "./pages/Teams/EditTeam";
 import EditFolder from "./pages/Teams/EditFolder";
 import Breadcrumbs from "./shared/Breadcrumbs";
+import ChartStringRedirector from "./pages/ChartStringRedirector";
 
 function App() {
   const userInfoQuery = useUserInfoQuery();
@@ -38,6 +39,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/about" element={<About />} />
           <Route path="/landing" element={<Navigate to="/" />} />
+          <Route path="/locator/:type/:id" element={<ChartStringRedirector />} />
           <Route path="/teams">
             <Route path="" element={<MyTeams />} />
             <Route path="create" element={<CreateTeam />} />

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import ChartTypeSelector from "../components/Entry/ChartTypeSelector";
 import GlEntry from "../components/Entry/GlEntry";
 import PpmEntry from "../components/Entry/PpmEntry";
@@ -31,7 +31,6 @@ import {
 import EntryEditButtons from "../components/Entry/EntryEditButtons";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
-import { BackLinkBar } from "../components/Shared/BackLinkBar";
 
 const Entry = () => {
   const { id, chartSegmentString } = useParams();
@@ -92,6 +91,11 @@ const Entry = () => {
     }
   }, [savedChartQuery.data]);
 
+  if (chartSegmentString && chartSegmentString.indexOf("-") === -1) {
+    // if we have a chart segment string, but it doesn't have a dash, it's probably a chart id
+    return <Navigate to={`/locator/entry/${chartSegmentString}`} />;
+  }
+
   const changeChartType = (chartType: ChartType) => {
     setChartData((d) => ({ ...d, chartType: chartType }));
     setSavedChart((c) => ({ ...c, chartType: chartType }));
@@ -102,7 +106,6 @@ const Entry = () => {
       <>
         <ChartLoadingError />
         <hr />
-        <BackLinkBar />
       </>
     );
   }
@@ -114,9 +117,8 @@ const Entry = () => {
 
   return (
     <div className="main">
-      <BackLinkBar />
       <div className="page-title mb-3">
-        <h1>New Chart String</h1>
+        <h1>{id ? "Edit Chart String" : "Create Chart String"}</h1>
       </div>
 
       <h2>Chart Type</h2>
