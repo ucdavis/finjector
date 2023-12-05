@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import CopyToClipboardHover from "../shared/CopyToClipboardHover";
 import CopyToClipboardButton from "../shared/CopyToClipboardButton";
 
 const Selected = () => {
-  const { chart } = useParams();
+  const { id, chart } = useParams();
 
   const [hasOpener, setHasOpener] = React.useState<boolean>(!!window.opener);
 
@@ -25,6 +25,11 @@ const Selected = () => {
       setHasOpener(false);
     }
   }, [chart]);
+  
+  if (chart && !chart.includes("-")) {
+    // if we have a chart segment string, but it doesn't have a dash, it's probably a chart id
+    return <Navigate to={`/locator/selected/${chart}`} />;
+  }
 
   return (
     <div>

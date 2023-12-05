@@ -38,8 +38,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/about" element={<About />} />
-          <Route path="/landing" element={<Navigate to="/" />} />
-          <Route path="/locator/:type/:id" element={<ChartStringRedirector />} />
+          <Route path="/landing" element={<RedirectHome />} />
+          <Route
+            path="/locator/:type/:id"
+            element={<ChartStringRedirector />}
+          />
           <Route path="/teams">
             <Route path="" element={<MyTeams />} />
             <Route path="create" element={<CreateTeam />} />
@@ -70,11 +73,17 @@ function App() {
             <Route path=":id/:chartSegmentString" element={<Details />} />
           </Route>
           <Route path="/paste" element={<Paste />} />
-          <Route path="/selected/:id/:chart" element={<Selected />} />
+          <Route path="/selected">
+            <Route path="" element={<RedirectHome />} />
+            <Route path=":chart" element={<Selected />} />
+            <Route path=":id/:chart" element={<Selected />} />
+          </Route>
         </Routes>
       </div>
     </BrowserRouter>
   );
 }
+
+const RedirectHome = () => <Navigate to="/" />;
 
 export default App;
