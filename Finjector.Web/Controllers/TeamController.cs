@@ -67,7 +67,7 @@ public class TeamController : ControllerBase
     public async Task<IActionResult> Get(int id)
     {
         var iamId = Request.GetCurrentUserIamId();
-        
+
         // make sure they have permission to view the team
         if (await _userService.VerifyFolderWithinTeamAccess(id, iamId, Role.Codes.View) == false)
         {
@@ -153,7 +153,43 @@ public class TeamController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = team.Id }, team);
     }
 
-    // todo -- update team
+    /// <summary>
+    /// Update a team with new information
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="teamModel"></param>
+    /// <returns></returns>
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] NameAndDescriptionModel teamModel)
+    {
+        var iamId = Request.GetCurrentUserIamId();
+
+        // make sure they have permission to update the team
+        if (await _userService.VerifyTeamAccess(id, iamId, Role.Codes.Admin) == false)
+        {
+            return Unauthorized();
+        }
+
+        var team = await _dbContext.Teams.SingleOrDefaultAsync(t => t.Id == id);
+
+        if (team == null)
+        {
+            return NotFound();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        team.Name = teamModel.Name;
+        team.Description = teamModel.Description;
+
+        _dbContext.Teams.Update(team);
+        await _dbContext.SaveChangesAsync();
+
+        return Ok(team);
+    }
 
     /// <summary>
     /// soft delete a team by setting IsActive to false
@@ -214,7 +250,7 @@ public class TeamController : ControllerBase
             // otherwise, just remove their permissions
             var teamPermission = await _dbContext.TeamPermissions.Where(tp => tp.TeamId == id && tp.User.Iam == iamId)
                 .ToListAsync();
-            
+
             var folderPermissions = await _dbContext.FolderPermissions
                 .Where(fp => fp.Folder.TeamId == id && fp.User.Iam == iamId)
                 .ToListAsync();

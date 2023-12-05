@@ -4,6 +4,7 @@ import FinjectorButton from "../Shared/FinjectorButton";
 
 interface Props {
   initialValues?: NameAndDescriptionModel;
+  buttonText: (loading: boolean) => string;
   onSubmit: (formData: NameAndDescriptionModel) => void;
 }
 
@@ -66,7 +67,7 @@ export default function FormComponent(props: Props) {
             className="btn btn-primary"
             disabled={loading}
           >
-            {loading ? "Creating..." : "Create"}
+            {props.buttonText(loading)}
           </FinjectorButton>
         </form>
       </div>
