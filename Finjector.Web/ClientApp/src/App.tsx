@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import { useUserInfoQuery } from "./queries/userQueries";
 import Landing from "./pages/Landing";
@@ -37,7 +37,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/about" element={<About />} />
-          <Route path="/landing" element={<Landing />} />
+          <Route path="/landing" element={<Navigate to="/" />} />
           <Route path="/teams">
             <Route path="" element={<MyTeams />} />
             <Route path="create" element={<CreateTeam />} />
