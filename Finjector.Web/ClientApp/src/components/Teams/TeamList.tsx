@@ -51,7 +51,7 @@ const ChartList = (props: Props) => {
               </div>
               <div className="stat-icon">
                 <FontAwesomeIcon icon={faUsers} />
-                {teamInfo.teamPermissionCount + teamInfo.folderPermissionCount}
+                {teamInfo.uniqueUserPermissionCount}
               </div>
               <div className="stat-icon">
                 <FontAwesomeIcon icon={faDollarSign} />
