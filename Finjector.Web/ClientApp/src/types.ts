@@ -62,7 +62,7 @@ export interface TeamResponseModel {
     {
       folder: Folder;
       chartCount: number;
-      folderMemberCount: number;
+      uniqueUserPermissionCount: number;
     }
   ];
 }

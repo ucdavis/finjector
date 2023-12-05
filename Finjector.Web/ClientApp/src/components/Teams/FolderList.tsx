@@ -43,7 +43,7 @@ const FolderList = (props: Props) => {
             <div className="col-3 d-flex justify-content-end">
               <div className="stat-icon">
                 <FontAwesomeIcon icon={faUsers} />
-                {folderInfo.folderMemberCount}
+                {folderInfo.uniqueUserPermissionCount}
               </div>
               <div className="stat-icon">
                 <FontAwesomeIcon icon={faDollarSign} />
