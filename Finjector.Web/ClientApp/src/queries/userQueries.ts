@@ -4,23 +4,19 @@ import { CollectionResourceType, PermissionsResponseModel } from "../types";
 
 // attempt to fetch user info -- if we get a 401, redirect to login
 export const useUserInfoQuery = () =>
-  useQuery(
-    ["users", "info"],
-    async () => {
-      const res = await fetch("/api/user/info");
+  useQuery(["users", "info"], async () => {
+    const res = await fetch("/api/user/info");
 
-      if (res.ok) {
-        return await res.json();
-      }
+    if (res.ok) {
+      return await res.json();
+    }
 
-      if (res.status === 401) {
-        window.location.href = `/account/login?returnUrl=${window.location.href}`;
-      }
+    if (res.status === 401) {
+      window.location.href = `/account/login?returnUrl=${window.location.href}`;
+    }
 
-      throw new Error(`${res.status} ${res.statusText}`);
-    },
-    { refetchOnWindowFocus: false }
-  );
+    throw new Error(`${res.status} ${res.statusText}`);
+  });
 
 // fetch permission info for a given team or folder
 export const usePermissionsQuery = (id: string, type: CollectionResourceType) =>
@@ -40,7 +36,6 @@ export const usePermissionsQuery = (id: string, type: CollectionResourceType) =>
         // otherwise retry the normal amount
         return failureCount < 3;
       },
-      refetchOnWindowFocus: false,
     }
   );
 
@@ -62,7 +57,6 @@ export const useAdminsQuery = (id: string, type: CollectionResourceType) =>
         // otherwise retry the normal amount
         return failureCount < 3;
       },
-      refetchOnWindowFocus: false,
     }
   );
 
