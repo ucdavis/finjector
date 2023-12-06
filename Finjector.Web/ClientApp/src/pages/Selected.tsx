@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BackLinkBar } from "../components/Shared/BackLinkBar";
-import CopyToClipboardHover from "../shared/CopyToClipboardHover";
-import CopyToClipboardButton from "../shared/CopyToClipboardButton";
+import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
+import CopyToClipboardButton from "../components/Shared/CopyToClipboardButton";
 
 const Selected = () => {
   const { chart } = useParams();
