@@ -34,14 +34,14 @@ const Details = () => {
   const renderLoadingOrError = () => {
     if (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) {
       return (
-        <div className={`coa-details is-none`}>
+        <div className={`chartstring-details is-none`}>
           <FinLoader />
         </div>
       );
     }
     if (chartDetailsQuery.isError) {
       return (
-        <div className={`coa-details is-none`}>
+        <div className={`chartstring-details is-none`}>
           <ChartLoadingError />
         </div>
       );
@@ -52,7 +52,7 @@ const Details = () => {
       chartDetails.chartType === ChartType.INVALID
     ) {
       return (
-        <div className={`coa-details is-none`}>
+        <div className={`chartstring-details is-none`}>
           <ChartNotFound />
         </div>
       );
@@ -111,14 +111,14 @@ const Details = () => {
       {invalid ? (
         renderLoadingOrError()
       ) : (
-        <div className={`coa-details ${isPpmOrGlClassName}`}>
+        <div className={`chartstring-details ${isPpmOrGlClassName}`}>
           <DetailsChartString
             chartType={chartDetails.chartType}
             chartString={chartDetails.chartString}
             isValid={chartDetails.isValid}
             hasWarnings={chartDetails.hasWarnings}
           />
-          <div className="coa-details-info unique-bg">
+          <div className="chartstring-details-info unique-bg">
             {chartDetails.segmentDetails.map((segment, i) => {
               return (
                 <DetailsRow header={segment.entity} key={i}>
@@ -140,7 +140,7 @@ const Details = () => {
               );
             })}
           </div>
-          <div className="coa-details-info">
+          <div className="chartstring-details-info">
             {chartDetails.chartType === ChartType.PPM && (
               <PpmDetailsPage details={chartDetails.ppmDetails} />
             )}

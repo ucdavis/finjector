@@ -4,10 +4,7 @@ import FinLoader from "./FinLoader";
 import { Coa, ChartType } from "../../types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBolt,
-  faScroll,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBolt, faScroll } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   charts: Coa[] | undefined;
@@ -34,13 +31,13 @@ const ChartListSimple = (props: Props) => {
     <ul className="list-group">
       {filteredCharts.map((chart) => (
         <li
-          className={`coa-row ${
+          className={`chartstring-row ${
             chart.chartType === ChartType.PPM ? "is-ppm" : "is-gl"
           } d-flex justify-content-between align-items-center saved-list-item`}
           key={chart.id}
         >
           <div className="col-9 ms-2 me-auto">
-            <div className="coa-type">
+            <div className="chartstring-type">
               <span>{chart.chartType}</span>
             </div>
             <div className="fw-bold "> {chart.name}</div>
