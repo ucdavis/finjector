@@ -31,6 +31,7 @@ import {
 import EntryEditButtons from "../components/Entry/EntryEditButtons";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
+import FolderSearch from "../components/Entry/FolderSearch";
 
 const Entry = () => {
   const { id, chartSegmentString } = useParams();
@@ -149,6 +150,8 @@ const Entry = () => {
             }
           />
         )}
+        <h2>Folder</h2>
+        <FolderSearch />
         <h2>CoA Name</h2>
         <NameEntry
           chart={savedChart}

@@ -56,6 +56,35 @@ namespace Finjector.Web.Controllers
             return Ok(new { folder, charts });
         }
 
+        [HttpGet("search")]
+        [ProducesResponseType(typeof(IEnumerable<Folder>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Search([FromQuery] string query)
+        {
+            var iamId = Request.GetCurrentUserIamId();
+
+            var folders = await _dbContext.Folders
+                .Where(f => (f.Name.Contains(query) || f.Team.Name.Contains(query)) 
+                            && (f.FolderPermissions.Any(fp => fp.User.Iam == iamId) 
+                            || f.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId)))
+                .Select(f => new
+                {
+                    f.Id,
+                    f.Name,
+                    f.Description,
+                    TeamName = f.Team.Name,
+                    TeamId = f.Team.Id,
+                    TeamIsPersonal = f.Team.IsPersonal,
+                    MyFolderPermissions =
+                        f.FolderPermissions.Where(fp => fp.User.Iam == iamId).Select(fp => fp.Role.Name),
+                    MyTeamPermissions = f.Team.TeamPermissions.Where(tp => tp.User.Iam == iamId)
+                        .Select(tp => tp.Role.Name),
+                })
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(folders);
+        }
+
         // PUT api/folder/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] NameAndDescriptionModel model)

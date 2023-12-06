@@ -13,6 +13,19 @@ export const useGetFolder = (id: string | undefined) =>
     { enabled: id !== undefined }
   );
 
+export const useSearchFolders = (query: string, minQueryLength = 3) =>
+  useQuery(
+    ["folders", query],
+    async () => {
+      return await doFetch<Folder[]>(
+        fetch(`/api/folder/search?query=${query}`)
+      );
+    },
+    {
+      enabled: query?.length >= minQueryLength, // matches the minimum length of our async search
+    }
+  );
+
 export const useCreateFolderMutation = (teamId: string) =>
   useMutation(
     async (folder: NameAndDescriptionModel) => {
