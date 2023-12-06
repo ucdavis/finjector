@@ -5,24 +5,33 @@ import {
   Hint,
   Menu,
   MenuItem,
-  Token,
 } from "react-bootstrap-typeahead";
 import { groupBy } from "lodash";
 import { useSearchFolders } from "../../queries/folderQueries";
 import { Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder } from "@fortawesome/free-solid-svg-icons";
-import { Input, InputProps } from "reactstrap";
+import { Input, InputGroup, InputGroupText, InputProps } from "reactstrap";
 import { TypeaheadInputProps } from "react-bootstrap-typeahead/types/types";
 
+// to resolve type differences between reactstrap and react-bootstrap-typeahead for input props
 type SharedKeys = keyof InputProps & keyof TypeaheadInputProps;
 type SharedProps = Pick<InputProps, SharedKeys>;
 
 const FolderSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
+  const [selectedFolder, setSelectedFolder] = useState<Folder>({
+    id: 0,
+    name: "Default",
+    teamName: "Personal",
+    teamId: 0,
+    description: "",
+    myFolderPermissions: [],
+    myTeamPermissions: [],
+    coas: [],
+  });
 
-  const { data, isError, isFetching } = useSearchFolders(searchTerm);
+  const { data, isFetching } = useSearchFolders(searchTerm);
 
   const handleInputChange = (
     text: string,
@@ -46,12 +55,20 @@ const FolderSearch: React.FC = () => {
         //   minLength={minQueryLength}
         onSearch={() => {}}
         onInputChange={handleInputChange}
-        // defaultInputValue={props.segmentData.code}
+        defaultInputValue="Default"
         onChange={handleSelected}
         useCache={false}
         options={data || []} // data
         placeholder={`Search for Folder...`}
-        renderMenu={(results, menuProps) => {
+        renderMenu={(
+          results,
+          {
+            newSelectionPrefix, // we dont want to pass this to the menu or it gets mad
+            paginationText,
+            renderMenuItemChildren,
+            ...menuProps
+          }
+        ) => {
           let index = 0;
           const teamFolders = groupBy(results, "teamName");
           const items = Object.keys(teamFolders)
@@ -85,8 +102,33 @@ const FolderSearch: React.FC = () => {
 
           return <Menu {...menuProps}>{items}</Menu>;
         }}
+        renderInput={(inputProps, props) => {
+          const { inputRef, ...rest } = inputProps;
+          const {
+            referenceElementRef, // we dont want to pass this to the input or gives a warning: "React does not recognize the refEl... prop on a DOM element."
+            ...sharedProps
+          }: SharedProps = rest as SharedProps;
+
+          const selected: any = props.selected[0]; // will always be a single selection
+          return (
+            <Hint>
+              <InputGroup>
+                <InputGroupText>
+                  {selected?.teamName ?? "Personal"}
+                </InputGroupText>
+                <Input
+                  {...sharedProps}
+                  innerRef={inputRef}
+                  aria-owns="typeahead-folder-search"
+                ></Input>
+              </InputGroup>
+            </Hint>
+          );
+        }}
       />
-      <div className="form-text">form text</div>
+      <div className="form-text">
+        Team: {selectedFolder?.teamName}, Folder: {selectedFolder?.name}
+      </div>
     </div>
   );
 };
