@@ -4,6 +4,7 @@ using Finjector.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Finjector.Core.Migrations
 {
     [DbContext(typeof(AppDbContextSqlServer))]
-    partial class AppDbContextSqlServerModelSnapshot : ModelSnapshot
+    [Migration("20231206161200_removeCoaDetail")]
+    partial class removeCoaDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +57,7 @@ namespace Finjector.Core.Migrations
 
                     b.HasIndex("FolderId");
 
-                    b.ToTable("ChartStrings", (string)null);
+                    b.ToTable("Coas");
                 });
 
             modelBuilder.Entity("Finjector.Core.Domain.Folder", b =>

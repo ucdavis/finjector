@@ -24,7 +24,6 @@ namespace Finjector.Core.Domain
         [Required]
         [MaxLength(128)] //Actually 70 I think, but a little play...
         public string SegmentString { get; set; } = string.Empty;
-        public CoaDetail Detail { get; set; } = null!;
 
         [MaxLength(3)]
         public string ChartType { get; set; } = string.Empty;
@@ -34,7 +33,8 @@ namespace Finjector.Core.Domain
 
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Placeholder    
+            //change the table name
+            modelBuilder.Entity<Coa>().ToTable("ChartStrings");
         }
 
         public class ChartTypes

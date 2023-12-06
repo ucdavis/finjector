@@ -69,14 +69,6 @@ namespace Finjector.Core.Services
                             continue;
                         }
 
-                        var detail = await _context.CoaDetails.FirstOrDefaultAsync(a => a.Id == chart.SegmentString);
-                        if (detail == null)
-                        {
-                            detail = SplitIntoSegements(chart.SegmentString, chart.ChartType);
-                            _context.CoaDetails.Add(detail);
-                            await _context.SaveChangesAsync();
-
-                        }
                         var coa = new Coa
                         {
                             ChartType = chart.ChartType,
@@ -84,7 +76,7 @@ namespace Finjector.Core.Services
                             SegmentString = chart.SegmentString,
                             FolderId = defaultFolder.Id
                         };
-                        coa.Detail = detail;
+
                         _context.Coas.Add(coa);
                         await _context.SaveChangesAsync();
                     }
@@ -96,36 +88,6 @@ namespace Finjector.Core.Services
             }
         }
 
-        private CoaDetail SplitIntoSegements(string segmentString, string chartType)
-        {
-            var rtValue = new CoaDetail()
-            {
-                Id = segmentString,
-                ChartType = chartType
-            };
-            if (chartType == "PPM")
-            {
-                var parts = segmentString.Split('-');
-                rtValue.Project        = parts[0];
-                rtValue.Task           = parts[1];
-                rtValue.Department     = parts[2];
-                rtValue.NaturalAccount = parts[3];
-            }
-            if (chartType == "GL")
-            {
-                var parts = segmentString.Split('-');
-                rtValue.Entity         = parts[0];
-                rtValue.Fund           = parts[1];
-                rtValue.Department     = parts[2];
-                rtValue.NaturalAccount = parts[3];
-                rtValue.Purpose        = parts[4];
-                rtValue.Program        = parts[5];
-                rtValue.Project        = parts[6];
-                rtValue.Activity       = parts[7];
-            }
-
-            return rtValue;
-        }
 
         public async Task<User> UpdateUser(User user)
         {

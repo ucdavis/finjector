@@ -149,15 +149,9 @@ public class ChartsController : ControllerBase
             ? await _dbContext.Folders.SingleAsync(f => f.Id == chartViewModel.FolderId)
             : await _userService.GetPersonalFolder(iamId);
 
-        // TODO: do we want to update the coa detail here?  do an extra query for up to date info?  send more from the client?
-        var coaDetail = await _dbContext.CoaDetails.SingleOrDefaultAsync(cd => cd.Id == chartViewModel.SegmentString);
+        
 
-        if (coaDetail == null)
-        {
-            coaDetail = chartViewModel.SegmentString.ToCoADetail();
-
-            await _dbContext.CoaDetails.AddAsync(coaDetail);
-        }
+        
 
         // get the chart or create a new one
         Coa chart;
@@ -174,7 +168,7 @@ public class ChartsController : ControllerBase
 
         chart.Folder = folderToUse;
         chart.SegmentString = chartViewModel.SegmentString;
-        chart.Detail = coaDetail;
+        
         chart.Name = chartViewModel.Name;
         chart.ChartType = chartViewModel.ChartType;
         chart.Updated = DateTime.UtcNow;
