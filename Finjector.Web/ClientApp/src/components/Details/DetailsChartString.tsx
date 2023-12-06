@@ -1,6 +1,6 @@
 import React from "react";
-import CopyToClipboardHover from "../../shared/CopyToClipboardHover";
-import CopyToClipboardButton from "../../shared/CopyToClipboardButton";
+import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
+import CopyToClipboardButton from "../Shared/CopyToClipboardButton";
 import { Badge } from "reactstrap";
 
 interface DetailsChartStringProps {

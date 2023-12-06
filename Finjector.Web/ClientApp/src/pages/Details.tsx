@@ -13,7 +13,7 @@ import DetailsChartString from "../components/Details/DetailsChartString";
 import PpmDetailsPage from "../components/Details/PpmDetails";
 import FinjectorButton from "../components/Shared/FinjectorButton";
 import SharePopup from "../components/Shared/SharePopup";
-import CopyToClipboardHover from "../shared/CopyToClipboardHover";
+import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
 import { DetailsRow } from "../components/Details/DetailsRow";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -50,7 +50,7 @@ const UserManagement: React.FC = () => {
   return (
     <div>
       <div className="page-title mb-3">
-        <h1>Manage Permissions for x y z</h1>
+        <h1>Manage {folderId ? "Folder" : "Team"} Permissions</h1>
       </div>
       <FinjectorButton className="mb-3" onClick={toggleAddPermission}>
         <FontAwesomeIcon icon={faPlus} />

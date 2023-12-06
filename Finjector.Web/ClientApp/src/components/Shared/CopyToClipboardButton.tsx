@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FinjectorButton from "../components/Shared/FinjectorButton";
+import FinjectorButton from "./FinjectorButton";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { renderNameAndEmail } from "../../util/util";
 import { PpmDetails } from "../../types";
-import CopyToClipboardHover from "../../shared/CopyToClipboardHover";
+import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
 import { DetailsRow } from "./DetailsRow";
 
 interface PpmDetailsProps {

@@ -5,15 +5,11 @@ import { doFetch } from "../util/api";
 
 // Using query functions here in case we change to async/stored stirngs later
 export const useGetSavedCharts = () =>
-  useQuery(
-    ["charts", "me"],
-    async () => {
-      const charts = await doFetch<TeamGroupedCoas[]>(fetch(`/api/charts/all`));
+  useQuery(["charts", "me"], async () => {
+    const charts = await doFetch<TeamGroupedCoas[]>(fetch(`/api/charts/all`));
 
-      return charts;
-    },
-    { refetchOnWindowFocus: false }
-  );
+    return charts;
+  });
 
 export const useGetChart = (id: string) =>
   useQuery(["charts", "basic", id], async () => {
@@ -30,7 +26,7 @@ export const useGetChartDetails = (segmentString: string) =>
 
       return chart;
     },
-    { enabled: segmentString.length > 0, refetchOnWindowFocus: false }
+    { enabled: segmentString.length > 0 }
   );
 
 // pull saved chart and return hydrated chartData from server
@@ -56,7 +52,7 @@ export const useGetSavedChartWithData = (id: string) =>
 
       return null;
     },
-    { enabled: id.length > 0, refetchOnWindowFocus: false }
+    { enabled: id.length > 0 }
   );
 
 // save new chart
