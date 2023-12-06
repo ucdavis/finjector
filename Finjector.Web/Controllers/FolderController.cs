@@ -63,9 +63,16 @@ namespace Finjector.Web.Controllers
             var iamId = Request.GetCurrentUserIamId();
 
             var folders = await _dbContext.Folders
+                // is there a better/more efficient way to do this? -river
+                .Include(f => f.FolderPermissions).ThenInclude(fp => fp.User)
+                .Include(f => f.FolderPermissions).ThenInclude(fp => fp.Role)
+                .Include(f => f.Team).ThenInclude(t => t.TeamPermissions).ThenInclude(tp => tp.User)
+                .Include(f => f.Team).ThenInclude(t => t.TeamPermissions).ThenInclude(tp => tp.Role)
                 .Where(f => (f.Name.Contains(query) || f.Team.Name.Contains(query)) 
-                            && (f.FolderPermissions.Any(fp => fp.User.Iam == iamId) 
-                            || f.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId)))
+                    && (f.FolderPermissions.Any(fp => fp.User.Iam == iamId &&
+                        (fp.Role.Name == Role.Codes.Admin || fp.Role.Name == Role.Codes.Edit)) 
+                    || f.Team.TeamPermissions.Any(tp =>  tp.User.Iam == iamId &&
+                        (tp.Role.Name == Role.Codes.Admin || tp.Role.Name == Role.Codes.Edit))))
                 .Select(f => new
                 {
                     f.Id,
@@ -76,8 +83,7 @@ namespace Finjector.Web.Controllers
                     TeamIsPersonal = f.Team.IsPersonal,
                     MyFolderPermissions =
                         f.FolderPermissions.Where(fp => fp.User.Iam == iamId).Select(fp => fp.Role.Name),
-                    MyTeamPermissions = f.Team.TeamPermissions.Where(tp => tp.User.Iam == iamId)
-                        .Select(tp => tp.Role.Name),
+                    MyTeamPermissions = f.Team.TeamPermissions.Where(tp => tp.User.Iam == iamId).Select(tp => tp.Role.Name),
                 })
                 .AsNoTracking()
                 .ToListAsync();
