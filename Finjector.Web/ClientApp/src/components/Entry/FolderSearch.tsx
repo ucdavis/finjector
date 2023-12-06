@@ -11,11 +11,11 @@ import { useSearchFolders } from "../../queries/folderQueries";
 import { Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder } from "@fortawesome/free-solid-svg-icons";
-import { Input, InputGroup, InputGroupText } from "reactstrap";
+import { InputGroup, InputGroupText } from "reactstrap";
 
 const FolderSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedFolder, setSelectedFolder] = useState<Folder>();
+  const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
 
   const { data, isFetching } = useSearchFolders(searchTerm);
 
@@ -45,7 +45,8 @@ const FolderSearch: React.FC = () => {
           //   minLength={minQueryLength}
           onSearch={() => {}}
           onInputChange={handleInputChange}
-          defaultInputValue="Default"
+          //   defaultInputValue="Default"
+          defaultSelected={[{ name: "Default", teamName: "Personal" }]}
           onChange={handleSelected}
           useCache={false}
           options={data || []} // data
