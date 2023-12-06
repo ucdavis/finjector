@@ -11,12 +11,7 @@ import { useSearchFolders } from "../../queries/folderQueries";
 import { Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder } from "@fortawesome/free-solid-svg-icons";
-import { Input, InputGroup, InputGroupText, InputProps } from "reactstrap";
-import { TypeaheadInputProps } from "react-bootstrap-typeahead/types/types";
-
-// to resolve type differences between reactstrap and react-bootstrap-typeahead for input props
-type SharedKeys = keyof InputProps & keyof TypeaheadInputProps;
-type SharedProps = Pick<InputProps, SharedKeys>;
+import { Input, InputGroup, InputGroupText } from "reactstrap";
 
 const FolderSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -103,12 +98,7 @@ const FolderSearch: React.FC = () => {
           return <Menu {...menuProps}>{items}</Menu>;
         }}
         renderInput={(inputProps, props) => {
-          const { inputRef, ...rest } = inputProps;
-          const {
-            referenceElementRef, // we dont want to pass this to the input or gives a warning: "React does not recognize the refEl... prop on a DOM element."
-            ...sharedProps
-          }: SharedProps = rest as SharedProps;
-
+          const { inputRef, type, referenceElementRef, ...rest } = inputProps; // have to separate these out to get the types to play nice
           const selected: any = props.selected[0]; // will always be a single selection
           return (
             <Hint>
@@ -116,11 +106,7 @@ const FolderSearch: React.FC = () => {
                 <InputGroupText>
                   {selected?.teamName ?? "Personal"}
                 </InputGroupText>
-                <Input
-                  {...sharedProps}
-                  innerRef={inputRef}
-                  aria-owns="typeahead-folder-search"
-                ></Input>
+                <Input {...rest} type="search" innerRef={inputRef}></Input>
               </InputGroup>
             </Hint>
           );
