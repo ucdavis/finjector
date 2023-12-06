@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import FinLoader from "../components/Shared/FinLoader";
 
@@ -11,7 +11,6 @@ import { renderNameAndEmail } from "../util/util";
 import { ChartNotFound } from "../components/Shared/ChartNotFound";
 import DetailsChartString from "../components/Details/DetailsChartString";
 import PpmDetailsPage from "../components/Details/PpmDetails";
-import { BackLinkBar } from "../components/Shared/BackLinkBar";
 import FinjectorButton from "../components/Shared/FinjectorButton";
 import SharePopup from "../components/Shared/SharePopup";
 import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
@@ -64,7 +63,6 @@ const Details = () => {
 
   return (
     <div className="main">
-      <BackLinkBar />
       <div className="page-title mb-3">
         <h1>{chartDetails?.chartType}</h1>
       </div>

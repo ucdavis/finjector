@@ -17,13 +17,13 @@ const Landing = () => {
   return (
     <div>
       <div className="page-title mb-3">
-        <h1>My Charts</h1>
+        <h1>My Chart Strings</h1>
       </div>
       <div className="mb-3">
         <input
           type="search"
           className="form-control searchbar"
-          placeholder="Search my saved charts"
+          placeholder="Search my saved chart strings"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -32,12 +32,12 @@ const Landing = () => {
         <div className="d-grid gap-2 d-md-block">
           <Link to="/entry" className="btn btn-new me-3">
             <FontAwesomeIcon icon={faPlus} />
-            New Chartstring from Scratch
+            New Chart String from Scratch
           </Link>
 
           <Link to="/paste" className="btn btn-new">
             <FontAwesomeIcon icon={faPaperclip} />
-            New Chartstring from Paste
+            New Chart String from Paste
           </Link>
         </div>
       </div>

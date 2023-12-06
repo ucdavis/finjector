@@ -3,7 +3,6 @@ import { useCreateTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
 import { NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import { BackLinkBar } from "../../components/Shared/BackLinkBar";
 
 const CreateTeam: React.FC = () => {
   const navigate = useNavigate();
@@ -29,7 +28,6 @@ const CreateTeam: React.FC = () => {
 
   return (
     <div>
-      <BackLinkBar />
       <div className="page-title mb-3">
         <h1>Create New Team</h1>
       </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import { useUserInfoQuery } from "./queries/userQueries";
 import Landing from "./pages/Landing";
@@ -19,6 +19,8 @@ import CreateFolder from "./pages/Teams/CreateFolder";
 import AdminList from "./pages/Teams/AdminList";
 import EditTeam from "./pages/Teams/EditTeam";
 import EditFolder from "./pages/Teams/EditFolder";
+import Breadcrumbs from "./shared/Breadcrumbs";
+import ChartStringRedirector from "./pages/ChartStringRedirector";
 
 function App() {
   const userInfoQuery = useUserInfoQuery();
@@ -32,15 +34,21 @@ function App() {
     <BrowserRouter>
       <Header />
       <div className="container">
+        <Breadcrumbs />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/about" element={<About />} />
-          <Route path="/landing" element={<Landing />} />
+          <Route path="/landing" element={<RedirectHome />} />
+          <Route
+            path="/locator/:type/:id"
+            element={<ChartStringRedirector />}
+          />
           <Route path="/teams">
             <Route path="" element={<MyTeams />} />
             <Route path="create" element={<CreateTeam />} />
             <Route path=":id" element={<Team />} />
             <Route path=":id/edit" element={<EditTeam />} />
+            <Route path=":id/folders" element={<Team />} />
             <Route path=":id/folders/create" element={<CreateFolder />} />
             <Route path=":id/folders/:folderId" element={<Folder />} />
             <Route path=":id/folders/:folderId/edit" element={<EditFolder />} />
@@ -65,11 +73,17 @@ function App() {
             <Route path=":id/:chartSegmentString" element={<Details />} />
           </Route>
           <Route path="/paste" element={<Paste />} />
-          <Route path="/selected/:id/:chart" element={<Selected />} />
+          <Route path="/selected">
+            <Route path="" element={<RedirectHome />} />
+            <Route path=":chart" element={<Selected />} />
+            <Route path=":id/:chart" element={<Selected />} />
+          </Route>
         </Routes>
       </div>
     </BrowserRouter>
   );
 }
+
+const RedirectHome = () => <Navigate to="/" />;
 
 export default App;
