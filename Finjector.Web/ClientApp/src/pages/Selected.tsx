@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import CopyToClipboardHover from "../shared/CopyToClipboardHover";
-import CopyToClipboardButton from "../shared/CopyToClipboardButton";
+import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
+import CopyToClipboardButton from "../components/Shared/CopyToClipboardButton";
 
 const Selected = () => {
   const { id, chart } = useParams();
