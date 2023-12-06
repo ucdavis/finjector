@@ -27,7 +27,7 @@ namespace Finjector.Core.Domain
         public bool IsDefault { get; set; } = false;
 
         [JsonIgnore]
-        public List<Coa> Coas { get; set; } = new List<Coa>();
+        public List<ChartString> ChartStrings { get; set; } = new List<ChartString>();
         
         [JsonIgnore]
         public List<FolderPermission> FolderPermissions { get; set; } = new List<FolderPermission>();
@@ -39,9 +39,9 @@ namespace Finjector.Core.Domain
         {
             modelBuilder.Entity<Folder>().HasQueryFilter(t => t.IsActive);
 
-            modelBuilder.Entity<Coa>()
+            modelBuilder.Entity<ChartString>()
                 .HasOne(a => a.Folder)
-                .WithMany(a => a.Coas)
+                .WithMany(a => a.ChartStrings)
                 .HasForeignKey(a => a.FolderId)
                 .OnDelete(DeleteBehavior.Restrict);
 

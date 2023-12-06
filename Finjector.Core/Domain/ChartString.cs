@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Finjector.Core.Domain
 {
-    public class Coa
+    public class ChartString
     {
         [Key]
         public int Id { get; set; }
@@ -34,7 +34,7 @@ namespace Finjector.Core.Domain
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
             //change the table name
-            modelBuilder.Entity<Coa>().ToTable("ChartStrings");
+            modelBuilder.Entity<ChartString>().ToTable("ChartStrings");
         }
 
         public class ChartTypes

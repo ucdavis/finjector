@@ -154,7 +154,7 @@ public class ChartsController : ControllerBase
         
 
         // get the chart or create a new one
-        Coa chart;
+        ChartString chart;
 
         if (chartViewModel.Id > 0)
         {
@@ -162,7 +162,7 @@ public class ChartsController : ControllerBase
         }
         else
         {
-            chart = new Coa();
+            chart = new ChartString();
             await _dbContext.Coas.AddAsync(chart);
         }
 

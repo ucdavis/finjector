@@ -52,7 +52,7 @@ public class TeamController : ControllerBase
                 UniqueUserPermissionCount = t.TeamPermissions.Select(p => p.UserId)
                     .Union(t.Folders.AsQueryable().Where(folderCondition)
                         .SelectMany(f => f.FolderPermissions.Select(p => p.UserId))).Distinct().Count(),
-                ChartCount = t.Folders.AsQueryable().Where(folderCondition).SelectMany(f => f.Coas).Count()
+                ChartCount = t.Folders.AsQueryable().Where(folderCondition).SelectMany(f => f.ChartStrings).Count()
             })
             .ToListAsync(
             );
@@ -102,7 +102,7 @@ public class TeamController : ControllerBase
             .Select(f => new
             {
                 Folder = f.Key,
-                ChartCount = f.SelectMany(c => c.Coas).Count(),
+                ChartCount = f.SelectMany(c => c.ChartStrings).Count(),
                 // select permissions for folder plus team
                 UniqueUserPermissionCount = f.SelectMany(c => c.Team.TeamPermissions.Select(t => t.UserId).Union(c.FolderPermissions.Select(p => p.UserId))).Distinct()
                     .Count(),

@@ -23,7 +23,7 @@ namespace Finjector.Core.Data
         }
 
         public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<Coa> Coas { get; set; } = null!;
+        public virtual DbSet<ChartString> Coas { get; set; } = null!;
         public virtual DbSet<Folder> Folders { get; set; } = null!;
         public virtual DbSet<FolderPermission> FolderPermissions { get; set; } = null!;
         public virtual DbSet<History> Histories { get; set; } = null!;
@@ -35,7 +35,7 @@ namespace Finjector.Core.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            Coa.OnModelCreating(builder);
+            ChartString.OnModelCreating(builder);
             Folder.OnModelCreating(builder);
             FolderPermission.OnModelCreating(builder);
             Team.OnModelCreating(builder);
