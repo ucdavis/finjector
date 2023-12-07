@@ -13,7 +13,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder } from "@fortawesome/free-solid-svg-icons";
 import { InputGroup, InputGroupText } from "reactstrap";
 
-const FolderSearch: React.FC = () => {
+interface FolderSearchProps {
+  minQueryLength?: number;
+}
+
+const FolderSearch: React.FC = ({ minQueryLength = 3 }: FolderSearchProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
 
@@ -42,19 +46,19 @@ const FolderSearch: React.FC = () => {
           filterBy={() => true} // don't filter since we're doing it on the server
           isLoading={isFetching}
           labelKey="name"
-          //   minLength={minQueryLength}
+          minLength={minQueryLength}
           onSearch={() => {}}
           onInputChange={handleInputChange}
-          //   defaultInputValue="Default"
-          defaultSelected={[{ name: "Default", teamName: "Personal" }]}
+          defaultSelected={selectedFolder ? [selectedFolder] : []}
           onChange={handleSelected}
           useCache={false}
           options={data || []} // data
-          placeholder={`Search for Folder...`}
+          placeholder={`Default`} // instead of having a default, just use placeholder
+          clearButton={true}
           renderMenu={(
             results,
             {
-              newSelectionPrefix, // we dont want to pass this to the menu or it gets mad
+              newSelectionPrefix, // we dont want to pass this to the menu or gives a warning
               paginationText,
               renderMenuItemChildren,
               ...menuProps
