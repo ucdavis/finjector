@@ -60,6 +60,7 @@ const FolderSearch = ({
           filterBy={["name", "teamName"]}
           isLoading={isFetching}
           labelKey="name"
+          placeholder="Default"
           selected={selectedFolder ? [selectedFolder] : []}
           onChange={handleSelected}
           options={data || []} // data
