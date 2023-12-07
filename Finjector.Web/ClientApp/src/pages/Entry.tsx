@@ -151,7 +151,11 @@ const Entry = () => {
           />
         )}
         <h2>Folder</h2>
-        <FolderSearch />
+        <FolderSearch
+          updateFolderId={(folderId) =>
+            setSavedChart((c) => ({ ...c, folderId }))
+          }
+        />
         <h2>CoA Name</h2>
         <NameEntry
           chart={savedChart}

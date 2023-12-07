@@ -2,7 +2,6 @@ import React, { Fragment, useState } from "react";
 import {
   AsyncTypeahead,
   Highlighter,
-  Hint,
   Menu,
   MenuItem,
 } from "react-bootstrap-typeahead";
@@ -14,10 +13,14 @@ import { faFolder } from "@fortawesome/free-solid-svg-icons";
 import { InputGroup, InputGroupText } from "reactstrap";
 
 interface FolderSearchProps {
+  updateFolderId: (folderId: number) => void;
   minQueryLength?: number;
 }
 
-const FolderSearch: React.FC = ({ minQueryLength = 3 }: FolderSearchProps) => {
+const FolderSearch = ({
+  updateFolderId: updateFolder,
+  minQueryLength = 3,
+}: FolderSearchProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
 
@@ -30,8 +33,9 @@ const FolderSearch: React.FC = ({ minQueryLength = 3 }: FolderSearchProps) => {
     setSearchTerm(text);
   };
 
-  const handleSelected = (selected: any) => {
+  const handleSelected = (selected: any[]) => {
     setSelectedFolder(selected[0]);
+    updateFolder(selected[0]?.id ?? 0);
   };
 
   return (
