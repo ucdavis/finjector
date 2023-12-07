@@ -69,7 +69,10 @@ const ChartList = (props: Props) => {
               <h3>{folder.name}</h3>
               <ul className="list-group">
                 {folder.coas.map((chart) => (
-                  <Link to={`/details/${chart.id}/${chart.segmentString}`}>
+                  <Link
+                    className="chartstring-link"
+                    to={`/details/${chart.id}/${chart.segmentString}`}
+                  >
                     <li
                       className={`coa-row ${
                         chart.chartType === ChartType.PPM ? "is-ppm" : "is-gl"
