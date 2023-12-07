@@ -28,7 +28,10 @@ const AdminList: React.FC = () => {
 
     return (
       <div>
-        <h2>View Permissions</h2>
+        <div className="page-title mb-3">
+          <h1>View Admins For X</h1>
+        </div>
+
         {errorContent}
       </div>
     );
@@ -36,7 +39,9 @@ const AdminList: React.FC = () => {
 
   return (
     <div>
-      <h2>View Admins</h2>
+      <div className="page-title mb-3">
+        <h1>View Admins For X</h1>
+      </div>
       <table className="table">
         <thead>
           <tr>
