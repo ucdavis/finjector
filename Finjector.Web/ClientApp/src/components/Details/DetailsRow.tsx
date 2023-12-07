@@ -15,7 +15,7 @@ export const DetailsRow: React.FC<DetailsRowProps> = ({
       <div className="col-3 coa-info-title">
         <h4>{header}</h4>
       </div>
-      <div className="col-9 coa-details-info-right">{children}</div>
+      <div className="col-9 chartstring-details-info-right">{children}</div>
     </div>
   );
 };
