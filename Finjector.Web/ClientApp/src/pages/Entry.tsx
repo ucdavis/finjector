@@ -152,6 +152,7 @@ const Entry = () => {
         )}
         <h2>Folder</h2>
         <FolderSearch
+          selectedFolderId={savedChart.folderId}
           updateFolderId={(folderId) =>
             setSavedChart((c) => ({ ...c, folderId }))
           }

@@ -1,12 +1,12 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
-  AsyncTypeahead,
   Highlighter,
   Menu,
   MenuItem,
+  Typeahead,
 } from "react-bootstrap-typeahead";
 import { groupBy } from "lodash";
-import { useSearchFolders } from "../../queries/folderQueries";
+import { useGetFolderSearchList } from "../../queries/folderQueries";
 import { Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder } from "@fortawesome/free-solid-svg-icons";
@@ -14,24 +14,34 @@ import { InputGroup, InputGroupText } from "reactstrap";
 
 interface FolderSearchProps {
   updateFolderId: (folderId: number) => void;
+  selectedFolderId?: number;
   minQueryLength?: number;
 }
 
 const FolderSearch = ({
   updateFolderId: updateFolder,
-  minQueryLength = 3,
+  selectedFolderId,
 }: FolderSearchProps) => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
 
-  const { data, isFetching } = useSearchFolders(searchTerm);
+  const { data, isFetching } = useGetFolderSearchList();
 
-  const handleInputChange = (
-    text: string,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchTerm(text);
-  };
+  useEffect(() => {
+    if (data) {
+      if (!!selectedFolderId) {
+        // if it already has a folder, set it to that
+        const folder = data?.find((f) => f.id === selectedFolderId);
+        setSelectedFolder(folder);
+      }
+    }
+
+    if (!selectedFolderId) {
+      // if it doesnt have a folder, set it to the default
+      setSelectedFolder(
+        data?.find((f) => f.teamName === "Personal" && f.name === "Default")
+      );
+    }
+  }, [data]); // only do this when data loads
 
   const handleSelected = (selected: any[]) => {
     setSelectedFolder(selected[0]);
@@ -45,19 +55,14 @@ const FolderSearch = ({
         <InputGroupText>
           {selectedFolder?.teamName ?? "Personal"}
         </InputGroupText>
-        <AsyncTypeahead
+        <Typeahead
           id={"typeahead-folder-search"}
-          filterBy={() => true} // don't filter since we're doing it on the server
+          filterBy={["name", "teamName"]}
           isLoading={isFetching}
           labelKey="name"
-          minLength={minQueryLength}
-          onSearch={() => {}}
-          onInputChange={handleInputChange}
-          defaultSelected={selectedFolder ? [selectedFolder] : []}
+          selected={selectedFolder ? [selectedFolder] : []}
           onChange={handleSelected}
-          useCache={false}
           options={data || []} // data
-          placeholder={`Default`} // instead of having a default, just use placeholder
           clearButton={true}
           renderMenu={(
             results,
@@ -66,7 +71,8 @@ const FolderSearch = ({
               paginationText,
               renderMenuItemChildren,
               ...menuProps
-            }
+            },
+            { text }
           ) => {
             let index = 0;
             const teamFolders = groupBy(results, "teamName");
@@ -77,8 +83,7 @@ const FolderSearch = ({
                   {index !== 0 && <Menu.Divider />}
                   <Menu.Header>
                     <h5>
-                      Team:{" "}
-                      <Highlighter search={searchTerm}>{teamName}</Highlighter>
+                      Team: <Highlighter search={text}>{teamName}</Highlighter>
                     </h5>
                   </Menu.Header>
                   {teamFolders[teamName].map((folder: any) => {
@@ -86,9 +91,7 @@ const FolderSearch = ({
                       <MenuItem key={index} option={folder} position={index}>
                         <FontAwesomeIcon icon={faFolder} />{" "}
                         <span>
-                          <Highlighter search={searchTerm}>
-                            {folder.name}
-                          </Highlighter>
+                          <Highlighter search={text}>{folder.name}</Highlighter>
                         </span>
                       </MenuItem>
                     );

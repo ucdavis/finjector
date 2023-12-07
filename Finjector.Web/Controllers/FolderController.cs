@@ -56,9 +56,9 @@ namespace Finjector.Web.Controllers
             return Ok(new { folder, charts });
         }
 
-        [HttpGet("search")]
+        [HttpGet("folderSearchList")]
         [ProducesResponseType(typeof(IEnumerable<Folder>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Search([FromQuery] string query)
+        public async Task<IActionResult> FolderSearchList()
         {
             var iamId = Request.GetCurrentUserIamId();
 
@@ -68,7 +68,7 @@ namespace Finjector.Web.Controllers
                 .Include(f => f.FolderPermissions).ThenInclude(fp => fp.Role)
                 .Include(f => f.Team).ThenInclude(t => t.TeamPermissions).ThenInclude(tp => tp.User)
                 .Include(f => f.Team).ThenInclude(t => t.TeamPermissions).ThenInclude(tp => tp.Role)
-                .Where(f => (f.Name.Contains(query) || f.Team.Name.Contains(query)) 
+                .Where(f => f.IsActive 
                     && (f.FolderPermissions.Any(fp => fp.User.Iam == iamId &&
                         (fp.Role.Name == Role.Codes.Admin || fp.Role.Name == Role.Codes.Edit)) 
                     || f.Team.TeamPermissions.Any(tp =>  tp.User.Iam == iamId &&
@@ -80,10 +80,6 @@ namespace Finjector.Web.Controllers
                     f.Description,
                     TeamName = f.Team.Name,
                     TeamId = f.Team.Id,
-                    TeamIsPersonal = f.Team.IsPersonal,
-                    MyFolderPermissions =
-                        f.FolderPermissions.Where(fp => fp.User.Iam == iamId).Select(fp => fp.Role.Name),
-                    MyTeamPermissions = f.Team.TeamPermissions.Where(tp => tp.User.Iam == iamId).Select(tp => tp.Role.Name),
                 })
                 .AsNoTracking()
                 .ToListAsync();

@@ -13,16 +13,25 @@ export const useGetFolder = (id: string | undefined) =>
     { enabled: id !== undefined }
   );
 
-export const useSearchFolders = (query: string, minQueryLength = 3) =>
+export const useGetFolderSearchList = () =>
   useQuery(
-    ["folders", query],
+    ["folders"],
     async () => {
-      return await doFetch<Folder[]>(
-        fetch(`/api/folder/search?query=${query}`)
-      );
+      return await doFetch<Folder[]>(fetch(`/api/folder/folderSearchList`));
     },
     {
-      enabled: query?.length >= minQueryLength, // matches the minimum length of our async search
+      placeholderData: [
+        {
+          id: 0,
+          name: "Default",
+          teamName: "Personal",
+          teamId: 0,
+          description: "",
+          myFolderPermissions: [],
+          myTeamPermissions: [],
+          coas: [],
+        },
+      ],
     }
   );
 
