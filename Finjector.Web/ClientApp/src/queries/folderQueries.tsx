@@ -14,26 +14,9 @@ export const useGetFolder = (id: string | undefined) =>
   );
 
 export const useGetFolderSearchList = () =>
-  useQuery(
-    ["folders"],
-    async () => {
-      return await doFetch<Folder[]>(fetch(`/api/folder/folderSearchList`));
-    },
-    {
-      placeholderData: [
-        {
-          id: 0,
-          name: "Default",
-          teamName: "Personal",
-          teamId: 0,
-          description: "",
-          myFolderPermissions: [],
-          myTeamPermissions: [],
-          coas: [],
-        },
-      ],
-    }
-  );
+  useQuery(["folders"], async () => {
+    return await doFetch<Folder[]>(fetch(`/api/folder/folderSearchList`));
+  });
 
 export const useCreateFolderMutation = (teamId: string) =>
   useMutation(
