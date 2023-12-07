@@ -18,6 +18,7 @@ import { DetailsRow } from "../components/Details/DetailsRow";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import Truncate from "../components/Shared/Truncate";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -127,14 +128,14 @@ const Details = () => {
                       value={segment.code ?? ""}
                       id={`segment-code-${i}`}
                     >
-                      {segment.code}{" "}
+                      {segment.code ?? ""}{" "}
                     </CopyToClipboardHover>
                   </span>
                   <CopyToClipboardHover
                     value={segment.name ?? ""}
                     id={`segment-name-${i}`}
                   >
-                    {segment.name}{" "}
+                    <Truncate value={segment?.name ?? ""} />{" "}
                   </CopyToClipboardHover>
                 </DetailsRow>
               );

@@ -41,7 +41,7 @@ const FolderList = (props: Props) => {
               </div>
               <p className="row-subtitle">
                 <span style={{ wordWrap: "break-word" }}>
-                  Folder Description Here
+                  {folderInfo.folder.description}
                 </span>
               </p>
             </div>
