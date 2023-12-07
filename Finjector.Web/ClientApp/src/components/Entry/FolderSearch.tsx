@@ -15,7 +15,6 @@ import { InputGroup, InputGroupText } from "reactstrap";
 interface FolderSearchProps {
   updateFolderId: (folderId: number) => void;
   selectedFolderId?: number;
-  minQueryLength?: number;
 }
 
 const FolderSearch = ({
