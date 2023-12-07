@@ -6,6 +6,7 @@ import { ChartType, TeamGroupedCoas } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faScroll } from "@fortawesome/free-solid-svg-icons";
 import { useMemo } from "react";
+import CopyToClipboardHover from "./CopyToClipboardHover";
 
 interface Props {
   teamGroups: TeamGroupedCoas[] | undefined;
@@ -80,7 +81,12 @@ const ChartList = (props: Props) => {
                       </div>
                       <div className="fw-bold "> {chart.name}</div>
                       <span style={{ wordWrap: "break-word" }}>
-                        {chart.segmentString}
+                        <CopyToClipboardHover
+                          value={chart.segmentString}
+                          id={`chart-list-${chart.id}`}
+                        >
+                          {chart.segmentString}
+                        </CopyToClipboardHover>
                       </span>
                     </div>
                     <div className="col-3 text-end">
