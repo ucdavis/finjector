@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams, useSearchParams } from "react-router-dom";
 import ChartTypeSelector from "../components/Entry/ChartTypeSelector";
 import GlEntry from "../components/Entry/GlEntry";
 import PpmEntry from "../components/Entry/PpmEntry";
@@ -35,6 +35,10 @@ import FolderSearch from "../components/Entry/FolderSearch";
 
 const Entry = () => {
   const { id, chartSegmentString } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const folderId = searchParams?.get("folderId")
+    ? parseInt(searchParams.get("folderId") || "")
+    : 0;
 
   const savedChartQuery = useGetSavedChartWithData(id || "");
 
@@ -43,7 +47,7 @@ const Entry = () => {
     chartType: ChartType.PPM,
     name: "",
     segmentString: "",
-    folderId: 0,
+    folderId: folderId,
     updated: new Date(),
   });
 
