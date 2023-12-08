@@ -21,7 +21,8 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
   );
   const [isHovering, setIsHovering] = useState<boolean>(false);
 
-  const handleCopy = () => {
+  const handleCopy = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
     navigator.clipboard.writeText(value).then(() => {
       setTitleText("copied!");
       setTimeout(() => setTitleText(copyToClipboardDefaultMessage), 2000); // Reset title after 2 seconds
@@ -50,7 +51,7 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
             opacity: isHovering ? 1 : 0,
             transition: "opacity 0.2s ease-in-out",
           }}
-          onClick={handleCopy}
+          onClick={(e) => handleCopy(e)}
         >
           <FontAwesomeIcon icon={faCopy} />
         </div>

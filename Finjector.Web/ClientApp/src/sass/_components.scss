@@ -276,3 +276,16 @@ hr {
     }
   }
 }
+
+a.chartstring-link {
+  text-decoration: none !important;
+  padding: 8px;
+  &:hover {
+    .is-ppm {
+      background-color: $ppm-bg;
+    }
+    .is-gl {
+      background-color: $gl-bg;
+    }
+  }
+}
