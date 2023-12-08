@@ -22,9 +22,9 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
       : "warning"
     : "danger";
   return (
-    <div className="coa-details-title d-flex justify-content-between align-items-center">
+    <div className="chartstring-details-title d-flex justify-content-between align-items-center">
       <div className="col-11">
-        <div className="coa-type">
+        <div className="chartstring-type">
           <span>{chartType} </span>
           <div className="div">
             <Badge color={badgeColor} pill={true}>

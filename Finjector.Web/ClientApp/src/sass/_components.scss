@@ -222,14 +222,14 @@ hr {
     transform: translate(69%, 18%);
   }
 }
-.coa-type {
+.chartstring-type {
   font-size: 0.8rem;
   text-transform: uppercase;
   font-family: $sans-bold;
 }
 .is-ppm {
   border-left: 6px solid $ppm !important;
-  .coa-type {
+  .chartstring-type {
     color: $ppm;
   }
   .unique-bg {
@@ -241,7 +241,7 @@ hr {
 }
 .is-gl {
   border-left: 6px solid $gl !important;
-  .coa-type {
+  .chartstring-type {
     color: $gl;
   }
   .unique-bg {

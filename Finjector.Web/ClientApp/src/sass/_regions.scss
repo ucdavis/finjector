@@ -14,16 +14,16 @@
     margin-bottom: 0px;
   }
 }
-.coa-details {
+.chartstring-details {
   margin-top: 1%;
   margin-bottom: 2%;
   border: 1px solid $borders;
   border-radius: 4px;
-  .coa-details-title {
+  .chartstring-details-title {
     padding: 16px 16px 8px 16px;
     border-bottom: 1px solid $borders;
   }
-  .coa-details-info {
+  .chartstring-details-info {
     padding: 16px;
     border-bottom: 1px solid $borders;
     .row {
@@ -37,13 +37,13 @@
       color: $primary-font;
       margin: 0;
     }
-    .coa-details-info-right {
+    .chartstring-details-info-right {
       color: $secondary-font;
       font-size: 1rem;
     }
   }
 }
-.coa-row {
+.chartstring-row {
   border-radius: 4px;
   border: 1px solid $borders !important;
   padding: 8px;
@@ -82,12 +82,28 @@
     font-family: $sans-bold;
     text-transform: uppercase;
     font-size: 1.2rem;
+    margin-bottom: -14px;
   }
   h3 {
     color: $secondary-font;
     font-family: $sans-bold;
     text-transform: uppercase;
     font-size: 0.9rem;
+    svg {
+      height: 9px !important;
+    }
+  }
+  .no-link-style {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      color: $primary-color;
+    }
+    svg {
+      margin-left: 4px;
+      height: 10px;
+      padding-top: 3px;
+    }
   }
   .saved-list-item:first-child {
     margin-top: 0;
@@ -97,5 +113,8 @@
     border-left: 2px solid $borders;
     margin-top: 12px;
     border-radius: 0px;
+  }
+  .folder-chart-wrapper {
+    margin-top: 20px;
   }
 }
