@@ -1,4 +1,7 @@
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import FinLoader from "./FinLoader";
 import { TeamGroupedCoas } from "../../types";
 import ChartListItem from "./ChartListItem";
@@ -58,10 +61,26 @@ const ChartList = (props: Props) => {
     <div>
       {filteredTeamGroups.map((teamGroup) => (
         <div className="team-chart-wrapper" key={teamGroup.team.id}>
-          <h2>{teamGroup.team.name}</h2>
+          <h2>
+            <Link
+              className="no-link-style d-flex vertical-align-top"
+              to={`/teams/${teamGroup.team.id}`}
+            >
+              {teamGroup.team.name}
+              <FontAwesomeIcon icon={faUpRightFromSquare} />
+            </Link>
+          </h2>
           {teamGroup.folders.map((folder) => (
-            <div key={folder.id}>
-              <h3>{folder.name}</h3>
+            <div className="folder-chart-wrapper" key={folder.id}>
+              <h3>
+                <Link
+                  className="no-link-style d-flex vertical-align-top"
+                  to={`/teams/${teamGroup.team.id}/folders/${folder.id}`}
+                >
+                  {folder.name}
+                  <FontAwesomeIcon icon={faUpRightFromSquare} />
+                </Link>
+              </h3>
               <ul className="list-group">
                 {folder.coas.map((chart) => (
                   <ChartListItem key={chart.id} chart={chart} />

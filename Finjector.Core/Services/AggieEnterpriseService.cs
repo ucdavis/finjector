@@ -122,7 +122,7 @@ namespace Finjector.Core.Services
                 }
 
                 SetPpmValidationInfo(aeDetails, data);
-                SetPpmOrgApprovers(aeDetails, data);
+                await SetPpmOrgApprovers(aeDetails, data);
                 SetPoetSegmentDetails(aeDetails, ppmSegments, data);
                 await SetExtraPpmSegmentDetails(aeDetails, data);
                 await SetAwardSpecificPpmGlInfo(aeDetails, data);
