@@ -63,12 +63,7 @@ namespace Finjector.Web.Controllers
             var iamId = Request.GetCurrentUserIamId();
 
             var folders = await _dbContext.Folders
-                // is there a better/more efficient way to do this? -river
-                .Include(f => f.FolderPermissions).ThenInclude(fp => fp.User)
-                .Include(f => f.FolderPermissions).ThenInclude(fp => fp.Role)
-                .Include(f => f.Team).ThenInclude(t => t.TeamPermissions).ThenInclude(tp => tp.User)
-                .Include(f => f.Team).ThenInclude(t => t.TeamPermissions).ThenInclude(tp => tp.Role)
-                .Where(f => f.IsActive 
+               .Where(f => f.IsActive 
                     && (f.FolderPermissions.Any(fp => fp.User.Iam == iamId &&
                         (fp.Role.Name == Role.Codes.Admin || fp.Role.Name == Role.Codes.Edit)) 
                     || f.Team.TeamPermissions.Any(tp =>  tp.User.Iam == iamId &&
