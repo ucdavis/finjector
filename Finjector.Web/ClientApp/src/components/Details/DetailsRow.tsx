@@ -12,10 +12,13 @@ export const DetailsRow: React.FC<DetailsRowProps> = ({
 }) => {
   return (
     <div className="row" {...props}>
-      <div className="col-3 coa-info-title">
+      <div className="col-3 chartstring-info-title">
         <h4>{header}</h4>
       </div>
-      <div className="col-9 chartstring-details-info-right">{children}</div>
+      <div className="col-3 chartstring-details-info-right">{children}</div>
+      <div className="col-5">
+        <div className="charstring-details-names">test Name</div>
+      </div>
     </div>
   );
 };
