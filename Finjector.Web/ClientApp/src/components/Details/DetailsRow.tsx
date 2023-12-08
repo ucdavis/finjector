@@ -1,24 +1,37 @@
 import React from "react";
 
 interface DetailsRowProps extends React.HTMLAttributes<HTMLDivElement> {
-  header: string | null;
-  children: React.ReactNode;
+  headerColText: string | null;
+  column2: React.ReactNode;
+  column3?: React.ReactNode;
 }
 
 export const DetailsRow: React.FC<DetailsRowProps> = ({
-  header,
-  children,
+  headerColText,
+  column2,
+  column3,
   ...props
 }) => {
+  const columns = !column3 ? ( // if only 2 columns
+    <>
+      <div className="col-9 chartstring-details-info-right">{column2}</div>
+    </>
+  ) : (
+    // if 3
+    <>
+      <div className="col-3 chartstring-details-info-right">{column2}</div>
+      <div className="col-5">
+        <div className="charstring-details-names">{column3}</div>
+      </div>
+    </>
+  );
+
   return (
     <div className="row" {...props}>
       <div className="col-3 chartstring-info-title">
-        <h4>{header}</h4>
+        <h4>{headerColText}</h4>
       </div>
-      <div className="col-3 chartstring-details-info-right">{children}</div>
-      <div className="col-5">
-        <div className="charstring-details-names">test Name</div>
-      </div>
+      {columns}
     </div>
   );
 };

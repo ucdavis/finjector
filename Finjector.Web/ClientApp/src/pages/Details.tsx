@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import FinLoader from "../components/Shared/FinLoader";
 
-import { ChartType } from "../types";
+import { AeDetails, ChartType } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
@@ -24,7 +24,7 @@ const Details = () => {
   const { id, chartSegmentString } = useParams();
   const chartDetailsQuery = useGetChartDetails(chartSegmentString || "");
 
-  const chartDetails = chartDetailsQuery.data;
+  const chartDetails: AeDetails | undefined = chartDetailsQuery.data;
 
   const invalid =
     (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) || // if we're doing first fetch
@@ -122,22 +122,28 @@ const Details = () => {
           <div className="chartstring-details-info unique-bg">
             {chartDetails.segmentDetails.map((segment, i) => {
               return (
-                <DetailsRow header={segment.entity} key={i}>
-                  <span className="fw-bold primary-font me-4">
+                <DetailsRow
+                  headerColText={segment.entity}
+                  key={i}
+                  column2={
+                    <span className="fw-bold primary-font me-4">
+                      <CopyToClipboardHover
+                        value={segment.code ?? ""}
+                        id={`segment-code-${i}`}
+                      >
+                        {segment.code ?? ""}{" "}
+                      </CopyToClipboardHover>
+                    </span>
+                  }
+                  column3={
                     <CopyToClipboardHover
-                      value={segment.code ?? ""}
-                      id={`segment-code-${i}`}
+                      value={segment.name ?? ""}
+                      id={`segment-name-${i}`}
                     >
-                      {segment.code ?? ""}{" "}
+                      <Truncate value={segment?.name ?? ""} />{" "}
                     </CopyToClipboardHover>
-                  </span>
-                  <CopyToClipboardHover
-                    value={segment.name ?? ""}
-                    id={`segment-name-${i}`}
-                  >
-                    <Truncate value={segment?.name ?? ""} />{" "}
-                  </CopyToClipboardHover>
-                </DetailsRow>
+                  }
+                />
               );
             })}
           </div>
@@ -145,8 +151,9 @@ const Details = () => {
             {chartDetails.chartType === ChartType.PPM && (
               <PpmDetailsPage details={chartDetails.ppmDetails} />
             )}
-            <DetailsRow header="GL Financial Department SCM Approver(s)">
-              {chartDetails.approvers.map((approver, i) => {
+            <DetailsRow
+              headerColText="GL Financial Department SCM Approver(s)"
+              column2={chartDetails.approvers.map((approver, i) => {
                 return (
                   <div key={i}>
                     <CopyToClipboardHover
@@ -158,7 +165,7 @@ const Details = () => {
                   </div>
                 );
               })}
-            </DetailsRow>
+            />
           </div>
         </div>
       )}
