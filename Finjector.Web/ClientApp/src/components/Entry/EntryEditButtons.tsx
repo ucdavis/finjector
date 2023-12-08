@@ -45,6 +45,7 @@ const EntryEditButtons = (props: Props) => {
     // create a new chart based on the starting point of current chart
     const chartToSave: Coa = {
       ...props.savedChart,
+      folderId: props.savedChart.folderId || 0,
       id: 0,
       name: `${props.savedChart.name} (copy)`,
       segmentString: toSegmentString(props.chartData),

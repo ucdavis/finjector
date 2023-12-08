@@ -13,6 +13,11 @@ export const useGetFolder = (id: string | undefined) =>
     { enabled: id !== undefined }
   );
 
+export const useGetFolderSearchList = () =>
+  useQuery(["folders"], async () => {
+    return await doFetch<Folder[]>(fetch(`/api/folder/folderSearchList`));
+  });
+
 export const useCreateFolderMutation = (teamId: string) =>
   useMutation(
     async (folder: NameAndDescriptionModel) => {
