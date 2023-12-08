@@ -58,10 +58,15 @@
 
     <div class="footer">
       <p>
-        Copyright &copy; <span id="copywrite-year"></span> The Regents of the
+        Copyright &copy; <span id="copyright-year"></span> The Regents of the
         University of California, Davis campus. All rights reserved.
       </p>
     </div>
     <script src="finjector.js?v1"></script>
+    <script>
+      // Set the content of #copyright-year to the current year
+      document.getElementById("copyright-year").textContent = new Date().getFullYear();
+    </script>
+    
   </body>
 </html>
