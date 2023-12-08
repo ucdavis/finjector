@@ -29,16 +29,14 @@ const FolderSearch = ({
     if (data) {
       if (!!selectedFolderId) {
         // if it already has a folder, set it to that
-        const folder = data?.find((f) => f.id === selectedFolderId);
+        const folder = data.find((f) => f.id === selectedFolderId);
         setSelectedFolder(folder);
+      } else {
+        // if it doesnt have a folder, set it to the default
+        setSelectedFolder(
+          data.find((f) => f.teamName === "Personal" && f.name === "Default")
+        );
       }
-    }
-
-    if (!selectedFolderId) {
-      // if it doesnt have a folder, set it to the default
-      setSelectedFolder(
-        data?.find((f) => f.teamName === "Personal" && f.name === "Default")
-      );
     }
   }, [data]); // only do this when data loads
 
