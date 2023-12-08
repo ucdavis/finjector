@@ -47,7 +47,7 @@ const EntryEditButtons = (props: Props) => {
       ...props.savedChart,
       folderId: props.savedChart.folderId || 0,
       id: 0,
-      name: `${props.savedChart.name} (copy)`,
+      name: `${props.savedChart.name}`,
       segmentString: toSegmentString(props.chartData),
     };
 
