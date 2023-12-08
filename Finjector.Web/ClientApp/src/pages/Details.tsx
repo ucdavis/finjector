@@ -140,7 +140,7 @@ const Details = () => {
                       value={segment.name ?? ""}
                       id={`segment-name-${i}`}
                     >
-                      <Truncate value={segment?.name ?? ""} />{" "}
+                      {segment?.name ?? ""}
                     </CopyToClipboardHover>
                   }
                 />
