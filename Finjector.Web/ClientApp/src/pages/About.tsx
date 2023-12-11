@@ -32,8 +32,18 @@ const About = () => {
           >
             Computer Resources Unit
           </a>
-          . It&nbsp;uses the Aggie Enterprise Graph QL to build a COA from the
-          campus data source.
+          . It&nbsp;uses the Aggie Enterprise Graph QL to build a Chart string
+          from the campus data source.
+        </p>
+        <p>
+          FAQ:{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://computing.caes.ucdavis.edu/documentation/finjector"
+          >
+            https://computing.caes.ucdavis.edu/documentation/finjector
+          </a>
         </p>
         You can submit a support ticket:{" "}
         <a href="https://caeshelp.ucdavis.edu/?appname=Finjector">here</a>
