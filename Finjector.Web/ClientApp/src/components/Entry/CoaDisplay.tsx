@@ -25,11 +25,11 @@ const CoaDisplay = (props: Props) => {
 
     if (!chartStructureValid) {
       // chart not even valid so we won't go to server to look it up, show generic message
-      message = "Chart is not yet valid";
+      message = "Chart String is not yet valid";
     } else if (segmentValidate.isLoading) {
       message = "Validating...";
     } else if (segmentValidate.isError) {
-      message = "Error validating chart";
+      message = "Error validating chart string";
       alertType = "danger";
     } else if (
       segmentValidate.data &&
@@ -41,7 +41,7 @@ const CoaDisplay = (props: Props) => {
       segmentValidate.data &&
       segmentValidate.data.validationResponse.valid
     ) {
-      message = "Chart is valid";
+      message = "Chart String is valid";
       alertType = "success";
     }
 
