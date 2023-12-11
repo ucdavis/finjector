@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import {
   Highlighter,
   Menu,
@@ -23,6 +23,8 @@ const FolderSearch = ({
 }: FolderSearchProps) => {
   const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
 
+  const typeaheadRef = useRef<any>();
+
   const { data, isFetching } = useGetFolderSearchList();
 
   useEffect(() => {
@@ -38,11 +40,16 @@ const FolderSearch = ({
         );
       }
     }
-  }, [data]); // only do this when data loads
+  }, [data, selectedFolderId]); // only do this when data loads
 
   const handleSelected = (selected: any[]) => {
     setSelectedFolder(selected[0]);
     updateFolder(selected[0]?.id ?? 0);
+
+    // If the selected array is empty, clear the input and focus it
+    if (selected.length === 0) {
+      typeaheadRef.current?.focus();
+    }
   };
 
   return (
@@ -55,6 +62,7 @@ const FolderSearch = ({
         <Typeahead
           id={"typeahead-folder-search"}
           filterBy={["name", "teamName"]}
+          ref={typeaheadRef}
           isLoading={isFetching}
           labelKey="name"
           placeholder="Default"
