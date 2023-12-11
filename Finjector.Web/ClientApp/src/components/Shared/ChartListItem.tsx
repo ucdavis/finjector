@@ -14,9 +14,21 @@ const ChartListItem = ({ chart }: Props) => {
 
   const navigate = useNavigate();
 
-  const onChartClick = () => {
-    const destination = isInPopup ? "/selected" : "/details";
-    navigate(`${destination}/${chart.id}/${chart.segmentString}`);
+  const onChartClick = (e: any) => {
+    // don't navigate if the user was just selecting text
+    const selection = window.getSelection();
+
+    if (selection && selection.toString()) return;
+
+    // we don't want to navigate if they clicked a link or icon button
+    const tagName = e?.target.tagName.toLowerCase();
+
+    const isActionTag = tagName === "a" || tagName === "svg";
+
+    if (!isActionTag) {
+      const destination = isInPopup ? "/selected" : "/details";
+      navigate(`${destination}/${chart.id}/${chart.segmentString}`);
+    }
   };
 
   return (

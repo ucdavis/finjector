@@ -280,12 +280,12 @@ hr {
 li.chartstring-link {
   text-decoration: none !important;
   padding: 8px;
-  &:hover {
+  :hover {
     cursor: pointer;
-    .is-ppm & {
+    &.is-ppm {
       background-color: $ppm-bg;
     }
-    .is-gl & {
+    &.is-gl {
       background-color: $gl-bg;
     }
   }
