@@ -23,7 +23,8 @@ const ChartListItem = ({ chart }: Props) => {
     // we don't want to navigate if they clicked a link or icon button
     const tagName = e?.target.tagName.toLowerCase();
 
-    const isActionTag = tagName === "a" || tagName === "svg";
+    const isActionTag =
+      tagName === "a" || tagName === "svg" || tagName === "path";
 
     if (!isActionTag) {
       const destination = isInPopup ? "/selected" : "/details";
