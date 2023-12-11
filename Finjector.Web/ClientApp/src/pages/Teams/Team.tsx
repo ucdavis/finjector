@@ -50,7 +50,7 @@ const Team: React.FC = () => {
       <div className="page-info mb-3">
         <p>{teamModel.data?.team.description}</p>
       </div>
-      <div className="mb-3"></div>
+
       <SearchBar
         placeholderText={
           !!teamModel.data?.team.name
@@ -68,7 +68,10 @@ const Team: React.FC = () => {
         </Link>
         {!limitedTeam && isTeamAdmin && (
           <>
-            <Link to={`/teams/${id}/folders/create`} className="btn btn-new me-3">
+            <Link
+              to={`/teams/${id}/folders/create`}
+              className="btn btn-new me-3"
+            >
               <FontAwesomeIcon icon={faPlus} />
               Create New Folder
             </Link>

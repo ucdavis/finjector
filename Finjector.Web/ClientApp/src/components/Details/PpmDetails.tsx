@@ -11,46 +11,64 @@ interface PpmDetailsProps {
 const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
   return (
     <>
-      <DetailsRow header="Project Manager">
-        <CopyToClipboardHover
-          value={details.ppmProjectManager.email ?? ""}
-          id="ppmProjectManagerEmail"
-        >
-          {renderNameAndEmail(
-            details.ppmProjectManager.name,
-            details.ppmProjectManager.email
-          )}
-        </CopyToClipboardHover>
-      </DetailsRow>
-      <DetailsRow header="Project Type">
-        <CopyToClipboardHover
-          value={details.projectTypeName}
-          id="projectTypeName"
-        >
-          {details.projectTypeName}
-        </CopyToClipboardHover>
-      </DetailsRow>
-      <DetailsRow header="Project Start Date">
-        <CopyToClipboardHover
-          value={details.projectStartDate}
-          id="projectStartDate"
-        >
-          {details.projectStartDate}
-        </CopyToClipboardHover>
-      </DetailsRow>
-      <DetailsRow header="Project End Date">
-        <CopyToClipboardHover
-          value={details.projectCompletionDate}
-          id="projectCompletionDate"
-        >
-          {details.projectCompletionDate}
-        </CopyToClipboardHover>
-      </DetailsRow>
-      <DetailsRow header="Project Status">
-        <CopyToClipboardHover value={details.projectStatus} id="projectStatus">
-          {details.projectStatus}
-        </CopyToClipboardHover>
-      </DetailsRow>
+      <DetailsRow
+        headerColText="Project Manager"
+        column2={
+          <CopyToClipboardHover
+            value={details.ppmProjectManager.email ?? ""}
+            id="ppmProjectManagerEmail"
+          >
+            {renderNameAndEmail(
+              details.ppmProjectManager.name,
+              details.ppmProjectManager.email
+            )}
+          </CopyToClipboardHover>
+        }
+      />
+      <DetailsRow
+        headerColText="Project Type"
+        column2={
+          <CopyToClipboardHover
+            value={details.projectTypeName}
+            id="projectTypeName"
+          >
+            {details.projectTypeName}
+          </CopyToClipboardHover>
+        }
+      />
+      <DetailsRow
+        headerColText="Project Start Date"
+        column2={
+          <CopyToClipboardHover
+            value={details.projectStartDate}
+            id="projectStartDate"
+          >
+            {details.projectStartDate}
+          </CopyToClipboardHover>
+        }
+      />
+      <DetailsRow
+        headerColText="Project End Date"
+        column2={
+          <CopyToClipboardHover
+            value={details.projectCompletionDate}
+            id="projectCompletionDate"
+          >
+            {details.projectCompletionDate}
+          </CopyToClipboardHover>
+        }
+      />
+      <DetailsRow
+        headerColText="Project Status"
+        column2={
+          <CopyToClipboardHover
+            value={details.projectStatus}
+            id="projectStatus"
+          >
+            {details.projectStatus}
+          </CopyToClipboardHover>
+        }
+      />
     </>
   );
 };

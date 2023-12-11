@@ -98,10 +98,14 @@ public class TeamController : ControllerBase
                 f.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
                 f.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId))
             .Where(f => f.Team.Id == id)
-            .GroupBy(f => new { f.Id, f.Name })
+            .GroupBy(f => new { f.Id, f.Name, f.Description })
             .Select(f => new
             {
-                Folder = f.Key,
+                Folder = new {
+                    f.Key.Id,
+                    f.Key.Name,
+                    f.Key.Description,
+                },
                 ChartCount = f.SelectMany(c => c.Coas).Count(),
                 // select permissions for folder plus team
                 UniqueUserPermissionCount = f.SelectMany(c => c.Team.TeamPermissions.Select(t => t.UserId).Union(c.FolderPermissions.Select(p => p.UserId))).Distinct()

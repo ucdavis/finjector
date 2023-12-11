@@ -15,7 +15,9 @@ const AdminList: React.FC = () => {
   if (membershipQuery.isLoading) {
     return <div>Loading...</div>;
   }
-
+  const forTeamName = !!membershipQuery?.data?.length
+    ? `For ${membershipQuery.data[0].resourceName}`
+    : "";
   // show error message if user is unauthorized
   if (membershipQuery.isError) {
     var err: Error = membershipQuery.error;
@@ -28,7 +30,9 @@ const AdminList: React.FC = () => {
 
     return (
       <div>
-        <h2>View Permissions</h2>
+        <div className="page-title mb-3">
+          <h1>View Admins {forTeamName}</h1>
+        </div>
         {errorContent}
       </div>
     );
@@ -36,7 +40,9 @@ const AdminList: React.FC = () => {
 
   return (
     <div>
-      <h2>View Admins</h2>
+      <div className="page-title mb-3">
+        <h1>View Admins {forTeamName}</h1>
+      </div>
       <table className="table">
         <thead>
           <tr>
@@ -51,7 +57,7 @@ const AdminList: React.FC = () => {
             membershipQuery.data
               .filter((m) => m.roleName === "Admin")
               .map((member) => (
-                <tr key={member.userEmail}>
+                <tr key={`${member.userEmail}-${member.level}`}>
                   <td>{member.userName}</td>
                   <td>{member.userEmail}</td>
                   <td>{member.level}</td>

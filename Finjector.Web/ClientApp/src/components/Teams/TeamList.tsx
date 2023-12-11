@@ -40,7 +40,7 @@ const ChartList = (props: Props) => {
               <h3 className="row-title">{teamInfo.team.name}</h3>
               <p className="row-subtitle">
                 <span style={{ wordWrap: "break-word" }}>
-                  Admins: {teamInfo.admins.join(", ")}
+                  {teamInfo.team.description}
                 </span>
               </p>
             </div>
