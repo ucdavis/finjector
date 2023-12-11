@@ -14,7 +14,7 @@ const ChartTypeSelector = (props: Props) => {
   return (
     <>
       <div className="chart-type">
-        <p>Select which type of account you will build</p>
+        <p>Select which type of chart string you will build</p>
         <input
           type="radio"
           className="btn-check"

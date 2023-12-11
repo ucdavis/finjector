@@ -26,7 +26,7 @@ const Header = () => (
         </div>
         <div className="col-6 text-end">
           <Link className="header-link" to="/">
-            Charts
+            Chart Strings
           </Link>
           <CenteredBullet />
           <Link className="header-link" to="/teams">

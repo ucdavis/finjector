@@ -18,7 +18,6 @@ import { DetailsRow } from "../components/Details/DetailsRow";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
-import Truncate from "../components/Shared/Truncate";
 
 const Details = () => {
   const { id, chartSegmentString } = useParams();
@@ -80,7 +79,7 @@ const Details = () => {
             >
               <FinjectorButton>
                 <FontAwesomeIcon icon={faPencil} />
-                Edit COA
+                Edit Chart String
               </FinjectorButton>
             </Link>
             <SharePopup chartString={chartDetails.chartString} teamId={id} />

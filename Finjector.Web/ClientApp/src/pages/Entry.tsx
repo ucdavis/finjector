@@ -132,7 +132,7 @@ const Entry = () => {
         setChartType={changeChartType}
       />
       <div className="mt-4 mb-4">
-        <h2>{chartData.chartType} Chart Details</h2>
+        <h2>{chartData.chartType} Chart String Details</h2>
         {chartData.chartType === ChartType.GL ? (
           <GlEntry
             segments={chartData.glSegments}
@@ -161,7 +161,7 @@ const Entry = () => {
             setSavedChart((c) => ({ ...c, folderId }))
           }
         />
-        <h2>CoA Name</h2>
+        <h2>Name</h2>
         <NameEntry
           chart={savedChart}
           updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}

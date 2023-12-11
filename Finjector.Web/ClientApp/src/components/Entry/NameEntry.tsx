@@ -12,7 +12,7 @@ const NameEntry = (props: Props) => {
     <>
       <div className="chart-type">
         <form>
-          <p>Give your CoA a name, something to remember it by</p>
+          <p>Give your chart string a name to remember it by</p>
           <Input
             required
             type="text"

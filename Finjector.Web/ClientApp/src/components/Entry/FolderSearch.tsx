@@ -47,7 +47,7 @@ const FolderSearch = ({
 
   return (
     <div className="mb-3 col-sm-6">
-      <label className="form-label">Folder Search</label>
+      <p>Choose where you would like to store your chart string</p>
       <InputGroup>
         <InputGroupText>
           {selectedFolder?.teamName ?? "Personal"}

@@ -34,7 +34,7 @@ const Selected = () => {
   return (
     <div>
       <div className="page-title mb-3">
-        <h1>Chart Selected</h1>
+        <h1>Chart String Selected</h1>
       </div>
 
       <div>
@@ -47,12 +47,12 @@ const Selected = () => {
       ) : (
         <div>
           <p>
-            You've selected a chart but aren't using Finjector inside a popup
+            You've selected a chart string but aren't using Finjector inside a popup
             window.
           </p>
           <p>
             Click copy to copy this to your clipboard, or head back home to work
-            with another chart.
+            with another chart string.
           </p>
           <CopyToClipboardButton value={chart ?? ""} id="selected" />
         </div>
