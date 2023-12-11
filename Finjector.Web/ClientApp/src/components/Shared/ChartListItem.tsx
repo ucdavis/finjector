@@ -3,16 +3,21 @@ import { Coa, ChartType } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faScroll } from "@fortawesome/free-solid-svg-icons";
 import CopyToClipboardHover from "./CopyToClipboardHover";
+import usePopupStatus from "../../util/customHooks";
 
 interface Props {
   chart: Coa;
 }
 
 const ChartListItem = ({ chart }: Props) => {
+  const isInPopup = usePopupStatus();
+
+  const destination = isInPopup ? "/selected" : "/details";
+
   return (
     <Link
       className="chartstring-link"
-      to={`/details/${chart.id}/${chart.segmentString}`}
+      to={`${destination}/${chart.id}/${chart.segmentString}`}
     >
       <li
         className={`chartstring-row ${

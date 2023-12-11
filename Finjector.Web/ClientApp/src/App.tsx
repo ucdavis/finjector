@@ -21,6 +21,7 @@ import EditTeam from "./pages/Teams/EditTeam";
 import EditFolder from "./pages/Teams/EditFolder";
 import Breadcrumbs from "./shared/Breadcrumbs";
 import ChartStringRedirector from "./pages/ChartStringRedirector";
+import Example from "./pages/Example";
 
 function App() {
   const userInfoQuery = useUserInfoQuery();
@@ -37,6 +38,7 @@ function App() {
         <Breadcrumbs />
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/example" element={<Example />} />
           <Route path="/about" element={<About />} />
           <Route path="/landing" element={<RedirectHome />} />
           <Route
