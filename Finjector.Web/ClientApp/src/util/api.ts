@@ -9,7 +9,7 @@ export const doFetch = async <T>(fetchCall: Promise<Response>): Promise<T> => {
 };
 
 // This is a version of doFetch that doesn't expect a response body
-export const doFetchEmpty = async <T>(
+export const doFetchEmpty = async (
   fetchCall: Promise<Response>
 ): Promise<void> => {
   const res = await fetchCall;

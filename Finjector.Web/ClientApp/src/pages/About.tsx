@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useUserInfoQuery } from "../queries/userQueries";
 import { HomeLinkBar } from "../components/Shared/HomeLinkBar";
 
