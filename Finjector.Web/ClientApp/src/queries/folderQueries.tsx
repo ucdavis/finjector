@@ -1,5 +1,5 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { doFetch } from "../util/api";
+import { doFetch, doFetchEmpty } from "../util/api";
 import { Folder, FolderResponseModel, NameAndDescriptionModel } from "../types";
 
 const queryClient = new QueryClient();
@@ -57,6 +57,24 @@ export const useEditFolderMutation = (teamId: string, folderId: string) =>
         // invalidate team query for this team so the new foldr shows up
         queryClient.invalidateQueries(["teams", teamId]);
         queryClient.invalidateQueries(["folders", folderId]);
+      },
+    }
+  );
+
+export const useDeleteFolderMutation = () =>
+  useMutation(
+    async (id: string) => {
+      return await doFetchEmpty(
+        fetch(`/api/folder/${id}`, {
+          method: "DELETE",
+        })
+      );
+    },
+    {
+      onSuccess: () => {
+        // invalidate teams query so we refetch
+        queryClient.invalidateQueries(["teams", "me"]);
+        queryClient.invalidateQueries(["folders", "me"]);
       },
     }
   );

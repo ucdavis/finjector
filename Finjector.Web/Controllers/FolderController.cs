@@ -168,5 +168,36 @@ namespace Finjector.Web.Controllers
 
             return Ok(folder);
         }
+
+        /// <summary>
+        /// soft delete a folder by setting IsActive to false
+        /// based off the delete team logic
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var iamId = Request.GetCurrentUserIamId();
+
+            // make sure they have permission to delete the team
+            if (await _userService.VerifyFolderAccess(id, iamId, Role.Codes.Admin) == false)
+            {
+                return Unauthorized();
+            }
+
+            var folder = await _dbContext.Folders.SingleOrDefaultAsync(t => t.Id == id);
+
+            if (folder == null)
+            {
+                return NotFound();
+            }
+
+            folder.IsActive = false;
+
+            await _dbContext.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
