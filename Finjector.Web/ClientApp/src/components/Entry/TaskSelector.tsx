@@ -33,7 +33,7 @@ const TaskSelector = (props: Props) => {
         isValid: false,
       });
     }
-  }, [props, props.segmentDependency.isValid]);
+  }, [props, props.segmentDependency.isValid, selection.length]);
 
   const handleSelected = (selected: any) => {
     setSelection(selected);

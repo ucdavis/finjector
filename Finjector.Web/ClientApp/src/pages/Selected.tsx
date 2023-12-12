@@ -4,7 +4,7 @@ import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
 import CopyToClipboardButton from "../components/Shared/CopyToClipboardButton";
 
 const Selected = () => {
-  const { id, chart } = useParams();
+  const { chart } = useParams();
 
   const [hasOpener, setHasOpener] = React.useState<boolean>(!!window.opener);
 

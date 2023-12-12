@@ -35,7 +35,7 @@ import FolderSearch from "../components/Entry/FolderSearch";
 
 const Entry = () => {
   const { id, chartSegmentString } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const folderId = searchParams?.get("folderId")
     ? parseInt(searchParams.get("folderId") || "")
     : 0;
