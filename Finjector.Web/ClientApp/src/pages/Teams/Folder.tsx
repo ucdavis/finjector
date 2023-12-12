@@ -5,6 +5,7 @@ import { useGetFolder } from "../../queries/folderQueries";
 import FinLoader from "../../components/Shared/FinLoader";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
 import ChartListSimple from "../../components/Shared/ChartListSimple";
+import DeleteFolder from "../../components/Folders/DeleteFolder";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -81,6 +82,7 @@ const Folder: React.FC = () => {
             <FontAwesomeIcon icon={faPencil} />
             Edit Folder
           </Link>
+          {folderId && <DeleteFolder folderId={folderId} />}
         </>
       )}
       {/* Editors & above can create new chart strings */}
