@@ -18,33 +18,37 @@ interface FolderSearchProps {
 }
 
 const FolderSearch = ({
-  updateFolderId: updateFolder,
+  updateFolderId,
   selectedFolderId,
 }: FolderSearchProps) => {
   const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
 
   const typeaheadRef = useRef<any>();
+  const initialFolderId = useRef(selectedFolderId);
 
   const { data, isFetching } = useGetFolderSearchList();
 
   useEffect(() => {
+    // when data loads, set the state of the typeahead to the selected folder
+    // so that it pre-populates the dropdown with the correct folder
+    // only need to do this once, otherwise it causes weird issues on clear
     if (data) {
-      if (!!selectedFolderId) {
-        // if it already has a folder, set it to that
-        const folder = data.find((f) => f.id === selectedFolderId);
+      const folder = data.find((f) => f.id === initialFolderId.current);
+      if (!!folder) {
+        // if it already has a folder that user has permission to save to, set it to that
         setSelectedFolder(folder);
       } else {
-        // if it doesnt have a folder, set it to the default
+        // otherwise, set it to the default
         setSelectedFolder(
           data.find((f) => f.teamName === "Personal" && f.name === "Default")
         );
       }
     }
-  }, [data, selectedFolderId]); // only do this when data loads
+  }, [data, initialFolderId]);
 
   const handleSelected = (selected: any[]) => {
     setSelectedFolder(selected[0]);
-    updateFolder(selected[0]?.id ?? 0);
+    updateFolderId(selected[0]?.id ?? 0);
 
     // If the selected array is empty, clear the input and focus it
     if (selected.length === 0) {
