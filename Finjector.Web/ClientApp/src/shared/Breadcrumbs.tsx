@@ -10,6 +10,9 @@ const Breadcrumbs = () => {
     return null; // Don't render anything if we are on the homepage or the base /locator path
   }
 
+  // TODO: remove we just want to hide the crumbs
+  return null;
+
   return (
     <Breadcrumb>
       <BreadcrumbItem>
