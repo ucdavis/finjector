@@ -63,13 +63,11 @@ const Details = () => {
 
   return (
     <div className="main">
-      <div className="page-title mb-3">
+      <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <h1>{chartDetails?.chartType}</h1>
-      </div>
-      <div className="row display-content-between mb-3">
-        <div className="col-6"></div>
+
         {!invalid && (
-          <div className="col text-end">
+          <div className="col-md-9 text-end">
             <Link
               to={`/entry/${
                 id
@@ -86,6 +84,7 @@ const Details = () => {
           </div>
         )}
       </div>
+
       {!!chartDetails && (
         <div>
           {chartDetails.errors.length > 0 &&

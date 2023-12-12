@@ -44,8 +44,44 @@ const Team: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title mb-3">
+      <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <h1>{teamModel.data?.team.name}</h1>
+        <div className="col-md-10 text-end">
+          <Link to={`/teams/${id}/admins`} className="btn btn-new me-3">
+            <FontAwesomeIcon icon={faUserTie} />
+            View Team Admins
+          </Link>
+          {!limitedTeam && isTeamAdmin && (
+            <>
+              <Link
+                to={`/teams/${id}/folders/create`}
+                className="btn btn-new me-3"
+              >
+                <FontAwesomeIcon icon={faPlus} />
+                Create New Folder
+              </Link>
+              <Link to={`/teams/${id}/edit`} className="btn btn-new me-3">
+                <FontAwesomeIcon icon={faPencil} />
+                Edit Team
+              </Link>
+              <Link
+                to={`/teams/${id}/permissions`}
+                className="btn btn-new me-3"
+              >
+                <FontAwesomeIcon icon={faUsers} />
+                Manage Team Users
+              </Link>
+              <DeleteTeam teamId={id} />
+            </>
+          )}
+
+          {!limitedTeam && (
+            <LeaveTeam
+              teamId={id}
+              myPermissions={teamModel.data?.team.myTeamPermissions || []}
+            />
+          )}
+        </div>
       </div>
       <div className="page-info mb-3">
         <p>{teamModel.data?.team.description}</p>
@@ -60,40 +96,6 @@ const Team: React.FC = () => {
         search={search}
         setSearch={setSearch}
       />
-
-      <div>
-        <Link to={`/teams/${id}/admins`} className="btn btn-new me-3">
-          <FontAwesomeIcon icon={faUserTie} />
-          View Team Admins
-        </Link>
-        {!limitedTeam && isTeamAdmin && (
-          <>
-            <Link
-              to={`/teams/${id}/folders/create`}
-              className="btn btn-new me-3"
-            >
-              <FontAwesomeIcon icon={faPlus} />
-              Create New Folder
-            </Link>
-            <Link to={`/teams/${id}/edit`} className="btn btn-new me-3">
-              <FontAwesomeIcon icon={faPencil} />
-              Edit Team
-            </Link>
-            <Link to={`/teams/${id}/permissions`} className="btn btn-new me-3">
-              <FontAwesomeIcon icon={faUsers} />
-              Manage Team Users
-            </Link>
-            <DeleteTeam teamId={id} />
-          </>
-        )}
-
-        {!limitedTeam && (
-          <LeaveTeam
-            teamId={id}
-            myPermissions={teamModel.data?.team.myTeamPermissions || []}
-          />
-        )}
-      </div>
       <div className="mb-3">
         <FolderList teamModel={teamModel.data} filter={search} />
       </div>
