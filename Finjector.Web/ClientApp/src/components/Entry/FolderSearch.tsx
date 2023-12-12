@@ -33,12 +33,12 @@ const FolderSearch = ({
     // so that it pre-populates the dropdown with the correct folder
     // only need to do this once, otherwise it causes weird issues on clear
     if (data) {
-      if (!!initialFolderId.current) {
-        // if it already has a folder, set it to that
-        const folder = data.find((f) => f.id === initialFolderId.current);
+      const folder = data.find((f) => f.id === initialFolderId.current);
+      if (!!folder) {
+        // if it already has a folder that user has permission to save to, set it to that
         setSelectedFolder(folder);
       } else {
-        // if it doesnt have a folder, set it to the default
+        // otherwise, set it to the default
         setSelectedFolder(
           data.find((f) => f.teamName === "Personal" && f.name === "Default")
         );
