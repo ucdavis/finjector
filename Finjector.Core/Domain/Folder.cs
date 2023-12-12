@@ -38,6 +38,8 @@ namespace Finjector.Core.Domain
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Folder>().HasQueryFilter(t => t.IsActive);
+            modelBuilder.Entity<Coa>().HasQueryFilter(c => c.Folder.IsActive);
+            modelBuilder.Entity<FolderPermission>().HasQueryFilter(fp => fp.Folder.IsActive);
 
             modelBuilder.Entity<Coa>()
                 .HasOne(a => a.Folder)
