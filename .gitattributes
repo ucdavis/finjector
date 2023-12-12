@@ -1,0 +1,20 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# C# files
+*.cs       text diff=csharp
+*.cshtml   text diff=html
+*.csx      text diff=csharp
+
+# Solution and project files (Visual Studio)
+# These often require CRLF line endings
+*.sln      text eol=crlf
+*.csproj   text eol=crlf
+
+# TypeScript files for React
+*.ts       text
+*.tsx      text
+
+# SCSS and HTML files
+*.scss     text diff=css
+*.html     text diff=html
