@@ -55,7 +55,7 @@ const DeleteFolder = (props: Props) => {
             disabled={deleteMutation.isLoading}
           >
             <FontAwesomeIcon icon={faTrash} />
-            Delete
+            {deleteMutation.isLoading ? "Deleting" : "Delete"}
           </FinjectorButton>
         </ModalFooter>
       </Modal>
