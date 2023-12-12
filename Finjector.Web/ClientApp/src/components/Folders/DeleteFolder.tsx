@@ -42,8 +42,8 @@ const DeleteFolder = (props: Props) => {
           Delete Folder
         </ModalHeader>
         <ModalBody>
-          Are you sure you want to delete this folder? This folder, any Chart
-          Strings within it will be removed.
+          Are you sure you want to delete this folder? This folder, and any
+          Chart Strings within it will be removed.
         </ModalBody>
         <ModalFooter>
           <FinjectorButton color="secondary" onClick={toggleModal}>
