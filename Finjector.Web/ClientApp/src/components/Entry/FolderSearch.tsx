@@ -40,8 +40,11 @@ const FolderSearch = ({
         );
       }
     }
-  }, [data, selectedFolderId]); // only do this when data loads
-
+    // when data loads, set the state of the typeahead to the selected folder
+    // so that it pre-populates the dropdown with the correct folder
+    // only need to do this once, otherwise it causes weird issues on clear
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
   const handleSelected = (selected: any[]) => {
     setSelectedFolder(selected[0]);
     updateFolder(selected[0]?.id ?? 0);
