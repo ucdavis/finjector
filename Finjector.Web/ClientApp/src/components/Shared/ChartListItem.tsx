@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Coa, ChartType } from "../../types";
+import { Coa, ChartType, Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faScroll } from "@fortawesome/free-solid-svg-icons";
 import CopyToClipboardHover from "./CopyToClipboardHover";
@@ -7,11 +7,11 @@ import usePopupStatus from "../../util/customHooks";
 
 interface Props {
   chart: Coa;
+  folder: Folder;
 }
 
-const ChartListItem = ({ chart }: Props) => {
+const ChartListItem = ({ chart, folder }: Props) => {
   const isInPopup = usePopupStatus();
-
   const navigate = useNavigate();
 
   const onChartClick = (e: any) => {
@@ -27,8 +27,10 @@ const ChartListItem = ({ chart }: Props) => {
       tagName === "a" || tagName === "svg" || tagName === "path";
 
     if (!isActionTag) {
-      const destination = isInPopup ? "/selected" : "/details";
-      navigate(`${destination}/${chart.id}/${chart.segmentString}`);
+      const destination = isInPopup ? "selected" : "details";
+      navigate(
+        `/teams/${folder.teamId}/folders/${folder.id}/${destination}/${chart.id}/${chart.segmentString}`
+      );
     }
   };
 
@@ -56,14 +58,14 @@ const ChartListItem = ({ chart }: Props) => {
       </div>
       <div className="col-3 text-end">
         <Link
-          to={`/details/${chart.id}/${chart.segmentString}`}
+          to={`/teams/${folder.teamId}/folders/${folder.id}/details/${chart.id}/${chart.segmentString}`}
           className="btn btn-link"
         >
           <FontAwesomeIcon icon={faScroll} />
           Details
         </Link>
         <Link
-          to={`/selected/${chart.id}/${chart.segmentString}`}
+          to={`/teams/${folder.teamId}/folders/${folder.id}/selected/${chart.id}/${chart.segmentString}`}
           className="btn btn-link"
         >
           <FontAwesomeIcon icon={faBolt} />

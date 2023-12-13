@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 
 const Details = () => {
-  const { id, chartSegmentString } = useParams();
+  const { chartId, teamId, folderId, chartSegmentString } = useParams();
   const chartDetailsQuery = useGetChartDetails(chartSegmentString || "");
 
   const chartDetails: AeDetails | undefined = chartDetailsQuery.data;
@@ -30,6 +30,14 @@ const Details = () => {
     chartDetailsQuery.isError || // if we've errored
     !chartDetails?.chartString || // if we have no data
     chartDetails.chartType === ChartType.INVALID; // if we have invalid data
+
+  const getEditLinkUrl = () => {
+    if (chartId) {
+      return `/teams/${teamId}/folders/${folderId}/entry/${chartId}/${chartDetails?.chartString}`;
+    } else {
+      return `/entry/${chartSegmentString}`;
+    }
+  }
 
   const renderLoadingOrError = () => {
     if (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) {
@@ -71,18 +79,14 @@ const Details = () => {
         {!invalid && (
           <div className="col text-end">
             <Link
-              to={`/entry/${
-                id
-                  ? `${id}/${chartDetails.chartString}`
-                  : `${chartDetails.chartString}`
-              }`}
+              to={getEditLinkUrl()}
             >
               <FinjectorButton>
                 <FontAwesomeIcon icon={faPencil} />
                 Edit Chart String
               </FinjectorButton>
             </Link>
-            <SharePopup chartString={chartDetails.chartString} teamId={id} />
+            <SharePopup chartString={chartDetails.chartString} />
           </div>
         )}
       </div>
