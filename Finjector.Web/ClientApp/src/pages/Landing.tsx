@@ -18,7 +18,7 @@ const Landing = () => {
     <div>
       <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <h1>My Chart Strings</h1>
-        <div className="col-md-9 text-end">
+        <div className="col-6 col-md-9 text-end">
           <Link to="/entry" className="btn btn-new">
             <FontAwesomeIcon icon={faPlus} />
             New Chart String from Scratch
