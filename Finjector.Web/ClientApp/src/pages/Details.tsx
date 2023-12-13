@@ -31,6 +31,14 @@ const Details = () => {
     !chartDetails?.chartString || // if we have no data
     chartDetails.chartType === ChartType.INVALID; // if we have invalid data
 
+  const getEditLinkUrl = () => {
+    if (chartId) {
+      return `/teams/${teamId}/folders/${folderId}/entry/${chartId}/${chartDetails?.chartString}`;
+    } else {
+      return `/entry/${chartSegmentString}`;
+    }
+  }
+
   const renderLoadingOrError = () => {
     if (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) {
       return (
@@ -71,11 +79,7 @@ const Details = () => {
         {!invalid && (
           <div className="col text-end">
             <Link
-              to={`/teams/${teamId}/folders/${folderId}/entry/${
-                chartId
-                  ? `${chartId}/${chartDetails.chartString}`
-                  : `${chartDetails.chartString}`
-              }`}
+              to={getEditLinkUrl()}
             >
               <FinjectorButton>
                 <FontAwesomeIcon icon={faPencil} />
