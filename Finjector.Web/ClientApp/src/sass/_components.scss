@@ -277,22 +277,29 @@ hr {
   }
 }
 
-li.row-link {
+.row-link {
   text-decoration: none !important;
   padding: 8px;
   cursor: pointer;
-}
-.row-link.is-gl:hover {
-  background-color: $gl-bg !important;
-}
-.row-link.is-ppm:hover {
-  background-color: $ppm-bg !important;
-}
-.row-link.is-default:hover {
-  background-color: $bg-primary;
-}
-.row-link:hover {
-  .row-link-selected-action {
-    text-decoration: underline;
+  &.is-gl:hover {
+    background-color: $gl-bg !important;
+  }
+  &.is-ppm:hover {
+    background-color: $ppm-bg !important;
+  }
+  &.is-default:hover {
+    background-color: $bg-primary;
+  }
+  &:hover {
+    &.is-gl {
+      .row-link-selected-action {
+        color: $gl;
+      }
+    }
+    &.is-ppm {
+      .row-link-selected-action {
+        color: $ppm;
+      }
+    }
   }
 }
