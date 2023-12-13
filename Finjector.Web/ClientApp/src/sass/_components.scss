@@ -92,10 +92,12 @@
 .btn-ppm.btn-outline-active {
   background-color: $ppm !important;
   color: #fff !important;
+  border-color: $ppm !important;
 }
 .btn-gl.btn-outline-active {
   background-color: $gl !important;
   color: #fff !important;
+  border-color: $gl !important;
 }
 .california-bg {
   background-color: transparentize($california, 0.9);
