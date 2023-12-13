@@ -1,14 +1,15 @@
 import FinLoader from "./FinLoader";
-import { Coa } from "../../types";
+import { Coa, Folder } from "../../types";
 import ChartListItem from "./ChartListItem";
 
 interface Props {
   charts: Coa[] | undefined;
+  folder: Folder;
   filter: string;
 }
 
 const ChartListSimple = (props: Props) => {
-  const { charts } = props;
+  const { charts, folder } = props;
 
   if (!charts) {
     return <FinLoader />;
@@ -26,7 +27,7 @@ const ChartListSimple = (props: Props) => {
   return (
     <ul className="list-group">
       {filteredCharts.map((chart) => (
-        <ChartListItem key={chart.id} chart={chart} />
+        <ChartListItem folder={folder} key={chart.id} chart={chart} />
       ))}
     </ul>
   );

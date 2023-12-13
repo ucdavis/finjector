@@ -64,21 +64,31 @@ function App() {
               path=":id/folders/:folderId/admins"
               element={<AdminList />}
             />
+            {/* Full paths for details, entry and selection */}
+            <Route
+              path=":teamId/folders/:folderId/details/:chartId/:chartSegmentString"
+              element={<Details />}
+            />
+            <Route
+              path=":teamId/folders/:folderId/entry/:chartId/:chartSegmentString"
+              element={<Entry />}
+            />
+            <Route
+              path=":teamId/folders/:folderId/selected/:chartId/:chartSegmentString"
+              element={<Selected />}
+            />
           </Route>
           <Route path="/entry">
             <Route path="" element={<Entry />} />
             <Route path=":chartSegmentString" element={<Entry />} />
-            <Route path=":id/:chartSegmentString" element={<Entry />} />
           </Route>
           <Route path="/details">
             <Route path=":chartSegmentString" element={<Details />} />
-            <Route path=":id/:chartSegmentString" element={<Details />} />
           </Route>
           <Route path="/paste" element={<Paste />} />
           <Route path="/selected">
             <Route path="" element={<RedirectHome />} />
-            <Route path=":chart" element={<Selected />} />
-            <Route path=":id/:chart" element={<Selected />} />
+            <Route path=":chartSegmentString" element={<Selected />} />
           </Route>
         </Routes>
       </div>

@@ -14,7 +14,7 @@ window.Finjector.findChartSegmentString = (url) => {
   return new Promise((resolve, reject) => {
     const uri = new URL(url || "https://finjector.ucdavis.edu");
 
-    const newWindow = popupCenter(uri.href, "popup", 600, 600);
+    const newWindow = popupCenter(uri.href, "popup", 600, 800);
 
     const messageHandler = (event) => {
       if (event.origin !== uri.origin) {

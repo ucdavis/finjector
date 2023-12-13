@@ -70,9 +70,15 @@ const ChartList = (props: Props) => {
               <FontAwesomeIcon icon={faUpRightFromSquare} />
             </Link>
           </h2>
-          <div className="team-chart-wrapper" key={teamGroup.team.id}>
+          <div
+            className="team-chart-wrapper"
+            key={`teamid-${teamGroup.team.id}`}
+          >
             {teamGroup.folders.map((folder) => (
-              <div className="folder-chart-wrapper" key={folder.id}>
+              <div
+                className="folder-chart-wrapper"
+                key={`folderid-${folder.id}`}
+              >
                 <h3>
                   <Link
                     className="no-link-style d-flex vertical-align-top"
@@ -84,12 +90,13 @@ const ChartList = (props: Props) => {
                 </h3>
                 <ul className="list-group">
                   {folder.coas.map((chart) => (
-                    <ChartListItem key={chart.id} chart={chart} />
+                    <ChartListItem key={chart.id} folder={folder} chart={chart} />
                   ))}
                 </ul>
               </div>
             ))}
           </div>
+                  
         </div>
       ))}
     </div>
