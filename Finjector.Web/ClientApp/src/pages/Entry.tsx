@@ -34,13 +34,13 @@ import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
 import FolderSearch from "../components/Entry/FolderSearch";
 
 const Entry = () => {
-  const { id, chartSegmentString } = useParams();
+  const { chartId, chartSegmentString } = useParams();
   const [searchParams] = useSearchParams();
   const folderId = searchParams?.get("folderId")
     ? parseInt(searchParams.get("folderId") || "")
     : 0;
 
-  const savedChartQuery = useGetSavedChartWithData(id || "");
+  const savedChartQuery = useGetSavedChartWithData(chartId || "");
 
   const [savedChart, setSavedChart] = React.useState<Coa>({
     id: 0,
@@ -116,14 +116,14 @@ const Entry = () => {
   }
 
   // if we have a saved chart, make sure it's been loaded before continuing
-  if (id && !savedChart.id) {
+  if (chartId && !savedChart.id) {
     return <FinLoader />;
   }
 
   return (
     <div className="main">
       <div className="page-title mb-3">
-        <h1>{id ? "Edit Chart String" : "Create Chart String"}</h1>
+        <h1>{chartId ? "Edit Chart String" : "Create Chart String"}</h1>
       </div>
 
       <h2>Chart Type</h2>
