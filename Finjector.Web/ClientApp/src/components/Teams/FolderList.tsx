@@ -11,6 +11,7 @@ import {
   faDollarSign,
   faFolder,
 } from "@fortawesome/free-solid-svg-icons";
+import ClickableListItem from "../Shared/ClickableListItem";
 
 interface Props {
   teamModel: TeamResponseModel | undefined;
@@ -32,50 +33,48 @@ const FolderList = (props: Props) => {
 
   return (
     <ul className="list-group">
-      {filteredFolderInfo.map((folderInfo) => (
-        <li className="fin-row saved-list-item" key={folderInfo.folder.id}>
-          <div className="fin-info d-flex justify-content-between align-items-center">
-            <div className="col-9 ms-2 me-auto">
-              <div className="row-title">
-                <h3>{folderInfo.folder.name}</h3>
+      {filteredFolderInfo.map((folderInfo) => {
+        const url = `/teams/${teamModel.team.id}/folders/${folderInfo.folder.id}`;
+        return (
+          <ClickableListItem
+            className="fin-row"
+            key={folderInfo.folder.id}
+            url={url}
+          >
+            <div className="fin-info d-flex justify-content-between align-items-center">
+              <div className="col-9 ms-2 me-auto">
+                <div className="row-title">
+                  <h3>{folderInfo.folder.name}</h3>
+                </div>
+                <p className="row-subtitle">
+                  <span style={{ wordWrap: "break-word" }}>
+                    {folderInfo.folder.description}
+                  </span>
+                </p>
               </div>
-              <p className="row-subtitle">
-                <span style={{ wordWrap: "break-word" }}>
-                  {folderInfo.folder.description}
-                </span>
-              </p>
+              <div className="col-3 d-flex justify-content-end">
+                <div className="stat-icon">
+                  <FontAwesomeIcon icon={faUsers} />
+                  {folderInfo.uniqueUserPermissionCount}
+                </div>
+                <div className="stat-icon">
+                  <FontAwesomeIcon icon={faDollarSign} />
+                  {folderInfo.chartCount}
+                </div>
+              </div>
             </div>
-            <div className="col-3 d-flex justify-content-end">
-              <div className="stat-icon">
-                <FontAwesomeIcon icon={faUsers} />
-                {folderInfo.uniqueUserPermissionCount}
-              </div>
-              <div className="stat-icon">
-                <FontAwesomeIcon icon={faDollarSign} />
-                {folderInfo.chartCount}
-              </div>
-            </div>
-          </div>
-          <div className="fin-actions">
-            <Link
-              className="bold-link me-3"
-              to={`/teams/${teamModel.team.id}/folders/${folderInfo.folder.id}`}
-            >
-              <FontAwesomeIcon icon={faFolder} />
-              Go to Folder
-            </Link>
-            {!props.teamModel?.team.isPersonal && (
+            <div className="fin-actions">
               <Link
-                className="bold-link me-3"
-                to={`/teams/${teamModel.team.id}/folders/${folderInfo.folder.id}/permissions`}
+                className="bold-link me-3 row-link-selected-action"
+                to={url}
               >
-                <FontAwesomeIcon icon={faUsers} />
-                Manage Users
+                <FontAwesomeIcon icon={faFolder} />
+                Go to Folder
               </Link>
-            )}
-          </div>
-        </li>
-      ))}
+            </div>
+          </ClickableListItem>
+        );
+      })}
     </ul>
   );
 };
