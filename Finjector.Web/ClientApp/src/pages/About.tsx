@@ -35,7 +35,27 @@ const About = () => {
           from the campus data source.
         </p>
         <p>
+          Welcome:{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://computing.caes.ucdavis.edu/documentation/finjector/welcome"
+          >
+            https://computing.caes.ucdavis.edu/documentation/finjector/welcome
+          </a>
+        </p>
+        <p>
           FAQ:{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://computing.caes.ucdavis.edu/documentation/finjector/faq"
+          >
+            https://computing.caes.ucdavis.edu/documentation/finjector/faq
+          </a>
+        </p>
+        <p>
+          Documentation:{" "}
           <a
             target="_blank"
             rel="noreferrer"
