@@ -4,7 +4,7 @@ import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
 import CopyToClipboardButton from "../components/Shared/CopyToClipboardButton";
 
 const Selected = () => {
-  const { chart } = useParams();
+  const { chartSegmentString } = useParams();
 
   const [hasOpener, setHasOpener] = React.useState<boolean>(!!window.opener);
 
@@ -14,7 +14,7 @@ const Selected = () => {
         {
           source: "finjector",
           status: "success",
-          data: chart,
+          data: chartSegmentString,
         },
         "*" // send to all, we don't know the origin
       );
@@ -24,11 +24,11 @@ const Selected = () => {
     } else {
       setHasOpener(false);
     }
-  }, [chart]);
+  }, [chartSegmentString]);
   
-  if (chart && !chart.includes("-")) {
+  if (chartSegmentString && !chartSegmentString.includes("-")) {
     // if we have a chart segment string, but it doesn't have a dash, it's probably a chart id
-    return <Navigate to={`/locator/selected/${chart}`} />;
+    return <Navigate to={`/locator/selected/${chartSegmentString}`} />;
   }
 
   return (
@@ -38,8 +38,8 @@ const Selected = () => {
       </div>
 
       <div>
-        <CopyToClipboardHover value={chart ?? ""} id="selected">
-          <code>{chart}</code>
+        <CopyToClipboardHover value={chartSegmentString ?? ""} id="selected">
+          <code>{chartSegmentString}</code>
         </CopyToClipboardHover>
       </div>
       {hasOpener ? (
@@ -54,7 +54,7 @@ const Selected = () => {
             Click copy to copy this to your clipboard, or head back home to work
             with another chart string.
           </p>
-          <CopyToClipboardButton value={chart ?? ""} id="selected" />
+          <CopyToClipboardButton value={chartSegmentString ?? ""} id="selected" />
         </div>
       )}
     </div>

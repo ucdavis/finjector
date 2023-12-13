@@ -88,7 +88,7 @@ function App() {
           <Route path="/paste" element={<Paste />} />
           <Route path="/selected">
             <Route path="" element={<RedirectHome />} />
-            <Route path=":chart" element={<Selected />} />
+            <Route path=":chartSegmentString" element={<Selected />} />
           </Route>
         </Routes>
       </div>
