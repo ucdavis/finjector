@@ -277,14 +277,17 @@ hr {
   }
 }
 
-li.chartstring-link {
+li.row-link {
   text-decoration: none !important;
   padding: 8px;
   cursor: pointer;
 }
-.chartstring-link.is-gl:hover {
-  background-color: $gl-bg;
+.row-link.is-gl:hover {
+  background-color: $gl-bg !important;
 }
-.chartstring-link.is-ppm:hover {
-  background-color: $ppm-bg;
+.row-link.is-ppm:hover {
+  background-color: $ppm-bg !important;
+}
+.row-link.is-default:hover {
+  background-color: $bg-primary;
 }

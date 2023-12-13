@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Coa, ChartType } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faScroll } from "@fortawesome/free-solid-svg-icons";
 import CopyToClipboardHover from "./CopyToClipboardHover";
 import usePopupStatus from "../../util/customHooks";
+import ClickableListItem from "./ClickableListItem";
 
 interface Props {
   chart: Coa;
@@ -12,33 +13,17 @@ interface Props {
 const ChartListItem = ({ chart }: Props) => {
   const isInPopup = usePopupStatus();
 
-  const navigate = useNavigate();
-
-  const onChartClick = (e: any) => {
-    // don't navigate if the user was just selecting text
-    const selection = window.getSelection();
-
-    if (selection && selection.toString()) return;
-
-    // we don't want to navigate if they clicked a link or icon button
-    const tagName = e?.target.tagName.toLowerCase();
-
-    const isActionTag =
-      tagName === "a" || tagName === "svg" || tagName === "path";
-
-    if (!isActionTag) {
-      const destination = isInPopup ? "/selected" : "/details";
-      navigate(`${destination}/${chart.id}/${chart.segmentString}`);
-    }
-  };
+  // TODO: replace with breadcrumb changes
+  const destination = isInPopup ? "/selected" : "/details";
+  const url = `${destination}/${chart.id}/${chart.segmentString}`;
 
   return (
-    <li
-      className={`chartstring-row chartstring-link ${
+    <ClickableListItem
+      className={`chartstring-row ${
         chart.chartType === ChartType.PPM ? "is-ppm" : "is-gl"
-      } d-flex justify-content-between align-items-center saved-list-item`}
+      } d-flex justify-content-between align-items-center`}
       key={chart.id}
-      onClick={onChartClick}
+      url={url}
     >
       <div className="col-9 ms-2 me-auto">
         <div className="chartstring-type">
@@ -70,7 +55,7 @@ const ChartListItem = ({ chart }: Props) => {
           Use
         </Link>
       </div>
-    </li>
+    </ClickableListItem>
   );
 };
 
