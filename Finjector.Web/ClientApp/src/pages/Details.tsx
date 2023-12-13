@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 
 const Details = () => {
-  const { id, chartSegmentString } = useParams();
+  const { chartId, teamId, folderId, chartSegmentString } = useParams();
   const chartDetailsQuery = useGetChartDetails(chartSegmentString || "");
 
   const chartDetails: AeDetails | undefined = chartDetailsQuery.data;
@@ -71,9 +71,9 @@ const Details = () => {
         {!invalid && (
           <div className="col text-end">
             <Link
-              to={`/entry/${
-                id
-                  ? `${id}/${chartDetails.chartString}`
+              to={`/teams/${teamId}/folders/${folderId}/entry/${
+                chartId
+                  ? `${chartId}/${chartDetails.chartString}`
                   : `${chartDetails.chartString}`
               }`}
             >
@@ -82,7 +82,7 @@ const Details = () => {
                 Edit Chart String
               </FinjectorButton>
             </Link>
-            <SharePopup chartString={chartDetails.chartString} teamId={id} />
+            <SharePopup chartString={chartDetails.chartString} />
           </div>
         )}
       </div>
