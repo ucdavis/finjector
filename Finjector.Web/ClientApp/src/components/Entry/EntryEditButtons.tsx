@@ -51,9 +51,10 @@ const EntryEditButtons = (props: Props) => {
       segmentString: toSegmentString(props.chartData),
     };
 
+    //TODO: Change path once we determine what it should be for the details page
     saveMutation.mutate(chartToSave, {
-      onSuccess: () => {
-        navigate(landingPage);
+      onSuccess: (data) => {
+        navigate(`/details/${data.id}/${chartToSave.segmentString}`);
       },
     });
   };
