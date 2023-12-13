@@ -31,7 +31,7 @@ const ChartTypeSelector = (props: Props) => {
           }`}
           htmlFor="option1"
         >
-          GL CoA
+          GL
         </label>
 
         <input
@@ -49,7 +49,7 @@ const ChartTypeSelector = (props: Props) => {
           }`}
           htmlFor="option2"
         >
-          PPM CoA
+          PPM
         </label>
       </div>
     </>

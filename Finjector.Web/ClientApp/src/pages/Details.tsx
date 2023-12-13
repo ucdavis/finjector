@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 
 const Details = () => {
-  const { id, chartSegmentString } = useParams();
+  const { chartId, teamId, folderId, chartSegmentString } = useParams();
   const chartDetailsQuery = useGetChartDetails(chartSegmentString || "");
 
   const chartDetails: AeDetails | undefined = chartDetailsQuery.data;
@@ -30,6 +30,14 @@ const Details = () => {
     chartDetailsQuery.isError || // if we've errored
     !chartDetails?.chartString || // if we have no data
     chartDetails.chartType === ChartType.INVALID; // if we have invalid data
+
+  const getEditLinkUrl = () => {
+    if (chartId) {
+      return `/teams/${teamId}/folders/${folderId}/entry/${chartId}/${chartDetails?.chartString}`;
+    } else {
+      return `/entry/${chartSegmentString}`;
+    }
+  }
 
   const renderLoadingOrError = () => {
     if (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) {
@@ -63,29 +71,24 @@ const Details = () => {
 
   return (
     <div className="main">
-      <div className="page-title mb-3">
+      <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <h1>{chartDetails?.chartType}</h1>
-      </div>
-      <div className="row display-content-between mb-3">
-        <div className="col-6"></div>
+
         {!invalid && (
-          <div className="col text-end">
+          <div className="col-md-9 text-end">
             <Link
-              to={`/entry/${
-                id
-                  ? `${id}/${chartDetails.chartString}`
-                  : `${chartDetails.chartString}`
-              }`}
+              to={getEditLinkUrl()}
             >
               <FinjectorButton>
                 <FontAwesomeIcon icon={faPencil} />
                 Edit Chart String
               </FinjectorButton>
             </Link>
-            <SharePopup chartString={chartDetails.chartString} teamId={id} />
+            <SharePopup chartString={chartDetails.chartString} />
           </div>
         )}
       </div>
+
       {!!chartDetails && (
         <div>
           {chartDetails.errors.length > 0 &&

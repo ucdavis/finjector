@@ -14,8 +14,14 @@ const MyTeams: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title mb-3">
+      <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <h1>My Teams</h1>
+        <div className="col-md-9 text-end">
+          <Link to="/teams/create" className="btn btn-new override-end">
+            <FontAwesomeIcon icon={faPlus} />
+            Create New Team
+          </Link>
+        </div>
       </div>
       <div className="mb-3">
         <SearchBar
@@ -23,12 +29,6 @@ const MyTeams: React.FC = () => {
           search={search}
           setSearch={setSearch}
         />
-      </div>
-      <div>
-        <Link to="/teams/create" className="btn btn-new me-3">
-          <FontAwesomeIcon icon={faPlus} />
-          Create New Team
-        </Link>
       </div>
       <div className="mb-3">
         <TeamList teamsInfo={myTeams.data} filter={search} />

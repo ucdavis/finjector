@@ -16,21 +16,10 @@ const Landing = () => {
 
   return (
     <div>
-      <div className="page-title mb-3">
+      <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <h1>My Chart Strings</h1>
-      </div>
-      <div className="mb-3">
-        <input
-          type="search"
-          className="form-control searchbar"
-          placeholder="Search my saved chart strings"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
-      <div className="row justify-content-between">
-        <div className="d-grid gap-2 d-md-block">
-          <Link to="/entry" className="btn btn-new me-3">
+        <div className="col-6 col-md-9 text-end">
+          <Link to="/entry" className="btn btn-new">
             <FontAwesomeIcon icon={faPlus} />
             New Chart String from Scratch
           </Link>
@@ -40,6 +29,15 @@ const Landing = () => {
             New Chart String from Paste
           </Link>
         </div>
+      </div>
+      <div className="mb-3">
+        <input
+          type="search"
+          className="form-control searchbar"
+          placeholder="Search my saved chart strings"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
 
       <ChartList teamGroups={savedCharts.data} filter={search} />

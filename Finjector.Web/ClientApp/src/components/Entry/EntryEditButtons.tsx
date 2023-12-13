@@ -25,13 +25,15 @@ interface Props {
 const EntryEditButtons = (props: Props) => {
   const navigate = useNavigate();
 
+  const { chartData, savedChart } = props;
+
   const saveMutation = useSaveChart();
   const removeMutation = useRemoveChart();
 
   const save = () => {
     const chartToSave: Coa = {
-      ...props.savedChart,
-      segmentString: toSegmentString(props.chartData),
+      ...savedChart,
+      segmentString: toSegmentString(chartData),
     };
 
     saveMutation.mutate(chartToSave, {
@@ -44,8 +46,8 @@ const EntryEditButtons = (props: Props) => {
   const copy = () => {
     // create a new chart based on the starting point of current chart
     const chartToSave: Coa = {
-      ...props.savedChart,
-      folderId: props.savedChart.folderId || 0,
+      ...savedChart,
+      folderId: savedChart.folderId || 0,
       id: 0,
       name: `${props.savedChart.name}`,
       segmentString: toSegmentString(props.chartData),
@@ -69,12 +71,14 @@ const EntryEditButtons = (props: Props) => {
 
   const use = () => {
     navigate(
-      `/selected/${props.savedChart.id}/${toSegmentString(props.chartData)}`
+      `/teams/${savedChart.folder?.teamId}/folders/${
+        savedChart.folder?.id
+      }/selected/${savedChart.id}/${toSegmentString(props.chartData)}`
     );
   };
 
   return (
-    <div className="d-flex p-2">
+    <div className="d-flex justify-content-between">
       <FinjectorButton
         className="flex-fill"
         disabled={removeMutation.isLoading}
@@ -99,7 +103,7 @@ const EntryEditButtons = (props: Props) => {
         <FontAwesomeIcon icon={faBookmark} />
         Save
       </FinjectorButton>
-      <FinjectorButton className="flex-fill" onClick={use}>
+      <FinjectorButton className="flex-fill override-end" onClick={use}>
         <FontAwesomeIcon icon={faBolt} />
         Use
       </FinjectorButton>

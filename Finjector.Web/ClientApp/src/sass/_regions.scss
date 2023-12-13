@@ -12,7 +12,7 @@
   }
   .row-subtitle {
     margin-bottom: 0px;
-    max-width: 650px;
+    max-width: 700px;
   }
 }
 .chartstring-details {
@@ -52,6 +52,7 @@
 .fin-row {
   border-radius: 4px;
   border: 1px solid $borders !important;
+  padding: 0px !important;
   .fin-info {
     padding: 20px 8px 12px 8px;
   }
@@ -60,13 +61,21 @@
     border-top: 1px solid $borders;
     padding: 10px 20px;
   }
+  // &:hover {
+  //   .row-link-selected-action {
+  //     text-decoration: underline;
+  //   }
+  // }
 }
 .stat-icon {
-  margin-right: 16px;
+  margin-right: 20px;
   color: $secondary-font;
   font-family: $sans-bold;
   svg {
-    margin-right: 8px;
+    margin-right: 4px;
+  }
+  &:last-child {
+    margin-right: 16px;
   }
 }
 .page-title {
@@ -75,15 +84,27 @@
 .page-info {
   p {
     margin-bottom: 0;
+    max-width: 700px;
   }
 }
-.team-chart-wrapper {
+.teamlist-wrapper {
   margin-top: 2%;
   h2 {
     font-family: $sans-bold;
     text-transform: uppercase;
     font-size: 1.2rem;
-    margin-bottom: -14px;
+  }
+  .team-chart-wrapper {
+    padding-left: 16px;
+    border-left: 2px solid $borders;
+    margin-top: 12px;
+    border-radius: 0px;
+  }
+  .folder-chart-wrapper {
+    margin-top: 2%;
+    &:first-child {
+      margin-top: 0;
+    }
   }
   h3 {
     color: $secondary-font;
@@ -93,6 +114,9 @@
     svg {
       height: 9px !important;
     }
+  }
+  li.chartstring-row:first-child {
+    margin-top: 0;
   }
   .no-link-style {
     color: inherit;
@@ -105,17 +129,5 @@
       height: 10px;
       padding-top: 3px;
     }
-  }
-  .saved-list-item:first-child {
-    margin-top: 0;
-  }
-  .list-group {
-    padding-left: 16px;
-    border-left: 2px solid $borders;
-    margin-top: 12px;
-    border-radius: 0px;
-  }
-  .folder-chart-wrapper {
-    margin-top: 20px;
   }
 }

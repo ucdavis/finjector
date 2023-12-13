@@ -19,7 +19,9 @@ export const DetailsRow: React.FC<DetailsRowProps> = ({
   ) : (
     // if 3
     <>
-      <div className="col-2 chartstring-details-info-right">{column2}</div>
+      <div className="col-3 col-md-2 chartstring-details-info-right">
+        {column2}
+      </div>
       <div className="col-6">
         <div className="chartstring-details-info-right">{column3}</div>
       </div>

@@ -20,19 +20,37 @@
   }
 }
 .btn-new {
-  font-size: 1rem;
+  font-size: 0.8rem;
   background-color: #fff;
   color: $primary-color;
   border: 1px solid $primary-color;
   box-shadow: none;
-  padding: 8px 16px;
+  padding: 4px 8px;
   text-transform: none;
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin-top: 1px;
+  margin-bottom: 1px;
   &:hover {
     background-color: transparentize($primary-color, 0.85);
     color: $primary-color;
     border: 1px solid $primary-color;
+  }
+  &:focus-visible {
+    background-color: transparentize($primary-color, 0.85);
+    color: $primary-color;
+    border: 1px solid $primary-color;
+  }
+  @include breakpoint(md) {
+    font-size: 1rem;
+    padding: 6px 12px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    &:first-child {
+      margin-right: 2%;
+    }
+  }
+  &:disabled {
+    color: $tertiary-font;
+    border-color: $tertiary-font;
   }
 }
 
@@ -74,10 +92,12 @@
 .btn-ppm.btn-outline-active {
   background-color: $ppm !important;
   color: #fff !important;
+  border-color: $ppm !important;
 }
 .btn-gl.btn-outline-active {
   background-color: $gl !important;
   color: #fff !important;
+  border-color: $gl !important;
 }
 .california-bg {
   background-color: transparentize($california, 0.9);
@@ -277,14 +297,38 @@ hr {
   }
 }
 
-li.chartstring-link {
+.row-link {
   text-decoration: none !important;
   padding: 8px;
   cursor: pointer;
+  &.is-gl:hover {
+    background-color: $gl-bg !important;
+  }
+  &.is-ppm:hover {
+    background-color: $ppm-bg !important;
+  }
+  &.is-default:hover {
+    background-color: $bg-primary;
+  }
+  &:hover {
+    &.is-gl {
+      .row-link-selected-action {
+        color: $gl;
+      }
+    }
+    &.is-ppm {
+      .row-link-selected-action {
+        color: $ppm;
+      }
+    }
+  }
 }
-.chartstring-link.is-gl:hover {
-  background-color: $gl-bg;
+span.gl-color {
+  color: $gl;
 }
-.chartstring-link.is-ppm:hover {
-  background-color: $ppm-bg;
+span.ppm-color {
+  color: $ppm;
+}
+.override-end {
+  margin-right: 0 !important;
 }
