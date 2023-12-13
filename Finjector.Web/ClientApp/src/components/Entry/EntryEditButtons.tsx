@@ -53,10 +53,12 @@ const EntryEditButtons = (props: Props) => {
       segmentString: toSegmentString(props.chartData),
     };
 
-    //TODO: Change path once we determine what it should be for the details page
+    //teams/1/folders/1/details/1/3110-13U20-ADNO003-238533-00-000-0000000000-000000-0000-000000-000000
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
-        navigate(`/details/${data.id}/${chartToSave.segmentString}`);
+        navigate(
+          `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
+        );
       },
     });
   };
