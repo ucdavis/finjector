@@ -291,3 +291,8 @@ li.row-link {
 .row-link.is-default:hover {
   background-color: $bg-primary;
 }
+.row-link:hover {
+  .row-link-selected-action {
+    text-decoration: underline;
+  }
+}

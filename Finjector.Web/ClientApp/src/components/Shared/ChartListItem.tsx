@@ -42,14 +42,18 @@ const ChartListItem = ({ chart }: Props) => {
       <div className="col-3 text-end">
         <Link
           to={`/details/${chart.id}/${chart.segmentString}`}
-          className="btn btn-link"
+          className={`btn btn-link ${
+            destination === "/details" ? "row-link-selected-action" : ""
+          }`}
         >
           <FontAwesomeIcon icon={faScroll} />
           Details
         </Link>
         <Link
           to={`/selected/${chart.id}/${chart.segmentString}`}
-          className="btn btn-link"
+          className={`btn btn-link ${
+            destination === "/selected" ? "row-link-selected-action" : ""
+          }`}
         >
           <FontAwesomeIcon icon={faBolt} />
           Use

@@ -64,7 +64,10 @@ const FolderList = (props: Props) => {
               </div>
             </div>
             <div className="fin-actions">
-              <Link className="bold-link me-3" to={url}>
+              <Link
+                className="bold-link me-3 row-link-selected-action"
+                to={url}
+              >
                 <FontAwesomeIcon icon={faFolder} />
                 Go to Folder
               </Link>
