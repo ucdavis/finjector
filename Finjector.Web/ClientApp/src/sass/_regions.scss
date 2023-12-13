@@ -61,18 +61,21 @@
     border-top: 1px solid $borders;
     padding: 10px 20px;
   }
-  &:hover {
-    .row-link-selected-action {
-      text-decoration: underline;
-    }
-  }
+  // &:hover {
+  //   .row-link-selected-action {
+  //     text-decoration: underline;
+  //   }
+  // }
 }
 .stat-icon {
-  margin-right: 16px;
+  margin-right: 20px;
   color: $secondary-font;
   font-family: $sans-bold;
   svg {
-    margin-right: 8px;
+    margin-right: 4px;
+  }
+  &:last-child {
+    margin-right: 16px;
   }
 }
 .page-title {

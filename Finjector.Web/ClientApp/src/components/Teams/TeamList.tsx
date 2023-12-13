@@ -53,15 +53,21 @@ const ChartList = (props: Props) => {
               </div>
               <div className="col-3 d-flex justify-content-end">
                 <div className="stat-icon">
-                  <FontAwesomeIcon icon={faFolder} />
+                  <FontAwesomeIcon
+                    title="Folder count in team"
+                    icon={faFolder}
+                  />
                   {teamInfo.folderCount}{" "}
                 </div>
                 <div className="stat-icon">
-                  <FontAwesomeIcon icon={faUsers} />
+                  <FontAwesomeIcon title="User count in team" icon={faUsers} />
                   {teamInfo.uniqueUserPermissionCount}
                 </div>
                 <div className="stat-icon">
-                  <FontAwesomeIcon icon={faDollarSign} />
+                  <FontAwesomeIcon
+                    title="Chart string count in team"
+                    icon={faDollarSign}
+                  />
                   {teamInfo.chartCount}
                 </div>
               </div>

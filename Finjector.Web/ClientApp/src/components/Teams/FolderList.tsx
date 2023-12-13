@@ -54,11 +54,17 @@ const FolderList = (props: Props) => {
               </div>
               <div className="col-3 d-flex justify-content-end">
                 <div className="stat-icon">
-                  <FontAwesomeIcon icon={faUsers} />
+                  <FontAwesomeIcon
+                    title="User count in folder"
+                    icon={faUsers}
+                  />
                   {folderInfo.uniqueUserPermissionCount}
                 </div>
                 <div className="stat-icon">
-                  <FontAwesomeIcon icon={faDollarSign} />
+                  <FontAwesomeIcon
+                    title="Chart string count in folder"
+                    icon={faDollarSign}
+                  />
                   {folderInfo.chartCount}
                 </div>
               </div>
