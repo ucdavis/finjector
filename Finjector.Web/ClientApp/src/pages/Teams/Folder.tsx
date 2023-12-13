@@ -42,6 +42,10 @@ const Folder: React.FC = () => {
 
   const limitedFolder = isPersonalOrDefault(folderModel.data?.folder.name);
 
+  if (folderModel.data === undefined) {
+    return <div>Folder not found</div>;
+  }
+
   return (
     <div>
       <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
@@ -100,7 +104,11 @@ const Folder: React.FC = () => {
         />
       </div>
 
-      <ChartListSimple charts={folderModel.data?.charts} filter={search} />
+      <ChartListSimple
+        charts={folderModel.data.charts}
+        folder={folderModel.data.folder}
+        filter={search}
+      />
     </div>
   );
 };
