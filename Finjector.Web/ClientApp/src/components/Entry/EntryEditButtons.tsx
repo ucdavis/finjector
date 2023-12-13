@@ -37,8 +37,10 @@ const EntryEditButtons = (props: Props) => {
     };
 
     saveMutation.mutate(chartToSave, {
-      onSuccess: () => {
-        navigate(landingPage);
+      onSuccess: (data) => {
+        navigate(
+          `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
+        );
       },
     });
   };
