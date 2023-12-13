@@ -61,19 +61,16 @@ export const useSaveChart = () => {
 
   return useMutation(
     async (chart: Coa) => {
-      const response = await fetch(`/api/charts/save`, {
-        method: "POST",
-        body: JSON.stringify(chart),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
-
-      const responseChart = await response.json();
-
-      // return the saved chart
-      return responseChart;
+      return await doFetch<Coa>(
+        fetch(`/api/charts/save`, {
+          method: "POST",
+          body: JSON.stringify(chart),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+      );
     },
     {
       onSuccess: (chart) => {

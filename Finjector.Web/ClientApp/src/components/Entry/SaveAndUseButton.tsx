@@ -28,7 +28,7 @@ const SaveAndUseButton = (props: Props) => {
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
         navigate(
-          `/teams/${savedChart.folder?.teamId}/folders/${savedChart.folder?.id}/selected/${data.id}/${data.segmentString}`
+          `/teams/${data.folder?.teamId}/folders/${data.folder?.id}/selected/${data.id}/${data.segmentString}`
         );
       },
     });
