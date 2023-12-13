@@ -36,7 +36,7 @@ import FolderSearch from "../components/Entry/FolderSearch";
 const Entry = () => {
   const { chartId, chartSegmentString } = useParams();
   const [searchParams] = useSearchParams();
-  const folderId = searchParams?.get("folderId")
+  const saveInFolderId = searchParams?.get("folderId")
     ? parseInt(searchParams.get("folderId") || "")
     : 0;
 
@@ -47,7 +47,7 @@ const Entry = () => {
     chartType: ChartType.PPM,
     name: "",
     segmentString: "",
-    folderId: folderId,
+    folderId: saveInFolderId,
     updated: new Date(),
   });
 

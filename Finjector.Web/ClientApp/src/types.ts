@@ -4,6 +4,7 @@ export interface Coa {
   name: string;
   chartType: ChartType;
   folderId?: number;
+  folder?: Folder;
   updated: Date;
 }
 

@@ -14,18 +14,22 @@ interface Props {
 const SaveAndUseButton = (props: Props) => {
   const navigate = useNavigate();
 
+  const { chartData, savedChart } = props;
+
   const saveMutation = useSaveChart();
 
   const saveAndUse = () => {
     const chartToSave: Coa = {
       ...props.savedChart,
       chartType: props.chartData.chartType,
-      segmentString: toSegmentString(props.chartData),
+      segmentString: toSegmentString(chartData),
     };
 
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
-        navigate(`/selected/${data.id}/${data.segmentString}`);
+        navigate(
+          `/teams/${savedChart.folder?.teamId}/folders/${savedChart.folder?.id}/selected/${data.id}/${data.segmentString}`
+        );
       },
     });
   };
@@ -35,7 +39,7 @@ const SaveAndUseButton = (props: Props) => {
       <FinjectorButton
         className="btn btn-primary"
         type="button"
-        disabled={saveMutation.isLoading || !props.savedChart.name}
+        disabled={saveMutation.isLoading || !savedChart.name}
         onClick={saveAndUse}
       >
         Save and use
