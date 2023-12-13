@@ -77,7 +77,7 @@ const EntryEditButtons = (props: Props) => {
   };
 
   return (
-    <div className="d-flex p-2">
+    <div className="d-flex justify-content-between">
       <FinjectorButton
         className="flex-fill"
         disabled={removeMutation.isLoading}
@@ -102,7 +102,7 @@ const EntryEditButtons = (props: Props) => {
         <FontAwesomeIcon icon={faBookmark} />
         Save
       </FinjectorButton>
-      <FinjectorButton className="flex-fill" onClick={use}>
+      <FinjectorButton className="flex-fill override-end" onClick={use}>
         <FontAwesomeIcon icon={faBolt} />
         Use
       </FinjectorButton>

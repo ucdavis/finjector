@@ -33,8 +33,8 @@ const Header = () => (
             Teams
           </Link>
           <CenteredBullet />
-          <Link className="header-link" to="/about">
-            About
+          <Link className="header-link" to="/help">
+            Help
           </Link>
         </div>
       </div>

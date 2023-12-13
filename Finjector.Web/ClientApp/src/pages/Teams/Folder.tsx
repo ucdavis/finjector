@@ -48,9 +48,50 @@ const Folder: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title mb-3">
-        <h1>{folderModel.data?.folder.name}</h1>
-        <h4>{folderModel.data?.folder.teamName}</h4>
+      <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
+        <div>
+          <h1>{folderModel.data?.folder.name}</h1>
+          <h4>{folderModel.data?.folder.teamName}</h4>
+        </div>
+        <div className="col-md-10 text-end">
+          <Link
+            to={`/teams/${id}/folders/${folderId}/admins`}
+            className="btn btn-new me-3"
+          >
+            <FontAwesomeIcon icon={faUserTie} />
+            View Folder Admins
+          </Link>
+          {/* Admins can manage permissions */}
+          {!limitedFolder && combinedPermissions.some((p) => p === "Admin") && (
+            <>
+              <Link
+                to={`/teams/${id}/folders/${folderId}/permissions`}
+                className="btn btn-new me-3"
+              >
+                <FontAwesomeIcon icon={faUsers} />
+                Manage Permissions
+              </Link>
+              <Link
+                to={`/teams/${id}/folders/${folderId}/edit`}
+                className="btn btn-new me-3"
+              >
+                <FontAwesomeIcon icon={faPencil} />
+                Edit Folder
+              </Link>
+              {folderId && <DeleteFolder folderId={folderId} />}
+            </>
+          )}
+          {/* Editors & above can create new chart strings */}
+          {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
+            <Link
+              to={`/entry?folderId=${folderModel.data?.folder.id}`}
+              className="btn btn-new"
+            >
+              <FontAwesomeIcon icon={faPlus} />
+              Create New Chart String In {folderModel.data?.folder.name}
+            </Link>
+          )}
+        </div>
       </div>
       <div className="page-info mb-3">
         <p>{folderModel.data?.folder.description}</p>
@@ -62,43 +103,6 @@ const Folder: React.FC = () => {
           setSearch={setSearch}
         />
       </div>
-      <Link
-        to={`/teams/${id}/folders/${folderId}/admins`}
-        className="btn btn-new me-3"
-      >
-        <FontAwesomeIcon icon={faUserTie} />
-        View Folder Admins
-      </Link>
-      {/* Admins can manage permissions */}
-      {!limitedFolder && combinedPermissions.some((p) => p === "Admin") && (
-        <>
-          <Link
-            to={`/teams/${id}/folders/${folderId}/permissions`}
-            className="btn btn-new me-3"
-          >
-            <FontAwesomeIcon icon={faUsers} />
-            Manage Permissions
-          </Link>
-          <Link
-            to={`/teams/${id}/folders/${folderId}/edit`}
-            className="btn btn-new me-3"
-          >
-            <FontAwesomeIcon icon={faPencil} />
-            Edit Folder
-          </Link>
-          {folderId && <DeleteFolder folderId={folderId} />}
-        </>
-      )}
-      {/* Editors & above can create new chart strings */}
-      {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
-        <Link
-          to={`/entry?folderId=${folderModel.data?.folder.id}`}
-          className="btn btn-new me-3"
-        >
-          <FontAwesomeIcon icon={faPlus} />
-          Create New Chart String In {folderModel.data?.folder.name}
-        </Link>
-      )}
 
       <ChartListSimple
         charts={folderModel.data.charts}
