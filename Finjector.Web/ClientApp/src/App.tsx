@@ -39,7 +39,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/example" element={<Example />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/help" element={<About />} />
           <Route path="/landing" element={<RedirectHome />} />
           <Route
             path="/locator/:type/:id"
