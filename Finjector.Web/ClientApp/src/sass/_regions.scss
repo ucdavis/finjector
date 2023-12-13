@@ -78,13 +78,24 @@
     max-width: 700px;
   }
 }
-.team-chart-wrapper {
+.teamlist-wrapper {
   margin-top: 2%;
   h2 {
     font-family: $sans-bold;
     text-transform: uppercase;
     font-size: 1.2rem;
-    margin-bottom: -14px;
+  }
+  .team-chart-wrapper {
+    padding-left: 16px;
+    border-left: 2px solid $borders;
+    margin-top: 12px;
+    border-radius: 0px;
+  }
+  .folder-chart-wrapper {
+    margin-top: 2%;
+    &:first-child {
+      margin-top: 0;
+    }
   }
   h3 {
     color: $secondary-font;
@@ -94,6 +105,9 @@
     svg {
       height: 9px !important;
     }
+  }
+  li.chartstring-row:first-child {
+    margin-top: 0;
   }
   .no-link-style {
     color: inherit;
@@ -106,17 +120,5 @@
       height: 10px;
       padding-top: 3px;
     }
-  }
-  .saved-list-item:first-child {
-    margin-top: 0;
-  }
-  .list-group {
-    padding-left: 16px;
-    border-left: 2px solid $borders;
-    margin-top: 12px;
-    border-radius: 0px;
-  }
-  .folder-chart-wrapper {
-    margin-top: 20px;
   }
 }
