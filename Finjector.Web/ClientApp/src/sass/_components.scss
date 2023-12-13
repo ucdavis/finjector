@@ -321,7 +321,12 @@ hr {
     }
   }
 }
-
+span.gl-color {
+  color: $gl;
+}
+span.ppm-color {
+  color: $ppm;
+}
 .override-end {
   margin-right: 0 !important;
 }
