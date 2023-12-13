@@ -95,6 +95,7 @@ public class ChartsController : ControllerBase
                     {
                         g2.Key.Id,
                         g2.Key.Name,
+                        g2.Key.TeamId,
                         Coas = g2.Select(c => new
                         {
                             c.Id,

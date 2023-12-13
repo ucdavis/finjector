@@ -83,7 +83,7 @@ const ChartList = (props: Props) => {
               </h3>
               <ul className="list-group">
                 {folder.coas.map((chart) => (
-                  <ChartListItem key={chart.id} chart={chart} />
+                  <ChartListItem key={chart.id} folder={folder} chart={chart} />
                 ))}
               </ul>
             </div>
