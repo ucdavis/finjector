@@ -295,16 +295,31 @@ hr {
   }
 }
 
-li.chartstring-link {
+.row-link {
   text-decoration: none !important;
   padding: 8px;
   cursor: pointer;
-}
-.chartstring-link.is-gl:hover {
-  background-color: $gl-bg;
-}
-.chartstring-link.is-ppm:hover {
-  background-color: $ppm-bg;
+  &.is-gl:hover {
+    background-color: $gl-bg !important;
+  }
+  &.is-ppm:hover {
+    background-color: $ppm-bg !important;
+  }
+  &.is-default:hover {
+    background-color: $bg-primary;
+  }
+  &:hover {
+    &.is-gl {
+      .row-link-selected-action {
+        color: $gl;
+      }
+    }
+    &.is-ppm {
+      .row-link-selected-action {
+        color: $ppm;
+      }
+    }
+  }
 }
 
 .override-end {
