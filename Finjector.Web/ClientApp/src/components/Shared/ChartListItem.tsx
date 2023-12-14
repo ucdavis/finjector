@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Coa, ChartType, Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faScroll } from "@fortawesome/free-solid-svg-icons";
@@ -13,31 +13,9 @@ interface Props {
 
 const ChartListItem = ({ chart, folder }: Props) => {
   const isInPopup = usePopupStatus();
-  const navigate = useNavigate();
 
-  // TODO: replace with breadcrumb changes
-  const destination = isInPopup ? "/selected" : "/details";
-  const url = `${destination}/${chart.id}/${chart.segmentString}`;
-
-  const onChartClick = (e: any) => {
-    // don't navigate if the user was just selecting text
-    const selection = window.getSelection();
-
-    if (selection && selection.toString()) return;
-
-    // we don't want to navigate if they clicked a link or icon button
-    const tagName = e?.target.tagName.toLowerCase();
-
-    const isActionTag =
-      tagName === "a" || tagName === "svg" || tagName === "path";
-
-    if (!isActionTag) {
-      const destination = isInPopup ? "selected" : "details";
-      navigate(
-        `/teams/${folder.teamId}/folders/${folder.id}/${destination}/${chart.id}/${chart.segmentString}`
-      );
-    }
-  };
+  const destination = isInPopup ? "selected" : "details";
+  const url = `/teams/${folder.teamId}/folders/${folder.id}/${destination}/${chart.id}/${chart.segmentString}`;
 
   return (
     <ClickableListItem
@@ -65,9 +43,8 @@ const ChartListItem = ({ chart, folder }: Props) => {
         <Link
           to={`/teams/${folder.teamId}/folders/${folder.id}/details/${chart.id}/${chart.segmentString}`}
           className={`btn btn-link ${
-            destination === "/details" ? "row-link-selected-action" : ""
+            destination === "details" ? "row-link-selected-action" : ""
           }`}
-          
         >
           <FontAwesomeIcon icon={faScroll} />
           Details
@@ -75,9 +52,8 @@ const ChartListItem = ({ chart, folder }: Props) => {
         <Link
           to={`/teams/${folder.teamId}/folders/${folder.id}/selected/${chart.id}/${chart.segmentString}`}
           className={`btn btn-link ${
-            destination === "/selected" ? "row-link-selected-action" : ""
+            destination === "selected" ? "row-link-selected-action" : ""
           }`}
-          
         >
           <FontAwesomeIcon icon={faBolt} />
           Use

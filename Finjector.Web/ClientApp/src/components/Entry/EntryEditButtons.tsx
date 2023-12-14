@@ -37,8 +37,10 @@ const EntryEditButtons = (props: Props) => {
     };
 
     saveMutation.mutate(chartToSave, {
-      onSuccess: () => {
-        navigate(landingPage);
+      onSuccess: (data) => {
+        navigate(
+          `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
+        );
       },
     });
   };
@@ -53,9 +55,12 @@ const EntryEditButtons = (props: Props) => {
       segmentString: toSegmentString(props.chartData),
     };
 
+    //teams/1/folders/1/details/1/3110-13U20-ADNO003-238533-00-000-0000000000-000000-0000-000000-000000
     saveMutation.mutate(chartToSave, {
-      onSuccess: () => {
-        navigate(landingPage);
+      onSuccess: (data) => {
+        navigate(
+          `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
+        );
       },
     });
   };

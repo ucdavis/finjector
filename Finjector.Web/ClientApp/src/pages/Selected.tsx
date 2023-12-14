@@ -18,14 +18,13 @@ const Selected = () => {
         },
         "*" // send to all, we don't know the origin
       );
-
       // message sent, close the window
       window.close();
     } else {
       setHasOpener(false);
     }
   }, [chartSegmentString]);
-  
+
   if (chartSegmentString && !chartSegmentString.includes("-")) {
     // if we have a chart segment string, but it doesn't have a dash, it's probably a chart id
     return <Navigate to={`/locator/selected/${chartSegmentString}`} />;
@@ -47,14 +46,17 @@ const Selected = () => {
       ) : (
         <div>
           <p>
-            You've selected a chart string but aren't using Finjector inside a popup
-            window.
+            You've selected a chart string but aren't using Finjector inside a
+            popup window.
           </p>
           <p>
             Click copy to copy this to your clipboard, or head back home to work
             with another chart string.
           </p>
-          <CopyToClipboardButton value={chartSegmentString ?? ""} id="selected" />
+          <CopyToClipboardButton
+            value={chartSegmentString ?? ""}
+            id="selected"
+          />
         </div>
       )}
     </div>
