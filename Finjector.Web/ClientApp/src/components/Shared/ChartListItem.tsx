@@ -30,14 +30,19 @@ const ChartListItem = ({ chart, folder }: Props) => {
           <span>{chart.chartType}</span>
         </div>
         <div className="fw-bold "> {chart.name}</div>
-        <span style={{ wordWrap: "break-word" }}>
-          <CopyToClipboardHover
-            value={chart.segmentString}
-            id={`chart-list-${chart.id}`}
-          >
-            {chart.segmentString}
-          </CopyToClipboardHover>
-        </span>
+        {!isInPopup && (
+          <span style={{ wordWrap: "break-word" }}>
+            <CopyToClipboardHover
+              value={chart.segmentString}
+              id={`chart-list-${chart.id}`}
+            >
+              {chart.segmentString}
+            </CopyToClipboardHover>
+          </span>
+        )}
+        {isInPopup && (
+          <span style={{ wordWrap: "break-word" }}>{chart.segmentString}</span>
+        )}
       </div>
       <div className="col-3 text-end">
         <Link
