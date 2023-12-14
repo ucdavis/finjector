@@ -72,7 +72,6 @@ namespace Finjector.Core.Services
 
             aeDetails.ChartString = segmentString;
 
-
             aeDetails.ChartStringType = string.IsNullOrEmpty(segmentString) ? FinancialChartStringType.Invalid : GetChartType(segmentString);
             aeDetails.ChartType = aeDetails.ChartStringType.ToString().ToUpper();
             if(aeDetails.ChartStringType == FinancialChartStringType.Invalid)
