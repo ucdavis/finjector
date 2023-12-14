@@ -57,6 +57,11 @@ namespace Finjector.Core.Services
                 aeDetails.IsValid = false;
                 return aeDetails;
             }
+            if(segmentString.Trim().ToUpper() != segmentString.Trim())
+            {
+                aeDetails.Warnings.Add("Chart String had lowercase characters");
+            }
+            segmentString = segmentString.Trim().ToUpper();
             segmentString = await TryToConvertKfsAccount(aeDetails, segmentString);
 
             aeDetails.ChartString = segmentString;

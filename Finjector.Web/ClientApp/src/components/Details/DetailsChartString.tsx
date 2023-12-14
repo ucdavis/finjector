@@ -18,11 +18,7 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
   hasWarnings,
 }) => {
   const isInPopup = usePopupStatus();
-  const badgeColor = isValid
-    ? !hasWarnings
-      ? "success"
-      : "warning"
-    : "danger";
+  const badgeColor = isValid ? "success" : "danger";
   return (
     <div className="chartstring-details-title d-flex justify-content-between align-items-center">
       <div className="col-11">
