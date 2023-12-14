@@ -30,8 +30,13 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
           <span>{chartType} </span>
           <div className="div">
             <Badge color={badgeColor} pill={true}>
-              {isValid ? "Valid" : hasWarnings ? "Warning" : "Error"}
+              {isValid ? "Valid" : "Error"}
             </Badge>
+            {hasWarnings && (
+              <Badge color={"warning"} pill={true}>
+                Warning
+              </Badge>
+            )}
           </div>
         </div>
         <CopyToClipboardHover value={chartString} id="copyPpmGlString">
