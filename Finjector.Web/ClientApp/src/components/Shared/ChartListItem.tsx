@@ -14,7 +14,6 @@ interface Props {
 const ChartListItem = ({ chart, folder }: Props) => {
   const isInPopup = usePopupStatus();
 
-  // TODO: replace with breadcrumb changes
   const destination = isInPopup ? "selected" : "details";
   const url = `/teams/${folder.teamId}/folders/${folder.id}/${destination}/${chart.id}/${chart.segmentString}`;
 
