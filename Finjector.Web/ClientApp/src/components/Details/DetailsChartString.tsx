@@ -2,6 +2,7 @@ import React from "react";
 import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
 import CopyToClipboardButton from "../Shared/CopyToClipboardButton";
 import { Badge } from "reactstrap";
+import usePopupStatus from "../../util/customHooks";
 
 interface DetailsChartStringProps {
   chartType: string;
@@ -16,6 +17,7 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
   isValid,
   hasWarnings,
 }) => {
+  const isInPopup = usePopupStatus();
   const badgeColor = isValid
     ? !hasWarnings
       ? "success"
@@ -36,13 +38,15 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
           <h1>{chartString}</h1>
         </CopyToClipboardHover>
       </div>
-      <div className="col-1">
-        <CopyToClipboardButton
-          value={chartString}
-          id="copyPpmGlStringButton"
-          link={true}
-        />
-      </div>
+      {!isInPopup && (
+        <div className="col-1">
+          <CopyToClipboardButton
+            value={chartString}
+            id="copyPpmGlStringButton"
+            link={true}
+          />
+        </div>
+      )}
     </div>
   );
 };
