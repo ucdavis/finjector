@@ -72,7 +72,13 @@ const Details = () => {
   const isPpmOrGlClassName =
     chartDetails?.chartType === ChartType.PPM ? "is-ppm" : "is-gl";
   const use = () => {
-    navigate(`/teams/0/folders/0/selected/0/${chartSegmentString}`);
+    if (chartId) {
+      navigate(
+        `/teams/${teamId}/folders/${folderId}/selected/${chartId}/${chartSegmentString}`
+      );
+    } else {
+      navigate(`/selected/${chartSegmentString}`);
+    }
   };
 
   return (
