@@ -38,7 +38,7 @@ const Details = () => {
     if (chartId) {
       return `/teams/${teamId}/folders/${folderId}/entry/${chartId}/${chartDetails?.chartString}`;
     } else {
-      return `/entry/${chartSegmentString}`;
+      return `/entry/${chartDetails?.chartString}`;
     }
   };
 
@@ -74,10 +74,10 @@ const Details = () => {
   const use = () => {
     if (chartId) {
       navigate(
-        `/teams/${teamId}/folders/${folderId}/selected/${chartId}/${chartSegmentString}`
+        `/teams/${teamId}/folders/${folderId}/selected/${chartId}/${chartDetails?.chartString}`
       );
     } else {
-      navigate(`/selected/${chartSegmentString}`);
+      navigate(`/selected/${chartDetails?.chartString}`);
     }
   };
 
