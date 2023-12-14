@@ -154,6 +154,9 @@ const Entry = () => {
             }
           />
         )}
+
+        <CoaDisplay chartData={chartData} />
+
         <h2>Folder</h2>
         <FolderSearch
           selectedFolderId={savedChart.folderId}
@@ -166,7 +169,7 @@ const Entry = () => {
           chart={savedChart}
           updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
         />
-        <CoaDisplay chartData={chartData} />
+
         {savedChart.id ? (
           <EntryEditButtons chartData={chartData} savedChart={savedChart} />
         ) : (
