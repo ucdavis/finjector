@@ -29,15 +29,11 @@ const SaveAndUseButton = (props: Props) => {
 
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
-        if (isInPopup) {
-          navigate(
-            `/teams/${data.folder?.teamId}/folders/${data.folder?.id}/selected/${data.id}/${data.segmentString}`
-          );
-        } else {
-          navigate(
-            `/teams/${data.folder?.teamId}/folders/${data.folder?.id}/details/${data.id}/${data.segmentString}`
-          );
-        }
+        navigate(
+          `/teams/${data.folder?.teamId}/folders/${data.folder?.id}/${
+            isInPopup ? "selected" : "details"
+          }/${data.id}/${data.segmentString}`
+        );
       },
     });
   };
