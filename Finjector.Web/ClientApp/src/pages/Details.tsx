@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import FinLoader from "../components/Shared/FinLoader";
 
 import { AeDetails, ChartType } from "../types";
@@ -17,13 +17,16 @@ import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
 import { DetailsRow } from "../components/Details/DetailsRow";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faBolt, faPencil } from "@fortawesome/free-solid-svg-icons";
+import usePopupStatus from "../util/customHooks";
 
 const Details = () => {
   const { chartId, teamId, folderId, chartSegmentString } = useParams();
   const chartDetailsQuery = useGetChartDetails(chartSegmentString || "");
 
   const chartDetails: AeDetails | undefined = chartDetailsQuery.data;
+  const isInPopup = usePopupStatus();
+  const navigate = useNavigate();
 
   const invalid =
     (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) || // if we're doing first fetch
@@ -37,7 +40,7 @@ const Details = () => {
     } else {
       return `/entry/${chartSegmentString}`;
     }
-  }
+  };
 
   const renderLoadingOrError = () => {
     if (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) {
@@ -68,6 +71,9 @@ const Details = () => {
   };
   const isPpmOrGlClassName =
     chartDetails?.chartType === ChartType.PPM ? "is-ppm" : "is-gl";
+  const use = () => {
+    navigate(`/teams/0/folders/0/selected/0/${chartSegmentString}`);
+  };
 
   return (
     <div className="main">
@@ -76,9 +82,13 @@ const Details = () => {
 
         {!invalid && (
           <div className="col-md-9 text-end">
-            <Link
-              to={getEditLinkUrl()}
-            >
+            {isInPopup && (
+              <FinjectorButton onClick={use}>
+                <FontAwesomeIcon icon={faBolt} />
+                Use
+              </FinjectorButton>
+            )}
+            <Link to={getEditLinkUrl()}>
               <FinjectorButton>
                 <FontAwesomeIcon icon={faPencil} />
                 Edit Chart String
