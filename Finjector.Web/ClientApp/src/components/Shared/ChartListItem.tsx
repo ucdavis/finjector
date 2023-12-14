@@ -54,15 +54,17 @@ const ChartListItem = ({ chart, folder }: Props) => {
           <FontAwesomeIcon icon={faScroll} />
           Details
         </Link>
-        <Link
-          to={`/teams/${folder.teamId}/folders/${folder.id}/selected/${chart.id}/${chart.segmentString}`}
-          className={`btn btn-link ${
-            destination === "selected" ? "row-link-selected-action" : ""
-          }`}
-        >
-          <FontAwesomeIcon icon={faBolt} />
-          Use
-        </Link>
+        {isInPopup && (
+          <Link
+            to={`/teams/${folder.teamId}/folders/${folder.id}/selected/${chart.id}/${chart.segmentString}`}
+            className={`btn btn-link ${
+              destination === "selected" ? "row-link-selected-action" : ""
+            }`}
+          >
+            <FontAwesomeIcon icon={faBolt} />
+            Use
+          </Link>
+        )}
       </div>
     </ClickableListItem>
   );
