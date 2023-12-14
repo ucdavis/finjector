@@ -5,6 +5,7 @@ import { useSaveChart } from "../../queries/storedChartQueries";
 import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
 import FinjectorButton from "../Shared/FinjectorButton";
+import usePopupStatus from "../../util/customHooks";
 
 interface Props {
   chartData: ChartData;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const SaveAndUseButton = (props: Props) => {
+  const isInPopup = usePopupStatus();
   const navigate = useNavigate();
 
   const { chartData, savedChart } = props;
@@ -28,7 +30,9 @@ const SaveAndUseButton = (props: Props) => {
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
         navigate(
-          `/teams/${data.folder?.teamId}/folders/${data.folder?.id}/selected/${data.id}/${data.segmentString}`
+          `/teams/${data.folder?.teamId}/folders/${data.folder?.id}/${
+            isInPopup ? "selected" : "details"
+          }/${data.id}/${data.segmentString}`
         );
       },
     });
@@ -42,7 +46,7 @@ const SaveAndUseButton = (props: Props) => {
         disabled={saveMutation.isLoading || !savedChart.name}
         onClick={saveAndUse}
       >
-        Save and use
+        {isInPopup ? "Save and use" : "Save"}
       </FinjectorButton>
     </div>
   );
