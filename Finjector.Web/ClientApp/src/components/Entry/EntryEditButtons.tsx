@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import usePopupStatus from "../../util/customHooks";
 import { useRemoveChart, useSaveChart } from "../../queries/storedChartQueries";
 import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
@@ -24,6 +24,7 @@ interface Props {
 // Handle remove, save, copy and use buttons
 const EntryEditButtons = (props: Props) => {
   const navigate = useNavigate();
+  const isInPopup = usePopupStatus();
 
   const { chartData, savedChart } = props;
 
@@ -107,10 +108,12 @@ const EntryEditButtons = (props: Props) => {
         <FontAwesomeIcon icon={faBookmark} />
         Save
       </FinjectorButton>
-      <FinjectorButton className="flex-fill override-end" onClick={use}>
-        <FontAwesomeIcon icon={faBolt} />
-        Use
-      </FinjectorButton>
+      {isInPopup && (
+        <FinjectorButton className="flex-fill override-end" onClick={use}>
+          <FontAwesomeIcon icon={faBolt} />
+          Use
+        </FinjectorButton>
+      )}
     </div>
   );
 };
