@@ -29,7 +29,7 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
         <div className="chartstring-type">
           <span>{chartType} </span>
           <div className="div">
-            <Badge color={badgeColor} pill={true}>
+            <Badge color={badgeColor} pill={true} className="me-1">
               {isValid ? "Valid" : "Error"}
             </Badge>
             {hasWarnings && (
