@@ -3,6 +3,7 @@ import React from "react";
 import { useSegmentValidateQuery } from "../../queries/segmentQueries";
 import { ChartData } from "../../types";
 import { chartDataValid, toSegmentString } from "../../util/segmentValidation";
+import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
 
 interface Props {
   chartData: ChartData;
@@ -57,7 +58,10 @@ const CoaDisplay = (props: Props) => {
       {getValidateMessage()}
       <div className="text-center">
         <p>
-          {chartString}
+          <CopyToClipboardHover value={chartString} id="copyPpmGlString">
+            {chartString}
+          </CopyToClipboardHover>
+
           {segmentValidate.data?.segments.award && (
             <div>
               <label className="form-label">Award:</label>{" "}
