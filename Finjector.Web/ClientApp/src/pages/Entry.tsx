@@ -157,11 +157,8 @@ const Entry = () => {
         <hr />
         <CoaDisplay chartData={chartData} />
         <hr />
-        <div>
-          Current Team: {savedChartQuery.data?.chart.folder?.team?.name}
-        </div>
-        <div>Current Folder: {savedChartQuery.data?.chart.folder?.name}</div>
-        <div className="row mb-5">
+
+        <div className="row">
           <FolderSearch
             selectedFolderId={savedChart.folderId}
             updateFolderId={(folderId) =>
@@ -172,6 +169,15 @@ const Entry = () => {
             chart={savedChart}
             updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
           />
+        </div>
+        <div className="row mb-5">
+          <div className="col-md-6">
+            <div className="form-text">
+              Current Team: {savedChartQuery.data?.chart.folder?.team?.name}
+              <br />
+              Current Folder: {savedChartQuery.data?.chart.folder?.name}
+            </div>
+          </div>
         </div>
 
         {savedChart.id ? (
