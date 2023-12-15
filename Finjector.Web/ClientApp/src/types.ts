@@ -31,6 +31,7 @@ export interface Folder {
   myFolderPermissions: PermissionType[];
   myTeamPermissions: PermissionType[];
   coas: Coa[];
+  team: Team;
 }
 
 export type CollectionResourceType = "team" | "folder";

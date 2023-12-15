@@ -39,6 +39,7 @@ for (let i = 0; i < 3; i++) {
     myFolderPermissions: ["Admin", "Edit", "View"],
     myTeamPermissions: ["Admin", "Edit", "View"],
     coas: [...fakeCharts],
+    team: fakeTeams[0],
   });
 }
 

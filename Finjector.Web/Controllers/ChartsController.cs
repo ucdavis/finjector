@@ -44,7 +44,7 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
 
-        var chart = await _dbContext.Coas.Include(c => c.Folder).SingleOrDefaultAsync(c => c.Id == id);
+        var chart = await _dbContext.Coas.Include(c => c.Folder).ThenInclude(a=> a.Team).SingleOrDefaultAsync(c => c.Id == id);
 
         if (chart == null)
         {
