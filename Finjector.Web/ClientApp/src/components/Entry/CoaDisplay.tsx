@@ -54,27 +54,17 @@ const CoaDisplay = (props: Props) => {
   };
 
   return (
-    <div className="pt-2">
-      {getValidateMessage()}
-      <div className="text-center">
-        <p>
-          <CopyToClipboardHover value={chartString} id="copyPpmGlString">
-            {chartString}
-          </CopyToClipboardHover>
+    <div className="row">
+      <div className="col-md-6">
+        <div className="pt-2">
+          <p>
+            <CopyToClipboardHover value={chartString} id="copyPpmGlString">
+              {chartString}
+            </CopyToClipboardHover>
+          </p>
 
-          {segmentValidate.data?.segments.award && (
-            <div>
-              <label className="form-label">Award:</label>{" "}
-              {segmentValidate.data?.segments.award}
-            </div>
-          )}
-          {segmentValidate.data?.segments.fundingSource && (
-            <div>
-              <label className="form-label">Funding Source:</label>{" "}
-              {segmentValidate.data?.segments.fundingSource}
-            </div>
-          )}
-        </p>
+          {getValidateMessage()}
+        </div>
       </div>
     </div>
   );

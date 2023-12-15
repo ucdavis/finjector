@@ -39,9 +39,11 @@ const SaveAndUseButton = (props: Props) => {
   };
 
   return (
-    <div className="d-grid">
+    // <div className="row">
+    //   <div className="col-md-6">
+    <div className="d-flex">
       <FinjectorButton
-        className="btn btn-primary"
+        className="btn btn-new flex-fill override-end"
         type="button"
         disabled={saveMutation.isLoading || !savedChart.name}
         onClick={saveAndUse}
@@ -49,6 +51,8 @@ const SaveAndUseButton = (props: Props) => {
         {isInPopup ? "Save and use" : "Save"}
       </FinjectorButton>
     </div>
+    // </div>
+    // </div>
   );
 };
 
