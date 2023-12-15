@@ -54,15 +54,18 @@ const CoaDisplay = (props: Props) => {
   };
 
   return (
-    <div className="pt-2">
-      <div className="text-center">
-        <p>
-          <CopyToClipboardHover value={chartString} id="copyPpmGlString">
-            {chartString}
-          </CopyToClipboardHover>
-        </p>
+    <div className="row">
+      <div className="col-md-6">
+        <div className="pt-2">
+          <p>
+            <CopyToClipboardHover value={chartString} id="copyPpmGlString">
+              {chartString}
+            </CopyToClipboardHover>
+          </p>
+
+          {getValidateMessage()}
+        </div>
       </div>
-      {getValidateMessage()}
     </div>
   );
 };

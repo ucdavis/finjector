@@ -154,21 +154,21 @@ const Entry = () => {
             }
           />
         )}
-
+        <hr />
         <CoaDisplay chartData={chartData} />
-
-        <h2>Folder</h2>
-        <FolderSearch
-          selectedFolderId={savedChart.folderId}
-          updateFolderId={(folderId) =>
-            setSavedChart((c) => ({ ...c, folderId }))
-          }
-        />
-        <h2>Name</h2>
-        <NameEntry
-          chart={savedChart}
-          updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
-        />
+        <hr />
+        <div className="row mb-5">
+          <FolderSearch
+            selectedFolderId={savedChart.folderId}
+            updateFolderId={(folderId) =>
+              setSavedChart((c) => ({ ...c, folderId }))
+            }
+          />
+          <NameEntry
+            chart={savedChart}
+            updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
+          />
+        </div>
 
         {savedChart.id ? (
           <EntryEditButtons chartData={chartData} savedChart={savedChart} />

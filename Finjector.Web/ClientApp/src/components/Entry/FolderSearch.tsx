@@ -57,7 +57,8 @@ const FolderSearch = ({
   };
 
   return (
-    <div className="mb-3 col-sm-6">
+    <div className="col-md-6">
+      <h2>Folder</h2>
       <p>Choose where you would like to store your chart string</p>
       <InputGroup>
         <InputGroupText>
