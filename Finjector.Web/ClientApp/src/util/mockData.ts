@@ -25,6 +25,8 @@ for (let i = 0; i < 3; i++) {
     chartType: ChartType.GL,
     folderId: 0,
     updated: new Date(),
+    teamName: "Team 0",
+    canEdit: true,
   });
 }
 
