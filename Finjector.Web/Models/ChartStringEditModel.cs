@@ -3,20 +3,6 @@ using System.Linq.Expressions;
 
 namespace Finjector.Web.Models
 {
-
-//    export interface Coa
-//    {
-//        id: number;
-//  segmentString: string;
-//  name: string;
-//  chartType: ChartType;
-//  folderId?: number;
-//  folder?: Folder;
-//  updated: Date;
-//  teamName: string;
-//  canEdit: boolean;
-//}
-
     public class ChartStringEditModel
     {
         public int Id { get; set; }
