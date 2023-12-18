@@ -84,14 +84,16 @@ const EntryEditButtons = (props: Props) => {
 
   return (
     <div className="d-flex justify-content-between">
-      <FinjectorButton
-        className="flex-fill"
-        disabled={removeMutation.isLoading}
-        onClick={remove}
-      >
-        <FontAwesomeIcon icon={faTrash} />
-        Remove
-      </FinjectorButton>
+      {savedChart.canEdit && (
+        <FinjectorButton
+          className="flex-fill"
+          disabled={removeMutation.isLoading}
+          onClick={remove}
+        >
+          <FontAwesomeIcon icon={faTrash} />
+          Remove
+        </FinjectorButton>
+      )}
       <FinjectorButton
         className="flex-fill"
         disabled={saveMutation.isLoading || !props.savedChart.name}
@@ -100,14 +102,17 @@ const EntryEditButtons = (props: Props) => {
         <FontAwesomeIcon icon={faClone} />
         Duplicate
       </FinjectorButton>
-      <FinjectorButton
-        className="flex-fill"
-        disabled={saveMutation.isLoading || !props.savedChart.name}
-        onClick={save}
-      >
-        <FontAwesomeIcon icon={faBookmark} />
-        Save
-      </FinjectorButton>
+      {savedChart.canEdit && (
+        <FinjectorButton
+          className="flex-fill"
+          disabled={saveMutation.isLoading || !props.savedChart.name}
+          onClick={save}
+        >
+          <FontAwesomeIcon icon={faBookmark} />
+          Save
+        </FinjectorButton>
+      )}
+
       {isInPopup && (
         <FinjectorButton className="flex-fill override-end" onClick={use}>
           <FontAwesomeIcon icon={faBolt} />
