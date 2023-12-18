@@ -44,17 +44,21 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
 
-        var chart = await _dbContext.Coas.Include(c => c.Folder).SingleOrDefaultAsync(c => c.Id == id);
+        //var chart = await _dbContext.Coas.Include(c => c.Folder).SingleOrDefaultAsync(c => c.Id == id);
 
-        if (chart == null)
+        //if (chart == null)
+        //{
+        //    return NotFound();
+        //}
+
+        var rtValue = await _dbContext.Coas.Where(c => c.Id == id).Select(ChartStringEditModel.Projection()).SingleOrDefaultAsync();
+        if(rtValue == null)
         {
-            return NotFound();
+               return NotFound();
         }
+        rtValue.CanEdit = await _userService.VerifyChartAccess(id, iamId, Role.Codes.Edit);
 
-        //Just to test
-        //var rtValue = await _aggieEnterpriseService.GetAeDetailsAsync(chart.SegmentString);
-
-        return Ok(chart);
+        return Ok(rtValue);
     }
 
     [HttpGet("all")]

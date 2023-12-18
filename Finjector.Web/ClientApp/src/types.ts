@@ -6,6 +6,8 @@ export interface Coa {
   folderId?: number;
   folder?: Folder;
   updated: Date;
+  teamName: string;
+  canEdit: boolean;
 }
 
 export enum ChartType {
