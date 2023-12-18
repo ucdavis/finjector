@@ -50,6 +50,10 @@ public class ChartsController : ControllerBase
                return NotFound();
         }
         rtValue.CanEdit = await _userService.VerifyChartAccess(id, iamId, Role.Codes.Edit);
+        if(!rtValue.CanEdit)
+        {
+            rtValue.FolderId = 0;
+        }
 
         return Ok(rtValue);
     }
