@@ -21,7 +21,7 @@ const Paste = () => {
     if (coaValid || coa === "") {
       setError("");
     } else {
-      setError("CoA does not appear to be a valid GL or PPM segment string");
+      setError("Chart String does not appear to be a valid GL or PPM segment string");
     }
   }, [coa]);
 
