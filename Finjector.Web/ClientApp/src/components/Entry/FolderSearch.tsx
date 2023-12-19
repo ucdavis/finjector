@@ -42,6 +42,11 @@ const FolderSearch = ({
         setSelectedFolder(
           data.find((f) => f.teamName === "Personal" && f.name === "Default")
         );
+        //we also want to set the folderid here
+        updateFolderId(
+          data.find((f) => f.teamName === "Personal" && f.name === "Default")
+            ?.id ?? 0
+        );
       }
     }
   }, [data, initialFolderId]);
