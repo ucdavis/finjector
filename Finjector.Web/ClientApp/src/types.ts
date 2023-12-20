@@ -155,3 +155,8 @@ export interface Approver {
   email: string | null;
   name: string;
 }
+
+export interface ChartStringAndAeDetails {
+  chartStringDetails: Coa;
+  aeDetails: AeDetails;
+}

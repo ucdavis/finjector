@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import FinLoader from "../components/Shared/FinLoader";
 
-import { AeDetails, ChartType } from "../types";
+import { AeDetails, ChartType, Coa } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
@@ -21,23 +21,28 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 
 const Details = () => {
   const { chartId, teamId, folderId, chartSegmentString } = useParams();
-  const chartDetailsQuery = useGetChartDetails(chartSegmentString || "");
+  const chartDetailsQuery = useGetChartDetails(
+    chartSegmentString || "",
+    chartId
+  );
 
-  const chartDetails: AeDetails | undefined = chartDetailsQuery.data;
+  const aeDetails: AeDetails | undefined = chartDetailsQuery.data?.aeDetails;
+  const chartStringDetails: Coa | undefined =
+    chartDetailsQuery.data?.chartStringDetails;
 
   const invalid =
     (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) || // if we're doing first fetch
     chartDetailsQuery.isError || // if we've errored
-    !chartDetails?.chartString || // if we have no data
-    chartDetails.chartType === ChartType.INVALID; // if we have invalid data
+    !aeDetails?.chartString || // if we have no data
+    aeDetails.chartType === ChartType.INVALID; // if we have invalid data
 
   const getEditLinkUrl = () => {
     if (chartId) {
-      return `/teams/${teamId}/folders/${folderId}/entry/${chartId}/${chartDetails?.chartString}`;
+      return `/teams/${teamId}/folders/${folderId}/entry/${chartId}/${aeDetails?.chartString}`;
     } else {
-      return `/entry/${chartSegmentString}`;
+      return `/entry/${aeDetails?.chartString}`;
     }
-  }
+  };
 
   const renderLoadingOrError = () => {
     if (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) {
@@ -56,8 +61,8 @@ const Details = () => {
     }
     if (
       !chartSegmentString ||
-      !chartDetails?.chartString ||
-      chartDetails.chartType === ChartType.INVALID
+      !aeDetails?.chartString ||
+      aeDetails.chartType === ChartType.INVALID
     ) {
       return (
         <div className={`chartstring-details is-none`}>
@@ -67,42 +72,40 @@ const Details = () => {
     }
   };
   const isPpmOrGlClassName =
-    chartDetails?.chartType === ChartType.PPM ? "is-ppm" : "is-gl";
+    aeDetails?.chartType === ChartType.PPM ? "is-ppm" : "is-gl";
 
   return (
     <div className="main">
       <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
-        <h1>{chartDetails?.chartType}</h1>
+        <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
 
         {!invalid && (
-          <div className="col-md-9 text-end">
-            <Link
-              to={getEditLinkUrl()}
-            >
+          <div className="col-md-6 text-end">
+            <Link to={getEditLinkUrl()}>
               <FinjectorButton>
                 <FontAwesomeIcon icon={faPencil} />
                 Edit Chart String
               </FinjectorButton>
             </Link>
-            <SharePopup chartString={chartDetails.chartString} />
+            <SharePopup chartString={aeDetails.chartString} />
           </div>
         )}
       </div>
 
-      {!!chartDetails && (
+      {!!aeDetails && (
         <div>
-          {chartDetails.errors.length > 0 &&
-            chartDetails.errors.map((error, i) => {
+          {aeDetails.errors.length > 0 &&
+            aeDetails.errors.map((error, i) => {
               return (
                 <Alert color="danger" key={i}>
                   Error: {error}
                 </Alert>
               );
             })}
-          {!!chartDetails &&
-            chartDetails.hasWarnings &&
-            chartDetails.warnings.length > 0 &&
-            chartDetails.warnings.map((warning, i) => {
+          {!!aeDetails &&
+            aeDetails.hasWarnings &&
+            aeDetails.warnings.length > 0 &&
+            aeDetails.warnings.map((warning, i) => {
               return (
                 <Alert color="warning" key={i}>
                   Warning: {warning}
@@ -116,13 +119,13 @@ const Details = () => {
       ) : (
         <div className={`chartstring-details ${isPpmOrGlClassName}`}>
           <DetailsChartString
-            chartType={chartDetails.chartType}
-            chartString={chartDetails.chartString}
-            isValid={chartDetails.isValid}
-            hasWarnings={chartDetails.hasWarnings}
+            chartType={aeDetails.chartType}
+            chartString={aeDetails.chartString}
+            isValid={aeDetails.isValid}
+            hasWarnings={aeDetails.hasWarnings}
           />
           <div className="chartstring-details-info unique-bg">
-            {chartDetails.segmentDetails.map((segment, i) => {
+            {aeDetails.segmentDetails.map((segment, i) => {
               return (
                 <DetailsRow
                   headerColText={segment.entity}
@@ -150,12 +153,12 @@ const Details = () => {
             })}
           </div>
           <div className="chartstring-details-info">
-            {chartDetails.chartType === ChartType.PPM && (
-              <PpmDetailsPage details={chartDetails.ppmDetails} />
+            {aeDetails.chartType === ChartType.PPM && (
+              <PpmDetailsPage details={aeDetails.ppmDetails} />
             )}
             <DetailsRow
               headerColText="GL Financial Department SCM Approver(s)"
-              column2={chartDetails.approvers.map((approver, i) => {
+              column2={aeDetails.approvers.map((approver, i) => {
                 return (
                   <div key={i}>
                     <CopyToClipboardHover
@@ -171,7 +174,7 @@ const Details = () => {
           </div>
         </div>
       )}
-      <ChartDebugInfo chartDetails={chartDetails} />
+      <ChartDebugInfo chartDetails={aeDetails} />
     </div>
   );
 };

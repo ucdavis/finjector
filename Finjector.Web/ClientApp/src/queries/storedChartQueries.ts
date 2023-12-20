@@ -1,6 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Coa, ChartType, AeDetails, TeamGroupedCoas } from "../types";
+import {
+  Coa,
+  ChartType,
+  TeamGroupedCoas,
+  ChartStringAndAeDetails,
+} from "../types";
 import { doFetch } from "../util/api";
 
 // Using query functions here in case we change to async/stored stirngs later
@@ -16,17 +21,21 @@ export const useGetChart = (id: string) =>
     return await doFetch<Coa>(fetch(`/api/charts/${id}`));
   });
 
-export const useGetChartDetails = (segmentString: string) =>
+export const useGetChartDetails = (chartString: string, chartId?: string) =>
   useQuery(
-    ["charts", "detail", segmentString],
+    ["charts", "details", chartString],
     async () => {
-      const chart = await doFetch<AeDetails>(
-        fetch(`/api/charts/detail?segmentString=${segmentString}`)
+      const chart = await doFetch<ChartStringAndAeDetails>(
+        fetch(
+          chartId
+            ? `/api/charts/details/id?chartId=${chartId}`
+            : `/api/charts/details/string?chartString=${chartString}`
+        )
       );
 
       return chart;
     },
-    { enabled: segmentString.length > 0 }
+    { enabled: chartString.length > 0 }
   );
 
 // pull saved chart and return hydrated chartData from server
@@ -77,6 +86,7 @@ export const useSaveChart = () => {
         // invalidate the charts query so we can get the new chart
         queryClient.invalidateQueries(["charts", "me"]);
         queryClient.invalidateQueries(["charts", "saved", chart.id]);
+        queryClient.invalidateQueries(["charts", "details", chart.id]);
       },
     }
   );
