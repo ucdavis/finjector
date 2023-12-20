@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import FinLoader from "../components/Shared/FinLoader";
 
 import { AeDetails, ChartType, Coa } from "../types";
@@ -17,7 +17,8 @@ import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
 import { DetailsRow } from "../components/Details/DetailsRow";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faBolt, faPencil } from "@fortawesome/free-solid-svg-icons";
+import usePopupStatus from "../util/customHooks";
 
 const Details = () => {
   const { chartId, teamId, folderId, chartSegmentString } = useParams();
@@ -29,6 +30,8 @@ const Details = () => {
   const aeDetails: AeDetails | undefined = chartDetailsQuery.data?.aeDetails;
   const chartStringDetails: Coa | undefined =
     chartDetailsQuery.data?.chartStringDetails;
+  const isInPopup = usePopupStatus();
+  const navigate = useNavigate();
 
   const invalid =
     (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) || // if we're doing first fetch
@@ -73,6 +76,15 @@ const Details = () => {
   };
   const isPpmOrGlClassName =
     aeDetails?.chartType === ChartType.PPM ? "is-ppm" : "is-gl";
+  const use = () => {
+    if (chartId) {
+      navigate(
+        `/teams/${teamId}/folders/${folderId}/selected/${chartId}/${aeDetails?.chartString}`
+      );
+    } else {
+      navigate(`/selected/${aeDetails?.chartString}`);
+    }
+  };
 
   return (
     <div className="main">
@@ -80,7 +92,13 @@ const Details = () => {
         <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
 
         {!invalid && (
-          <div className="col-md-6 text-end">
+          <div className="col-md-9 text-end">
+            {isInPopup && (
+              <FinjectorButton onClick={use}>
+                <FontAwesomeIcon icon={faBolt} />
+                Use
+              </FinjectorButton>
+            )}
             <Link to={getEditLinkUrl()}>
               <FinjectorButton>
                 <FontAwesomeIcon icon={faPencil} />

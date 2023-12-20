@@ -57,7 +57,18 @@ namespace Finjector.Core.Services
                 aeDetails.IsValid = false;
                 return aeDetails;
             }
+
+            var hadLowercase = segmentString.Trim().ToUpper() != segmentString.Trim();
+
+            segmentString = segmentString.Trim().ToUpper();
+            var saveSegmentString = segmentString;
             segmentString = await TryToConvertKfsAccount(aeDetails, segmentString);
+
+            //We only want this warning for COAs, not KFS accounts
+            if(hadLowercase && saveSegmentString == segmentString)
+            {
+                aeDetails.Warnings.Add("Chart String had lowercase characters. Lowercase characters are not valid in chart string segments.");
+            }
 
             aeDetails.ChartString = segmentString;
 

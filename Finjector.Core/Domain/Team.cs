@@ -43,7 +43,6 @@ namespace Finjector.Core.Domain
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Team>().HasQueryFilter(t => t.IsActive);
-            modelBuilder.Entity<Folder>().HasQueryFilter(f => f.Team.IsActive);
             modelBuilder.Entity<TeamPermission>().HasQueryFilter(tp => tp.Team.IsActive);
             modelBuilder.Entity<History>().HasQueryFilter(h => h.Team.IsActive);
             

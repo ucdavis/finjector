@@ -49,6 +49,8 @@ const Entry = () => {
     segmentString: "",
     folderId: saveInFolderId,
     updated: new Date(),
+    teamName: "",
+    canEdit: false,
   });
 
   // in progress chart data
@@ -154,19 +156,30 @@ const Entry = () => {
             }
           />
         )}
-        <h2>Folder</h2>
-        <FolderSearch
-          selectedFolderId={savedChart.folderId}
-          updateFolderId={(folderId) =>
-            setSavedChart((c) => ({ ...c, folderId }))
-          }
-        />
-        <h2>Name</h2>
-        <NameEntry
-          chart={savedChart}
-          updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
-        />
+        <hr />
         <CoaDisplay chartData={chartData} />
+        <hr />
+        <div className="row">
+          <FolderSearch
+            selectedFolderId={savedChart.folderId}
+            updateFolderId={(folderId) =>
+              setSavedChart((c) => ({ ...c, folderId }))
+            }
+          />
+          <NameEntry
+            chart={savedChart}
+            updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
+          />
+        </div>
+        <div className="row mb-5">
+          <div className="col-md-6">
+            <div className="form-text">
+              Current Team: {savedChartQuery.data?.chart.teamName}
+              <br />
+              Current Folder: {savedChartQuery.data?.chart.folder?.name}
+            </div>
+          </div>
+        </div>
         {savedChart.id ? (
           <EntryEditButtons chartData={chartData} savedChart={savedChart} />
         ) : (

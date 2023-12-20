@@ -3,6 +3,7 @@ import React from "react";
 import { useSegmentValidateQuery } from "../../queries/segmentQueries";
 import { ChartData } from "../../types";
 import { chartDataValid, toSegmentString } from "../../util/segmentValidation";
+import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
 
 interface Props {
   chartData: ChartData;
@@ -53,24 +54,17 @@ const CoaDisplay = (props: Props) => {
   };
 
   return (
-    <div className="pt-2">
-      {getValidateMessage()}
-      <div className="text-center">
-        <p>
-          {chartString}
-          {segmentValidate.data?.segments.award && (
-            <div>
-              <label className="form-label">Award:</label>{" "}
-              {segmentValidate.data?.segments.award}
-            </div>
-          )}
-          {segmentValidate.data?.segments.fundingSource && (
-            <div>
-              <label className="form-label">Funding Source:</label>{" "}
-              {segmentValidate.data?.segments.fundingSource}
-            </div>
-          )}
-        </p>
+    <div className="row">
+      <div className="col-md-6">
+        <div className="pt-2">
+          <p>
+            <CopyToClipboardHover value={chartString} id="copyPpmGlString">
+              {chartString}
+            </CopyToClipboardHover>
+          </p>
+
+          {getValidateMessage()}
+        </div>
       </div>
     </div>
   );

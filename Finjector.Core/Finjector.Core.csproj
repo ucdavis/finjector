@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AggieEnterpriseApi" Version="0.2.213" />
+    <PackageReference Include="AggieEnterpriseApi" Version="0.2.215" />
     <PackageReference Include="ietws" Version="0.2.22" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.31.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.24" />

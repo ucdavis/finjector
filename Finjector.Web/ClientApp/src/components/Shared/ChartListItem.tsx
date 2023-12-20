@@ -30,14 +30,19 @@ const ChartListItem = ({ chart, folder }: Props) => {
           <span>{chart.chartType}</span>
         </div>
         <div className="fw-bold "> {chart.name}</div>
-        <span style={{ wordWrap: "break-word" }}>
-          <CopyToClipboardHover
-            value={chart.segmentString}
-            id={`chart-list-${chart.id}`}
-          >
-            {chart.segmentString}
-          </CopyToClipboardHover>
-        </span>
+        {!isInPopup && (
+          <span style={{ wordWrap: "break-word" }}>
+            <CopyToClipboardHover
+              value={chart.segmentString}
+              id={`chart-list-${chart.id}`}
+            >
+              {chart.segmentString}
+            </CopyToClipboardHover>
+          </span>
+        )}
+        {isInPopup && (
+          <span style={{ wordWrap: "break-word" }}>{chart.segmentString}</span>
+        )}
       </div>
       <div className="col-3 text-end">
         <Link
@@ -49,15 +54,17 @@ const ChartListItem = ({ chart, folder }: Props) => {
           <FontAwesomeIcon icon={faScroll} />
           Details
         </Link>
-        <Link
-          to={`/teams/${folder.teamId}/folders/${folder.id}/selected/${chart.id}/${chart.segmentString}`}
-          className={`btn btn-link ${
-            destination === "selected" ? "row-link-selected-action" : ""
-          }`}
-        >
-          <FontAwesomeIcon icon={faBolt} />
-          Use
-        </Link>
+        {isInPopup && (
+          <Link
+            to={`/teams/${folder.teamId}/folders/${folder.id}/selected/${chart.id}/${chart.segmentString}`}
+            className={`btn btn-link ${
+              destination === "selected" ? "row-link-selected-action" : ""
+            }`}
+          >
+            <FontAwesomeIcon icon={faBolt} />
+            Use
+          </Link>
+        )}
       </div>
     </ClickableListItem>
   );

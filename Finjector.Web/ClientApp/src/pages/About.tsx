@@ -27,7 +27,7 @@ const About = () => {
             accounts on campus. Each segment relates to a specific fund/entity.
             here is an example one:
             <br />
-            <code>000-0000-0000</code>
+            <code>0000000000-000000-0000000-000000</code>
           </p>
           <p></p>
           <p>

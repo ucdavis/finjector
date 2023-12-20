@@ -2,6 +2,7 @@ import React from "react";
 import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
 import CopyToClipboardButton from "../Shared/CopyToClipboardButton";
 import { Badge } from "reactstrap";
+import usePopupStatus from "../../util/customHooks";
 
 interface DetailsChartStringProps {
   chartType: string;
@@ -16,33 +17,37 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
   isValid,
   hasWarnings,
 }) => {
-  const badgeColor = isValid
-    ? !hasWarnings
-      ? "success"
-      : "warning"
-    : "danger";
+  const isInPopup = usePopupStatus();
+  const badgeColor = isValid ? "success" : "danger";
   return (
     <div className="chartstring-details-title d-flex justify-content-between align-items-center">
       <div className="col-11">
         <div className="chartstring-type">
           <span>{chartType} </span>
           <div className="div">
-            <Badge color={badgeColor} pill={true}>
-              {isValid ? "Valid" : hasWarnings ? "Warning" : "Error"}
+            <Badge color={badgeColor} pill={true} className="me-1">
+              {isValid ? "Valid" : "Error"}
             </Badge>
+            {hasWarnings && (
+              <Badge color={"warning"} pill={true}>
+                Warning
+              </Badge>
+            )}
           </div>
         </div>
         <CopyToClipboardHover value={chartString} id="copyPpmGlString">
           <h1>{chartString}</h1>
         </CopyToClipboardHover>
       </div>
-      <div className="col-1">
-        <CopyToClipboardButton
-          value={chartString}
-          id="copyPpmGlStringButton"
-          link={true}
-        />
-      </div>
+      {!isInPopup && (
+        <div className="col-1">
+          <CopyToClipboardButton
+            value={chartString}
+            id="copyPpmGlStringButton"
+            link={true}
+          />
+        </div>
+      )}
     </div>
   );
 };

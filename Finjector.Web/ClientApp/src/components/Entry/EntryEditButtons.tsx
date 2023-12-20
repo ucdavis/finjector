@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import usePopupStatus from "../../util/customHooks";
 import { useRemoveChart, useSaveChart } from "../../queries/storedChartQueries";
 import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
@@ -24,6 +24,7 @@ interface Props {
 // Handle remove, save, copy and use buttons
 const EntryEditButtons = (props: Props) => {
   const navigate = useNavigate();
+  const isInPopup = usePopupStatus();
 
   const { chartData, savedChart } = props;
 
@@ -83,14 +84,16 @@ const EntryEditButtons = (props: Props) => {
 
   return (
     <div className="d-flex justify-content-between">
-      <FinjectorButton
-        className="flex-fill"
-        disabled={removeMutation.isLoading}
-        onClick={remove}
-      >
-        <FontAwesomeIcon icon={faTrash} />
-        Remove
-      </FinjectorButton>
+      {savedChart.canEdit && (
+        <FinjectorButton
+          className="flex-fill"
+          disabled={removeMutation.isLoading}
+          onClick={remove}
+        >
+          <FontAwesomeIcon icon={faTrash} />
+          Remove
+        </FinjectorButton>
+      )}
       <FinjectorButton
         className="flex-fill"
         disabled={saveMutation.isLoading || !props.savedChart.name}
@@ -99,18 +102,23 @@ const EntryEditButtons = (props: Props) => {
         <FontAwesomeIcon icon={faClone} />
         Duplicate
       </FinjectorButton>
-      <FinjectorButton
-        className="flex-fill"
-        disabled={saveMutation.isLoading || !props.savedChart.name}
-        onClick={save}
-      >
-        <FontAwesomeIcon icon={faBookmark} />
-        Save
-      </FinjectorButton>
-      <FinjectorButton className="flex-fill override-end" onClick={use}>
-        <FontAwesomeIcon icon={faBolt} />
-        Use
-      </FinjectorButton>
+      {savedChart.canEdit && (
+        <FinjectorButton
+          className="flex-fill"
+          disabled={saveMutation.isLoading || !props.savedChart.name}
+          onClick={save}
+        >
+          <FontAwesomeIcon icon={faBookmark} />
+          Save
+        </FinjectorButton>
+      )}
+
+      {isInPopup && (
+        <FinjectorButton className="flex-fill override-end" onClick={use}>
+          <FontAwesomeIcon icon={faBolt} />
+          Use
+        </FinjectorButton>
+      )}
     </div>
   );
 };
