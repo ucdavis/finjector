@@ -24,7 +24,7 @@ const FinjectorButton: React.FC<FinjectorButtonProps> = ({
   // if noMargin is false, adds me-3 class
   const classNameString = `btn ${className ?? ""} ${
     color ? `btn-${color}` : ""
-  } ${colorFill ? "" : "btn-new"} ${noMargin ? "" : "me-3"}`;
+  } ${colorFill ? "" : "btn-new"} ${noMargin ? "" : "me-1"}`;
 
   if (!!to) {
     return (

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import ChartList from "../components/Shared/ChartList";
 import { useGetSavedCharts } from "../queries/storedChartQueries";
 
+import FinjectorButton from "../components/Shared/FinjectorButton";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faPaperclip } from "@fortawesome/free-solid-svg-icons";
 

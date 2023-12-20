@@ -53,7 +53,7 @@ const Folder: React.FC = () => {
           <h1>{folderModel.data?.folder.name}</h1>
           <h4>{folderModel.data?.folder.teamName}</h4>
         </div>
-        <div className="col-md-10 text-end">
+        <div className="col-md-10 fin-btn-group text-end">
           <Link
             to={`/teams/${id}/folders/${folderId}/admins`}
             className="btn btn-new me-3"
