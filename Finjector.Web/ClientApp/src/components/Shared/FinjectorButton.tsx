@@ -19,9 +19,9 @@ const FinjectorButton: React.FC<FinjectorButtonProps> = ({
   ...props
 }) => {
   // always has btn class, adds className if supplied
-  // if color is supplied, adds btn-{color} class
-  // if colorFill is false, adds btn-new class
-  // if noMargin is false, adds me-3 class
+  // if color is supplied, adds btn-{color} class (e.g. btn-error)
+  // if colorFill is false (or not supplied), adds btn-new class (which is white bg)
+  // if noMargin is false (or not supplied), adds me-3 class
   const classNameString = `btn ${className ?? ""} ${
     color ? `btn-${color}` : ""
   } ${colorFill ? "" : "btn-new"} ${noMargin ? "" : "ms-1"}`;
