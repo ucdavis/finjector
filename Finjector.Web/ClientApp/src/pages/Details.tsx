@@ -91,9 +91,12 @@ const Details = () => {
       <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <div>
           <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
-          <h4>
-            {chartStringDetails?.teamName} {chartStringDetails?.folder?.name}
-          </h4>
+          {chartStringDetails && (
+            <h4>
+              {chartStringDetails.teamName} {"/ "}
+              {chartStringDetails.folder?.name}
+            </h4>
+          )}
         </div>
         {!invalid && (
           <div className="col-md-9 text-end">
