@@ -135,6 +135,23 @@ export interface AeDetails {
   ppmDetails: PpmDetails;
 }
 
+export interface ChartStringEditModel {
+  id: number;
+  segmentString: string;
+  name: string;
+  chartType: string;
+  folderId: number;
+  folder: Folder;
+  updated: Date;
+  teamName: string;
+  canEdit: boolean;
+}
+
+export interface ChartStringAndAeDetails {
+  chartStringDetails: ChartStringEditModel;
+  aeDetails: AeDetails;
+}
+
 export interface PpmDetails {
   ppmProjectManager: Approver;
   ppmGlString: string;
@@ -156,9 +173,4 @@ export interface Approver {
   lastName: string | null;
   email: string | null;
   name: string;
-}
-
-export interface ChartStringAndAeDetails {
-  chartStringDetails: Coa;
-  aeDetails: AeDetails;
 }

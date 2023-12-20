@@ -208,7 +208,7 @@ public class ChartsController : ControllerBase
         return Ok();
     }
 
-    // fetch by chart id, when on team/{teamId}/folder/{folderId}/details/{chartId}/{chartString}. requires no permissions
+    // fetch by chart id, when on team/{teamId}/folder/{folderId}/details/{chartId}/{chartString}. requires view permission on chart
     [HttpGet("details/id")]
     public async Task<IActionResult> DetailsById([FromQuery] int chartId)
     {
@@ -221,12 +221,14 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
 
-        var chartStringDetails = await _dbContext.Coas.Include(c => c.Folder).SingleOrDefaultAsync(c => c.Id == chartId);
+        var chartStringDetails = await _dbContext.Coas.Where(c => c.Id == chartId).Select(ChartStringEditModel.Projection()).AsNoTracking().SingleOrDefaultAsync();
 
         if (chartStringDetails == null)
         {
             return NotFound();
         }
+
+        chartStringDetails.CanEdit = await _userService.VerifyChartAccess(chartId, iamId, Role.Codes.Edit);
 
         var aeDetails = await _aggieEnterpriseService.GetAeDetailsAsync(chartStringDetails.SegmentString);
         
@@ -238,7 +240,7 @@ public class ChartsController : ControllerBase
         return Ok(rtValue);
     }
 
-    // // fetch by chart string, when on /details/{chartString}. requires no permissions 
+    // fetch by chart string, when on /details/{chartString}. requires no permissions 
     [HttpGet("details/string")]
     public async Task<IActionResult> DetailsByString([FromQuery] string chartString)
     {

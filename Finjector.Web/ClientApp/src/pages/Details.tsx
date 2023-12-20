@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import FinLoader from "../components/Shared/FinLoader";
 
-import { AeDetails, ChartType, Coa } from "../types";
+import { AeDetails, ChartStringEditModel, ChartType } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
@@ -28,7 +28,7 @@ const Details = () => {
   );
 
   const aeDetails: AeDetails | undefined = chartDetailsQuery.data?.aeDetails;
-  const chartStringDetails: Coa | undefined =
+  const chartStringDetails: ChartStringEditModel | undefined =
     chartDetailsQuery.data?.chartStringDetails;
   const isInPopup = usePopupStatus();
   const navigate = useNavigate();
@@ -89,8 +89,12 @@ const Details = () => {
   return (
     <div className="main">
       <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
-        <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
-
+        <div>
+          <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
+          <h4>
+            {chartStringDetails?.teamName} {chartStringDetails?.folder?.name}
+          </h4>
+        </div>
         {!invalid && (
           <div className="col-md-9 text-end">
             {isInPopup && (
