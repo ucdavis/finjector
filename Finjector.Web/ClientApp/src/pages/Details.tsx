@@ -90,13 +90,13 @@ const Details = () => {
     <div className="main">
       <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <div>
-          <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
           {chartStringDetails && (
             <h4>
               {chartStringDetails.teamName} {"/ "}
               {chartStringDetails.folder?.name}
             </h4>
           )}
+          <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
         </div>
         {!invalid && (
           <div className="col-md-4 text-end">
