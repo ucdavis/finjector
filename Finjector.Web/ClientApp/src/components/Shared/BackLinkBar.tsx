@@ -1,7 +1,7 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import FinjectorLinkButton from "./FinjectorLinkButton";
+import FinjectorButton from "./FinjectorButton";
 
 interface Props {
   children?: React.ReactNode;
@@ -15,11 +15,13 @@ export const BackLinkBar = ({ children }: Props) => {
   };
 
   return (
-    <>
-      <FinjectorLinkButton onClick={goBack} className="back-link mb-3">
-        <FontAwesomeIcon icon={faArrowLeft} />
-        {children ? children : "Back"}
-      </FinjectorLinkButton>
-    </>
+    <FinjectorButton
+      onClick={goBack}
+      className="back-link link-style"
+      role="link"
+    >
+      <FontAwesomeIcon icon={faArrowLeft} />
+      {children ? children : "Back"}
+    </FinjectorButton>
   );
 };

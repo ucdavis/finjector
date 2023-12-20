@@ -44,7 +44,6 @@ const SaveAndUseButton = (props: Props) => {
     <div className="d-flex">
       <FinjectorButton
         className="flex-fill"
-        type="button"
         disabled={saveMutation.isLoading || !savedChart.name}
         onClick={saveAndUse}
       >

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import FinLoader from "../components/Shared/FinLoader";
 
 import { AeDetails, ChartType } from "../types";

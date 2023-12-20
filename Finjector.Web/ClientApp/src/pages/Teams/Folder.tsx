@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { SearchBar } from "../../components/Shared/SearchBar";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useGetFolder } from "../../queries/folderQueries";
 import FinLoader from "../../components/Shared/FinLoader";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
@@ -14,6 +14,7 @@ import {
   faUsers,
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
+import FinjectorButton from "../../components/Shared/FinjectorButton";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -54,42 +55,34 @@ const Folder: React.FC = () => {
           <h4>{folderModel.data?.folder.teamName}</h4>
         </div>
         <div className="col-md-10 fin-btn-group text-end">
-          <Link
-            to={`/teams/${id}/folders/${folderId}/admins`}
-            className="btn btn-new me-3"
-          >
+          <FinjectorButton to={`/teams/${id}/folders/${folderId}/admins`}>
             <FontAwesomeIcon icon={faUserTie} />
             View Folder Admins
-          </Link>
+          </FinjectorButton>
           {/* Admins can manage permissions */}
           {!limitedFolder && combinedPermissions.some((p) => p === "Admin") && (
             <>
-              <Link
+              <FinjectorButton
                 to={`/teams/${id}/folders/${folderId}/permissions`}
-                className="btn btn-new me-3"
               >
                 <FontAwesomeIcon icon={faUsers} />
                 Manage Permissions
-              </Link>
-              <Link
-                to={`/teams/${id}/folders/${folderId}/edit`}
-                className="btn btn-new me-3"
-              >
+              </FinjectorButton>
+              <FinjectorButton to={`/teams/${id}/folders/${folderId}/edit`}>
                 <FontAwesomeIcon icon={faPencil} />
                 Edit Folder
-              </Link>
+              </FinjectorButton>
               {folderId && <DeleteFolder folderId={folderId} />}
             </>
           )}
           {/* Editors & above can create new chart strings */}
           {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
-            <Link
+            <FinjectorButton
               to={`/entry?folderId=${folderModel.data?.folder.id}`}
-              className="btn btn-new"
             >
               <FontAwesomeIcon icon={faPlus} />
               Create New Chart String In {folderModel.data?.folder.name}
-            </Link>
+            </FinjectorButton>
           )}
         </div>
       </div>

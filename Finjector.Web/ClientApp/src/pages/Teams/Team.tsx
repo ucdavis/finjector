@@ -1,7 +1,7 @@
 import React from "react";
 import { SearchBar } from "../../components/Shared/SearchBar";
 import { useGetTeam } from "../../queries/teamQueries";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import FolderList from "../../components/Teams/FolderList";
 import FinLoader from "../../components/Shared/FinLoader";
 import DeleteTeam from "../../components/Teams/DeleteTeam";
