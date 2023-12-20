@@ -74,6 +74,11 @@ const Entry = () => {
   useEffect(() => {
     if (savedChartQuery.data) {
       const { chart } = savedChartQuery.data;
+      if (!chart.canEdit) {
+        // if user can't edit this folder, set to 0 (will use personal/default)
+        // don't edit the chart.folder object so we can still display the team/folder name
+        chart.folderId = 0;
+      }
       setSavedChart(chart);
 
       const savedChartData: ChartData = {
