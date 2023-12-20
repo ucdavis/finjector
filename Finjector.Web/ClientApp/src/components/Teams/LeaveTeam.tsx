@@ -34,7 +34,7 @@ const LeaveTeam = (props: Props) => {
 
   return (
     <>
-      <FinjectorButton className="override-end" onClick={toggleModal}>
+      <FinjectorButton onClick={toggleModal}>
         <FontAwesomeIcon icon={faPersonThroughWindow} />
         Leave Team
       </FinjectorButton>

@@ -94,12 +94,10 @@ const Details = () => {
                 Use
               </FinjectorButton>
             )}
-            <Link to={getEditLinkUrl()}>
-              <FinjectorButton>
-                <FontAwesomeIcon icon={faPencil} />
-                Edit Chart String
-              </FinjectorButton>
-            </Link>
+            <FinjectorButton to={getEditLinkUrl()}>
+              <FontAwesomeIcon icon={faPencil} />
+              Edit Chart String
+            </FinjectorButton>
             <SharePopup chartString={chartDetails.chartString} />
           </div>
         )}

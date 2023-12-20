@@ -1,13 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
-import ChartList from "../components/Shared/ChartList";
-import { useGetSavedCharts } from "../queries/storedChartQueries";
-
-import FinjectorButton from "../components/Shared/FinjectorButton";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faPaperclip } from "@fortawesome/free-solid-svg-icons";
+import ChartList from "../components/Shared/ChartList";
+import { useGetSavedCharts } from "../queries/storedChartQueries";
+import FinjectorButton from "../components/Shared/FinjectorButton";
 
 // Main landing screen for popup
 
@@ -21,15 +17,15 @@ const Landing = () => {
       <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <h1>My Chart Strings</h1>
         <div className="col-6 col-md-9 text-end">
-          <Link to="/entry" className="btn btn-new">
+          <FinjectorButton to="/entry">
             <FontAwesomeIcon icon={faPlus} />
             New Chart String from Scratch
-          </Link>
+          </FinjectorButton>
 
-          <Link to="/paste" className="btn btn-new">
+          <FinjectorButton to="/paste">
             <FontAwesomeIcon icon={faPaperclip} />
             New Chart String from Paste
-          </Link>
+          </FinjectorButton>
         </div>
       </div>
       <div className="mb-3">

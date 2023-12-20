@@ -19,7 +19,7 @@ const SharePopup: React.FC<SharePopupProps> = ({ chartString, teamId }) => {
 
   return (
     <>
-      <FinjectorButton className="override-end" onClick={toggle}>
+      <FinjectorButton onClick={toggle}>
         <FontAwesomeIcon icon={faPaperPlane} />
         Share
       </FinjectorButton>

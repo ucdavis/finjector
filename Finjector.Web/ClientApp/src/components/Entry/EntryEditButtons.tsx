@@ -112,9 +112,8 @@ const EntryEditButtons = (props: Props) => {
           Save
         </FinjectorButton>
       )}
-
       {isInPopup && (
-        <FinjectorButton className="flex-fill override-end" onClick={use}>
+        <FinjectorButton className="flex-fill" onClick={use}>
           <FontAwesomeIcon icon={faBolt} />
           Use
         </FinjectorButton>
