@@ -51,8 +51,8 @@ const Folder: React.FC = () => {
     <div>
       <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <div>
-          <h1>{folderModel.data?.folder.name}</h1>
           <h4>{folderModel.data?.folder.teamName}</h4>
+          <h1>{folderModel.data?.folder.name}</h1>
         </div>
         <div className="col-md-10 fin-btn-group text-end">
           <FinjectorButton to={`/teams/${id}/folders/${folderId}/admins`}>

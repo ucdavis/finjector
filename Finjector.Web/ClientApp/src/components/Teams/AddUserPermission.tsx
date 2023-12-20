@@ -33,7 +33,7 @@ export const AddUserPermission = (props: Props) => {
 
   const handleAssignRole = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     addUserMutation.mutate(
       { role, email },
       {
@@ -89,16 +89,16 @@ export const AddUserPermission = (props: Props) => {
           </div>
 
           {error && <div className="alert alert-danger">{error}</div>}
-
-          <FinjectorButton
-            type="submit"
-            className="btn btn-primary"
-            disabled={!formValid || addUserMutation.isLoading}
-          >
-            {addUserMutation.isLoading
-              ? "Assigning Role..."
-              : "Assign Role to User"}
-          </FinjectorButton>
+          <div className="text-end">
+            <FinjectorButton
+              type="submit"
+              disabled={!formValid || addUserMutation.isLoading}
+            >
+              {addUserMutation.isLoading
+                ? "Assigning Role..."
+                : "Assign Role to User"}
+            </FinjectorButton>
+          </div>
         </form>
       </ModalBody>
     </Modal>

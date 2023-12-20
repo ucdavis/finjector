@@ -89,6 +89,7 @@ const EntryEditButtons = (props: Props) => {
           className="flex-fill"
           disabled={removeMutation.isLoading}
           onClick={remove}
+          noMargin={true}
         >
           <FontAwesomeIcon icon={faTrash} />
           Remove

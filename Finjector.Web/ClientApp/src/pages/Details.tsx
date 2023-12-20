@@ -87,7 +87,7 @@ const Details = () => {
         <h1>{chartDetails?.chartType}</h1>
 
         {!invalid && (
-          <div className="col-md-9 text-end">
+          <div className="col-md-9 fin-btn-group text-end">
             {isInPopup && (
               <FinjectorButton onClick={use}>
                 <FontAwesomeIcon icon={faBolt} />

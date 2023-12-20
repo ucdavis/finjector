@@ -52,7 +52,7 @@ const UserManagement: React.FC = () => {
       <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <h1>Manage {folderId ? "Folder" : "Team"} Permissions</h1>
         <div className="col-md-9 text-end">
-          <FinjectorButton className="mb-3" onClick={toggleAddPermission}>
+          <FinjectorButton onClick={toggleAddPermission}>
             <FontAwesomeIcon icon={faPlus} />
             Add New Role
           </FinjectorButton>

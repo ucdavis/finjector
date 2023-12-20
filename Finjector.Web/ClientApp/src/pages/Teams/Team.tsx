@@ -47,7 +47,7 @@ const Team: React.FC = () => {
     <div>
       <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <h1>{teamModel.data?.team.name}</h1>
-        <div className="col-md-10 text-end">
+        <div className="col-md-10 fin-btn-group text-end">
           <FinjectorButton to={`/teams/${id}/admins`}>
             <FontAwesomeIcon icon={faUserTie} />
             View Team Admins
