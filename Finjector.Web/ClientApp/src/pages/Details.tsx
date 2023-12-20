@@ -99,7 +99,7 @@ const Details = () => {
           )}
         </div>
         {!invalid && (
-          <div className="col-md-9 text-end">
+          <div className="col-md-4 text-end">
             {isInPopup && (
               <FinjectorButton onClick={use}>
                 <FontAwesomeIcon icon={faBolt} />
@@ -199,7 +199,7 @@ const Details = () => {
           </div>
         </div>
       )}
-      <ChartDebugInfo chartDetails={aeDetails} />
+      <ChartDebugInfo chartDetails={chartDetailsQuery.data} />
     </div>
   );
 };
