@@ -16,7 +16,7 @@ const MyTeams: React.FC = () => {
     <div>
       <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
         <h1>My Teams</h1>
-        <div className="col-md-9 text-end">
+        <div className="col-6 col-md-9 fin-btn-group text-end">
           <Link to="/teams/create" className="btn btn-new override-end">
             <FontAwesomeIcon icon={faPlus} />
             Create New Team
