@@ -209,11 +209,49 @@ public class ChartsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("detail")]
-    public async Task<IActionResult> Details(string segmentString)
+    // fetch by chart id, when on team/{teamId}/folder/{folderId}/details/{chartId}/{chartString}. requires view permission on chart
+    [HttpGet("details/id")]
+    public async Task<IActionResult> DetailsById([FromQuery] int chartId)
     {
-        var rtValue = await _aggieEnterpriseService.GetAeDetailsAsync(segmentString);
+
+        var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
+
+        // verify that user has permission to view this chart
+        if (await _userService.VerifyChartAccess(chartId, iamId, Role.Codes.View) == false)
+        {
+            return Unauthorized();
+        }
+
+        var chartStringDetails = await _dbContext.Coas.Where(c => c.Id == chartId).Select(ChartStringEditModel.Projection()).AsNoTracking().SingleOrDefaultAsync();
+
+        if (chartStringDetails == null)
+        {
+            return NotFound();
+        }
+
+        chartStringDetails.CanEdit = await _userService.VerifyChartAccess(chartId, iamId, Role.Codes.Edit);
+
+        var aeDetails = await _aggieEnterpriseService.GetAeDetailsAsync(chartStringDetails.SegmentString);
+        
+        var rtValue = new {
+            chartStringDetails,
+            aeDetails
+        };   
 
         return Ok(rtValue);
     }
+
+    // fetch by chart string, when on /details/{chartString}. requires no permissions 
+    [HttpGet("details/string")]
+    public async Task<IActionResult> DetailsByString([FromQuery] string chartString)
+    {
+        var aeDetails = await _aggieEnterpriseService.GetAeDetailsAsync(chartString);
+        var rtValue = new {
+            aeDetails
+        };
+
+        return Ok(rtValue);
+    }
+
+    
 }
