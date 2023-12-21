@@ -1,8 +1,8 @@
-import { AeDetails, ChartData, ChartType } from "../../types";
+import { ChartData, ChartStringAndAeDetails, ChartType } from "../../types";
 
 interface Props {
   chartData?: ChartData;
-  chartDetails?: AeDetails;
+  chartDetails?: ChartStringAndAeDetails;
 }
 
 export const ChartDebugInfo = (props: Props) => {

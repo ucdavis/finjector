@@ -52,6 +52,7 @@ const FolderSearch = ({
 
     // If the selected array is empty, clear the input and focus it
     if (selected.length === 0) {
+      typeaheadRef.current?.blur();
       typeaheadRef.current?.focus();
     }
   };

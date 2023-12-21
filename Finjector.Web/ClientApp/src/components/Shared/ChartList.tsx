@@ -60,7 +60,7 @@ const ChartList = (props: Props) => {
   return (
     <div>
       {filteredTeamGroups.map((teamGroup) => (
-        <div className="teamlist-wrapper">
+        <div className="teamlist-wrapper" key={teamGroup.team.id}>
           <h2>
             <Link
               className="no-link-style d-flex vertical-align-top"
@@ -90,13 +90,16 @@ const ChartList = (props: Props) => {
                 </h3>
                 <ul className="list-group">
                   {folder.coas.map((chart) => (
-                    <ChartListItem key={chart.id} folder={folder} chart={chart} />
+                    <ChartListItem
+                      key={chart.id}
+                      folder={folder}
+                      chart={chart}
+                    />
                   ))}
                 </ul>
               </div>
             ))}
           </div>
-                  
         </div>
       ))}
     </div>
