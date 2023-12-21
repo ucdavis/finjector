@@ -19,7 +19,7 @@ const SharePopup: React.FC<SharePopupProps> = ({ chartString, teamId }) => {
 
   return (
     <>
-      <FinjectorButton className="override-end" onClick={toggle}>
+      <FinjectorButton onClick={toggle}>
         <FontAwesomeIcon icon={faPaperPlane} />
         Share
       </FinjectorButton>
@@ -29,7 +29,11 @@ const SharePopup: React.FC<SharePopupProps> = ({ chartString, teamId }) => {
         </ModalHeader>
         <ModalBody>
           <InputGroup>
-            <Input value={url} readOnly={true} />
+            <Input
+              className="custom-input-height"
+              value={url}
+              readOnly={true}
+            />
             <CopyToClipboardButton value={url} id="share-copy-url" />
           </InputGroup>
         </ModalBody>

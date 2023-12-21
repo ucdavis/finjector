@@ -62,11 +62,7 @@ export default function FormComponent(props: Props) {
             </div>
           </div>
 
-          <FinjectorButton
-            type="submit"
-            className="btn btn-primary"
-            disabled={loading}
-          >
+          <FinjectorButton type="submit" noMargin={true} disabled={loading}>
             {props.buttonText(loading)}
           </FinjectorButton>
         </form>

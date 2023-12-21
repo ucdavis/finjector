@@ -41,11 +41,25 @@
   }
   @include breakpoint(md) {
     font-size: 1rem;
-    padding: 6px 12px;
+    padding: 8px 12px;
     margin-top: 2px;
     margin-bottom: 2px;
-    &:first-child {
-      margin-right: 2%;
+    // &:first-child {
+    //   margin-right: 2%;
+    // }
+  }
+  &.btn-danger {
+    color: $danger;
+    border: 1px solid $danger;
+    &:hover {
+      background-color: transparentize($danger, 0.85);
+      color: $danger;
+      border: 1px solid $danger;
+    }
+    &:focus-visible {
+      background-color: transparentize($danger, 0.85);
+      color: $danger;
+      border: 1px solid $danger;
     }
   }
   &:disabled {
@@ -328,7 +342,4 @@ span.gl-color {
 }
 span.ppm-color {
   color: $ppm;
-}
-.override-end {
-  margin-right: 0 !important;
 }

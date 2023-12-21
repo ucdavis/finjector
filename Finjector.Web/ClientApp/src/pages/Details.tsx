@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import FinLoader from "../components/Shared/FinLoader";
 
 import { AeDetails, ChartStringEditModel, ChartType } from "../types";
@@ -99,19 +99,17 @@ const Details = () => {
           <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
         </div>
         {!invalid && (
-          <div className="col-md-4 text-end">
+          <div className="col-md-9 fin-btn-group text-end">
             {isInPopup && (
               <FinjectorButton onClick={use}>
                 <FontAwesomeIcon icon={faBolt} />
                 Use
               </FinjectorButton>
             )}
-            <Link to={getEditLinkUrl()}>
-              <FinjectorButton>
-                <FontAwesomeIcon icon={faPencil} />
-                Edit Chart String
-              </FinjectorButton>
-            </Link>
+            <FinjectorButton to={getEditLinkUrl()}>
+              <FontAwesomeIcon icon={faPencil} />
+              Edit Chart String
+            </FinjectorButton>
             <SharePopup chartString={aeDetails.chartString} />
           </div>
         )}

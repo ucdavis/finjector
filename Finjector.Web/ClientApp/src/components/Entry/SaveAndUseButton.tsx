@@ -43,8 +43,7 @@ const SaveAndUseButton = (props: Props) => {
     //   <div className="col-md-6">
     <div className="d-flex">
       <FinjectorButton
-        className="btn btn-new flex-fill override-end"
-        type="button"
+        className="flex-fill"
         disabled={saveMutation.isLoading || !savedChart.name}
         onClick={saveAndUse}
       >
