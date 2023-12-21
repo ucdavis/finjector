@@ -21,7 +21,9 @@ const Paste = () => {
     if (coaValid || coa === "") {
       setError("");
     } else {
-      setError("Chart String does not appear to be a valid GL or PPM segment string");
+      setError(
+        "Chart String does not appear to be a valid GL or PPM segment string"
+      );
     }
   }, [coa]);
 
@@ -53,6 +55,7 @@ const Paste = () => {
           className="btn btn-primary"
           disabled={error !== "" || coa === ""}
           onClick={() => navigate(`/entry/${coa}`)}
+          noMargin={true}
         >
           NEXT
         </FinjectorButton>
