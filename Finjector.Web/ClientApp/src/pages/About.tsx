@@ -41,15 +41,15 @@ const About = () => {
             <b>
               <span className="ppm-color"> PPM </span>
             </b>
-            (Project Portfolio Manager) and they are placed within folder,
-            folders are within teams, each with a list of users and permissions.
+            (Project Portfolio Manager) and they are placed within a folder.
+            Folders are within teams, each with a list of users and permissions.
           </p>
           <p>
             Permissions include View (can view and use chart strings), Edit (can
             view and edit chart strings), and Admin (can view and edit chart
-            strings, and can also edit permissions). or and they are placed
-            within folders, folders are within teams, each with a list admin
-            users and permissions associated with it.
+            strings, and can also edit permissions). They are placed within
+            folders, folders are within teams, each with a list admin users and
+            permissions associated with it.
           </p>
           <br />
           <br />
