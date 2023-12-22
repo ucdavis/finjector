@@ -23,9 +23,11 @@ const About = () => {
             Enterprise Chart strings.
           </p>
           <p>
-            Chart strings are long pieces of code that can be used to charge
-            accounts on campus. Each segment relates to a specific fund/entity.
-            here is an example one:
+            Chart strings are long combinations of accounting information that
+            are used to track expenses and revenue on campus. Each segment
+            contains a value that relates to a specific element of the Chart of
+            Accounts such as Fund or Financial Department. Here is an example of
+            a chart string:
             <br />
             <code>0000000000-000000-0000000-000000</code>
           </p>
@@ -35,14 +37,54 @@ const About = () => {
             <b>
               <span className="gl-color"> GL </span>
             </b>
-            or
+            (General Ledger) or
             <b>
               <span className="ppm-color"> PPM </span>
             </b>
-            and they are placed within folders, folders are within teams, each
-            with a list admin users and permissions associated with it.
+            (Project Portfolio Manager) and they are placed within a folder.
+            Folders are within teams, each with a list of users and permissions.
+          </p>
+          <p>
+            Permissions include View (can view and use chart strings), Edit (can
+            view and edit chart strings), and Admin (can view and edit chart
+            strings, and can also edit permissions).
           </p>
           <br />
+          <br />
+          <div className="card">
+            <div className="card-body">
+              <p>
+                This resource is a good place to learn about Aggie Enterprise
+                and the segments that make up a chart string:
+                <p>
+                  <a
+                    href="https://financeandbusiness.ucdavis.edu/finance/chart-of-accounts/redesign"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Segment Design & Definitions
+                  </a>
+                </p>
+              </p>
+              <p>
+                If you have questions about chart string validation errors you
+                may submit a help ticket to Aggie Enterprise here:
+                <p>
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href="https://ucdavisit.service-now.com/servicehub?id=ucd_cat_item&sys_id=69aaee7a1bf7291094087bff034bcb48"
+                  >
+                    Aggie Enterprise Help Form
+                  </a>
+                </p>
+              </p>
+              <p>
+                <b>Note!</b> They do not run Finjector and will not know about
+                other issues you may have with our application
+              </p>
+            </div>
+          </div>
           <br />
           <div className="card">
             <div className="card-body">
