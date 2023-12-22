@@ -47,9 +47,7 @@ const About = () => {
           <p>
             Permissions include View (can view and use chart strings), Edit (can
             view and edit chart strings), and Admin (can view and edit chart
-            strings, and can also edit permissions). They are placed within
-            folders, folders are within teams, each with a list admin users and
-            permissions associated with it.
+            strings, and can also edit permissions).
           </p>
           <br />
           <br />
