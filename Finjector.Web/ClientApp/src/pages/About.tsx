@@ -56,6 +56,19 @@ const About = () => {
           <div className="card">
             <div className="card-body">
               <p>
+                This resource is a good place to learn about Aggie Enterprise
+                and the segments that make up a chart string:
+                <p>
+                  <a
+                    href="https://financeandbusiness.ucdavis.edu/finance/chart-of-accounts/redesign"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Segment Design & Definitions
+                  </a>
+                </p>
+              </p>
+              <p>
                 If you have questions about chart string validation errors you
                 may submit a help ticket to Aggie Enterprise here:
                 <p>
