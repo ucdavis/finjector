@@ -56,6 +56,28 @@ const About = () => {
           <div className="card">
             <div className="card-body">
               <p>
+                If you have questions about chart string validation errors you
+                may submit a help ticket to Aggie Enterprise here:
+                <p>
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href="https://ucdavisit.service-now.com/servicehub?id=ucd_cat_item&sys_id=69aaee7a1bf7291094087bff034bcb48"
+                  >
+                    Aggie Enterprise Help Form
+                  </a>
+                </p>
+              </p>
+              <p>
+                <b>Note!</b> They do not run Finjector and will not know about
+                other issues you may have with our application
+              </p>
+            </div>
+          </div>
+          <br />
+          <div className="card">
+            <div className="card-body">
+              <p>
                 <b>Current user:</b>{" "}
                 {user.isSuccess &&
                   user.data[
