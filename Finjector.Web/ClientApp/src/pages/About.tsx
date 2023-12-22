@@ -23,9 +23,11 @@ const About = () => {
             Enterprise Chart strings.
           </p>
           <p>
-            Chart strings are long pieces of code that can be used to charge
-            accounts on campus. Each segment relates to a specific fund/entity.
-            here is an example one:
+            Chart strings are long combinations of accounting information that
+            are used to track expenses and revenue on campus. Each segment
+            contains a value that relates to a specific element of the Chart of
+            Accounts such as Fund or Financial Department. Here is an example of
+            a chart string:
             <br />
             <code>0000000000-000000-0000000-000000</code>
           </p>
@@ -35,12 +37,19 @@ const About = () => {
             <b>
               <span className="gl-color"> GL </span>
             </b>
-            or
+            (General Ledger) or
             <b>
               <span className="ppm-color"> PPM </span>
             </b>
-            and they are placed within folders, folders are within teams, each
-            with a list admin users and permissions associated with it.
+            (Project Portfolio Manager) and they are placed within folder,
+            folders are within teams, each with a list of users and permissions.
+          </p>
+          <p>
+            Permissions include View (can view and use chart strings), Edit (can
+            view and edit chart strings), and Admin (can view and edit chart
+            strings, and can also edit permissions). or and they are placed
+            within folders, folders are within teams, each with a list admin
+            users and permissions associated with it.
           </p>
           <br />
           <br />
