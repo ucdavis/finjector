@@ -19,6 +19,8 @@ using Finjector.Web.Handlers;
 using Finjector.Core.Data;
 using System.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Finjector.Web.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 #if DEBUG
 Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
@@ -62,6 +64,7 @@ try
     builder.Services.Configure<FinancialOptions>(builder.Configuration.GetSection("Financial"));
     builder.Services.Configure<CosmosOptions>(builder.Configuration.GetSection("CosmosDb"));
     builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Authentication"));
+    builder.Services.Configure<SystemOptions>(builder.Configuration.GetSection("System"));
 
     builder.Services.AddControllersWithViews();
 
@@ -101,10 +104,15 @@ try
             NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
         };
     });
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddAccessPolicy(AccessCodes.SystemAccess);
+    });
+    builder.Services.AddScoped<IAuthorizationHandler, VerifyRoleAccessHandler>();
 
     // It's an SDK best practice to use a singleton instance of CosmosClient
     builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();
-    
+
     // Add the IamId to claims if not provided by CAS
     builder.Services.AddScoped<IClaimsTransformation, IamIdClaimFallbackTransformer>();
     builder.Services.AddScoped<IIdentityService, IdentityService>(); //Lookup IAM to get user
@@ -114,15 +122,15 @@ try
 
     builder.Services.AddDbContextPool<AppDbContext, AppDbContextSqlServer>((serviceProvider, o) =>
     {
-    o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-            sqlOptions =>
-            {
-                sqlOptions.MigrationsAssembly("Finjector.Core");
-            });
+        o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                sqlOptions =>
+                {
+                    sqlOptions.MigrationsAssembly("Finjector.Core");
+                });
     });
 
     var app = builder.Build();
-   
+
 
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
@@ -142,6 +150,11 @@ try
         name: "login",
         pattern: "Account/Login",
         defaults: new { controller = "Account", action = "Login" });
+
+    app.MapControllerRoute(
+        name: "system",
+        pattern: "/{controller}/{action}/{id?}",
+        constraints: new { controller = "System" });
 
     app.MapControllerRoute(
         name: "api",
