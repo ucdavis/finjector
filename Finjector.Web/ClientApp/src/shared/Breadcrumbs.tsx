@@ -10,9 +10,15 @@ const Breadcrumbs = () => {
 
   const handleMatch = matchesWithHandle[matchesWithHandle.length - 1];
 
+  const hideBreadcrumbs = (handleMatch?.handle as { hideBreadcrumbs?: boolean })
+    ?.hideBreadcrumbs;
   const teamId = handleMatch?.params?.teamId;
   const folderId = handleMatch?.params?.folderId;
   const title = (handleMatch?.handle as { title: string })?.title;
+
+  if (hideBreadcrumbs) {
+    return null;
+  }
 
   return (
     <Breadcrumb>

@@ -47,7 +47,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      { index: true, element: <Landing />, handle: { title: "" } },
+      { index: true, element: <Landing />, handle: { title: "", hideBreadcrumbs: true } },
       { path: "/example", element: <Example />, handle: { title: "Example" } },
       { path: "/help", element: <About />, handle: { title: "Help" } },
       {
@@ -128,12 +128,15 @@ const router = createBrowserRouter([
                   {
                     path: "details/:chartId/:chartSegmentString",
                     element: <Details />,
-                    handle: { title: "Chart String Detail" },
+                    handle: {
+                      title: "Chart String Detail",
+                      hideBreadcrumbs: true,
+                    },
                   },
                   {
                     path: "entry/:chartId/:chartSegmentString",
                     element: <Entry />,
-                    handle: { title: "Entry" },
+                    handle: { title: "Entry", hideBreadcrumbs: true },
                   },
                   {
                     path: "selected/:chartId/:chartSegmentString",
@@ -153,7 +156,7 @@ const router = createBrowserRouter([
           {
             path: ":chartSegmentString",
             element: <Entry />,
-            handle: { title: "Entry" },
+            handle: { title: "Entry", hideBreadcrumbs: true },
           },
         ],
       },
@@ -163,7 +166,7 @@ const router = createBrowserRouter([
           {
             path: ":chartSegmentString",
             element: <Details />,
-            handle: { title: "Details" },
+            handle: { title: "Details", hideBreadcrumbs: true },
           },
         ],
       },
