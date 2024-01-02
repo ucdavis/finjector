@@ -47,57 +47,98 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      { index: true, element: <Landing /> },
-      { path: "/example", element: <Example /> },
-      { path: "/help", element: <About /> },
-      { path: "/landing", element: <RedirectHome /> },
+      { index: true, element: <Landing />, handle: { title: "Home" } },
+      { path: "/example", element: <Example />, handle: { title: "Example" } },
+      { path: "/help", element: <About />, handle: { title: "Help" } },
+      {
+        path: "/landing",
+        element: <RedirectHome />,
+        handle: { title: "Redirect Home" },
+      },
       {
         path: "/locator/:type/:id",
         element: <ChartStringRedirector />,
+        handle: { title: "Chart String Redirector" },
       },
       {
         path: "/teams",
         children: [
-          { index: true, element: <MyTeams /> },
-          { path: "create", element: <CreateTeam /> },
+          { index: true, element: <MyTeams />, handle: { title: "My Teams" } },
+          {
+            path: "create",
+            element: <CreateTeam />,
+            handle: { title: "Create Team" },
+          },
           {
             path: ":teamId",
             children: [
               {
                 index: true,
+                element: <Team />,
+                handle: { title: "Team Detail" },
               },
-              { path: "edit", element: <EditTeam /> },
-              { path: "folders", element: <Team /> },
-              { path: "folders/create", element: <CreateFolder /> },
-              { path: "permissions", element: <UserManagement /> },
-              { path: "admins", element: <AdminList /> },
+              {
+                path: "edit",
+                element: <EditTeam />,
+                handle: { title: "Edit Team" },
+              },
+              {
+                path: "folders",
+                element: <Team />,
+                handle: { title: "Team Detail" },
+              },
+              {
+                path: "folders/create",
+                element: <CreateFolder />,
+                handle: { title: "Create Folder" },
+              },
+              {
+                path: "permissions",
+                element: <UserManagement />,
+                handle: { title: "User Management" },
+              },
+              {
+                path: "admins",
+                element: <AdminList />,
+                handle: { title: "Admin List" },
+              },
               {
                 path: "folders/:folderId",
                 children: [
                   {
                     index: true,
                     element: <Folder />,
+                    handle: { title: "Folder Detail" },
                   },
-                  { path: "edit", element: <EditFolder /> },
+                  {
+                    path: "edit",
+                    element: <EditFolder />,
+                    handle: { title: "Edit Folder" },
+                  },
                   {
                     path: "permissions",
                     element: <UserManagement />,
+                    handle: { title: "User Management" },
                   },
-                  { path: "admins", element: <AdminList /> },
+                  {
+                    path: "admins",
+                    element: <AdminList />,
+                    handle: { title: "Admin List" },
+                  },
                   {
                     path: "details/:chartId/:chartSegmentString",
                     element: <Details />,
-                    handle: {
-                      title: "Chart String Detail",
-                    },
+                    handle: { title: "Chart String Detail" },
                   },
                   {
                     path: "entry/:chartId/:chartSegmentString",
                     element: <Entry />,
+                    handle: { title: "Entry" },
                   },
                   {
                     path: "selected/:chartId/:chartSegmentString",
                     element: <Selected />,
+                    handle: { title: "Selected" },
                   },
                 ],
               },
@@ -108,20 +149,38 @@ const router = createBrowserRouter([
       {
         path: "/entry",
         children: [
-          { index: true, element: <Entry /> },
-          { path: ":chartSegmentString", element: <Entry /> },
+          { index: true, element: <Entry />, handle: { title: "Entry" } },
+          {
+            path: ":chartSegmentString",
+            element: <Entry />,
+            handle: { title: "Entry" },
+          },
         ],
       },
       {
         path: "/details",
-        children: [{ path: ":chartSegmentString", element: <Details /> }],
+        children: [
+          {
+            path: ":chartSegmentString",
+            element: <Details />,
+            handle: { title: "Details" },
+          },
+        ],
       },
-      { path: "/paste", element: <Paste /> },
+      { path: "/paste", element: <Paste />, handle: { title: "Paste" } },
       {
         path: "/selected",
         children: [
-          { index: true, element: <RedirectHome /> },
-          { path: ":chartSegmentString", element: <Selected /> },
+          {
+            index: true,
+            element: <RedirectHome />,
+            handle: { title: "Redirect Home" },
+          },
+          {
+            path: ":chartSegmentString",
+            element: <Selected />,
+            handle: { title: "Selected" },
+          },
         ],
       },
     ],
