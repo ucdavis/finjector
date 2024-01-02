@@ -63,33 +63,44 @@ const router = createBrowserRouter([
           {
             path: ":teamId",
             children: [
-              { index: true, element: <Team /> },
+              {
+                index: true,
+                element: <Team />,
+                handle: {
+                  title: "testing",
+                },
+              },
               { path: "edit", element: <EditTeam /> },
               { path: "folders", element: <Team /> },
               { path: "folders/create", element: <CreateFolder /> },
-              { path: "folders/:folderId", element: <Folder /> },
-              { path: "folders/:folderId/edit", element: <EditFolder /> },
               { path: "permissions", element: <UserManagement /> },
-              {
-                path: "folders/:folderId/permissions",
-                element: <UserManagement />,
-              },
               { path: "admins", element: <AdminList /> },
               {
-                path: "folders/:folderId/admins",
-                element: <AdminList />,
-              },
-              {
-                path: "folders/:folderId/details/:chartId/:chartSegmentString",
-                element: <Details />,
-              },
-              {
-                path: "folders/:folderId/entry/:chartId/:chartSegmentString",
-                element: <Entry />,
-              },
-              {
-                path: "folders/:folderId/selected/:chartId/:chartSegmentString",
-                element: <Selected />,
+                path: "folders/:folderId",
+                children: [
+                  {
+                    index: true,
+                    element: <Folder />,
+                  },
+                  { path: "edit", element: <EditFolder /> },
+                  {
+                    path: "permissions",
+                    element: <UserManagement />,
+                  },
+                  { path: "admins", element: <AdminList /> },
+                  {
+                    path: "details/:chartId/:chartSegmentString",
+                    element: <Details />,
+                  },
+                  {
+                    path: "entry/:chartId/:chartSegmentString",
+                    element: <Entry />,
+                  },
+                  {
+                    path: "selected/:chartId/:chartSegmentString",
+                    element: <Selected />,
+                  },
+                ],
               },
             ],
           },
