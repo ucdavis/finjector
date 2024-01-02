@@ -35,6 +35,7 @@ namespace Finjector.Core.Domain
 
         public class Codes
         {
+            public const string System = "System";
             public const string Admin = "Admin";
             public const string Edit = "Edit";
             public const string View = "View";

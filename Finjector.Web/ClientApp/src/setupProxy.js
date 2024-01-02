@@ -10,7 +10,8 @@ const context = [
   "/api",  // anything to /api/* will be proxied
   "/signin-oidc",
   "/signout-oidc",
-  "/signout-callback-oidc"
+  "/signout-callback-oidc",
+  "/system"
 ];
 
 const onError = (err, req, resp, target) => {
