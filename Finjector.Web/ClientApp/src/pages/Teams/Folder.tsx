@@ -18,7 +18,7 @@ import FinjectorButton from "../../components/Shared/FinjectorButton";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
-  const { id, folderId } = useParams<{ id: string; folderId: string }>();
+  const { teamId, folderId } = useParams<{ teamId: string; folderId: string }>();
 
   const [search, setSearch] = React.useState("");
 
@@ -55,7 +55,7 @@ const Folder: React.FC = () => {
           <h1>{folderModel.data?.folder.name}</h1>
         </div>
         <div className="col-md-10 fin-btn-group text-end">
-          <FinjectorButton to={`/teams/${id}/folders/${folderId}/admins`}>
+          <FinjectorButton to={`/teams/${teamId}/folders/${folderId}/admins`}>
             <FontAwesomeIcon icon={faUserTie} />
             View Folder Admins
           </FinjectorButton>
@@ -63,12 +63,12 @@ const Folder: React.FC = () => {
           {!limitedFolder && combinedPermissions.some((p) => p === "Admin") && (
             <>
               <FinjectorButton
-                to={`/teams/${id}/folders/${folderId}/permissions`}
+                to={`/teams/${teamId}/folders/${folderId}/permissions`}
               >
                 <FontAwesomeIcon icon={faUsers} />
                 Manage Permissions
               </FinjectorButton>
-              <FinjectorButton to={`/teams/${id}/folders/${folderId}/edit`}>
+              <FinjectorButton to={`/teams/${teamId}/folders/${folderId}/edit`}>
                 <FontAwesomeIcon icon={faPencil} />
                 Edit Folder
               </FinjectorButton>

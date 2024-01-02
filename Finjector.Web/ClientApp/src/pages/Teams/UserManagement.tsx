@@ -11,9 +11,9 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const UserManagement: React.FC = () => {
   // read (team) id and folderId from the url
-  const { id, folderId } = useParams();
+  const { teamId, folderId } = useParams();
 
-  const resourceId = folderId ? folderId : id ? id : "";
+  const resourceId = folderId ? folderId : teamId ? teamId : "";
   const resourceType: CollectionResourceType = folderId ? "folder" : "team";
 
   const [addPermissionActive, setAddPermissionActive] = React.useState(false);

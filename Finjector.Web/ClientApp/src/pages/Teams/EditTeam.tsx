@@ -6,13 +6,13 @@ import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionFor
 import FinLoader from "../../components/Shared/FinLoader";
 
 const EditTeam: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { teamId } = useParams<{ teamId: string }>();
 
   const navigate = useNavigate();
 
-  const teamInfo = useGetTeam(id);
+  const teamInfo = useGetTeam(teamId);
 
-  const updateTeamMutation = useUpdateTeamMutation(id || "");
+  const updateTeamMutation = useUpdateTeamMutation(teamId || "");
 
   const handleCreate = async (data: NameAndDescriptionModel) => {
     await updateTeamMutation.mutateAsync(
@@ -22,7 +22,7 @@ const EditTeam: React.FC = () => {
       },
       {
         onSuccess: () => {
-          navigate(`/teams/${id}`);
+          navigate(`/teams/${teamId}`);
         },
         onError: (err: any) => {
           console.log(err);
