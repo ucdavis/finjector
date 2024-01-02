@@ -30,7 +30,7 @@ public class VerifyRoleAccessHandler : AuthorizationHandler<VerifyRoleAccess>
             return Task.CompletedTask;
         }
 
-        if (requirement.RoleStrings.Contains(Role.Codes.System) && _systemOptions.Users.Contains(kerbId))
+        if (requirement.RoleStrings.Contains(Role.Codes.System) && _systemOptions.GetUsers.Contains(kerbId))
         {
             context.Succeed(requirement);
         }
