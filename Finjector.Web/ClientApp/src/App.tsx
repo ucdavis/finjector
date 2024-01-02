@@ -1,6 +1,11 @@
 import React from "react";
 
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Outlet,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 
 import { useUserInfoQuery } from "./queries/userQueries";
 import Landing from "./pages/Landing";
@@ -23,6 +28,98 @@ import Breadcrumbs from "./shared/Breadcrumbs";
 import ChartStringRedirector from "./pages/ChartStringRedirector";
 import Example from "./pages/Example";
 
+const RedirectHome = () => <Navigate to="/" />;
+
+function Layout() {
+  return (
+    <>
+      <Header />
+      <div className="container">
+        <Breadcrumbs />
+        <Outlet />
+      </div>
+    </>
+  );
+}
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      { index: true, element: <Landing /> },
+      { path: "/example", element: <Example /> },
+      { path: "/help", element: <About /> },
+      { path: "/landing", element: <RedirectHome /> },
+      {
+        path: "/locator/:type/:id",
+        element: <ChartStringRedirector />,
+      },
+      {
+        path: "/teams",
+        children: [
+          { index: true, element: <MyTeams /> },
+          { path: "create", element: <CreateTeam /> },
+          {
+            path: ":teamId",
+            children: [
+              { index: true, element: <Team /> },
+              { path: "edit", element: <EditTeam /> },
+              { path: "folders", element: <Team /> },
+              { path: "folders/create", element: <CreateFolder /> },
+              { path: "folders/:folderId", element: <Folder /> },
+              { path: "folders/:folderId/edit", element: <EditFolder /> },
+              { path: "permissions", element: <UserManagement /> },
+              {
+                path: "folders/:folderId/permissions",
+                element: <UserManagement />,
+              },
+              { path: "admins", element: <AdminList /> },
+              {
+                path: "folders/:folderId/admins",
+                element: <AdminList />,
+              },
+              {
+                path: "folders/:folderId/details/:chartId/:chartSegmentString",
+                element: <Details />,
+              },
+              {
+                path: "folders/:folderId/entry/:chartId/:chartSegmentString",
+                element: <Entry />,
+              },
+              {
+                path: "folders/:folderId/selected/:chartId/:chartSegmentString",
+                element: <Selected />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "/entry",
+        children: [
+          { index: true, element: <Entry /> },
+          { path: ":chartSegmentString", element: <Entry /> },
+        ],
+      },
+      {
+        path: "/details",
+        children: [{ path: ":chartSegmentString", element: <Details /> }],
+      },
+      { path: "/paste", element: <Paste /> },
+      {
+        path: "/selected",
+        children: [
+          { index: true, element: <RedirectHome /> },
+          { path: ":chartSegmentString", element: <Selected /> },
+        ],
+      },
+    ],
+  },
+
+  { path: "*", element: <Navigate to="/" /> },
+]);
+
 function App() {
   const userInfoQuery = useUserInfoQuery();
 
@@ -31,71 +128,7 @@ function App() {
     return <div>Loading...</div>;
   }
 
-  return (
-    <BrowserRouter>
-      <Header />
-      <div className="container">
-        <Breadcrumbs />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/example" element={<Example />} />
-          <Route path="/help" element={<About />} />
-          <Route path="/landing" element={<RedirectHome />} />
-          <Route
-            path="/locator/:type/:id"
-            element={<ChartStringRedirector />}
-          />
-          <Route path="/teams">
-            <Route path="" element={<MyTeams />} />
-            <Route path="create" element={<CreateTeam />} />
-            <Route path=":id" element={<Team />} />
-            <Route path=":id/edit" element={<EditTeam />} />
-            <Route path=":id/folders" element={<Team />} />
-            <Route path=":id/folders/create" element={<CreateFolder />} />
-            <Route path=":id/folders/:folderId" element={<Folder />} />
-            <Route path=":id/folders/:folderId/edit" element={<EditFolder />} />
-            <Route path=":id/permissions" element={<UserManagement />} />
-            <Route
-              path=":id/folders/:folderId/permissions"
-              element={<UserManagement />}
-            />
-            <Route path=":id/admins" element={<AdminList />} />
-            <Route
-              path=":id/folders/:folderId/admins"
-              element={<AdminList />}
-            />
-            {/* Full paths for details, entry and selection */}
-            <Route
-              path=":teamId/folders/:folderId/details/:chartId/:chartSegmentString"
-              element={<Details />}
-            />
-            <Route
-              path=":teamId/folders/:folderId/entry/:chartId/:chartSegmentString"
-              element={<Entry />}
-            />
-            <Route
-              path=":teamId/folders/:folderId/selected/:chartId/:chartSegmentString"
-              element={<Selected />}
-            />
-          </Route>
-          <Route path="/entry">
-            <Route path="" element={<Entry />} />
-            <Route path=":chartSegmentString" element={<Entry />} />
-          </Route>
-          <Route path="/details">
-            <Route path=":chartSegmentString" element={<Details />} />
-          </Route>
-          <Route path="/paste" element={<Paste />} />
-          <Route path="/selected">
-            <Route path="" element={<RedirectHome />} />
-            <Route path=":chartSegmentString" element={<Selected />} />
-          </Route>
-        </Routes>
-      </div>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 }
-
-const RedirectHome = () => <Navigate to="/" />;
 
 export default App;
