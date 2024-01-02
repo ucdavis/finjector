@@ -1,34 +1,35 @@
 import React from "react";
-import { useLocation, Link } from "react-router-dom";
+import { Link, useMatches } from "react-router-dom";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 
 const Breadcrumbs = () => {
-  const location = useLocation();
-  const paths = location.pathname.split("/").filter((path) => path !== "");
+  // will return an array of matches objects.  we just want the last one with the `handle` object
+  const matches = useMatches();
 
-  if (paths.length === 0 || paths[0] === "locator") {
-    return null; // Don't render anything if we are on the homepage or the base /locator path
-  }
+  const matchesWithHandle = matches.filter((m) => m.handle);
 
-  // TODO: remove we just want to hide the crumbs
-  return null;
+  const handleMatch = matchesWithHandle[matchesWithHandle.length - 1];
+
+  const teamId = handleMatch?.params?.teamId;
+  const folderId = handleMatch?.params?.folderId;
+  const title = (handleMatch?.handle as { title: string })?.title;
 
   return (
     <Breadcrumb>
       <BreadcrumbItem>
         <Link to="/">Home</Link>
       </BreadcrumbItem>
-      {paths.map((path, index) => (
-        <BreadcrumbItem key={index}>
-          {index === paths.length - 1 ? (
-            <span>{path.charAt(0).toUpperCase() + path.slice(1)}</span>
-          ) : (
-            <Link to={`/${paths.slice(0, index + 1).join("/")}`}>
-              {path.charAt(0).toUpperCase() + path.slice(1)}
-            </Link>
-          )}
+      {teamId && (
+        <BreadcrumbItem>
+          <Link to={`/teams/${teamId}`}>Team</Link>
         </BreadcrumbItem>
-      ))}
+      )}
+      {folderId && (
+        <BreadcrumbItem>
+          <Link to={`/teams/${teamId}/folders/${folderId}`}>Folder</Link>
+        </BreadcrumbItem>
+      )}
+      {title && <BreadcrumbItem active>{title}</BreadcrumbItem>}
     </Breadcrumb>
   );
 };

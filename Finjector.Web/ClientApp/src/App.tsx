@@ -65,10 +65,6 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <Team />,
-                handle: {
-                  title: "testing",
-                },
               },
               { path: "edit", element: <EditTeam /> },
               { path: "folders", element: <Team /> },
@@ -91,6 +87,9 @@ const router = createBrowserRouter([
                   {
                     path: "details/:chartId/:chartSegmentString",
                     element: <Details />,
+                    handle: {
+                      title: "Chart String Detail",
+                    },
                   },
                   {
                     path: "entry/:chartId/:chartSegmentString",
