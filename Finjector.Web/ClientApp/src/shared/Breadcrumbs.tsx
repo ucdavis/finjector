@@ -27,12 +27,19 @@ const Breadcrumbs = () => {
       </BreadcrumbItem>
       {teamId && (
         <BreadcrumbItem>
-          <Link to={`/teams/${teamId}`}>Team</Link>
+          <Link to="/teams">My Teams</Link>
         </BreadcrumbItem>
       )}
-      {folderId && (
+      {teamId && title !== "Team Details" && (
         <BreadcrumbItem>
-          <Link to={`/teams/${teamId}/folders/${folderId}`}>Folder</Link>
+          <Link to={`/teams/${teamId}`}>Team Details</Link>
+        </BreadcrumbItem>
+      )}
+      {folderId && title !== "Folder Details" && (
+        <BreadcrumbItem>
+          <Link to={`/teams/${teamId}/folders/${folderId}`}>
+            Folder Details
+          </Link>
         </BreadcrumbItem>
       )}
       {title && <BreadcrumbItem active>{title}</BreadcrumbItem>}

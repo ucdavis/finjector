@@ -75,7 +75,7 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: <Team />,
-                handle: { title: "Team Detail" },
+                handle: { title: "Team Details" },
               },
               {
                 path: "edit",
@@ -85,7 +85,7 @@ const router = createBrowserRouter([
               {
                 path: "folders",
                 element: <Team />,
-                handle: { title: "Team Detail" },
+                handle: { title: "Team Details" },
               },
               {
                 path: "folders/create",
@@ -108,7 +108,7 @@ const router = createBrowserRouter([
                   {
                     index: true,
                     element: <Folder />,
-                    handle: { title: "Folder Detail" },
+                    handle: { title: "Folder Details" },
                   },
                   {
                     path: "edit",
@@ -129,8 +129,8 @@ const router = createBrowserRouter([
                     path: "details/:chartId/:chartSegmentString",
                     element: <Details />,
                     handle: {
-                      title: "Chart String Detail",
-                      hideBreadcrumbs: true,
+                      title: "Chart String Details",
+                      hideBreadcrumbs: false,
                     },
                   },
                   {
@@ -152,7 +152,7 @@ const router = createBrowserRouter([
       {
         path: "/entry",
         children: [
-          { index: true, element: <Entry />, handle: { title: "Entry" } },
+          { index: true, element: <Entry />, handle: { title: "Entry",  hideBreadcrumbs: true } },
           {
             path: ":chartSegmentString",
             element: <Entry />,
@@ -166,11 +166,11 @@ const router = createBrowserRouter([
           {
             path: ":chartSegmentString",
             element: <Details />,
-            handle: { title: "Details", hideBreadcrumbs: true },
+            handle: { title: "Details", hideBreadcrumbs: false },
           },
         ],
       },
-      { path: "/paste", element: <Paste />, handle: { title: "Paste" } },
+      { path: "/paste", element: <Paste />, handle: { title: "Paste",  hideBreadcrumbs: true } },
       {
         path: "/selected",
         children: [
