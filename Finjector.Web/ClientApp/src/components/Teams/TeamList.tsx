@@ -10,10 +10,7 @@ import {
   faFolder,
   faUsers,
   faSitemap,
-  faMagnifyingGlassChart,
   faFileLines,
-  faNoteSticky,
-  faStickyNote,
 } from "@fortawesome/free-solid-svg-icons";
 import ClickableListItem from "../Shared/ClickableListItem";
 
@@ -69,7 +66,7 @@ const ChartList = (props: Props) => {
                 <div className="stat-icon">
                   <FontAwesomeIcon
                     title="Chart string count in team"
-                    icon={faMagnifyingGlassChart}
+                    icon={faFileLines}
                   />
 
                   {teamInfo.chartCount}

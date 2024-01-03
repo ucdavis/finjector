@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
-  faDollarSign,
+  faFileLines,
   faFolder,
 } from "@fortawesome/free-solid-svg-icons";
 import ClickableListItem from "../Shared/ClickableListItem";
@@ -63,7 +63,7 @@ const FolderList = (props: Props) => {
                 <div className="stat-icon">
                   <FontAwesomeIcon
                     title="Chart string count in folder"
-                    icon={faDollarSign}
+                    icon={faFileLines}
                   />
                   {folderInfo.chartCount}
                 </div>
