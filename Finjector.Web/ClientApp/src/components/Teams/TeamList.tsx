@@ -9,8 +9,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFolder,
   faUsers,
-  faDollarSign,
   faSitemap,
+  faMagnifyingGlassChart,
+  faFileLines,
+  faNoteSticky,
+  faStickyNote,
 } from "@fortawesome/free-solid-svg-icons";
 import ClickableListItem from "../Shared/ClickableListItem";
 
@@ -66,8 +69,9 @@ const ChartList = (props: Props) => {
                 <div className="stat-icon">
                   <FontAwesomeIcon
                     title="Chart string count in team"
-                    icon={faDollarSign}
+                    icon={faMagnifyingGlassChart}
                   />
+
                   {teamInfo.chartCount}
                 </div>
               </div>
