@@ -5,12 +5,12 @@ import FinjectorButton from "./FinjectorButton";
 
 export const ChartLoadingError = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id: chartId } = useParams();
 
   const removeMutation = useRemoveChart();
 
   const remove = () => {
-    removeMutation.mutate({ id: id || 0 } as Coa, {
+    removeMutation.mutate({ id: chartId || 0 } as Coa, {
       onSuccess: () => {
         navigate("/");
       },
