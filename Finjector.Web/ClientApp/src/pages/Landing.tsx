@@ -14,9 +14,12 @@ const Landing = () => {
 
   return (
     <div>
-      <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
-        <h1>My Chart Strings</h1>
-        <div className="col-6 col-md-9 fin-btn-group text-end">
+      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
+        <div className="col-12 col-md-4">
+          <h1>My Chart Strings</h1>
+        </div>
+
+        <div className="col-12 col-md-8 text-end">
           <FinjectorButton to="/entry">
             <FontAwesomeIcon icon={faPlus} />
             New Chart String from Scratch

@@ -88,21 +88,19 @@ const Details = () => {
 
   return (
     <div className="main">
-      <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
-        <div className="col-md-7">
-          <div>
-            {chartStringDetails && (
-              <h4>
-                {chartStringDetails.teamName} {"/ "}
-                {chartStringDetails.folder?.name}
-              </h4>
-            )}
-            <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
-          </div>
+      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
+        <div className="col-12 col-md-7">
+          {chartStringDetails && (
+            <h4>
+              {chartStringDetails.teamName} {"/ "}
+              {chartStringDetails.folder?.name}
+            </h4>
+          )}
+          <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
         </div>
 
         {!invalid && (
-          <div className="col-md-5 fin-btn-group text-end">
+          <div className="col-12 col-md-5 text-end">
             {isInPopup && (
               <FinjectorButton onClick={use}>
                 <FontAwesomeIcon icon={faBolt} />
