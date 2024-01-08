@@ -4,9 +4,9 @@ import { useAdminsQuery } from "../../queries/userQueries";
 import { CollectionResourceType } from "../../types";
 
 const AdminList: React.FC = () => {
-  const { id, folderId } = useParams<{ id: string; folderId: string }>();
+  const { teamId, folderId } = useParams<{ teamId: string; folderId: string }>();
 
-  const resourceId = folderId ? folderId : id ? id : "";
+  const resourceId = folderId ? folderId : teamId ? teamId : "";
   const resourceType: CollectionResourceType = folderId ? "folder" : "team";
 
   // query for membership

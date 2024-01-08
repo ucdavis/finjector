@@ -6,11 +6,11 @@ import { NameAndDescriptionModel } from "../../types";
 
 const CreateFolder: React.FC = () => {
   // get the team id from the url
-  const { id } = useParams<{ id: string }>();
+  const { teamId } = useParams<{ teamId: string }>();
 
   const navigate = useNavigate();
 
-  const createFolderMutation = useCreateFolderMutation(id || "");
+  const createFolderMutation = useCreateFolderMutation(teamId || "");
 
   const handleCreate = async (data: NameAndDescriptionModel) => {
     await createFolderMutation.mutateAsync(
@@ -20,7 +20,7 @@ const CreateFolder: React.FC = () => {
       },
       {
         onSuccess: () => {
-          navigate(`/teams/${id}`);
+          navigate(`/teams/${teamId}`);
         },
         onError: (err: any) => {
           console.log(err);

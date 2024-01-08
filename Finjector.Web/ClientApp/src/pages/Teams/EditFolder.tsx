@@ -9,13 +9,13 @@ import {
 } from "../../queries/folderQueries";
 
 const EditFolder: React.FC = () => {
-  const { id, folderId } = useParams<{ id: string; folderId: string }>();
+  const { teamId, folderId } = useParams<{ teamId: string; folderId: string }>();
 
   const navigate = useNavigate();
 
   const folderQuery = useGetFolder(folderId);
 
-  const updateFolderMutation = useEditFolderMutation(id || "", folderId || "");
+  const updateFolderMutation = useEditFolderMutation(teamId || "", folderId || "");
 
   const handleCreate = async (data: NameAndDescriptionModel) => {
     await updateFolderMutation.mutateAsync(
@@ -25,7 +25,7 @@ const EditFolder: React.FC = () => {
       },
       {
         onSuccess: () => {
-          navigate(`/teams/${id}/folders/${folderId}`);
+          navigate(`/teams/${teamId}/folders/${folderId}`);
         },
         onError: (err: any) => {
           console.log(err);
