@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AggieEnterpriseApi" Version="0.2.215" />
+    <PackageReference Include="AggieEnterpriseApi" Version="0.2.219" />
     <PackageReference Include="Ietws" Version="0.2.22" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.0" />
