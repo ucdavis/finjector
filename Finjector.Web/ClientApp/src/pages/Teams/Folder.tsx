@@ -49,12 +49,12 @@ const Folder: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
-        <div>
+      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
+        <div className="col-12 col-md-4">
           <h4>{folderModel.data?.folder.teamName}</h4>
           <h1>{folderModel.data?.folder.name}</h1>
         </div>
-        <div className="col-md-10 fin-btn-group text-end">
+        <div className="col-12 col-md-8 text-end">
           <FinjectorButton to={`/teams/${teamId}/folders/${folderId}/admins`}>
             <FontAwesomeIcon icon={faUserTie} />
             View Folder Admins
@@ -81,7 +81,7 @@ const Folder: React.FC = () => {
               to={`/entry?folderId=${folderModel.data?.folder.id}`}
             >
               <FontAwesomeIcon icon={faPlus} />
-              Create New Chart String In {folderModel.data?.folder.name}
+              New Chart String Here
             </FinjectorButton>
           )}
         </div>
