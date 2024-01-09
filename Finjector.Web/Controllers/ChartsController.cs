@@ -59,7 +59,6 @@ public class ChartsController : ControllerBase
     public async Task<IActionResult> AllCharts()
     {
         var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
-        await _userService.EnsureUserExists(iamId);
 
         if (iamId == null)
         {
@@ -72,8 +71,6 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
 
-
-        //await _checkUser.MigrateUser(user);
 
         // get any chart that belongs to the user's folders or teams.  role doesn't matter. nested group under team and folder
         var charts = await _dbContext.Coas.Include(c => c.Folder).ThenInclude(f => f.Team).Where(c =>
