@@ -37,6 +37,8 @@ public class TeamController : ControllerBase
         var teamResults = await _dbContext.Teams.Where(t => t.TeamPermissions.Any(tp => tp.User.Iam == iamId
                 || t.Folders.Any(f => f.FolderPermissions.Any(fp => fp.User.Iam == iamId))
             ))
+            .OrderByDescending(t => t.IsPersonal)
+            .ThenBy(t => t.Name)
             .Select(t => new
             {
                 Team = new
@@ -112,6 +114,7 @@ public class TeamController : ControllerBase
                     .Count(),
                 
             })
+            .OrderBy(g => g.Folder.Name)
             .ToListAsync();
 
         return Ok(new { team, folders });
