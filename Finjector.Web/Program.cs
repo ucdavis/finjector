@@ -62,7 +62,6 @@ try
 
     // Add services to the container.
     builder.Services.Configure<FinancialOptions>(builder.Configuration.GetSection("Financial"));
-    builder.Services.Configure<CosmosOptions>(builder.Configuration.GetSection("CosmosDb"));
     builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Authentication"));
     builder.Services.Configure<SystemOptions>(builder.Configuration.GetSection("System"));
 
@@ -114,7 +113,6 @@ try
     // Add the IamId to claims if not provided by CAS
     builder.Services.AddScoped<IClaimsTransformation, IamIdClaimFallbackTransformer>();
     builder.Services.AddScoped<IIdentityService, IdentityService>(); //Lookup IAM to get user
-    builder.Services.AddScoped<ICheckUser, CheckUser>();
     builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<IAggieEnterpriseService, AggieEnterpriseService>();
 

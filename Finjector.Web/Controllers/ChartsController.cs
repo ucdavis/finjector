@@ -19,15 +19,13 @@ public class ChartsController : ControllerBase
     private readonly IAggieEnterpriseService _aggieEnterpriseService;
     private readonly AppDbContext _dbContext;
     private readonly IIdentityService _identityService;
-    private readonly ICheckUser _checkUser;
     private readonly IUserService _userService;
 
-    public ChartsController(AppDbContext dbContext, IIdentityService identityService, ICheckUser checkUser,
+    public ChartsController(AppDbContext dbContext, IIdentityService identityService,
         IUserService userService, IAggieEnterpriseService aggieEnterpriseService)
     {
         _dbContext = dbContext;
         _identityService = identityService;
-        _checkUser = checkUser;
         _userService = userService;
         _aggieEnterpriseService = aggieEnterpriseService;
     }
