@@ -15,10 +15,11 @@ import {
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
+import LeaveFolder from "../../components/Folders/LeaveFolder";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
-  const { teamId, folderId } = useParams<{
+  const { teamId = "", folderId = "" } = useParams<{
     teamId: string;
     folderId: string;
   }>();
@@ -97,6 +98,18 @@ const Folder: React.FC = () => {
               </FinjectorButton>
               {folderId && <DeleteFolder folderId={folderId} />}
             </>
+          )}
+          {!limitedFolder && (
+            <LeaveFolder
+              teamId={teamId}
+              folderId={folderId}
+              myFolderPermissions={
+                folderModel.data?.folder.myFolderPermissions || []
+              }
+              myTeamPermissions={
+                folderModel.data?.folder.myTeamPermissions || []
+              }
+            />
           )}
         </div>
       </div>

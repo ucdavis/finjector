@@ -199,5 +199,29 @@ namespace Finjector.Web.Controllers
 
             return NoContent();
         }
+        
+        /// <summary>
+        /// remove your permissions from a folder
+        /// if you still have access via the team that's fine
+        /// never delete the folder even if nobody can see it anymore since there will always be team access
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("{id}/Leave")]
+        public async Task<IActionResult> Leave(int id)
+        {
+            var iamId = Request.GetCurrentUserIamId();
+            
+            // find their folder permissions
+            var folderPermissions = await _dbContext.FolderPermissions
+                .Where(fp => fp.Folder.Id == id && fp.User.Iam == iamId)
+                .ToListAsync();
+
+            _dbContext.FolderPermissions.RemoveRange(folderPermissions);
+            
+            await _dbContext.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
