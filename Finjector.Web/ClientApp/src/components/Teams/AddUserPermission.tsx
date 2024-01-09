@@ -77,12 +77,13 @@ export const AddUserPermission = (props: Props) => {
           </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
-              Email
+              Email or Kerberos
             </label>
             <input
               type="text"
               id="email"
               className="form-control"
+              placeholder="Enter Email or Kerberos"
               value={email}
               onChange={handleEmailChange}
             />

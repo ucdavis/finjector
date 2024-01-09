@@ -50,10 +50,14 @@ const Team: React.FC = () => {
           <h1>{teamModel.data?.team.name}</h1>
         </div>
         <div className="col-12 col-md-8 text-end">
-          <FinjectorButton to={`/teams/${teamId}/admins`}>
-            <FontAwesomeIcon icon={faUserTie} />
-            View Team Admins
-          </FinjectorButton>
+          {/* don't show team admins if you are an admin or if it's a personal team */}
+          {limitedTeam ||
+            (!isTeamAdmin && (
+              <FinjectorButton to={`/teams/${teamId}/admins`}>
+                <FontAwesomeIcon icon={faUserTie} />
+                View Team Admins
+              </FinjectorButton>
+            ))}
           {!limitedTeam && isTeamAdmin && (
             <>
               <FinjectorButton to={`/teams/${teamId}/folders/create`}>

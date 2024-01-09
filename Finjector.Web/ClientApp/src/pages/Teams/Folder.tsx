@@ -15,10 +15,14 @@ import {
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
+import LeaveFolder from "../../components/Folders/LeaveFolder";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
-  const { teamId, folderId } = useParams<{ teamId: string; folderId: string }>();
+  const { teamId = "", folderId = "" } = useParams<{
+    teamId: string;
+    folderId: string;
+  }>();
 
   const [search, setSearch] = React.useState("");
 
@@ -41,6 +45,10 @@ const Folder: React.FC = () => {
     return <FinLoader />;
   }
 
+  const isFolderAdmin =
+    folderModel.data?.folder.myFolderPermissions.some((p) => p === "Admin") ||
+    folderModel.data?.folder.myTeamPermissions.some((p) => p === "Admin");
+
   const limitedFolder = isPersonalOrDefault(folderModel.data?.folder.name);
 
   if (folderModel.data === undefined) {
@@ -55,10 +63,26 @@ const Folder: React.FC = () => {
           <h1>{folderModel.data?.folder.name}</h1>
         </div>
         <div className="col-12 col-md-8 text-end">
-          <FinjectorButton to={`/teams/${teamId}/folders/${folderId}/admins`}>
-            <FontAwesomeIcon icon={faUserTie} />
-            View Folder Admins
-          </FinjectorButton>
+          {/* Editors & above can create new chart strings */}
+          {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
+            <FinjectorButton
+              to={`/entry?folderId=${folderModel.data?.folder.id}`}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+              New Chart String Here
+            </FinjectorButton>
+          )}
+          {/* don't show team admins if you are an admin or if it's a personal team */}
+          {limitedFolder ||
+            (!isFolderAdmin && (
+              <FinjectorButton
+                to={`/teams/${teamId}/folders/${folderId}/admins`}
+              >
+                <FontAwesomeIcon icon={faUserTie} />
+                View Folder Admins
+              </FinjectorButton>
+            ))}
+
           {/* Admins can manage permissions */}
           {!limitedFolder && combinedPermissions.some((p) => p === "Admin") && (
             <>
@@ -75,14 +99,17 @@ const Folder: React.FC = () => {
               {folderId && <DeleteFolder folderId={folderId} />}
             </>
           )}
-          {/* Editors & above can create new chart strings */}
-          {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
-            <FinjectorButton
-              to={`/entry?folderId=${folderModel.data?.folder.id}`}
-            >
-              <FontAwesomeIcon icon={faPlus} />
-              New Chart String Here
-            </FinjectorButton>
+          {!limitedFolder && (
+            <LeaveFolder
+              teamId={teamId}
+              folderId={folderId}
+              myFolderPermissions={
+                folderModel.data?.folder.myFolderPermissions || []
+              }
+              myTeamPermissions={
+                folderModel.data?.folder.myTeamPermissions || []
+              }
+            />
           )}
         </div>
       </div>

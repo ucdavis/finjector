@@ -86,7 +86,8 @@ public class ChartsController : ControllerBase
                 Team = new
                 {
                     g.Key.Id,
-                    g.Key.Name
+                    g.Key.Name,
+                    g.Key.IsPersonal
                 },
                 Folders = g.GroupBy(c => c.Folder)
                     .Select(g2 => new
@@ -103,9 +104,11 @@ public class ChartsController : ControllerBase
                             c.Updated
                         }).ToList()
                     })
-            }).ToList();
-
-
+            })
+            .OrderByDescending(g => g.Team.IsPersonal)
+            .ThenBy(g => g.Team.Name)
+            .ToList();
+        
         return Ok(groupedCharts);
     }
 

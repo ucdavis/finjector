@@ -78,3 +78,22 @@ export const useDeleteFolderMutation = () =>
       },
     }
   );
+
+export const useLeaveFolderMutation = (teamId: string) =>
+  useMutation(
+    async (folderId: string) => {
+      return await doFetchEmpty(
+        fetch(`/api/folder/${folderId}/leave`, {
+          method: "POST",
+        })
+      );
+    },
+    {
+      onSuccess: () => {
+        // invalidate teams query so we refetch
+        queryClient.invalidateQueries(["teams", "me"]);
+        queryClient.invalidateQueries(["teams", teamId]);
+        queryClient.invalidateQueries(["folders", "me"]);
+      },
+    }
+  );
