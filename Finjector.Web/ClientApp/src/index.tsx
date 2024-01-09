@@ -6,7 +6,29 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import * as Sentry from "@sentry/react";
+
 import "./sass/main.scss";
+
+Sentry.init({
+  dsn: "https://971a200ce756ed1caf815a8d2cd6b743@o220035.ingest.sentry.io/4506543541649408",
+  integrations: [
+    new Sentry.BrowserTracing({
+      // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+      // tracePropagationTargets: ["localhost", /^https:\/\/finjector\.ucdavis\.edu/], // local and production
+      tracePropagationTargets: [/^https:\/\/finjector\.ucdavis\.edu/], // only log in production
+    }),
+    new Sentry.Replay({
+      maskAllText: false,
+      blockAllMedia: true,
+    }),
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+  // Session Replay
+  replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+  replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+});
 
 const queryClient = new QueryClient({
   defaultOptions: {
