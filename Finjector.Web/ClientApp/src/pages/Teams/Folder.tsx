@@ -62,6 +62,15 @@ const Folder: React.FC = () => {
           <h1>{folderModel.data?.folder.name}</h1>
         </div>
         <div className="col-12 col-md-8 text-end">
+          {/* Editors & above can create new chart strings */}
+          {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
+            <FinjectorButton
+              to={`/entry?folderId=${folderModel.data?.folder.id}`}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+              New Chart String Here
+            </FinjectorButton>
+          )}
           {/* don't show team admins if you are an admin or if it's a personal team */}
           {limitedFolder ||
             (!isFolderAdmin && (
@@ -88,15 +97,6 @@ const Folder: React.FC = () => {
               </FinjectorButton>
               {folderId && <DeleteFolder folderId={folderId} />}
             </>
-          )}
-          {/* Editors & above can create new chart strings */}
-          {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
-            <FinjectorButton
-              to={`/entry?folderId=${folderModel.data?.folder.id}`}
-            >
-              <FontAwesomeIcon icon={faPlus} />
-              New Chart String Here
-            </FinjectorButton>
           )}
         </div>
       </div>
