@@ -21,12 +21,10 @@ namespace Finjector.Core.Services
     public class CheckUser : ICheckUser
     {
         private readonly AppDbContext _context;
-        private readonly ICosmosDbService _cosmosDbService;
 
-        public CheckUser(AppDbContext context, ICosmosDbService cosmosDbService)
+        public CheckUser(AppDbContext context)
         {
             _context = context;
-            _cosmosDbService = cosmosDbService;
         }
 
         // migrate user and their charts from cosmos to sql
@@ -43,11 +41,6 @@ namespace Finjector.Core.Services
             // update user and create their personal team folder if needed
             await UpdateUser(user);
             
-            // now get all their charts from cosmos
-            var charts = await _cosmosDbService.GetCharts(user.Iam);
-            
-            // and update the sql db
-            await UpdateCharts(user, charts);
         }
         
 

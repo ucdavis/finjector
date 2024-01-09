@@ -110,8 +110,6 @@ try
     });
     builder.Services.AddScoped<IAuthorizationHandler, VerifyRoleAccessHandler>();
 
-    // It's an SDK best practice to use a singleton instance of CosmosClient
-    builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();
 
     // Add the IamId to claims if not provided by CAS
     builder.Services.AddScoped<IClaimsTransformation, IamIdClaimFallbackTransformer>();
