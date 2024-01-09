@@ -21,6 +21,7 @@ using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Finjector.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.StaticFiles.Infrastructure;
 
 #if DEBUG
 Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
@@ -138,6 +139,23 @@ try
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
+    
+    app.Use(async (context, next) =>
+    {
+        if (context.Request.Path.StartsWithSegments("/api") == false)
+        {
+            context.Response.GetTypedHeaders().CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+            {
+                NoCache = true,
+                NoStore = true,
+                MustRevalidate = true
+            };
+            context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Pragma] = "no-cache";
+            context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Expires] = "0";
+        }
+
+        await next();
+    });
 
     app.UseHttpsRedirection();
     app.UseStaticFiles();
