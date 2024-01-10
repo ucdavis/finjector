@@ -21,6 +21,7 @@ using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Finjector.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.StaticFiles.Infrastructure;
 
 #if DEBUG
 Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
@@ -138,6 +139,29 @@ try
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
+    
+    // we want to disable caching for all html responses outside of the API
+    app.Use(async (context, next) =>
+    {
+        context.Response.OnStarting(() =>
+        {
+            if (context.Request.Path.StartsWithSegments("/api") == false &&
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+                context.Response.ContentType != null &&
+                context.Response.ContentType.StartsWith("text/html", StringComparison.OrdinalIgnoreCase))
+            {
+                // Set the necessary headers to disable caching
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.CacheControl] =
+                    "no-store, no-cache, must-revalidate";
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Pragma] = "no-cache";
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Expires] = "0";
+            }
+
+            return Task.CompletedTask;
+        });
+
+        await next();
+    });
 
     app.UseHttpsRedirection();
     app.UseStaticFiles();
