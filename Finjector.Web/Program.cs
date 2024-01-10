@@ -140,19 +140,25 @@ try
         app.UseHsts();
     }
     
+    // we want to disable caching for all html responses outside of the API
     app.Use(async (context, next) =>
     {
-        if (context.Request.Path.StartsWithSegments("/api") == false)
+        context.Response.OnStarting(() =>
         {
-            context.Response.GetTypedHeaders().CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+            if (context.Request.Path.StartsWithSegments("/api") == false &&
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+                context.Response.ContentType != null &&
+                context.Response.ContentType.StartsWith("text/html", StringComparison.OrdinalIgnoreCase))
             {
-                NoCache = true,
-                NoStore = true,
-                MustRevalidate = true
-            };
-            context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Pragma] = "no-cache";
-            context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Expires] = "0";
-        }
+                // Set the necessary headers to disable caching
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.CacheControl] =
+                    "no-store, no-cache, must-revalidate";
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Pragma] = "no-cache";
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Expires] = "0";
+            }
+
+            return Task.CompletedTask;
+        });
 
         await next();
     });
