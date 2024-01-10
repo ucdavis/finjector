@@ -604,12 +604,10 @@ namespace Finjector.Core.Services
             {
                 if (data.PpmProjectByNumber != null && data.PpmProjectByNumber.PrimaryProjectManagerName != null)
                 {
-                    var nameParts = data.PpmProjectByNumber.PrimaryProjectManagerName.Split(' ');
-
+                    //Can't parse this into first and last because the hyphnated name is not consistent and it can have sufixes
                     aeDetails.PpmDetails.PpmProjectManager = new Approver
                     {
-                        FirstName = nameParts[0],
-                        LastName = nameParts[nameParts.Length - 1],
+                        FullName = data.PpmProjectByNumber.PrimaryProjectManagerName,    
                         Email = data.PpmProjectByNumber.PrimaryProjectManagerEmail
                     };
                 }
