@@ -55,7 +55,11 @@ const router = createBrowserRouter([
       },
       { path: "/example", element: <Example />, handle: { title: "Example" } },
       { path: "/help", element: <About />, handle: { title: "Help" } },
-      { path: "/import", element: <Import />, handle: { title: "Import" } },
+      {
+        path: "/import",
+        element: <Import />,
+        handle: { title: "Import", hideBreadcrumbs: true },
+      },
       {
         path: "/landing",
         element: <RedirectHome />,

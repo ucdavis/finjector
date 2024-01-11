@@ -33,72 +33,36 @@ const Landing = () => {
           <div className="col-7 ms-2">
             <h3 className="row-title">Team Name Here</h3>
           </div>
-          <div className="col-5 d-flex justify-content-end">
+          <div className="col-5 d-flex justify-content-end align-items-center">
             <div className="stat-icon">
               <FontAwesomeIcon
                 title="Chart string count in team"
                 icon={faFileLines}
               />
               22
-              <FinjectorButton className="ms-3" to={`#`}>
-                <FontAwesomeIcon icon={faFileExport} />
-                Import Team
-              </FinjectorButton>
             </div>
+            <FinjectorButton to={`#`} className="me-1">
+              <FontAwesomeIcon icon={faFileExport} />
+              Import Team
+            </FinjectorButton>
           </div>
         </div>
         <div className="import-folder-row d-flex align-items-center justify-content-between">
           <div className="col-7">
             <h3 className="mb-0">Folder Name Here</h3>
           </div>
-          <div className="col-5 d-flex justify-content-end">
+          <div className="col-5 d-flex justify-content-end align-items-center">
             <div className="stat-icon">
               <FontAwesomeIcon
                 title="Chart string count in folder"
                 icon={faFileLines}
               />
               3
-              <FinjectorButton className="ms-2 btn-borderless" to={`#`}>
-                <FontAwesomeIcon icon={faFileExport} />
-                Import Folder
-              </FinjectorButton>
             </div>
-          </div>
-        </div>
-        <div className="import-folder-row d-flex align-items-center justify-content-between">
-          <div className="col-7">
-            <h3 className="mb-0">Folder Name Here</h3>
-          </div>
-          <div className="col-5 d-flex justify-content-end">
-            <div className="stat-icon">
-              <FontAwesomeIcon
-                title="Chart string count in folder"
-                icon={faFileLines}
-              />
-              8
-              <FinjectorButton className="ms-2 btn-borderless" to={`#`}>
-                <FontAwesomeIcon icon={faFileExport} />
-                Import Folder
-              </FinjectorButton>
-            </div>
-          </div>
-        </div>
-        <div className="import-folder-row d-flex align-items-center justify-content-between">
-          <div className="col-7">
-            <h3 className="mb-0">Folder Name Here</h3>
-          </div>
-          <div className="col-5 d-flex justify-content-end">
-            <div className="stat-icon">
-              <FontAwesomeIcon
-                title="Chart string count in folder"
-                icon={faFileLines}
-              />
-              11
-              <FinjectorButton className="ms-2 btn-borderless" to={`#`}>
-                <FontAwesomeIcon icon={faFileExport} />
-                Import Folder
-              </FinjectorButton>
-            </div>
+            <FinjectorButton className="ms-2 btn-borderless" to={`#`}>
+              <FontAwesomeIcon icon={faFileExport} />
+              Import Folder
+            </FinjectorButton>
           </div>
         </div>
 
