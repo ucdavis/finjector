@@ -61,11 +61,16 @@
     border-top: 1px solid $borders;
     padding: 10px 20px;
   }
-  // &:hover {
-  //   .row-link-selected-action {
-  //     text-decoration: underline;
-  //   }
-  // }
+}
+.import-folder-row {
+  background-color: $bg-primary;
+  border-top: 1px solid $borders;
+  padding: 10px 0px 10px 20px;
+  h3 {
+    font-size: 1rem;
+    font-family: $sans-bold;
+    color: $primary-color;
+  }
 }
 .stat-icon {
   margin-right: 20px;

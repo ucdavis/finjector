@@ -9,6 +9,7 @@ import {
 
 import { useUserInfoQuery } from "./queries/userQueries";
 import Landing from "./pages/Landing";
+import Import from "./pages/Import";
 import About from "./pages/About";
 import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
@@ -47,9 +48,14 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      { index: true, element: <Landing />, handle: { title: "", hideBreadcrumbs: true } },
+      {
+        index: true,
+        element: <Landing />,
+        handle: { title: "", hideBreadcrumbs: true },
+      },
       { path: "/example", element: <Example />, handle: { title: "Example" } },
       { path: "/help", element: <About />, handle: { title: "Help" } },
+      { path: "/import", element: <Import />, handle: { title: "Import" } },
       {
         path: "/landing",
         element: <RedirectHome />,
@@ -152,7 +158,11 @@ const router = createBrowserRouter([
       {
         path: "/entry",
         children: [
-          { index: true, element: <Entry />, handle: { title: "Entry",  hideBreadcrumbs: true } },
+          {
+            index: true,
+            element: <Entry />,
+            handle: { title: "Entry", hideBreadcrumbs: true },
+          },
           {
             path: ":chartSegmentString",
             element: <Entry />,
@@ -170,7 +180,11 @@ const router = createBrowserRouter([
           },
         ],
       },
-      { path: "/paste", element: <Paste />, handle: { title: "Paste",  hideBreadcrumbs: true } },
+      {
+        path: "/paste",
+        element: <Paste />,
+        handle: { title: "Paste", hideBreadcrumbs: true },
+      },
       {
         path: "/selected",
         children: [

@@ -43,9 +43,7 @@ const FolderList = (props: Props) => {
           >
             <div className="fin-info d-flex justify-content-between align-items-center">
               <div className="col-9 ms-2 me-auto">
-                <div className="row-title">
-                  <h3>{folderInfo.folder.name}</h3>
-                </div>
+                <h3 className="row-title">{folderInfo.folder.name}</h3>
                 <p className="row-subtitle">
                   <span style={{ wordWrap: "break-word" }}>
                     {folderInfo.folder.description}
