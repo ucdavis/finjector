@@ -34,11 +34,8 @@ import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
 import FolderSearch from "../components/Entry/FolderSearch";
 
 const Entry = () => {
-  const { chartId, chartSegmentString } = useParams();
-  const [searchParams] = useSearchParams();
-  const saveInFolderId = searchParams?.get("folderId")
-    ? parseInt(searchParams.get("folderId") || "")
-    : 0;
+  const { chartId, chartSegmentString, folderId } = useParams();
+  const saveInFolderId = parseInt(folderId ?? "0");
 
   const savedChartQuery = useGetSavedChartWithData(chartId || "");
 
