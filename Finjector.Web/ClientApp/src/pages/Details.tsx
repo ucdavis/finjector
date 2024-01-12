@@ -96,8 +96,17 @@ const Details = () => {
               {chartStringDetails.folder?.name}
             </h4>
           )}
-                  <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
-                  <h1><CopyToClipboardHover value={chartStringDetails?.name ?? "xxx"} id="ChartName">{chartStringDetails?.name ?? "xxx"}</CopyToClipboardHover></h1>
+          {chartStringDetails?.name === undefined && (
+            <h1>Chart String Details</h1>
+          )}
+          {chartStringDetails !== undefined && (
+            <CopyToClipboardHover
+              value={chartStringDetails.name}
+              id="ChartName"
+            >
+              <h1>{chartStringDetails.name}</h1>
+            </CopyToClipboardHover>
+          )}
         </div>
 
         {!invalid && (
