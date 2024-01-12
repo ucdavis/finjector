@@ -121,6 +121,17 @@ const FolderSearch = ({
           }}
         />
       </InputGroup>
+      <div className="row mb-5">
+        <div className="col-md-6">
+          {data && (
+            <div className="form-text">
+              Current Team: {selectedFolder?.teamName}
+              <br />
+              Current Folder: {selectedFolder?.name}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

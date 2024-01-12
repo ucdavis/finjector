@@ -175,18 +175,6 @@ const Entry = () => {
           />
         </div>
 
-        <div className="row mb-5">
-          <div className="col-md-6">
-            {savedChartQuery.data && (
-              <div className="form-text">
-                Current Team: {savedChartQuery.data.chart.teamName}
-                <br />
-                Current Folder: {savedChartQuery.data.chart.folder?.name}
-              </div>
-            )}
-          </div>
-        </div>
-
         {savedChart.id ? (
           <EntryEditButtons chartData={chartData} savedChart={savedChart} />
         ) : (
