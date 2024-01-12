@@ -16,17 +16,16 @@ const ImportListTeamRow = (props: ImportListTeamRowProps) => {
         <div className="col-7 ms-2">
           <h3 className="row-title">{props.teamGroup.team.name}</h3>
         </div>
-        <div className="col-2 text-start">
+        <div className="col-2">
           <div className="stat-icon team-coa-counter">
             <FontAwesomeIcon
               title="Chart string count in team"
               icon={faFileLines}
             />
-            {/* {props.teamGroup.folders.reduce(
+            {props.teamGroup.folders.reduce(
               (acc, folder) => acc + folder.coas.length,
               0
-            )} */}
-            99
+            )}
           </div>
         </div>
         <div className="col-3 text-end">

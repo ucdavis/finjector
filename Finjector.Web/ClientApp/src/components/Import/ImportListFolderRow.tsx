@@ -14,7 +14,7 @@ const ImportListFolderRow = (props: ImportListFolderRowProps) => {
       <div className="col-7">
         <h3 className="mb-0">{props.folder.name}</h3>
       </div>
-      <div className="col-2 text-start">
+      <div className="col-2">
         <div className="stat-icon">
           <FontAwesomeIcon
             title="Chart string count in folder"
