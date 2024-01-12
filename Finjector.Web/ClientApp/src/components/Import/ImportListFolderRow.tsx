@@ -14,16 +14,18 @@ const ImportListFolderRow = (props: ImportListFolderRowProps) => {
       <div className="col-7">
         <h3 className="mb-0">{props.folder.name}</h3>
       </div>
-      <div className="col-5 d-flex justify-content-end align-items-center">
+      <div className="col-2">
         <div className="stat-icon">
           <FontAwesomeIcon
             title="Chart string count in folder"
             icon={faFileLines}
           />
-          {props.folder.coas.length}
+          {/* {props.folder.coas.length} */}999
         </div>
+      </div>
+      <div className="col-3 text-end">
         <FinjectorButton className="ms-2 btn-borderless" to={`#`}>
-          <FontAwesomeIcon icon={faFileExport} />
+          {/* <FontAwesomeIcon icon={faFileExport} /> */}
           Import Folder
         </FinjectorButton>
       </div>
