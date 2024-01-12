@@ -163,7 +163,7 @@ const Entry = () => {
         <hr />
         <div className="row">
           <FolderSearch
-            disabled={saveInFolderId !== 0} // if we came from a folder, lock it
+            disabled={saveInFolderId !== 0 && !chartSegmentString && !chartId} // if are creating from Folder, lock it (not on edit)
             selectedFolderId={savedChart.folderId}
             updateFolderId={(folderId) =>
               setSavedChart((c) => ({ ...c, folderId }))

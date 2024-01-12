@@ -139,7 +139,7 @@ const router = createBrowserRouter([
                     handle: { title: "Entry", hideBreadcrumbs: true },
                   },
                   {
-                    path: "entry/",
+                    path: "entry/", // when creating from folder
                     element: <Entry />,
                     handle: { title: "Entry", hideBreadcrumbs: false },
                   },
