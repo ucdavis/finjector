@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   Highlighter,
   Menu,
@@ -28,25 +28,27 @@ const FolderSearch = ({
   const typeaheadRef = useRef<any>();
   const initialFolderId = useRef(selectedFolderId);
 
-  const { data, isFetching } = useGetFolderSearchList();
+  const query = useGetFolderSearchList();
 
   useEffect(() => {
     // when data loads, set the state of the typeahead to the selected folder
     // so that it pre-populates the dropdown with the correct folder
     // only need to do this once, otherwise it causes weird issues on clear
-    if (data) {
-      const folder = data.find((f) => f.id === initialFolderId.current);
+    if (query.data) {
+      const folder = query.data.find((f) => f.id === initialFolderId.current);
       if (!!folder) {
         // if it already has a folder that user has permission to save to, set it to that
         setSelectedFolder(folder);
       } else {
         // otherwise, set it to the default
         setSelectedFolder(
-          data.find((f) => f.teamName === "Personal" && f.name === "Default")
+          query.data.find(
+            (f) => f.teamName === "Personal" && f.name === "Default"
+          )
         );
       }
     }
-  }, [data, initialFolderId]);
+  }, [query.data, initialFolderId]);
 
   const handleSelected = (selected: any[]) => {
     setSelectedFolder(selected[0]);
@@ -71,12 +73,12 @@ const FolderSearch = ({
           id={"typeahead-folder-search"}
           filterBy={["name", "teamName"]}
           ref={typeaheadRef}
-          isLoading={isFetching}
+          isLoading={query.isFetching}
           labelKey="name"
           placeholder="Default"
           selected={selectedFolder ? [selectedFolder] : []}
           onChange={handleSelected}
-          options={data || []} // data
+          options={query.data || []} // data
           clearButton={true}
           disabled={disabled}
           renderMenu={(
@@ -123,13 +125,13 @@ const FolderSearch = ({
       </InputGroup>
       <div className="row mb-5">
         <div className="col-md-6">
-          {data && (
-            <div className="form-text">
-              Current Team: {selectedFolder?.teamName}
-              <br />
-              Current Folder: {selectedFolder?.name}
-            </div>
-          )}
+          <div className="form-text">
+            Current Team:{" "}
+            {query.isFetched && (selectedFolder?.teamName ?? "Personal")}
+            <br />
+            Current Folder:{" "}
+            {query.isFetched && (selectedFolder?.name ?? "Default")}
+          </div>
         </div>
       </div>
     </div>
