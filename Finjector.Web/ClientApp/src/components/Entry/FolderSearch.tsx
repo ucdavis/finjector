@@ -15,11 +15,13 @@ import { InputGroup, InputGroupText } from "reactstrap";
 interface FolderSearchProps {
   updateFolderId: (folderId: number) => void;
   selectedFolderId?: number;
+  disabled?: boolean;
 }
 
 const FolderSearch = ({
   updateFolderId,
   selectedFolderId,
+  disabled,
 }: FolderSearchProps) => {
   const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
 
@@ -61,8 +63,8 @@ const FolderSearch = ({
     <div className="col-md-6">
       <h2>Folder</h2>
       <p>Choose where you would like to store your chart string</p>
-      <InputGroup>
-        <InputGroupText>
+      <InputGroup aria-disabled={disabled}>
+        <InputGroupText aria-disabled={disabled}>
           {selectedFolder?.teamName ?? "Personal"}
         </InputGroupText>
         <Typeahead
@@ -76,6 +78,7 @@ const FolderSearch = ({
           onChange={handleSelected}
           options={data || []} // data
           clearButton={true}
+          disabled={disabled}
           renderMenu={(
             results,
             {

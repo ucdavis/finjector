@@ -163,6 +163,7 @@ const Entry = () => {
         <hr />
         <div className="row">
           <FolderSearch
+            disabled={saveInFolderId !== 0} // if we came from a folder, lock it
             selectedFolderId={savedChart.folderId}
             updateFolderId={(folderId) =>
               setSavedChart((c) => ({ ...c, folderId }))
