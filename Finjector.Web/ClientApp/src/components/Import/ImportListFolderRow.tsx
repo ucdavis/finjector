@@ -12,7 +12,7 @@ const ImportListFolderRow = (props: ImportListFolderRowProps) => {
   return (
     <div className="import-folder-row d-flex align-items-center justify-content-between">
       <div className="col-7">
-        <h3 className="mb-0">{props.folder.name}</h3>
+        <h3 className="mb-0 ms-2">{props.folder.name}</h3>
       </div>
       <div className="col-2">
         <div className="stat-icon">
