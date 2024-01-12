@@ -22,7 +22,7 @@ const FinjectorButton: React.FC<FinjectorButtonProps> = ({
   // if className is provided, it will add that className
   const classNameString = `btn btn-new ${className ?? ""}${
     !!color ? ` btn-${color}` : ""
-  }${margin ? "ms-2" : ""}`;
+  }${margin ? " ms-2" : ""}`;
 
   if (!!to) {
     return (
