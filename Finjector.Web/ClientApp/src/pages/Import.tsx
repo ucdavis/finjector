@@ -25,7 +25,7 @@ const Import = () => {
         <input
           type="search"
           className="form-control searchbar"
-          placeholder="Search Teams and Folders to import"
+          placeholder="Search Teams or Folders to import"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
