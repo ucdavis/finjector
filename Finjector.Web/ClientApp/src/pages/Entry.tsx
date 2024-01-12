@@ -162,19 +162,23 @@ const Entry = () => {
         <CoaDisplay chartData={chartData} />
         <hr />
         <div className="row">
-          <FolderSearch
-            disabled={saveInFolderId !== 0 && !chartSegmentString && !chartId} // if are creating from Folder, lock it (not on edit)
-            selectedFolderId={savedChart.folderId}
-            updateFolderId={(folderId) =>
-              setSavedChart((c) => ({ ...c, folderId }))
-            }
-          />
-          <NameEntry
-            chart={savedChart}
-            updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
-          />
+          <div className="col-md-6 mb-3">
+            <FolderSearch
+              disabled={saveInFolderId !== 0 && !chartSegmentString && !chartId} // if are creating from Folder, lock it (not on edit)
+              selectedFolderId={savedChart.folderId}
+              updateFolderId={(folderId) =>
+                setSavedChart((c) => ({ ...c, folderId }))
+              }
+              currentlySavedInFolderId={savedChartQuery.data?.chart.folderId}
+            />
+          </div>
+          <div className="col-md-6 mb-3">
+            <NameEntry
+              chart={savedChart}
+              updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
+            />
+          </div>
         </div>
-
         {savedChart.id ? (
           <EntryEditButtons chartData={chartData} savedChart={savedChart} />
         ) : (

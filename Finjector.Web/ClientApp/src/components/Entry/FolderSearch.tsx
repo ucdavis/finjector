@@ -16,12 +16,15 @@ interface FolderSearchProps {
   updateFolderId: (folderId: number) => void;
   selectedFolderId?: number;
   disabled?: boolean;
+  // where the chart is currently saved (this will not change when the user selects a new folder from the input)
+  currentlySavedInFolderId?: number;
 }
 
 const FolderSearch = ({
   updateFolderId,
   selectedFolderId,
   disabled,
+  currentlySavedInFolderId,
 }: FolderSearchProps) => {
   const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
 
@@ -62,7 +65,7 @@ const FolderSearch = ({
   };
 
   return (
-    <div className="col-md-6">
+    <>
       <h2>Folder</h2>
       <p>Choose where you would like to store your chart string</p>
       <InputGroup aria-disabled={disabled}>
@@ -123,18 +126,16 @@ const FolderSearch = ({
           }}
         />
       </InputGroup>
-      <div className="row mb-5">
-        <div className="col-md-6">
-          <div className="form-text">
-            Current Team:{" "}
-            {query.isFetched && (selectedFolder?.teamName ?? "Personal")}
-            <br />
-            Current Folder:{" "}
-            {query.isFetched && (selectedFolder?.name ?? "Default")}
-          </div>
+      {currentlySavedInFolderId && (
+        <div className="form-text">
+          Current Team:{" "}
+          {query.data?.find((f) => f.id === currentlySavedInFolderId)?.teamName}
+          <br />
+          Current Folder:{" "}
+          {query.data?.find((f) => f.id === currentlySavedInFolderId)?.name}
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
