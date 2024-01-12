@@ -13,7 +13,7 @@ const FinjectorButton: React.FC<FinjectorButtonProps> = ({
   className,
   to,
   color,
-  margin = false,
+  margin = true,
   ...props
 }) => {
   // default className is "btn btn-new ms-1"
