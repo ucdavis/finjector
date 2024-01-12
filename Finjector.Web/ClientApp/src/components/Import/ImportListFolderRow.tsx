@@ -9,8 +9,6 @@ interface ImportListFolderRowProps {
 }
 
 const ImportListFolderRow = (props: ImportListFolderRowProps) => {
-  // Your component logic goes here
-
   return (
     <div className="import-folder-row d-flex align-items-center justify-content-between">
       <div className="col-7">
