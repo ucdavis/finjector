@@ -17,10 +17,10 @@ interface FolderSearchProps {
   selectedFolderId?: number;
 }
 
-const FolderSearch = ({
+const FolderSearch: React.FC<FolderSearchProps> = ({
   updateFolderId,
   selectedFolderId,
-}: FolderSearchProps) => {
+}) => {
   const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
 
   const typeaheadRef = useRef<any>();
