@@ -8,6 +8,7 @@ import FinjectorButton from "../../components/Shared/FinjectorButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 
 const UserManagement: React.FC = () => {
   // read (team) id and folderId from the url
@@ -39,9 +40,7 @@ const UserManagement: React.FC = () => {
 
     return (
       <div>
-        <div className="page-title mb-3">
-          <h1>Manage {folderId ? "Folder" : "Team"} Permissions</h1>
-        </div>
+        <PageTitle>Manage {folderId ? "Folder" : "Team"} Permissions</PageTitle>
         {errorContent}
       </div>
     );
@@ -49,7 +48,7 @@ const UserManagement: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
+      <PageTitle>
         <div className="col-12 col-md-3">
           <h1>Manage {folderId ? "Folder" : "Team"} Permissions</h1>
         </div>
@@ -60,7 +59,7 @@ const UserManagement: React.FC = () => {
             Add New Role
           </FinjectorButton>
         </div>
-      </div>
+      </PageTitle>
 
       <table className="table">
         <thead>

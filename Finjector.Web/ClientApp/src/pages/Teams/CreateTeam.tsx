@@ -3,6 +3,7 @@ import { useCreateTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
 import { NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
+import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 
 const CreateTeam: React.FC = () => {
   const navigate = useNavigate();
@@ -28,9 +29,7 @@ const CreateTeam: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title mb-3">
-        <h1>Create New Team</h1>
-      </div>
+      <PageTitle>Create New Team</PageTitle>
       <NameAndDescriptionForm
         buttonText={(loading) => (loading ? "Creating..." : "Create New Team")}
         onSubmit={handleCreate}
