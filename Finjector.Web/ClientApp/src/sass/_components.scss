@@ -170,6 +170,9 @@ hr {
   border: 1px solid $borders;
   color: $primary-font;
 }
+.form-control:disabled {
+  margin-left: 1px;
+}
 .form-control:focus {
   background-color: $primary-bg;
   border-color: $primary-color;

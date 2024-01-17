@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   Highlighter,
   Menu,
@@ -15,36 +15,43 @@ import { InputGroup, InputGroupText } from "reactstrap";
 interface FolderSearchProps {
   updateFolderId: (folderId: number) => void;
   selectedFolderId?: number;
+  disabled?: boolean;
+  // where the chart is currently saved (this will not change when the user selects a new folder from the input)
+  currentlySavedInFolderId?: number;
 }
 
 const FolderSearch: React.FC<FolderSearchProps> = ({
   updateFolderId,
   selectedFolderId,
+  disabled,
+  currentlySavedInFolderId,
 }) => {
   const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
 
   const typeaheadRef = useRef<any>();
   const initialFolderId = useRef(selectedFolderId);
 
-  const { data, isFetching } = useGetFolderSearchList();
+  const query = useGetFolderSearchList();
 
   useEffect(() => {
     // when data loads, set the state of the typeahead to the selected folder
     // so that it pre-populates the dropdown with the correct folder
     // only need to do this once, otherwise it causes weird issues on clear
-    if (data) {
-      const folder = data.find((f) => f.id === initialFolderId.current);
+    if (query.data) {
+      const folder = query.data.find((f) => f.id === initialFolderId.current);
       if (!!folder) {
         // if it already has a folder that user has permission to save to, set it to that
         setSelectedFolder(folder);
       } else {
         // otherwise, set it to the default
         setSelectedFolder(
-          data.find((f) => f.teamName === "Personal" && f.name === "Default")
+          query.data.find(
+            (f) => f.teamName === "Personal" && f.name === "Default"
+          )
         );
       }
     }
-  }, [data, initialFolderId]);
+  }, [query.data, initialFolderId]);
 
   const handleSelected = (selected: any[]) => {
     setSelectedFolder(selected[0]);
@@ -58,24 +65,25 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
   };
 
   return (
-    <div className="col-md-6">
+    <>
       <h2>Folder</h2>
       <p>Choose where you would like to store your chart string</p>
-      <InputGroup>
-        <InputGroupText>
+      <InputGroup aria-disabled={disabled}>
+        <InputGroupText aria-disabled={disabled}>
           {selectedFolder?.teamName ?? "Personal"}
         </InputGroupText>
         <Typeahead
           id={"typeahead-folder-search"}
           filterBy={["name", "teamName"]}
           ref={typeaheadRef}
-          isLoading={isFetching}
+          isLoading={query.isFetching}
           labelKey="name"
           placeholder="Default"
           selected={selectedFolder ? [selectedFolder] : []}
           onChange={handleSelected}
-          options={data || []} // data
+          options={query.data || []} // data
           clearButton={true}
+          disabled={disabled}
           renderMenu={(
             results,
             {
@@ -118,7 +126,16 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
           }}
         />
       </InputGroup>
-    </div>
+      {currentlySavedInFolderId && (
+        <div className="form-text">
+          Current Team:{" "}
+          {query.data?.find((f) => f.id === currentlySavedInFolderId)?.teamName}
+          <br />
+          Current Folder:{" "}
+          {query.data?.find((f) => f.id === currentlySavedInFolderId)?.name}
+        </div>
+      )}
+    </>
   );
 };
 

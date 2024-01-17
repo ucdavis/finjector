@@ -139,6 +139,11 @@ const router = createBrowserRouter([
                     handle: { title: "Entry", hideBreadcrumbs: true },
                   },
                   {
+                    path: "entry/", // when creating from folder
+                    element: <Entry />,
+                    handle: { title: "Entry", hideBreadcrumbs: false },
+                  },
+                  {
                     path: "selected/:chartId/:chartSegmentString",
                     element: <Selected />,
                     handle: { title: "Selected" },
