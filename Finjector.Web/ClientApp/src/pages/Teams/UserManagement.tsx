@@ -49,7 +49,7 @@ const UserManagement: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title pb-2 mb-3 d-flex justify-content-between align-items-center">
+      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
         <h1>Manage {folderId ? "Folder" : "Team"} Permissions</h1>
         <div className="col-md-9 text-end">
           <FinjectorButton onClick={toggleAddPermission}>
