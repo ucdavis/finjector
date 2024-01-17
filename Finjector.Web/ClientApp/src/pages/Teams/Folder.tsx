@@ -67,7 +67,7 @@ const Folder: React.FC = () => {
           {/* Editors & above can create new chart strings */}
           {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
             <FinjectorButton
-              to={`/entry?folderId=${folderModel.data?.folder.id}`}
+              to={`/teams/${teamId}/folders/${folderModel.data?.folder.id}/entry`}
             >
               <FontAwesomeIcon icon={faPlus} />
               New Chart String Here
