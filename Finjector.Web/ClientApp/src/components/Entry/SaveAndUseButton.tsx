@@ -39,19 +39,16 @@ const SaveAndUseButton = (props: Props) => {
   };
 
   return (
-    // <div className="row">
-    //   <div className="col-md-6">
     <div className="d-flex">
       <FinjectorButton
         className="flex-fill"
         disabled={saveMutation.isLoading || !savedChart.name}
         onClick={saveAndUse}
+        margin={false}
       >
         {isInPopup ? "Save and use" : "Save"}
       </FinjectorButton>
     </div>
-    // </div>
-    // </div>
   );
 };
 

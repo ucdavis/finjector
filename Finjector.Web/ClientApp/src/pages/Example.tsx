@@ -22,6 +22,21 @@ const Example: React.FC = () => {
     }
   };
 
+  const openFinjectorImport = async (e: any) => {
+    e.preventDefault();
+
+    const result = await window.Finjector.findChartSegmentString(
+      window.location.origin + "/import"
+    );
+
+    if (result.status === "success") {
+      alert(result.data);
+      // stick the chart string in the input
+      //const input = document.getElementById("ccoa-input") as HTMLInputElement;
+      //input.value = result.data;
+    }
+  };
+
   return (
     <main className="form-signin w-100 m-auto">
       <h1>For Example / Test Use Only</h1>
@@ -52,6 +67,16 @@ const Example: React.FC = () => {
         <small id="ccoa-help" className="form-text text-muted">
           Example PPM account: K30APSD227-TASK01-APLS002-770000
         </small>
+
+        <hr />
+        <button
+          type="button"
+          onClick={openFinjectorImport}
+          className="btn btn-secondary"
+          id="import"
+        >
+          Import
+        </button>
 
         <hr />
         <button className="w-100 btn btn-lg btn-primary" type="submit">

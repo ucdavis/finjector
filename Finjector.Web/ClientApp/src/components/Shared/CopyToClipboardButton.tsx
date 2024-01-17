@@ -54,7 +54,7 @@ const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = ({
       id={`copy-button-${id}`}
       onClick={handleCopy}
       onMouseEnter={onHover}
-      noMargin={true}
+      margin={false}
       {...props}
     >
       <FontAwesomeIcon icon={faCopy} />
