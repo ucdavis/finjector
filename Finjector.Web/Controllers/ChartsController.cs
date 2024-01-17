@@ -77,6 +77,7 @@ public class ChartsController : ControllerBase
         var charts = await _dbContext.Coas.Include(c => c.Folder).ThenInclude(f => f.Team).Where(c =>
                 c.Folder.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
                 c.Folder.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId))
+            .OrderBy(a => a.Name)
             .ToListAsync();
 
 

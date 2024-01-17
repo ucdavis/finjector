@@ -20,12 +20,12 @@ interface FolderSearchProps {
   currentlySavedInFolderId?: number;
 }
 
-const FolderSearch = ({
+const FolderSearch: React.FC<FolderSearchProps> = ({
   updateFolderId,
   selectedFolderId,
   disabled,
   currentlySavedInFolderId,
-}: FolderSearchProps) => {
+}) => {
   const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>();
 
   const typeaheadRef = useRef<any>();
