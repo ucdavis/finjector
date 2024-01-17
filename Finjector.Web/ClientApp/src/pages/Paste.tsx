@@ -6,6 +6,7 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import FinjectorButton from "../components/Shared/FinjectorButton";
+import PageTitle from "../components/Shared/StyledComponents/PageTitle";
 
 const Paste = () => {
   const navigate = useNavigate();
@@ -29,9 +30,7 @@ const Paste = () => {
 
   return (
     <div className="main">
-      <div className="page-title mb-3">
-        <h1>New Chart String from paste</h1>
-      </div>
+      <PageTitle>New Chart String from paste</PageTitle>
 
       <form>
         <div className="mb-3">

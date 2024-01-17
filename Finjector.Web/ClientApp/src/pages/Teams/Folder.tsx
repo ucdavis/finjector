@@ -16,6 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
 import LeaveFolder from "../../components/Folders/LeaveFolder";
+import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -57,7 +58,7 @@ const Folder: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
+      <PageTitle>
         <div className="col-12 col-md-4">
           <h4>{folderModel.data?.folder.teamName}</h4>
           <h1>{folderModel.data?.folder.name}</h1>
@@ -112,7 +113,7 @@ const Folder: React.FC = () => {
             />
           )}
         </div>
-      </div>
+      </PageTitle>
       <div className="page-info mb-3">
         <p>{folderModel.data?.folder.description}</p>
       </div>

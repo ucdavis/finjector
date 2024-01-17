@@ -16,6 +16,7 @@ import {
   faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
+import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 
 const Team: React.FC = () => {
   // get id from url
@@ -45,7 +46,7 @@ const Team: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
+      <PageTitle>
         <div className="col-12 col-md-4">
           <h1>{teamModel.data?.team.name}</h1>
         </div>
@@ -83,7 +84,7 @@ const Team: React.FC = () => {
             />
           )}
         </div>
-      </div>
+      </PageTitle>
       <div className="page-info mb-3">
         <p>{teamModel.data?.team.description}</p>
       </div>

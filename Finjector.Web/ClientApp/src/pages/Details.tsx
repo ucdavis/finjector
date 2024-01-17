@@ -19,6 +19,7 @@ import { DetailsRow } from "../components/Details/DetailsRow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faPencil } from "@fortawesome/free-solid-svg-icons";
 import usePopupStatus from "../util/customHooks";
+import PageTitle from "../components/Shared/StyledComponents/PageTitle";
 
 const Details = () => {
   const { chartId, teamId, folderId, chartSegmentString } = useParams();
@@ -88,7 +89,7 @@ const Details = () => {
 
   return (
     <div className="main">
-      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
+      <PageTitle>
         <div className="col-12 col-md-7">
           {chartStringDetails && (
             <h4>
@@ -98,7 +99,6 @@ const Details = () => {
           )}
           <h1>{chartStringDetails?.name ?? "Chart String Details"}</h1>
         </div>
-
         {!invalid && (
           <div className="col-12 col-md-5 text-end">
             {isInPopup && (
@@ -114,7 +114,7 @@ const Details = () => {
             <SharePopup chartString={aeDetails.chartString} />
           </div>
         )}
-      </div>
+      </PageTitle>
 
       {!!aeDetails && (
         <div>

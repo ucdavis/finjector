@@ -32,6 +32,7 @@ import EntryEditButtons from "../components/Entry/EntryEditButtons";
 import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
 import FolderSearch from "../components/Entry/FolderSearch";
+import PageTitle from "../components/Shared/StyledComponents/PageTitle";
 
 const Entry = () => {
   const { chartId, chartSegmentString } = useParams();
@@ -129,9 +130,9 @@ const Entry = () => {
 
   return (
     <div className="main">
-      <div className="page-title mb-3">
-        <h1>{chartId ? "Edit Chart String" : "Create Chart String"}</h1>
-      </div>
+      <PageTitle>
+        {chartId ? "Edit Chart String" : "Create Chart String"}
+      </PageTitle>
 
       <h2>Chart Type</h2>
       <ChartTypeSelector

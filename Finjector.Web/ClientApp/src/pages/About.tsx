@@ -1,6 +1,6 @@
 import React from "react";
 import { useUserInfoQuery } from "../queries/userQueries";
-import { HomeLinkBar } from "../components/Shared/HomeLinkBar";
+import PageTitle from "../components/Shared/StyledComponents/PageTitle";
 
 const About = () => {
   const userInfoQuery = useUserInfoQuery();
@@ -13,9 +13,7 @@ const About = () => {
 
   return (
     <div className="help-wrapper">
-      <div className="page-title mb-3">
-        <h1>Welcome to Finjector</h1>
-      </div>
+      <PageTitle>Welcome to Finjector</PageTitle>
       <div className="row">
         <div className="col-md-8">
           <p>

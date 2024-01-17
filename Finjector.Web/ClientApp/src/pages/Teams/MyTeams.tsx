@@ -5,6 +5,7 @@ import { SearchBar } from "../../components/Shared/SearchBar";
 import { useGetMyTeams } from "../../queries/teamQueries";
 import TeamList from "../../components/Teams/TeamList";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
+import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 
 const MyTeams: React.FC = () => {
   const [search, setSearch] = React.useState("");
@@ -13,7 +14,7 @@ const MyTeams: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
+      <PageTitle>
         <div className="col-12 col-md-8">
           <h1>My Teams</h1>
         </div>
@@ -23,7 +24,7 @@ const MyTeams: React.FC = () => {
             Create New Team
           </FinjectorButton>
         </div>
-      </div>
+      </PageTitle>
       <div className="mb-3">
         <SearchBar
           placeholderText="Search My Teams"

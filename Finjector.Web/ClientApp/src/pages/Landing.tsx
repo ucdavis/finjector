@@ -4,6 +4,7 @@ import { faPlus, faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import ChartList from "../components/Shared/ChartList";
 import { useGetSavedCharts } from "../queries/storedChartQueries";
 import FinjectorButton from "../components/Shared/FinjectorButton";
+import PageTitle from "../components/Shared/StyledComponents/PageTitle";
 
 // Main landing screen for popup
 
@@ -14,11 +15,10 @@ const Landing = () => {
 
   return (
     <div>
-      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
+      <PageTitle>
         <div className="col-12 col-md-4">
           <h1>My Chart Strings</h1>
         </div>
-
         <div className="col-12 col-md-8 text-end">
           <FinjectorButton to="/entry">
             <FontAwesomeIcon icon={faPlus} />
@@ -30,7 +30,7 @@ const Landing = () => {
             New Chart String from Paste
           </FinjectorButton>
         </div>
-      </div>
+      </PageTitle>
       <div className="mb-3">
         <input
           type="search"
