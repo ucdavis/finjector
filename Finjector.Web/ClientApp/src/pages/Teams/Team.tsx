@@ -17,6 +17,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
 import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageBody from "../../components/Shared/StyledComponents/PageBody";
+import PageInfo from "../../components/Shared/StyledComponents/PageInfo";
 
 const Team: React.FC = () => {
   // get id from url
@@ -85,22 +87,19 @@ const Team: React.FC = () => {
           )}
         </div>
       </PageTitle>
-      <div className="page-info mb-3">
-        <p>{teamModel.data?.team.description}</p>
-      </div>
-
-      <SearchBar
-        placeholderText={
-          !!teamModel.data?.team.name
-            ? `Search Within ${teamModel.data?.team.name}`
-            : "Search My Teams"
-        }
-        search={search}
-        setSearch={setSearch}
-      />
-      <div className="mb-3">
+      <PageInfo>{teamModel.data?.team.description}</PageInfo>
+      <PageBody>
+        <SearchBar
+          placeholderText={
+            !!teamModel.data?.team.name
+              ? `Search Within ${teamModel.data?.team.name}`
+              : "Search My Teams"
+          }
+          search={search}
+          setSearch={setSearch}
+        />
         <FolderList teamModel={teamModel.data} filter={search} />
-      </div>
+      </PageBody>
     </div>
   );
 };

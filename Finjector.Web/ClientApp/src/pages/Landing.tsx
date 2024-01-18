@@ -5,6 +5,8 @@ import ChartList from "../components/Shared/ChartList";
 import { useGetSavedCharts } from "../queries/storedChartQueries";
 import FinjectorButton from "../components/Shared/FinjectorButton";
 import PageTitle from "../components/Shared/StyledComponents/PageTitle";
+import PageBody from "../components/Shared/StyledComponents/PageBody";
+import { SearchBar } from "../components/Shared/SearchBar";
 
 // Main landing screen for popup
 
@@ -31,17 +33,14 @@ const Landing = () => {
           </FinjectorButton>
         </div>
       </PageTitle>
-      <div className="mb-3">
-        <input
-          type="search"
-          className="form-control searchbar"
-          placeholder="Search my saved chart strings"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+      <PageBody>
+        <SearchBar
+          placeholderText="Search my saved chart strings"
+          search={search}
+          setSearch={setSearch}
         />
-      </div>
-
-      <ChartList teamGroups={savedCharts.data} filter={search} />
+        <ChartList teamGroups={savedCharts.data} filter={search} />
+      </PageBody>
     </div>
   );
 };

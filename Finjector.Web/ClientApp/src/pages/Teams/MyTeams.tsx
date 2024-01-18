@@ -6,6 +6,7 @@ import { useGetMyTeams } from "../../queries/teamQueries";
 import TeamList from "../../components/Teams/TeamList";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
 import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageBody from "../../components/Shared/StyledComponents/PageBody";
 
 const MyTeams: React.FC = () => {
   const [search, setSearch] = React.useState("");
@@ -25,16 +26,14 @@ const MyTeams: React.FC = () => {
           </FinjectorButton>
         </div>
       </PageTitle>
-      <div className="mb-3">
+      <PageBody>
         <SearchBar
           placeholderText="Search My Teams"
           search={search}
           setSearch={setSearch}
         />
-      </div>
-      <div className="mb-3">
         <TeamList teamsInfo={myTeams.data} filter={search} />
-      </div>
+      </PageBody>
     </div>
   );
 };

@@ -17,6 +17,8 @@ import {
 import FinjectorButton from "../../components/Shared/FinjectorButton";
 import LeaveFolder from "../../components/Folders/LeaveFolder";
 import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageBody from "../../components/Shared/StyledComponents/PageBody";
+import PageInfo from "../../components/Shared/StyledComponents/PageInfo";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -114,22 +116,19 @@ const Folder: React.FC = () => {
           )}
         </div>
       </PageTitle>
-      <div className="page-info mb-3">
-        <p>{folderModel.data?.folder.description}</p>
-      </div>
-      <div className="mb-3">
+      <PageInfo>{folderModel.data?.folder.description}</PageInfo>
+      <PageBody>
         <SearchBar
           placeholderText="Search Within Folder"
           search={search}
           setSearch={setSearch}
         />
-      </div>
-
-      <ChartListSimple
-        charts={folderModel.data.charts}
-        folder={folderModel.data.folder}
-        filter={search}
-      />
+        <ChartListSimple
+          charts={folderModel.data.charts}
+          folder={folderModel.data.folder}
+          filter={search}
+        />
+      </PageBody>
     </div>
   );
 };
