@@ -1,4 +1,5 @@
 import React from "react";
+import FinjectorButton from "../components/Shared/FinjectorButton";
 
 declare global {
   interface Window {
@@ -7,6 +8,8 @@ declare global {
 }
 
 const Example: React.FC = () => {
+  const [importedCharts, setImportedCharts] = React.useState<string[]>([]);
+
   const openFinjector = async (e: any) => {
     e.preventDefault();
 
@@ -25,15 +28,14 @@ const Example: React.FC = () => {
   const openFinjectorImport = async (e: any) => {
     e.preventDefault();
 
-    const result = await window.Finjector.findChartSegmentString(
+    const result = await window.Finjector.importBulkChartSegmentStrings(
       window.location.origin + "/import"
     );
 
     if (result.status === "success") {
-      alert(result.data);
-      // stick the chart string in the input
-      //const input = document.getElementById("ccoa-input") as HTMLInputElement;
-      //input.value = result.data;
+      setImportedCharts(
+        result.data.map((chart: any) => `${chart.name}: ${chart.chartString}`)
+      );
     }
   };
 
@@ -69,14 +71,20 @@ const Example: React.FC = () => {
         </small>
 
         <hr />
-        <button
+        <FinjectorButton
           type="button"
           onClick={openFinjectorImport}
           className="btn btn-secondary"
           id="import"
         >
           Import
-        </button>
+        </FinjectorButton>
+
+        <ul>
+          {importedCharts.map((chart, index) => (
+            <li key={index}>{chart}</li>
+          ))}
+        </ul>
 
         <hr />
         <button className="w-100 btn btn-lg btn-primary" type="submit">

@@ -28,6 +28,7 @@ import EditFolder from "./pages/Teams/EditFolder";
 import Breadcrumbs from "./components/Shared/Breadcrumbs";
 import ChartStringRedirector from "./pages/ChartStringRedirector";
 import Example from "./pages/Example";
+import NavlessHeader from "./components/Shared/NavlessHeader";
 
 const RedirectHome = () => <Navigate to="/" />;
 
@@ -43,7 +44,24 @@ function Layout() {
   );
 }
 
+function NavlessLayout() {
+  return (
+    <>
+      <NavlessHeader />
+      <div className="container">
+        <Outlet />
+      </div>
+    </>
+  );
+}
+
 const router = createBrowserRouter([
+  {
+    path: "/import",
+    element: <NavlessLayout />,
+    handle: { title: "Import" },
+    children: [{ index: true, element: <Import /> }],
+  },
   {
     path: "/",
     element: <Layout />,
@@ -55,11 +73,7 @@ const router = createBrowserRouter([
       },
       { path: "/example", element: <Example />, handle: { title: "Example" } },
       { path: "/help", element: <About />, handle: { title: "Help" } },
-      {
-        path: "/import",
-        element: <Import />,
-        handle: { title: "Import", hideBreadcrumbs: true },
-      },
+
       {
         path: "/landing",
         element: <RedirectHome />,
