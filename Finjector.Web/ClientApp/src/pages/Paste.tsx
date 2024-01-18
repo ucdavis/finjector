@@ -30,8 +30,7 @@ const Paste = () => {
 
   return (
     <div className="main">
-      <PageTitle>New Chart String from paste</PageTitle>
-
+      <PageTitle title="New Chart String from paste" />
       <form>
         <div className="mb-3">
           <p>Paste in a copied account number</p>

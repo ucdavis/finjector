@@ -32,7 +32,7 @@ const CreateFolder: React.FC = () => {
 
   return (
     <div>
-      <PageTitle>Create New Folder</PageTitle>
+      <PageTitle title="Create New Folder" />
       <NameAndDescriptionForm
         buttonText={(loading) =>
           loading ? "Creating..." : "Create New Folder"

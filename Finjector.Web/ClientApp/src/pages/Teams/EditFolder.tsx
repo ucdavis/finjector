@@ -47,7 +47,7 @@ const EditFolder: React.FC = () => {
 
   return (
     <div>
-      <PageTitle>Edit Folder</PageTitle>
+      <PageTitle title="Edit Folder" />
       <NameAndDescriptionForm
         initialValues={{
           name: folderQuery.data?.folder.name || "",

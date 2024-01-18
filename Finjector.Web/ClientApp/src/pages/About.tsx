@@ -13,7 +13,7 @@ const About = () => {
 
   return (
     <div className="help-wrapper">
-      <PageTitle>Welcome to Finjector</PageTitle>
+      <PageTitle title={`Welcome to Finjector`} />
       <div className="row">
         <div className="col-md-8">
           <p>

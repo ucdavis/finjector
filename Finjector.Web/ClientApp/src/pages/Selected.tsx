@@ -33,8 +33,7 @@ const Selected = () => {
 
   return (
     <div>
-      <PageTitle>Chart String Selected</PageTitle>
-
+      <PageTitle title="Chart String Selected" />
       <div>
         <CopyToClipboardHover value={chartSegmentString ?? ""} id="selected">
           <code>{chartSegmentString}</code>

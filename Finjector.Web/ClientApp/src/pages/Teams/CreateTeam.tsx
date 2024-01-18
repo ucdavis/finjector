@@ -29,7 +29,7 @@ const CreateTeam: React.FC = () => {
 
   return (
     <div>
-      <PageTitle>Create New Team</PageTitle>
+      <PageTitle title="Create New Team" />
       <NameAndDescriptionForm
         buttonText={(loading) => (loading ? "Creating..." : "Create New Team")}
         onSubmit={handleCreate}

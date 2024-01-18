@@ -127,10 +127,9 @@ const Entry = () => {
 
   return (
     <div className="main">
-      <PageTitle>
-        {chartId ? "Edit Chart String" : "Create Chart String"}
-      </PageTitle>
-
+      <PageTitle
+        title={chartId ? "Edit Chart String" : "Create Chart String"}
+      />
       <h2>Chart Type</h2>
       <ChartTypeSelector
         chartType={chartData.chartType}

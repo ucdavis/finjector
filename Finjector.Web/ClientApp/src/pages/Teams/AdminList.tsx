@@ -34,7 +34,7 @@ const AdminList: React.FC = () => {
 
     return (
       <div>
-        <PageTitle>View Admins {forTeamName}</PageTitle>
+        <PageTitle title={`View Admins ${forTeamName}`} />
         {errorContent}
       </div>
     );
@@ -42,7 +42,7 @@ const AdminList: React.FC = () => {
 
   return (
     <div>
-      <PageTitle>View Admins {forTeamName}</PageTitle>
+      <PageTitle title={`View Admins ${forTeamName}`} />
       <table className="table">
         <thead>
           <tr>

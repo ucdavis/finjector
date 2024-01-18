@@ -38,7 +38,7 @@ const EditTeam: React.FC = () => {
 
   return (
     <div>
-      <PageTitle>Edit Team</PageTitle>
+      <PageTitle title="Edit Team" />
       <NameAndDescriptionForm
         initialValues={{
           name: teamInfo.data?.team.name || "",

@@ -40,7 +40,9 @@ const UserManagement: React.FC = () => {
 
     return (
       <div>
-        <PageTitle>Manage {folderId ? "Folder" : "Team"} Permissions</PageTitle>
+        <PageTitle
+          title={`Manage ${folderId ? "Folder" : "Team"} Permissions`}
+        />
         {errorContent}
       </div>
     );
