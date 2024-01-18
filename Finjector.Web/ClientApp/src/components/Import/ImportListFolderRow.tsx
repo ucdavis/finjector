@@ -25,7 +25,7 @@ const ImportListFolderRow = (props: ImportListFolderRowProps) => {
       </div>
       <div className="col-3 text-end">
         <FinjectorButton className="ms-2 btn-borderless" to={`#`}>
-          {/* <FontAwesomeIcon icon={faFileExport} /> */}
+          <FontAwesomeIcon icon={faFileExport} />
           Import Folder
         </FinjectorButton>
       </div>
