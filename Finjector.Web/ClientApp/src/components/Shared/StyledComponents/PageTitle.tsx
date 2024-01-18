@@ -10,12 +10,12 @@ const PageTitle: React.FC<PageTitleProps> = (
   if (!children && !title) {
     return null;
   }
-  let divClassName = `page-title mb-3 ${className ?? ""}`;
+  let divClassName = `page-title mb-3 pb-2 ${className ?? ""}`;
 
   if (!title && Array.isArray(children) && children.length > 1) {
     // this will not be applied if children is a single element (such as <h1>, <div>, <>) or if title is set
     // but if we have multiple elements, put them in a row and apply the correct styles
-    divClassName += " pb-2 row justify-content-between align-items-center";
+    divClassName += " row justify-content-between align-items-center";
   }
 
   return (
