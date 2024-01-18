@@ -54,7 +54,7 @@ const Paste = () => {
           className="btn btn-primary"
           disabled={error !== "" || coa === ""}
           onClick={() => navigate(`/entry/${coa}`)}
-          noMargin={true}
+          margin={false}
         >
           NEXT
         </FinjectorButton>

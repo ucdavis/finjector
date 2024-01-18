@@ -35,11 +35,8 @@ import FolderSearch from "../components/Entry/FolderSearch";
 import PageTitle from "../components/Shared/StyledComponents/PageTitle";
 
 const Entry = () => {
-  const { chartId, chartSegmentString } = useParams();
-  const [searchParams] = useSearchParams();
-  const saveInFolderId = searchParams?.get("folderId")
-    ? parseInt(searchParams.get("folderId") || "")
-    : 0;
+  const { chartId, chartSegmentString, folderId } = useParams();
+  const saveInFolderId = parseInt(folderId ?? "0");
 
   const savedChartQuery = useGetSavedChartWithData(chartId || "");
 
@@ -166,30 +163,23 @@ const Entry = () => {
         <CoaDisplay chartData={chartData} />
         <hr />
         <div className="row">
-          <FolderSearch
-            selectedFolderId={savedChart.folderId}
-            updateFolderId={(folderId) =>
-              setSavedChart((c) => ({ ...c, folderId }))
-            }
-          />
-          <NameEntry
-            chart={savedChart}
-            updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
-          />
-        </div>
-
-        <div className="row mb-5">
-          <div className="col-md-6">
-            {savedChartQuery.data && (
-              <div className="form-text">
-                Current Team: {savedChartQuery.data.chart.teamName}
-                <br />
-                Current Folder: {savedChartQuery.data.chart.folder?.name}
-              </div>
-            )}
+          <div className="col-md-6 mb-3">
+            <FolderSearch
+              disabled={saveInFolderId !== 0 && !chartSegmentString && !chartId} // if are creating from Folder, lock it (not on edit)
+              selectedFolderId={savedChart.folderId}
+              updateFolderId={(folderId) =>
+                setSavedChart((c) => ({ ...c, folderId }))
+              }
+              currentlySavedInFolderId={savedChartQuery.data?.chart.folderId}
+            />
+          </div>
+          <div className="col-md-6 mb-3">
+            <NameEntry
+              chart={savedChart}
+              updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}
+            />
           </div>
         </div>
-
         {savedChart.id ? (
           <EntryEditButtons chartData={chartData} savedChart={savedChart} />
         ) : (
