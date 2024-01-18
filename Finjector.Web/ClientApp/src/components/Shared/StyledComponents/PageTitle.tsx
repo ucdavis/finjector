@@ -1,4 +1,5 @@
 import React from "react";
+import { shouldDisplayAsString } from "../../../util/stylingHelpers";
 
 interface PageTitleProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -10,13 +11,8 @@ const PageTitle: React.FC<PageTitleProps> = (
     return null;
   }
   let divClassName = `page-title mb-3 ${className ?? ""}`;
-  // this is in the case that we pass in something like: View Admins {forTeamName}
-  const isTitle =
-    typeof children === "string" ||
-    typeof children === "number" ||
-    (Array.isArray(children) &&
-      children.every((c) => typeof c === "string" || typeof c === "number"));
 
+  const isTitle = shouldDisplayAsString(children);
   if (Array.isArray(children) && children.length > 1 && !isTitle) {
     // this will not be applied if children is a single element (such as <h1>, <div>, <>) or a string(s)
     // but if we have multiple elements, put them in a row and apply the correct styles
