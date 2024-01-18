@@ -43,7 +43,7 @@ const ChartList = (props: Props) => {
             url={url}
           >
             <div className="fin-info d-flex justify-content-between align-items-center">
-              <div className="col-9 ms-2 me-auto">
+              <div className="col-8 ms-2 me-auto">
                 <h3 className="row-title">{teamInfo.team.name}</h3>
                 <p className="row-subtitle">
                   <span style={{ wordWrap: "break-word" }}>
@@ -51,7 +51,7 @@ const ChartList = (props: Props) => {
                   </span>
                 </p>
               </div>
-              <div className="col-3 d-flex justify-content-end">
+              <div className="col-4 d-flex justify-content-end">
                 <div className="stat-icon">
                   <FontAwesomeIcon
                     title="Folder count in team"
