@@ -1,6 +1,9 @@
 import React from "react";
 import { useGetSavedCharts } from "../queries/storedChartQueries";
 import ImportListTeamRow from "../components/Import/ImportListTeamRow";
+import { SearchBar } from "../components/Shared/SearchBar";
+import PageTitle from "../components/Shared/StyledComponents/PageTitle";
+import PageBody from "../components/Shared/StyledComponents/PageBody";
 
 // Main landing screen for popup
 
@@ -16,27 +19,24 @@ const Import = () => {
 
   return (
     <div>
-      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
-        <div className="col-12 col-md-4">
-          <h1>Import Team or Folder</h1>
-        </div>
-      </div>
-      <div className="mb-3">
-        <input
-          type="search"
-          className="form-control searchbar"
-          placeholder="Search Teams or Folders to import"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+      <PageTitle title="Import Team or Folder" />
+      <PageBody>
+        <SearchBar
+          search={search}
+          setSearch={setSearch}
+          placeholderText="Search Teams or Folders to import"
         />
-      </div>
-      <ul className="list-group">
-        {filteredTeamsInfo?.map((teamGroup) => {
-          return (
-            <ImportListTeamRow key={teamGroup.team.id} teamGroup={teamGroup} />
-          );
-        })}
-      </ul>
+        <ul className="list-group">
+          {filteredTeamsInfo?.map((teamGroup) => {
+            return (
+              <ImportListTeamRow
+                key={teamGroup.team.id}
+                teamGroup={teamGroup}
+              />
+            );
+          })}
+        </ul>
+      </PageBody>
     </div>
   );
 };

@@ -7,7 +7,7 @@ export const SearchBar: React.FC<{
     <div className="mb-3">
       <input
         type="search"
-        className="form-control"
+        className="form-control searchbar"
         placeholder={placeholderText}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
