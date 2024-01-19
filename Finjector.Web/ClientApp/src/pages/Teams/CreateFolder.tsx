@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
 import { useCreateFolderMutation } from "../../queries/folderQueries";
 import { NameAndDescriptionModel } from "../../types";
+import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 
 const CreateFolder: React.FC = () => {
   // get the team id from the url
@@ -31,9 +32,7 @@ const CreateFolder: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title mb-3">
-        <h1>Create New Folder</h1> {/* in Team Name? -river */}
-      </div>
+      <PageTitle title="Create New Folder" />
       <NameAndDescriptionForm
         buttonText={(loading) =>
           loading ? "Creating..." : "Create New Folder"

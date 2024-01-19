@@ -2,9 +2,13 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useAdminsQuery } from "../../queries/userQueries";
 import { CollectionResourceType } from "../../types";
+import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 
 const AdminList: React.FC = () => {
-  const { teamId, folderId } = useParams<{ teamId: string; folderId: string }>();
+  const { teamId, folderId } = useParams<{
+    teamId: string;
+    folderId: string;
+  }>();
 
   const resourceId = folderId ? folderId : teamId ? teamId : "";
   const resourceType: CollectionResourceType = folderId ? "folder" : "team";
@@ -30,9 +34,7 @@ const AdminList: React.FC = () => {
 
     return (
       <div>
-        <div className="page-title mb-3">
-          <h1>View Admins {forTeamName}</h1>
-        </div>
+        <PageTitle title={`View Admins ${forTeamName}`} />
         {errorContent}
       </div>
     );
@@ -40,9 +42,7 @@ const AdminList: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title mb-3">
-        <h1>View Admins {forTeamName}</h1>
-      </div>
+      <PageTitle title={`View Admins ${forTeamName}`} />
       <table className="table">
         <thead>
           <tr>

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
 import CopyToClipboardButton from "../components/Shared/CopyToClipboardButton";
+import PageTitle from "../components/Shared/StyledComponents/PageTitle";
 
 const Selected = () => {
   const { chartSegmentString } = useParams();
@@ -32,10 +33,7 @@ const Selected = () => {
 
   return (
     <div>
-      <div className="page-title mb-3">
-        <h1>Chart String Selected</h1>
-      </div>
-
+      <PageTitle title="Chart String Selected" />
       <div>
         <CopyToClipboardHover value={chartSegmentString ?? ""} id="selected">
           <code>{chartSegmentString}</code>

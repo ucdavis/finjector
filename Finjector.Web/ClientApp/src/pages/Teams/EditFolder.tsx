@@ -7,15 +7,22 @@ import {
   useEditFolderMutation,
   useGetFolder,
 } from "../../queries/folderQueries";
+import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 
 const EditFolder: React.FC = () => {
-  const { teamId, folderId } = useParams<{ teamId: string; folderId: string }>();
+  const { teamId, folderId } = useParams<{
+    teamId: string;
+    folderId: string;
+  }>();
 
   const navigate = useNavigate();
 
   const folderQuery = useGetFolder(folderId);
 
-  const updateFolderMutation = useEditFolderMutation(teamId || "", folderId || "");
+  const updateFolderMutation = useEditFolderMutation(
+    teamId || "",
+    folderId || ""
+  );
 
   const handleCreate = async (data: NameAndDescriptionModel) => {
     await updateFolderMutation.mutateAsync(
@@ -40,9 +47,7 @@ const EditFolder: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title mb-3">
-        <h1>Edit Team</h1>
-      </div>
+      <PageTitle title="Edit Folder" />
       <NameAndDescriptionForm
         initialValues={{
           name: folderQuery.data?.folder.name || "",
