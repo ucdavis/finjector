@@ -3,21 +3,32 @@ window.Finjector = {
   messageCallback: undefined,
 };
 
+// call this function to open popup to get bulk chart data (teams & folders)
+window.Finjector.importBulkChartSegmentStrings = (url) => {
+  const uri = new URL(url || "https://finjector.ucdavis.edu/import");
+
+  return handlePopup(uri);
+};
+
 // call this function to open popup and get chart data
 window.Finjector.findChartSegmentString = (url) => {
+  const uri = new URL(url || "https://finjector.ucdavis.edu");
 
+  return handlePopup(uri);
+};
+
+// common handler for popup windows
+const handlePopup = (url) => {
   // only allow one callback to be active at a time
   if (window.Finjector.messageCallback) {
     window.removeEventListener("message", window.Finjector.messageCallback);
   }
 
   return new Promise((resolve, reject) => {
-    const uri = new URL(url || "https://finjector.ucdavis.edu");
-
-    const newWindow = popupCenter(uri.href, "popup", 600, 800);
+    const newWindow = popupCenter(url.href, "popup", 600, 800);
 
     const messageHandler = (event) => {
-      if (event.origin !== uri.origin) {
+      if (event.origin !== url.origin) {
         return;
       }
 
