@@ -9,6 +9,7 @@ import {
 
 import { useUserInfoQuery } from "./queries/userQueries";
 import Landing from "./pages/Landing";
+import Import from "./pages/Import";
 import About from "./pages/About";
 import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
@@ -27,6 +28,7 @@ import EditFolder from "./pages/Teams/EditFolder";
 import Breadcrumbs from "./components/Shared/Breadcrumbs";
 import ChartStringRedirector from "./pages/ChartStringRedirector";
 import Example from "./pages/Example";
+import NavlessHeader from "./components/Shared/NavlessHeader";
 
 const RedirectHome = () => <Navigate to="/" />;
 
@@ -42,14 +44,36 @@ function Layout() {
   );
 }
 
+function NavlessLayout() {
+  return (
+    <>
+      <NavlessHeader />
+      <div className="container">
+        <Outlet />
+      </div>
+    </>
+  );
+}
+
 const router = createBrowserRouter([
+  {
+    path: "/import",
+    element: <NavlessLayout />,
+    handle: { title: "Import" },
+    children: [{ index: true, element: <Import /> }],
+  },
   {
     path: "/",
     element: <Layout />,
     children: [
-      { index: true, element: <Landing />, handle: { title: "", hideBreadcrumbs: true } },
+      {
+        index: true,
+        element: <Landing />,
+        handle: { title: "", hideBreadcrumbs: true },
+      },
       { path: "/example", element: <Example />, handle: { title: "Example" } },
       { path: "/help", element: <About />, handle: { title: "Help" } },
+
       {
         path: "/landing",
         element: <RedirectHome />,
@@ -139,6 +163,11 @@ const router = createBrowserRouter([
                     handle: { title: "Entry", hideBreadcrumbs: true },
                   },
                   {
+                    path: "entry/", // when creating from folder
+                    element: <Entry />,
+                    handle: { title: "Entry", hideBreadcrumbs: false },
+                  },
+                  {
                     path: "selected/:chartId/:chartSegmentString",
                     element: <Selected />,
                     handle: { title: "Selected" },
@@ -152,7 +181,11 @@ const router = createBrowserRouter([
       {
         path: "/entry",
         children: [
-          { index: true, element: <Entry />, handle: { title: "Entry",  hideBreadcrumbs: true } },
+          {
+            index: true,
+            element: <Entry />,
+            handle: { title: "Entry", hideBreadcrumbs: true },
+          },
           {
             path: ":chartSegmentString",
             element: <Entry />,
@@ -170,7 +203,11 @@ const router = createBrowserRouter([
           },
         ],
       },
-      { path: "/paste", element: <Paste />, handle: { title: "Paste",  hideBreadcrumbs: true } },
+      {
+        path: "/paste",
+        element: <Paste />,
+        handle: { title: "Paste", hideBreadcrumbs: true },
+      },
       {
         path: "/selected",
         children: [

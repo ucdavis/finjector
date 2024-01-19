@@ -727,6 +727,11 @@ namespace Finjector.Core.Services
             return searchResults.DistinctBy(p => p.Code);
         }
 
+        /// <summary>
+        /// For project at least we want to show ones that are not EligibleForUse
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<SearchResult>> Project(string query)
         {
             var filter = new ErpProjectFilterInput() { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
@@ -735,10 +740,10 @@ namespace Finjector.Core.Services
 
             var data = result.ReadData();
 
-            var searchResults = data.ErpProjectSearch.Data.Where(a => a.EligibleForUse)
+            var searchResults = data.ErpProjectSearch.Data
                 .Select(d => new SearchResult(d.Code, d.Name));
 
-            if (data.ErpProject is { EligibleForUse: true })
+            if(data.ErpProject != null)
             {
                 searchResults = searchResults.Append(new SearchResult(data.ErpProject.Code, data.ErpProject.Name));
             }
@@ -793,6 +798,11 @@ namespace Finjector.Core.Services
             return data.GlValidateChartstring;
         }
 
+        /// <summary>
+        /// For project at least we want to show ones that are not EligibleForUse
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<SearchResult>> PpmProject(string query)
         {
             var filter = new PpmProjectFilterInput { Name = new StringFilterInput { Contains = query.ToFuzzyQuery() } };
@@ -801,10 +811,10 @@ namespace Finjector.Core.Services
 
             var data = result.ReadData();
 
-            var searchResults = data.PpmProjectSearch.Data.Where(a => a.EligibleForUse)
+            var searchResults = data.PpmProjectSearch.Data
                 .Select(d => new SearchResult(d.ProjectNumber, d.Name));
 
-            if (data.PpmProjectByNumber is { EligibleForUse: true })
+            if (data.PpmProjectByNumber != null)
             {
                 searchResults =
                     searchResults.Append(new SearchResult(data.PpmProjectByNumber.ProjectNumber,

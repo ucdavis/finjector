@@ -62,6 +62,15 @@
       border: 1px solid $danger;
     }
   }
+  &.btn-borderless {
+    border: none;
+    background-color: rgba(0, 0, 0, 0.001);
+    &:hover {
+      background-color: transparentize($primary-color, 0.85);
+      color: $primary-color;
+      border: none;
+    }
+  }
   &:disabled {
     color: $tertiary-font;
     border-color: $tertiary-font;
@@ -170,6 +179,9 @@ hr {
   border: 1px solid $borders;
   color: $primary-font;
 }
+.form-control:disabled {
+  margin-left: 1px;
+}
 .form-control:focus {
   background-color: $primary-bg;
   border-color: $primary-color;
@@ -177,6 +189,7 @@ hr {
   box-shadow: 0 0 0 0.1rem transparentize($primary-color, 0.75);
 }
 .bold-link {
+  font-size: 1rem;
   font-family: $sans-bold;
   text-decoration: none;
   svg {
@@ -342,4 +355,7 @@ span.gl-color {
 }
 span.ppm-color {
   color: $ppm;
+}
+span.font-reg {
+  font-family: $sans-reg;
 }

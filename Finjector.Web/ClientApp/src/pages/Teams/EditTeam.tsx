@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
 import FinLoader from "../../components/Shared/FinLoader";
+import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 
 const EditTeam: React.FC = () => {
   const { teamId } = useParams<{ teamId: string }>();
@@ -37,9 +38,7 @@ const EditTeam: React.FC = () => {
 
   return (
     <div>
-      <div className="page-title mb-3">
-        <h1>Edit Team</h1>
-      </div>
+      <PageTitle title="Edit Team" />
       <NameAndDescriptionForm
         initialValues={{
           name: teamInfo.data?.team.name || "",

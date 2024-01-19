@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
-import { UncontrolledTooltip } from "reactstrap";
+import { Tooltip } from "reactstrap";
 
 interface CopyToClipboardProps {
   value: string;
@@ -20,6 +20,7 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
     copyToClipboardDefaultMessage
   );
   const [isHovering, setIsHovering] = useState<boolean>(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const handleCopy = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
@@ -27,6 +28,16 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
       setTitleText("copied!");
       setTimeout(() => setTitleText(copyToClipboardDefaultMessage), 2000); // Reset title after 2 seconds
     });
+  };
+
+  const toggleTooltip = () => {
+    if (!tooltipOpen) {
+      setTooltipOpen(true);
+      setIsHovering(true);
+    } else {
+      setTooltipOpen(false);
+      setIsHovering(false);
+    }
   };
 
   return (
@@ -56,9 +67,14 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
           <FontAwesomeIcon icon={faCopy} />
         </div>
       </div>
-      <UncontrolledTooltip placement="top" target={`copy-button-hover-${id}`}>
+      <Tooltip
+        isOpen={tooltipOpen}
+        toggle={toggleTooltip}
+        placement="top"
+        target={`copy-button-hover-${id}`}
+      >
         {titleText}
-      </UncontrolledTooltip>
+      </Tooltip>
     </div>
   );
 };

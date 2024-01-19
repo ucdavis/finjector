@@ -19,6 +19,8 @@ import { DetailsRow } from "../components/Details/DetailsRow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faPencil } from "@fortawesome/free-solid-svg-icons";
 import usePopupStatus from "../util/customHooks";
+import PageTitle from "../components/Shared/StyledComponents/PageTitle";
+import PageBody from "../components/Shared/StyledComponents/PageBody";
 
 const Details = () => {
   const { chartId, teamId, folderId, chartSegmentString } = useParams();
@@ -88,7 +90,7 @@ const Details = () => {
 
   return (
     <div className="main">
-      <div className="page-title pb-2 mb-3 row justify-content-between align-items-center">
+      <PageTitle>
         <div className="col-12 col-md-7">
           {chartStringDetails && (
             <h4>
@@ -108,7 +110,6 @@ const Details = () => {
             </CopyToClipboardHover>
           )}
         </div>
-
         {!invalid && (
           <div className="col-12 col-md-5 text-end">
             {isInPopup && (
@@ -124,90 +125,91 @@ const Details = () => {
             <SharePopup chartString={aeDetails.chartString} />
           </div>
         )}
-      </div>
-
-      {!!aeDetails && (
-        <div>
-          {aeDetails.errors.length > 0 &&
-            aeDetails.errors.map((error, i) => {
-              return (
-                <Alert color="danger" key={i}>
-                  Error: {error}
-                </Alert>
-              );
-            })}
-          {!!aeDetails &&
-            aeDetails.hasWarnings &&
-            aeDetails.warnings.length > 0 &&
-            aeDetails.warnings.map((warning, i) => {
-              return (
-                <Alert color="warning" key={i}>
-                  Warning: {warning}
-                </Alert>
-              );
-            })}
-        </div>
-      )}
-      {invalid ? (
-        renderLoadingOrError()
-      ) : (
-        <div className={`chartstring-details ${isPpmOrGlClassName}`}>
-          <DetailsChartString
-            chartType={aeDetails.chartType}
-            chartString={aeDetails.chartString}
-            isValid={aeDetails.isValid}
-            hasWarnings={aeDetails.hasWarnings}
-          />
-          <div className="chartstring-details-info unique-bg">
-            {aeDetails.segmentDetails.map((segment, i) => {
-              return (
-                <DetailsRow
-                  headerColText={segment.entity}
-                  key={i}
-                  column2={
-                    <span className="fw-bold primary-font me-4">
-                      <CopyToClipboardHover
-                        value={segment.code ?? ""}
-                        id={`segment-code-${i}`}
-                      >
-                        {segment.code ?? ""}{" "}
-                      </CopyToClipboardHover>
-                    </span>
-                  }
-                  column3={
-                    <CopyToClipboardHover
-                      value={segment.name ?? ""}
-                      id={`segment-name-${i}`}
-                    >
-                      {segment?.name ?? ""}
-                    </CopyToClipboardHover>
-                  }
-                />
-              );
-            })}
-          </div>
-          <div className="chartstring-details-info">
-            {aeDetails.chartType === ChartType.PPM && (
-              <PpmDetailsPage details={aeDetails.ppmDetails} />
-            )}
-            <DetailsRow
-              headerColText="GL Financial Department SCM Approver(s)"
-              column2={aeDetails.approvers.map((approver, i) => {
+      </PageTitle>
+      <PageBody>
+        {!!aeDetails && (
+          <div>
+            {aeDetails.errors.length > 0 &&
+              aeDetails.errors.map((error, i) => {
                 return (
-                  <div key={i}>
-                    <CopyToClipboardHover
-                      value={approver.email ?? ""}
-                      id={`approver-${i}`}
-                    >
-                      {renderNameAndEmail(approver.name, approver.email)}
-                    </CopyToClipboardHover>
-                  </div>
+                  <Alert color="danger" key={i}>
+                    Error: {error}
+                  </Alert>
                 );
               })}
-            />
+            {!!aeDetails &&
+              aeDetails.hasWarnings &&
+              aeDetails.warnings.length > 0 &&
+              aeDetails.warnings.map((warning, i) => {
+                return (
+                  <Alert color="warning" key={i}>
+                    Warning: {warning}
+                  </Alert>
+                );
+              })}
           </div>
-        </div>
-      )}
+        )}
+        {invalid ? (
+          renderLoadingOrError()
+        ) : (
+          <div className={`chartstring-details ${isPpmOrGlClassName}`}>
+            <DetailsChartString
+              chartType={aeDetails.chartType}
+              chartString={aeDetails.chartString}
+              isValid={aeDetails.isValid}
+              hasWarnings={aeDetails.hasWarnings}
+            />
+            <div className="chartstring-details-info unique-bg">
+              {aeDetails.segmentDetails.map((segment, i) => {
+                return (
+                  <DetailsRow
+                    headerColText={segment.entity}
+                    key={i}
+                    column2={
+                      <span className="fw-bold primary-font me-4">
+                        <CopyToClipboardHover
+                          value={segment.code ?? ""}
+                          id={`segment-code-${i}`}
+                        >
+                          {segment.code ?? ""}{" "}
+                        </CopyToClipboardHover>
+                      </span>
+                    }
+                    column3={
+                      <CopyToClipboardHover
+                        value={segment.name ?? ""}
+                        id={`segment-name-${i}`}
+                      >
+                        {segment?.name ?? ""}
+                      </CopyToClipboardHover>
+                    }
+                  />
+                );
+              })}
+            </div>
+            <div className="chartstring-details-info">
+              {aeDetails.chartType === ChartType.PPM && (
+                <PpmDetailsPage details={aeDetails.ppmDetails} />
+              )}
+              <DetailsRow
+                headerColText="GL Financial Department SCM Approver(s)"
+                column2={aeDetails.approvers.map((approver, i) => {
+                  return (
+                    <div key={i}>
+                      <CopyToClipboardHover
+                        value={approver.email ?? ""}
+                        id={`approver-${i}`}
+                      >
+                        {renderNameAndEmail(approver.name, approver.email)}
+                      </CopyToClipboardHover>
+                    </div>
+                  );
+                })}
+              />
+            </div>
+          </div>
+        )}
+      </PageBody>
       <ChartDebugInfo chartDetails={chartDetailsQuery.data} />
     </div>
   );

@@ -61,16 +61,22 @@
     border-top: 1px solid $borders;
     padding: 10px 20px;
   }
-  // &:hover {
-  //   .row-link-selected-action {
-  //     text-decoration: underline;
-  //   }
-  // }
+}
+.import-folder-row {
+  background-color: $bg-primary;
+  border-top: 1px solid $borders;
+  padding: 10px 0px 10px 20px;
+  h3 {
+    font-size: 1rem;
+    font-family: $sans-bold;
+    color: $secondary-font;
+  }
 }
 .stat-icon {
   margin-right: 20px;
   color: $secondary-font;
   font-family: $sans-bold;
+  width: 66px;
   svg {
     margin-right: 4px;
   }
@@ -134,4 +140,8 @@
 .custom-input-height {
   height: 42px;
   margin-top: 2px;
+}
+.team-coa-counter {
+  font-size: 1rem;
+  color: $primary-font;
 }
