@@ -8,7 +8,11 @@ interface FinjectorButtonDropdownProps extends DropdownItemProps {
 const FinjectorButtonDropdownItem = (props: FinjectorButtonDropdownProps) => {
   const { children, ...rest } = props;
 
-  return <DropdownItem {...rest}>{children}</DropdownItem>;
+  return (
+    <DropdownItem {...rest} tag={"div"}>
+      {children}
+    </DropdownItem>
+  );
 };
 
 export default FinjectorButtonDropdownItem;
