@@ -26,6 +26,8 @@ import FinjectorButton from "../../components/Shared/FinjectorButton";
 import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 import PageBody from "../../components/Shared/StyledComponents/PageBody";
 import PageInfo from "../../components/Shared/StyledComponents/PageInfo";
+import FinjectorButtonDropdown from "../../components/Shared/FinjectorButtonDropdown";
+import FinjectorButtonDropdownItem from "../../components/Shared/FinjectorButtonDropdownItem";
 
 const Team: React.FC = () => {
   // get id from url
@@ -60,38 +62,59 @@ const Team: React.FC = () => {
           <h1>{teamModel.data?.team.name}</h1>
         </div>
         <div className="col-12 col-md-8 text-end">
-          {/* don't show team admins if you are an admin or if it's a personal team */}
-          {limitedTeam ||
-            (!isTeamAdmin && (
-              <FinjectorButton to={`/teams/${teamId}/admins`}>
-                <FontAwesomeIcon icon={faUserTie} />
-                View Team Admins
-              </FinjectorButton>
-            ))}
-          {!limitedTeam && isTeamAdmin && (
-            <>
-              <FinjectorButton to={`/teams/${teamId}/folders/create`}>
-                <FontAwesomeIcon icon={faPlus} />
-                Create New Folder
-              </FinjectorButton>
-              <FinjectorButton to={`/teams/${teamId}/edit`}>
-                <FontAwesomeIcon icon={faPencil} />
-                Edit Team
-              </FinjectorButton>
-              <FinjectorButton to={`/teams/${teamId}/permissions`}>
-                <FontAwesomeIcon icon={faUsers} />
-                Manage Team Users
-              </FinjectorButton>
-              <DeleteTeam teamId={teamId} />
-            </>
-          )}
+          <FinjectorButtonDropdown title="Example title if you want it">
+            {/* don't show team admins if you are an admin or if it's a personal team */}
+            {limitedTeam ||
+              (!isTeamAdmin && (
+                <FinjectorButtonDropdownItem>
+                  <FinjectorButton to={`/teams/${teamId}/admins`}>
+                    <FontAwesomeIcon icon={faUserTie} />
+                    View Team Admins
+                  </FinjectorButton>
+                </FinjectorButtonDropdownItem>
+              ))}
+            {!limitedTeam && isTeamAdmin && (
+              <>
+                <FinjectorButtonDropdownItem disabled={true}>
+                  <FinjectorButton to={`/teams/${teamId}/folders/create`}>
+                    <FontAwesomeIcon icon={faPlus} />
+                    Create New Folder
+                  </FinjectorButton>
+                </FinjectorButtonDropdownItem>
+                <FinjectorButtonDropdownItem
+                  divider={true}
+                ></FinjectorButtonDropdownItem>
+                <FinjectorButtonDropdownItem header={true}>
+                  You can also do a title like this. any props you want to add
+                  work
+                </FinjectorButtonDropdownItem>
+                <FinjectorButtonDropdownItem>
+                  <FinjectorButton to={`/teams/${teamId}/edit`}>
+                    <FontAwesomeIcon icon={faPencil} />
+                    Edit Team
+                  </FinjectorButton>
+                </FinjectorButtonDropdownItem>
+                <FinjectorButtonDropdownItem>
+                  <FinjectorButton to={`/teams/${teamId}/permissions`}>
+                    <FontAwesomeIcon icon={faUsers} />
+                    Manage Team Users
+                  </FinjectorButton>
+                </FinjectorButtonDropdownItem>
+                <FinjectorButtonDropdownItem>
+                  <DeleteTeam teamId={teamId} />
+                </FinjectorButtonDropdownItem>
+              </>
+            )}
 
-          {!limitedTeam && (
-            <LeaveTeam
-              teamId={teamId}
-              myPermissions={teamModel.data?.team.myTeamPermissions || []}
-            />
-          )}
+            {!limitedTeam && (
+              <FinjectorButtonDropdownItem>
+                <LeaveTeam
+                  teamId={teamId}
+                  myPermissions={teamModel.data?.team.myTeamPermissions || []}
+                />
+              </FinjectorButtonDropdownItem>
+            )}
+          </FinjectorButtonDropdown>
         </div>
       </PageTitle>
       <PageInfo>{teamModel.data?.team.description}</PageInfo>
