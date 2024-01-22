@@ -4,8 +4,8 @@ import { useGetTeam } from "../../queries/teamQueries";
 import { useParams } from "react-router-dom";
 import FolderList from "../../components/Teams/FolderList";
 import FinLoader from "../../components/Shared/FinLoader";
-import DeleteTeam from "../../components/Teams/DeleteTeam";
-import LeaveTeam from "../../components/Teams/LeaveTeam";
+import DeleteTeamModal from "../../components/Teams/DeleteTeamModal";
+import LeaveTeamModal from "../../components/Teams/LeaveTeamModal";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +14,8 @@ import {
   faUsers,
   faPencil,
   faUserTie,
+  faPersonThroughWindow,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
 import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
@@ -27,6 +29,11 @@ const Team: React.FC = () => {
   const { teamId = "" } = useParams<{ teamId: string }>();
 
   const [search, setSearch] = React.useState("");
+
+  const [modalOpen, setModalOpen] = React.useState("");
+  const toggleModal = (modalType: string) => {
+    setModalOpen(modalType);
+  };
 
   const teamModel = useGetTeam(teamId);
 
@@ -80,8 +87,7 @@ const Team: React.FC = () => {
                     Create New Folder
                   </FinjectorButton>
                 </FinjectorButtonDropdownItem>
-
-                <FinjectorButtonDropdownItem className="btn-borderless">
+                <FinjectorButtonDropdownItem>
                   <FinjectorButton
                     className="btn-borderless"
                     to={`/teams/${teamId}/edit`}
@@ -100,17 +106,26 @@ const Team: React.FC = () => {
                   </FinjectorButton>
                 </FinjectorButtonDropdownItem>
                 <FinjectorButtonDropdownItem>
-                  <DeleteTeam teamId={teamId} />
+                  <FinjectorButton
+                    className="btn-borderless"
+                    onClick={() => toggleModal("delete")}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                    Delete Team
+                  </FinjectorButton>{" "}
                 </FinjectorButtonDropdownItem>
               </>
             )}
 
             {!limitedTeam && (
               <FinjectorButtonDropdownItem>
-                <LeaveTeam
-                  teamId={teamId}
-                  myPermissions={teamModel.data?.team.myTeamPermissions || []}
-                />
+                <FinjectorButton
+                  className="btn-borderless"
+                  onClick={() => toggleModal("leave")}
+                >
+                  <FontAwesomeIcon icon={faPersonThroughWindow} />
+                  Leave Team
+                </FinjectorButton>
               </FinjectorButtonDropdownItem>
             )}
           </FinjectorButtonDropdown>
@@ -118,6 +133,21 @@ const Team: React.FC = () => {
       </PageTitle>
       <PageInfo>{teamModel.data?.team.description}</PageInfo>
       <PageBody>
+        {!limitedTeam && (
+          <LeaveTeamModal
+            teamId={teamId}
+            myPermissions={teamModel.data?.team.myTeamPermissions || []}
+            isOpen={modalOpen === "leave"}
+            closeModal={() => toggleModal("")}
+          />
+        )}
+        {!limitedTeam && isTeamAdmin && (
+          <DeleteTeamModal
+            teamId={teamId}
+            isOpen={modalOpen === "delete"}
+            closeModal={() => toggleModal("")}
+          />
+        )}
         <SearchBar
           placeholderText={
             !!teamModel.data?.team.name

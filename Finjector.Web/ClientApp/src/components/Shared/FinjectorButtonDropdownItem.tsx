@@ -2,7 +2,7 @@ import React from "react";
 import { DropdownItem, DropdownItemProps } from "reactstrap";
 
 interface FinjectorButtonDropdownProps extends DropdownItemProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const FinjectorButtonDropdownItem = (props: FinjectorButtonDropdownProps) => {

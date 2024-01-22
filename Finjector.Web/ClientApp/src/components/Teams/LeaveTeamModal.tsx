@@ -10,36 +10,29 @@ import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
 interface Props {
   teamId: string;
   myPermissions: string[];
+  isOpen: boolean;
+  closeModal: () => void;
 }
 
-const LeaveTeam = (props: Props) => {
+const LeaveTeamModal = (props: Props) => {
+  const { isOpen, closeModal } = props;
   const navigate = useNavigate();
-
-  const [modalOpen, setModalOpen] = useState(false);
 
   const leaveMutation = useLeaveTeamMutation();
 
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
-  };
-
-  const handleDelete = () => {
+  const handleLeave = () => {
     leaveMutation.mutate(props.teamId, {
       onSuccess: () => {
         navigate("/teams");
-        toggleModal();
+        closeModal();
       },
     });
   };
 
   return (
     <>
-      <FinjectorButton className="btn-borderless" onClick={toggleModal}>
-        <FontAwesomeIcon icon={faPersonThroughWindow} />
-        Leave Team
-      </FinjectorButton>
-      <Modal isOpen={modalOpen} toggle={toggleModal}>
-        <ModalHeader tag="h2" toggle={toggleModal}>
+      <Modal isOpen={isOpen} toggle={closeModal}>
+        <ModalHeader tag="h2" toggle={closeModal}>
           Leave Team
         </ModalHeader>
         <ModalBody>
@@ -52,12 +45,12 @@ const LeaveTeam = (props: Props) => {
           )}
         </ModalBody>
         <ModalFooter>
-          <FinjectorButton color="secondary" onClick={toggleModal}>
+          <FinjectorButton color="secondary" onClick={closeModal}>
             Cancel
           </FinjectorButton>
           <FinjectorButton
             color="danger"
-            onClick={handleDelete}
+            onClick={handleLeave}
             disabled={leaveMutation.isLoading}
           >
             <FontAwesomeIcon icon={faPersonThroughWindow} />
@@ -69,4 +62,4 @@ const LeaveTeam = (props: Props) => {
   );
 };
 
-export default LeaveTeam;
+export default LeaveTeamModal;
