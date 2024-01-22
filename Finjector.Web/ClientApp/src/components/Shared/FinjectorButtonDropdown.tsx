@@ -21,9 +21,9 @@ const FinjectorButtonDropdown = (props: FinjectorButtonDropdownProps) => {
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   return (
-    <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-      <DropdownToggle caret={true}>
-        <FontAwesomeIcon icon={faHamburger} />
+    <Dropdown isOpen={dropdownOpen} toggle={toggle} end={true}>
+      <DropdownToggle className="btn-finjector" caret={true}>
+        Actions
       </DropdownToggle>
       <DropdownMenu {...rest}>
         {title && <DropdownItem header>{title}</DropdownItem>}

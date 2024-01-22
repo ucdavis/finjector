@@ -51,16 +51,19 @@ const Team: React.FC = () => {
   return (
     <div>
       <PageTitle>
-        <div className="col-12 col-md-4">
+        <div className="col-12 col-md-9">
           <h1>{teamModel.data?.team.name}</h1>
         </div>
-        <div className="col-12 col-md-8 text-end">
-          <FinjectorButtonDropdown title="Example title if you want it">
+        <div className="col-12 col-md-3 text-end">
+          <FinjectorButtonDropdown>
             {/* don't show team admins if you are an admin or if it's a personal team */}
             {limitedTeam ||
               (!isTeamAdmin && (
                 <FinjectorButtonDropdownItem>
-                  <FinjectorButton to={`/teams/${teamId}/admins`}>
+                  <FinjectorButton
+                    className="btn-borderless"
+                    to={`/teams/${teamId}/admins`}
+                  >
                     <FontAwesomeIcon icon={faUserTie} />
                     View Team Admins
                   </FinjectorButton>
@@ -68,27 +71,30 @@ const Team: React.FC = () => {
               ))}
             {!limitedTeam && isTeamAdmin && (
               <>
-                <FinjectorButtonDropdownItem disabled={true}>
-                  <FinjectorButton to={`/teams/${teamId}/folders/create`}>
+                <FinjectorButtonDropdownItem>
+                  <FinjectorButton
+                    className="btn-borderless"
+                    to={`/teams/${teamId}/folders/create`}
+                  >
                     <FontAwesomeIcon icon={faPlus} />
                     Create New Folder
                   </FinjectorButton>
                 </FinjectorButtonDropdownItem>
-                <FinjectorButtonDropdownItem
-                  divider={true}
-                ></FinjectorButtonDropdownItem>
-                <FinjectorButtonDropdownItem header={true}>
-                  You can also do a title like this. any props you want to add
-                  work
-                </FinjectorButtonDropdownItem>
-                <FinjectorButtonDropdownItem>
-                  <FinjectorButton to={`/teams/${teamId}/edit`}>
+
+                <FinjectorButtonDropdownItem className="btn-borderless">
+                  <FinjectorButton
+                    className="btn-borderless"
+                    to={`/teams/${teamId}/edit`}
+                  >
                     <FontAwesomeIcon icon={faPencil} />
                     Edit Team
                   </FinjectorButton>
                 </FinjectorButtonDropdownItem>
                 <FinjectorButtonDropdownItem>
-                  <FinjectorButton to={`/teams/${teamId}/permissions`}>
+                  <FinjectorButton
+                    className="btn-borderless"
+                    to={`/teams/${teamId}/permissions`}
+                  >
                     <FontAwesomeIcon icon={faUsers} />
                     Manage Team Users
                   </FinjectorButton>

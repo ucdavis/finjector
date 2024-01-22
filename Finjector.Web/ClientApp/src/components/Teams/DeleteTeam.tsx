@@ -33,7 +33,7 @@ const DeleteTeam = (props: Props) => {
 
   return (
     <>
-      <FinjectorButton onClick={toggleModal}>
+      <FinjectorButton className="btn-borderless" onClick={toggleModal}>
         <FontAwesomeIcon icon={faTrash} />
         Delete Team
       </FinjectorButton>

@@ -359,3 +359,21 @@ span.ppm-color {
 span.font-reg {
   font-family: $sans-reg;
 }
+.dropdown-menu {
+  padding-top: 0;
+  padding-bottom: 0;
+  border-color: $borders;
+  border-radius: 2px;
+  .btn-finjector {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.00001);
+    }
+  }
+  .dropdown-item {
+    padding: 6px 8px;
+  }
+  .dropdown-item:hover,
+  .dropdown-item:focus {
+    background-color: transparentize($primary-color, 0.85);
+  }
+}
