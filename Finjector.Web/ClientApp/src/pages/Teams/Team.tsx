@@ -1,4 +1,11 @@
 import React from "react";
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
+import PropTypes from "prop-types";
 import { SearchBar } from "../../components/Shared/SearchBar";
 import { useGetTeam } from "../../queries/teamQueries";
 import { useParams } from "react-router-dom";
@@ -53,34 +60,6 @@ const Team: React.FC = () => {
           <h1>{teamModel.data?.team.name}</h1>
         </div>
         <div className="col-12 col-md-8 text-end">
-          <div className="dropdown">
-            <button
-              className="btn btn-secondary dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Actions
-            </button>
-            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
           {/* don't show team admins if you are an admin or if it's a personal team */}
           {limitedTeam ||
             (!isTeamAdmin && (
