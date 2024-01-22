@@ -16,11 +16,11 @@ const FinjectorButton: React.FC<FinjectorButtonProps> = ({
   margin = true,
   ...props
 }) => {
-  // default className is "btn btn-new ms-1"
+  // default className is "btn btn-finjector ms-1"
   // if color is provided, it will add "btn-{color}" e.g. "btn-warning"
   // if margin is false, it will remove "ms-2"
   // if className is provided, it will add that className
-  const classNameString = `btn btn-new ${className ?? ""}${
+  const classNameString = `btn btn-finjector ${className ?? ""}${
     !!color ? ` btn-${color}` : ""
   }${margin ? " ms-2" : ""}`;
 
