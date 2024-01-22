@@ -365,12 +365,13 @@ span.font-reg {
   border-color: $borders;
   border-radius: 2px;
   .btn-finjector {
+    padding: 12px 16px;
     &:hover {
       background-color: rgba(0, 0, 0, 0.00001);
     }
   }
   .dropdown-item {
-    padding: 6px 8px;
+    padding: 0 !important;
   }
   .dropdown-item:hover,
   .dropdown-item:focus {

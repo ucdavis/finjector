@@ -33,7 +33,7 @@ const DeleteFolder = (props: Props) => {
 
   return (
     <>
-      <FinjectorButton onClick={toggleModal}>
+      <FinjectorButton onClick={toggleModal} className="btn-borderless">
         <FontAwesomeIcon icon={faTrash} />
         Delete Folder
       </FinjectorButton>

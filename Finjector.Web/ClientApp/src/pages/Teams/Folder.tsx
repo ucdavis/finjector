@@ -19,6 +19,8 @@ import LeaveFolder from "../../components/Folders/LeaveFolder";
 import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 import PageBody from "../../components/Shared/StyledComponents/PageBody";
 import PageInfo from "../../components/Shared/StyledComponents/PageInfo";
+import FinjectorButtonDropdown from "../../components/Shared/FinjectorButtonDropdown";
+import FinjectorButtonDropdownItem from "../../components/Shared/FinjectorButtonDropdownItem";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -61,59 +63,83 @@ const Folder: React.FC = () => {
   return (
     <div>
       <PageTitle>
-        <div className="col-12 col-md-4">
+        <div className="col-12 col-md-9">
           <h4>{folderModel.data?.folder.teamName}</h4>
           <h1>{folderModel.data?.folder.name}</h1>
         </div>
-        <div className="col-12 col-md-8 text-end">
-          {/* Editors & above can create new chart strings */}
-          {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
-            <FinjectorButton
-              to={`/teams/${teamId}/folders/${folderModel.data?.folder.id}/entry`}
-            >
-              <FontAwesomeIcon icon={faPlus} />
-              New Chart String Here
-            </FinjectorButton>
-          )}
-          {/* don't show team admins if you are an admin or if it's a personal team */}
-          {limitedFolder ||
-            (!isFolderAdmin && (
-              <FinjectorButton
-                to={`/teams/${teamId}/folders/${folderId}/admins`}
-              >
-                <FontAwesomeIcon icon={faUserTie} />
-                View Folder Admins
-              </FinjectorButton>
-            ))}
+        <div className="col-12 col-md-3 text-end">
+          <FinjectorButtonDropdown>
+            {/* Editors & above can create new chart strings */}
 
-          {/* Admins can manage permissions */}
-          {!limitedFolder && combinedPermissions.some((p) => p === "Admin") && (
-            <>
-              <FinjectorButton
-                to={`/teams/${teamId}/folders/${folderId}/permissions`}
-              >
-                <FontAwesomeIcon icon={faUsers} />
-                Manage Permissions
-              </FinjectorButton>
-              <FinjectorButton to={`/teams/${teamId}/folders/${folderId}/edit`}>
-                <FontAwesomeIcon icon={faPencil} />
-                Edit Folder
-              </FinjectorButton>
-              {folderId && <DeleteFolder folderId={folderId} />}
-            </>
-          )}
-          {!limitedFolder && (
-            <LeaveFolder
-              teamId={teamId}
-              folderId={folderId}
-              myFolderPermissions={
-                folderModel.data?.folder.myFolderPermissions || []
-              }
-              myTeamPermissions={
-                folderModel.data?.folder.myTeamPermissions || []
-              }
-            />
-          )}
+            {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
+              <FinjectorButtonDropdownItem>
+                <FinjectorButton
+                  className="btn-borderless"
+                  to={`/teams/${teamId}/folders/${folderModel.data?.folder.id}/entry`}
+                >
+                  <FontAwesomeIcon icon={faPlus} />
+                  New Chart String Here
+                </FinjectorButton>
+              </FinjectorButtonDropdownItem>
+            )}
+            {/* don't show team admins if you are an admin or if it's a personal team */}
+            {limitedFolder ||
+              (!isFolderAdmin && (
+                <FinjectorButtonDropdownItem>
+                  <FinjectorButton
+                    className="btn-borderless"
+                    to={`/teams/${teamId}/folders/${folderId}/admins`}
+                  >
+                    <FontAwesomeIcon icon={faUserTie} />
+                    View Folder Admins
+                  </FinjectorButton>
+                </FinjectorButtonDropdownItem>
+              ))}
+
+            {/* Admins can manage permissions */}
+            {!limitedFolder && combinedPermissions.some((p) => p === "Admin") && (
+              <>
+                <FinjectorButtonDropdownItem>
+                  <FinjectorButton
+                    className="btn-borderless"
+                    to={`/teams/${teamId}/folders/${folderId}/permissions`}
+                  >
+                    <FontAwesomeIcon icon={faUsers} />
+                    Manage Permissions
+                  </FinjectorButton>
+                </FinjectorButtonDropdownItem>
+                <FinjectorButtonDropdownItem>
+                  <FinjectorButton
+                    className="btn-borderless"
+                    to={`/teams/${teamId}/folders/${folderId}/edit`}
+                  >
+                    <FontAwesomeIcon icon={faPencil} />
+                    Edit Folder
+                  </FinjectorButton>
+                </FinjectorButtonDropdownItem>
+
+                {folderId && (
+                  <FinjectorButtonDropdownItem>
+                    <DeleteFolder folderId={folderId} />
+                  </FinjectorButtonDropdownItem>
+                )}
+              </>
+            )}
+            {!limitedFolder && (
+              <FinjectorButtonDropdownItem>
+                <LeaveFolder
+                  teamId={teamId}
+                  folderId={folderId}
+                  myFolderPermissions={
+                    folderModel.data?.folder.myFolderPermissions || []
+                  }
+                  myTeamPermissions={
+                    folderModel.data?.folder.myTeamPermissions || []
+                  }
+                />
+              </FinjectorButtonDropdownItem>
+            )}
+          </FinjectorButtonDropdown>
         </div>
       </PageTitle>
       <PageInfo>{folderModel.data?.folder.description}</PageInfo>
