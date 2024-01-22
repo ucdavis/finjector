@@ -1,11 +1,4 @@
 import React from "react";
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
-import PropTypes from "prop-types";
 import { SearchBar } from "../../components/Shared/SearchBar";
 import { useGetTeam } from "../../queries/teamQueries";
 import { useParams } from "react-router-dom";
