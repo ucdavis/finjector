@@ -11,6 +11,24 @@ interface Props {
   minQueryLength?: number;
 }
 
+export function getSegmentNameDisplay(
+  segmentData: SegmentData,
+  segmentQueryData: SegmentData[] | undefined
+): string {
+  if (segmentQueryData) {
+    const segment = segmentQueryData.find(
+      (s: any) => s.code === segmentData.code
+    );
+    if (segment) {
+      return segment.name;
+    } else {
+      return `${segmentData.segmentName} not selected`;
+    }
+  } else {
+    return segmentData.name || `${segmentData.segmentName} not selected`;
+  }
+}
+
 const SegmentSearch = (props: Props) => {
   const minQueryLength = props.minQueryLength || 3;
 
@@ -48,6 +66,11 @@ const SegmentSearch = (props: Props) => {
     }
   };
 
+  const segmentNameDisplay = React.useMemo(
+    () => getSegmentNameDisplay(props.segmentData, segmentQuery.data),
+    [props.segmentData, segmentQuery.data]
+  );
+
   // notes: this async typeahead will be configured a little differently than normal, since we want to bind the text values at all times
   // 1. our query will handle caching, so turn off the cache or we won't get full results
   // 2. onSearch is request but we don't really need it, so watch as the input changes to reset the segment data
@@ -76,10 +99,7 @@ const SegmentSearch = (props: Props) => {
           </>
         )}
       />
-      <div className="form-text">
-        {props.segmentData.name ||
-          `${props.segmentData.segmentName} not selected`}
-      </div>
+      <div className="form-text">{segmentNameDisplay}</div>
     </div>
   );
 };

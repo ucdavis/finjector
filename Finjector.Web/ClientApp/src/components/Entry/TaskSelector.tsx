@@ -3,6 +3,7 @@ import React from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { useTaskQuery } from "../../queries/segmentQueries";
 import { SegmentData } from "../../types";
+import { getSegmentNameDisplay } from "./SegmentSearch";
 
 interface Props {
   segmentData: SegmentData; // task segment
@@ -48,6 +49,11 @@ const TaskSelector = (props: Props) => {
     }
   };
 
+  const segmentNameDisplay = React.useMemo(
+    () => getSegmentNameDisplay(props.segmentData, taskQuery.data),
+    [props.segmentData, taskQuery.data]
+  );
+
   return (
     <div className="mb-3 col-sm-6">
       <label className="form-label">Task</label>
@@ -67,10 +73,7 @@ const TaskSelector = (props: Props) => {
           </>
         )}
       />
-      <div className="form-text">
-        {props.segmentData.name ||
-          `${props.segmentData.segmentName} not selected`}
-      </div>
+      <div className="form-text">{segmentNameDisplay}</div>
     </div>
   );
 };
