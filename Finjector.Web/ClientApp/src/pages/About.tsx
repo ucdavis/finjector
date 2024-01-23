@@ -32,13 +32,9 @@ const About = () => {
           <p></p>
           <p>
             Chart strings can be either
-            <b>
-              <span className="gl-color"> GL </span>
-            </b>
+            <span className="gl-color fw-bold"> GL </span>
             (General Ledger) or
-            <b>
-              <span className="ppm-color"> PPM </span>
-            </b>
+            <span className="ppm-color fw-bold"> PPM </span>
             (Project Portfolio Manager) and they are placed within a folder.
             Folders are within teams, each with a list of users and permissions.
           </p>
@@ -46,6 +42,15 @@ const About = () => {
             Permissions include View (can view and use chart strings), Edit (can
             view and edit chart strings), and Admin (can view and edit chart
             strings, and can also edit permissions).
+          </p>
+          <br />
+
+          <div className="fw-bold">NOTE!</div>
+
+          <p>
+            Changes to reference data from Oracle like tasks for projects can
+            take from <span className="fw-bold">1 to 2 hours</span> before the
+            information becomes available here.
           </p>
           <br />
           <br />
@@ -78,8 +83,9 @@ const About = () => {
                 </p>
               </p>
               <p>
-                <b>Note!</b> They do not run Finjector and will not know about
-                other issues you may have with our application
+                <span className="fw-bold">Note!</span> They do not run Finjector
+                and will not know about other issues you may have with our
+                application
               </p>
             </div>
           </div>
@@ -87,7 +93,7 @@ const About = () => {
           <div className="card">
             <div className="card-body">
               <p>
-                <b>Current user:</b>{" "}
+                <span className="fw-bold">Current user:</span>{" "}
                 {user.isSuccess &&
                   user.data[
                     "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
