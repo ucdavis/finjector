@@ -57,10 +57,12 @@ const Folder: React.FC = () => {
     return <FinLoader />;
   }
 
-  const isFolderAdmin =
-    folderModel.data?.folder.myFolderPermissions.some((p) => p === "Admin") ||
-    folderModel.data?.folder.myTeamPermissions.some((p) => p === "Admin");
-  const isAnyAdmin = combinedPermissions.some((p) => p === "Admin");
+  const isFolderAdmin = folderModel.data?.folder.myFolderPermissions.some(
+    (p) => p === "Admin"
+  );
+  const isTeamAdmin = folderModel.data?.folder.myTeamPermissions.some(
+    (p) => p === "Admin"
+  );
 
   const limitedFolder = isPersonalOrDefault(folderModel.data?.folder.name);
 
@@ -92,7 +94,7 @@ const Folder: React.FC = () => {
             )}
             {/* don't show team admins if you are an admin or if it's a personal team */}
             {limitedFolder ||
-              (!isFolderAdmin && (
+              (!isFolderAdmin && !isTeamAdmin && (
                 <FinjectorButtonDropdownItem>
                   <FinjectorButton
                     className="btn-borderless"
@@ -105,7 +107,7 @@ const Folder: React.FC = () => {
               ))}
 
             {/* Admins can manage permissions */}
-            {!limitedFolder && isAnyAdmin && (
+            {!limitedFolder && (isFolderAdmin || isTeamAdmin) && (
               <>
                 <FinjectorButtonDropdownItem>
                   <FinjectorButton
@@ -139,7 +141,7 @@ const Folder: React.FC = () => {
                 )}
               </>
             )}
-            {!limitedFolder && (
+            {!limitedFolder && !isTeamAdmin && (
               <FinjectorButtonDropdownItem>
                 <FinjectorButton
                   onClick={() => toggleModal("leave")}
@@ -156,7 +158,7 @@ const Folder: React.FC = () => {
       <PageInfo>{folderModel.data?.folder.description}</PageInfo>
       <PageBody>
         {!limitedFolder &&
-          isAnyAdmin &&
+          (isFolderAdmin || isTeamAdmin) &&
           !!folderId && ( // can't be modalOpen === "delete" or we lose the modal close animation
             <DeleteFolderModal
               teamId={teamId}
@@ -165,14 +167,10 @@ const Folder: React.FC = () => {
               closeModal={() => toggleModal("")}
             />
           )}
-        {!limitedFolder && (
+        {!limitedFolder && !isTeamAdmin && (
           <LeaveFolderModal
             teamId={teamId}
             folderId={folderId}
-            myFolderPermissions={
-              folderModel.data?.folder.myFolderPermissions || []
-            }
-            myTeamPermissions={folderModel.data?.folder.myTeamPermissions || []}
             isOpen={modalOpen === "leave"}
             closeModal={() => toggleModal("")}
           />

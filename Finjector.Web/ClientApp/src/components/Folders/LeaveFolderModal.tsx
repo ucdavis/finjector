@@ -9,8 +9,6 @@ import { useLeaveFolderMutation } from "../../queries/folderQueries";
 interface Props {
   teamId: string;
   folderId: string;
-  myFolderPermissions: string[];
-  myTeamPermissions: string[];
   isOpen: boolean;
   closeModal: () => void;
 }
@@ -39,13 +37,6 @@ const LeaveFolderModal = (props: Props) => {
         </ModalHeader>
         <ModalBody>
           <p>Are you sure you want to leave this folder?</p>
-          {props.myTeamPermissions.length > 0 && (
-            <p>
-              You have permissions to the team this folder is in. If you leave
-              this folder you will still have access to it through the team, but
-              your folder permissions will be removed.
-            </p>
-          )}
         </ModalBody>
         <ModalFooter>
           <FinjectorButton color="secondary" onClick={closeModal}>
