@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FinjectorButton from "./FinjectorButton";
-import { faCopy } from "@fortawesome/free-regular-svg-icons";
+import { faClipboard } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SegmentDetails } from "../../types";
 
@@ -44,7 +44,7 @@ const CopySegmentsToClipboardButton: React.FC<
       margin={true}
       {...props}
     >
-      <FontAwesomeIcon icon={faCopy} />
+      <FontAwesomeIcon icon={faClipboard} />
       {children ?? (hasCopied ? "Copied!" : "Copy Details")}
     </FinjectorButton>
   );
