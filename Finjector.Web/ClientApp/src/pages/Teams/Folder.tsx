@@ -43,15 +43,19 @@ const Folder: React.FC = () => {
   const combinedPermissions = useMemo(() => {
     // join together folder and team permissions
     const combined = [
-      ...(folderModel.data?.folder.myFolderPermissions ?? []),
-      ...(folderModel.data?.folder.myTeamPermissions ?? []),
+      ...(folderModel.data?.folder?.myFolderPermissions ?? []),
+      ...(folderModel.data?.folder?.myTeamPermissions ?? []),
     ];
 
     return combined;
   }, [
-    folderModel.data?.folder.myFolderPermissions,
-    folderModel.data?.folder.myTeamPermissions,
+    folderModel.data?.folder?.myFolderPermissions,
+    folderModel.data?.folder?.myTeamPermissions,
   ]);
+
+  if (folderModel.data === undefined || !folderModel.data.folder) {
+    return <div>Folder not found</div>;
+  }
 
   if (folderModel.isLoading) {
     return <FinLoader />;
@@ -65,10 +69,6 @@ const Folder: React.FC = () => {
   );
 
   const limitedFolder = isPersonalOrDefault(folderModel.data?.folder.name);
-
-  if (folderModel.data === undefined) {
-    return <div>Folder not found</div>;
-  }
 
   return (
     <div>
