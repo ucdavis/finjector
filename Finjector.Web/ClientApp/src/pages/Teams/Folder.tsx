@@ -84,7 +84,7 @@ const Folder: React.FC = () => {
             {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
               <FinjectorButtonDropdownItem>
                 <FinjectorButton
-                  className="btn-borderless"
+                  borderless={true}
                   to={`/teams/${teamId}/folders/${folderModel.data?.folder.id}/entry`}
                 >
                   <FontAwesomeIcon icon={faPlus} />
@@ -97,7 +97,7 @@ const Folder: React.FC = () => {
               (!isFolderAdmin && !isTeamAdmin && (
                 <FinjectorButtonDropdownItem>
                   <FinjectorButton
-                    className="btn-borderless"
+                    borderless={true}
                     to={`/teams/${teamId}/folders/${folderId}/admins`}
                   >
                     <FontAwesomeIcon icon={faUserTie} />
@@ -111,7 +111,7 @@ const Folder: React.FC = () => {
               <>
                 <FinjectorButtonDropdownItem>
                   <FinjectorButton
-                    className="btn-borderless"
+                    borderless={true}
                     to={`/teams/${teamId}/folders/${folderId}/permissions`}
                   >
                     <FontAwesomeIcon icon={faUsers} />
@@ -120,7 +120,7 @@ const Folder: React.FC = () => {
                 </FinjectorButtonDropdownItem>
                 <FinjectorButtonDropdownItem>
                   <FinjectorButton
-                    className="btn-borderless"
+                    borderless={true}
                     to={`/teams/${teamId}/folders/${folderId}/edit`}
                   >
                     <FontAwesomeIcon icon={faPencil} />
@@ -132,7 +132,7 @@ const Folder: React.FC = () => {
                   <FinjectorButtonDropdownItem>
                     <FinjectorButton
                       onClick={() => toggleModal("delete")}
-                      className="btn-borderless"
+                      borderless={true}
                     >
                       <FontAwesomeIcon icon={faTrash} />
                       Delete Folder
@@ -145,7 +145,7 @@ const Folder: React.FC = () => {
               <FinjectorButtonDropdownItem>
                 <FinjectorButton
                   onClick={() => toggleModal("leave")}
-                  className="btn-borderless"
+                  borderless={true}
                 >
                   <FontAwesomeIcon icon={faPersonThroughWindow} />
                   Leave Folder

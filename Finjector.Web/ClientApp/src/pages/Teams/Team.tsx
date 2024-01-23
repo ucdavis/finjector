@@ -68,7 +68,7 @@ const Team: React.FC = () => {
               (!isTeamAdmin && (
                 <FinjectorButtonDropdownItem>
                   <FinjectorButton
-                    className="btn-borderless"
+                    borderless={true}
                     to={`/teams/${teamId}/admins`}
                   >
                     <FontAwesomeIcon icon={faUserTie} />
@@ -80,7 +80,7 @@ const Team: React.FC = () => {
               <>
                 <FinjectorButtonDropdownItem>
                   <FinjectorButton
-                    className="btn-borderless"
+                    borderless={true}
                     to={`/teams/${teamId}/folders/create`}
                   >
                     <FontAwesomeIcon icon={faPlus} />
@@ -89,7 +89,7 @@ const Team: React.FC = () => {
                 </FinjectorButtonDropdownItem>
                 <FinjectorButtonDropdownItem>
                   <FinjectorButton
-                    className="btn-borderless"
+                    borderless={true}
                     to={`/teams/${teamId}/edit`}
                   >
                     <FontAwesomeIcon icon={faPencil} />
@@ -98,7 +98,7 @@ const Team: React.FC = () => {
                 </FinjectorButtonDropdownItem>
                 <FinjectorButtonDropdownItem>
                   <FinjectorButton
-                    className="btn-borderless"
+                    borderless={true}
                     to={`/teams/${teamId}/permissions`}
                   >
                     <FontAwesomeIcon icon={faUsers} />
@@ -107,7 +107,7 @@ const Team: React.FC = () => {
                 </FinjectorButtonDropdownItem>
                 <FinjectorButtonDropdownItem>
                   <FinjectorButton
-                    className="btn-borderless"
+                    borderless={true}
                     onClick={() => toggleModal("delete")}
                   >
                     <FontAwesomeIcon icon={faTrash} />
@@ -120,7 +120,7 @@ const Team: React.FC = () => {
             {!limitedTeam && (
               <FinjectorButtonDropdownItem>
                 <FinjectorButton
-                  className="btn-borderless"
+                  borderless={true}
                   onClick={() => toggleModal("leave")}
                 >
                   <FontAwesomeIcon icon={faPersonThroughWindow} />
