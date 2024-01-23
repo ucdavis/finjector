@@ -23,7 +23,7 @@ const LeaveFolderModal = (props: Props) => {
   const handleLeave = () => {
     leaveMutation.mutate(props.folderId, {
       onSuccess: () => {
-        navigate(`/teams/${props.teamId}`);
+        navigate(`/teams`);
         closeModal();
       },
     });

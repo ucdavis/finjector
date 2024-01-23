@@ -22,7 +22,7 @@ const DeleteFolderModal = (props: Props) => {
   const handleDelete = () => {
     deleteMutation.mutate(props.folderId, {
       onSuccess: () => {
-        navigate(`/teams/${props.teamId}`);
+        navigate(`/teams`);
         closeModal();
       },
     });
