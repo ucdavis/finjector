@@ -48,8 +48,7 @@ const SharePopup: React.FC<SharePopupProps> = ({
             />
             <CopyToClipboardButton value={url} id="share-copy-url" />
           </InputGroup>
-
-          <hr />
+          <br />
           <p>
             You can also copy the chart string details to your clipboard or
             download them as a CSV file.
