@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import FinjectorButton from "../Shared/FinjectorButton";
@@ -12,42 +11,35 @@ interface Props {
   folderId: string;
   myFolderPermissions: string[];
   myTeamPermissions: string[];
+  isOpen: boolean;
+  closeModal: () => void;
 }
 
-const LeaveFolder = (props: Props) => {
-  const navigate = useNavigate();
+const LeaveFolderModal = (props: Props) => {
+  const { isOpen, closeModal } = props;
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const leaveMutation = useLeaveFolderMutation(props.teamId);
 
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
-  };
-
-  const handleDelete = () => {
+  const handleLeave = () => {
     leaveMutation.mutate(props.folderId, {
       onSuccess: () => {
-        navigate("/teams");
-        toggleModal();
+        navigate(`/teams/${props.teamId}`);
+        closeModal();
       },
     });
   };
 
   const hasFolderPermissions = props.myFolderPermissions.length > 0;
-
   if (!hasFolderPermissions) {
     return null;
   }
 
   return (
     <>
-      <FinjectorButton onClick={toggleModal}>
-        <FontAwesomeIcon icon={faPersonThroughWindow} />
-        Leave Folder
-      </FinjectorButton>
-      <Modal isOpen={modalOpen} toggle={toggleModal}>
-        <ModalHeader tag="h2" toggle={toggleModal}>
+      <Modal isOpen={isOpen} toggle={closeModal}>
+        <ModalHeader tag="h2" toggle={closeModal}>
           Leave Folder
         </ModalHeader>
         <ModalBody>
@@ -61,12 +53,12 @@ const LeaveFolder = (props: Props) => {
           )}
         </ModalBody>
         <ModalFooter>
-          <FinjectorButton color="secondary" onClick={toggleModal}>
+          <FinjectorButton color="secondary" onClick={closeModal}>
             Cancel
           </FinjectorButton>
           <FinjectorButton
             color="danger"
-            onClick={handleDelete}
+            onClick={handleLeave}
             disabled={leaveMutation.isLoading}
           >
             <FontAwesomeIcon icon={faPersonThroughWindow} />
@@ -78,4 +70,4 @@ const LeaveFolder = (props: Props) => {
   );
 };
 
-export default LeaveFolder;
+export default LeaveFolderModal;

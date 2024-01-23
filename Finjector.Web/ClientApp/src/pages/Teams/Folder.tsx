@@ -5,7 +5,7 @@ import { useGetFolder } from "../../queries/folderQueries";
 import FinLoader from "../../components/Shared/FinLoader";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
 import ChartListSimple from "../../components/Shared/ChartListSimple";
-import DeleteFolder from "../../components/Folders/DeleteFolder";
+import DeleteFolderModal from "../../components/Folders/DeleteFolderModal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,9 +13,11 @@ import {
   faPlus,
   faUsers,
   faPencil,
+  faTrash,
+  faPersonThroughWindow,
 } from "@fortawesome/free-solid-svg-icons";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
-import LeaveFolder from "../../components/Folders/LeaveFolder";
+import LeaveFolderModal from "../../components/Folders/LeaveFolderModal";
 import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 import PageBody from "../../components/Shared/StyledComponents/PageBody";
 import PageInfo from "../../components/Shared/StyledComponents/PageInfo";
@@ -30,6 +32,11 @@ const Folder: React.FC = () => {
   }>();
 
   const [search, setSearch] = React.useState("");
+
+  const [modalOpen, setModalOpen] = React.useState("");
+  const toggleModal = (modalType: string) => {
+    setModalOpen(modalType);
+  };
 
   const folderModel = useGetFolder(folderId);
 
@@ -53,6 +60,7 @@ const Folder: React.FC = () => {
   const isFolderAdmin =
     folderModel.data?.folder.myFolderPermissions.some((p) => p === "Admin") ||
     folderModel.data?.folder.myTeamPermissions.some((p) => p === "Admin");
+  const isAnyAdmin = combinedPermissions.some((p) => p === "Admin");
 
   const limitedFolder = isPersonalOrDefault(folderModel.data?.folder.name);
 
@@ -97,7 +105,7 @@ const Folder: React.FC = () => {
               ))}
 
             {/* Admins can manage permissions */}
-            {!limitedFolder && combinedPermissions.some((p) => p === "Admin") && (
+            {!limitedFolder && isAnyAdmin && (
               <>
                 <FinjectorButtonDropdownItem>
                   <FinjectorButton
@@ -118,25 +126,28 @@ const Folder: React.FC = () => {
                   </FinjectorButton>
                 </FinjectorButtonDropdownItem>
 
-                {folderId && (
+                {!!folderId && (
                   <FinjectorButtonDropdownItem>
-                    <DeleteFolder folderId={folderId} />
+                    <FinjectorButton
+                      onClick={() => toggleModal("delete")}
+                      className="btn-borderless"
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                      Delete Folder
+                    </FinjectorButton>
                   </FinjectorButtonDropdownItem>
                 )}
               </>
             )}
             {!limitedFolder && (
               <FinjectorButtonDropdownItem>
-                <LeaveFolder
-                  teamId={teamId}
-                  folderId={folderId}
-                  myFolderPermissions={
-                    folderModel.data?.folder.myFolderPermissions || []
-                  }
-                  myTeamPermissions={
-                    folderModel.data?.folder.myTeamPermissions || []
-                  }
-                />
+                <FinjectorButton
+                  onClick={() => toggleModal("leave")}
+                  className="btn-borderless"
+                >
+                  <FontAwesomeIcon icon={faPersonThroughWindow} />
+                  Leave Folder
+                </FinjectorButton>
               </FinjectorButtonDropdownItem>
             )}
           </FinjectorButtonDropdown>
@@ -144,6 +155,26 @@ const Folder: React.FC = () => {
       </PageTitle>
       <PageInfo>{folderModel.data?.folder.description}</PageInfo>
       <PageBody>
+        {!limitedFolder && isAnyAdmin && !!folderId && (
+          <DeleteFolderModal
+            teamId={teamId}
+            folderId={folderId}
+            isOpen={modalOpen === "delete"}
+            closeModal={() => toggleModal("")}
+          />
+        )}
+        {!limitedFolder && (
+          <LeaveFolderModal
+            teamId={teamId}
+            folderId={folderId}
+            myFolderPermissions={
+              folderModel.data?.folder.myFolderPermissions || []
+            }
+            myTeamPermissions={folderModel.data?.folder.myTeamPermissions || []}
+            isOpen={modalOpen === "leave"}
+            closeModal={() => toggleModal("")}
+          />
+        )}
         <SearchBar
           placeholderText="Search Within Folder"
           search={search}
