@@ -6,6 +6,7 @@ using Finjector.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Finjector.Web.Controllers;
 
@@ -226,6 +227,8 @@ public class TeamController : ControllerBase
             return NotFound();
         }
 
+        Log.Information("User {userId} Deleting team {teamId} {teamName}", iamId, team.Id, team.Name);
+
         team.IsActive = false;
 
         await _dbContext.SaveChangesAsync();
@@ -255,10 +258,16 @@ public class TeamController : ControllerBase
         {
             var team = await _dbContext.Teams.SingleAsync(t => t.Id == id);
 
+            Log.Information("User {userId} Leaving and Deleting team {teamId} {teamName}", iamId, team.Id, team.Name);
+
             team.IsActive = false;
         }
         else
         {
+            var team = await _dbContext.Teams.SingleAsync(t => t.Id == id);
+
+            Log.Information("User {userId} Leaving team {teamId} {teamName}", iamId, team.Id, team.Name);
+
             // otherwise, just remove their permissions
             var teamPermission = await _dbContext.TeamPermissions.Where(tp => tp.TeamId == id && tp.User.Iam == iamId)
                 .ToListAsync();

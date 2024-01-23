@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Finjector.Core.Domain;
+using Serilog;
 
 namespace Finjector.Web.Controllers
 {
@@ -193,6 +194,8 @@ namespace Finjector.Web.Controllers
                 return NotFound();
             }
 
+            Log.Information("User {userId} Deleting folder {folderId} {folderName}", iamId, folder.Id, folder.Name);
+
             folder.IsActive = false;
 
             await _dbContext.SaveChangesAsync();
@@ -216,6 +219,8 @@ namespace Finjector.Web.Controllers
             var folderPermissions = await _dbContext.FolderPermissions
                 .Where(fp => fp.Folder.Id == id && fp.User.Iam == iamId)
                 .ToListAsync();
+
+            Log.Information("User {userId} Leaving folder {folderId}", iamId, id);
 
             _dbContext.FolderPermissions.RemoveRange(folderPermissions);
             
