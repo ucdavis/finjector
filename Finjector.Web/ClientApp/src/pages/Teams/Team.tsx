@@ -136,7 +136,7 @@ const Team: React.FC = () => {
         {!limitedTeam && (
           <LeaveTeamModal
             teamId={teamId}
-            myPermissions={teamModel.data?.team.myTeamPermissions || []}
+            isAdmin={isTeamAdmin !== undefined && isTeamAdmin}
             isOpen={modalOpen === "leave"}
             closeModal={() => toggleModal("")}
           />

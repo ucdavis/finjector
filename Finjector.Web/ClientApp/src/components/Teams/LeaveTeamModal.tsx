@@ -8,13 +8,13 @@ import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   teamId: string;
-  myPermissions: string[];
+  isAdmin: boolean;
   isOpen: boolean;
   closeModal: () => void;
 }
 
 const LeaveTeamModal = (props: Props) => {
-  const { isOpen, closeModal } = props;
+  const { isAdmin, isOpen, closeModal } = props;
   const navigate = useNavigate();
 
   const leaveMutation = useLeaveTeamMutation();
@@ -36,7 +36,7 @@ const LeaveTeamModal = (props: Props) => {
         </ModalHeader>
         <ModalBody>
           Are you sure you want to leave this team?
-          {props.myPermissions.some((p) => p === "Admin") && (
+          {isAdmin && (
             <p>
               You are an admin for this team. If you leave and there are no
               other admins, the team will be deleted.
