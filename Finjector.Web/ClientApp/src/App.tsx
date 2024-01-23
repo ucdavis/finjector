@@ -29,6 +29,7 @@ import Breadcrumbs from "./components/Shared/Breadcrumbs";
 import ChartStringRedirector from "./pages/ChartStringRedirector";
 import Example from "./pages/Example";
 import NavlessHeader from "./components/Shared/NavlessHeader";
+import { wrapCreateBrowserRouter } from "@sentry/react";
 
 const RedirectHome = () => <Navigate to="/" />;
 
@@ -55,7 +56,9 @@ function NavlessLayout() {
   );
 }
 
-const router = createBrowserRouter([
+const sentryRouter = wrapCreateBrowserRouter(createBrowserRouter);
+
+const router = sentryRouter([
   {
     path: "/import",
     element: <NavlessLayout />,
