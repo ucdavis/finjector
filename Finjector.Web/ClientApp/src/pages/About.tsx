@@ -48,6 +48,15 @@ const About = () => {
             strings, and can also edit permissions).
           </p>
           <br />
+
+          <b>NOTE!</b>
+
+          <p>
+            Changes to reference data from Oracle like tasks for projects can
+            take from <b>1 to 2 hours</b> before the information becomes
+            available here.
+          </p>
+          <br />
           <br />
           <div className="card">
             <div className="card-body">
