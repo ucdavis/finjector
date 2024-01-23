@@ -81,7 +81,9 @@ const Folder: React.FC = () => {
           <FinjectorButtonDropdown shouldRenderAsDropdown={!limitedFolder}>
             {/* Editors & above can create new chart strings */}
             {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
-              <FinjectorButtonDropdownItem>
+              <FinjectorButtonDropdownItem
+                shouldRenderAsDropdown={!limitedFolder}
+              >
                 <FinjectorButton
                   borderless={!limitedFolder} // on default folder, this is the only button
                   to={`/teams/${teamId}/folders/${folderModel.data?.folder.id}/entry`}
