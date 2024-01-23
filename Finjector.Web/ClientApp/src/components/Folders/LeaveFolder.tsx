@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
@@ -45,10 +45,10 @@ const LeaveFolder = (props: Props) => {
 
   return (
     <>
-      <FinjectorButton onClick={toggleModal}>
+      <FinButton onClick={toggleModal}>
         <FontAwesomeIcon icon={faPersonThroughWindow} />
         Leave Folder
-      </FinjectorButton>
+      </FinButton>
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <ModalHeader tag="h2" toggle={toggleModal}>
           Leave Folder
@@ -64,17 +64,17 @@ const LeaveFolder = (props: Props) => {
           )}
         </ModalBody>
         <ModalFooter>
-          <FinjectorButton color="secondary" onClick={toggleModal}>
+          <FinButton color="secondary" onClick={toggleModal}>
             Cancel
-          </FinjectorButton>
-          <FinjectorButton
+          </FinButton>
+          <FinButton
             color="danger"
             onClick={handleDelete}
             disabled={leaveMutation.isLoading}
           >
             <FontAwesomeIcon icon={faPersonThroughWindow} />
             Leave
-          </FinjectorButton>
+          </FinButton>
         </ModalFooter>
       </Modal>
     </>

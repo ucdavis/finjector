@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input, InputGroup, Modal, ModalBody, ModalHeader } from "reactstrap";
 import CopyToClipboardButton from "../Shared/CopyToClipboardButton";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
@@ -19,10 +19,10 @@ const SharePopup: React.FC<SharePopupProps> = ({ chartString, teamId }) => {
 
   return (
     <>
-      <FinjectorButton onClick={toggle}>
+      <FinButton onClick={toggle}>
         <FontAwesomeIcon icon={faPaperPlane} />
         Share
-      </FinjectorButton>
+      </FinButton>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader tag="h2" toggle={toggle}>
           Share Chart String

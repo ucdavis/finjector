@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NameAndDescriptionModel } from "../../types";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 
 interface Props {
   initialValues?: NameAndDescriptionModel;
@@ -62,9 +62,9 @@ export default function FormComponent(props: Props) {
             </div>
           </div>
 
-          <FinjectorButton type="submit" margin={false} disabled={loading}>
+          <FinButton type="submit" margin={false} disabled={loading}>
             {props.buttonText(loading)}
-          </FinjectorButton>
+          </FinButton>
         </form>
       </div>
     </div>

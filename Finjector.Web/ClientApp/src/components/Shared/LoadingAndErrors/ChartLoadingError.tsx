@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRemoveChart } from "../../../queries/storedChartQueries";
 import { Coa } from "../../../types";
-import FinjectorButton from "../FinjectorButton";
+import FinButton from "../FinButton";
 import {
   isGlSegmentString,
   isPpmSegmentString,
@@ -55,13 +55,13 @@ export const ChartLoadingError = () => {
               If you'd like to permanently remove this entry, click the button
               below.
             </p>
-            <FinjectorButton
+            <FinButton
               color="danger"
               disabled={removeMutation.isLoading}
               onClick={remove}
             >
               Remove
-            </FinjectorButton>
+            </FinButton>
           </div>
         )
       }

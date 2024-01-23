@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import ChartList from "../components/Landing/ChartList";
 import { useGetSavedCharts } from "../queries/storedChartQueries";
-import FinjectorButton from "../components/Shared/FinjectorButton";
+import FinButton from "../components/Shared/FinButton";
 import PageTitle from "../components/Shared/Layout/PageTitle";
 import PageBody from "../components/Shared/Layout/PageBody";
 import { SearchBar } from "../components/Shared/SearchBar";
@@ -22,15 +22,15 @@ const Landing = () => {
           <h1>My Chart Strings</h1>
         </div>
         <div className="col-12 col-md-8 text-end">
-          <FinjectorButton to="/entry">
+          <FinButton to="/entry">
             <FontAwesomeIcon icon={faPlus} />
             New Chart String from Scratch
-          </FinjectorButton>
+          </FinButton>
 
-          <FinjectorButton to="/paste">
+          <FinButton to="/paste">
             <FontAwesomeIcon icon={faPaperclip} />
             New Chart String from Paste
-          </FinjectorButton>
+          </FinButton>
         </div>
       </PageTitle>
       <PageBody>

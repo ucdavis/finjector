@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useGetFolder } from "../../queries/folderQueries";
 import FinLoader from "../../components/Shared/LoadingAndErrors/FinLoader";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
-import ChartListSimple from "../../components/Landing/ChartListSimple";
+import ChartListSimple from "../../components/Folders/ChartListSimple";
 import DeleteFolder from "../../components/Folders/DeleteFolder";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,7 +14,7 @@ import {
   faUsers,
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
-import FinjectorButton from "../../components/Shared/FinjectorButton";
+import FinButton from "../../components/Shared/FinButton";
 import LeaveFolder from "../../components/Folders/LeaveFolder";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
 import PageBody from "../../components/Shared/Layout/PageBody";
@@ -68,37 +68,35 @@ const Folder: React.FC = () => {
         <div className="col-12 col-md-8 text-end">
           {/* Editors & above can create new chart strings */}
           {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
-            <FinjectorButton
+            <FinButton
               to={`/teams/${teamId}/folders/${folderModel.data?.folder.id}/entry`}
             >
               <FontAwesomeIcon icon={faPlus} />
               New Chart String Here
-            </FinjectorButton>
+            </FinButton>
           )}
           {/* don't show team admins if you are an admin or if it's a personal team */}
           {limitedFolder ||
             (!isFolderAdmin && (
-              <FinjectorButton
-                to={`/teams/${teamId}/folders/${folderId}/admins`}
-              >
+              <FinButton to={`/teams/${teamId}/folders/${folderId}/admins`}>
                 <FontAwesomeIcon icon={faUserTie} />
                 View Folder Admins
-              </FinjectorButton>
+              </FinButton>
             ))}
 
           {/* Admins can manage permissions */}
           {!limitedFolder && combinedPermissions.some((p) => p === "Admin") && (
             <>
-              <FinjectorButton
+              <FinButton
                 to={`/teams/${teamId}/folders/${folderId}/permissions`}
               >
                 <FontAwesomeIcon icon={faUsers} />
                 Manage Permissions
-              </FinjectorButton>
-              <FinjectorButton to={`/teams/${teamId}/folders/${folderId}/edit`}>
+              </FinButton>
+              <FinButton to={`/teams/${teamId}/folders/${folderId}/edit`}>
                 <FontAwesomeIcon icon={faPencil} />
                 Edit Folder
-              </FinjectorButton>
+              </FinButton>
               {folderId && <DeleteFolder folderId={folderId} />}
             </>
           )}

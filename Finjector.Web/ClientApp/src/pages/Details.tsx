@@ -11,7 +11,7 @@ import { renderNameAndEmail } from "../util/util";
 import { ChartNotFound } from "../components/Shared/LoadingAndErrors/ChartNotFound";
 import DetailsChartString from "../components/Details/DetailsChartString";
 import PpmDetailsPage from "../components/Details/PpmDetails";
-import FinjectorButton from "../components/Shared/FinjectorButton";
+import FinButton from "../components/Shared/FinButton";
 import SharePopup from "../components/Details/SharePopup";
 import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
 import { DetailsRow } from "../components/Details/DetailsRow";
@@ -112,15 +112,15 @@ const Details = () => {
         {!invalid && (
           <div className="col-12 col-md-5 text-end">
             {isInPopup && (
-              <FinjectorButton onClick={use}>
+              <FinButton onClick={use}>
                 <FontAwesomeIcon icon={faBolt} />
                 Use
-              </FinjectorButton>
+              </FinButton>
             )}
-            <FinjectorButton to={getEditLinkUrl()}>
+            <FinButton to={getEditLinkUrl()}>
               <FontAwesomeIcon icon={faPencil} />
               Edit Chart String
-            </FinjectorButton>
+            </FinButton>
             <SharePopup chartString={aeDetails.chartString} />
           </div>
         )}

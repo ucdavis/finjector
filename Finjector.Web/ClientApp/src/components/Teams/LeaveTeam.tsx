@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useLeaveTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
@@ -34,10 +34,10 @@ const LeaveTeam = (props: Props) => {
 
   return (
     <>
-      <FinjectorButton onClick={toggleModal}>
+      <FinButton onClick={toggleModal}>
         <FontAwesomeIcon icon={faPersonThroughWindow} />
         Leave Team
-      </FinjectorButton>
+      </FinButton>
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <ModalHeader tag="h2" toggle={toggleModal}>
           Leave Team
@@ -52,17 +52,17 @@ const LeaveTeam = (props: Props) => {
           )}
         </ModalBody>
         <ModalFooter>
-          <FinjectorButton color="secondary" onClick={toggleModal}>
+          <FinButton color="secondary" onClick={toggleModal}>
             Cancel
-          </FinjectorButton>
-          <FinjectorButton
+          </FinButton>
+          <FinButton
             color="danger"
             onClick={handleDelete}
             disabled={leaveMutation.isLoading}
           >
             <FontAwesomeIcon icon={faPersonThroughWindow} />
             Leave
-          </FinjectorButton>
+          </FinButton>
         </ModalFooter>
       </Modal>
     </>

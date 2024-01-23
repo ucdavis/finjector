@@ -1,7 +1,7 @@
 import React from "react";
 import { ToastContainer } from "react-toastify";
 
-const FinjectorToastContainer = () => {
+const FinToastContainer = () => {
   return (
     <ToastContainer
       position="top-center"
@@ -16,4 +16,4 @@ const FinjectorToastContainer = () => {
   );
 };
 
-export default FinjectorToastContainer;
+export default FinToastContainer;

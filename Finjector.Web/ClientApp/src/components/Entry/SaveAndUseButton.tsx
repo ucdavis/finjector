@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSaveChart } from "../../queries/storedChartQueries";
 import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 import usePopupStatus from "../../util/customHooks";
 import { toast } from "react-toastify";
 
@@ -44,14 +44,14 @@ const SaveAndUseButton = (props: Props) => {
 
   return (
     <div className="d-flex">
-      <FinjectorButton
+      <FinButton
         className="flex-fill"
         disabled={saveMutation.isLoading || !savedChart.name}
         onClick={saveAndUse}
         margin={false}
       >
         {isInPopup ? "Save and use" : "Save"}
-      </FinjectorButton>
+      </FinButton>
     </div>
   );
 };

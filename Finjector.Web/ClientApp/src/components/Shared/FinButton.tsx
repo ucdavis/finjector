@@ -1,14 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-interface FinjectorButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface FinButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   to?: string; // when using it as a Link
   margin?: boolean; // removes the margin on the button
 }
 
-const FinjectorButton: React.FC<FinjectorButtonProps> = ({
+const FinButton: React.FC<FinButtonProps> = ({
   children,
   className,
   to,
@@ -38,4 +37,4 @@ const FinjectorButton: React.FC<FinjectorButtonProps> = ({
   );
 };
 
-export default FinjectorButton;
+export default FinButton;

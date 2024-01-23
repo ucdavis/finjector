@@ -15,7 +15,7 @@ import {
   faPencil,
   faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
-import FinjectorButton from "../../components/Shared/FinjectorButton";
+import FinButton from "../../components/Shared/FinButton";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
 import PageBody from "../../components/Shared/Layout/PageBody";
 import PageInfo from "../../components/Shared/Layout/PageInfo";
@@ -56,25 +56,25 @@ const Team: React.FC = () => {
           {/* don't show team admins if you are an admin or if it's a personal team */}
           {limitedTeam ||
             (!isTeamAdmin && (
-              <FinjectorButton to={`/teams/${teamId}/admins`}>
+              <FinButton to={`/teams/${teamId}/admins`}>
                 <FontAwesomeIcon icon={faUserTie} />
                 View Team Admins
-              </FinjectorButton>
+              </FinButton>
             ))}
           {!limitedTeam && isTeamAdmin && (
             <>
-              <FinjectorButton to={`/teams/${teamId}/folders/create`}>
+              <FinButton to={`/teams/${teamId}/folders/create`}>
                 <FontAwesomeIcon icon={faPlus} />
                 Create New Folder
-              </FinjectorButton>
-              <FinjectorButton to={`/teams/${teamId}/edit`}>
+              </FinButton>
+              <FinButton to={`/teams/${teamId}/edit`}>
                 <FontAwesomeIcon icon={faPencil} />
                 Edit Team
-              </FinjectorButton>
-              <FinjectorButton to={`/teams/${teamId}/permissions`}>
+              </FinButton>
+              <FinButton to={`/teams/${teamId}/permissions`}>
                 <FontAwesomeIcon icon={faUsers} />
                 Manage Team Users
-              </FinjectorButton>
+              </FinButton>
               <DeleteTeam teamId={teamId} />
             </>
           )}

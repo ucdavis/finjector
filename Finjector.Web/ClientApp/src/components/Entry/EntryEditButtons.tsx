@@ -4,7 +4,7 @@ import usePopupStatus from "../../util/customHooks";
 import { useRemoveChart, useSaveChart } from "../../queries/storedChartQueries";
 import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
@@ -94,7 +94,7 @@ const EntryEditButtons = (props: Props) => {
   return (
     <div className="d-flex justify-content-between">
       {savedChart.canEdit && (
-        <FinjectorButton
+        <FinButton
           className="flex-fill"
           disabled={removeMutation.isLoading}
           onClick={remove}
@@ -102,31 +102,31 @@ const EntryEditButtons = (props: Props) => {
         >
           <FontAwesomeIcon icon={faTrash} />
           Remove
-        </FinjectorButton>
+        </FinButton>
       )}
-      <FinjectorButton
+      <FinButton
         className="flex-fill"
         disabled={saveMutation.isLoading || !props.savedChart.name}
         onClick={copy}
       >
         <FontAwesomeIcon icon={faClone} />
         Duplicate
-      </FinjectorButton>
+      </FinButton>
       {savedChart.canEdit && (
-        <FinjectorButton
+        <FinButton
           className="flex-fill"
           disabled={saveMutation.isLoading || !props.savedChart.name}
           onClick={save}
         >
           <FontAwesomeIcon icon={faBookmark} />
           Save
-        </FinjectorButton>
+        </FinButton>
       )}
       {isInPopup && (
-        <FinjectorButton className="flex-fill" onClick={use}>
+        <FinButton className="flex-fill" onClick={use}>
           <FontAwesomeIcon icon={faBolt} />
           Use
-        </FinjectorButton>
+        </FinButton>
       )}
     </div>
   );

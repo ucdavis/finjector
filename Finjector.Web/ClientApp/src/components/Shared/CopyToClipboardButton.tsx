@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FinjectorButton from "./FinjectorButton";
+import FinButton from "./FinButton";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -50,7 +50,7 @@ const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = ({
   }
 
   return (
-    <FinjectorButton
+    <FinButton
       id={`copy-button-${id}`}
       onClick={handleCopy}
       onMouseEnter={onHover}
@@ -59,7 +59,7 @@ const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = ({
     >
       <FontAwesomeIcon icon={faCopy} />
       {children ?? (hasCopied ? "Copied!" : "Copy")}
-    </FinjectorButton>
+    </FinButton>
   );
 };
 

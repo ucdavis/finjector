@@ -4,7 +4,7 @@ import { usePermissionsQuery } from "../../queries/userQueries";
 import { AddUserPermission } from "../../components/Teams/AddUserPermission";
 import { CollectionResourceType } from "../../types";
 import { RemoveUserPermission } from "../../components/Teams/RemoveUserPermissions";
-import FinjectorButton from "../../components/Shared/FinjectorButton";
+import FinButton from "../../components/Shared/FinButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -56,10 +56,10 @@ const UserManagement: React.FC = () => {
         </div>
 
         <div className="col-9 col-md-9 text-end">
-          <FinjectorButton onClick={toggleAddPermission}>
+          <FinButton onClick={toggleAddPermission}>
             <FontAwesomeIcon icon={faPlus} />
             Add New Role
-          </FinjectorButton>
+          </FinButton>
         </div>
       </PageTitle>
 

@@ -3,7 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useDeleteFolderMutation } from "../../queries/folderQueries";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -36,10 +36,10 @@ const DeleteFolder = (props: Props) => {
 
   return (
     <>
-      <FinjectorButton onClick={toggleModal}>
+      <FinButton onClick={toggleModal}>
         <FontAwesomeIcon icon={faTrash} />
         Delete Folder
-      </FinjectorButton>
+      </FinButton>
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <ModalHeader tag="h2" toggle={toggleModal}>
           Delete Folder
@@ -49,17 +49,17 @@ const DeleteFolder = (props: Props) => {
           Chart Strings within it will be removed.
         </ModalBody>
         <ModalFooter>
-          <FinjectorButton color="secondary" onClick={toggleModal}>
+          <FinButton color="secondary" onClick={toggleModal}>
             Cancel
-          </FinjectorButton>
-          <FinjectorButton
+          </FinButton>
+          <FinButton
             color="danger"
             onClick={handleDelete}
             disabled={deleteMutation.isLoading}
           >
             <FontAwesomeIcon icon={faTrash} />
             {deleteMutation.isLoading ? "Deleting" : "Delete"}
-          </FinjectorButton>
+          </FinButton>
         </ModalFooter>
       </Modal>
     </>

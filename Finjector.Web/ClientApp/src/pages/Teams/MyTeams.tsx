@@ -4,7 +4,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { SearchBar } from "../../components/Shared/SearchBar";
 import { useGetMyTeams } from "../../queries/teamQueries";
 import TeamList from "../../components/Teams/TeamList";
-import FinjectorButton from "../../components/Shared/FinjectorButton";
+import FinButton from "../../components/Shared/FinButton";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
 import PageBody from "../../components/Shared/Layout/PageBody";
 
@@ -20,10 +20,10 @@ const MyTeams: React.FC = () => {
           <h1>My Teams</h1>
         </div>
         <div className="col-12 col-md-4 text-end">
-          <FinjectorButton to="/teams/create">
+          <FinButton to="/teams/create">
             <FontAwesomeIcon icon={faPlus} />
             Create New Team
-          </FinjectorButton>
+          </FinButton>
         </div>
       </PageTitle>
       <PageBody>

@@ -28,7 +28,7 @@ import ChartStringRedirector from "./pages/ChartStringRedirector";
 import Example from "./pages/Example";
 import NavlessHeader from "./components/Shared/Layout/NavlessHeader";
 import FinLoader from "./components/Shared/LoadingAndErrors/FinLoader";
-import FinjectorToastContainer from "./components/Shared/LoadingAndErrors/FinjectorToastContainer";
+import FinToastContainer from "./components/Shared/LoadingAndErrors/FinToastContainer";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -42,7 +42,7 @@ function Layout() {
         <Breadcrumbs />
         <Outlet />
       </div>
-      <FinjectorToastContainer />
+      <FinToastContainer />
     </>
   );
 }
@@ -54,7 +54,7 @@ function NavlessLayout() {
       <div className="container">
         <Outlet />
       </div>
-      <FinjectorToastContainer />
+      <FinToastContainer />
     </>
   );
 }

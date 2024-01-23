@@ -2,7 +2,7 @@ import React from "react";
 import { Coa, TeamGroupedCoas } from "../../types";
 import { faFileLines, faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 import ImportListFolderRow from "./ImportListFolderRow";
 
 interface ImportListTeamRowProps {
@@ -40,10 +40,10 @@ const ImportListTeamRow = (props: ImportListTeamRowProps) => {
           </div>
         </div>
         <div className="col-3 text-end">
-          <FinjectorButton className="me-1" onClick={importChartStrings}>
+          <FinButton className="me-1" onClick={importChartStrings}>
             <FontAwesomeIcon icon={faFileExport} />
             Import Team
-          </FinjectorButton>
+          </FinButton>
         </div>
       </div>
       {props.teamGroup.folders.map((folder) => {
