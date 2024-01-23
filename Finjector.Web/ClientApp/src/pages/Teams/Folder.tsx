@@ -78,7 +78,7 @@ const Folder: React.FC = () => {
           <h1>{folderModel.data?.folder.name}</h1>
         </div>
         <div className="col-12 col-md-3 text-end">
-          <FinjectorButtonDropdown>
+          <FinjectorButtonDropdown shouldRenderAsDropdown={!limitedFolder}>
             {/* Editors & above can create new chart strings */}
 
             {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (

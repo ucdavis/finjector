@@ -11,11 +11,20 @@ interface FinjectorButtonDropdownProps extends DropdownMenuProps {
   title?: string;
   children: React.ReactNode;
   end?: boolean;
+  shouldRenderAsDropdown?: boolean;
 }
 
 const FinjectorButtonDropdown = (props: FinjectorButtonDropdownProps) => {
-  const { title, children, end = true, ...rest } = props;
+  const {
+    title,
+    children,
+    end = true,
+    shouldRenderAsDropdown = true,
+    ...rest
+  } = props;
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
+
+  if (!shouldRenderAsDropdown) return <>{children}</>; // on personal team, default folder
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   return (

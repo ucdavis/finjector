@@ -62,7 +62,7 @@ const Team: React.FC = () => {
           <h1>{teamModel.data?.team.name}</h1>
         </div>
         <div className="col-12 col-md-3 text-end">
-          <FinjectorButtonDropdown>
+          <FinjectorButtonDropdown shouldRenderAsDropdown={!limitedTeam}>
             {/* don't show team admins if you are an admin or if it's a personal team */}
             {limitedTeam ||
               (!isTeamAdmin && (
