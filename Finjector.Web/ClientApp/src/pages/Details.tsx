@@ -1,11 +1,11 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import FinLoader from "../components/Shared/FinLoader";
+import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
 
 import { AeDetails, ChartStringEditModel, ChartType } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
-import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
-import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
+import { ChartDebugInfo } from "../components/Shared/LoadingAndErrors/ChartDebugInfo";
+import { ChartLoadingError } from "../components/Shared/LoadingAndErrors/ChartLoadingError";
 import { Alert } from "reactstrap";
 import { renderNameAndEmail } from "../util/util";
 import { ChartNotFound } from "../components/Shared/ChartNotFound";

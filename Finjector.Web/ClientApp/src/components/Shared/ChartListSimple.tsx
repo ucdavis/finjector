@@ -1,4 +1,4 @@
-import FinLoader from "./FinLoader";
+import FinLoader from "./LoadingAndErrors/FinLoader";
 import { Coa, Folder } from "../../types";
 import ChartListItem from "./ChartListItem";
 

@@ -3,7 +3,7 @@ import { SearchBar } from "../../components/Shared/SearchBar";
 import { useGetTeam } from "../../queries/teamQueries";
 import { useParams } from "react-router-dom";
 import FolderList from "../../components/Teams/FolderList";
-import FinLoader from "../../components/Shared/FinLoader";
+import FinLoader from "../../components/Shared/LoadingAndErrors/FinLoader";
 import DeleteTeam from "../../components/Teams/DeleteTeam";
 import LeaveTeam from "../../components/Teams/LeaveTeam";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";

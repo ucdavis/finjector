@@ -27,8 +27,8 @@ import Breadcrumbs from "./components/Shared/Breadcrumbs";
 import ChartStringRedirector from "./pages/ChartStringRedirector";
 import Example from "./pages/Example";
 import NavlessHeader from "./components/Shared/NavlessHeader";
-import FinLoader from "./components/Shared/FinLoader";
-import FinjectorToastContainer from "./components/Shared/FinjectorToastContainer";
+import FinLoader from "./components/Shared/LoadingAndErrors/FinLoader";
+import FinjectorToastContainer from "./components/Shared/LoadingAndErrors/FinjectorToastContainer";
 
 import "react-toastify/dist/ReactToastify.css";
 

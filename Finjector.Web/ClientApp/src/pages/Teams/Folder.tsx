@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { SearchBar } from "../../components/Shared/SearchBar";
 import { useParams } from "react-router-dom";
 import { useGetFolder } from "../../queries/folderQueries";
-import FinLoader from "../../components/Shared/FinLoader";
+import FinLoader from "../../components/Shared/LoadingAndErrors/FinLoader";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
 import ChartListSimple from "../../components/Shared/ChartListSimple";
 import DeleteFolder from "../../components/Folders/DeleteFolder";

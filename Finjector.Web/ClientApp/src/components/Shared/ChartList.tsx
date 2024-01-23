@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
-import FinLoader from "./FinLoader";
+import FinLoader from "./LoadingAndErrors/FinLoader";
 import { TeamGroupedCoas } from "../../types";
 import ChartListItem from "./ChartListItem";
 

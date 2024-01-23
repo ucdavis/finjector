@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import FinLoader from "../../components/Shared/FinLoader";
+import FinLoader from "../../components/Shared/LoadingAndErrors/FinLoader";
 import {
   useEditFolderMutation,
   useGetFolder,

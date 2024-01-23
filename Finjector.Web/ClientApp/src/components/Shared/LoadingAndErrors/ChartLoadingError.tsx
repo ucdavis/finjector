@@ -1,13 +1,13 @@
 import React from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useRemoveChart } from "../../queries/storedChartQueries";
-import { Coa } from "../../types";
-import FinjectorButton from "./FinjectorButton";
+import { useRemoveChart } from "../../../queries/storedChartQueries";
+import { Coa } from "../../../types";
+import FinjectorButton from "../FinjectorButton";
 import {
   isGlSegmentString,
   isPpmSegmentString,
-} from "../../util/segmentValidation";
+} from "../../../util/segmentValidation";
 
 export const ChartLoadingError = () => {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { useGetTeam, useUpdateTeamMutation } from "../../queries/teamQueries";
 import { useNavigate, useParams } from "react-router-dom";
 import { NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import FinLoader from "../../components/Shared/FinLoader";
+import FinLoader from "../../components/Shared/LoadingAndErrors/FinLoader";
 import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
 
 const EditTeam: React.FC = () => {
