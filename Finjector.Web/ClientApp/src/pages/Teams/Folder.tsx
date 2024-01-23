@@ -53,12 +53,12 @@ const Folder: React.FC = () => {
     folderModel.data?.folder?.myTeamPermissions,
   ]);
 
-  if (folderModel.data === undefined || !folderModel.data.folder) {
-    return <div>Folder not found</div>;
-  }
-
   if (folderModel.isLoading) {
     return <FinLoader />;
+  }
+
+  if (folderModel.data === undefined || !folderModel.data.folder) {
+    return <div>Folder not found</div>;
   }
 
   const isFolderAdmin = folderModel.data?.folder.myFolderPermissions.some(
