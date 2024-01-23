@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
 import CopyToClipboardButton from "../components/Shared/CopyToClipboardButton";
-import PageTitle from "../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../components/Shared/Layout/PageTitle";
 
 const Selected = () => {
   const { chartSegmentString } = useParams();

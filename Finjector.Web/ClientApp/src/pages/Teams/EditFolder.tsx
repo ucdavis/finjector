@@ -7,7 +7,7 @@ import {
   useEditFolderMutation,
   useGetFolder,
 } from "../../queries/folderQueries";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
 
 const EditFolder: React.FC = () => {
   const { teamId, folderId } = useParams<{

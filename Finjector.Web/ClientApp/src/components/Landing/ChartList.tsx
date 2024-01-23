@@ -2,9 +2,9 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
-import FinLoader from "./LoadingAndErrors/FinLoader";
+import FinLoader from "../Shared/LoadingAndErrors/FinLoader";
 import { TeamGroupedCoas } from "../../types";
-import ChartListItem from "./ChartListItem";
+import ChartListItem from "../Shared/ChartListItem";
 
 interface Props {
   teamGroups: TeamGroupedCoas[] | undefined;

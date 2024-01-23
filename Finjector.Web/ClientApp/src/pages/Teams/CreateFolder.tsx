@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
 import { useCreateFolderMutation } from "../../queries/folderQueries";
 import { NameAndDescriptionModel } from "../../types";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
 
 const CreateFolder: React.FC = () => {
   // get the team id from the url

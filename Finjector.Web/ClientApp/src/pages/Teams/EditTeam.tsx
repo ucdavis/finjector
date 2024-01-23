@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
 import FinLoader from "../../components/Shared/LoadingAndErrors/FinLoader";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
 
 const EditTeam: React.FC = () => {
   const { teamId } = useParams<{ teamId: string }>();

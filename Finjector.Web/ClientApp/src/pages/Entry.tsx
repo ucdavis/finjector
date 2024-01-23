@@ -32,7 +32,7 @@ import EntryEditButtons from "../components/Entry/EntryEditButtons";
 import { ChartDebugInfo } from "../components/Shared/LoadingAndErrors/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/LoadingAndErrors/ChartLoadingError";
 import FolderSearch from "../components/Entry/FolderSearch";
-import PageTitle from "../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../components/Shared/Layout/PageTitle";
 
 const Entry = () => {
   const { chartId, chartSegmentString, folderId } = useParams();

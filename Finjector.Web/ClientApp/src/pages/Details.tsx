@@ -12,15 +12,15 @@ import { ChartNotFound } from "../components/Shared/LoadingAndErrors/ChartNotFou
 import DetailsChartString from "../components/Details/DetailsChartString";
 import PpmDetailsPage from "../components/Details/PpmDetails";
 import FinjectorButton from "../components/Shared/FinjectorButton";
-import SharePopup from "../components/Shared/SharePopup";
+import SharePopup from "../components/Details/SharePopup";
 import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
 import { DetailsRow } from "../components/Details/DetailsRow";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faPencil } from "@fortawesome/free-solid-svg-icons";
 import usePopupStatus from "../util/customHooks";
-import PageTitle from "../components/Shared/StyledComponents/PageTitle";
-import PageBody from "../components/Shared/StyledComponents/PageBody";
+import PageTitle from "../components/Shared/Layout/PageTitle";
+import PageBody from "../components/Shared/Layout/PageBody";
 
 const Details = () => {
   const { chartId, teamId, folderId, chartSegmentString } = useParams();

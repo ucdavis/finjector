@@ -8,7 +8,7 @@ import FinjectorButton from "../../components/Shared/FinjectorButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
 
 const UserManagement: React.FC = () => {
   // read (team) id and folderId from the url

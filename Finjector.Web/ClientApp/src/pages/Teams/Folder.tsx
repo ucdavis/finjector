@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useGetFolder } from "../../queries/folderQueries";
 import FinLoader from "../../components/Shared/LoadingAndErrors/FinLoader";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
-import ChartListSimple from "../../components/Shared/ChartListSimple";
+import ChartListSimple from "../../components/Landing/ChartListSimple";
 import DeleteFolder from "../../components/Folders/DeleteFolder";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,9 +16,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
 import LeaveFolder from "../../components/Folders/LeaveFolder";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
-import PageBody from "../../components/Shared/StyledComponents/PageBody";
-import PageInfo from "../../components/Shared/StyledComponents/PageInfo";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
+import PageBody from "../../components/Shared/Layout/PageBody";
+import PageInfo from "../../components/Shared/Layout/PageInfo";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {

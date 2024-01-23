@@ -3,7 +3,7 @@ import { useCreateTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
 import { NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
 
 const CreateTeam: React.FC = () => {
   const navigate = useNavigate();

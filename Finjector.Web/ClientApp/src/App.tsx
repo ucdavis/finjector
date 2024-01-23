@@ -13,7 +13,7 @@ import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
 import Paste from "./pages/Paste";
 import Details from "./pages/Details";
-import Header from "./components/Shared/Header";
+import Header from "./components/Shared/Layout/Header";
 import MyTeams from "./pages/Teams/MyTeams";
 import Team from "./pages/Teams/Team";
 import Folder from "./pages/Teams/Folder";
@@ -26,7 +26,7 @@ import EditFolder from "./pages/Teams/EditFolder";
 import Breadcrumbs from "./components/Shared/Breadcrumbs";
 import ChartStringRedirector from "./pages/ChartStringRedirector";
 import Example from "./pages/Example";
-import NavlessHeader from "./components/Shared/NavlessHeader";
+import NavlessHeader from "./components/Shared/Layout/NavlessHeader";
 import FinLoader from "./components/Shared/LoadingAndErrors/FinLoader";
 import FinjectorToastContainer from "./components/Shared/LoadingAndErrors/FinjectorToastContainer";
 

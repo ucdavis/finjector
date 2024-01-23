@@ -16,9 +16,9 @@ import {
   faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
-import PageBody from "../../components/Shared/StyledComponents/PageBody";
-import PageInfo from "../../components/Shared/StyledComponents/PageInfo";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
+import PageBody from "../../components/Shared/Layout/PageBody";
+import PageInfo from "../../components/Shared/Layout/PageInfo";
 
 const Team: React.FC = () => {
   // get id from url

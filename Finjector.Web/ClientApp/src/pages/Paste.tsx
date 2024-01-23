@@ -6,7 +6,7 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import FinjectorButton from "../components/Shared/FinjectorButton";
-import PageTitle from "../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../components/Shared/Layout/PageTitle";
 
 const Paste = () => {
   const navigate = useNavigate();

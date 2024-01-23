@@ -1,11 +1,11 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faPaperclip } from "@fortawesome/free-solid-svg-icons";
-import ChartList from "../components/Shared/ChartList";
+import ChartList from "../components/Landing/ChartList";
 import { useGetSavedCharts } from "../queries/storedChartQueries";
 import FinjectorButton from "../components/Shared/FinjectorButton";
-import PageTitle from "../components/Shared/StyledComponents/PageTitle";
-import PageBody from "../components/Shared/StyledComponents/PageBody";
+import PageTitle from "../components/Shared/Layout/PageTitle";
+import PageBody from "../components/Shared/Layout/PageBody";
 import { SearchBar } from "../components/Shared/SearchBar";
 
 // Main landing screen for popup

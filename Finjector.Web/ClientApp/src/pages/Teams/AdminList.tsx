@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useAdminsQuery } from "../../queries/userQueries";
 import { CollectionResourceType } from "../../types";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
 
 const AdminList: React.FC = () => {
   const { teamId, folderId } = useParams<{

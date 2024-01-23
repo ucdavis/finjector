@@ -5,8 +5,8 @@ import { SearchBar } from "../../components/Shared/SearchBar";
 import { useGetMyTeams } from "../../queries/teamQueries";
 import TeamList from "../../components/Teams/TeamList";
 import FinjectorButton from "../../components/Shared/FinjectorButton";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
-import PageBody from "../../components/Shared/StyledComponents/PageBody";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
+import PageBody from "../../components/Shared/Layout/PageBody";
 
 const MyTeams: React.FC = () => {
   const [search, setSearch] = React.useState("");

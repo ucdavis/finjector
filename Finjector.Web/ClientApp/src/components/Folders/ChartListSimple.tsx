@@ -1,6 +1,6 @@
-import FinLoader from "./LoadingAndErrors/FinLoader";
+import FinLoader from "../Shared/LoadingAndErrors/FinLoader";
 import { Coa, Folder } from "../../types";
-import ChartListItem from "./ChartListItem";
+import ChartListItem from "../Shared/ChartListItem";
 
 interface Props {
   charts: Coa[] | undefined;
