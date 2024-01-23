@@ -23,6 +23,7 @@ import PageBody from "../../components/Shared/StyledComponents/PageBody";
 import PageInfo from "../../components/Shared/StyledComponents/PageInfo";
 import FinjectorButtonDropdown from "../../components/Shared/FinjectorButtonDropdown";
 import FinjectorButtonDropdownItem from "../../components/Shared/FinjectorButtonDropdownItem";
+import DownloadChartStringsButton from "./DownloadChartStringsButton";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -78,14 +79,12 @@ const Folder: React.FC = () => {
           <h1>{folderModel.data?.folder.name}</h1>
         </div>
         <div className="col-12 col-md-3 text-end">
-          <FinjectorButtonDropdown shouldRenderAsDropdown={!limitedFolder}>
+          <FinjectorButtonDropdown>
             {/* Editors & above can create new chart strings */}
             {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
-              <FinjectorButtonDropdownItem
-                shouldRenderAsDropdown={!limitedFolder}
-              >
+              <FinjectorButtonDropdownItem>
                 <FinjectorButton
-                  borderless={!limitedFolder} // on default folder, this is the only button
+                  borderless={true}
                   to={`/teams/${teamId}/folders/${folderModel.data?.folder.id}/entry`}
                 >
                   <FontAwesomeIcon icon={faPlus} />
@@ -153,6 +152,16 @@ const Folder: React.FC = () => {
                 </FinjectorButton>
               </FinjectorButtonDropdownItem>
             )}
+            {/* Anyone can export their chart string */}
+            <FinjectorButtonDropdownItem>
+              <DownloadChartStringsButton
+                charts={folderModel.data.charts}
+                fileName={`${folderModel.data.folder.name.replace(/ /g, "-")}_finjector_export`}
+                fileType="CSV"
+                borderless={true}
+                id="download-chart-btn"
+              ></DownloadChartStringsButton>
+            </FinjectorButtonDropdownItem>
           </FinjectorButtonDropdown>
         </div>
       </PageTitle>
