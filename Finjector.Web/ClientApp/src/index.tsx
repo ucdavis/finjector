@@ -34,7 +34,8 @@ Sentry.init({
     }),
   ],
   tracePropagationTargets: [/^https:\/\/finjector\.ucdavis\.edu/], // only log in production
-  enabled: process.env.NODE_ENV !== "development", // don't log in dev
+  // enabled: process.env.NODE_ENV !== "development", // don't log in dev
+  enabled: false, // don't log for now
   // Performance Monitoring
   tracesSampleRate: 0.25, //  Capture only some of the transactions
   // Session Replay
