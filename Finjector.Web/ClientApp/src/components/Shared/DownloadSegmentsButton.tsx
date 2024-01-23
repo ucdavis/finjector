@@ -30,7 +30,7 @@ const DownloadSegmentsButton: React.FC<DownloadSegmentsButtonProps> = ({
     if (fileType === "CSV") {
       downloadAsCSV();
     } else {
-      // TODO
+      throw new Error("Unsupported file type");
     }
   };
 
@@ -64,7 +64,7 @@ const DownloadSegmentsButton: React.FC<DownloadSegmentsButtonProps> = ({
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "segments.csv");
+    link.setAttribute("download", "ae_chartstring.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

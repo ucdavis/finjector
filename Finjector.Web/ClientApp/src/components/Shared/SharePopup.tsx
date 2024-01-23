@@ -24,10 +24,6 @@ const SharePopup: React.FC<SharePopupProps> = ({
   const toggle = () => setModal(!modal);
   const url = `${window.location.origin}/details/${chartString}`;
 
-  const downloadAsCSV = () => {
-    // Logic to download table data as CSV
-  };
-
   return (
     <>
       <FinjectorButton onClick={toggle}>
@@ -56,7 +52,7 @@ const SharePopup: React.FC<SharePopupProps> = ({
           <hr />
           <p>
             You can also copy the chart string details to your clipboard or
-            download it as a CSV file.
+            download them as a CSV file.
           </p>
           <CopySegmentsToClipboardButton
             segments={segmentDetails}
