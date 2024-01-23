@@ -8,6 +8,7 @@ import {
   isGlSegmentString,
   isPpmSegmentString,
 } from "../../../util/segmentValidation";
+import { FinError } from "./FinError";
 
 export const ChartLoadingError = () => {
   const navigate = useNavigate();
@@ -45,9 +46,7 @@ export const ChartLoadingError = () => {
   }, [chartSegmentString]);
 
   return (
-    <div className="p-2">
-      <h1>Error loading chart</h1>
-      <p>{errorReason}</p>
+    <FinError title="Error loading chart" errorText={errorReason}>
       {
         // if we have a chartId, we can remove it
         isChartIdValid && (
@@ -66,6 +65,6 @@ export const ChartLoadingError = () => {
           </div>
         )
       }
-    </div>
+    </FinError>
   );
 };
