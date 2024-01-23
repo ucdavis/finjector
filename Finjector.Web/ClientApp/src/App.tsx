@@ -238,7 +238,12 @@ function App() {
 
   // wait until we get user info to render
   if (userInfoQuery.isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <NavlessHeader />
+        <FinLoader />
+      </>
+    );
   }
 
   return <RouterProvider router={router} />;
