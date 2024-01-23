@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useLeaveTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
@@ -9,42 +8,35 @@ import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   teamId: string;
-  myPermissions: string[];
+  isAdmin: boolean;
+  isOpen: boolean;
+  closeModal: () => void;
 }
 
-const LeaveTeam = (props: Props) => {
+const LeaveTeamModal = (props: Props) => {
+  const { isAdmin, isOpen, closeModal } = props;
   const navigate = useNavigate();
-
-  const [modalOpen, setModalOpen] = useState(false);
 
   const leaveMutation = useLeaveTeamMutation();
 
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
-  };
-
-  const handleDelete = () => {
+  const handleLeave = () => {
     leaveMutation.mutate(props.teamId, {
       onSuccess: () => {
         navigate("/teams");
-        toggleModal();
+        closeModal();
       },
     });
   };
 
   return (
     <>
-      <FinjectorButton onClick={toggleModal}>
-        <FontAwesomeIcon icon={faPersonThroughWindow} />
-        Leave Team
-      </FinjectorButton>
-      <Modal isOpen={modalOpen} toggle={toggleModal}>
-        <ModalHeader tag="h2" toggle={toggleModal}>
+      <Modal isOpen={isOpen} toggle={closeModal}>
+        <ModalHeader tag="h2" toggle={closeModal}>
           Leave Team
         </ModalHeader>
         <ModalBody>
           Are you sure you want to leave this team?
-          {props.myPermissions.some((p) => p === "Admin") && (
+          {isAdmin && (
             <p>
               You are an admin for this team. If you leave and there are no
               other admins, the team will be deleted.
@@ -52,12 +44,12 @@ const LeaveTeam = (props: Props) => {
           )}
         </ModalBody>
         <ModalFooter>
-          <FinjectorButton color="secondary" onClick={toggleModal}>
+          <FinjectorButton color="secondary" onClick={closeModal}>
             Cancel
           </FinjectorButton>
           <FinjectorButton
             color="danger"
-            onClick={handleDelete}
+            onClick={handleLeave}
             disabled={leaveMutation.isLoading}
           >
             <FontAwesomeIcon icon={faPersonThroughWindow} />
@@ -69,4 +61,4 @@ const LeaveTeam = (props: Props) => {
   );
 };
 
-export default LeaveTeam;
+export default LeaveTeamModal;

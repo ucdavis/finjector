@@ -19,7 +19,7 @@
     color: (lighten($primary-font, 5));
   }
 }
-.btn-new {
+.btn-finjector {
   font-size: 0.8rem;
   background-color: #fff;
   color: $primary-color;
@@ -358,4 +358,23 @@ span.ppm-color {
 }
 span.font-reg {
   font-family: $sans-reg;
+}
+.dropdown-menu {
+  padding-top: 0;
+  padding-bottom: 0;
+  border-color: $borders;
+  border-radius: 2px;
+  .btn-finjector {
+    padding: 12px 16px;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.00001);
+    }
+  }
+  .dropdown-item {
+    padding: 0 !important;
+  }
+  .dropdown-item:hover,
+  .dropdown-item:focus {
+    background-color: transparentize($primary-color, 0.85);
+  }
 }
