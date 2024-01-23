@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate, useParams, useSearchParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import ChartTypeSelector from "../components/Entry/ChartTypeSelector";
 import GlEntry from "../components/Entry/GlEntry";
 import PpmEntry from "../components/Entry/PpmEntry";

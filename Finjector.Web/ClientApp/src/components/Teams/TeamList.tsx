@@ -19,7 +19,7 @@ interface Props {
   filter: string;
 }
 
-const ChartList = (props: Props) => {
+const TeamList = (props: Props) => {
   const { teamsInfo } = props;
 
   if (!teamsInfo) {
@@ -89,4 +89,4 @@ const ChartList = (props: Props) => {
   );
 };
 
-export default ChartList;
+export default TeamList;
