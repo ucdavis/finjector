@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useDeleteFolderMutation } from "../../queries/folderQueries";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import FinjectorButton from "../Shared/FinjectorButton";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -27,6 +27,9 @@ const DeleteFolder = (props: Props) => {
       onSuccess: () => {
         navigate("/teams");
         setModalOpen(false);
+      },
+      onError: (error) => {
+        toast.error("Error deleting folder.");
       },
     });
   };

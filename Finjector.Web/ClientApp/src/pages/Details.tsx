@@ -8,7 +8,7 @@ import { ChartDebugInfo } from "../components/Shared/LoadingAndErrors/ChartDebug
 import { ChartLoadingError } from "../components/Shared/LoadingAndErrors/ChartLoadingError";
 import { Alert } from "reactstrap";
 import { renderNameAndEmail } from "../util/util";
-import { ChartNotFound } from "../components/Shared/ChartNotFound";
+import { ChartNotFound } from "../components/Shared/LoadingAndErrors/ChartNotFound";
 import DetailsChartString from "../components/Details/DetailsChartString";
 import PpmDetailsPage from "../components/Details/PpmDetails";
 import FinjectorButton from "../components/Shared/FinjectorButton";

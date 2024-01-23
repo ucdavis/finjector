@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import FinjectorButton from "../Shared/FinjectorButton";
-
+import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
 import { useLeaveFolderMutation } from "../../queries/folderQueries";
@@ -30,6 +30,9 @@ const LeaveFolder = (props: Props) => {
       onSuccess: () => {
         navigate("/teams");
         toggleModal();
+      },
+      onError: (error) => {
+        toast.error("Error leaving folder.");
       },
     });
   };

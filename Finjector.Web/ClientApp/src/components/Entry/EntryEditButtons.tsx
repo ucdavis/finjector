@@ -5,7 +5,6 @@ import { useRemoveChart, useSaveChart } from "../../queries/storedChartQueries";
 import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
 import FinjectorButton from "../Shared/FinjectorButton";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
@@ -13,6 +12,7 @@ import {
   faBookmark,
   faClone,
 } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 const landingPage = "/landing";
 
@@ -43,6 +43,9 @@ const EntryEditButtons = (props: Props) => {
           `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
         );
       },
+      onError: (error) => {
+        toast.error("Error saving chart.");
+      },
     });
   };
 
@@ -63,6 +66,9 @@ const EntryEditButtons = (props: Props) => {
           `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
         );
       },
+      onError: (error) => {
+        toast.error("Error copying chart.");
+      },
     });
   };
 
@@ -70,6 +76,9 @@ const EntryEditButtons = (props: Props) => {
     removeMutation.mutate(props.savedChart, {
       onSuccess: () => {
         navigate(landingPage);
+      },
+      onError: (error) => {
+        toast.error("Error removing chart.");
       },
     });
   };

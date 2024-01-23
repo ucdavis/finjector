@@ -6,6 +6,7 @@ import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
 import FinjectorButton from "../Shared/FinjectorButton";
 import usePopupStatus from "../../util/customHooks";
+import { toast } from "react-toastify";
 
 interface Props {
   chartData: ChartData;
@@ -34,6 +35,9 @@ const SaveAndUseButton = (props: Props) => {
             isInPopup ? "selected" : "details"
           }/${data.id}/${data.segmentString}`
         );
+      },
+      onError: (error) => {
+        toast.error("Error saving chart.");
       },
     });
   };
