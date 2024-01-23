@@ -121,7 +121,7 @@ const Details = () => {
               <FontAwesomeIcon icon={faPencil} />
               Edit Chart String
             </FinjectorButton>
-            <SharePopup chartString={aeDetails.chartString} />
+            <SharePopup chartString={aeDetails.chartString} segmentDetails={aeDetails.segmentDetails} />
           </div>
         )}
       </PageTitle>
