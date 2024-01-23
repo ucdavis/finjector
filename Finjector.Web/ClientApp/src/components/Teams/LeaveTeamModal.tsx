@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useLeaveTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
