@@ -155,14 +155,16 @@ const Folder: React.FC = () => {
       </PageTitle>
       <PageInfo>{folderModel.data?.folder.description}</PageInfo>
       <PageBody>
-        {!limitedFolder && isAnyAdmin && !!folderId && (
-          <DeleteFolderModal
-            teamId={teamId}
-            folderId={folderId}
-            isOpen={modalOpen === "delete"}
-            closeModal={() => toggleModal("")}
-          />
-        )}
+        {!limitedFolder &&
+          isAnyAdmin &&
+          !!folderId && ( // can't be modalOpen === "delete" or we lose the modal close animation
+            <DeleteFolderModal
+              teamId={teamId}
+              folderId={folderId}
+              isOpen={modalOpen === "delete"}
+              closeModal={() => toggleModal("")}
+            />
+          )}
         {!limitedFolder && (
           <LeaveFolderModal
             teamId={teamId}

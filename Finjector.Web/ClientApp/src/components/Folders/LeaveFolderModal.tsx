@@ -31,11 +31,6 @@ const LeaveFolderModal = (props: Props) => {
     });
   };
 
-  const hasFolderPermissions = props.myFolderPermissions.length > 0;
-  if (!hasFolderPermissions) {
-    return null;
-  }
-
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal}>
