@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { SegmentDetails } from "../../types";
 import CopySegmentsToClipboardButton from "./CopySegmentsToClipboardButton";
+import DownloadSegmentsButton from "./DownloadSegmentsButton";
 
 interface SharePopupProps {
   chartString: string;
@@ -57,11 +58,15 @@ const SharePopup: React.FC<SharePopupProps> = ({
             You can also copy the chart string details to your clipboard or
             download it as a CSV file.
           </p>
-          <CopySegmentsToClipboardButton segments={segmentDetails} id="share-copy-details" />
-          <FinjectorButton onClick={downloadAsCSV}>
-            <FontAwesomeIcon icon={faPaperPlane} />
-            Download CSV
-          </FinjectorButton>
+          <CopySegmentsToClipboardButton
+            segments={segmentDetails}
+            id="share-copy-details"
+          />
+          <DownloadSegmentsButton
+            segments={segmentDetails}
+            fileType="CSV"
+            id="share-download-details"
+          />
         </ModalBody>
       </Modal>
     </>
