@@ -6,6 +6,7 @@ using Finjector.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Finjector.Web.Controllers;
 
@@ -270,6 +271,8 @@ public class UserController : ControllerBase
                 RoleId = role.Id
             };
 
+            Log.Information("User {iamId} Adding team permission {@teamPermission} User Added {userId}",iamId , teamPermission, user.Iam);
+
             await _dbContext.TeamPermissions.AddAsync(teamPermission);
             await _dbContext.SaveChangesAsync();
 
@@ -290,6 +293,8 @@ public class UserController : ControllerBase
                 UserId = user.Id,
                 RoleId = role.Id
             };
+
+            Log.Information("User {iamId} Adding folder permission {@folderPermission} User Added {userId}", iamId, folderPermission, user.Iam);
 
             await _dbContext.FolderPermissions.AddAsync(folderPermission);
             await _dbContext.SaveChangesAsync();
@@ -337,6 +342,8 @@ public class UserController : ControllerBase
                 return BadRequest("User does not have a permission for this resource");
             }
 
+            Log.Information("User {iamId} Removing team permission {@teamPermission} User Removed {userId}", iamId, teamPermission, user.Iam);
+
             _dbContext.TeamPermissions.Remove(teamPermission);
             await _dbContext.SaveChangesAsync();
 
@@ -351,6 +358,8 @@ public class UserController : ControllerBase
             {
                 return BadRequest("User does not have a permission for this resource");
             }
+
+            Log.Information("User {iamId} Removing folder permission {@folderPermission} User Removed {userId}", iamId, folderPermission, user.Iam);
 
             _dbContext.FolderPermissions.Remove(folderPermission);
             await _dbContext.SaveChangesAsync();
