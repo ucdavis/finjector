@@ -70,8 +70,6 @@ export const useSaveChart = () => {
 
   return useMutation(
     async (chart: Coa) => {
-      throw new Error("test");
-
       return await doFetch<Coa>(
         fetch(`/api/charts/save`, {
           method: "POST",
@@ -100,7 +98,6 @@ export const useRemoveChart = () => {
 
   return useMutation(
     async (chart: Coa) => {
-      throw new Error("test");
       await fetch(`/api/charts/delete/${chart.id}`, {
         method: "DELETE",
       });
