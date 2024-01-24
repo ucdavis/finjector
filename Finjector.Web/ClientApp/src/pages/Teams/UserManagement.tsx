@@ -48,10 +48,14 @@ const UserManagement: React.FC = () => {
     );
   }
 
+  const resourceName =
+    membershipQuery.data.length > 0 ? membershipQuery.data[0].resourceName : "";
+
   return (
     <div>
       <PageTitle>
         <div className="col-12 col-md-3">
+          <h4>{resourceName}</h4>
           <h1>Manage {folderId ? "Folder" : "Team"} Permissions</h1>
         </div>
 

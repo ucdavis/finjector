@@ -40,9 +40,17 @@ const AdminList: React.FC = () => {
     );
   }
 
+  const resourceName =
+    membershipQuery.data.length > 0 ? membershipQuery.data[0].resourceName : "";
+
   return (
     <div>
-      <PageTitle title={`View Admins ${forTeamName}`} />
+      <PageTitle>
+        <div className="col-12 col-md-3">
+          <h4>{resourceName}</h4>
+          <h1>View Admins</h1>
+        </div>
+      </PageTitle>
       <table className="table">
         <thead>
           <tr>
