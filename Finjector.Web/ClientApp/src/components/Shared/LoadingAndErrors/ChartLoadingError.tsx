@@ -9,6 +9,7 @@ import {
   isPpmSegmentString,
 } from "../../../util/segmentValidation";
 import { FinError } from "./FinError";
+import { toast } from "react-toastify";
 
 export const ChartLoadingError = () => {
   const navigate = useNavigate();
@@ -25,7 +26,11 @@ export const ChartLoadingError = () => {
     if (chartIdAsNumber > 0) {
       removeMutation.mutate({ id: chartIdAsNumber } as Coa, {
         onSuccess: () => {
+          toast.success("Chart string removed.");
           navigate("/");
+        },
+        onError: () => {
+          toast.error("Error removing chart string.");
         },
       });
     }
