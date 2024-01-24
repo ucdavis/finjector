@@ -16,7 +16,6 @@ import {
   buildInitialPpmSegments,
 } from "../util/segmentHelpers";
 import CoaDisplay from "../components/Entry/CoaDisplay";
-import SaveAndUseButton from "../components/Entry/SaveAndUseButton";
 import { useGetSavedChartWithData } from "../queries/storedChartQueries";
 import {
   fromGlSegmentString,
@@ -28,11 +27,11 @@ import {
   mapSegmentCodeToName,
   mapSegmentQueryData,
 } from "../util/segmentMapping";
-import EntryEditButtons from "../components/Entry/EntryEditButtons";
 import { ChartDebugInfo } from "../components/Shared/LoadingAndErrors/ChartDebugInfo";
 import { ChartLoadingError } from "../components/Shared/LoadingAndErrors/ChartLoadingError";
 import FolderSearch from "../components/Entry/FolderSearch";
 import PageTitle from "../components/Shared/Layout/PageTitle";
+import EntryMutationActions from "../components/Entry/EntryMutationActions";
 
 const Entry = () => {
   const { chartId, chartSegmentString, folderId } = useParams();
@@ -111,12 +110,25 @@ const Entry = () => {
     setSavedChart((c) => ({ ...c, chartType: chartType }));
   };
 
+  if (savedChartQuery.isLoading && savedChartQuery.isFetching) {
+    return (
+      <div className="main">
+        <PageTitle
+          title={chartId ? "Edit Chart String" : "Create Chart String"}
+        />
+        <FinLoader />
+      </div>
+    );
+  }
+
   if (savedChartQuery.isError) {
     return (
-      <>
+      <div className="main">
+        <PageTitle
+          title={chartId ? "Edit Chart String" : "Create Chart String"}
+        />
         <ChartLoadingError />
-        <hr />
-      </>
+      </div>
     );
   }
 
@@ -179,11 +191,7 @@ const Entry = () => {
             />
           </div>
         </div>
-        {savedChart.id ? (
-          <EntryEditButtons chartData={chartData} savedChart={savedChart} />
-        ) : (
-          <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
-        )}
+        <EntryMutationActions chartData={chartData} savedChart={savedChart} />
       </div>
       <ChartDebugInfo chartData={chartData} />
     </div>

@@ -20,3 +20,12 @@ export const doFetchEmpty = async (
 
   return;
 };
+
+export const doErrorFetch = async <T>(
+  fetchCall: Promise<Response>
+): Promise<T> => {
+  console.warn("you are calling doErrorFetch instead of doFetch");
+
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  throw new Error("test");
+};
