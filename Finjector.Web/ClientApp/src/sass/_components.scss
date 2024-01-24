@@ -359,3 +359,11 @@ span.ppm-color {
 span.font-reg {
   font-family: $sans-reg;
 }
+// Toastify
+
+:root {
+  --toastify-color-success: #25681a !important;
+  --toastify-color-error: #74011d !important;
+  --toastify-font-family: $sans-reg !important;
+  --toastify-text-color-light: rgba(31, 31, 31, 0.7) !important;
+}
