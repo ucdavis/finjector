@@ -52,6 +52,10 @@ const About = () => {
             take from <span className="fw-bold">1 to 2 hours</span> before the
             information becomes available here.
           </p>
+          <p>
+            You can find us on slack. Feel free to join{" "}
+            <span className="fw-bold">#finjector</span>
+          </p>
           <br />
           <br />
           <div className="card">
