@@ -7,6 +7,7 @@ import DetailsTable from "../components/Details/DetailsTable";
 import PageTitle from "../components/Shared/Layout/PageTitle";
 import DetailsAeErrors from "../components/Details/DetailsAeErrors";
 import PageBody from "../components/Shared/Layout/PageBody";
+import DetailsChartString from "../components/Details/DetailsChartString";
 
 const Details = () => {
   const { chartId, chartSegmentString } = useParams();
@@ -49,6 +50,12 @@ const Details = () => {
           warnings={aeDetails?.warnings}
         />
         <div className={`chartstring-details ${isPpmOrGlClassName}`}>
+          <DetailsChartString
+            chartString={aeDetails?.chartString}
+            chartType={aeDetails?.chartType}
+            isValid={!invalid}
+            hasWarnings={aeDetails?.hasWarnings}
+          />
           <DetailsTable
             aeDetails={aeDetails}
             chartSegmentString={chartSegmentString}
