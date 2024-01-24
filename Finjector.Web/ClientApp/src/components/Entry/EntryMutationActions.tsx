@@ -95,6 +95,7 @@ const EntryMutationActions = (props: Props) => {
 
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
+        toast.success("Chart string saved.");
         navigate(
           `/teams/${data.folder?.teamId}/folders/${data.folder?.id}/${
             isInPopup ? "selected" : "details"
