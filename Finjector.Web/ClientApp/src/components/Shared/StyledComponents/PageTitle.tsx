@@ -15,7 +15,7 @@ const PageTitle: React.FC<PageTitleProps> = (
   if (!title && Array.isArray(children) && children.length > 1) {
     // this will not be applied if children is a single element (such as <h1>, <div>, <>) or if title is set
     // but if we have multiple elements, put them in a row and apply the correct styles
-    divClassName += " row justify-content-between align-items-center";
+    divClassName += " row g-0 justify-content-between align-items-center";
   }
 
   return (
