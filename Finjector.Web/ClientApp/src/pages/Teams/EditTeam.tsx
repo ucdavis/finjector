@@ -38,6 +38,7 @@ const EditTeam: React.FC = () => {
 
   return (
     <div>
+      <h4>{teamInfo.data?.team.name}</h4>
       <PageTitle title="Edit Team" />
       <NameAndDescriptionForm
         initialValues={{
