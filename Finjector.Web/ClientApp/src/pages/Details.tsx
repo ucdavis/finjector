@@ -3,9 +3,10 @@ import { AeDetails, ChartType } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/Shared/LoadingAndErrors/ChartDebugInfo";
 import DetailsTitle from "../components/Details/DetailsTitle";
-import DetailsBody from "../components/Details/DetailsBody";
+import DetailsTable from "../components/Details/DetailsBody";
 import PageTitle from "../components/Shared/Layout/PageTitle";
-import DetailsPageBody from "../components/Shared/Layout/DetailsPageBody";
+import DetailsAeErrors from "../components/Details/DetailsAeErrors";
+import PageBody from "../components/Shared/Layout/PageBody";
 
 const Details = () => {
   const { chartId, chartSegmentString } = useParams();
@@ -22,6 +23,13 @@ const Details = () => {
     !aeDetails?.chartString || // if we have no data
     aeDetails.chartType === ChartType.INVALID; // if we have invalid data
 
+  const isPpmOrGlClassName =
+    aeDetails?.chartType === ChartType.PPM
+      ? "is-ppm"
+      : aeDetails?.chartType === ChartType.GL
+      ? "is-gl"
+      : "is-none";
+
   return (
     <div className="main">
       <PageTitle isRow={true}>
@@ -34,16 +42,23 @@ const Details = () => {
           isError={chartDetailsQuery.isError}
         />
       </PageTitle>
-      <DetailsPageBody>
-        <DetailsBody
-          aeDetails={aeDetails}
-          chartSegmentString={chartSegmentString}
-          invalid={invalid}
-          isLoading={chartDetailsQuery.isLoading}
-          isFetching={chartDetailsQuery.isFetching}
-          isError={chartDetailsQuery.isError}
+      <PageBody>
+        <DetailsAeErrors
+          errors={aeDetails?.errors}
+          hasWarnings={aeDetails?.hasWarnings}
+          warnings={aeDetails?.warnings}
         />
-      </DetailsPageBody>
+        <div className={`chartstring-details ${isPpmOrGlClassName}`}>
+          <DetailsTable
+            aeDetails={aeDetails}
+            chartSegmentString={chartSegmentString}
+            invalid={invalid}
+            isLoading={chartDetailsQuery.isLoading}
+            isFetching={chartDetailsQuery.isFetching}
+            isError={chartDetailsQuery.isError}
+          />
+        </div>
+      </PageBody>
       <ChartDebugInfo chartDetails={chartDetailsQuery.data} />
     </div>
   );

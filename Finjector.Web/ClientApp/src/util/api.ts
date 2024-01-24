@@ -29,3 +29,12 @@ export const doErrorFetch = async <T>(
   await new Promise((resolve) => setTimeout(resolve, 3000));
   throw new Error("test");
 };
+
+export const doSlowFetch = async <T>(
+  fetchCall: Promise<Response>
+): Promise<T> => {
+  console.warn("you are calling doSlowFetch instead of doFetch");
+
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  return await doFetch(fetchCall);
+};

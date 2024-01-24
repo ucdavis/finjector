@@ -5,10 +5,10 @@ import { Badge } from "reactstrap";
 import usePopupStatus from "../../util/customHooks";
 
 interface DetailsChartStringProps {
-  chartType: string;
-  chartString: string;
-  isValid: boolean;
-  hasWarnings: boolean;
+  chartType: string | undefined;
+  chartString: string | undefined;
+  isValid: boolean | undefined;
+  hasWarnings: boolean | undefined;
 }
 
 const DetailsChartString: React.FC<DetailsChartStringProps> = ({
@@ -19,6 +19,10 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
 }) => {
   const isInPopup = usePopupStatus();
   const badgeColor = isValid ? "success" : "danger";
+
+  if (!chartString) {
+    return null;
+  }
   return (
     <div className="chartstring-details-title d-flex justify-content-between align-items-center">
       <div className="col-11">

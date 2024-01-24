@@ -7,7 +7,6 @@ import FinButton from "../Shared/FinButton";
 import SharePopup from "./SharePopup";
 import { useParams, useNavigate } from "react-router-dom";
 import usePopupStatus from "../../util/customHooks";
-import { Spinner } from "reactstrap";
 
 interface DetailsHeaderProps {
   aeDetails: AeDetails | undefined;
@@ -52,9 +51,8 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
   if (isLoading && isFetching) {
     return (
       <div className="col-12 col-md-7">
-        <h1>
-          <Spinner color="secondary" />
-        </h1>
+        <h4>Team / Folder</h4>
+        <h1>Scribbling in details...</h1>
       </div>
     );
   }
@@ -62,6 +60,7 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
   if (isError) {
     return (
       <div className="col-12 col-md-7">
+        <h4>Team / Folder</h4>
         <h1>Chart String Details</h1>
       </div>
     );
