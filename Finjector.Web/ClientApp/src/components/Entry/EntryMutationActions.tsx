@@ -55,13 +55,13 @@ const EntryMutationActions = (props: Props) => {
     //teams/1/folders/1/details/1/3110-13U20-ADNO003-238533-00-000-0000000000-000000-0000-000000-000000
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
-        toast.success("Chart string copied.");
+        toast.success("Chart string duplicated.");
         navigate(
           `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
         );
       },
       onError: (error) => {
-        toast.error("Error copying chart string.");
+        toast.error("Error duplicating chart string.");
       },
     });
   };

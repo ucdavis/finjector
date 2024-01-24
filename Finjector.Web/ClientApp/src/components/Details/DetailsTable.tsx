@@ -1,9 +1,7 @@
 import React from "react";
-import { Alert } from "reactstrap";
 import { AeDetails, ChartType } from "../../types";
 import { renderNameAndEmail } from "../../util/util";
 import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
-import DetailsChartString from "./DetailsChartString";
 import { DetailsRow } from "./DetailsRow";
 import PpmDetailsPage from "./PpmDetails";
 import { ChartLoadingError } from "../Shared/LoadingAndErrors/ChartLoadingError";
@@ -58,7 +56,7 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
 
   return (
     <>
-      <div className="chartstring-details-info">
+      <div className="chartstring-details-info unique-bg">
         {aeDetails.segmentDetails.map((segment, i) => {
           return (
             <DetailsRow

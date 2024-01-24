@@ -3,7 +3,7 @@ import { AeDetails, ChartType } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/Shared/LoadingAndErrors/ChartDebugInfo";
 import DetailsTitle from "../components/Details/DetailsTitle";
-import DetailsTable from "../components/Details/DetailsBody";
+import DetailsTable from "../components/Details/DetailsTable";
 import PageTitle from "../components/Shared/Layout/PageTitle";
 import DetailsAeErrors from "../components/Details/DetailsAeErrors";
 import PageBody from "../components/Shared/Layout/PageBody";
