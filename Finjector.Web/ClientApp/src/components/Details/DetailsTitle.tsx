@@ -1,5 +1,5 @@
 import React from "react";
-import { AeDetails, ChartStringEditModel } from "../../types";
+import { AeDetails, ChartStringEditModel, FinQueryStatus } from "../../types";
 import { faBolt, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
@@ -11,19 +11,13 @@ import usePopupStatus from "../../util/customHooks";
 interface DetailsHeaderProps {
   aeDetails: AeDetails | undefined;
   chartStringDetails: ChartStringEditModel | undefined;
-  invalid: boolean;
-  isLoading: boolean;
-  isFetching: boolean;
-  isError: boolean;
+  queryStatus: FinQueryStatus;
 }
 
 const DetailsTitle: React.FC<DetailsHeaderProps> = ({
   aeDetails,
   chartStringDetails,
-  invalid,
-  isLoading,
-  isFetching,
-  isError,
+  queryStatus: { isLoading, isError, error },
 }) => {
   const { chartId, teamId, folderId } = useParams();
 
@@ -48,7 +42,7 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
     }
   };
 
-  if (isLoading && isFetching) {
+  if (isLoading) {
     return (
       <div className="col-12 col-md-7">
         <h4>Team / Folder</h4>

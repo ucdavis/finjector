@@ -1,5 +1,5 @@
 import React from "react";
-import { AeDetails, ChartType } from "../../types";
+import { AeDetails, ChartType, FinQueryStatus } from "../../types";
 import { renderNameAndEmail } from "../../util/util";
 import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
 import { DetailsRow } from "./DetailsRow";
@@ -11,27 +11,22 @@ import FinLoader from "../Shared/LoadingAndErrors/FinLoader";
 interface DetailsBodyProps {
   aeDetails: AeDetails | undefined;
   chartSegmentString: string | undefined;
-  invalid: boolean;
-  isLoading: boolean;
-  isFetching: boolean;
-  isError: boolean;
+  queryStatus: FinQueryStatus;
 }
 
 const DetailsTable: React.FC<DetailsBodyProps> = ({
   aeDetails,
   chartSegmentString,
-  isLoading,
-  isFetching,
-  isError,
+  queryStatus,
 }) => {
-  if (isLoading && isFetching) {
+  if (queryStatus.isLoading) {
     return (
-      <div className="chartstring-details-info unique-bg">
+      <div className="chartstring-details-info">
         <FinLoader />
       </div>
     );
   }
-  if (isError) {
+  if (queryStatus.isError) {
     return (
       <div className="chartstring-details-info">
         <ChartLoadingError />
@@ -39,7 +34,7 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
     );
   }
   if (
-    // not entirely sure when this happens and if it is different than isError
+    // invalid chart id
     !chartSegmentString ||
     !aeDetails?.chartString ||
     aeDetails.chartType === ChartType.INVALID

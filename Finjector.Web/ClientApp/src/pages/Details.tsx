@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { AeDetails, ChartType } from "../types";
+import { AeDetails, ChartType, FinQueryStatus } from "../types";
 import { useGetChartDetails } from "../queries/storedChartQueries";
 import { ChartDebugInfo } from "../components/Shared/LoadingAndErrors/ChartDebugInfo";
 import DetailsTitle from "../components/Details/DetailsTitle";
@@ -15,6 +15,7 @@ const Details = () => {
     chartSegmentString || "",
     chartId
   );
+  const queryStatus: FinQueryStatus = { ...chartDetailsQuery };
 
   const aeDetails: AeDetails | undefined = chartDetailsQuery.data?.aeDetails;
 
@@ -37,10 +38,7 @@ const Details = () => {
         <DetailsTitle
           aeDetails={aeDetails}
           chartStringDetails={chartDetailsQuery.data?.chartStringDetails}
-          invalid={invalid}
-          isLoading={chartDetailsQuery.isLoading}
-          isFetching={chartDetailsQuery.isFetching}
-          isError={chartDetailsQuery.isError}
+          queryStatus={queryStatus}
         />
       </PageTitle>
       <PageBody>
@@ -59,10 +57,7 @@ const Details = () => {
           <DetailsTable
             aeDetails={aeDetails}
             chartSegmentString={chartSegmentString}
-            invalid={invalid}
-            isLoading={chartDetailsQuery.isLoading}
-            isFetching={chartDetailsQuery.isFetching}
-            isError={chartDetailsQuery.isError}
+            queryStatus={queryStatus}
           />
         </div>
       </PageBody>

@@ -1,3 +1,10 @@
+import { UseQueryResult } from "@tanstack/react-query";
+
+export type FinQueryStatus = Pick<
+  UseQueryResult<any>,
+  "isLoading" | "isError" | "error"
+>;
+
 export interface Coa {
   id: number;
   segmentString: string;
