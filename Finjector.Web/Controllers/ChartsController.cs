@@ -105,9 +105,10 @@ public class ChartsController : ControllerBase
                             c.Updated
                         }).ToList()
                     })
+                    .OrderBy(g2 => g2.Name)
             })
             .OrderByDescending(g => g.Team.IsPersonal)
-            .ThenBy(g => g.Team.Name)
+            .ThenBy(g => g.Team.Name)            
             .ToList();
         
         return Ok(groupedCharts);
