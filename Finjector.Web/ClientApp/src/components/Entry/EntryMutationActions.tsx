@@ -4,8 +4,14 @@ import { useRemoveChart, useSaveChart } from "../../queries/storedChartQueries";
 import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
 import { toast } from "react-toastify";
-import EntrySaveAndUseButton from "./EntrySaveAndUseButton";
-import EntryEditButtons from "./EntryEditButtons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FinButton from "../Shared/FinButton";
+import {
+  faTrash,
+  faBolt,
+  faBookmark,
+  faClone,
+} from "@fortawesome/free-solid-svg-icons";
 
 const landingPage = "/landing";
 
@@ -109,27 +115,59 @@ const EntryMutationActions = (props: Props) => {
   };
 
   if (savedChart.id) {
+    // if we are coming from a saved chart string
     return (
-      <EntryEditButtons
-        chartData={chartData}
-        savedChart={savedChart}
-        isLoading={saveMutation.isLoading || removeMutation.isLoading}
-        save={save}
-        copy={copy}
-        remove={remove}
-        use={use}
-        isInPopup={isInPopup}
-      />
+      <div className="d-flex justify-content-between">
+        {savedChart.canEdit && (
+          <FinButton
+            className="flex-fill"
+            disabled={removeMutation.isLoading}
+            onClick={remove}
+            margin={false}
+          >
+            <FontAwesomeIcon icon={faTrash} />
+            Remove
+          </FinButton>
+        )}
+        <FinButton
+          className="flex-fill"
+          disabled={saveMutation.isLoading || !savedChart.name}
+          onClick={copy}
+        >
+          <FontAwesomeIcon icon={faClone} />
+          Duplicate
+        </FinButton>
+        {savedChart.canEdit && (
+          <FinButton
+            className="flex-fill"
+            disabled={saveMutation.isLoading || !savedChart.name}
+            onClick={save}
+          >
+            <FontAwesomeIcon icon={faBookmark} />
+            Save
+          </FinButton>
+        )}
+        {isInPopup && (
+          <FinButton className="flex-fill" onClick={use}>
+            <FontAwesomeIcon icon={faBolt} />
+            Use
+          </FinButton>
+        )}
+      </div>
     );
   }
   return (
-    <EntrySaveAndUseButton
-      chartData={chartData}
-      savedChart={savedChart}
-      saveAndUse={saveAndUse}
-      isLoading={saveMutation.isLoading}
-      isInPopup={isInPopup}
-    />
+    // if we are creating a new chart string from scratch
+    <div className="d-flex">
+      <FinButton
+        className="flex-fill"
+        disabled={saveMutation.isLoading || !savedChart.name}
+        onClick={saveAndUse}
+        margin={false}
+      >
+        {isInPopup ? "Save and use" : "Save"}
+      </FinButton>
+    </div>
   );
 };
 
