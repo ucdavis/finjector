@@ -3,21 +3,28 @@ import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
 import CopyToClipboardButton from "../Shared/CopyToClipboardButton";
 import { Badge } from "reactstrap";
 import usePopupStatus from "../../util/customHooks";
+import { ChartType, FinQueryStatus } from "../../types";
 
 interface DetailsChartStringProps {
   chartType: string | undefined;
   chartString: string | undefined;
-  isValid: boolean | undefined;
   hasWarnings: boolean | undefined;
+  queryStatus: FinQueryStatus;
 }
 
 const DetailsChartString: React.FC<DetailsChartStringProps> = ({
   chartType,
   chartString,
-  isValid,
   hasWarnings,
+  queryStatus: { isLoading, isError },
 }) => {
   const isInPopup = usePopupStatus();
+
+  const isValid =
+    isLoading || // if we're doing first fetch
+    isError || // if we've errored
+    chartString || // if we have no data
+    chartType === ChartType.INVALID; // if we have invalid data
   const badgeColor = isValid ? "success" : "danger";
 
   if (!chartString) {

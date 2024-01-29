@@ -19,12 +19,6 @@ const Details = () => {
 
   const aeDetails: AeDetails | undefined = chartDetailsQuery.data?.aeDetails;
 
-  const invalid =
-    (chartDetailsQuery.isLoading && chartDetailsQuery.isFetching) || // if we're doing first fetch
-    chartDetailsQuery.isError || // if we've errored
-    !aeDetails?.chartString || // if we have no data
-    aeDetails.chartType === ChartType.INVALID; // if we have invalid data
-
   const isPpmOrGlClassName =
     aeDetails?.chartType === ChartType.PPM
       ? "is-ppm"
@@ -51,8 +45,8 @@ const Details = () => {
           <DetailsChartString
             chartString={aeDetails?.chartString}
             chartType={aeDetails?.chartType}
-            isValid={!invalid}
             hasWarnings={aeDetails?.hasWarnings}
+            queryStatus={queryStatus}
           />
           <DetailsTable
             aeDetails={aeDetails}
