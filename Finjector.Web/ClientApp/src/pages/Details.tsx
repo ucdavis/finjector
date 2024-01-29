@@ -38,14 +38,12 @@ const Details = () => {
       <PageBody>
         <DetailsAeErrors
           errors={aeDetails?.errors}
-          hasWarnings={aeDetails?.hasWarnings}
           warnings={aeDetails?.warnings}
         />
         <div className={`chartstring-details ${isPpmOrGlClassName}`}>
           <DetailsChartString
             chartString={aeDetails?.chartString}
             chartType={aeDetails?.chartType}
-            hasWarnings={aeDetails?.hasWarnings}
             queryStatus={queryStatus}
           />
           <DetailsTable

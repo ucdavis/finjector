@@ -1,13 +1,12 @@
 import { Alert } from "reactstrap";
 
 interface DetailsAeErrorsProps {
-  errors: string[] | undefined;
-  hasWarnings: boolean | undefined;
-  warnings: string[] | undefined;
+  errors?: string[];
+  warnings?: string[];
 }
 
 const DetailsAeErrors = (props: DetailsAeErrorsProps) => {
-  const { errors, hasWarnings, warnings } = props;
+  const { errors, warnings } = props;
 
   if (!errors && !warnings) return null;
 
@@ -22,16 +21,13 @@ const DetailsAeErrors = (props: DetailsAeErrorsProps) => {
             </Alert>
           );
         })}
-      {hasWarnings &&
-        !!warnings &&
-        warnings.length > 0 &&
-        warnings.map((warning, i) => {
-          return (
-            <Alert color="warning" key={i}>
-              Warning: {warning}
-            </Alert>
-          );
-        })}
+      {warnings?.map((warning, i) => {
+        return (
+          <Alert color="warning" key={i}>
+            Warning: {warning}
+          </Alert>
+        );
+      })}
     </div>
   );
 };

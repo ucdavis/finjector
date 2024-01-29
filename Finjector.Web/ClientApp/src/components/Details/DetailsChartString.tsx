@@ -8,7 +8,7 @@ import { ChartType, FinQueryStatus } from "../../types";
 interface DetailsChartStringProps {
   chartType: string | undefined;
   chartString: string | undefined;
-  hasWarnings: boolean | undefined;
+  hasWarnings?: boolean;
   queryStatus: FinQueryStatus;
 }
 
