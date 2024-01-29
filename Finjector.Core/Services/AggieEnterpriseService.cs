@@ -565,7 +565,7 @@ namespace Finjector.Core.Services
                     var segment = new SegmentDetails
                     {
                         Order = 14,
-                        Entity = "Gl Financial Department",
+                        Entity = "GL Financial Department",
                         Code = parts[0].Trim(),
                         Name = parts[1].Trim()
                     };
@@ -577,7 +577,7 @@ namespace Finjector.Core.Services
                     var segment = new SegmentDetails
                     {
                         Order = 14,
-                        Entity = "Gl Financial Department",
+                        Entity = "GL Financial Department",
                         Code = data.PpmProjectByNumber.ProjectOrganizationName,
                         Name = string.Empty
                     };
