@@ -25,6 +25,8 @@ const Details = () => {
       ? "is-ppm"
       : aeDetails?.chartType === ChartType.GL
       ? "is-gl"
+      : isError
+      ? "is-error"
       : "is-none";
 
   return (
