@@ -15,7 +15,8 @@ const Details = () => {
     chartSegmentString || "",
     chartId
   );
-  const queryStatus: FinQueryStatus = { ...chartDetailsQuery };
+  const { isLoading, isError, error } = chartDetailsQuery;
+  const queryStatus: FinQueryStatus = { isLoading, isError, error };
 
   const aeDetails: AeDetails | undefined = chartDetailsQuery.data?.aeDetails;
 

@@ -4,9 +4,9 @@ import { renderNameAndEmail } from "../../util/util";
 import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
 import { DetailsRow } from "./DetailsRow";
 import PpmDetailsPage from "./PpmDetails";
-import { ChartLoadingError } from "../Shared/LoadingAndErrors/ChartLoadingError";
 import { FinError } from "../Shared/LoadingAndErrors/FinError";
-import FinLoader from "../Shared/LoadingAndErrors/FinLoader";
+import { useFinQueryStatusHandler } from "../../util/error";
+import { ChartLoadingError } from "../Shared/LoadingAndErrors/ChartLoadingError";
 
 interface DetailsBodyProps {
   aeDetails: AeDetails | undefined;
@@ -19,22 +19,15 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
   chartSegmentString,
   queryStatus,
 }) => {
-  if (queryStatus.isLoading) {
-    return (
-      <div className="chartstring-details-info">
-        <FinLoader />
-      </div>
-    );
-  }
-  if (queryStatus.isError) {
-    return (
-      <div className="chartstring-details-info">
-        <ChartLoadingError />
-      </div>
-    );
-  }
+  const queryStates = useFinQueryStatusHandler({
+    queryStatus,
+    DefaultError: <ChartLoadingError />,
+  });
+  if (queryStates)
+    return <div className="chartstring-details-info">{queryStates}</div>;
+
   if (
-    // invalid chart id
+    // invalid chart id but no error in fetch
     !chartSegmentString ||
     !aeDetails?.chartString ||
     aeDetails.chartType === ChartType.INVALID

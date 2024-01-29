@@ -1,7 +1,12 @@
+import { UnauthorizedError } from "./error";
+
 export const doFetch = async <T>(fetchCall: Promise<Response>): Promise<T> => {
   const res = await fetchCall;
 
   if (!res.ok) {
+    if (res.status === 401) {
+      throw new Error(UnauthorizedError);
+    }
     throw new Error(`${res.status} ${res.statusText}`);
   }
 
@@ -15,6 +20,9 @@ export const doFetchEmpty = async (
   const res = await fetchCall;
 
   if (!res.ok) {
+    if (res.status === 401) {
+      throw new Error(UnauthorizedError);
+    }
     throw new Error(`${res.status} ${res.statusText}`);
   }
 
@@ -27,7 +35,7 @@ export const doErrorFetch = async <T>(
   console.warn("you are calling doErrorFetch instead of doFetch");
 
   await new Promise((resolve) => setTimeout(resolve, 3000));
-  throw new Error("test");
+  throw new Error(UnauthorizedError);
 };
 
 export const doSlowFetch = async <T>(
