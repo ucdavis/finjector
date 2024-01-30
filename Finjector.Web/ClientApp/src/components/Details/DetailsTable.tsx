@@ -19,12 +19,14 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
   chartSegmentString,
   queryStatus,
 }) => {
-  const queryStates = useFinQueryStatusHandler({
+  const queryStatusComponent = useFinQueryStatusHandler({
     queryStatus,
     DefaultError: <ChartLoadingError />,
   });
-  if (queryStates)
-    return <div className="chartstring-details-info">{queryStates}</div>;
+  if (queryStatusComponent)
+    return (
+      <div className="chartstring-details-info">{queryStatusComponent}</div>
+    );
 
   if (
     // invalid chart id but no error in fetch

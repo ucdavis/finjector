@@ -6,7 +6,7 @@ interface Props {
 export const FinError = (props: Props) => {
   const { title = "Error loading", errorText, children } = props;
   return (
-    <div className="p-2">
+    <div className="p-2 col-6">
       <h1>{title}</h1>
       <p>
         {errorText ??
