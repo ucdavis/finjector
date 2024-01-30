@@ -3,9 +3,13 @@ import { Navigate, useParams } from "react-router-dom";
 import ChartTypeSelector from "../components/Entry/ChartTypeSelector";
 import GlEntry from "../components/Entry/GlEntry";
 import PpmEntry from "../components/Entry/PpmEntry";
-import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
-
-import { Coa, ChartData, ChartType, SegmentData } from "../types";
+import {
+  Coa,
+  ChartData,
+  ChartType,
+  SegmentData,
+  FinQueryStatus,
+} from "../types";
 
 // CSS
 // https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
@@ -32,12 +36,21 @@ import { ChartLoadingError } from "../components/Shared/LoadingAndErrors/ChartLo
 import FolderSearch from "../components/Entry/FolderSearch";
 import PageTitle from "../components/Shared/Layout/PageTitle";
 import EntryMutationActions from "../components/Entry/EntryMutationActions";
+import { useFinQueryStatusHandler } from "../util/error";
+import PageBody from "../components/Shared/Layout/PageBody";
 
 const Entry = () => {
   const { chartId, chartSegmentString, folderId } = useParams();
   const saveInFolderId = parseInt(folderId ?? "0");
 
   const savedChartQuery = useGetSavedChartWithData(chartId || "");
+
+  const { isLoading, isError, error } = savedChartQuery;
+  const queryStatus: FinQueryStatus = { isLoading, isError, error };
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+    DefaultError: <ChartLoadingError />,
+  });
 
   const [savedChart, setSavedChart] = React.useState<Coa>({
     id: 0,
@@ -110,32 +123,15 @@ const Entry = () => {
     setSavedChart((c) => ({ ...c, chartType: chartType }));
   };
 
-  if (savedChartQuery.isLoading && savedChartQuery.isFetching) {
+  if (queryStatusComponent)
     return (
-      <div className="main">
+      <div title="main">
         <PageTitle
-          title={chartId ? "Edit Chart String" : "Create Chart String"}
+          title={isLoading ? "Scribbling in form..." : "Edit Chart String"}
         />
-        <FinLoader />
+        <PageBody>{queryStatusComponent}</PageBody>
       </div>
     );
-  }
-
-  if (savedChartQuery.isError) {
-    return (
-      <div className="main">
-        <PageTitle
-          title={chartId ? "Edit Chart String" : "Create Chart String"}
-        />
-        <ChartLoadingError />
-      </div>
-    );
-  }
-
-  // if we have a saved chart, make sure it's been loaded before continuing
-  if (chartId && !savedChart.id) {
-    return <FinLoader />;
-  }
 
   return (
     <div className="main">
