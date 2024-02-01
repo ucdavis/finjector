@@ -85,7 +85,10 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
           <FontAwesomeIcon icon={faPencil} />
           Edit Chart String
         </FinButton>
-        <SharePopup chartString={aeDetails?.chartString ?? ""} />
+        <SharePopup
+          chartString={aeDetails?.chartString ?? ""}
+          segmentDetails={aeDetails?.segmentDetails ?? []}
+        />
       </div>
     </>
   );

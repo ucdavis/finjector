@@ -30,17 +30,8 @@ const LeaveTeamModal = (props: Props) => {
 
   return (
     <>
-<<<<<<< HEAD:Finjector.Web/ClientApp/src/components/Teams/LeaveTeam.tsx
-      <FinButton onClick={toggleModal}>
-        <FontAwesomeIcon icon={faPersonThroughWindow} />
-        Leave Team
-      </FinButton>
-      <Modal isOpen={modalOpen} toggle={toggleModal}>
-        <ModalHeader tag="h2" toggle={toggleModal}>
-=======
       <Modal isOpen={isOpen} toggle={closeModal}>
         <ModalHeader tag="h2" toggle={closeModal}>
->>>>>>> main:Finjector.Web/ClientApp/src/components/Teams/LeaveTeamModal.tsx
           Leave Team
         </ModalHeader>
         <ModalBody>
@@ -53,11 +44,7 @@ const LeaveTeamModal = (props: Props) => {
           )}
         </ModalBody>
         <ModalFooter>
-<<<<<<< HEAD:Finjector.Web/ClientApp/src/components/Teams/LeaveTeam.tsx
-          <FinButton color="secondary" onClick={toggleModal}>
-=======
-          <FinjectorButton color="secondary" onClick={closeModal}>
->>>>>>> main:Finjector.Web/ClientApp/src/components/Teams/LeaveTeamModal.tsx
+          <FinButton color="secondary" onClick={closeModal}>
             Cancel
           </FinButton>
           <FinButton

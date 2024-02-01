@@ -6,8 +6,8 @@ import FinButton from "../Shared/FinButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { SegmentDetails } from "../../types";
-import CopySegmentsToClipboardButton from "./CopySegmentsToClipboardButton";
-import DownloadSegmentsButton from "./DownloadSegmentsButton";
+import CopySegmentsToClipboardButton from "../Shared/CopySegmentsToClipboardButton";
+import DownloadSegmentsButton from "../Shared/DownloadSegmentsButton";
 
 interface SharePopupProps {
   chartString: string;

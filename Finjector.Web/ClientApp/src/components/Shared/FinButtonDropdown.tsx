@@ -7,14 +7,14 @@ import {
   DropdownMenuProps,
 } from "reactstrap";
 
-interface FinjectorButtonDropdownProps extends DropdownMenuProps {
+interface FinButtonDropdownProps extends DropdownMenuProps {
   title?: string;
   children: React.ReactNode;
   end?: boolean;
   shouldRenderAsDropdown?: boolean;
 }
 
-const FinjectorButtonDropdown = (props: FinjectorButtonDropdownProps) => {
+const FinButtonDropdown = (props: FinButtonDropdownProps) => {
   const {
     title,
     children,
@@ -40,4 +40,4 @@ const FinjectorButtonDropdown = (props: FinjectorButtonDropdownProps) => {
   );
 };
 
-export default FinjectorButtonDropdown;
+export default FinButtonDropdown;

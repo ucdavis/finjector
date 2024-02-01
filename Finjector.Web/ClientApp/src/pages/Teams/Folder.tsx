@@ -4,8 +4,9 @@ import { useParams } from "react-router-dom";
 import { useGetFolder } from "../../queries/folderQueries";
 import FinLoader from "../../components/Shared/LoadingAndErrors/FinLoader";
 import { isPersonalOrDefault } from "../../util/teamDefinitions";
-import ChartListSimple from "../../components/Shared/ChartListSimple";
-import DeleteFolderModal from "../../components/Folders/DeleteFolder";
+import ChartListSimple from "../../components/Folders/ChartListSimple";
+import DeleteFolderModal from "../../components/Folders/DeleteFolderModal";
+import LeaveFolderModal from "../../components/Folders/LeaveFolderModal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,10 +18,12 @@ import {
   faPersonThroughWindow,
 } from "@fortawesome/free-solid-svg-icons";
 import FinButton from "../../components/Shared/FinButton";
-import LeaveFolder from "../../components/Folders/LeaveFolder";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
 import PageBody from "../../components/Shared/Layout/PageBody";
 import PageInfo from "../../components/Shared/Layout/PageInfo";
+import FinButtonDropdown from "../../components/Shared/FinButtonDropdown";
+import FinButtonDropdownItem from "../../components/Shared/FinButtonDropdownItem";
+import DownloadChartStringsButton from "./DownloadChartStringsButton";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -76,81 +79,81 @@ const Folder: React.FC = () => {
           <h1>{folderModel.data?.folder.name}</h1>
         </div>
         <div className="col-12 col-md-3 text-end">
-          <FinjectorButtonDropdown>
+          <FinButtonDropdown>
             {/* Editors & above can create new chart strings */}
             {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
-              <FinjectorButtonDropdownItem>
-                <FinjectorButton
+              <FinButtonDropdownItem>
+                <FinButton
                   borderless={true}
                   to={`/teams/${teamId}/folders/${folderModel.data?.folder.id}/entry`}
                 >
                   <FontAwesomeIcon icon={faPlus} />
                   New Chart String Here
-                </FinjectorButton>
-              </FinjectorButtonDropdownItem>
+                </FinButton>
+              </FinButtonDropdownItem>
             )}
             {/* don't show team admins if you are an admin or if it's a personal team */}
             {limitedFolder ||
               (!isFolderAdmin && !isTeamAdmin && (
-                <FinjectorButtonDropdownItem>
-                  <FinjectorButton
+                <FinButtonDropdownItem>
+                  <FinButton
                     borderless={true}
                     to={`/teams/${teamId}/folders/${folderId}/admins`}
                   >
                     <FontAwesomeIcon icon={faUserTie} />
                     View Folder Admins
-                  </FinjectorButton>
-                </FinjectorButtonDropdownItem>
+                  </FinButton>
+                </FinButtonDropdownItem>
               ))}
 
             {/* Admins can manage permissions */}
             {!limitedFolder && (isFolderAdmin || isTeamAdmin) && (
               <>
-                <FinjectorButtonDropdownItem>
-                  <FinjectorButton
+                <FinButtonDropdownItem>
+                  <FinButton
                     borderless={true}
                     to={`/teams/${teamId}/folders/${folderId}/permissions`}
                   >
                     <FontAwesomeIcon icon={faUsers} />
                     Manage Permissions
-                  </FinjectorButton>
-                </FinjectorButtonDropdownItem>
-                <FinjectorButtonDropdownItem>
-                  <FinjectorButton
+                  </FinButton>
+                </FinButtonDropdownItem>
+                <FinButtonDropdownItem>
+                  <FinButton
                     borderless={true}
                     to={`/teams/${teamId}/folders/${folderId}/edit`}
                   >
                     <FontAwesomeIcon icon={faPencil} />
                     Edit Folder
-                  </FinjectorButton>
-                </FinjectorButtonDropdownItem>
+                  </FinButton>
+                </FinButtonDropdownItem>
 
                 {!!folderId && (
-                  <FinjectorButtonDropdownItem>
-                    <FinjectorButton
+                  <FinButtonDropdownItem>
+                    <FinButton
                       onClick={() => toggleModal("delete")}
                       borderless={true}
                     >
                       <FontAwesomeIcon icon={faTrash} />
                       Delete Folder
-                    </FinjectorButton>
-                  </FinjectorButtonDropdownItem>
+                    </FinButton>
+                  </FinButtonDropdownItem>
                 )}
               </>
             )}
             {!limitedFolder && !isTeamAdmin && (
-              <FinjectorButtonDropdownItem>
-                <FinjectorButton
+              <FinButtonDropdownItem>
+                <FinButton
                   onClick={() => toggleModal("leave")}
                   borderless={true}
                 >
                   <FontAwesomeIcon icon={faPersonThroughWindow} />
                   Leave Folder
-                </FinjectorButton>
-              </FinjectorButtonDropdownItem>
+                </FinButton>
+              </FinButtonDropdownItem>
             )}
             {/* Anyone can export their chart string */}
-            <FinjectorButtonDropdownItem>
+            <FinButtonDropdownItem>
               <DownloadChartStringsButton
                 charts={folderModel.data.charts}
                 fileName={`${folderModel.data.folder.name.replace(
@@ -161,8 +164,8 @@ const Folder: React.FC = () => {
                 borderless={true}
                 id="download-chart-btn"
               ></DownloadChartStringsButton>
-            </FinjectorButtonDropdownItem>
-          </FinjectorButtonDropdown>
+            </FinButtonDropdownItem>
+          </FinButtonDropdown>
         </div>
       </PageTitle>
       <PageInfo>{folderModel.data?.folder.description}</PageInfo>

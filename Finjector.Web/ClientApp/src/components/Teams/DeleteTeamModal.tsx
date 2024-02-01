@@ -1,7 +1,7 @@
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useDeleteTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
-import FinjectorButton from "../Shared/Layout/FinjButton";
+import FinButton from "../Shared/FinButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -38,17 +38,17 @@ const DeleteTeamModal = (props: Props) => {
           within it will be removed.
         </ModalBody>
         <ModalFooter>
-          <FinjectorButton color="secondary" onClick={closeModal}>
+          <FinButton color="secondary" onClick={closeModal}>
             Cancel
-          </FinjectorButton>
-          <FinjectorButton
+          </FinButton>
+          <FinButton
             color="danger"
             onClick={handleDelete}
             disabled={deleteMutation.isLoading}
           >
             <FontAwesomeIcon icon={faTrash} />
             Delete
-          </FinjectorButton>
+          </FinButton>
         </ModalFooter>
       </Modal>
     </>

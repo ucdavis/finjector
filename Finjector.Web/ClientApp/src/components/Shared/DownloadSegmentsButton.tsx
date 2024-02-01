@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FinjectorButton from "./FinjectorButton";
+import FinButton from "./FinButton";
 import { faFile } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SegmentDetails } from "../../types";
@@ -73,7 +73,7 @@ const DownloadSegmentsButton: React.FC<DownloadSegmentsButtonProps> = ({
   };
 
   return (
-    <FinjectorButton
+    <FinButton
       id={`download-button-${id}`}
       onClick={handleDownload}
       onMouseEnter={onHover}
@@ -82,7 +82,7 @@ const DownloadSegmentsButton: React.FC<DownloadSegmentsButtonProps> = ({
     >
       <FontAwesomeIcon icon={faFile} />
       {children ?? (hasDownloaded ? "Downloaded!" : `Download as ${fileType}`)}
-    </FinjectorButton>
+    </FinButton>
   );
 };
 

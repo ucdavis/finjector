@@ -21,8 +21,8 @@ import FinButton from "../../components/Shared/FinButton";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
 import PageBody from "../../components/Shared/Layout/PageBody";
 import PageInfo from "../../components/Shared/Layout/PageInfo";
-import FinjectorButtonDropdown from "../../components/Shared/FinjectorButtonDropdown";
-import FinjectorButtonDropdownItem from "../../components/Shared/FinjectorButtonDropdownItem";
+import FinButtonDropdown from "../../components/Shared/FinButtonDropdown";
+import FinButtonDropdownItem from "../../components/Shared/FinButtonDropdownItem";
 
 const Team: React.FC = () => {
   // get id from url
@@ -62,20 +62,20 @@ const Team: React.FC = () => {
           <h1>{teamModel.data?.team.name}</h1>
         </div>
         <div className="col-12 col-md-3 text-end">
-          <FinjectorButtonDropdown shouldRenderAsDropdown={!limitedTeam}>
+          <FinButtonDropdown shouldRenderAsDropdown={!limitedTeam}>
             {/* don't show team admins if you are an admin or if it's a personal team */}
             {limitedTeam ||
               (!isTeamAdmin && (
-                <FinjectorButtonDropdownItem>
+                <FinButtonDropdownItem>
                   <FinButton borderless={true} to={`/teams/${teamId}/admins`}>
                     <FontAwesomeIcon icon={faUserTie} />
                     View Team Admins
                   </FinButton>
-                </FinjectorButtonDropdownItem>
+                </FinButtonDropdownItem>
               ))}
             {!limitedTeam && isTeamAdmin && (
               <>
-                <FinjectorButtonDropdownItem>
+                <FinButtonDropdownItem>
                   <FinButton
                     borderless={true}
                     to={`/teams/${teamId}/folders/create`}
@@ -83,14 +83,14 @@ const Team: React.FC = () => {
                     <FontAwesomeIcon icon={faPlus} />
                     Create New Folder
                   </FinButton>
-                </FinjectorButtonDropdownItem>
-                <FinjectorButtonDropdownItem>
+                </FinButtonDropdownItem>
+                <FinButtonDropdownItem>
                   <FinButton borderless={true} to={`/teams/${teamId}/edit`}>
                     <FontAwesomeIcon icon={faPencil} />
                     Edit Team
                   </FinButton>
-                </FinjectorButtonDropdownItem>
-                <FinjectorButtonDropdownItem>
+                </FinButtonDropdownItem>
+                <FinButtonDropdownItem>
                   <FinButton
                     borderless={true}
                     to={`/teams/${teamId}/permissions`}
@@ -98,8 +98,8 @@ const Team: React.FC = () => {
                     <FontAwesomeIcon icon={faUsers} />
                     Manage Team Users
                   </FinButton>
-                </FinjectorButtonDropdownItem>
-                <FinjectorButtonDropdownItem>
+                </FinButtonDropdownItem>
+                <FinButtonDropdownItem>
                   <FinButton
                     borderless={true}
                     onClick={() => toggleModal("delete")}
@@ -107,12 +107,12 @@ const Team: React.FC = () => {
                     <FontAwesomeIcon icon={faTrash} />
                     Delete Team
                   </FinButton>{" "}
-                </FinjectorButtonDropdownItem>
+                </FinButtonDropdownItem>
               </>
             )}
 
             {!limitedTeam && (
-              <FinjectorButtonDropdownItem>
+              <FinButtonDropdownItem>
                 <FinButton
                   borderless={true}
                   onClick={() => toggleModal("leave")}
@@ -120,9 +120,9 @@ const Team: React.FC = () => {
                   <FontAwesomeIcon icon={faPersonThroughWindow} />
                   Leave Team
                 </FinButton>
-              </FinjectorButtonDropdownItem>
+              </FinButtonDropdownItem>
             )}
-          </FinjectorButtonDropdown>
+          </FinButtonDropdown>
         </div>
       </PageTitle>
       <PageInfo>{teamModel.data?.team.description}</PageInfo>

@@ -1,12 +1,12 @@
 import React from "react";
 import { DropdownItem, DropdownItemProps } from "reactstrap";
 
-interface FinjectorButtonDropdownProps extends DropdownItemProps {
+interface FinButtonDropdownProps extends DropdownItemProps {
   children: React.ReactNode;
   shouldRenderAsDropdown?: boolean;
 }
 
-const FinjectorButtonDropdownItem = (props: FinjectorButtonDropdownProps) => {
+const FinButtonDropdownItem = (props: FinButtonDropdownProps) => {
   const { children, shouldRenderAsDropdown = true, ...rest } = props;
 
   if (!shouldRenderAsDropdown) return <>{children}</>; // on personal team, default folder
@@ -18,4 +18,4 @@ const FinjectorButtonDropdownItem = (props: FinjectorButtonDropdownProps) => {
   );
 };
 
-export default FinjectorButtonDropdownItem;
+export default FinButtonDropdownItem;
