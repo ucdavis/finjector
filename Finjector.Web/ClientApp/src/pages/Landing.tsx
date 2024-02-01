@@ -35,7 +35,7 @@ const Landing = () => {
       </PageTitle>
       <PageBody>
         <SearchBar
-          placeholderText="Search my saved chart strings"
+          placeholderText="Search my chart strings, teams and folders"
           search={search}
           setSearch={setSearch}
         />

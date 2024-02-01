@@ -1,75 +1,68 @@
-import React, { useState } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { useLeaveTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
 import FinButton from "../Shared/FinButton";
-import { toast } from "react-toastify";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
-import { useLeaveFolderMutation } from "../../queries/folderQueries";
 
 interface Props {
   teamId: string;
-  folderId: string;
-  myFolderPermissions: string[];
-  myTeamPermissions: string[];
+  isAdmin: boolean;
+  isOpen: boolean;
+  closeModal: () => void;
 }
 
-const LeaveFolder = (props: Props) => {
+const LeaveTeamModal = (props: Props) => {
+  const { isAdmin, isOpen, closeModal } = props;
   const navigate = useNavigate();
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const leaveMutation = useLeaveTeamMutation();
 
-  const leaveMutation = useLeaveFolderMutation(props.teamId);
-
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
-  };
-
-  const handleDelete = () => {
-    leaveMutation.mutate(props.folderId, {
+  const handleLeave = () => {
+    leaveMutation.mutate(props.teamId, {
       onSuccess: () => {
         navigate("/teams");
-        toggleModal();
-      },
-      onError: (error) => {
-        toast.error("Error leaving folder.");
+        closeModal();
       },
     });
   };
 
-  const hasFolderPermissions = props.myFolderPermissions.length > 0;
-
-  if (!hasFolderPermissions) {
-    return null;
-  }
-
   return (
     <>
+<<<<<<< HEAD:Finjector.Web/ClientApp/src/components/Teams/LeaveTeam.tsx
       <FinButton onClick={toggleModal}>
         <FontAwesomeIcon icon={faPersonThroughWindow} />
-        Leave Folder
+        Leave Team
       </FinButton>
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <ModalHeader tag="h2" toggle={toggleModal}>
-          Leave Folder
+=======
+      <Modal isOpen={isOpen} toggle={closeModal}>
+        <ModalHeader tag="h2" toggle={closeModal}>
+>>>>>>> main:Finjector.Web/ClientApp/src/components/Teams/LeaveTeamModal.tsx
+          Leave Team
         </ModalHeader>
         <ModalBody>
-          <p>Are you sure you want to leave this folder?</p>
-          {props.myTeamPermissions.length > 0 && (
+          Are you sure you want to leave this team?
+          {isAdmin && (
             <p>
-              You have permissions to the team this folder is in. If you leave
-              this folder you will still have access to it through the team, but
-              your folder permissions will be removed.
+              You are an admin for this team. If you leave and there are no
+              other admins, the team will be deleted.
             </p>
           )}
         </ModalBody>
         <ModalFooter>
+<<<<<<< HEAD:Finjector.Web/ClientApp/src/components/Teams/LeaveTeam.tsx
           <FinButton color="secondary" onClick={toggleModal}>
+=======
+          <FinjectorButton color="secondary" onClick={closeModal}>
+>>>>>>> main:Finjector.Web/ClientApp/src/components/Teams/LeaveTeamModal.tsx
             Cancel
           </FinButton>
           <FinButton
             color="danger"
-            onClick={handleDelete}
+            onClick={handleLeave}
             disabled={leaveMutation.isLoading}
           >
             <FontAwesomeIcon icon={faPersonThroughWindow} />
@@ -81,4 +74,4 @@ const LeaveFolder = (props: Props) => {
   );
 };
 
-export default LeaveFolder;
+export default LeaveTeamModal;

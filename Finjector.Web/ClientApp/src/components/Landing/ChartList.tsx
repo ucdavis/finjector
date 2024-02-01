@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import FinLoader from "../Shared/LoadingAndErrors/FinLoader";
-import { TeamGroupedCoas } from "../../types";
 import ChartListItem from "../Shared/ChartListItem";
+import { ChartType, TeamGroupedCoas } from "../../types";
 
 interface Props {
   teamGroups: TeamGroupedCoas[] | undefined;
@@ -25,32 +25,30 @@ const ChartList = (props: Props) => {
       JSON.stringify(teamGroups)
     );
 
-    // filter out charts that don't match the search filter
-    return teamGroupsClone.filter((teamGroup) => {
-      // Check if team name matches the query
-      if (teamGroup.team.name.toLowerCase().includes(query)) return true;
+    // special case -- if filter includes "GL" or "PPM" then filter out all coas except for the correct types
+    const filterByType = query
+      .split(" ")
+      .find((q) => q === "gl" || q === "ppm");
 
-      // Filter the folders within the team
-      teamGroup.folders = teamGroup.folders.filter((folder) => {
-        // Check if folder name matches the query
-        if (folder.name.toLowerCase().includes(query)) return true;
+    if (filterByType) {
+      const filtered = filterTeamGroupsByType(teamGroupsClone, filterByType);
 
-        // Filter the charts within the folder
-        folder.coas = folder.coas.filter((coa) => {
-          // Check if chart name or segmentString matches the query
-          return (
-            coa.name.toLowerCase().includes(query) ||
-            coa.segmentString.toLowerCase().includes(query)
-          );
-        });
+      // now strip out the "gl" or "ppm" from the query so it doesn't get picked up by the next filter
+      const queryWithoutType = query
+        .split(" ")
+        .filter((q) => q !== filterByType)
+        .join(" ");
 
-        // Keep the folder if it still has charts after filtering
-        return folder.coas.length > 0;
-      });
+      // if there isn't anything left in the query, return the filtered list
+      if (queryWithoutType) {
+        return filterTeamGroupsByQuery(filtered, queryWithoutType);
+      } else {
+        return filtered;
+      }
+    }
 
-      // Keep the team if it still has folders after filtering
-      return teamGroup.folders.length > 0;
-    });
+    // general case - just filter out charts that don't match the search filter
+    return filterTeamGroupsByQuery(teamGroupsClone, query);
   }, [teamGroups, query]);
 
   if (!teamGroups) {
@@ -105,5 +103,60 @@ const ChartList = (props: Props) => {
     </div>
   );
 };
+
+function filterTeamGroupsByType(
+  teamGroupsClone: TeamGroupedCoas[],
+  type: string
+): TeamGroupedCoas[] {
+  return teamGroupsClone.filter((teamGroup) => {
+    // Filter the folders within the team
+    teamGroup.folders = teamGroup.folders.filter((folder) => {
+      // Filter the charts within the folder
+      folder.coas = folder.coas.filter((coa) => {
+        // Check if chart name or segmentString matches the query
+        return type === "gl"
+          ? coa.chartType === ChartType.GL
+          : coa.chartType === ChartType.PPM;
+      });
+
+      // Keep the folder if it still has charts after filtering
+      return folder.coas.length > 0;
+    });
+
+    // Keep the team if it still has folders after filtering
+    return teamGroup.folders.length > 0;
+  });
+}
+
+function filterTeamGroupsByQuery(
+  teamGroupsClone: TeamGroupedCoas[],
+  query: string
+): TeamGroupedCoas[] {
+  return teamGroupsClone.filter((teamGroup) => {
+    // Check if team name matches the query
+    if (teamGroup.team.name.toLowerCase().includes(query)) return true;
+
+    // Filter the folders within the team
+    teamGroup.folders = teamGroup.folders.filter((folder) => {
+      // Check if folder name matches the query
+      if (folder.name.toLowerCase().includes(query)) return true;
+
+      // Filter the charts within the folder
+      folder.coas = folder.coas.filter((coa) => {
+        // Check if chart name or segmentString matches the query
+        return (
+          coa.name.toLowerCase().includes(query) ||
+          coa.segmentString.toLowerCase().includes(query)
+        );
+      });
+
+      // Keep the folder if it still has charts after filtering
+      return folder.coas.length > 0;
+    });
+
+    // Keep the team if it still has folders after filtering
+    return teamGroup.folders.length > 0;
+  });
+}
 
 export default ChartList;

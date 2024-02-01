@@ -29,6 +29,7 @@ import Example from "./pages/Example";
 import NavlessHeader from "./components/Shared/Layout/NavlessHeader";
 import FinLoader from "./components/Shared/LoadingAndErrors/FinLoader";
 import FinToastContainer from "./components/Shared/LoadingAndErrors/FinToastContainer";
+import { wrapCreateBrowserRouter } from "@sentry/react";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -59,7 +60,9 @@ function NavlessLayout() {
   );
 }
 
-const router = createBrowserRouter([
+const sentryRouter = wrapCreateBrowserRouter(createBrowserRouter);
+
+const router = sentryRouter([
   {
     path: "/import",
     element: <NavlessLayout />,
