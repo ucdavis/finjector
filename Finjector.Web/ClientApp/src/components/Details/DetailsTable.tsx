@@ -23,6 +23,7 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
     queryStatus,
     DefaultError: <ChartLoadingError />,
   });
+
   if (queryStatusComponent)
     return (
       <div className="chartstring-details-info">{queryStatusComponent}</div>

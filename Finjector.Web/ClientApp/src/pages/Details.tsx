@@ -15,8 +15,12 @@ const Details = () => {
     chartSegmentString || "",
     chartId
   );
-  const { isLoading, isError, error } = chartDetailsQuery;
-  const queryStatus: FinQueryStatus = { isLoading, isError, error };
+
+  const queryStatus: FinQueryStatus = {
+    isError: chartDetailsQuery.isError,
+    isLoading: chartDetailsQuery.isLoading,
+    error: chartDetailsQuery.error,
+  };
 
   const aeDetails: AeDetails | undefined = chartDetailsQuery.data?.aeDetails;
 
@@ -25,7 +29,7 @@ const Details = () => {
       ? "is-ppm"
       : aeDetails?.chartType === ChartType.GL
       ? "is-gl"
-      : isError
+      : queryStatus.isError
       ? "is-error"
       : "is-none";
 

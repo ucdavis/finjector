@@ -45,8 +45,11 @@ const Entry = () => {
 
   const savedChartQuery = useGetSavedChartWithData(chartId || "");
 
-  const { isLoading, isError, error } = savedChartQuery;
-  const queryStatus: FinQueryStatus = { isLoading, isError, error };
+  const queryStatus: FinQueryStatus = {
+    isError: savedChartQuery.isError,
+    isLoading: savedChartQuery.isLoading,
+    error: savedChartQuery.error,
+  };
   const queryStatusComponent = useFinQueryStatusHandler({
     queryStatus,
     DefaultError: <ChartLoadingError />,
@@ -127,7 +130,11 @@ const Entry = () => {
     return (
       <div title="main">
         <PageTitle
-          title={isLoading ? "Scribbling in form..." : "Edit Chart String"}
+          title={
+            queryStatus.isLoading
+              ? "Scribbling in form..."
+              : "Edit Chart String"
+          }
         />
         <PageBody>{queryStatusComponent}</PageBody>
       </div>
