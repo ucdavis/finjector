@@ -51,10 +51,6 @@ const ChartList = (props: Props) => {
     return filterTeamGroupsByQuery(teamGroupsClone, query);
   }, [teamGroups, query]);
 
-  if (!teamGroups) {
-    return <FinLoader />;
-  }
-
   return (
     <div>
       {filteredTeamGroups.map((teamGroup) => (
