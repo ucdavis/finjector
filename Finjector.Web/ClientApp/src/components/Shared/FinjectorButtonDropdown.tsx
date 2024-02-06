@@ -32,8 +32,12 @@ const FinjectorButtonDropdown = (props: FinjectorButtonDropdownProps) => {
       <DropdownToggle className="btn-finjector" caret={true}>
         Actions
       </DropdownToggle>
-      <DropdownMenu end={end} {...rest}>
-        {title && <DropdownItem header>{title}</DropdownItem>}
+      <DropdownMenu className="dropdown-menu-finjector" end={end} {...rest}>
+        {title && (
+          <DropdownItem className="dropdown-item-finjector" header>
+            {title}
+          </DropdownItem>
+        )}
         {children}
       </DropdownMenu>
     </Dropdown>
