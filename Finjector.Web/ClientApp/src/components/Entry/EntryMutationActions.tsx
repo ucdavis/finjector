@@ -121,7 +121,7 @@ const EntryMutationActions = (props: Props) => {
         {savedChart.canEdit && (
           <FinButton
             className="flex-fill"
-            disabled={removeMutation.isLoading}
+            disabled={removeMutation.isLoading || saveMutation.isLoading}
             onClick={remove}
             margin={false}
           >
@@ -131,7 +131,11 @@ const EntryMutationActions = (props: Props) => {
         )}
         <FinButton
           className="flex-fill"
-          disabled={saveMutation.isLoading || !savedChart.name}
+          disabled={
+            saveMutation.isLoading ||
+            !savedChart.name ||
+            removeMutation.isLoading
+          }
           onClick={copy}
         >
           <FontAwesomeIcon icon={faClone} />
@@ -140,7 +144,11 @@ const EntryMutationActions = (props: Props) => {
         {savedChart.canEdit && (
           <FinButton
             className="flex-fill"
-            disabled={saveMutation.isLoading || !savedChart.name}
+            disabled={
+              saveMutation.isLoading ||
+              !savedChart.name ||
+              removeMutation.isLoading
+            }
             onClick={save}
           >
             <FontAwesomeIcon icon={faBookmark} />
