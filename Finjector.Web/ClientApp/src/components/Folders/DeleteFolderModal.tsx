@@ -1,10 +1,10 @@
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useDeleteFolderMutation } from "../../queries/folderQueries";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import FinButton from "../Shared/FinButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import addFinToast from "../Shared/LoadingAndErrors/FinToast";
 
 interface Props {
   teamId: string;
@@ -26,7 +26,7 @@ const DeleteFolderModal = (props: Props) => {
         closeModal();
       },
       onError: (error) => {
-        toast.error("Error deleting folder.");
+        addFinToast("error", "Error deleting folder.");
       },
     });
   };

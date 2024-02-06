@@ -2,7 +2,8 @@ import { UseQueryResult } from "@tanstack/react-query";
 
 export type FinQueryStatus = Pick<
   UseQueryResult<any>,
-  "isLoading" | "isError" | "error"
+  // we use isInitialLoading instead of isLoading because
+  "isInitialLoading" | "isError" | "error"
 >;
 
 export interface Coa {

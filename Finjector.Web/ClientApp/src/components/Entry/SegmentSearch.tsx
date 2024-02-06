@@ -3,6 +3,10 @@ import React from "react";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import { useSegmentQuery } from "../../queries/segmentQueries";
 import { ChartType, SegmentData } from "../../types";
+// CSS
+// https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
+import "react-bootstrap-typeahead/css/Typeahead.css";
+import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
 
 interface Props {
   chartType: ChartType;

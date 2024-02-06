@@ -18,7 +18,7 @@ const Details = () => {
 
   const queryStatus: FinQueryStatus = {
     isError: chartDetailsQuery.isError,
-    isLoading: chartDetailsQuery.isLoading,
+    isInitialLoading: chartDetailsQuery.isInitialLoading,
     error: chartDetailsQuery.error,
   };
 

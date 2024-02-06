@@ -16,12 +16,12 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
   chartType,
   chartString,
   hasWarnings,
-  queryStatus: { isLoading, isError },
+  queryStatus: { isInitialLoading, isError },
 }) => {
   const isInPopup = usePopupStatus();
 
   const isValid =
-    isLoading || // if we're doing first fetch
+    isInitialLoading || // if we're doing first fetch
     isError || // if we've errored
     chartString || // if we have no data
     chartType === ChartType.INVALID; // if we have invalid data

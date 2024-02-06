@@ -45,16 +45,6 @@ const Entry = () => {
 
   const savedChartQuery = useGetSavedChartWithData(chartId || "");
 
-  const queryStatus: FinQueryStatus = {
-    isError: savedChartQuery.isError,
-    isLoading: savedChartQuery.isLoading,
-    error: savedChartQuery.error,
-  };
-  const queryStatusComponent = useFinQueryStatusHandler({
-    queryStatus,
-    DefaultError: <ChartLoadingError />,
-  });
-
   const [savedChart, setSavedChart] = React.useState<Coa>({
     id: 0,
     chartType: ChartType.PPM,
@@ -116,22 +106,33 @@ const Entry = () => {
     }
   }, [savedChartQuery.data]);
 
-  if (chartSegmentString && chartSegmentString.indexOf("-") === -1) {
-    // if we have a chart segment string, but it doesn't have a dash, it's probably a chart id
-    return <Navigate to={`/locator/entry/${chartSegmentString}`} />;
-  }
-
   const changeChartType = (chartType: ChartType) => {
     setChartData((d) => ({ ...d, chartType: chartType }));
     setSavedChart((c) => ({ ...c, chartType: chartType }));
   };
 
-  if (queryStatusComponent)
+  // handle loading and error states
+  const queryStatus: FinQueryStatus = {
+    isError: savedChartQuery.isError,
+    isInitialLoading: savedChartQuery.isInitialLoading,
+    error: savedChartQuery.error,
+  };
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+    DefaultError: <ChartLoadingError />,
+  });
+
+  if (chartSegmentString && chartSegmentString.indexOf("-") === -1) {
+    // if we have a chart segment string, but it doesn't have a dash, it's probably a chart id
+    return <Navigate to={`/locator/entry/${chartSegmentString}`} />;
+  }
+
+  if (queryStatusComponent) {
     return (
       <div title="main">
         <PageTitle
           title={
-            queryStatus.isLoading
+            queryStatus.isInitialLoading
               ? "Scribbling in form..."
               : "Edit Chart String"
           }
@@ -139,6 +140,7 @@ const Entry = () => {
         <PageBody>{queryStatusComponent}</PageBody>
       </div>
     );
+  }
 
   return (
     <div className="main">

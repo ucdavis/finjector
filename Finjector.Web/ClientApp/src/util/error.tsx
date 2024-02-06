@@ -2,6 +2,7 @@ import { FinError } from "../components/Shared/LoadingAndErrors/FinError";
 import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
 import { NotAuthorized } from "../components/Shared/LoadingAndErrors/NotAuthorized";
 import { FinQueryStatus } from "../types";
+import { UnauthorizedError } from "./api";
 
 interface FinQueryStatesProps {
   queryStatus: FinQueryStatus;
@@ -9,10 +10,10 @@ interface FinQueryStatesProps {
 }
 
 export const useFinQueryStatusHandler = ({
-  queryStatus: { isLoading, isError, error },
+  queryStatus: { isInitialLoading, isError, error },
   DefaultError = <FinError />,
 }: FinQueryStatesProps) => {
-  if (isLoading) {
+  if (isInitialLoading) {
     return <FinLoader />;
   }
   if (isError) {
@@ -27,8 +28,6 @@ export const useFinQueryStatusHandler = ({
   }
   return null;
 };
-
-export const UnauthorizedError = "401 Unauthorized";
 
 function isErrorWithMessage(error: unknown): error is { message: string } {
   return typeof error === "object" && error !== null && "message" in error;

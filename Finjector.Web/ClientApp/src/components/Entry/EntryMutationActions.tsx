@@ -3,7 +3,7 @@ import usePopupStatus from "../../util/customHooks";
 import { useRemoveChart, useSaveChart } from "../../queries/storedChartQueries";
 import { Coa, ChartData } from "../../types";
 import { toSegmentString } from "../../util/segmentValidation";
-import { toast } from "react-toastify";
+import addFinToast from "../Shared/LoadingAndErrors/FinToast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FinButton from "../Shared/FinButton";
 import {
@@ -37,13 +37,13 @@ const EntryMutationActions = (props: Props) => {
 
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
-        toast.success("Chart string saved.");
+        addFinToast("success", "Chart string saved.");
         navigate(
           `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
         );
       },
       onError: (error) => {
-        toast.error("Error saving chart string.");
+        addFinToast("error", "Error saving chart string.");
       },
     });
   };
@@ -61,13 +61,13 @@ const EntryMutationActions = (props: Props) => {
     //teams/1/folders/1/details/1/3110-13U20-ADNO003-238533-00-000-0000000000-000000-0000-000000-000000
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
-        toast.success("Chart string duplicated.");
+        addFinToast("success", "Chart string duplicated.");
         navigate(
           `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
         );
       },
       onError: (error) => {
-        toast.error("Error duplicating chart string.");
+        addFinToast("error", "Error duplicating chart string.");
       },
     });
   };
@@ -75,11 +75,11 @@ const EntryMutationActions = (props: Props) => {
   const remove = () => {
     removeMutation.mutate(props.savedChart, {
       onSuccess: () => {
-        toast.success("Chart string removed.");
+        addFinToast("success", "Chart string removed.");
         navigate(landingPage);
       },
       onError: (error) => {
-        toast.error("Error removing chart string.");
+        addFinToast("error", "Error removing chart string.");
       },
     });
   };
@@ -101,7 +101,7 @@ const EntryMutationActions = (props: Props) => {
 
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
-        toast.success("Chart string saved.");
+        addFinToast("success", "Chart string saved.");
         navigate(
           `/teams/${data.folder?.teamId}/folders/${data.folder?.id}/${
             isInPopup ? "selected" : "details"
@@ -109,7 +109,7 @@ const EntryMutationActions = (props: Props) => {
         );
       },
       onError: (error) => {
-        toast.error("Error saving chart string.");
+        addFinToast("error", "Error saving chart string.");
       },
     });
   };

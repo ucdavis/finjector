@@ -1,4 +1,4 @@
-import { UnauthorizedError } from "./error";
+export const UnauthorizedError = "401 Unauthorized";
 
 export const doFetch = async <T>(fetchCall: Promise<Response>): Promise<T> => {
   const res = await fetchCall;

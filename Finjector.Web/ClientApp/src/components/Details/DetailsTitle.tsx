@@ -17,7 +17,7 @@ interface DetailsHeaderProps {
 const DetailsTitle: React.FC<DetailsHeaderProps> = ({
   aeDetails,
   chartStringDetails,
-  queryStatus: { isLoading, isError, error },
+  queryStatus: { isInitialLoading, isError },
 }) => {
   const { chartId, teamId, folderId } = useParams();
 
@@ -42,7 +42,7 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
     }
   };
 
-  if (isLoading) {
+  if (isInitialLoading) {
     return (
       <div className="col-12 col-md-7">
         <h4>Team / Folder</h4>
