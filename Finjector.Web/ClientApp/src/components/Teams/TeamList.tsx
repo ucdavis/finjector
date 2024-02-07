@@ -10,8 +10,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ClickableListItem from "../Shared/ClickableListItem";
 import { useFinQueryStatusHandler } from "../../util/error";
-import { FinError } from "../Shared/LoadingAndErrors/FinError";
 import FinFunError from "../Shared/LoadingAndErrors/FinFunError";
+import FinEmpty from "../Shared/LoadingAndErrors/FinEmpty";
 
 interface Props {
   teamsInfo: TeamsResponseModel[] | undefined;
@@ -30,8 +30,18 @@ const TeamList = (props: Props) => {
     return (
       <div className="chartstring-details-info">{queryStatusComponent}</div>
     );
-  // if query is complete, there are no errors, and still there are no teams returned
-  if (!teamsInfo || teamsInfo.length < 1) return <FinFunError />;
+  // if query is complete, there are no errors, and still the data is undefined.
+  // this shouldn't happen, but it makes the type checker happy. :)
+  if (!teamsInfo) return <FinFunError />;
+
+  if (teamsInfo.length === 0)
+    return (
+      <FinEmpty title="You were not found to be a member of any teams.">
+        This is definitelt an error, as you should be a member of your own
+        Personal team. Please refresh the page and try again. If the problem
+        persists, please contact support.
+      </FinEmpty>
+    );
 
   const filterLowercase = props.filter.toLowerCase();
 

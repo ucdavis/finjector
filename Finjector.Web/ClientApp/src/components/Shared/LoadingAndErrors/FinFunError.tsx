@@ -1,5 +1,4 @@
 import {
-  faFaceGrinStars,
   faFaceKissBeam,
   faFaceSmile,
   faFlushed,
@@ -7,18 +6,10 @@ import {
   faGrinBeamSweat,
 } from "@fortawesome/free-regular-svg-icons";
 import {
-  faCat,
-  faCow,
   faCrown,
-  faDog,
-  faDragon,
-  faExplosion,
   faFrog,
   faHatWizard,
-  faHorse,
   faPoo,
-  faWandMagic,
-  faWandMagicSparkles,
   faWandSparkles,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

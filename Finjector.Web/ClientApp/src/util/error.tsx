@@ -1,7 +1,7 @@
 import { FinError } from "../components/Shared/LoadingAndErrors/FinError";
 import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
-import { NotAuthorized } from "../components/Shared/LoadingAndErrors/NotAuthorized";
-import { NotFound } from "../components/Shared/LoadingAndErrors/NotFound";
+import { FinNotAuthorized } from "../components/Shared/LoadingAndErrors/FinNotAuthorized";
+import { FinNotFound } from "../components/Shared/LoadingAndErrors/FinNotFound";
 import { FinQueryStatus } from "../types";
 import { NotFoundError, UnauthorizedError } from "./api";
 
@@ -22,10 +22,10 @@ export const useFinQueryStatusHandler = ({
     if (typeof error === "object" && isErrorWithMessage(error)) {
       // now we can handle specific error types through error.message
       if (error.message === UnauthorizedError) {
-        return <NotAuthorized />;
+        return <FinNotAuthorized />;
       }
       if (error.message === NotFoundError) {
-        return <NotFound />;
+        return <FinNotFound />;
       }
     }
     return <>{DefaultError}</>;

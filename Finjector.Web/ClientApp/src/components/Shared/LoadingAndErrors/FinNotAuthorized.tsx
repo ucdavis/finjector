@@ -1,6 +1,6 @@
 import { FinError } from "./FinError";
 
-export const NotAuthorized: React.FC = () => {
+export const FinNotAuthorized: React.FC = () => {
   return (
     <FinError
       title={"Not Authorized"}

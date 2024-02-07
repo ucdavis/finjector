@@ -28,6 +28,9 @@ const LeaveFolderModal = (props: Props) => {
         navigate(`/teams`);
         closeModal();
       },
+      onError: (error) => {
+        addFinToast("error", "Error leaving folder.");
+      },
     });
   };
 
@@ -41,7 +44,11 @@ const LeaveFolderModal = (props: Props) => {
           <p>Are you sure you want to leave this folder?</p>
         </ModalBody>
         <ModalFooter>
-          <FinButton color="secondary" onClick={closeModal}>
+          <FinButton
+            color="secondary"
+            onClick={closeModal}
+            disabled={leaveMutation.isLoading}
+          >
             Cancel
           </FinButton>
           <FinButton

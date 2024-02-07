@@ -1,7 +1,6 @@
 import { Coa, FinQueryStatus, Folder } from "../../types";
 import ChartListItem from "../Shared/ChartListItem";
 import { useFinQueryStatusHandler } from "../../util/error";
-import { FinError } from "../Shared/LoadingAndErrors/FinError";
 import FinEmpty from "../Shared/LoadingAndErrors/FinEmpty";
 import FinFunError from "../Shared/LoadingAndErrors/FinFunError";
 
@@ -25,6 +24,7 @@ const ChartListSimple: React.FC<Props> = ({
   if (queryStatusComponent) return <>{queryStatusComponent}</>;
 
   // if the query did not throw any errors but somehow didn't return a folder (this shouldn't happen?)
+  // this shouldn't happen, but it makes the type checker happy. :)
   if (!folder) return <FinFunError />;
   // if we have successfully loaded the folder but there are no charts (not an error)
   if (!charts || charts.length === 0)

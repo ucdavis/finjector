@@ -7,8 +7,8 @@ interface FinEmptyProps {
 
 const FinEmpty: React.FC<FinEmptyProps> = ({ title, children }) => {
   return (
-    <div>
-      <p>{title ?? "There are no items in this list."}</p>
+    <div className="p-2 col-6">
+      <h2>{title ?? "There are no items in this list."}</h2>
       {children}
     </div>
   );

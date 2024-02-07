@@ -1,6 +1,6 @@
 import { FinError } from "./FinError";
 
-export const NotFound: React.FC = () => {
+export const FinNotFound: React.FC = () => {
   return (
     <FinError
       title={"Not Found"}

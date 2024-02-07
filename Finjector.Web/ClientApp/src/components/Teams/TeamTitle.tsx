@@ -44,6 +44,7 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
               : "Error Loading Team"}
           </h1>
         </div>
+        {/* no disabled FinButtonDropdown because it doesn't render on personal */}
       </PageTitle>
     );
   }

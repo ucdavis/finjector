@@ -42,7 +42,11 @@ const DeleteFolderModal = (props: Props) => {
         Strings within it will be removed.
       </ModalBody>
       <ModalFooter>
-        <FinButton color="secondary" onClick={closeModal}>
+        <FinButton
+          color="secondary"
+          onClick={closeModal}
+          disabled={deleteMutation.isLoading}
+        >
           Cancel
         </FinButton>
         <FinButton

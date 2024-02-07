@@ -5,6 +5,7 @@ import FinButton from "../Shared/FinButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
+import addFinToast from "../Shared/LoadingAndErrors/FinToast";
 
 interface Props {
   teamId: string;
@@ -22,8 +23,12 @@ const LeaveTeamModal = (props: Props) => {
   const handleLeave = () => {
     leaveMutation.mutate(props.teamId, {
       onSuccess: () => {
+        addFinToast("success", "Team left.");
         navigate("/teams");
         closeModal();
+      },
+      onError: (error) => {
+        addFinToast("error", "Error leaving team.");
       },
     });
   };
@@ -44,7 +49,11 @@ const LeaveTeamModal = (props: Props) => {
           )}
         </ModalBody>
         <ModalFooter>
-          <FinButton color="secondary" onClick={closeModal}>
+          <FinButton
+            color="secondary"
+            onClick={closeModal}
+            disabled={leaveMutation.isLoading}
+          >
             Cancel
           </FinButton>
           <FinButton

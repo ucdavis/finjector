@@ -5,6 +5,7 @@ import FinButton from "../Shared/FinButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import addFinToast from "../Shared/LoadingAndErrors/FinToast";
 
 interface Props {
   teamId: string;
@@ -21,8 +22,12 @@ const DeleteTeamModal = (props: Props) => {
   const handleDelete = () => {
     deleteMutation.mutate(props.teamId, {
       onSuccess: () => {
+        addFinToast("success", "Team deleted.");
         navigate("/teams");
         closeModal();
+      },
+      onError: (error) => {
+        addFinToast("error", "Error deleting team.");
       },
     });
   };
@@ -38,7 +43,11 @@ const DeleteTeamModal = (props: Props) => {
           within it will be removed.
         </ModalBody>
         <ModalFooter>
-          <FinButton color="secondary" onClick={closeModal}>
+          <FinButton
+            color="secondary"
+            onClick={closeModal}
+            disabled={deleteMutation.isLoading}
+          >
             Cancel
           </FinButton>
           <FinButton
