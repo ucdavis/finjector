@@ -9,7 +9,8 @@ import {
 
 interface FinButtonDropdownProps extends DropdownMenuProps {
   title?: string;
-  children: React.ReactNode;
+  disabled?: boolean;
+  children?: React.ReactNode;
   end?: boolean;
   shouldRenderAsDropdown?: boolean;
 }
@@ -17,6 +18,7 @@ interface FinButtonDropdownProps extends DropdownMenuProps {
 const FinButtonDropdown = (props: FinButtonDropdownProps) => {
   const {
     title,
+    disabled = false,
     children,
     end = true,
     shouldRenderAsDropdown = true,
@@ -29,7 +31,11 @@ const FinButtonDropdown = (props: FinButtonDropdownProps) => {
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-      <DropdownToggle className="btn-finjector" caret={true}>
+      <DropdownToggle
+        className="btn-finjector"
+        caret={true}
+        disabled={disabled}
+      >
         Actions
       </DropdownToggle>
       <DropdownMenu end={end} {...rest}>
