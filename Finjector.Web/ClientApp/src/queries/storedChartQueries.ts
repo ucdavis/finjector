@@ -6,7 +6,7 @@ import {
   TeamGroupedCoas,
   ChartStringAndAeDetails,
 } from "../types";
-import { doFetch } from "../util/api";
+import { doFetch, doFetchEmpty } from "../util/api";
 
 // Using query functions here in case we change to async/stored stirngs later
 export const useGetSavedCharts = () =>
@@ -98,11 +98,11 @@ export const useRemoveChart = () => {
 
   return useMutation(
     async (chart: Coa) => {
-      await fetch(`/api/charts/delete/${chart.id}`, {
-        method: "DELETE",
-      });
-
-      return chart;
+      return await doFetchEmpty(
+        fetch(`/api/charts/delete/${chart.id}`, {
+          method: "DELETE",
+        })
+      );
     },
     {
       onSuccess: (chart) => {

@@ -8,7 +8,6 @@ import PageTitle from "../components/Shared/Layout/PageTitle";
 import PageBody from "../components/Shared/Layout/PageBody";
 import { SearchBar } from "../components/Shared/SearchBar";
 import { FinQueryStatus } from "../types";
-import { useFinQueryStatusHandler } from "../util/error";
 
 // Main landing screen for popup
 
