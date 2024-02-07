@@ -1,21 +1,31 @@
-import FinLoader from "../Shared/LoadingAndErrors/FinLoader";
-import { Coa, Folder } from "../../types";
+import { Coa, FinQueryStatus, Folder } from "../../types";
 import ChartListItem from "../Shared/ChartListItem";
+import { useFinQueryStatusHandler } from "../../util/error";
+import { FinError } from "../Shared/LoadingAndErrors/FinError";
 
 interface Props {
   charts: Coa[] | undefined;
-  folder: Folder;
+  folder: Folder | undefined;
   filter: string;
+  queryStatus: FinQueryStatus;
 }
 
-const ChartListSimple = (props: Props) => {
-  const { charts, folder } = props;
+const ChartListSimple: React.FC<Props> = ({
+  charts,
+  folder,
+  filter,
+  queryStatus,
+}) => {
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+  });
 
-  if (!charts) {
-    return <FinLoader />;
-  }
+  if (queryStatusComponent) return <>{queryStatusComponent}</>;
 
-  const filterLowercase = props.filter.toLowerCase();
+  if (!folder) return <FinError title="No Folder Found" />;
+  if (!charts) return <FinError title="No Charts Found" />;
+
+  const filterLowercase = filter.toLowerCase();
 
   const filteredCharts = charts.filter((chart) => {
     return (
