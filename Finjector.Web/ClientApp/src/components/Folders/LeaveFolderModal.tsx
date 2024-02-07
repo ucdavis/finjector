@@ -5,6 +5,7 @@ import FinButton from "../Shared/FinButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
 import { useLeaveFolderMutation } from "../../queries/folderQueries";
+import addFinToast from "../Shared/LoadingAndErrors/FinToast";
 
 interface Props {
   teamId: string;
@@ -23,6 +24,7 @@ const LeaveFolderModal = (props: Props) => {
   const handleLeave = () => {
     leaveMutation.mutate(props.folderId, {
       onSuccess: () => {
+        addFinToast("success", "Folder left.");
         navigate(`/teams`);
         closeModal();
       },
