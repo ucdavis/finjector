@@ -11,6 +11,7 @@ import {
 import ClickableListItem from "../Shared/ClickableListItem";
 import { useFinQueryStatusHandler } from "../../util/error";
 import { FinError } from "../Shared/LoadingAndErrors/FinError";
+import FinFunError from "../Shared/LoadingAndErrors/FinFunError";
 
 interface Props {
   teamsInfo: TeamsResponseModel[] | undefined;
@@ -30,13 +31,7 @@ const TeamList = (props: Props) => {
       <div className="chartstring-details-info">{queryStatusComponent}</div>
     );
   // if query is complete, there are no errors, and still there are no teams returned
-  if (!teamsInfo || teamsInfo.length < 1)
-    return (
-      <FinError
-        title="Teams Not Found"
-        errorText="Uh oh, it appears you aren't a member of any teams. Not even your own! :( This is not supposed to happen, please contact support."
-      />
-    );
+  if (!teamsInfo || teamsInfo.length < 1) return <FinFunError />;
 
   const filterLowercase = props.filter.toLowerCase();
 
