@@ -7,17 +7,30 @@ import TeamList from "../../components/Teams/TeamList";
 import FinButton from "../../components/Shared/FinButton";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
 import PageBody from "../../components/Shared/Layout/PageBody";
+import { FinQueryStatus } from "../../types";
 
 const MyTeams: React.FC = () => {
   const [search, setSearch] = React.useState("");
 
-  const myTeams = useGetMyTeams();
+  const myTeamsQuery = useGetMyTeams();
+
+  const queryStatus: FinQueryStatus = {
+    isError: myTeamsQuery.isError,
+    isInitialLoading: myTeamsQuery.isInitialLoading,
+    error: myTeamsQuery.error,
+  };
 
   return (
     <div>
       <PageTitle>
         <div className="col-12 col-md-8">
-          <h1>My Teams</h1>
+          <h1>
+            {queryStatus.isError
+              ? "Error Loading Teams"
+              : queryStatus.isInitialLoading
+              ? "Scribbling in Your Teams..."
+              : "My Teams"}
+          </h1>
         </div>
         <div className="col-12 col-md-4 text-end">
           <FinButton to="/teams/create">
@@ -32,7 +45,11 @@ const MyTeams: React.FC = () => {
           search={search}
           setSearch={setSearch}
         />
-        <TeamList teamsInfo={myTeams.data} filter={search} />
+        <TeamList
+          teamsInfo={myTeamsQuery.data}
+          filter={search}
+          queryStatus={queryStatus}
+        />
       </PageBody>
     </div>
   );

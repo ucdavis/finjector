@@ -1,8 +1,4 @@
-import React from "react";
-
-import FinLoader from "../Shared/LoadingAndErrors/FinLoader";
-
-import { TeamsResponseModel } from "../../types";
+import { FinQueryStatus, TeamsResponseModel } from "../../types";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,18 +9,34 @@ import {
   faFileLines,
 } from "@fortawesome/free-solid-svg-icons";
 import ClickableListItem from "../Shared/ClickableListItem";
+import { useFinQueryStatusHandler } from "../../util/error";
+import { FinError } from "../Shared/LoadingAndErrors/FinError";
 
 interface Props {
   teamsInfo: TeamsResponseModel[] | undefined;
   filter: string;
+  queryStatus: FinQueryStatus;
 }
 
 const TeamList = (props: Props) => {
-  const { teamsInfo } = props;
+  const { teamsInfo, queryStatus } = props;
 
-  if (!teamsInfo) {
-    return <FinLoader />;
-  }
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+  });
+
+  if (queryStatusComponent)
+    return (
+      <div className="chartstring-details-info">{queryStatusComponent}</div>
+    );
+  // if query is complete, there are no errors, and still there are no teams returned
+  if (!teamsInfo || teamsInfo.length < 1)
+    return (
+      <FinError
+        title="Teams Not Found"
+        errorText="Uh oh, it appears you aren't a member of any teams. Not even your own! :( This is not supposed to happen, please contact support."
+      />
+    );
 
   const filterLowercase = props.filter.toLowerCase();
 
