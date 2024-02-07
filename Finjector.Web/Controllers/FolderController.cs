@@ -51,6 +51,11 @@ namespace Finjector.Web.Controllers
                 })
                 .AsSplitQuery()
                 .SingleOrDefaultAsync(f => f.Id == id);
+            
+            if(folder == null)
+            {
+                return NotFound();
+            }
 
             var charts = await _dbContext.Coas.Where(c => c.FolderId == id).OrderBy(a => a.Name).ToListAsync();
 

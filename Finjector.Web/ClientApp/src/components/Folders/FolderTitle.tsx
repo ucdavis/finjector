@@ -15,28 +15,28 @@ import FinButtonDropdown from "../Shared/FinButtonDropdown";
 import FinButtonDropdownItem from "../Shared/FinButtonDropdownItem";
 import PageInfo from "../Shared/Layout/PageInfo";
 import PageTitle from "../Shared/Layout/PageTitle";
+import LeaveFolderModal from "./LeaveFolderModal";
+import DeleteFolderModal from "./DeleteFolderModal";
+import { isPersonalOrDefault } from "../../util/teamDefinitions";
 
 interface FolderTitleProps {
   folderModelData: FolderResponseModel | undefined;
   queryStatus: FinQueryStatus;
-  isFolderAdmin: boolean | undefined;
-  isTeamAdmin: boolean | undefined;
-  limitedFolder: boolean | undefined;
   teamId: string;
   folderId: string;
-  toggleModal: (modalType: string) => void;
 }
 
 const FolderTitle: React.FC<FolderTitleProps> = ({
   folderModelData,
   queryStatus,
-  isFolderAdmin,
-  isTeamAdmin,
-  limitedFolder,
   teamId,
   folderId,
-  toggleModal,
 }) => {
+  const [modalOpen, setModalOpen] = React.useState("");
+  const toggleModal = (modalType: string) => {
+    setModalOpen(modalType);
+  };
+
   const combinedPermissions = useMemo(() => {
     // join together folder and team permissions
     const combined = [
@@ -50,32 +50,32 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
     folderModelData?.folder?.myTeamPermissions,
   ]);
 
-  if (queryStatus.isInitialLoading) {
+  if (queryStatus.isInitialLoading || queryStatus.isError || !folderModelData) {
     return (
       <PageTitle>
         <div className="col-12 col-md-9">
           <h4>Team</h4>
-          <h1>Scribbling in Folder...</h1>
+          <h1>
+            {queryStatus.isInitialLoading
+              ? "Scribbling in Folder..."
+              : "Error loading Folder"}
+          </h1>
+        </div>
+        <div className="col-12 col-md-3 text-end">
+          <FinButtonDropdown disabled={true}></FinButtonDropdown>
         </div>
       </PageTitle>
     );
   }
 
-  if (queryStatus.isError) {
-    return (
-      <PageTitle>
-        <div className="col-12 col-md-9">
-          <h4>Team</h4>
-          <h1>Scribbling in Folder...</h1>
-        </div>
-      </PageTitle>
-    );
-  }
+  const isFolderAdmin = folderModelData.folder.myFolderPermissions.some(
+    (p) => p === "Admin"
+  );
+  const isTeamAdmin = folderModelData.folder.myTeamPermissions.some(
+    (p) => p === "Admin"
+  );
 
-  // if data has loaded without error, but we still don't have folder data
-  if (!folderModelData) {
-    return null;
-  }
+  const limitedFolder = isPersonalOrDefault(folderModelData.folder.name);
 
   return (
     <>
@@ -175,6 +175,24 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
         </div>
       </PageTitle>
       <PageInfo>{folderModelData.folder.description}</PageInfo>
+      {!limitedFolder &&
+        (isFolderAdmin || isTeamAdmin) &&
+        !!folderId && ( // can't be modalOpen === "delete" or we lose the modal close animation
+          <DeleteFolderModal
+            teamId={teamId}
+            folderId={folderId}
+            isOpen={modalOpen === "delete"}
+            closeModal={() => toggleModal("")}
+          />
+        )}
+      {!limitedFolder && !isTeamAdmin && (
+        <LeaveFolderModal
+          teamId={teamId}
+          folderId={folderId}
+          isOpen={modalOpen === "leave"}
+          closeModal={() => toggleModal("")}
+        />
+      )}
     </>
   );
 };

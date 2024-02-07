@@ -2,6 +2,8 @@ import { Coa, FinQueryStatus, Folder } from "../../types";
 import ChartListItem from "../Shared/ChartListItem";
 import { useFinQueryStatusHandler } from "../../util/error";
 import { FinError } from "../Shared/LoadingAndErrors/FinError";
+import FinEmpty from "../Shared/LoadingAndErrors/FinEmpty";
+import FinFunError from "../Shared/LoadingAndErrors/FinFunError";
 
 interface Props {
   charts: Coa[] | undefined;
@@ -22,8 +24,11 @@ const ChartListSimple: React.FC<Props> = ({
 
   if (queryStatusComponent) return <>{queryStatusComponent}</>;
 
-  if (!folder) return <FinError title="No Folder Found" />;
-  if (!charts) return <FinError title="No Charts Found" />;
+  // if the query did not throw any errors but somehow didn't return a folder (this shouldn't happen?)
+  if (!folder) return <FinFunError />;
+  // if we have successfully loaded the folder but there are no charts (not an error)
+  if (!charts || charts.length === 0)
+    return <FinEmpty title="There are no charts in this folder." />;
 
   const filterLowercase = filter.toLowerCase();
 

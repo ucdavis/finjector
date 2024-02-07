@@ -1,4 +1,5 @@
 export const UnauthorizedError = "401 Unauthorized";
+export const NotFoundError = "404 Not Found";
 
 export const doFetch = async <T>(fetchCall: Promise<Response>): Promise<T> => {
   const res = await fetchCall;
@@ -22,6 +23,9 @@ export const doFetchEmpty = async (
   if (!res.ok) {
     if (res.status === 401) {
       throw new Error(UnauthorizedError);
+    }
+    if (res.status === 404) {
+      throw new Error(NotFoundError);
     }
     throw new Error(`${res.status} ${res.statusText}`);
   }
