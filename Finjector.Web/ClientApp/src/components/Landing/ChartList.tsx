@@ -2,17 +2,18 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
-import FinLoader from "../Shared/LoadingAndErrors/FinLoader";
 import ChartListItem from "../Shared/ChartListItem";
-import { ChartType, TeamGroupedCoas } from "../../types";
+import { ChartType, FinQueryStatus, TeamGroupedCoas } from "../../types";
+import { useFinQueryStatusHandler } from "../../util/error";
 
 interface Props {
   teamGroups: TeamGroupedCoas[] | undefined;
   filter: string;
+  queryStatus: FinQueryStatus;
 }
 
 const ChartList = (props: Props) => {
-  const { teamGroups } = props;
+  const { teamGroups, queryStatus } = props;
 
   const query = props.filter.toLowerCase();
 
@@ -50,6 +51,11 @@ const ChartList = (props: Props) => {
     // general case - just filter out charts that don't match the search filter
     return filterTeamGroupsByQuery(teamGroupsClone, query);
   }, [teamGroups, query]);
+
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+  });
+  if (queryStatusComponent) return <>{queryStatusComponent}</>;
 
   return (
     <div>

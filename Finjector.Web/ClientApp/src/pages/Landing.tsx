@@ -23,29 +23,17 @@ const Landing = () => {
     error: savedCharts.error,
   };
 
-  const queryStatusComponent = useFinQueryStatusHandler({
-    queryStatus,
-  });
-
-  if (queryStatusComponent)
-    return (
-      <div>
-        <PageTitle>
-          <h1>
-            {queryStatus.isInitialLoading
-              ? "Scribbling in your Chart Strings..."
-              : "Error loading your Chart Strings"}
-          </h1>
-        </PageTitle>
-        <PageBody>{queryStatusComponent}</PageBody>
-      </div>
-    );
-
   return (
     <div>
       <PageTitle>
         <div className="col-12 col-md-4">
-          <h1>My Chart Strings</h1>
+          <h1>
+            {queryStatus.isError
+              ? "Error loading your Chart Strings"
+              : queryStatus.isInitialLoading
+              ? "Scribbling in your Chart Strings..."
+              : "My Chart Strings"}
+          </h1>
         </div>
         <div className="col-12 col-md-8 text-end">
           <FinButton to="/entry">
@@ -65,7 +53,11 @@ const Landing = () => {
           search={search}
           setSearch={setSearch}
         />
-        <ChartList teamGroups={savedCharts.data} filter={search} />
+        <ChartList
+          teamGroups={savedCharts.data}
+          filter={search}
+          queryStatus={queryStatus}
+        />
       </PageBody>
     </div>
   );
