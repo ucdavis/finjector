@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { NameAndDescriptionModel } from "../../types";
+import { FinQueryStatus, NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
 import FinLoader from "../../components/Shared/LoadingAndErrors/FinLoader";
 import {
@@ -8,6 +8,7 @@ import {
   useGetFolder,
 } from "../../queries/folderQueries";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
+import { useFinQueryStatusHandler } from "../../util/error";
 
 const EditFolder: React.FC = () => {
   const { teamId, folderId } = useParams<{
@@ -18,6 +19,12 @@ const EditFolder: React.FC = () => {
   const navigate = useNavigate();
 
   const folderQuery = useGetFolder(folderId);
+
+  const queryStatus: FinQueryStatus = {
+    isError: folderQuery.isError,
+    isInitialLoading: folderQuery.isInitialLoading,
+    error: folderQuery.error,
+  };
 
   const updateFolderMutation = useEditFolderMutation(
     teamId || "",
@@ -41,9 +48,23 @@ const EditFolder: React.FC = () => {
     );
   };
 
-  if (folderQuery.isLoading) {
-    return <FinLoader />;
-  }
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+  });
+
+  if (queryStatusComponent)
+    return (
+      <div>
+        <PageTitle
+          title={
+            queryStatus.isInitialLoading
+              ? "Scribbling in form..."
+              : "Error loading Edit Folder form"
+          }
+        />
+        {queryStatusComponent}
+      </div>
+    );
 
   return (
     <div>

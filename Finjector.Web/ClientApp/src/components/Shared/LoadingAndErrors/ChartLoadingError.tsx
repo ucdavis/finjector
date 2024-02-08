@@ -26,7 +26,7 @@ export const ChartLoadingError = () => {
     if (chartIdAsNumber > 0) {
       removeMutation.mutate({ id: chartIdAsNumber } as Coa, {
         onSuccess: () => {
-          addFinToast("success", "Chart string removed.");
+          addFinToast("success", "Chart string removed successfully.");
           navigate("/");
         },
         onError: () => {

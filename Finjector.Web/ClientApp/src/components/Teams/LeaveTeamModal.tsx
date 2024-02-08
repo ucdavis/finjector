@@ -23,7 +23,7 @@ const LeaveTeamModal = (props: Props) => {
   const handleLeave = () => {
     leaveMutation.mutate(props.teamId, {
       onSuccess: () => {
-        addFinToast("success", "Team left.");
+        addFinToast("success", "Team left successfully.");
         navigate("/teams");
         closeModal();
       },

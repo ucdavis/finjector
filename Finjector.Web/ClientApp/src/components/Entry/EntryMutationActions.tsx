@@ -37,7 +37,7 @@ const EntryMutationActions = (props: Props) => {
 
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
-        addFinToast("success", "Chart string saved.");
+        addFinToast("success", "Chart string saved successfully.");
         navigate(
           `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
         );
@@ -61,7 +61,7 @@ const EntryMutationActions = (props: Props) => {
     //teams/1/folders/1/details/1/3110-13U20-ADNO003-238533-00-000-0000000000-000000-0000-000000-000000
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
-        addFinToast("success", "Chart string duplicated.");
+        addFinToast("success", "Chart string duplicated successfully.");
         navigate(
           `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
         );
@@ -75,7 +75,7 @@ const EntryMutationActions = (props: Props) => {
   const remove = () => {
     removeMutation.mutate(props.savedChart, {
       onSuccess: () => {
-        addFinToast("success", "Chart string removed.");
+        addFinToast("success", "Chart string removed successfully.");
         navigate(landingPage);
       },
       onError: (error) => {
@@ -101,7 +101,7 @@ const EntryMutationActions = (props: Props) => {
 
     saveMutation.mutate(chartToSave, {
       onSuccess: (data) => {
-        addFinToast("success", "Chart string saved.");
+        addFinToast("success", "Chart string saved successfully.");
         navigate(
           `/teams/${data.folder?.teamId}/folders/${data.folder?.id}/${
             isInPopup ? "selected" : "details"

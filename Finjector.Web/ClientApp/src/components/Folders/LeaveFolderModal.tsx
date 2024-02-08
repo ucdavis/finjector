@@ -24,7 +24,7 @@ const LeaveFolderModal = (props: Props) => {
   const handleLeave = () => {
     leaveMutation.mutate(props.folderId, {
       onSuccess: () => {
-        addFinToast("success", "Folder left.");
+        addFinToast("success", "Folder left successfully.");
         navigate(`/teams`);
         closeModal();
       },

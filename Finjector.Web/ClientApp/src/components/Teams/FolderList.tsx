@@ -1,10 +1,5 @@
-import React from "react";
-
-import FinLoader from "../Shared/LoadingAndErrors/FinLoader";
-
 import { FinQueryStatus, TeamResponseModel } from "../../types";
 import { Link } from "react-router-dom";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
@@ -29,9 +24,9 @@ const FolderList: React.FC<Props> = ({ teamModel, filter, queryStatus }) => {
 
   if (queryStatusComponent) return <>{queryStatusComponent}</>;
 
-  // if the query did not throw any errors but somehow still returned null
-  // this shouldn't happen, but it makes the type checker happy. :)
-  if (!teamModel) return <FinFunError />;
+  // if the query did not throw any errors but somehow still returned null/undefined
+  // i can't think of why this would happen, but it makes the type checker happy. :)
+  if (teamModel === undefined) return <FinFunError />;
   // if we have successfully loaded the team but there are no folders (not an error)
   if (teamModel.folders.length === 0) {
     return <FinEmpty title="There are no folders in this team." />;

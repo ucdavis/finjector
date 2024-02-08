@@ -22,7 +22,7 @@ const DeleteTeamModal = (props: Props) => {
   const handleDelete = () => {
     deleteMutation.mutate(props.teamId, {
       onSuccess: () => {
-        addFinToast("success", "Team deleted.");
+        addFinToast("success", "Team deleted successfully.");
         navigate("/teams");
         closeModal();
       },

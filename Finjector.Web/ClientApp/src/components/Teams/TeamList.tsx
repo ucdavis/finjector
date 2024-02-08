@@ -32,12 +32,12 @@ const TeamList = (props: Props) => {
     );
   // if query is complete, there are no errors, and still the data is undefined.
   // this shouldn't happen, but it makes the type checker happy. :)
-  if (!teamsInfo) return <FinFunError />;
+  if (teamsInfo === undefined) return <FinFunError />;
 
   if (teamsInfo.length === 0)
     return (
       <FinEmpty title="You were not found to be a member of any teams.">
-        This is definitelt an error, as you should be a member of your own
+        This is definitely an error, as you should be a member of your own
         Personal team. Please refresh the page and try again. If the problem
         persists, please contact support.
       </FinEmpty>

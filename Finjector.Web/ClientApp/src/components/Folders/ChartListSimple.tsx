@@ -23,9 +23,9 @@ const ChartListSimple: React.FC<Props> = ({
 
   if (queryStatusComponent) return <>{queryStatusComponent}</>;
 
-  // if the query did not throw any errors but somehow didn't return a folder (this shouldn't happen?)
-  // this shouldn't happen, but it makes the type checker happy. :)
-  if (!folder) return <FinFunError />;
+  // if the query did not throw any errors but still returned null/undefined
+  // i can't think of why this would happen, but it makes the type checker happy. :)
+  if (folder === undefined) return <FinFunError />;
   // if we have successfully loaded the folder but there are no charts (not an error)
   if (!charts || charts.length === 0)
     return <FinEmpty title="There are no charts in this folder." />;
