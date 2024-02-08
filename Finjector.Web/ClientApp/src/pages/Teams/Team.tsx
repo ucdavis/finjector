@@ -38,7 +38,11 @@ const Team: React.FC = () => {
           search={search}
           setSearch={setSearch}
         />
-        <FolderList teamModel={teamModelQuery.data} filter={search} />
+        <FolderList
+          teamModel={teamModelQuery.data}
+          filter={search}
+          queryStatus={queryStatus}
+        />
       </PageBody>
     </div>
   );

@@ -69,13 +69,12 @@ export interface TeamsResponseModel {
 
 export interface TeamResponseModel {
   team: Team;
-  folders: [
-    {
-      folder: Folder;
-      chartCount: number;
-      uniqueUserPermissionCount: number;
-    }
-  ];
+  folders: TeamResponseModelFolders[];
+}
+export interface TeamResponseModelFolders {
+  folder: Folder;
+  chartCount: number;
+  uniqueUserPermissionCount: number;
 }
 
 export interface FolderResponseModel {

@@ -57,8 +57,7 @@ public class TeamController : ControllerBase
                         .SelectMany(f => f.FolderPermissions.Select(p => p.UserId))).Distinct().Count(),
                 ChartCount = t.Folders.AsQueryable().Where(folderCondition).SelectMany(f => f.Coas).Count()
             })
-            .ToListAsync(
-            );
+            .ToListAsync();
 
         return Ok(teamResults);
     }
