@@ -49,7 +49,11 @@ const EditTeam: React.FC = () => {
   if (queryStatusComponent)
     return (
       <div>
-        <h4>Scribbling in form details...</h4>
+        <h4>
+          {queryStatus.isInitialLoading
+            ? "Scribbling in form details..."
+            : "Error loading Edit Team form"}
+        </h4>
         <PageTitle title="Edit Team" />
         <PageBody>{queryStatusComponent}</PageBody>
       </div>

@@ -9,6 +9,8 @@ import {
 } from "../../queries/folderQueries";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
 import { useFinQueryStatusHandler } from "../../util/error";
+import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
+import PageBody from "../../components/Shared/Layout/PageBody";
 
 const EditFolder: React.FC = () => {
   const { teamId, folderId } = useParams<{
@@ -39,10 +41,11 @@ const EditFolder: React.FC = () => {
       },
       {
         onSuccess: () => {
+          addFinToast("success", "Folder updated successfully.");
           navigate(`/teams/${teamId}/folders/${folderId}`);
         },
         onError: (err: any) => {
-          console.log(err);
+          addFinToast("error", "Error updating folder.");
         },
       }
     );
@@ -62,7 +65,7 @@ const EditFolder: React.FC = () => {
               : "Error loading Edit Folder form"
           }
         />
-        {queryStatusComponent}
+        <PageBody>{queryStatusComponent}</PageBody>
       </div>
     );
 
@@ -70,14 +73,16 @@ const EditFolder: React.FC = () => {
     <div>
       <h4>{folderQuery.data?.folder.name}</h4>
       <PageTitle title="Edit Folder" />
-      <NameAndDescriptionForm
-        initialValues={{
-          name: folderQuery.data?.folder.name || "",
-          description: folderQuery.data?.folder.description,
-        }}
-        buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
-        onSubmit={handleCreate}
-      />
+      <PageBody>
+        <NameAndDescriptionForm
+          initialValues={{
+            name: folderQuery.data?.folder.name || "",
+            description: folderQuery.data?.folder.description,
+          }}
+          buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
+          onSubmit={handleCreate}
+        />
+      </PageBody>
     </div>
   );
 };
