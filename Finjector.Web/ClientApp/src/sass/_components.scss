@@ -371,7 +371,7 @@ span.font-reg {
   --toastify-text-color-light: rgba(31, 31, 31, 0.7) !important;
 }
 
-.dropdown-menu {
+.dropdown-menu-finjector {
   padding-top: 0;
   padding-bottom: 0;
   border-color: $borders;
@@ -382,11 +382,11 @@ span.font-reg {
       background-color: rgba(0, 0, 0, 0.00001);
     }
   }
-  .dropdown-item {
+  .dropdown-item-finjector {
     padding: 0 !important;
   }
-  .dropdown-item:hover,
-  .dropdown-item:focus {
+  .dropdown-item-finjector:hover,
+  .dropdown-item-finjector:focus {
     background-color: transparentize($primary-color, 0.85);
   }
 }

@@ -38,7 +38,7 @@ const FinButtonDropdown = (props: FinButtonDropdownProps) => {
       >
         Actions
       </DropdownToggle>
-      <DropdownMenu end={end} {...rest}>
+      <DropdownMenu className="dropdown-menu-finjector" end={end} {...rest}>
         {title && <DropdownItem header>{title}</DropdownItem>}
         {children}
       </DropdownMenu>

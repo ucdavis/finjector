@@ -24,7 +24,9 @@ const CopySegmentsToClipboardButton: React.FC<
 
     // Transform each object into a string and combine all the strings
     const str = sortedSegmentDetails
-      .map((segment) => `${segment.entity}: ${segment.code} (${segment.name})`)
+      .map(
+        (segment) => `*${segment.entity}*: ${segment.code} (${segment.name})`
+      )
       .join("\n");
 
     navigator.clipboard.writeText(str).then(() => {
