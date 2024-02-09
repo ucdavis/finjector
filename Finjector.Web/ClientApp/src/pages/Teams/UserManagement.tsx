@@ -1,14 +1,8 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import { usePermissionsQuery } from "../../queries/userQueries";
-import { AddUserPermission } from "../../components/Teams/AddUserPermission";
-import { CollectionResourceType } from "../../types";
-import { RemoveUserPermission } from "../../components/Teams/RemoveUserPermissions";
-import FinButton from "../../components/Shared/FinButton";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import PageTitle from "../../components/Shared/Layout/PageTitle";
+import { CollectionResourceType, FinQueryStatus } from "../../types";
+import UserPermissionTable from "../../components/Teams/UserPermissionTable";
+import UserPermissionTitle from "../../components/Teams/UserPermissionTitle";
 
 const UserManagement: React.FC = () => {
   // read (team) id and folderId from the url
@@ -17,92 +11,29 @@ const UserManagement: React.FC = () => {
   const resourceId = folderId ? folderId : teamId ? teamId : "";
   const resourceType: CollectionResourceType = folderId ? "folder" : "team";
 
-  const [addPermissionActive, setAddPermissionActive] = React.useState(false);
-
-  const toggleAddPermission = () => setAddPermissionActive((p) => !p);
-
   // query for membership
   const membershipQuery = usePermissionsQuery(resourceId, resourceType);
 
-  if (membershipQuery.isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  // show error message if user is unauthorized
-  if (membershipQuery.isError) {
-    var err: Error = membershipQuery.error;
-
-    var errorContent = <div>Something went wrong...</div>;
-
-    if (err.message === "401 Unauthorized") {
-      errorContent = <div>You are not authorized to view this page</div>;
-    }
-
-    return (
-      <div>
-        <PageTitle
-          title={`Manage ${folderId ? "Folder" : "Team"} Permissions`}
-        />
-        {errorContent}
-      </div>
-    );
-  }
-
-  const resourceName =
-    membershipQuery.data.length > 0 ? membershipQuery.data[0].resourceName : "";
+  const queryStatus: FinQueryStatus = {
+    isError: membershipQuery.isError,
+    isInitialLoading: membershipQuery.isInitialLoading,
+    error: membershipQuery.error,
+  };
 
   return (
     <div>
-      <PageTitle>
-        <div className="col-12 col-md-3">
-          <h4>{resourceName}</h4>
-          <h1>Manage {folderId ? "Folder" : "Team"} Permissions</h1>
-        </div>
-
-        <div className="col-9 col-md-9 text-end">
-          <FinButton onClick={toggleAddPermission}>
-            <FontAwesomeIcon icon={faPlus} />
-            Add New Role
-          </FinButton>
-        </div>
-      </PageTitle>
-
-      <table className="table">
-        <thead>
-          <tr>
-            <th>User Name</th>
-            <th>User Email</th>
-            <th>Level</th>
-            <th>Role Name</th>
-            <th>Remove Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {membershipQuery.data &&
-            membershipQuery.data.map((member) => (
-              <tr key={`${member.userEmail}-${member.level}`}>
-                <td>{member.userName}</td>
-                <td>{member.userEmail}</td>
-                <td>{member.level}</td>
-                <td>{member.roleName}</td>
-                <td>
-                  {resourceType === member.level && (
-                    <RemoveUserPermission
-                      resourceId={resourceId}
-                      resourceType={resourceType}
-                      userEmail={member.userEmail}
-                    />
-                  )}
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-      <AddUserPermission
+      <UserPermissionTitle
+        membershipQueryData={membershipQuery.data}
         resourceId={resourceId}
         resourceType={resourceType}
-        active={addPermissionActive}
-        toggle={toggleAddPermission}
+        folderId={folderId}
+        queryStatus={queryStatus}
+      />
+      <UserPermissionTable
+        membershipQueryData={membershipQuery.data}
+        resourceId={resourceId}
+        resourceType={resourceType}
+        queryStatus={queryStatus}
       />
     </div>
   );
