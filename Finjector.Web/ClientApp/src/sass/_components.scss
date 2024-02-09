@@ -18,6 +18,10 @@
     background-color: inherit;
     color: (lighten($primary-font, 5));
   }
+  &:focus-visible {
+    color: #fff;
+    box-shadow: $box-shadow;
+  }
 }
 .btn-finjector {
   font-size: 0.8rem;
@@ -372,6 +376,10 @@ span.font-reg {
   }
   .dropdown-item-finjector {
     padding: 0 !important;
+    .btn {
+      width: 100%;
+      text-align: left;
+    }
   }
   .dropdown-item-finjector:hover,
   .dropdown-item-finjector:focus {
