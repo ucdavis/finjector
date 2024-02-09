@@ -54,12 +54,12 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
     return (
       <PageTitle>
         <div className="col-12 col-md-9">
-          <h4>Team</h4>
-          <h1>
+          <h4>
             {queryStatus.isInitialLoading
-              ? "Scribbling in Folder..."
-              : "Error loading Folder"}
-          </h1>
+              ? "Scribbling in Folder Details..."
+              : "Error loading Folder Details"}
+          </h4>
+          <h1>Folder Details</h1>
         </div>
         <div className="col-12 col-md-3 text-end">
           <FinButtonDropdown disabled={true}></FinButtonDropdown>
