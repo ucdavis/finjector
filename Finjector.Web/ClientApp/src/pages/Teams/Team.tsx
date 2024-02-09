@@ -33,7 +33,7 @@ const Team: React.FC = () => {
           placeholderText={
             !!teamModelQuery.data?.team.name
               ? `Search Within ${teamModelQuery.data?.team.name}`
-              : "Search My Teams"
+              : "Search Within Team"
           }
           search={search}
           setSearch={setSearch}
