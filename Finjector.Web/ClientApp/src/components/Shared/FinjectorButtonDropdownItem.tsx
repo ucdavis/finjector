@@ -12,7 +12,7 @@ const FinjectorButtonDropdownItem = (props: FinjectorButtonDropdownProps) => {
   if (!shouldRenderAsDropdown) return <>{children}</>; // on personal team, default folder
 
   return (
-    <DropdownItem {...rest} tag={"div"}>
+    <DropdownItem className="dropdown-item-finjector" {...rest} tag={"div"}>
       {children}
     </DropdownItem>
   );

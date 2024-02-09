@@ -22,11 +22,12 @@ const FinjectorButton: React.FC<FinjectorButtonProps> = ({
   // if color is provided, it will add "btn-{color}" e.g. "btn-warning"
   // if margin is false, it will remove "ms-2"
   // if className is provided, it will add that className
-  const classNameString = `btn btn-finjector 
-  ${className ?? ""}
-  ${!!color ? ` btn-${color}` : ""} 
-  ${margin ? " ms-2" : ""}
-  ${borderless ? "btn-borderless" : ""}`;
+  const classNameString =
+    "btn btn-finjector" +
+    `${className ?? ""}` +
+    `${!!color ? ` btn-${color}` : ""}` +
+    `${margin ? " ms-2" : ""}` +
+    `${borderless ? " btn-borderless" : ""}`;
 
   if (!!to) {
     return (
