@@ -192,7 +192,7 @@ namespace Finjector.Web.Controllers
         {
             var iamId = Request.GetCurrentUserIamId();
 
-            // make sure they have permission to delete the team
+            // make sure they have permission to delete the folder
             if (await _userService.VerifyFolderAccess(id, iamId, Role.Codes.Admin) == false)
             {
                 return Unauthorized();
@@ -225,6 +225,12 @@ namespace Finjector.Web.Controllers
         public async Task<IActionResult> Leave(int id)
         {
             var iamId = Request.GetCurrentUserIamId();
+
+            // make sure they have permission to view the folder
+            if (await _userService.VerifyFolderAccess(id, iamId, Role.Codes.View) == false)
+            {
+                return Unauthorized();
+            }
             
             // find their folder permissions
             var folderPermissions = await _dbContext.FolderPermissions
