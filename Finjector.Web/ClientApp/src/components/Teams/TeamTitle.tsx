@@ -41,7 +41,7 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
           <h1>
             {queryStatus.isInitialLoading
               ? "Scribbling in Your Team..."
-              : "Error Loading Team"}
+              : "Error loading Team"}
           </h1>
         </div>
         {/* no disabled FinButtonDropdown because it doesn't render on personal */}
