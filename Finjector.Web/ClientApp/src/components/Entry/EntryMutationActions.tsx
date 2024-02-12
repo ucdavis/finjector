@@ -156,7 +156,13 @@ const EntryMutationActions = (props: Props) => {
           </FinButton>
         )}
         {isInPopup && (
-          <FinButton className="flex-fill" onClick={use}>
+          <FinButton
+            className="flex-fill"
+            onClick={use}
+            // it looks ugly and is confusing to press "use" when another action is in process
+            // but i think since Use is our main action, we should allow it if another action is hanging
+            // disabled={saveMutation.isLoading || removeMutation.isLoading}
+          >
             <FontAwesomeIcon icon={faBolt} />
             Use
           </FinButton>
