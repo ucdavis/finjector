@@ -3,7 +3,6 @@ import { useGetTeam, useUpdateTeamMutation } from "../../queries/teamQueries";
 import { useNavigate, useParams } from "react-router-dom";
 import { FinQueryStatus, NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import FinLoader from "../../components/Shared/LoadingAndErrors/FinLoader";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
 import { useFinQueryStatusHandler } from "../../util/error";
 import PageBody from "../../components/Shared/Layout/PageBody";
@@ -71,6 +70,7 @@ const EditTeam: React.FC = () => {
           }}
           buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
           onSubmit={handleCreate}
+          loading={updateTeamMutation.isLoading}
         />
       </PageBody>
     </div>

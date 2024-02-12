@@ -40,6 +40,7 @@ const CreateFolder: React.FC = () => {
           loading ? "Creating..." : "Create New Folder"
         }
         onSubmit={handleCreate}
+        loading={createFolderMutation.isLoading}
       />
     </div>
   );

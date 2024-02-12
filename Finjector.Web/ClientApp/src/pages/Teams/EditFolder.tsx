@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FinQueryStatus, NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import FinLoader from "../../components/Shared/LoadingAndErrors/FinLoader";
 import {
   useEditFolderMutation,
   useGetFolder,
@@ -81,6 +80,7 @@ const EditFolder: React.FC = () => {
           }}
           buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
           onSubmit={handleCreate}
+          loading={updateFolderMutation.isLoading}
         />
       </PageBody>
     </div>
