@@ -12,15 +12,13 @@ const DetailsAeErrors = (props: DetailsAeErrorsProps) => {
 
   return (
     <div>
-      {!!errors &&
-        errors.length > 0 &&
-        errors.map((error, i) => {
-          return (
-            <Alert color="danger" key={i}>
-              Error: {error}
-            </Alert>
-          );
-        })}
+      {errors?.map((error, i) => {
+        return (
+          <Alert color="danger" key={i}>
+            Error: {error}
+          </Alert>
+        );
+      })}
       {warnings?.map((warning, i) => {
         return (
           <Alert color="warning" key={i}>

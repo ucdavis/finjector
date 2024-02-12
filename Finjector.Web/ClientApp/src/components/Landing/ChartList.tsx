@@ -56,6 +56,7 @@ const ChartList = (props: Props) => {
     queryStatus,
   });
   if (queryStatusComponent) return <>{queryStatusComponent}</>;
+  // we don't have to check if the teamGroups is empty, they will always have Personal
 
   return (
     <div>

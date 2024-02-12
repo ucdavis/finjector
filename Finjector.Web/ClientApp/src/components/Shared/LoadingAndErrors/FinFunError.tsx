@@ -15,6 +15,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
+// this is just for fun, it's only used where it should never actually happen
 const FinFunError: React.FC = () => {
   return (
     <div>
