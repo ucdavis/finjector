@@ -225,6 +225,16 @@ hr {
   }
 }
 //
+.emptygraphic-wrapper {
+  margin: 0 auto;
+  width: 300px;
+  text-align: center;
+  p {
+    color: $secondary-font;
+    font-size: 1.1rem;
+    margin-top: 16px;
+  }
+}
 .wrapper {
   text-align: center;
 }
@@ -267,6 +277,20 @@ hr {
   }
   100% {
     transform: translate(69%, 18%);
+  }
+}
+#float-emptystate {
+  animation: floater 2s infinite;
+}
+@keyframes floater {
+  0% {
+    transform: translate(0%, 0%);
+  }
+  50% {
+    transform: translate(0%, 05%);
+  }
+  100% {
+    transform: translate(0%, 0%);
   }
 }
 .chartstring-type {
