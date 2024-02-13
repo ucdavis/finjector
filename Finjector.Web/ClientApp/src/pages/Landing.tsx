@@ -6,6 +6,7 @@ import { useGetSavedCharts } from "../queries/storedChartQueries";
 import FinjectorButton from "../components/Shared/FinjectorButton";
 import PageTitle from "../components/Shared/StyledComponents/PageTitle";
 import PageBody from "../components/Shared/StyledComponents/PageBody";
+import FinEmptyGraphic from "../components/Shared/FinEmptyGraphic";
 import { SearchBar } from "../components/Shared/SearchBar";
 
 // Main landing screen for popup
@@ -39,6 +40,7 @@ const Landing = () => {
           search={search}
           setSearch={setSearch}
         />
+        <FinEmptyGraphic />
         <ChartList teamGroups={savedCharts.data} filter={search} />
       </PageBody>
     </div>
