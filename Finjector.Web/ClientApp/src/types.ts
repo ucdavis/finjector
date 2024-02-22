@@ -1,3 +1,12 @@
+import { UseQueryResult } from "@tanstack/react-query";
+
+export type FinQueryStatus = Pick<
+  UseQueryResult<any>,
+  // we use isInitialLoading instead of isLoading because if disable queries
+  // such as { enabled: chartString.length > 0 }, loading will always be true
+  "isInitialLoading" | "isError" | "error"
+>;
+
 export interface Coa {
   id: number;
   segmentString: string;
@@ -61,13 +70,12 @@ export interface TeamsResponseModel {
 
 export interface TeamResponseModel {
   team: Team;
-  folders: [
-    {
-      folder: Folder;
-      chartCount: number;
-      uniqueUserPermissionCount: number;
-    }
-  ];
+  folders: TeamResponseModelFolders[];
+}
+export interface TeamResponseModelFolders {
+  folder: Folder;
+  chartCount: number;
+  uniqueUserPermissionCount: number;
 }
 
 export interface FolderResponseModel {

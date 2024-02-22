@@ -1,13 +1,15 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { NameAndDescriptionModel } from "../../types";
+import { FinQueryStatus, NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import FinLoader from "../../components/Shared/FinLoader";
 import {
   useEditFolderMutation,
   useGetFolder,
 } from "../../queries/folderQueries";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
+import { useFinQueryStatus, useFinQueryStatusHandler } from "../../util/error";
+import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
+import PageBody from "../../components/Shared/Layout/PageBody";
 
 const EditFolder: React.FC = () => {
   const { teamId, folderId } = useParams<{
@@ -18,6 +20,8 @@ const EditFolder: React.FC = () => {
   const navigate = useNavigate();
 
   const folderQuery = useGetFolder(folderId);
+
+  const queryStatus: FinQueryStatus = useFinQueryStatus(folderQuery);
 
   const updateFolderMutation = useEditFolderMutation(
     teamId || "",
@@ -32,31 +36,49 @@ const EditFolder: React.FC = () => {
       },
       {
         onSuccess: () => {
+          addFinToast("success", "Folder updated successfully.");
           navigate(`/teams/${teamId}/folders/${folderId}`);
         },
         onError: (err: any) => {
-          console.log(err);
+          addFinToast("error", "Error updating folder.");
         },
       }
     );
   };
 
-  if (folderQuery.isLoading) {
-    return <FinLoader />;
-  }
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+  });
+
+  if (queryStatusComponent)
+    return (
+      <div>
+        <PageTitle
+          title={
+            queryStatus.isInitialLoading
+              ? "Scribbling in form..."
+              : "Error loading Edit Folder form"
+          }
+        />
+        <PageBody>{queryStatusComponent}</PageBody>
+      </div>
+    );
 
   return (
     <div>
       <h4>{folderQuery.data?.folder.name}</h4>
       <PageTitle title="Edit Folder" />
-      <NameAndDescriptionForm
-        initialValues={{
-          name: folderQuery.data?.folder.name || "",
-          description: folderQuery.data?.folder.description,
-        }}
-        buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
-        onSubmit={handleCreate}
-      />
+      <PageBody>
+        <NameAndDescriptionForm
+          initialValues={{
+            name: folderQuery.data?.folder.name || "",
+            description: folderQuery.data?.folder.description,
+          }}
+          buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
+          onSubmit={handleCreate}
+          loading={updateFolderMutation.isLoading}
+        />
+      </PageBody>
     </div>
   );
 };

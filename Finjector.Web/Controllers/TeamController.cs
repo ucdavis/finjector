@@ -57,8 +57,7 @@ public class TeamController : ControllerBase
                         .SelectMany(f => f.FolderPermissions.Select(p => p.UserId))).Distinct().Count(),
                 ChartCount = t.Folders.AsQueryable().Where(folderCondition).SelectMany(f => f.Coas).Count()
             })
-            .ToListAsync(
-            );
+            .ToListAsync();
 
         return Ok(teamResults);
     }
@@ -247,6 +246,11 @@ public class TeamController : ControllerBase
     {
         var iamId = Request.GetCurrentUserIamId();
 
+        // make sure they have permission to view the team
+        if (await _userService.VerifyTeamAccess(id, iamId, Role.Codes.View) == false)
+        {
+            return Unauthorized();
+        }
         // get team admins
         var teamAdmins = await _dbContext.TeamPermissions
             .Where(tp => tp.TeamId == id && tp.Role.Name == Role.Codes.Admin)

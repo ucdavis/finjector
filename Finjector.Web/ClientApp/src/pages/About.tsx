@@ -1,6 +1,6 @@
 import React from "react";
 import { useUserInfoQuery } from "../queries/userQueries";
-import PageTitle from "../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../components/Shared/Layout/PageTitle";
 
 const About = () => {
   const userInfoQuery = useUserInfoQuery();

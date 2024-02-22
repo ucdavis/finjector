@@ -1,17 +1,21 @@
 import React from "react";
 import { useGetTeam, useUpdateTeamMutation } from "../../queries/teamQueries";
 import { useNavigate, useParams } from "react-router-dom";
-import { NameAndDescriptionModel } from "../../types";
+import { FinQueryStatus, NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import FinLoader from "../../components/Shared/FinLoader";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
+import { useFinQueryStatus, useFinQueryStatusHandler } from "../../util/error";
+import PageBody from "../../components/Shared/Layout/PageBody";
+import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
 
 const EditTeam: React.FC = () => {
   const { teamId } = useParams<{ teamId: string }>();
 
   const navigate = useNavigate();
 
-  const teamInfo = useGetTeam(teamId);
+  const teamInfoQuery = useGetTeam(teamId);
+
+  const queryStatus: FinQueryStatus = useFinQueryStatus(teamInfoQuery);
 
   const updateTeamMutation = useUpdateTeamMutation(teamId || "");
 
@@ -23,31 +27,48 @@ const EditTeam: React.FC = () => {
       },
       {
         onSuccess: () => {
+          addFinToast("success", "Team updated successfully.");
           navigate(`/teams/${teamId}`);
         },
         onError: (err: any) => {
-          console.log(err);
+          addFinToast("error", "Error updating team.");
         },
       }
     );
   };
 
-  if (teamInfo.isLoading) {
-    return <FinLoader />;
-  }
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+  });
+
+  if (queryStatusComponent)
+    return (
+      <div>
+        <h4>
+          {queryStatus.isInitialLoading
+            ? "Scribbling in form details..."
+            : "Error loading Edit Team form"}
+        </h4>
+        <PageTitle title="Edit Team" />
+        <PageBody>{queryStatusComponent}</PageBody>
+      </div>
+    );
 
   return (
     <div>
-      <h4>{teamInfo.data?.team.name}</h4>
+      <h4>{teamInfoQuery.data?.team.name}</h4>
       <PageTitle title="Edit Team" />
-      <NameAndDescriptionForm
-        initialValues={{
-          name: teamInfo.data?.team.name || "",
-          description: teamInfo.data?.team.description,
-        }}
-        buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
-        onSubmit={handleCreate}
-      />
+      <PageBody>
+        <NameAndDescriptionForm
+          initialValues={{
+            name: teamInfoQuery.data?.team.name || "",
+            description: teamInfoQuery.data?.team.description,
+          }}
+          buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
+          onSubmit={handleCreate}
+          loading={updateTeamMutation.isLoading}
+        />
+      </PageBody>
     </div>
   );
 };

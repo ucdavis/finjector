@@ -35,6 +35,12 @@ namespace Finjector.Web.Controllers
         {
             var iamId = Request.GetCurrentUserIamId();
 
+            // Check if the user has permission to view the folder
+            if (await _userService.VerifyFolderAccess(id, iamId, Role.Codes.View) == false)
+            {
+                return Unauthorized();
+            }
+
             var folder = await _dbContext.Folders
                 .Select(f => new
                 {
@@ -51,6 +57,11 @@ namespace Finjector.Web.Controllers
                 })
                 .AsSplitQuery()
                 .SingleOrDefaultAsync(f => f.Id == id);
+            
+            if(folder == null)
+            {
+                return NotFound();
+            }
 
             var charts = await _dbContext.Coas.Where(c => c.FolderId == id).OrderBy(a => a.Name).ToListAsync();
 
@@ -89,12 +100,6 @@ namespace Finjector.Web.Controllers
         {
             var iamId = Request.GetCurrentUserIamId();
 
-            var folder = await _dbContext.Folders.FindAsync(id);
-            if (folder == null)
-            {
-                return NotFound();
-            }
-
             // Check if the user has permission to update the folder
             if (await _userService.VerifyFolderAccess(id, iamId, Role.Codes.Admin) == false)
             {
@@ -104,6 +109,12 @@ namespace Finjector.Web.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+            
+            var folder = await _dbContext.Folders.FindAsync(id);
+            if (folder == null)
+            {
+                return NotFound();
             }
 
             folder.Name = model.Name;
@@ -128,15 +139,15 @@ namespace Finjector.Web.Controllers
                 return BadRequest("User not found");
             }
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             // make sure they have permission to create a folder in the team
             if (await _userService.VerifyTeamAccess(teamId, iamId, Role.Codes.Edit) == false)
             {
                 return Unauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
 
             // get admin role
@@ -181,7 +192,7 @@ namespace Finjector.Web.Controllers
         {
             var iamId = Request.GetCurrentUserIamId();
 
-            // make sure they have permission to delete the team
+            // make sure they have permission to delete the folder
             if (await _userService.VerifyFolderAccess(id, iamId, Role.Codes.Admin) == false)
             {
                 return Unauthorized();
@@ -214,6 +225,12 @@ namespace Finjector.Web.Controllers
         public async Task<IActionResult> Leave(int id)
         {
             var iamId = Request.GetCurrentUserIamId();
+
+            // make sure they have permission to view the folder
+            if (await _userService.VerifyFolderAccess(id, iamId, Role.Codes.View) == false)
+            {
+                return Unauthorized();
+            }
             
             // find their folder permissions
             var folderPermissions = await _dbContext.FolderPermissions

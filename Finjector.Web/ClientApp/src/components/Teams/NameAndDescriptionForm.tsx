@@ -1,17 +1,21 @@
 import { useState } from "react";
 import { NameAndDescriptionModel } from "../../types";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 
 interface Props {
   initialValues?: NameAndDescriptionModel;
   buttonText: (loading: boolean) => string;
   onSubmit: (formData: NameAndDescriptionModel) => void;
+  loading: boolean;
 }
 
-export default function FormComponent(props: Props) {
-  const { initialValues = { name: "", description: "" }, onSubmit } = props;
+const NameAndDescriptionForm: React.FC<Props> = ({
+  initialValues = { name: "", description: "" },
+  buttonText,
+  onSubmit,
+  loading,
+}) => {
   const [formData, setFormData] = useState(initialValues);
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,9 +23,7 @@ export default function FormComponent(props: Props) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setLoading(true);
     await onSubmit(formData);
-    setLoading(false);
   };
 
   return (
@@ -62,11 +64,13 @@ export default function FormComponent(props: Props) {
             </div>
           </div>
 
-          <FinjectorButton type="submit" margin={false} disabled={loading}>
-            {props.buttonText(loading)}
-          </FinjectorButton>
+          <FinButton type="submit" margin={false} disabled={loading}>
+            {buttonText(loading ?? false)}
+          </FinButton>
         </form>
       </div>
     </div>
   );
-}
+};
+
+export default NameAndDescriptionForm;

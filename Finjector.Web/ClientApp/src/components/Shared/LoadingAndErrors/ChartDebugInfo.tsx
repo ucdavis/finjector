@@ -1,4 +1,4 @@
-import { ChartData, ChartStringAndAeDetails, ChartType } from "../../types";
+import { ChartData, ChartStringAndAeDetails, ChartType } from "../../../types";
 
 interface Props {
   chartData?: ChartData;

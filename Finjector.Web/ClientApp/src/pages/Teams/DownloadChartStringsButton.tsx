@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FinjectorButton from "../../components/Shared/FinjectorButton";
+import FinButton from "../../components/Shared/FinButton";
 import { faFile } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -146,7 +146,7 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
   };
 
   return (
-    <FinjectorButton
+    <FinButton
       id={`export-button-${id}`}
       onClick={handleDownload}
       onMouseEnter={onHover}
@@ -157,7 +157,7 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
       <FontAwesomeIcon icon={faFile} />
       {children ??
         (hasDownloaded ? "Exported!" : `Export Chart Strings (${fileType})`)}
-    </FinjectorButton>
+    </FinButton>
   );
 };
 

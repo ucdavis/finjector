@@ -6,7 +6,7 @@ const PageBody: React.FC<PageBodyProps> = ({ children, className }, props) => {
   if (!children) {
     return null;
   }
-  let divClassName = `mb-3 ${className}`;
+  let divClassName = `mb-3 ${className ?? ""}`;
   return (
     <div {...props} className={divClassName}>
       {children}

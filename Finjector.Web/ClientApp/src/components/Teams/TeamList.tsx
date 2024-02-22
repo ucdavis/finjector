@@ -1,8 +1,4 @@
-import React from "react";
-
-import FinLoader from "../Shared/FinLoader";
-
-import { TeamsResponseModel } from "../../types";
+import { FinQueryStatus, TeamsResponseModel } from "../../types";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,18 +9,39 @@ import {
   faFileLines,
 } from "@fortawesome/free-solid-svg-icons";
 import ClickableListItem from "../Shared/ClickableListItem";
+import { useFinQueryStatusHandler } from "../../util/error";
+import FinFunError from "../Shared/LoadingAndErrors/FinFunError";
+import FinEmpty from "../Shared/LoadingAndErrors/FinEmpty";
 
 interface Props {
   teamsInfo: TeamsResponseModel[] | undefined;
   filter: string;
+  queryStatus: FinQueryStatus;
 }
 
-const ChartList = (props: Props) => {
-  const { teamsInfo } = props;
+const TeamList = (props: Props) => {
+  const { teamsInfo, queryStatus } = props;
 
-  if (!teamsInfo) {
-    return <FinLoader />;
-  }
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+  });
+
+  if (queryStatusComponent)
+    return (
+      <div className="chartstring-details-info">{queryStatusComponent}</div>
+    );
+  // if query is complete, there are no errors, and still the data is undefined.
+  // this shouldn't happen, but it makes the type checker happy. :)
+  if (teamsInfo === undefined) return <FinFunError />;
+
+  if (teamsInfo.length === 0)
+    return (
+      <FinEmpty title="You were not found to be a member of any teams.">
+        This is definitely an error, as you should be a member of your own
+        Personal team. Please refresh the page and try again. If the problem
+        persists, please contact support.
+      </FinEmpty>
+    );
 
   const filterLowercase = props.filter.toLowerCase();
 
@@ -89,4 +106,4 @@ const ChartList = (props: Props) => {
   );
 };
 
-export default ChartList;
+export default TeamList;

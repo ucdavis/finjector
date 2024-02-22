@@ -3,7 +3,8 @@ import { useCreateTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
 import { NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
+import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
 
 const CreateTeam: React.FC = () => {
   const navigate = useNavigate();
@@ -18,10 +19,11 @@ const CreateTeam: React.FC = () => {
       },
       {
         onSuccess: () => {
+          addFinToast("success", "Team created successfully.");
           navigate("/teams");
         },
         onError: (err: any) => {
-          console.log(err);
+          addFinToast("error", "Error creating team.");
         },
       }
     );
@@ -33,6 +35,7 @@ const CreateTeam: React.FC = () => {
       <NameAndDescriptionForm
         buttonText={(loading) => (loading ? "Creating..." : "Create New Team")}
         onSubmit={handleCreate}
+        loading={createTeamMutation.isLoading}
       />
     </div>
   );

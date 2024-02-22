@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Input, InputGroup, Modal, ModalBody, ModalHeader } from "reactstrap";
-import CopyToClipboardButton from "./CopyToClipboardButton";
-import FinjectorButton from "./FinjectorButton";
+import CopyToClipboardButton from "../Shared/CopyToClipboardButton";
+import FinButton from "../Shared/FinButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { SegmentDetails } from "../../types";
-import CopySegmentsToClipboardButton from "./CopySegmentsToClipboardButton";
-import DownloadSegmentsButton from "./DownloadSegmentsButton";
+import CopySegmentsToClipboardButton from "../Shared/CopySegmentsToClipboardButton";
+import DownloadSegmentsButton from "../Shared/DownloadSegmentsButton";
 
 interface SharePopupProps {
   chartString: string;
@@ -26,10 +26,10 @@ const SharePopup: React.FC<SharePopupProps> = ({
 
   return (
     <>
-      <FinjectorButton onClick={toggle}>
+      <FinButton onClick={toggle}>
         <FontAwesomeIcon icon={faPaperPlane} />
         Share
-      </FinjectorButton>
+      </FinButton>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader tag="h2" toggle={toggle}>
           Share Chart String

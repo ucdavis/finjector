@@ -74,6 +74,7 @@
   &:disabled {
     color: $tertiary-font;
     border-color: $tertiary-font;
+    background-color: #fff;
   }
 }
 
@@ -225,6 +226,16 @@ hr {
   }
 }
 //
+.emptygraphic-wrapper {
+  margin: 0 auto;
+  width: 300px;
+  text-align: center;
+  p {
+    color: $secondary-font;
+    font-size: 1.1rem;
+    margin-top: 16px;
+  }
+}
 .wrapper {
   text-align: center;
 }
@@ -269,6 +280,20 @@ hr {
     transform: translate(69%, 18%);
   }
 }
+#float-emptystate {
+  animation: floater 2s infinite;
+}
+@keyframes floater {
+  0% {
+    transform: translate(0%, 0%);
+  }
+  50% {
+    transform: translate(0%, 05%);
+  }
+  100% {
+    transform: translate(0%, 0%);
+  }
+}
 .chartstring-type {
   font-size: 0.8rem;
   text-transform: uppercase;
@@ -300,6 +325,9 @@ hr {
 }
 .is-none {
   border-left: 6px solid $borders !important;
+}
+.is-error {
+  border-left: 6px solid $danger !important;
 }
 .primary-font {
   color: $primary-font !important;
@@ -359,6 +387,14 @@ span.ppm-color {
 span.font-reg {
   font-family: $sans-reg;
 }
+// Toastify
+:root {
+  --toastify-color-success: #25681a !important;
+  --toastify-color-error: #74011d !important;
+  --toastify-font-family: $sans-reg !important;
+  --toastify-text-color-light: rgba(31, 31, 31, 0.7) !important;
+}
+
 .dropdown-menu-finjector {
   padding-top: 0;
   padding-bottom: 0;

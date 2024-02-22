@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
-import { Navigate, useParams, useSearchParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import ChartTypeSelector from "../components/Entry/ChartTypeSelector";
 import GlEntry from "../components/Entry/GlEntry";
 import PpmEntry from "../components/Entry/PpmEntry";
-import FinLoader from "../components/Shared/FinLoader";
-
-import { Coa, ChartData, ChartType, SegmentData } from "../types";
+import {
+  Coa,
+  ChartData,
+  ChartType,
+  SegmentData,
+  FinQueryStatus,
+} from "../types";
 
 // CSS
 // https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
@@ -16,7 +20,6 @@ import {
   buildInitialPpmSegments,
 } from "../util/segmentHelpers";
 import CoaDisplay from "../components/Entry/CoaDisplay";
-import SaveAndUseButton from "../components/Entry/SaveAndUseButton";
 import { useGetSavedChartWithData } from "../queries/storedChartQueries";
 import {
   fromGlSegmentString,
@@ -28,11 +31,13 @@ import {
   mapSegmentCodeToName,
   mapSegmentQueryData,
 } from "../util/segmentMapping";
-import EntryEditButtons from "../components/Entry/EntryEditButtons";
-import { ChartDebugInfo } from "../components/Shared/ChartDebugInfo";
-import { ChartLoadingError } from "../components/Shared/ChartLoadingError";
+import { ChartDebugInfo } from "../components/Shared/LoadingAndErrors/ChartDebugInfo";
+import { ChartLoadingError } from "../components/Shared/LoadingAndErrors/ChartLoadingError";
 import FolderSearch from "../components/Entry/FolderSearch";
-import PageTitle from "../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../components/Shared/Layout/PageTitle";
+import EntryMutationActions from "../components/Entry/EntryMutationActions";
+import { useFinQueryStatus, useFinQueryStatusHandler } from "../util/error";
+import PageBody from "../components/Shared/Layout/PageBody";
 
 const Entry = () => {
   const { chartId, chartSegmentString, folderId } = useParams();
@@ -101,28 +106,36 @@ const Entry = () => {
     }
   }, [savedChartQuery.data]);
 
-  if (chartSegmentString && chartSegmentString.indexOf("-") === -1) {
-    // if we have a chart segment string, but it doesn't have a dash, it's probably a chart id
-    return <Navigate to={`/locator/entry/${chartSegmentString}`} />;
-  }
-
   const changeChartType = (chartType: ChartType) => {
     setChartData((d) => ({ ...d, chartType: chartType }));
     setSavedChart((c) => ({ ...c, chartType: chartType }));
   };
 
-  if (savedChartQuery.isError) {
-    return (
-      <>
-        <ChartLoadingError />
-        <hr />
-      </>
-    );
+  // handle loading and error states
+  const queryStatus: FinQueryStatus = useFinQueryStatus(savedChartQuery);
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+    DefaultError: <ChartLoadingError />,
+  });
+
+  if (chartSegmentString && chartSegmentString.indexOf("-") === -1) {
+    // if we have a chart segment string, but it doesn't have a dash, it's probably a chart id
+    return <Navigate to={`/locator/entry/${chartSegmentString}`} />;
   }
 
-  // if we have a saved chart, make sure it's been loaded before continuing
-  if (chartId && !savedChart.id) {
-    return <FinLoader />;
+  if (queryStatusComponent) {
+    return (
+      <div title="main">
+        <PageTitle
+          title={
+            queryStatus.isInitialLoading
+              ? "Scribbling in form..."
+              : "Edit Chart String"
+          }
+        />
+        <PageBody>{queryStatusComponent}</PageBody>
+      </div>
+    );
   }
 
   return (
@@ -179,11 +192,7 @@ const Entry = () => {
             />
           </div>
         </div>
-        {savedChart.id ? (
-          <EntryEditButtons chartData={chartData} savedChart={savedChart} />
-        ) : (
-          <SaveAndUseButton chartData={chartData} savedChart={savedChart} />
-        )}
+        <EntryMutationActions chartData={chartData} savedChart={savedChart} />
       </div>
       <ChartDebugInfo chartData={chartData} />
     </div>

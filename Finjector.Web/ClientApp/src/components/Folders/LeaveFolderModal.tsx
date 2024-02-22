@@ -1,10 +1,11 @@
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
 import { useLeaveFolderMutation } from "../../queries/folderQueries";
+import addFinToast from "../Shared/LoadingAndErrors/FinToast";
 
 interface Props {
   teamId: string;
@@ -23,8 +24,12 @@ const LeaveFolderModal = (props: Props) => {
   const handleLeave = () => {
     leaveMutation.mutate(props.folderId, {
       onSuccess: () => {
+        addFinToast("success", "Folder left successfully.");
         navigate(`/teams`);
         closeModal();
+      },
+      onError: (error) => {
+        addFinToast("error", "Error leaving folder.");
       },
     });
   };
@@ -39,17 +44,21 @@ const LeaveFolderModal = (props: Props) => {
           <p>Are you sure you want to leave this folder?</p>
         </ModalBody>
         <ModalFooter>
-          <FinjectorButton color="secondary" onClick={closeModal}>
+          <FinButton
+            color="secondary"
+            onClick={closeModal}
+            disabled={leaveMutation.isLoading}
+          >
             Cancel
-          </FinjectorButton>
-          <FinjectorButton
+          </FinButton>
+          <FinButton
             color="danger"
             onClick={handleLeave}
             disabled={leaveMutation.isLoading}
           >
             <FontAwesomeIcon icon={faPersonThroughWindow} />
             Leave
-          </FinjectorButton>
+          </FinButton>
         </ModalFooter>
       </Modal>
     </>

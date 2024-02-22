@@ -5,8 +5,8 @@ import {
 } from "../util/segmentValidation";
 
 import { useNavigate } from "react-router-dom";
-import FinjectorButton from "../components/Shared/FinjectorButton";
-import PageTitle from "../components/Shared/StyledComponents/PageTitle";
+import FinButton from "../components/Shared/FinButton";
+import PageTitle from "../components/Shared/Layout/PageTitle";
 
 const Paste = () => {
   const navigate = useNavigate();
@@ -49,14 +49,14 @@ const Paste = () => {
         </div>
       )}
       <div className="d-grid">
-        <FinjectorButton
+        <FinButton
           className="btn btn-primary"
           disabled={error !== "" || coa === ""}
           onClick={() => navigate(`/entry/${coa}`)}
           margin={false}
         >
           NEXT
-        </FinjectorButton>
+        </FinButton>
       </div>
     </div>
   );

@@ -124,6 +124,11 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
 
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         // make sure user exists in the db
         await _userService.EnsureUserExists(iamId);
 

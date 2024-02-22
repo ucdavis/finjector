@@ -1,8 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useAdminsQuery } from "../../queries/userQueries";
-import { CollectionResourceType } from "../../types";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import { CollectionResourceType, FinQueryStatus } from "../../types";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
+import { useFinQueryStatus, useFinQueryStatusHandler } from "../../util/error";
 
 const AdminList: React.FC = () => {
   const { teamId, folderId } = useParams<{
@@ -16,26 +17,26 @@ const AdminList: React.FC = () => {
   // query for membership
   const membershipQuery = useAdminsQuery(resourceId, resourceType);
 
-  if (membershipQuery.isLoading) {
-    return <div>Loading...</div>;
-  }
-  const forTeamName = !!membershipQuery?.data?.length
-    ? `For ${membershipQuery.data[0].resourceName}`
-    : "";
-  // show error message if user is unauthorized
-  if (membershipQuery.isError) {
-    var err: Error = membershipQuery.error;
+  const queryStatus: FinQueryStatus = useFinQueryStatus(membershipQuery);
 
-    var errorContent = <div>Something went wrong...</div>;
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+  });
 
-    if (err.message === "401 Unauthorized") {
-      errorContent = <div>You are not authorized to view this page</div>;
-    }
-
+  if (queryStatusComponent || !membershipQuery.data) {
     return (
       <div>
-        <PageTitle title={`View Admins ${forTeamName}`} />
-        {errorContent}
+        <PageTitle>
+          <div className="col-12 col-md-3">
+            <h4>
+              {queryStatus.isInitialLoading
+                ? "Scribbling in Team Admins..."
+                : "Error loading Team Admins"}
+            </h4>
+            <h1>View Admins</h1>
+          </div>
+        </PageTitle>
+        <div>{queryStatusComponent}</div>
       </div>
     );
   }

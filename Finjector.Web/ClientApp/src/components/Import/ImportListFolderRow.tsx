@@ -2,7 +2,7 @@ import React from "react";
 import { Coa, Folder } from "../../types";
 import { faFileLines, faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 
 interface ImportListFolderRowProps {
   folder: Folder;
@@ -32,13 +32,10 @@ const ImportListFolderRow = (props: ImportListFolderRowProps) => {
         </div>
       </div>
       <div className="col-3 text-end">
-        <FinjectorButton
-          className="ms-2 btn-borderless"
-          onClick={importChartStrings}
-        >
+        <FinButton className="ms-2 btn-borderless" onClick={importChartStrings}>
           <FontAwesomeIcon icon={faFileExport} />
           Import Folder
-        </FinjectorButton>
+        </FinButton>
       </div>
     </div>
   );

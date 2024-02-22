@@ -1,5 +1,5 @@
 import React from "react";
-import FinjectorButton from "../components/Shared/FinjectorButton";
+import FinButton from "../components/Shared/FinButton";
 
 declare global {
   interface Window {
@@ -71,14 +71,14 @@ const Example: React.FC = () => {
         </small>
 
         <hr />
-        <FinjectorButton
+        <FinButton
           type="button"
           onClick={openFinjectorImport}
           className="btn btn-secondary"
           id="import"
         >
           Import
-        </FinjectorButton>
+        </FinButton>
 
         <ul>
           {importedCharts.map((chart, index) => (

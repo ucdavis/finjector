@@ -2,17 +2,18 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
-import FinLoader from "./FinLoader";
-import { ChartType, TeamGroupedCoas } from "../../types";
-import ChartListItem from "./ChartListItem";
+import ChartListItem from "../Shared/ChartListItem";
+import { ChartType, FinQueryStatus, TeamGroupedCoas } from "../../types";
+import { useFinQueryStatusHandler } from "../../util/error";
 
 interface Props {
   teamGroups: TeamGroupedCoas[] | undefined;
   filter: string;
+  queryStatus: FinQueryStatus;
 }
 
 const ChartList = (props: Props) => {
-  const { teamGroups } = props;
+  const { teamGroups, queryStatus } = props;
 
   const query = props.filter.toLowerCase();
 
@@ -51,9 +52,11 @@ const ChartList = (props: Props) => {
     return filterTeamGroupsByQuery(teamGroupsClone, query);
   }, [teamGroups, query]);
 
-  if (!teamGroups) {
-    return <FinLoader />;
-  }
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+  });
+  if (queryStatusComponent) return <>{queryStatusComponent}</>;
+  // we don't have to check if the teamGroups is empty, they will always have Personal
 
   return (
     <div>

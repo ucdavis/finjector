@@ -4,8 +4,8 @@ import { useGetSavedCharts } from "../queries/storedChartQueries";
 import usePopupStatus from "../util/customHooks";
 import ImportListTeamRow from "../components/Import/ImportListTeamRow";
 import { SearchBar } from "../components/Shared/SearchBar";
-import PageTitle from "../components/Shared/StyledComponents/PageTitle";
-import PageBody from "../components/Shared/StyledComponents/PageBody";
+import PageTitle from "../components/Shared/Layout/PageTitle";
+import PageBody from "../components/Shared/Layout/PageBody";
 
 // Main landing screen for popup
 

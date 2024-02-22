@@ -3,7 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
 import { useCreateFolderMutation } from "../../queries/folderQueries";
 import { NameAndDescriptionModel } from "../../types";
-import PageTitle from "../../components/Shared/StyledComponents/PageTitle";
+import PageTitle from "../../components/Shared/Layout/PageTitle";
+import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
 
 const CreateFolder: React.FC = () => {
   // get the team id from the url
@@ -21,10 +22,11 @@ const CreateFolder: React.FC = () => {
       },
       {
         onSuccess: () => {
+          addFinToast("success", "Folder created successfully.");
           navigate(`/teams/${teamId}`);
         },
         onError: (err: any) => {
-          console.log(err);
+          addFinToast("error", "Error creating folder.");
         },
       }
     );
@@ -38,6 +40,7 @@ const CreateFolder: React.FC = () => {
           loading ? "Creating..." : "Create New Folder"
         }
         onSubmit={handleCreate}
+        loading={createFolderMutation.isLoading}
       />
     </div>
   );

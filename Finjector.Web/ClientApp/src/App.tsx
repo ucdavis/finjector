@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
   Navigate,
   Outlet,
@@ -15,7 +13,7 @@ import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
 import Paste from "./pages/Paste";
 import Details from "./pages/Details";
-import Header from "./components/Shared/Header";
+import Header from "./components/Shared/Layout/Header";
 import MyTeams from "./pages/Teams/MyTeams";
 import Team from "./pages/Teams/Team";
 import Folder from "./pages/Teams/Folder";
@@ -28,8 +26,12 @@ import EditFolder from "./pages/Teams/EditFolder";
 import Breadcrumbs from "./components/Shared/Breadcrumbs";
 import ChartStringRedirector from "./pages/ChartStringRedirector";
 import Example from "./pages/Example";
-import NavlessHeader from "./components/Shared/NavlessHeader";
+import NavlessHeader from "./components/Shared/Layout/NavlessHeader";
+import FinLoader from "./components/Shared/LoadingAndErrors/FinLoader";
+import FinToastContainer from "./components/Shared/LoadingAndErrors/FinToastContainer";
 import { wrapCreateBrowserRouter } from "@sentry/react";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const RedirectHome = () => <Navigate to="/" />;
 
@@ -41,6 +43,7 @@ function Layout() {
         <Breadcrumbs />
         <Outlet />
       </div>
+      <FinToastContainer />
     </>
   );
 }
@@ -52,6 +55,7 @@ function NavlessLayout() {
       <div className="container">
         <Outlet />
       </div>
+      <FinToastContainer />
     </>
   );
 }
@@ -237,7 +241,12 @@ function App() {
 
   // wait until we get user info to render
   if (userInfoQuery.isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <NavlessHeader />
+        <FinLoader />
+      </>
+    );
   }
 
   return <RouterProvider router={router} />;

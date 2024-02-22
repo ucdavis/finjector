@@ -1,10 +1,5 @@
-import React from "react";
-
-import FinLoader from "../Shared/FinLoader";
-
-import { TeamResponseModel } from "../../types";
+import { FinQueryStatus, TeamResponseModel } from "../../types";
 import { Link } from "react-router-dom";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
@@ -12,20 +7,31 @@ import {
   faFolder,
 } from "@fortawesome/free-solid-svg-icons";
 import ClickableListItem from "../Shared/ClickableListItem";
+import { useFinQueryStatusHandler } from "../../util/error";
+import FinFunError from "../Shared/LoadingAndErrors/FinFunError";
+import FinEmpty from "../Shared/LoadingAndErrors/FinEmpty";
 
 interface Props {
   teamModel: TeamResponseModel | undefined;
   filter: string;
+  queryStatus: FinQueryStatus;
 }
 
-const FolderList = (props: Props) => {
-  const { teamModel } = props;
+const FolderList: React.FC<Props> = ({ teamModel, filter, queryStatus }) => {
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus,
+  });
 
-  if (!teamModel) {
-    return <FinLoader />;
+  if (queryStatusComponent) return <>{queryStatusComponent}</>;
+
+  // if the query did not throw any errors but somehow still returned null/undefined
+  // i can't think of why this would happen, but it makes the type checker happy. :)
+  if (teamModel === undefined) return <FinFunError />;
+  // if we have successfully loaded the team but there are no folders (not an error)
+  if (teamModel.folders.length === 0) {
+    return <FinEmpty title="There are no folders in this team." />;
   }
-
-  const filterLowercase = props.filter.toLowerCase();
+  const filterLowercase = filter.toLowerCase();
 
   const filteredFolderInfo = teamModel.folders.filter((f) => {
     return f.folder.name.toLowerCase().includes(filterLowercase);

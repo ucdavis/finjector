@@ -1,13 +1,15 @@
 import React from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useRemoveChart } from "../../queries/storedChartQueries";
-import { Coa } from "../../types";
-import FinjectorButton from "./FinjectorButton";
+import { useRemoveChart } from "../../../queries/storedChartQueries";
+import { Coa } from "../../../types";
+import FinButton from "../FinButton";
 import {
   isGlSegmentString,
   isPpmSegmentString,
-} from "../../util/segmentValidation";
+} from "../../../util/segmentValidation";
+import { FinError } from "./FinError";
+import addFinToast from "./FinToast";
 
 export const ChartLoadingError = () => {
   const navigate = useNavigate();
@@ -24,7 +26,11 @@ export const ChartLoadingError = () => {
     if (chartIdAsNumber > 0) {
       removeMutation.mutate({ id: chartIdAsNumber } as Coa, {
         onSuccess: () => {
+          addFinToast("success", "Chart string removed successfully.");
           navigate("/");
+        },
+        onError: () => {
+          addFinToast("error", "Error removing chart string.");
         },
       });
     }
@@ -45,9 +51,7 @@ export const ChartLoadingError = () => {
   }, [chartSegmentString]);
 
   return (
-    <div className="p-2">
-      <h1>Error loading chart</h1>
-      <p>{errorReason}</p>
+    <FinError title="Error loading chart" errorText={errorReason}>
       {
         // if we have a chartId, we can remove it
         isChartIdValid && (
@@ -56,16 +60,16 @@ export const ChartLoadingError = () => {
               If you'd like to permanently remove this entry, click the button
               below.
             </p>
-            <FinjectorButton
+            <FinButton
               color="danger"
               disabled={removeMutation.isLoading}
               onClick={remove}
             >
               Remove
-            </FinjectorButton>
+            </FinButton>
           </div>
         )
       }
-    </div>
+    </FinError>
   );
 };

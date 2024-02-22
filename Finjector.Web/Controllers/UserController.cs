@@ -222,6 +222,11 @@ public class UserController : ControllerBase
             return Unauthorized();
         }
 
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         // TODO: find user by email - if they exist, use that user, otherwise create a new user
         var searchUser = await _identityService.GetEmailOrKerb(model.Email);
 
@@ -330,6 +335,11 @@ public class UserController : ControllerBase
         if (user == null)
         {
             return BadRequest("User not found");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
         if (string.Equals(TeamResourceType, type, StringComparison.OrdinalIgnoreCase))

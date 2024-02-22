@@ -1,10 +1,10 @@
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useDeleteFolderMutation } from "../../queries/folderQueries";
 import { useNavigate } from "react-router-dom";
-import FinjectorButton from "../Shared/FinjectorButton";
-
+import FinButton from "../Shared/FinButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import addFinToast from "../Shared/LoadingAndErrors/FinToast";
 
 interface Props {
   teamId: string;
@@ -22,8 +22,12 @@ const DeleteFolderModal = (props: Props) => {
   const handleDelete = () => {
     deleteMutation.mutate(props.folderId, {
       onSuccess: () => {
+        addFinToast("success", "Folder deleted successfully.");
         navigate(`/teams`);
         closeModal();
+      },
+      onError: (error) => {
+        addFinToast("error", "Error deleting folder.");
       },
     });
   };
@@ -38,17 +42,21 @@ const DeleteFolderModal = (props: Props) => {
         Strings within it will be removed.
       </ModalBody>
       <ModalFooter>
-        <FinjectorButton color="secondary" onClick={closeModal}>
+        <FinButton
+          color="secondary"
+          onClick={closeModal}
+          disabled={deleteMutation.isLoading}
+        >
           Cancel
-        </FinjectorButton>
-        <FinjectorButton
+        </FinButton>
+        <FinButton
           color="danger"
           onClick={handleDelete}
           disabled={deleteMutation.isLoading}
         >
           <FontAwesomeIcon icon={faTrash} />
           {deleteMutation.isLoading ? "Deleting" : "Delete"}
-        </FinjectorButton>
+        </FinButton>
       </ModalFooter>
     </Modal>
   );

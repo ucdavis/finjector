@@ -1,10 +1,11 @@
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useLeaveTeamMutation } from "../../queries/teamQueries";
 import { useNavigate } from "react-router-dom";
-import FinjectorButton from "../Shared/FinjectorButton";
+import FinButton from "../Shared/FinButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
+import addFinToast from "../Shared/LoadingAndErrors/FinToast";
 
 interface Props {
   teamId: string;
@@ -22,8 +23,12 @@ const LeaveTeamModal = (props: Props) => {
   const handleLeave = () => {
     leaveMutation.mutate(props.teamId, {
       onSuccess: () => {
+        addFinToast("success", "Team left successfully.");
         navigate("/teams");
         closeModal();
+      },
+      onError: (error) => {
+        addFinToast("error", "Error leaving team.");
       },
     });
   };
@@ -44,17 +49,21 @@ const LeaveTeamModal = (props: Props) => {
           )}
         </ModalBody>
         <ModalFooter>
-          <FinjectorButton color="secondary" onClick={closeModal}>
+          <FinButton
+            color="secondary"
+            onClick={closeModal}
+            disabled={leaveMutation.isLoading}
+          >
             Cancel
-          </FinjectorButton>
-          <FinjectorButton
+          </FinButton>
+          <FinButton
             color="danger"
             onClick={handleLeave}
             disabled={leaveMutation.isLoading}
           >
             <FontAwesomeIcon icon={faPersonThroughWindow} />
             Leave
-          </FinjectorButton>
+          </FinButton>
         </ModalFooter>
       </Modal>
     </>

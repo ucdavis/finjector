@@ -7,16 +7,18 @@ import {
   DropdownMenuProps,
 } from "reactstrap";
 
-interface FinjectorButtonDropdownProps extends DropdownMenuProps {
+interface FinButtonDropdownProps extends DropdownMenuProps {
   title?: string;
-  children: React.ReactNode;
+  disabled?: boolean;
+  children?: React.ReactNode;
   end?: boolean;
   shouldRenderAsDropdown?: boolean;
 }
 
-const FinjectorButtonDropdown = (props: FinjectorButtonDropdownProps) => {
+const FinButtonDropdown = (props: FinButtonDropdownProps) => {
   const {
     title,
+    disabled = false,
     children,
     end = true,
     shouldRenderAsDropdown = true,
@@ -29,19 +31,19 @@ const FinjectorButtonDropdown = (props: FinjectorButtonDropdownProps) => {
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-      <DropdownToggle className="btn-finjector" caret={true}>
+      <DropdownToggle
+        className="btn-finjector"
+        caret={true}
+        disabled={disabled}
+      >
         Actions
       </DropdownToggle>
       <DropdownMenu className="dropdown-menu-finjector" end={end} {...rest}>
-        {title && (
-          <DropdownItem className="dropdown-item-finjector" header>
-            {title}
-          </DropdownItem>
-        )}
+        {title && <DropdownItem header>{title}</DropdownItem>}
         {children}
       </DropdownMenu>
     </Dropdown>
   );
 };
 
-export default FinjectorButtonDropdown;
+export default FinButtonDropdown;
