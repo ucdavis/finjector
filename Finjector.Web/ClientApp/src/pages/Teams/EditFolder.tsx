@@ -7,7 +7,7 @@ import {
   useGetFolder,
 } from "../../queries/folderQueries";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
-import { useFinQueryStatusHandler } from "../../util/error";
+import { useFinQueryStatus, useFinQueryStatusHandler } from "../../util/error";
 import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
 import PageBody from "../../components/Shared/Layout/PageBody";
 
@@ -21,11 +21,7 @@ const EditFolder: React.FC = () => {
 
   const folderQuery = useGetFolder(folderId);
 
-  const queryStatus: FinQueryStatus = {
-    isError: folderQuery.isError,
-    isInitialLoading: folderQuery.isInitialLoading,
-    error: folderQuery.error,
-  };
+  const queryStatus: FinQueryStatus = useFinQueryStatus(folderQuery);
 
   const updateFolderMutation = useEditFolderMutation(
     teamId || "",

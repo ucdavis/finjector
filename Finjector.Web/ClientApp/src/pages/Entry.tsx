@@ -36,7 +36,7 @@ import { ChartLoadingError } from "../components/Shared/LoadingAndErrors/ChartLo
 import FolderSearch from "../components/Entry/FolderSearch";
 import PageTitle from "../components/Shared/Layout/PageTitle";
 import EntryMutationActions from "../components/Entry/EntryMutationActions";
-import { useFinQueryStatusHandler } from "../util/error";
+import { useFinQueryStatus, useFinQueryStatusHandler } from "../util/error";
 import PageBody from "../components/Shared/Layout/PageBody";
 
 const Entry = () => {
@@ -112,11 +112,7 @@ const Entry = () => {
   };
 
   // handle loading and error states
-  const queryStatus: FinQueryStatus = {
-    isError: savedChartQuery.isError,
-    isInitialLoading: savedChartQuery.isInitialLoading,
-    error: savedChartQuery.error,
-  };
+  const queryStatus: FinQueryStatus = useFinQueryStatus(savedChartQuery);
   const queryStatusComponent = useFinQueryStatusHandler({
     queryStatus,
     DefaultError: <ChartLoadingError />,

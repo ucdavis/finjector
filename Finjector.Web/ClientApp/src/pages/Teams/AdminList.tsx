@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useAdminsQuery } from "../../queries/userQueries";
 import { CollectionResourceType, FinQueryStatus } from "../../types";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
-import { useFinQueryStatusHandler } from "../../util/error";
+import { useFinQueryStatus, useFinQueryStatusHandler } from "../../util/error";
 
 const AdminList: React.FC = () => {
   const { teamId, folderId } = useParams<{
@@ -17,11 +17,7 @@ const AdminList: React.FC = () => {
   // query for membership
   const membershipQuery = useAdminsQuery(resourceId, resourceType);
 
-  const queryStatus: FinQueryStatus = {
-    isError: membershipQuery.isError,
-    isInitialLoading: membershipQuery.isInitialLoading,
-    error: membershipQuery.error,
-  };
+  const queryStatus: FinQueryStatus = useFinQueryStatus(membershipQuery);
 
   const queryStatusComponent = useFinQueryStatusHandler({
     queryStatus,

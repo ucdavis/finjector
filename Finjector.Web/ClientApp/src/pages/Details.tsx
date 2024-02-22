@@ -8,6 +8,7 @@ import PageTitle from "../components/Shared/Layout/PageTitle";
 import DetailsAeErrors from "../components/Details/DetailsAeErrors";
 import PageBody from "../components/Shared/Layout/PageBody";
 import DetailsChartString from "../components/Details/DetailsChartString";
+import { useFinQueryStatus } from "../util/error";
 
 const Details = () => {
   const { chartId, chartSegmentString } = useParams();
@@ -16,11 +17,7 @@ const Details = () => {
     chartId
   );
 
-  const queryStatus: FinQueryStatus = {
-    isError: chartDetailsQuery.isError,
-    isInitialLoading: chartDetailsQuery.isInitialLoading,
-    error: chartDetailsQuery.error,
-  };
+  const queryStatus: FinQueryStatus = useFinQueryStatus(chartDetailsQuery);
 
   const aeDetails: AeDetails | undefined = chartDetailsQuery.data?.aeDetails;
 

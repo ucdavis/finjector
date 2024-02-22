@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FinQueryStatus, NameAndDescriptionModel } from "../../types";
 import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
-import { useFinQueryStatusHandler } from "../../util/error";
+import { useFinQueryStatus, useFinQueryStatusHandler } from "../../util/error";
 import PageBody from "../../components/Shared/Layout/PageBody";
 import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
 
@@ -15,11 +15,7 @@ const EditTeam: React.FC = () => {
 
   const teamInfoQuery = useGetTeam(teamId);
 
-  const queryStatus: FinQueryStatus = {
-    isError: teamInfoQuery.isError,
-    isInitialLoading: teamInfoQuery.isInitialLoading,
-    error: teamInfoQuery.error,
-  };
+  const queryStatus: FinQueryStatus = useFinQueryStatus(teamInfoQuery);
 
   const updateTeamMutation = useUpdateTeamMutation(teamId || "");
 

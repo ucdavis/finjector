@@ -6,6 +6,7 @@ import ChartListSimple from "../../components/Folders/ChartListSimple";
 import PageBody from "../../components/Shared/Layout/PageBody";
 import { FinQueryStatus } from "../../types";
 import FolderTitle from "../../components/Folders/FolderTitle";
+import { useFinQueryStatus } from "../../util/error";
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
@@ -18,11 +19,7 @@ const Folder: React.FC = () => {
 
   const folderModelQuery = useGetFolder(folderId);
 
-  const queryStatus: FinQueryStatus = {
-    isError: folderModelQuery.isError,
-    isInitialLoading: folderModelQuery.isInitialLoading,
-    error: folderModelQuery.error,
-  };
+  const queryStatus: FinQueryStatus = useFinQueryStatus(folderModelQuery);
 
   return (
     <div>

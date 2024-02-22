@@ -8,19 +8,16 @@ import PageTitle from "../components/Shared/Layout/PageTitle";
 import PageBody from "../components/Shared/Layout/PageBody";
 import { SearchBar } from "../components/Shared/SearchBar";
 import { FinQueryStatus } from "../types";
+import { useFinQueryStatus } from "../util/error";
 
 // Main landing screen for popup
 
 const Landing = () => {
   const [search, setSearch] = React.useState("");
 
-  const savedCharts = useGetSavedCharts();
+  const savedChartsQuery = useGetSavedCharts();
 
-  const queryStatus: FinQueryStatus = {
-    isError: savedCharts.isError,
-    isInitialLoading: savedCharts.isInitialLoading,
-    error: savedCharts.error,
-  };
+  const queryStatus: FinQueryStatus = useFinQueryStatus(savedChartsQuery);
 
   return (
     <div>
@@ -53,7 +50,7 @@ const Landing = () => {
           setSearch={setSearch}
         />
         <ChartList
-          teamGroups={savedCharts.data}
+          teamGroups={savedChartsQuery.data}
           filter={search}
           queryStatus={queryStatus}
         />

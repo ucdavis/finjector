@@ -1,3 +1,4 @@
+import { UseQueryResult } from "@tanstack/react-query";
 import { FinError } from "../components/Shared/LoadingAndErrors/FinError";
 import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
 import { FinNotAuthorized } from "../components/Shared/LoadingAndErrors/FinNotAuthorized";
@@ -9,6 +10,15 @@ interface FinQueryStatesProps {
   queryStatus: FinQueryStatus;
   DefaultError?: React.ReactNode;
 }
+
+export const useFinQueryStatus = (query: UseQueryResult<any>) => {
+  const queryStatus: FinQueryStatus = {
+    isError: query.isError,
+    isInitialLoading: query.isInitialLoading,
+    error: query.error,
+  };
+  return queryStatus;
+};
 
 export const useFinQueryStatusHandler = ({
   queryStatus: { isInitialLoading, isError, error },

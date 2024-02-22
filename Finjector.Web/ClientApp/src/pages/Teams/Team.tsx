@@ -6,6 +6,7 @@ import FolderList from "../../components/Teams/FolderList";
 import PageBody from "../../components/Shared/Layout/PageBody";
 import { FinQueryStatus } from "../../types";
 import TeamTitle from "../../components/Teams/TeamTitle";
+import { useFinQueryStatus } from "../../util/error";
 
 const Team: React.FC = () => {
   // get id from url
@@ -15,11 +16,7 @@ const Team: React.FC = () => {
 
   const teamModelQuery = useGetTeam(teamId);
 
-  const queryStatus: FinQueryStatus = {
-    isError: teamModelQuery.isError,
-    isInitialLoading: teamModelQuery.isInitialLoading,
-    error: teamModelQuery.error,
-  };
+  const queryStatus: FinQueryStatus = useFinQueryStatus(teamModelQuery);
 
   return (
     <div>

@@ -8,17 +8,14 @@ import FinButton from "../../components/Shared/FinButton";
 import PageTitle from "../../components/Shared/Layout/PageTitle";
 import PageBody from "../../components/Shared/Layout/PageBody";
 import { FinQueryStatus } from "../../types";
+import { useFinQueryStatus } from "../../util/error";
 
 const MyTeams: React.FC = () => {
   const [search, setSearch] = React.useState("");
 
   const myTeamsQuery = useGetMyTeams();
 
-  const queryStatus: FinQueryStatus = {
-    isError: myTeamsQuery.isError,
-    isInitialLoading: myTeamsQuery.isInitialLoading,
-    error: myTeamsQuery.error,
-  };
+  const queryStatus: FinQueryStatus = useFinQueryStatus(myTeamsQuery);
 
   return (
     <div>
