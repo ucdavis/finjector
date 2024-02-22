@@ -20,16 +20,33 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
 }) => {
   const isInPopup = usePopupStatus();
 
-  const isValid =
-    isInitialLoading || // if we're doing first fetch
-    isError || // if we've errored
-    chartString || // if we have no data
-    chartType === ChartType.INVALID; // if we have invalid data
+  if (isInitialLoading || isError || !chartString) {
+    return (
+      <div className="chartstring-details-title d-flex justify-content-between align-items-center">
+        <div className="col-11">
+          <div className="chartstring-type">
+            <span>PPM or GL </span>
+            <div className="div">
+              {isInitialLoading ? (
+                <Badge color="secondary" pill={true} className="me-1">
+                  Loading...
+                </Badge>
+              ) : (
+                <Badge color="danger" pill={true} className="me-1">
+                  Error
+                </Badge>
+              )}
+            </div>
+          </div>
+          <h1>{chartString ?? "0000-00000-0000-00000-0000"}</h1>
+        </div>
+      </div>
+    );
+  }
+
+  const isValid = chartType !== ChartType.INVALID; // if we have invalid data
   const badgeColor = isValid ? "success" : "danger";
 
-  if (!chartString) {
-    return null;
-  }
   return (
     <div className="chartstring-details-title d-flex justify-content-between align-items-center">
       <div className="col-11">
