@@ -55,7 +55,7 @@ const EditFolder: React.FC = () => {
       <div>
         <PageTitle
           title={
-            queryStatus.isInitialLoading
+            queryStatus.isLoading
               ? "Scribbling in form..."
               : "Error loading Edit Folder form"
           }
@@ -76,7 +76,7 @@ const EditFolder: React.FC = () => {
           }}
           buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
           onSubmit={handleCreate}
-          loading={updateFolderMutation.isLoading}
+          loading={updateFolderMutation.isPending}
         />
       </PageBody>
     </div>

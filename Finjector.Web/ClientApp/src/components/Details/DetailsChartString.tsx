@@ -16,18 +16,18 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
   chartType,
   chartString,
   hasWarnings,
-  queryStatus: { isInitialLoading, isError },
+  queryStatus: { isLoading, isError },
 }) => {
   const isInPopup = usePopupStatus();
 
-  if (isInitialLoading || isError || !chartString) {
+  if (isLoading || isError || !chartString) {
     return (
       <div className="chartstring-details-title d-flex justify-content-between align-items-center">
         <div className="col-11">
           <div className="chartstring-type">
             <span>PPM or GL </span>
             <div className="div">
-              {isInitialLoading ? (
+              {isLoading ? (
                 <Badge color="secondary" pill={true} className="me-1">
                   Loading...
                 </Badge>

@@ -45,7 +45,7 @@ const EditTeam: React.FC = () => {
     return (
       <div>
         <h4>
-          {queryStatus.isInitialLoading
+          {queryStatus.isLoading
             ? "Scribbling in form details..."
             : "Error loading Edit Team form"}
         </h4>
@@ -66,7 +66,7 @@ const EditTeam: React.FC = () => {
           }}
           buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
           onSubmit={handleCreate}
-          loading={updateTeamMutation.isLoading}
+          loading={updateTeamMutation.isPending}
         />
       </PageBody>
     </div>

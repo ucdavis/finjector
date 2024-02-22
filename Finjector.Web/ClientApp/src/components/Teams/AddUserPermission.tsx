@@ -93,9 +93,9 @@ export const AddUserPermission = (props: Props) => {
           <div className="text-end">
             <FinButton
               type="submit"
-              disabled={!formValid || addUserMutation.isLoading}
+              disabled={!formValid || addUserMutation.isPending}
             >
-              {addUserMutation.isLoading
+              {addUserMutation.isPending
                 ? "Assigning Role..."
                 : "Assign Role to User"}
             </FinButton>

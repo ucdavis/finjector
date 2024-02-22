@@ -50,12 +50,12 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
     folderModelData?.folder?.myTeamPermissions,
   ]);
 
-  if (queryStatus.isInitialLoading || queryStatus.isError || !folderModelData) {
+  if (queryStatus.isLoading || queryStatus.isError || !folderModelData) {
     return (
       <PageTitle>
         <div className="col-12 col-md-9">
           <h4>
-            {queryStatus.isInitialLoading
+            {queryStatus.isLoading
               ? "Scribbling in Folder Details..."
               : "Error loading Folder Details"}
           </h4>

@@ -24,7 +24,7 @@ const MyTeams: React.FC = () => {
           <h1>
             {queryStatus.isError
               ? "Error loading Teams"
-              : queryStatus.isInitialLoading
+              : queryStatus.isLoading
               ? "Scribbling in Your Teams..."
               : "My Teams"}
           </h1>

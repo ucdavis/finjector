@@ -15,7 +15,7 @@ export const RemoveUserPermission = (props: Props) => {
   );
 
   const removeInProgress =
-    removeUserMutation.isLoading || removeUserMutation.isSuccess;
+    removeUserMutation.isPending || removeUserMutation.isSuccess;
 
   const handleRemovePermission = () => {
     removeUserMutation.mutate({ email: props.userEmail });

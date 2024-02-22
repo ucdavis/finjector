@@ -14,22 +14,21 @@ interface FinQueryStatesProps {
 export const useFinQueryStatus = (query: UseQueryResult<any>) => {
   const queryStatus: FinQueryStatus = {
     isError: query.isError,
-    isInitialLoading: query.isInitialLoading,
+    isLoading: query.isLoading,
     error: query.error,
   };
   return queryStatus;
 };
 
 export const useFinQueryStatusHandler = ({
-  queryStatus: { isInitialLoading, isError, error },
+  queryStatus: { isLoading, isError, error },
   DefaultError = <FinError />,
 }: FinQueryStatesProps) => {
-  if (isInitialLoading) {
+  if (isLoading) {
     return <FinLoader />;
   }
   if (isError) {
-    // since error is type unknown, we have to do a type guard
-    if (typeof error === "object" && isErrorWithMessage(error)) {
+    if (!!error) {
       // now we can handle specific error types through error.message
       if (error.message === UnauthorizedError) {
         return <FinNotAuthorized />;
@@ -42,7 +41,3 @@ export const useFinQueryStatusHandler = ({
   }
   return null;
 };
-
-function isErrorWithMessage(error: unknown): error is { message: string } {
-  return typeof error === "object" && error !== null && "message" in error;
-}

@@ -2,9 +2,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 
 export type FinQueryStatus = Pick<
   UseQueryResult<any>,
-  // we use isInitialLoading instead of isLoading because if disable queries
-  // such as { enabled: chartString.length > 0 }, loading will always be true
-  "isInitialLoading" | "isError" | "error"
+  "isLoading" | "isError" | "error"
 >;
 
 export interface Coa {

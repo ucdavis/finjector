@@ -29,7 +29,7 @@ const AdminList: React.FC = () => {
         <PageTitle>
           <div className="col-12 col-md-3">
             <h4>
-              {queryStatus.isInitialLoading
+              {queryStatus.isLoading
                 ? "Scribbling in Team Admins..."
                 : "Error loading Team Admins"}
             </h4>

@@ -34,12 +34,12 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
     setModalOpen(modalType);
   };
 
-  if (queryStatus.isInitialLoading || queryStatus.isError || !teamModelData) {
+  if (queryStatus.isLoading || queryStatus.isError || !teamModelData) {
     return (
       <PageTitle>
         <div className="col-12 col-md-9">
           <h1>
-            {queryStatus.isInitialLoading
+            {queryStatus.isLoading
               ? "Scribbling in Your Team..."
               : "Error loading Team"}
           </h1>

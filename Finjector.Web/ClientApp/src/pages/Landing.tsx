@@ -26,7 +26,7 @@ const Landing = () => {
           <h1>
             {queryStatus.isError
               ? "Error loading your Chart Strings"
-              : queryStatus.isInitialLoading
+              : queryStatus.isLoading
               ? "Scribbling in your Chart Strings..."
               : "My Chart Strings"}
           </h1>
