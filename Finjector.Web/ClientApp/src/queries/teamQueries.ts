@@ -10,22 +10,25 @@ import {
 const queryClient = new QueryClient();
 
 export const useGetMyTeams = () =>
-  useQuery(["teams", "me"], async () => {
-    return await doFetch<TeamsResponseModel[]>(fetch(`/api/team`));
+  useQuery({
+    queryKey: ["teams", "me"],
+    queryFn: async () => {
+      return await doFetch<TeamsResponseModel[]>(fetch(`/api/team`));
+    },
   });
 
 export const useGetTeam = (id: string | undefined) =>
-  useQuery(
-    ["teams", id],
-    async () => {
+  useQuery({
+    queryKey: ["teams", id],
+    queryFn: async () => {
       return await doFetch<TeamResponseModel>(fetch(`/api/team/${id}`));
     },
-    { enabled: id !== undefined }
-  );
+    enabled: id !== undefined,
+  });
 
 export const useCreateTeamMutation = () =>
-  useMutation(
-    async (team: NameAndDescriptionModel) => {
+  useMutation({
+    mutationFn: async (team: NameAndDescriptionModel) => {
       return await doFetch<Team>(
         fetch(`/api/team/`, {
           method: "POST",
@@ -36,17 +39,15 @@ export const useCreateTeamMutation = () =>
         })
       );
     },
-    {
-      onSuccess: () => {
-        // invalidate teams query so we refetch
-        queryClient.invalidateQueries(["teams", "me"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      // invalidate teams query so we refetch
+      queryClient.invalidateQueries({ queryKey: ["teams", "me"] });
+    },
+  });
 
 export const useUpdateTeamMutation = (id: string) =>
-  useMutation(
-    async (team: NameAndDescriptionModel) => {
+  useMutation({
+    mutationFn: async (team: NameAndDescriptionModel) => {
       return await doFetch<Team>(
         fetch(`/api/team/${id}`, {
           method: "PUT",
@@ -57,45 +58,39 @@ export const useUpdateTeamMutation = (id: string) =>
         })
       );
     },
-    {
-      onSuccess: () => {
-        // invalidate teams query so we refetch
-        queryClient.invalidateQueries(["teams", "me"]);
-        queryClient.invalidateQueries(["teams", id]);
-      },
-    }
-  );
+    onSuccess: () => {
+      // invalidate teams query so we refetch
+      queryClient.invalidateQueries({ queryKey: ["teams", "me"] });
+      queryClient.invalidateQueries({ queryKey: ["teams", id] });
+    },
+  });
 
 export const useDeleteTeamMutation = () =>
-  useMutation(
-    async (id: string) => {
+  useMutation({
+    mutationFn: async (id: string) => {
       return await doFetchEmpty(
         fetch(`/api/team/${id}`, {
           method: "DELETE",
         })
       );
     },
-    {
-      onSuccess: () => {
-        // invalidate teams query so we refetch
-        queryClient.invalidateQueries(["teams", "me"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      // invalidate teams query so we refetch
+      queryClient.invalidateQueries({ queryKey: ["teams", "me"] });
+    },
+  });
 
 export const useLeaveTeamMutation = () =>
-  useMutation(
-    async (id: string) => {
+  useMutation({
+    mutationFn: async (id: string) => {
       return await doFetchEmpty(
         fetch(`/api/team/${id}/leave`, {
           method: "POST",
         })
       );
     },
-    {
-      onSuccess: () => {
-        // invalidate teams query so we refetch
-        queryClient.invalidateQueries(["teams", "me"]);
-      },
-    }
-  );
+    onSuccess: () => {
+      // invalidate teams query so we refetch
+      queryClient.invalidateQueries({ queryKey: ["teams", "me"] });
+    },
+  });
