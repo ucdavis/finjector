@@ -46,7 +46,8 @@ Sentry.init({
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false,
+      // as of v5, window focus listens only on `visibilityChange`, not just `focus` (which was refetching a lot)
+      // refetchOnWindowFocus: false,
       retry: process.env.NODE_ENV === "development" ? 0 : 3,
     },
   },
