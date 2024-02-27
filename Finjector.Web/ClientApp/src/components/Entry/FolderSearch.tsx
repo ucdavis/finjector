@@ -126,7 +126,7 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
           }}
         />
       </InputGroup>
-      {currentlySavedInFolderId && (
+      {!!currentlySavedInFolderId && (
         <div className="form-text">
           Current Team:{" "}
           {query.data?.find((f) => f.id === currentlySavedInFolderId)?.teamName}
