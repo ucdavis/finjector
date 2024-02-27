@@ -93,9 +93,9 @@ const SegmentSearch = (props: Props) => {
         promptText={
           segmentQuery.isFetching
             ? "Searching..."
-            : !segmentQuery.data
-            ? "Type to search..."
-            : "No matches found."
+            : !!segmentQuery.data && segmentQuery.data.length === 0
+            ? "No matches found."
+            : "Type to search..."
         }
         onInputChange={handleInputChange}
         defaultInputValue={props.segmentData.code}
