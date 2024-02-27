@@ -46,14 +46,14 @@ const DeleteTeamModal = (props: Props) => {
           <FinButton
             color="secondary"
             onClick={closeModal}
-            disabled={deleteMutation.isLoading}
+            disabled={deleteMutation.isPending}
           >
             Cancel
           </FinButton>
           <FinButton
             color="danger"
             onClick={handleDelete}
-            disabled={deleteMutation.isLoading}
+            disabled={deleteMutation.isPending}
           >
             <FontAwesomeIcon icon={faTrash} />
             Delete

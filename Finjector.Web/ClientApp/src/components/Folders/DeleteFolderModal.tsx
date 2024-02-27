@@ -45,17 +45,17 @@ const DeleteFolderModal = (props: Props) => {
         <FinButton
           color="secondary"
           onClick={closeModal}
-          disabled={deleteMutation.isLoading}
+          disabled={deleteMutation.isPending}
         >
           Cancel
         </FinButton>
         <FinButton
           color="danger"
           onClick={handleDelete}
-          disabled={deleteMutation.isLoading}
+          disabled={deleteMutation.isPending}
         >
           <FontAwesomeIcon icon={faTrash} />
-          {deleteMutation.isLoading ? "Deleting" : "Delete"}
+          {deleteMutation.isPending ? "Deleting" : "Delete"}
         </FinButton>
       </ModalFooter>
     </Modal>

@@ -29,16 +29,12 @@ const UserPermissionTitle: React.FC<UserPermissionTitleProps> = ({
 
   const toggleAddPermission = () => setAddPermissionActive((p) => !p);
 
-  if (
-    queryStatus.isInitialLoading ||
-    queryStatus.isError ||
-    !membershipQueryData
-  )
+  if (queryStatus.isLoading || queryStatus.isError || !membershipQueryData)
     return (
       <PageTitle>
         <div className="col-12 col-md-3">
           <h4>
-            {queryStatus.isInitialLoading
+            {queryStatus.isLoading
               ? "Scribbling in Permissions..."
               : "Error loading Permissions"}
           </h4>

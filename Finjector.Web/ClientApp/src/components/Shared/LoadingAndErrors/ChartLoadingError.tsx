@@ -62,7 +62,7 @@ export const ChartLoadingError = () => {
             </p>
             <FinButton
               color="danger"
-              disabled={removeMutation.isLoading}
+              disabled={removeMutation.isPending}
               onClick={remove}
             >
               Remove

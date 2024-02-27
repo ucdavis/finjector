@@ -10,21 +10,27 @@ import { doFetch, doFetchEmpty } from "../util/api";
 
 // Using query functions here in case we change to async/stored stirngs later
 export const useGetSavedCharts = () =>
-  useQuery(["charts", "me"], async () => {
-    const charts = await doFetch<TeamGroupedCoas[]>(fetch(`/api/charts/all`));
+  useQuery({
+    queryKey: ["charts", "me"],
+    queryFn: async () => {
+      const charts = await doFetch<TeamGroupedCoas[]>(fetch(`/api/charts/all`));
 
-    return charts;
+      return charts;
+    },
   });
 
 export const useGetChart = (id: string) =>
-  useQuery(["charts", "basic", id], async () => {
-    return await doFetch<Coa>(fetch(`/api/charts/${id}`));
+  useQuery({
+    queryKey: ["charts", "basic", id],
+    queryFn: async () => {
+      return await doFetch<Coa>(fetch(`/api/charts/${id}`));
+    },
   });
 
 export const useGetChartDetails = (chartString: string, chartId?: string) =>
-  useQuery(
-    ["charts", "details", chartString],
-    async () => {
+  useQuery({
+    queryKey: ["charts", "details", chartString],
+    queryFn: async () => {
       const chart = await doFetch<ChartStringAndAeDetails>(
         fetch(
           chartId
@@ -35,14 +41,14 @@ export const useGetChartDetails = (chartString: string, chartId?: string) =>
 
       return chart;
     },
-    { enabled: chartString.length > 0 }
-  );
+    enabled: chartString.length > 0,
+  });
 
 // pull saved chart and return hydrated chartData from server
 export const useGetSavedChartWithData = (id: string) =>
-  useQuery(
-    ["charts", "saved", id],
-    async () => {
+  useQuery({
+    queryKey: ["charts", "saved", id],
+    queryFn: async () => {
       const chart = await doFetch<Coa>(fetch(`/api/charts/${id}`));
 
       if (chart) {
@@ -61,15 +67,15 @@ export const useGetSavedChartWithData = (id: string) =>
 
       return null;
     },
-    { enabled: id.length > 0 }
-  );
+    enabled: id.length > 0,
+  });
 
 // save new chart
 export const useSaveChart = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(
-    async (chart: Coa) => {
+  return useMutation({
+    mutationFn: async (chart: Coa) => {
       return await doFetch<Coa>(
         fetch(`/api/charts/save`, {
           method: "POST",
@@ -81,34 +87,34 @@ export const useSaveChart = () => {
         })
       );
     },
-    {
-      onSuccess: (chart) => {
-        // invalidate the charts query so we can get the new chart
-        queryClient.invalidateQueries(["charts", "me"]);
-        queryClient.invalidateQueries(["charts", "saved", chart.id]);
-        queryClient.invalidateQueries(["charts", "details", chart.id]);
-      },
-    }
-  );
+    onSuccess: (chart) => {
+      // invalidate the charts query so we can get the new chart
+      queryClient.invalidateQueries({ queryKey: ["charts", "me"] });
+      queryClient.invalidateQueries({
+        queryKey: ["charts", "saved", chart.id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["charts", "details", chart.id],
+      });
+    },
+  });
 };
 
 // delete chart
 export const useRemoveChart = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(
-    async (chart: Coa) => {
+  return useMutation({
+    mutationFn: async (chart: Coa) => {
       return await doFetchEmpty(
         fetch(`/api/charts/delete/${chart.id}`, {
           method: "DELETE",
         })
       );
     },
-    {
-      onSuccess: (chart) => {
-        // invalidate the charts query so we re-query the list
-        queryClient.invalidateQueries(["charts", "me"]);
-      },
-    }
-  );
+    onSuccess: (chart) => {
+      // invalidate the charts query so we re-query the list
+      queryClient.invalidateQueries({ queryKey: ["charts", "me"] });
+    },
+  });
 };

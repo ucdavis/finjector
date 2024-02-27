@@ -128,7 +128,7 @@ const Entry = () => {
       <div title="main">
         <PageTitle
           title={
-            queryStatus.isInitialLoading
+            queryStatus.isLoading
               ? "Scribbling in form..."
               : "Edit Chart String"
           }

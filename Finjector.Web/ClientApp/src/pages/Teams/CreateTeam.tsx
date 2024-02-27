@@ -35,7 +35,7 @@ const CreateTeam: React.FC = () => {
       <NameAndDescriptionForm
         buttonText={(loading) => (loading ? "Creating..." : "Create New Team")}
         onSubmit={handleCreate}
-        loading={createTeamMutation.isLoading}
+        loading={createTeamMutation.isPending}
       />
     </div>
   );

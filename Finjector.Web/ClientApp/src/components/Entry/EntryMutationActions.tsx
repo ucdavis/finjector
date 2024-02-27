@@ -121,7 +121,7 @@ const EntryMutationActions = (props: Props) => {
         {savedChart.canEdit && (
           <FinButton
             className="flex-fill"
-            disabled={removeMutation.isLoading || saveMutation.isLoading}
+            disabled={removeMutation.isPending || saveMutation.isPending}
             onClick={remove}
             margin={false}
           >
@@ -132,9 +132,9 @@ const EntryMutationActions = (props: Props) => {
         <FinButton
           className="flex-fill"
           disabled={
-            saveMutation.isLoading ||
+            saveMutation.isPending ||
             !savedChart.name ||
-            removeMutation.isLoading
+            removeMutation.isPending
           }
           onClick={copy}
           margin={savedChart.canEdit} // only have a margin if it is one of multiple buttons
@@ -146,9 +146,9 @@ const EntryMutationActions = (props: Props) => {
           <FinButton
             className="flex-fill"
             disabled={
-              saveMutation.isLoading ||
+              saveMutation.isPending ||
               !savedChart.name ||
-              removeMutation.isLoading
+              removeMutation.isPending
             }
             onClick={save}
           >
@@ -162,7 +162,7 @@ const EntryMutationActions = (props: Props) => {
             onClick={use}
             // it looks ugly and is confusing to press "use" when another action is in process
             // but i think since Use is our main action, we should allow it if another action is hanging
-            // disabled={saveMutation.isLoading || removeMutation.isLoading}
+            // disabled={saveMutation.isPending || removeMutation.isPending}
           >
             <FontAwesomeIcon icon={faBolt} />
             Use
@@ -176,7 +176,7 @@ const EntryMutationActions = (props: Props) => {
     <div className="d-flex">
       <FinButton
         className="flex-fill"
-        disabled={saveMutation.isLoading || !savedChart.name}
+        disabled={saveMutation.isPending || !savedChart.name}
         onClick={saveAndUse}
         margin={false}
       >

@@ -10,9 +10,9 @@ export const useSegmentQuery = (
   dependency?: string,
   minQueryLength = 3
 ) =>
-  useQuery(
-    ["segments", chartType, segmentName, query, dependency],
-    () => {
+  useQuery({
+    queryKey: ["segments", chartType, segmentName, query, dependency],
+    queryFn: () => {
       const controller = chartType === ChartType.GL ? "glsearch" : "ppmsearch";
 
       return doFetch<SegmentData[]>(
@@ -21,45 +21,39 @@ export const useSegmentQuery = (
         )
       );
     },
-    {
-      enabled: query?.length >= minQueryLength, // matches the minimum length of our async search
-      staleTime: 1000 * 60, // don't requery same search term for 1 minute
-    }
-  );
+    enabled: query?.length >= minQueryLength, // matches the minimum length of our async search
+    staleTime: 1000 * 60, // don't requery same search term for 1 minute
+  });
 
 // grab all tasks for the given project
 export const useTaskQuery = (projectNumber: string, projectValid: boolean) =>
-  useQuery(
-    ["segments", ChartType.PPM, "task", projectNumber],
-    () => {
+  useQuery({
+    queryKey: ["segments", ChartType.PPM, "task", projectNumber],
+    queryFn: () => {
       return doFetch<SegmentData[]>(
         fetch(`/api/ppmsearch/tasksByProject?projectNumber=${projectNumber}`)
       );
     },
-    {
-      enabled: projectValid,
-      staleTime: 1000 * 60, // don't requery same search term for 1 minute
-    }
-  );
+    enabled: projectValid,
+    staleTime: 1000 * 60, // don't requery same search term for 1 minute
+  });
 
 // search a full segment string
 export const useSegmentStringQuery = (
   chartType: ChartType,
   segmentString: string
 ) =>
-  useQuery(
-    ["segmentString", chartType, segmentString],
-    () => {
+  useQuery({
+    queryKey: ["segmentString", chartType, segmentString],
+    queryFn: () => {
       const controller = chartType === ChartType.GL ? "glsearch" : "ppmsearch";
 
       return doFetch<SegmentData[]>(
         fetch(`/api/${controller}/fullstring?segmentString=${segmentString}`)
       );
     },
-    {
-      enabled: segmentString?.length > 0,
-    }
-  );
+    enabled: segmentString?.length > 0,
+  });
 
 // validate a full segment string, including getting back segment data
 export const useSegmentValidateQuery = (
@@ -67,19 +61,17 @@ export const useSegmentValidateQuery = (
   segmentString: string,
   enabled: boolean
 ) =>
-  useQuery(
-    ["validate", chartType, segmentString],
-    () => {
+  useQuery({
+    queryKey: ["validate", chartType, segmentString],
+    queryFn: () => {
       const controller = chartType === ChartType.GL ? "glsearch" : "ppmsearch";
 
       return doFetch<SegmentValidateQueryResponse>(
         fetch(`/api/${controller}/validate?segmentString=${segmentString}`)
       );
     },
-    {
-      enabled,
-    }
-  );
+    enabled,
+  });
 
 export interface ValidationResponse {
   errorMessages: string[];

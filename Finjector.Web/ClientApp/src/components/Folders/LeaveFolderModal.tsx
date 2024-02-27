@@ -47,14 +47,14 @@ const LeaveFolderModal = (props: Props) => {
           <FinButton
             color="secondary"
             onClick={closeModal}
-            disabled={leaveMutation.isLoading}
+            disabled={leaveMutation.isPending}
           >
             Cancel
           </FinButton>
           <FinButton
             color="danger"
             onClick={handleLeave}
-            disabled={leaveMutation.isLoading}
+            disabled={leaveMutation.isPending}
           >
             <FontAwesomeIcon icon={faPersonThroughWindow} />
             Leave
