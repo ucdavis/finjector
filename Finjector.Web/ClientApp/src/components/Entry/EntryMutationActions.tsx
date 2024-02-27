@@ -137,6 +137,7 @@ const EntryMutationActions = (props: Props) => {
             removeMutation.isLoading
           }
           onClick={copy}
+          margin={savedChart.canEdit} // only have a margin if it is one of multiple buttons
         >
           <FontAwesomeIcon icon={faClone} />
           Duplicate
