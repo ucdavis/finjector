@@ -38,7 +38,12 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
               )}
             </div>
           </div>
-          <h1>{chartString ?? "0000-00000-0000-00000-0000"}</h1>
+          <CopyToClipboardHover
+            value={chartString ?? "0000-00000-0000-00000-0000"}
+            id="copyPpmGlStringLoadingErr"
+          >
+            <h1>{chartString ?? "0000-00000-0000-00000-0000"}</h1>
+          </CopyToClipboardHover>
         </div>
       </div>
     );
