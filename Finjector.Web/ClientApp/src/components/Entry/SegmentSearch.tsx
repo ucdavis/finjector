@@ -88,8 +88,15 @@ const SegmentSearch = (props: Props) => {
         filterBy={() => true} // don't filter since we're doing it on the server
         isLoading={segmentQuery.isFetching}
         labelKey="code"
-        minLength={minQueryLength}
+        minLength={0} // to show "Type to search" before the user has started typing, we have to set minLength to 0. however, useSegmentQuery won't do anything until it meets minLength
         onSearch={() => {}}
+        promptText={
+          segmentQuery.isFetching
+            ? "Searching..."
+            : !!segmentQuery.data && segmentQuery.data.length === 0
+            ? "No matches found."
+            : "Type to search..."
+        }
         onInputChange={handleInputChange}
         defaultInputValue={props.segmentData.code}
         onChange={handleSelected}
