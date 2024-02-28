@@ -42,7 +42,7 @@ const Example: React.FC = () => {
   return (
     <main className="form-signin w-100 m-auto">
       <h1>For Example / Test Use Only</h1>
-      <form>
+      <form onSubmit={openFinjector}>
         <h1 className="h3 mb-3 fw-normal">
           Please enter your account information
         </h1>

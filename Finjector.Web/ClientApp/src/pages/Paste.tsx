@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { SyntheticEvent, useEffect } from "react";
 import {
   isGlSegmentString,
   isPpmSegmentString,
@@ -28,10 +28,17 @@ const Paste = () => {
     }
   }, [coa]);
 
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+    if (error === "" && coa !== "") {
+      navigate(`/entry/${coa}`);
+    }
+  };
+
   return (
     <div className="main">
       <PageTitle title="New Chart String from paste" />
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <p>Paste in a copied account number</p>
           <input
@@ -52,7 +59,7 @@ const Paste = () => {
         <FinButton
           className="btn btn-primary"
           disabled={error !== "" || coa === ""}
-          onClick={() => navigate(`/entry/${coa}`)}
+          onClick={handleSubmit}
           margin={false}
         >
           NEXT

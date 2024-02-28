@@ -15,7 +15,7 @@ const GlEntry = (props: Props) => {
 
   return (
     <div className="form-data-entry">
-      <form className="row">
+      <div className="row">
         <SegmentSearch
           chartType={ChartType.GL}
           segmentData={props.segments.entity}
@@ -64,7 +64,7 @@ const GlEntry = (props: Props) => {
           segmentData={props.segments.activity}
           setSegmentValue={updateSegment}
         ></SegmentSearch>
-      </form>
+      </div>
     </div>
   );
 };

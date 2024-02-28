@@ -17,7 +17,7 @@ const PpmEntry = (props: Props) => {
 
   return (
     <div className="form-data-entry">
-      <form className="row">
+      <div className="row">
         <SegmentSearch
           chartType={ChartType.PPM}
           segmentData={props.segments.project}
@@ -41,7 +41,7 @@ const PpmEntry = (props: Props) => {
           segmentData={props.segments.expenditureType}
           setSegmentValue={updateSegment}
         ></SegmentSearch>
-      </form>
+      </div>
     </div>
   );
 };
