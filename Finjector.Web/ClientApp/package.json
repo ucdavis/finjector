@@ -34,7 +34,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "prestart": "node aspnetcore-https.mjs",
+    "prestart": "node aspnetcore-https.js",
     "start": "vite",
     "build": "tsc && vite build",
     "preview": "tsc && vite preview",
