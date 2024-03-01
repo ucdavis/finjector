@@ -6,8 +6,8 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 const proxySettings = {
   target: "https://localhost:7256/",
-  changeOrigin: true,
-  secure: true,
+  changeOrigin: false,
+  secure: false,
 };
 
 // https://vitejs.dev/config/

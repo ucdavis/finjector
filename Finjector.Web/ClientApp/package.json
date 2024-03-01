@@ -37,7 +37,7 @@
     "prestart": "node aspnetcore-https.js",
     "start": "vite",
     "build": "tsc && vite build",
-    "preview": "tsc && vite preview",
+    "preview": "vite preview",
     "test": "jest",
     "citest": "cross-env CI=true jest --reporters default --reporters jest-trx-results-processor"
   },
