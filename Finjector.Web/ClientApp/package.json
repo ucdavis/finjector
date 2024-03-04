@@ -36,7 +36,7 @@
   "scripts": {
     "prestart": "node aspnetcore-https.js",
     "start": "vite",
-    "build": "cross-env VITEST_ENV=ci tsc && vite build",
+    "build": "tsc && cross-env VITEST_ENV=ci vite build",
     "preview": "vite preview",
     "test": "vitest",
     "citest": "cross-env VITEST_ENV=ci vitest run --reporter=junit --outputFile=test/reports/junit.xml"
