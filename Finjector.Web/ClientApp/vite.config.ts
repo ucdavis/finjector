@@ -25,6 +25,9 @@ export default defineConfig({
       // all tests will run in jsdom
       ["src/**", "jsdom"],
     ],
+    coverage: {
+      reporter: ["cobertura", "text"],
+    },
   },
   server: {
     https: {

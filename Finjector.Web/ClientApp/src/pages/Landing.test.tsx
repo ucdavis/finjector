@@ -1,34 +1,21 @@
 import React from "react";
 
-import { cleanupApiMocks, mockApi } from "../util/test";
-import { fakeFolders, fakeTeams } from "../util/mockData";
+import { fakeFolders, fakeTeams } from "../../test/mocks/mockData";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Landing from "./Landing";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { TeamGroupedCoas } from "../types";
 import { vi, describe, it, expect } from "vitest";
+import { server } from "../../test/mocks/node";
 
-afterAll(() => {
-  cleanupApiMocks();
-});
-
-const mockSavedChartsCall = () => {
-  const fakeTeamGroups: TeamGroupedCoas[] = [
-    {
-      team: fakeTeams[0],
-      folders: [fakeFolders[0]],
-    },
-  ];
-  mockApi().get("/api/charts/all").reply(200, fakeTeamGroups);
-};
+beforeAll(() => server.listen());
+beforeEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 // test main landing page
 describe("Landing", () => {
   it("renders", () => {
-    // setup mock
-    mockSavedChartsCall();
-
     // render component
     render(wrappedView());
 
@@ -42,9 +29,6 @@ describe("Landing", () => {
   });
 
   it("loads saved charts", async () => {
-    // setup mock
-    mockSavedChartsCall();
-
     // render component
     render(wrappedView());
 

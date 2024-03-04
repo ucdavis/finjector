@@ -46,8 +46,8 @@ steps:
   displayName: 'Publish Client Test Results'
   inputs:
     searchFolder: './Finjector.Web/ClientApp'
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/test-results.trx'
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/junit.xml'
     testRunTitle: 'Client Tests'
 
 - task: DotNetCoreCLI@2
