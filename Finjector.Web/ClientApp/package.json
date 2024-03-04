@@ -38,7 +38,7 @@
     "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "jest",
+    "test": "vitest",
     "citest": "cross-env CI=true jest --reporters default --reporters jest-trx-results-processor"
   },
   "eslintConfig": {
@@ -69,10 +69,12 @@
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-trx-results-processor": "^3.0.1",
+    "jsdom": "^24.0.0",
     "nock": "^13.3.1",
     "prettier": "^2.7.1",
     "ts-jest": "^29.1.2",
     "vite": "^5.1.4",
-    "vite-tsconfig-paths": "^4.3.1"
+    "vite-tsconfig-paths": "^4.3.1",
+    "vitest": "^1.3.1"
   }
 }

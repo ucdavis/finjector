@@ -7,6 +7,7 @@ import Landing from "./Landing";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { TeamGroupedCoas } from "../types";
+import { vi, describe, it, expect } from "vitest";
 
 afterAll(() => {
   cleanupApiMocks();
@@ -48,7 +49,7 @@ describe("Landing", () => {
     render(wrappedView());
 
     // should see list of saved charts (3 from our mock data)
-    await waitFor(() => {
+    await vi.waitFor(() => {
       expect(screen.getByText("Chart 1")).toBeInTheDocument();
     });
   });

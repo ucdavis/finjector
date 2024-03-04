@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { readFileSync } from "fs";
@@ -16,6 +17,15 @@ export default defineConfig({
     outDir: "build",
   },
   plugins: [react(), tsconfigPaths()],
+  test: {
+    globals: true,
+    root: __dirname,
+    setupFiles: "./vitest.setup.ts",
+    environmentMatchGlobs: [
+      // all tests will run in jsdom
+      ["src/**", "jsdom"],
+    ],
+  },
   server: {
     https: {
       key: readFileSync(keyFilePath),
