@@ -31,8 +31,8 @@ export default defineConfig({
   },
   server: {
     https: {
-      key: readFileSync(keyFilePath),
-      cert: readFileSync(certFilePath),
+      key: process.env.VITEST_ENV !== "ci" ? readFileSync(keyFilePath) : "",
+      cert: process.env.VITEST_ENV !== "ci" ? readFileSync(certFilePath) : "",
     },
     port: 3000,
     strictPort: true,

@@ -39,7 +39,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "citest": "vitest run --reporter=junit --outputFile=test/reports/junit.xml"
+    "citest": "cross-env VITEST_ENV=ci vitest run --reporter=junit --outputFile=test/reports/junit.xml"
   },
   "eslintConfig": {
     "extends": [

@@ -25,7 +25,11 @@ if (!certificateName) {
 export const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
 export const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
-if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
+// make sure we don't do this in Azure DevOps environment
+if (
+  process.env.VITEST_ENV !== "ci" &&
+  (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath))
+) {
   spawn(
     "dotnet",
     [
