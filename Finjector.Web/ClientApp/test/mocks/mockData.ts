@@ -1,4 +1,4 @@
-import { Coa, ChartType, Team, Folder } from "../types";
+import { Coa, ChartType, Team, Folder } from "../../src/types";
 
 const fakeCharts: Coa[] = [];
 const fakeTeams: Team[] = [];

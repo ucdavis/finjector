@@ -233,3 +233,6 @@ _Pvt_Extensions
 
 # JetBrains Rider
 .idea/
+
+# vitest (junit-formatted) reports
+**/test/reports/
