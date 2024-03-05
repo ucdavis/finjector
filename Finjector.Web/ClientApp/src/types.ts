@@ -1,6 +1,7 @@
 import { UseQueryResult } from "@tanstack/react-query";
 
 export type FinQueryStatus = Pick<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   UseQueryResult<any>,
   "isLoading" | "isError" | "error"
 >;

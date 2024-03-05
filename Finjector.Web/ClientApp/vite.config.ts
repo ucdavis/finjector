@@ -3,8 +3,6 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { readFileSync } from "fs";
 import { certFilePath, keyFilePath } from "./aspnetcore-https.js";
-import tsconfigPaths from "vite-tsconfig-paths";
-import eslint from "vite-plugin-eslint";
 
 const proxySettings = {
   target: "https://localhost:7256/",
@@ -17,7 +15,7 @@ export default defineConfig({
   build: {
     outDir: "build",
   },
-  plugins: [react(), tsconfigPaths(), eslint()],
+  plugins: [react()],
   test: {
     globals: true,
     root: __dirname,
