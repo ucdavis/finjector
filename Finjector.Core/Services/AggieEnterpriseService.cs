@@ -436,7 +436,7 @@ namespace Finjector.Core.Services
             if (awardDetail != null)
             {
                 var awardResult = await GetAward(awardDetail.Code);
-                if (awardResult != null && awardResult.EligibleForUse)
+                if (awardResult != null) //&& awardResult.EligibleForUse
                 {
                     awardDetail.Name = awardResult.Name;
                     if (awardResult.GlFundCode != null)
@@ -628,7 +628,7 @@ namespace Finjector.Core.Services
                 aeDetails.PpmDetails.ProjectTypeName = data.PpmProjectByNumber.ProjectTypeName;
             }
         }
-
+        
         public FinancialChartStringType GetChartType(string segmentString)
         {
             return FinancialChartValidation.GetFinancialChartStringType(segmentString);
