@@ -16,5 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "setupTests.ts", "test/mocks/mockData.ts"]
+  "include": ["src", "vitest.setup.ts", "test/mocks/mockData.ts"]
 }

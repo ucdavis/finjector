@@ -1,10 +1,9 @@
 import React from "react";
-import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+
+import { render, screen, waitFor } from "@testing-library/react";
 import App from "./App";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { fakeCharts } from "../test/mocks/mockData";
-import { vi, beforeAll, afterEach, afterAll } from "vitest";
+import { beforeAll, afterAll } from "vitest";
 import { server } from "../test/mocks/node";
 
 beforeAll(() => server.listen());
@@ -16,7 +15,7 @@ describe("App", () => {
     render(wrappedView());
 
     // should see landing page
-    await vi.waitFor(() => {
+    await waitFor(() => {
       expect(
         screen.getByText("New Chart String from Scratch")
       ).toBeInTheDocument();

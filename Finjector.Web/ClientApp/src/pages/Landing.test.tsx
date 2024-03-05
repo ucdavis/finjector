@@ -1,12 +1,10 @@
 import React from "react";
 
-import { fakeFolders, fakeTeams } from "../../test/mocks/mockData";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Landing from "./Landing";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { TeamGroupedCoas } from "../types";
-import { vi, describe, it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import { server } from "../../test/mocks/node";
 
 beforeAll(() => server.listen());
@@ -33,7 +31,7 @@ describe("Landing", () => {
     render(wrappedView());
 
     // should see list of saved charts (3 from our mock data)
-    await vi.waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText("Chart 1")).toBeInTheDocument();
     });
   });
