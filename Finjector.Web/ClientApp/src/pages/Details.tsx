@@ -46,8 +46,8 @@ const Details = () => {
         />
         <div className={`chartstring-details ${isPpmOrGlClassName}`}>
           <DetailsChartString
-            chartString={aeDetails?.chartString ?? chartSegmentString}
-            chartType={aeDetails?.chartType}
+            chartStringFromUrl={chartSegmentString}
+            aeDetails={aeDetails}
             queryStatus={queryStatus}
           />
           <DetailsTable

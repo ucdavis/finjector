@@ -3,24 +3,23 @@ import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
 import CopyToClipboardButton from "../Shared/CopyToClipboardButton";
 import { Badge } from "reactstrap";
 import usePopupStatus from "../../util/customHooks";
-import { ChartType, FinQueryStatus } from "../../types";
+import { AeDetails, ChartType, FinQueryStatus } from "../../types";
 
 interface DetailsChartStringProps {
-  chartType: string | undefined;
-  chartString: string | undefined;
-  hasWarnings?: boolean;
+  chartStringFromUrl: string | undefined;
+  aeDetails: AeDetails | undefined; // passing in entire obj so we can check once if it's undef
   queryStatus: FinQueryStatus;
 }
 
 const DetailsChartString: React.FC<DetailsChartStringProps> = ({
-  chartType,
-  chartString,
-  hasWarnings,
+  chartStringFromUrl,
+  aeDetails,
   queryStatus: { isLoading, isError },
 }) => {
   const isInPopup = usePopupStatus();
 
-  if (isLoading || isError || !chartString) {
+  // this handles errors from the query, not errors from AE
+  if (isLoading || isError || !aeDetails) {
     return (
       <div className="chartstring-details-title d-flex justify-content-between align-items-center">
         <div className="col-11">
@@ -39,18 +38,24 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
             </div>
           </div>
           <CopyToClipboardHover
-            value={chartString ?? "0000-00000-0000-00000-0000"}
+            value={chartStringFromUrl ?? "0000-00000-0000-00000-0000"}
             id="copyPpmGlStringLoadingErr"
           >
-            <h1>{chartString ?? "0000-00000-0000-00000-0000"}</h1>
+            <h1>{chartStringFromUrl ?? "0000-00000-0000-00000-0000"}</h1>
           </CopyToClipboardHover>
         </div>
       </div>
     );
   }
 
-  const isValid = chartType !== ChartType.INVALID; // if we have invalid data
-  const badgeColor = isValid ? "success" : "danger";
+  const {
+    chartString,
+    chartType,
+    warnings: aeWarnings,
+    errors: aeErrors,
+  } = aeDetails;
+  // our query was successful, but we can still have AE errors. will either be valid or invalid, but can have warnings in either case
+  const isValid = aeErrors.length === 0 && chartType !== ChartType.INVALID;
 
   return (
     <div className="chartstring-details-title d-flex justify-content-between align-items-center">
@@ -58,11 +63,18 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
         <div className="chartstring-type">
           <span>{chartType} </span>
           <div className="div">
-            <Badge color={badgeColor} pill={true} className="me-1">
-              {isValid ? "Valid" : "Error"}
-            </Badge>
-            {hasWarnings && (
-              <Badge color={"warning"} pill={true}>
+            {isValid && (
+              <Badge color={"success"} pill={true}>
+                Valid
+              </Badge>
+            )}
+            {!isValid && (
+              <Badge color={"danger"} pill={true}>
+                Error
+              </Badge>
+            )}
+            {aeWarnings.length > 0 && (
+              <Badge color={"warning"} pill={true} className={"ms-1"}>
                 Warning
               </Badge>
             )}
