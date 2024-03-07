@@ -6,7 +6,7 @@ interface PageTitleProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const PageTitle: React.FC<PageTitleProps> = (
   { title, children, className, isRow = false },
-  props,
+  props
 ) => {
   if (!children && !title) {
     return null;

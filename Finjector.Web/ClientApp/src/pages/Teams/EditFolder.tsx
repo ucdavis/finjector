@@ -26,7 +26,7 @@ const EditFolder: React.FC = () => {
 
   const updateFolderMutation = useEditFolderMutation(
     teamId || '',
-    folderId || '',
+    folderId || ''
   );
 
   const handleCreate = async (data: NameAndDescriptionModel) => {
@@ -43,7 +43,7 @@ const EditFolder: React.FC = () => {
         onError: (err: any) => {
           addFinToast('error', 'Error updating folder.');
         },
-      },
+      }
     );
   };
 

@@ -23,7 +23,7 @@ const Paste = () => {
       setError('');
     } else {
       setError(
-        'Chart String does not appear to be a valid GL or PPM segment string',
+        'Chart String does not appear to be a valid GL or PPM segment string'
       );
     }
   }, [coa]);

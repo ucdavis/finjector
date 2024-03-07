@@ -5,7 +5,7 @@ import { GlSegments, PpmSegments } from '../types';
 export const mapSegmentQueryData = (
   chartType: ChartType,
   chartData: ChartData,
-  queryData: any,
+  queryData: any
 ) => {
   if (chartType === ChartType.PPM) {
     const segmentMap = queryData.validateResponse.segments;
@@ -35,7 +35,7 @@ export const mapSegmentQueryData = (
 };
 
 export const mapSegmentCodeToName = <T extends GlSegments | PpmSegments>(
-  segments: T,
+  segments: T
 ): T => {
   Object.keys(segments).forEach((segmentKey: string) => {
     const segment = (segments as any)[segmentKey];

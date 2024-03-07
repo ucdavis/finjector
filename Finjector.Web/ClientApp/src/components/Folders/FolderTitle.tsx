@@ -71,10 +71,10 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
   }
 
   const isFolderAdmin = folderModelData.folder.myFolderPermissions.some(
-    (p) => p === 'Admin',
+    (p) => p === 'Admin'
   );
   const isTeamAdmin = folderModelData.folder.myTeamPermissions.some(
-    (p) => p === 'Admin',
+    (p) => p === 'Admin'
   );
 
   const limitedFolder = isPersonalOrDefault(folderModelData.folder.name);
@@ -166,7 +166,7 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
                 charts={folderModelData.charts}
                 fileName={`${folderModelData.folder.name.replace(
                   / /g,
-                  '-',
+                  '-'
                 )}_finjector_export`}
                 fileType='CSV'
                 borderless={true}

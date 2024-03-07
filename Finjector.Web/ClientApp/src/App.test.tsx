@@ -18,7 +18,7 @@ describe('App', () => {
     // should see landing page
     await waitFor(() => {
       expect(
-        screen.getByText('New Chart String from Scratch'),
+        screen.getByText('New Chart String from Scratch')
       ).toBeInTheDocument();
     });
   });

@@ -32,7 +32,7 @@ export const useCreateFolderMutation = (teamId: string) =>
           headers: {
             'Content-Type': 'application/json',
           },
-        }),
+        })
       );
     },
     onSuccess: () => {
@@ -51,7 +51,7 @@ export const useEditFolderMutation = (teamId: string, folderId: string) =>
           headers: {
             'Content-Type': 'application/json',
           },
-        }),
+        })
       );
     },
     onSuccess: () => {
@@ -67,7 +67,7 @@ export const useDeleteFolderMutation = () =>
       return await doFetchEmpty(
         fetch(`/api/folder/${id}`, {
           method: 'DELETE',
-        }),
+        })
       );
     },
     onSuccess: () => {
@@ -83,7 +83,7 @@ export const useLeaveFolderMutation = (teamId: string) =>
       return await doFetchEmpty(
         fetch(`/api/folder/${folderId}/leave`, {
           method: 'POST',
-        }),
+        })
       );
     },
     onSuccess: () => {

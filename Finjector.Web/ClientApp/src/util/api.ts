@@ -16,7 +16,7 @@ export const doFetch = async <T>(fetchCall: Promise<Response>): Promise<T> => {
 
 // This is a version of doFetch that doesn't expect a response body
 export const doFetchEmpty = async (
-  fetchCall: Promise<Response>,
+  fetchCall: Promise<Response>
 ): Promise<void> => {
   const res = await fetchCall;
 
@@ -34,7 +34,7 @@ export const doFetchEmpty = async (
 };
 
 export const doErrorFetch = async <T>(
-  fetchCall: Promise<Response>,
+  fetchCall: Promise<Response>
 ): Promise<T> => {
   console.warn('you are calling doErrorFetch instead of doFetch');
 
@@ -43,7 +43,7 @@ export const doErrorFetch = async <T>(
 };
 
 export const doSlowFetch = async <T>(
-  fetchCall: Promise<Response>,
+  fetchCall: Promise<Response>
 ): Promise<T> => {
   console.warn('you are calling doSlowFetch instead of doFetch');
 

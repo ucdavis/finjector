@@ -13,30 +13,30 @@ import {
 
 export const toGlSegmentString = (gl: GlSegments): string => {
   return `${getSegmentValue(gl.entity)}-${getSegmentValue(
-    gl.fund,
+    gl.fund
   )}-${getSegmentValue(gl.department)}-${getSegmentValue(
-    gl.account,
+    gl.account
   )}-${getSegmentValue(gl.purpose)}-${getSegmentValue(
-    gl.program,
+    gl.program
   )}-${getSegmentValue(gl.project)}-${getSegmentValue(
-    gl.activity,
+    gl.activity
   )}-${getSegmentValue(gl.interEntity)}-${getSegmentValue(
-    gl.flex1,
+    gl.flex1
   )}-${getSegmentValue(gl.flex2)}`;
 };
 
 export const toPpmSegmentString = (ppm: PpmSegments): string => {
   if (isPpmWithoutAward(ppm)) {
     return `${getSegmentValue(ppm.project)}-${getSegmentValue(
-      ppm.task,
+      ppm.task
     )}-${getSegmentValue(ppm.organization)}-${getSegmentValue(
-      ppm.expenditureType,
+      ppm.expenditureType
     )}`;
   }
   return `${getSegmentValue(ppm.project)}-${getSegmentValue(
-    ppm.task,
+    ppm.task
   )}-${getSegmentValue(ppm.organization)}-${getSegmentValue(
-    ppm.expenditureType,
+    ppm.expenditureType
   )}-${getSegmentValue(ppm.award)}-${getSegmentValue(ppm.fundingSource)}`;
 };
 
@@ -47,7 +47,7 @@ const isPpmWithoutAward = (ppm: PpmSegments): boolean => {
 export const isGlSegmentString = (segmentString: string): boolean => {
   return (
     segmentString.match(
-      '^[0-9]{3}[0-9AB]-[0-9A-Z]{5}-[0-9A-Z]{7}-[0-9A-Z]{6}-[0-9][0-9A-Z]-[0-9A-Z]{3}-[0-9A-Z]{10}-[0-9A-Z]{6}-0000-000000-000000$',
+      '^[0-9]{3}[0-9AB]-[0-9A-Z]{5}-[0-9A-Z]{7}-[0-9A-Z]{6}-[0-9][0-9A-Z]-[0-9A-Z]{3}-[0-9A-Z]{10}-[0-9A-Z]{6}-0000-000000-000000$'
     ) !== null
   );
 };
@@ -55,7 +55,7 @@ export const isGlSegmentString = (segmentString: string): boolean => {
 export const isPpmSegmentString = (segmentString: string): boolean => {
   return (
     segmentString.match(
-      '^[0-9A-Z]{10}-[0-9A-Z]{6}-[0-9A-Z]{7}-[0-9A-Z]{6}(-[0-9A-Z]{7}-[0-9A-Z]{5,10})?$',
+      '^[0-9A-Z]{10}-[0-9A-Z]{6}-[0-9A-Z]{7}-[0-9A-Z]{6}(-[0-9A-Z]{7}-[0-9A-Z]{5,10})?$'
     ) !== null
   );
 };
@@ -117,7 +117,7 @@ export const toSegmentString = (chartData: ChartData): string => {
 
 export const fromPpmSegmentString = (
   segmentString: string,
-  validity: boolean = false,
+  validity: boolean = false
 ): PpmSegments => {
   const segments = segmentString.split('-');
 
@@ -224,7 +224,7 @@ export const fromPpmSegmentString = (
 
 export const fromGlSegmentString = (
   segmentString: string,
-  validity: boolean = false,
+  validity: boolean = false
 ): GlSegments => {
   const segments = segmentString.split('-');
 

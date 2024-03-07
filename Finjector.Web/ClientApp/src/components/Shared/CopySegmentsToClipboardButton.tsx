@@ -21,13 +21,13 @@ const CopySegmentsToClipboardButton: React.FC<
   const handleCopy = () => {
     // first pull the string from the segments
     const sortedSegmentDetails = [...segments].sort(
-      (a, b) => a.order - b.order,
+      (a, b) => a.order - b.order
     );
 
     // Transform each object into a string and combine all the strings
     const str = sortedSegmentDetails
       .map(
-        (segment) => `*${segment.entity}*: ${segment.code} (${segment.name})`,
+        (segment) => `*${segment.entity}*: ${segment.code} (${segment.name})`
       )
       .join('\n');
 

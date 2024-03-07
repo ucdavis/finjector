@@ -9,7 +9,7 @@ export const useSegmentQuery = (
   segmentName: string,
   query: string,
   dependency?: string,
-  minQueryLength = 3,
+  minQueryLength = 3
 ) =>
   useQuery({
     queryKey: ['segments', chartType, segmentName, query, dependency],
@@ -18,8 +18,8 @@ export const useSegmentQuery = (
 
       return doFetch<SegmentData[]>(
         fetch(
-          `/api/${controller}/${segmentName}?query=${query}&dependency=${dependency}`,
-        ),
+          `/api/${controller}/${segmentName}?query=${query}&dependency=${dependency}`
+        )
       );
     },
     enabled: query?.length >= minQueryLength, // matches the minimum length of our async search
@@ -32,7 +32,7 @@ export const useTaskQuery = (projectNumber: string, projectValid: boolean) =>
     queryKey: ['segments', ChartType.PPM, 'task', projectNumber],
     queryFn: () => {
       return doFetch<SegmentData[]>(
-        fetch(`/api/ppmsearch/tasksByProject?projectNumber=${projectNumber}`),
+        fetch(`/api/ppmsearch/tasksByProject?projectNumber=${projectNumber}`)
       );
     },
     enabled: projectValid,
@@ -42,7 +42,7 @@ export const useTaskQuery = (projectNumber: string, projectValid: boolean) =>
 // search a full segment string
 export const useSegmentStringQuery = (
   chartType: ChartType,
-  segmentString: string,
+  segmentString: string
 ) =>
   useQuery({
     queryKey: ['segmentString', chartType, segmentString],
@@ -50,7 +50,7 @@ export const useSegmentStringQuery = (
       const controller = chartType === ChartType.GL ? 'glsearch' : 'ppmsearch';
 
       return doFetch<SegmentData[]>(
-        fetch(`/api/${controller}/fullstring?segmentString=${segmentString}`),
+        fetch(`/api/${controller}/fullstring?segmentString=${segmentString}`)
       );
     },
     enabled: segmentString?.length > 0,
@@ -60,7 +60,7 @@ export const useSegmentStringQuery = (
 export const useSegmentValidateQuery = (
   chartType: ChartType,
   segmentString: string,
-  enabled: boolean,
+  enabled: boolean
 ) =>
   useQuery({
     queryKey: ['validate', chartType, segmentString],
@@ -68,7 +68,7 @@ export const useSegmentValidateQuery = (
       const controller = chartType === ChartType.GL ? 'glsearch' : 'ppmsearch';
 
       return doFetch<SegmentValidateQueryResponse>(
-        fetch(`/api/${controller}/validate?segmentString=${segmentString}`),
+        fetch(`/api/${controller}/validate?segmentString=${segmentString}`)
       );
     },
     enabled,

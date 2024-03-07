@@ -28,7 +28,7 @@ export const usePermissionsQuery = (id: string, type: CollectionResourceType) =>
     queryKey: ['users', 'permissions', type, id],
     queryFn: async () => {
       return await doFetch<PermissionsResponseModel[]>(
-        fetch(`/api/user/permissions/${type}/${id}`),
+        fetch(`/api/user/permissions/${type}/${id}`)
       );
     },
     retry: (failureCount, error: Error) => {
@@ -47,7 +47,7 @@ export const useAdminsQuery = (id: string, type: CollectionResourceType) =>
     queryKey: ['users', 'admins', type, id],
     queryFn: async () => {
       return await doFetch<PermissionsResponseModel[]>(
-        fetch(`/api/user/admins/${type}/${id}`),
+        fetch(`/api/user/admins/${type}/${id}`)
       );
     },
     retry: (failureCount, error: Error) => {
@@ -63,7 +63,7 @@ export const useAdminsQuery = (id: string, type: CollectionResourceType) =>
 // new mutation to add a user to a resource
 export const useAddUserMutation = (
   id: string,
-  type: CollectionResourceType,
+  type: CollectionResourceType
 ) => {
   const queryClient = useQueryClient();
 
@@ -94,7 +94,7 @@ export const useAddUserMutation = (
 // new mutation to remove a user from a resource
 export const useRemoveUserMutation = (
   id: string,
-  type: CollectionResourceType,
+  type: CollectionResourceType
 ) => {
   const queryClient = useQueryClient();
 

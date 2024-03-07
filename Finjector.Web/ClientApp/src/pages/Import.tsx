@@ -27,7 +27,7 @@ const Import = () => {
     const searchLower = search.toLowerCase();
 
     const teamGroupsClone: TeamGroupedCoas[] = JSON.parse(
-      JSON.stringify(teamGroups),
+      JSON.stringify(teamGroups)
     );
 
     // filter out charts that don't match the search filter
@@ -61,7 +61,7 @@ const Import = () => {
           status: 'success',
           data: importData,
         },
-        '*', // send to all, we don't know the origin
+        '*' // send to all, we don't know the origin
       );
       // message sent, close the window
       window.close();

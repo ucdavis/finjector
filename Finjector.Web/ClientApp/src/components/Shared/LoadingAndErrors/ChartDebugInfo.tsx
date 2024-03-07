@@ -21,7 +21,7 @@ export const ChartDebugInfo = (props: Props) => {
             ? chartData.ppmSegments
             : chartData.glSegments,
           null,
-          2,
+          2
         )}
       </pre>
     );

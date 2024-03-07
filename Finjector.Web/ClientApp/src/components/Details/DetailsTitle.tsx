@@ -29,7 +29,7 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
   const use = () => {
     if (chartId) {
       navigate(
-        `/teams/${teamId}/folders/${folderId}/selected/${chartId}/${aeDetails?.chartString}`,
+        `/teams/${teamId}/folders/${folderId}/selected/${chartId}/${aeDetails?.chartString}`
       );
     } else {
       navigate(`/selected/${aeDetails?.chartString}`);

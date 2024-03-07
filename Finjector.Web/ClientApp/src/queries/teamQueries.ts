@@ -37,7 +37,7 @@ export const useCreateTeamMutation = () =>
           headers: {
             'Content-Type': 'application/json',
           },
-        }),
+        })
       );
     },
     onSuccess: () => {
@@ -56,7 +56,7 @@ export const useUpdateTeamMutation = (id: string) =>
           headers: {
             'Content-Type': 'application/json',
           },
-        }),
+        })
       );
     },
     onSuccess: () => {
@@ -72,7 +72,7 @@ export const useDeleteTeamMutation = () =>
       return await doFetchEmpty(
         fetch(`/api/team/${id}`, {
           method: 'DELETE',
-        }),
+        })
       );
     },
     onSuccess: () => {
@@ -87,7 +87,7 @@ export const useLeaveTeamMutation = () =>
       return await doFetchEmpty(
         fetch(`/api/team/${id}/leave`, {
           method: 'POST',
-        }),
+        })
       );
     },
     onSuccess: () => {

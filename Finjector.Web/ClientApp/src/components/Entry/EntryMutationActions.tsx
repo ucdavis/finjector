@@ -40,7 +40,7 @@ const EntryMutationActions = (props: Props) => {
       onSuccess: (data) => {
         addFinToast('success', 'Chart string saved successfully.');
         navigate(
-          `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`,
+          `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
         );
       },
       onError: () => {
@@ -64,7 +64,7 @@ const EntryMutationActions = (props: Props) => {
       onSuccess: (data) => {
         addFinToast('success', 'Chart string duplicated successfully.');
         navigate(
-          `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`,
+          `/teams/${data.folder?.teamId}/folders/${data.folderId}/details/${data.id}/${chartToSave.segmentString}`
         );
       },
       onError: () => {
@@ -89,7 +89,7 @@ const EntryMutationActions = (props: Props) => {
     navigate(
       `/teams/${savedChart.folder?.teamId}/folders/${
         savedChart.folder?.id
-      }/selected/${savedChart.id}/${toSegmentString(props.chartData)}`,
+      }/selected/${savedChart.id}/${toSegmentString(props.chartData)}`
     );
   };
 
@@ -106,7 +106,7 @@ const EntryMutationActions = (props: Props) => {
         navigate(
           `/teams/${data.folder?.teamId}/folders/${data.folder?.id}/${
             isInPopup ? 'selected' : 'details'
-          }/${data.id}/${data.segmentString}`,
+          }/${data.id}/${data.segmentString}`
         );
       },
       onError: () => {

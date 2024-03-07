@@ -52,7 +52,7 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
   }
 
   const isTeamAdmin = teamModelData.team.myTeamPermissions.some(
-    (p) => p === 'Admin',
+    (p) => p === 'Admin'
   );
 
   const limitedTeam = isPersonalOrDefault(teamModelData.team.name);

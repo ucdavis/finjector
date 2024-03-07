@@ -47,8 +47,8 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
         // otherwise, set it to the default
         setSelectedFolder(
           query.data.find(
-            (f) => f.teamName === 'Personal' && f.name === 'Default',
-          ),
+            (f) => f.teamName === 'Personal' && f.name === 'Default'
+          )
         );
       }
     }
@@ -96,7 +96,7 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
               ...menuProps
               /* eslint-enable @typescript-eslint/no-unused-vars */
             },
-            { text },
+            { text }
           ) => {
             let index = 0;
             const teamFolders = groupBy(results, 'teamName');

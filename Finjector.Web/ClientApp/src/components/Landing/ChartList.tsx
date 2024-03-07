@@ -24,7 +24,7 @@ const ChartList = (props: Props) => {
     if (!query) return teamGroups;
 
     const teamGroupsClone: TeamGroupedCoas[] = JSON.parse(
-      JSON.stringify(teamGroups),
+      JSON.stringify(teamGroups)
     );
 
     // special case -- if filter includes "GL" or "PPM" then filter out all coas except for the correct types
@@ -110,7 +110,7 @@ const ChartList = (props: Props) => {
 
 function filterTeamGroupsByType(
   teamGroupsClone: TeamGroupedCoas[],
-  type: string,
+  type: string
 ): TeamGroupedCoas[] {
   return teamGroupsClone.filter((teamGroup) => {
     // Filter the folders within the team
@@ -134,7 +134,7 @@ function filterTeamGroupsByType(
 
 function filterTeamGroupsByQuery(
   teamGroupsClone: TeamGroupedCoas[],
-  query: string,
+  query: string
 ): TeamGroupedCoas[] {
   return teamGroupsClone.filter((teamGroup) => {
     // Check if team name matches the query

@@ -45,7 +45,7 @@ const DownloadSegmentsButton: React.FC<DownloadSegmentsButtonProps> = ({
 
     // first pull the string from the segments
     const sortedSegmentDetails = [...segments].sort(
-      (a, b) => a.order - b.order,
+      (a, b) => a.order - b.order
     );
 
     // remove the order property

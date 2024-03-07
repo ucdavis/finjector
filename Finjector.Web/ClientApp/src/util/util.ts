@@ -1,6 +1,6 @@
 export const renderNameAndEmail = (
   name: string | null,
-  email: string | null,
+  email: string | null
 ) => {
   if (
     name !== ', ' && // if first name, last name are empty, name returns this string

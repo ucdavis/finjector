@@ -11,7 +11,7 @@ interface Props {
 export const RemoveUserPermission = (props: Props) => {
   const removeUserMutation = useRemoveUserMutation(
     props.resourceId,
-    props.resourceType,
+    props.resourceType
   );
 
   const removeInProgress =

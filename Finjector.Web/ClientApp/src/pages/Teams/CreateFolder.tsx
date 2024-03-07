@@ -29,7 +29,7 @@ const CreateFolder: React.FC = () => {
         onError: (err: any) => {
           addFinToast('error', 'Error creating folder.');
         },
-      },
+      }
     );
   };
 

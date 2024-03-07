@@ -15,7 +15,7 @@ const Example: React.FC = () => {
     e.preventDefault();
 
     const result = await window.Finjector.findChartSegmentString(
-      window.location.origin,
+      window.location.origin
     );
 
     if (result.status === 'success') {
@@ -30,12 +30,12 @@ const Example: React.FC = () => {
     e.preventDefault();
 
     const result = await window.Finjector.importBulkChartSegmentStrings(
-      window.location.origin + '/import',
+      window.location.origin + '/import'
     );
 
     if (result.status === 'success') {
       setImportedCharts(
-        result.data.map((chart: any) => `${chart.name}: ${chart.chartString}`),
+        result.data.map((chart: any) => `${chart.name}: ${chart.chartString}`)
       );
     }
   };

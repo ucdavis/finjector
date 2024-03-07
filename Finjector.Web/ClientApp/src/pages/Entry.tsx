@@ -1,4 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+// CSS
+// https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import 'react-bootstrap-typeahead/css/Typeahead.bs5.css';
 import { Navigate, useParams } from 'react-router-dom';
 
 import ChartTypeSelector from '../components/Entry/ChartTypeSelector';
@@ -11,6 +15,7 @@ import PpmEntry from '../components/Entry/PpmEntry';
 import PageBody from '../components/Shared/Layout/PageBody';
 import PageTitle from '../components/Shared/Layout/PageTitle';
 import { ChartDebugInfo } from '../components/Shared/LoadingAndErrors/ChartDebugInfo';
+import { ChartLoadingError } from '../components/Shared/LoadingAndErrors/ChartLoadingError';
 import { useGetSavedChartWithData } from '../queries/storedChartQueries';
 import {
   Coa,
@@ -19,11 +24,6 @@ import {
   SegmentData,
   FinQueryStatus,
 } from '../types';
-
-// CSS
-// https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
-import 'react-bootstrap-typeahead/css/Typeahead.css';
-import 'react-bootstrap-typeahead/css/Typeahead.bs5.css';
 import { useFinQueryStatus, useFinQueryStatusHandler } from '../util/error';
 import {
   buildInitialGlSegments,
@@ -38,7 +38,6 @@ import {
   fromPpmSegmentString,
   isGlSegmentString,
 } from '../util/segmentValidation';
-import { ChartLoadingError } from '../components/Shared/LoadingAndErrors/ChartLoadingError';
 
 const Entry = () => {
   const { chartId, chartSegmentString, folderId } = useParams();
@@ -75,7 +74,7 @@ const Entry = () => {
   });
 
   // if we load up new data, update the chart
-  useEffect(() => {
+  React.useEffect(() => {
     if (savedChartQuery.data) {
       const { chart } = savedChartQuery.data;
       if (!chart.canEdit) {
@@ -100,7 +99,7 @@ const Entry = () => {
       mapSegmentQueryData(
         chart.chartType,
         savedChartData,
-        savedChartQuery.data,
+        savedChartQuery.data
       );
 
       setChartData(savedChartData);

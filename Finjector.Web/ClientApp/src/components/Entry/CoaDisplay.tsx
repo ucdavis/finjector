@@ -17,7 +17,7 @@ const CoaDisplay = (props: Props) => {
   const segmentValidate = useSegmentValidateQuery(
     props.chartData.chartType,
     chartString,
-    chartStructureValid,
+    chartStructureValid
   );
 
   const getValidateMessage = () => {

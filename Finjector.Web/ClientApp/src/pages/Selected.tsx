@@ -18,7 +18,7 @@ const Selected = () => {
           status: 'success',
           data: chartSegmentString,
         },
-        '*', // send to all, we don't know the origin
+        '*' // send to all, we don't know the origin
       );
       // message sent, close the window
       window.close();

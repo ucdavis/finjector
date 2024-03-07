@@ -60,7 +60,7 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
 
     // sort by name
     const sortedCharts = [...charts].sort((a, b) =>
-      a.name.localeCompare(b.name),
+      a.name.localeCompare(b.name)
     );
 
     // add header row

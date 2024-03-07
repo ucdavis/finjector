@@ -17,7 +17,7 @@ const ImportListTeamRow = (props: ImportListTeamRowProps) => {
     // get all the chart strings from the team group
     const chartStrings = props.teamGroup.folders.reduce(
       (acc, folder) => acc.concat(folder.coas),
-      [] as Coa[],
+      [] as Coa[]
     );
 
     props.onImport(chartStrings);
@@ -37,7 +37,7 @@ const ImportListTeamRow = (props: ImportListTeamRowProps) => {
             />
             {props.teamGroup.folders.reduce(
               (acc, folder) => acc + folder.coas.length,
-              0,
+              0
             )}
           </div>
         </div>

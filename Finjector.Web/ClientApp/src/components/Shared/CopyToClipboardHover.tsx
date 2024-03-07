@@ -17,7 +17,7 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
   id,
 }) => {
   const [titleText, setTitleText] = useState<string>(
-    copyToClipboardDefaultMessage,
+    copyToClipboardDefaultMessage
   );
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);

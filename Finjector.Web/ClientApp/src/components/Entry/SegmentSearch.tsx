@@ -17,11 +17,11 @@ interface Props {
 
 export function getSegmentNameDisplay(
   segmentData: SegmentData,
-  segmentQueryData: SegmentData[] | undefined,
+  segmentQueryData: SegmentData[] | undefined
 ): string {
   if (segmentQueryData) {
     const segment = segmentQueryData.find(
-      (s: any) => s.code === segmentData.code,
+      (s: any) => s.code === segmentData.code
     );
     if (segment) {
       return segment.name;
@@ -39,7 +39,7 @@ const SegmentSearch = (props: Props) => {
   // takes camelCaseString and splits into words
   const prettifiedName = props.segmentData.segmentName.replace(
     /([a-z0-9])([A-Z])/g,
-    '$1 $2',
+    '$1 $2'
   );
 
   const segmentQuery = useSegmentQuery(
@@ -47,7 +47,7 @@ const SegmentSearch = (props: Props) => {
     props.segmentData.segmentName,
     props.segmentData.code,
     '',
-    minQueryLength,
+    minQueryLength
   );
 
   const handleInputChange = (query: string) => {
@@ -72,7 +72,7 @@ const SegmentSearch = (props: Props) => {
 
   const segmentNameDisplay = React.useMemo(
     () => getSegmentNameDisplay(props.segmentData, segmentQuery.data),
-    [props.segmentData, segmentQuery.data],
+    [props.segmentData, segmentQuery.data]
   );
 
   // notes: this async typeahead will be configured a little differently than normal, since we want to bind the text values at all times

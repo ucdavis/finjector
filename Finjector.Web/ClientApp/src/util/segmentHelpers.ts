@@ -9,17 +9,17 @@ export const buildInitialPpmSegments = (): PpmSegments => {
     task: getDefaultSegment(ppmSegmentDefaults.task, 'task'),
     organization: getDefaultSegment(
       ppmSegmentDefaults.organization,
-      'organization',
+      'organization'
     ),
     expenditureType: getDefaultSegment(
       ppmSegmentDefaults.expenditureType,
-      'expenditureType',
+      'expenditureType'
     ),
     award: getDefaultSegment(ppmSegmentDefaults.award, 'award', true),
     fundingSource: getDefaultSegment(
       ppmSegmentDefaults.fundingSource,
       'fundingSource',
-      true,
+      true
     ),
   };
 };
@@ -39,7 +39,7 @@ export const buildInitialGlSegments = (): GlSegments => {
       glSegmentDefaults.interEntity,
       'interEntity',
       true,
-      true,
+      true
     ),
     flex1: getDefaultSegment(glSegmentDefaults.flex1, 'flex1', true, true),
     flex2: getDefaultSegment(glSegmentDefaults.flex2, 'flex2', true, true),
@@ -50,7 +50,7 @@ const getDefaultSegment = (
   defaultCode: string,
   segmentName: string,
   defaultValid: boolean = false,
-  setDefaultCode: boolean = false,
+  setDefaultCode: boolean = false
 ) => ({
   code: setDefaultCode ? defaultCode : '',
   name: '',

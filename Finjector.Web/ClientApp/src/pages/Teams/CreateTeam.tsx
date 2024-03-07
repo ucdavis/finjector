@@ -26,7 +26,7 @@ const CreateTeam: React.FC = () => {
         onError: (err: any) => {
           addFinToast('error', 'Error creating team.');
         },
-      },
+      }
     );
   };
 

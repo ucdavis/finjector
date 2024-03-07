@@ -19,7 +19,7 @@ export const AddUserPermission = (props: Props) => {
 
   const addUserMutation = useAddUserMutation(
     props.resourceId,
-    props.resourceType,
+    props.resourceType
   );
 
   const formValid = role !== '' && email !== '';
@@ -44,7 +44,7 @@ export const AddUserPermission = (props: Props) => {
         onError: (err: any) => {
           setError(err.message);
         },
-      },
+      }
     );
   };
 

@@ -22,7 +22,7 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
           >
             {renderNameAndEmail(
               details.ppmProjectManager.name,
-              details.ppmProjectManager.email,
+              details.ppmProjectManager.email
             )}
           </CopyToClipboardHover>
         }

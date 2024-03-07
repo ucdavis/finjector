@@ -19,7 +19,7 @@ const TaskSelector = (props: Props) => {
 
   const taskQuery = useTaskQuery(
     props.segmentDependency.code,
-    props.segmentDependency.isValid,
+    props.segmentDependency.isValid
   );
 
   // if the segment dependency is not valid, clear the selection
@@ -52,7 +52,7 @@ const TaskSelector = (props: Props) => {
 
   const segmentNameDisplay = React.useMemo(
     () => getSegmentNameDisplay(props.segmentData, taskQuery.data),
-    [props.segmentData, taskQuery.data],
+    [props.segmentData, taskQuery.data]
   );
 
   return (

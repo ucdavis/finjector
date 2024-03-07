@@ -35,8 +35,8 @@ export const useGetChartDetails = (chartString: string, chartId?: string) =>
         fetch(
           chartId
             ? `/api/charts/details/id?chartId=${chartId}`
-            : `/api/charts/details/string?chartString=${chartString}`,
-        ),
+            : `/api/charts/details/string?chartString=${chartString}`
+        )
       );
 
       return chart;
@@ -58,8 +58,8 @@ export const useGetSavedChartWithData = (id: string) =>
 
         const validateResponse = await doFetch<any>(
           fetch(
-            `/api/${controller}/validate?segmentString=${chart.segmentString}`,
-          ),
+            `/api/${controller}/validate?segmentString=${chart.segmentString}`
+          )
         );
 
         return { chart, validateResponse };
@@ -84,7 +84,7 @@ export const useSaveChart = () => {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-        }),
+        })
       );
     },
     onSuccess: (chart) => {
@@ -109,7 +109,7 @@ export const useRemoveChart = () => {
       return await doFetchEmpty(
         fetch(`/api/charts/delete/${chart.id}`, {
           method: 'DELETE',
-        }),
+        })
       );
     },
     onSuccess: (chart) => {

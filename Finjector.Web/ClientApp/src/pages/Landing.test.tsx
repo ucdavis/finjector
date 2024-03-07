@@ -20,10 +20,10 @@ describe('Landing', () => {
 
     // should see the create new chart buttons
     expect(
-      screen.getByRole('link', { name: /New Chart String from Scratch/i }),
+      screen.getByRole('link', { name: /New Chart String from Scratch/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('link', { name: /New Chart String from Paste/i }),
+      screen.getByRole('link', { name: /New Chart String from Paste/i })
     ).toBeInTheDocument();
   });
 

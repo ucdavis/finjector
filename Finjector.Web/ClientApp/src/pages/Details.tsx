@@ -15,7 +15,7 @@ const Details = () => {
   const { chartId, chartSegmentString } = useParams();
   const chartDetailsQuery = useGetChartDetails(
     chartSegmentString || '',
-    chartId,
+    chartId
   );
 
   const queryStatus: FinQueryStatus = useFinQueryStatus(chartDetailsQuery);

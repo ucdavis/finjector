@@ -34,7 +34,7 @@ const EditTeam: React.FC = () => {
         onError: (err: any) => {
           addFinToast('error', 'Error updating team.');
         },
-      },
+      }
     );
   };
 
