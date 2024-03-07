@@ -9,16 +9,28 @@
     "prettier",
     "react",
     "react-hooks",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "import"
   ],
   "rules": {
     "eqeqeq": "error",
     "no-console": "warn",
-    "prettier/prettier": "error",
+    "prettier/prettier": ["error", {
+      "singleQuote": true
+    }],
     "react/display-name": "off",
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "react/prop-types": "off",
+      "import/order": ["error", {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }],
   },
   "ignorePatterns": [
     "node_modules",

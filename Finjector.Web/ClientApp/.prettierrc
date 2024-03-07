@@ -1,8 +1,9 @@
 {
-  "jsxSingleQuote": false,
+  "jsxSingleQuote": true,
   "printWidth": 80,
   "semi": true,
-  "singleQuote": false,
+  "singleQuote": true,
   "filepath": "./Finjector.Web/ClientApp/node_modules/prettier/",
-  "parser": "typescript"
+  "parser": "typescript",
+  "trailingComma": "all"
 }
