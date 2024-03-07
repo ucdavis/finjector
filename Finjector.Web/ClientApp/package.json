@@ -40,7 +40,7 @@
     "test": "vitest",
     "citest": "cross-env VITEST_ENV=ci vitest run --reporter=junit --outputFile=test/reports/junit.xml",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\""
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\" && prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "browserslist": {
     "production": [
