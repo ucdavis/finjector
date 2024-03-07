@@ -1,12 +1,13 @@
-import React from "react";
-import { useGetTeam, useUpdateTeamMutation } from "../../queries/teamQueries";
-import { useNavigate, useParams } from "react-router-dom";
-import { FinQueryStatus, NameAndDescriptionModel } from "../../types";
-import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import PageTitle from "../../components/Shared/Layout/PageTitle";
-import { useFinQueryStatus, useFinQueryStatusHandler } from "../../util/error";
-import PageBody from "../../components/Shared/Layout/PageBody";
-import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import PageBody from '../../components/Shared/Layout/PageBody';
+import PageTitle from '../../components/Shared/Layout/PageTitle';
+import addFinToast from '../../components/Shared/LoadingAndErrors/FinToast';
+import NameAndDescriptionForm from '../../components/Teams/NameAndDescriptionForm';
+import { useGetTeam, useUpdateTeamMutation } from '../../queries/teamQueries';
+import { FinQueryStatus, NameAndDescriptionModel } from '../../types';
+import { useFinQueryStatus, useFinQueryStatusHandler } from '../../util/error';
 
 const EditTeam: React.FC = () => {
   const { teamId } = useParams<{ teamId: string }>();
@@ -17,7 +18,7 @@ const EditTeam: React.FC = () => {
 
   const queryStatus: FinQueryStatus = useFinQueryStatus(teamInfoQuery);
 
-  const updateTeamMutation = useUpdateTeamMutation(teamId || "");
+  const updateTeamMutation = useUpdateTeamMutation(teamId || '');
 
   const handleCreate = async (data: NameAndDescriptionModel) => {
     await updateTeamMutation.mutateAsync(
@@ -27,13 +28,13 @@ const EditTeam: React.FC = () => {
       },
       {
         onSuccess: () => {
-          addFinToast("success", "Team updated successfully.");
+          addFinToast('success', 'Team updated successfully.');
           navigate(`/teams/${teamId}`);
         },
         onError: (err: any) => {
-          addFinToast("error", "Error updating team.");
+          addFinToast('error', 'Error updating team.');
         },
-      }
+      },
     );
   };
 
@@ -46,10 +47,10 @@ const EditTeam: React.FC = () => {
       <div>
         <h4>
           {queryStatus.isLoading
-            ? "Scribbling in form details..."
-            : "Error loading Edit Team form"}
+            ? 'Scribbling in form details...'
+            : 'Error loading Edit Team form'}
         </h4>
-        <PageTitle title="Edit Team" />
+        <PageTitle title='Edit Team' />
         <PageBody>{queryStatusComponent}</PageBody>
       </div>
     );
@@ -57,14 +58,14 @@ const EditTeam: React.FC = () => {
   return (
     <div>
       <h4>{teamInfoQuery.data?.team.name}</h4>
-      <PageTitle title="Edit Team" />
+      <PageTitle title='Edit Team' />
       <PageBody>
         <NameAndDescriptionForm
           initialValues={{
-            name: teamInfoQuery.data?.team.name || "",
+            name: teamInfoQuery.data?.team.name || '',
             description: teamInfoQuery.data?.team.description,
           }}
-          buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
+          buttonText={(loading) => (loading ? 'Saving...' : 'Save Changes')}
           onSubmit={handleCreate}
           loading={updateTeamMutation.isPending}
         />

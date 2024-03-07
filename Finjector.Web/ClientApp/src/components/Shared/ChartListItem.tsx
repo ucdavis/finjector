@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
-import { Coa, ChartType, Folder } from "../../types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBolt, faScroll } from "@fortawesome/free-solid-svg-icons";
-import CopyToClipboardHover from "./CopyToClipboardHover";
-import usePopupStatus from "../../util/customHooks";
-import ClickableListItem from "./ClickableListItem";
+import { faBolt, faScroll } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
+
+import { Coa, ChartType, Folder } from '../../types';
+import usePopupStatus from '../../util/customHooks';
+
+import ClickableListItem from './ClickableListItem';
+import CopyToClipboardHover from './CopyToClipboardHover';
 
 interface Props {
   chart: Coa;
@@ -14,24 +16,24 @@ interface Props {
 const ChartListItem = ({ chart, folder }: Props) => {
   const isInPopup = usePopupStatus();
 
-  const destination = isInPopup ? "selected" : "details";
+  const destination = isInPopup ? 'selected' : 'details';
   const url = `/teams/${folder.teamId}/folders/${folder.id}/${destination}/${chart.id}/${chart.segmentString}`;
 
   return (
     <ClickableListItem
       className={`chartstring-row ${
-        chart.chartType === ChartType.PPM ? "is-ppm" : "is-gl"
+        chart.chartType === ChartType.PPM ? 'is-ppm' : 'is-gl'
       } d-flex justify-content-between align-items-center`}
       key={chart.id}
       url={url}
     >
-      <div className="col-9 ms-2 me-auto">
-        <div className="chartstring-type">
+      <div className='col-9 ms-2 me-auto'>
+        <div className='chartstring-type'>
           <span>{chart.chartType}</span>
         </div>
-        <div className="fw-bold "> {chart.name}</div>
+        <div className='fw-bold '> {chart.name}</div>
         {!isInPopup && (
-          <span style={{ wordWrap: "break-word" }}>
+          <span style={{ wordWrap: 'break-word' }}>
             <CopyToClipboardHover
               value={chart.segmentString}
               id={`chart-list-${chart.id}`}
@@ -41,14 +43,14 @@ const ChartListItem = ({ chart, folder }: Props) => {
           </span>
         )}
         {isInPopup && (
-          <span style={{ wordWrap: "break-word" }}>{chart.segmentString}</span>
+          <span style={{ wordWrap: 'break-word' }}>{chart.segmentString}</span>
         )}
       </div>
-      <div className="col-3 text-end">
+      <div className='col-3 text-end'>
         <Link
           to={`/teams/${folder.teamId}/folders/${folder.id}/details/${chart.id}/${chart.segmentString}`}
           className={`btn btn-link ${
-            destination === "details" ? "row-link-selected-action" : ""
+            destination === 'details' ? 'row-link-selected-action' : ''
           }`}
         >
           <FontAwesomeIcon icon={faScroll} />
@@ -58,7 +60,7 @@ const ChartListItem = ({ chart, folder }: Props) => {
           <Link
             to={`/teams/${folder.teamId}/folders/${folder.id}/selected/${chart.id}/${chart.segmentString}`}
             className={`btn btn-link ${
-              destination === "selected" ? "row-link-selected-action" : ""
+              destination === 'selected' ? 'row-link-selected-action' : ''
             }`}
           >
             <FontAwesomeIcon icon={faBolt} />

@@ -1,4 +1,4 @@
-import { ChartData, ChartStringAndAeDetails, ChartType } from "../../../types";
+import { ChartData, ChartStringAndAeDetails, ChartType } from '../../../types';
 
 interface Props {
   chartData?: ChartData;
@@ -9,11 +9,11 @@ export const ChartDebugInfo = (props: Props) => {
   const { chartData, chartDetails } = props;
 
   // only show in debug mode
-  if (process.env.NODE_ENV !== "development") {
+  if (process.env.NODE_ENV !== 'development') {
     return null;
   }
 
-  if (!!chartData) {
+  if (chartData) {
     return (
       <pre>
         {JSON.stringify(
@@ -21,13 +21,13 @@ export const ChartDebugInfo = (props: Props) => {
             ? chartData.ppmSegments
             : chartData.glSegments,
           null,
-          2
+          2,
         )}
       </pre>
     );
   }
 
-  if (!!chartDetails) {
+  if (chartDetails) {
     return <pre>{JSON.stringify(chartDetails, null, 2)}</pre>;
   }
 

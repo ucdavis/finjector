@@ -1,45 +1,45 @@
+import { wrapCreateBrowserRouter } from '@sentry/react';
 import {
   Navigate,
   Outlet,
   RouterProvider,
   createBrowserRouter,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import { useUserInfoQuery } from "./queries/userQueries";
-import Landing from "./pages/Landing";
-import Import from "./pages/Import";
-import About from "./pages/About";
-import Selected from "./pages/Selected";
-import Entry from "./pages/Entry";
-import Paste from "./pages/Paste";
-import Details from "./pages/Details";
-import Header from "./components/Shared/Layout/Header";
-import MyTeams from "./pages/Teams/MyTeams";
-import Team from "./pages/Teams/Team";
-import Folder from "./pages/Teams/Folder";
-import UserManagement from "./pages/Teams/UserManagement";
-import CreateTeam from "./pages/Teams/CreateTeam";
-import CreateFolder from "./pages/Teams/CreateFolder";
-import AdminList from "./pages/Teams/AdminList";
-import EditTeam from "./pages/Teams/EditTeam";
-import EditFolder from "./pages/Teams/EditFolder";
-import Breadcrumbs from "./components/Shared/Breadcrumbs";
-import ChartStringRedirector from "./pages/ChartStringRedirector";
-import Example from "./pages/Example";
-import NavlessHeader from "./components/Shared/Layout/NavlessHeader";
-import FinLoader from "./components/Shared/LoadingAndErrors/FinLoader";
-import FinToastContainer from "./components/Shared/LoadingAndErrors/FinToastContainer";
-import { wrapCreateBrowserRouter } from "@sentry/react";
+import Breadcrumbs from './components/Shared/Breadcrumbs';
+import Header from './components/Shared/Layout/Header';
+import NavlessHeader from './components/Shared/Layout/NavlessHeader';
+import FinLoader from './components/Shared/LoadingAndErrors/FinLoader';
+import FinToastContainer from './components/Shared/LoadingAndErrors/FinToastContainer';
+import About from './pages/About';
+import ChartStringRedirector from './pages/ChartStringRedirector';
+import Details from './pages/Details';
+import Entry from './pages/Entry';
+import Example from './pages/Example';
+import Import from './pages/Import';
+import Landing from './pages/Landing';
+import Paste from './pages/Paste';
+import Selected from './pages/Selected';
+import AdminList from './pages/Teams/AdminList';
+import CreateFolder from './pages/Teams/CreateFolder';
+import CreateTeam from './pages/Teams/CreateTeam';
+import EditFolder from './pages/Teams/EditFolder';
+import EditTeam from './pages/Teams/EditTeam';
+import Folder from './pages/Teams/Folder';
+import MyTeams from './pages/Teams/MyTeams';
+import Team from './pages/Teams/Team';
+import UserManagement from './pages/Teams/UserManagement';
+import { useUserInfoQuery } from './queries/userQueries';
 
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 
-const RedirectHome = () => <Navigate to="/" />;
+const RedirectHome = () => <Navigate to='/' />;
 
 function Layout() {
   return (
     <>
       <Header />
-      <div className="container">
+      <div className='container'>
         <Breadcrumbs />
         <Outlet />
       </div>
@@ -52,7 +52,7 @@ function NavlessLayout() {
   return (
     <>
       <NavlessHeader />
-      <div className="container">
+      <div className='container'>
         <Outlet />
       </div>
       <FinToastContainer />
@@ -64,120 +64,120 @@ const sentryRouter = wrapCreateBrowserRouter(createBrowserRouter);
 
 const router = sentryRouter([
   {
-    path: "/import",
+    path: '/import',
     element: <NavlessLayout />,
-    handle: { title: "Import" },
+    handle: { title: 'Import' },
     children: [{ index: true, element: <Import /> }],
   },
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       {
         index: true,
         element: <Landing />,
-        handle: { title: "", hideBreadcrumbs: true },
+        handle: { title: '', hideBreadcrumbs: true },
       },
-      { path: "/example", element: <Example />, handle: { title: "Example" } },
-      { path: "/help", element: <About />, handle: { title: "Help" } },
+      { path: '/example', element: <Example />, handle: { title: 'Example' } },
+      { path: '/help', element: <About />, handle: { title: 'Help' } },
 
       {
-        path: "/landing",
+        path: '/landing',
         element: <RedirectHome />,
-        handle: { title: "Redirect Home" },
+        handle: { title: 'Redirect Home' },
       },
       {
-        path: "/locator/:type/:id",
+        path: '/locator/:type/:id',
         element: <ChartStringRedirector />,
-        handle: { title: "Chart String Redirector" },
+        handle: { title: 'Chart String Redirector' },
       },
       {
-        path: "/teams",
+        path: '/teams',
         children: [
-          { index: true, element: <MyTeams />, handle: { title: "My Teams" } },
+          { index: true, element: <MyTeams />, handle: { title: 'My Teams' } },
           {
-            path: "create",
+            path: 'create',
             element: <CreateTeam />,
-            handle: { title: "Create Team" },
+            handle: { title: 'Create Team' },
           },
           {
-            path: ":teamId",
+            path: ':teamId',
             children: [
               {
                 index: true,
                 element: <Team />,
-                handle: { title: "Team Details" },
+                handle: { title: 'Team Details' },
               },
               {
-                path: "edit",
+                path: 'edit',
                 element: <EditTeam />,
-                handle: { title: "Edit Team" },
+                handle: { title: 'Edit Team' },
               },
               {
-                path: "folders",
+                path: 'folders',
                 element: <Team />,
-                handle: { title: "Team Details" },
+                handle: { title: 'Team Details' },
               },
               {
-                path: "folders/create",
+                path: 'folders/create',
                 element: <CreateFolder />,
-                handle: { title: "Create Folder" },
+                handle: { title: 'Create Folder' },
               },
               {
-                path: "permissions",
+                path: 'permissions',
                 element: <UserManagement />,
-                handle: { title: "User Management" },
+                handle: { title: 'User Management' },
               },
               {
-                path: "admins",
+                path: 'admins',
                 element: <AdminList />,
-                handle: { title: "Admin List" },
+                handle: { title: 'Admin List' },
               },
               {
-                path: "folders/:folderId",
+                path: 'folders/:folderId',
                 children: [
                   {
                     index: true,
                     element: <Folder />,
-                    handle: { title: "Folder Details" },
+                    handle: { title: 'Folder Details' },
                   },
                   {
-                    path: "edit",
+                    path: 'edit',
                     element: <EditFolder />,
-                    handle: { title: "Edit Folder" },
+                    handle: { title: 'Edit Folder' },
                   },
                   {
-                    path: "permissions",
+                    path: 'permissions',
                     element: <UserManagement />,
-                    handle: { title: "User Management" },
+                    handle: { title: 'User Management' },
                   },
                   {
-                    path: "admins",
+                    path: 'admins',
                     element: <AdminList />,
-                    handle: { title: "Admin List" },
+                    handle: { title: 'Admin List' },
                   },
                   {
-                    path: "details/:chartId/:chartSegmentString",
+                    path: 'details/:chartId/:chartSegmentString',
                     element: <Details />,
                     handle: {
-                      title: "Chart String Details",
+                      title: 'Chart String Details',
                       hideBreadcrumbs: false,
                     },
                   },
                   {
-                    path: "entry/:chartId/:chartSegmentString",
+                    path: 'entry/:chartId/:chartSegmentString',
                     element: <Entry />,
-                    handle: { title: "Entry", hideBreadcrumbs: true },
+                    handle: { title: 'Entry', hideBreadcrumbs: true },
                   },
                   {
-                    path: "entry/", // when creating from folder
+                    path: 'entry/', // when creating from folder
                     element: <Entry />,
-                    handle: { title: "Entry", hideBreadcrumbs: false },
+                    handle: { title: 'Entry', hideBreadcrumbs: false },
                   },
                   {
-                    path: "selected/:chartId/:chartSegmentString",
+                    path: 'selected/:chartId/:chartSegmentString',
                     element: <Selected />,
-                    handle: { title: "Selected" },
+                    handle: { title: 'Selected' },
                   },
                 ],
               },
@@ -186,54 +186,54 @@ const router = sentryRouter([
         ],
       },
       {
-        path: "/entry",
+        path: '/entry',
         children: [
           {
             index: true,
             element: <Entry />,
-            handle: { title: "Entry", hideBreadcrumbs: true },
+            handle: { title: 'Entry', hideBreadcrumbs: true },
           },
           {
-            path: ":chartSegmentString",
+            path: ':chartSegmentString',
             element: <Entry />,
-            handle: { title: "Entry", hideBreadcrumbs: true },
+            handle: { title: 'Entry', hideBreadcrumbs: true },
           },
         ],
       },
       {
-        path: "/details",
+        path: '/details',
         children: [
           {
-            path: ":chartSegmentString",
+            path: ':chartSegmentString',
             element: <Details />,
-            handle: { title: "Details", hideBreadcrumbs: false },
+            handle: { title: 'Details', hideBreadcrumbs: false },
           },
         ],
       },
       {
-        path: "/paste",
+        path: '/paste',
         element: <Paste />,
-        handle: { title: "Paste", hideBreadcrumbs: true },
+        handle: { title: 'Paste', hideBreadcrumbs: true },
       },
       {
-        path: "/selected",
+        path: '/selected',
         children: [
           {
             index: true,
             element: <RedirectHome />,
-            handle: { title: "Redirect Home" },
+            handle: { title: 'Redirect Home' },
           },
           {
-            path: ":chartSegmentString",
+            path: ':chartSegmentString',
             element: <Selected />,
-            handle: { title: "Selected" },
+            handle: { title: 'Selected' },
           },
         ],
       },
     ],
   },
 
-  { path: "*", element: <Navigate to="/" /> },
+  { path: '*', element: <Navigate to='/' /> },
 ]);
 
 function App() {

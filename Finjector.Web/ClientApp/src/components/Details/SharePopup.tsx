@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Input, InputGroup, Modal, ModalBody, ModalHeader } from "reactstrap";
-import CopyToClipboardButton from "../Shared/CopyToClipboardButton";
-import FinButton from "../Shared/FinButton";
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+import { Input, InputGroup, Modal, ModalBody, ModalHeader } from 'reactstrap';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { SegmentDetails } from "../../types";
-import CopySegmentsToClipboardButton from "../Shared/CopySegmentsToClipboardButton";
-import DownloadSegmentsButton from "../Shared/DownloadSegmentsButton";
+import { SegmentDetails } from '../../types';
+import CopySegmentsToClipboardButton from '../Shared/CopySegmentsToClipboardButton';
+import CopyToClipboardButton from '../Shared/CopyToClipboardButton';
+import DownloadSegmentsButton from '../Shared/DownloadSegmentsButton';
+import FinButton from '../Shared/FinButton';
 
 interface SharePopupProps {
   chartString: string;
@@ -31,7 +31,7 @@ const SharePopup: React.FC<SharePopupProps> = ({
         Share
       </FinButton>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader tag="h2" toggle={toggle}>
+        <ModalHeader tag='h2' toggle={toggle}>
           Share Chart String
         </ModalHeader>
         <ModalBody>
@@ -42,11 +42,11 @@ const SharePopup: React.FC<SharePopupProps> = ({
           </p>
           <InputGroup>
             <Input
-              className="custom-input-height"
+              className='custom-input-height'
               value={url}
               readOnly={true}
             />
-            <CopyToClipboardButton value={url} id="share-copy-url" />
+            <CopyToClipboardButton value={url} id='share-copy-url' />
           </InputGroup>
           <br />
           <p>
@@ -55,12 +55,12 @@ const SharePopup: React.FC<SharePopupProps> = ({
           </p>
           <CopySegmentsToClipboardButton
             segments={segmentDetails}
-            id="share-copy-details"
+            id='share-copy-details'
           />
           <DownloadSegmentsButton
             segments={segmentDetails}
-            fileType="CSV"
-            id="share-download-details"
+            fileType='CSV'
+            id='share-download-details'
           />
         </ModalBody>
       </Modal>

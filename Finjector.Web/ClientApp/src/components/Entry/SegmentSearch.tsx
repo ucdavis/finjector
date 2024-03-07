@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
+import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
-import { AsyncTypeahead } from "react-bootstrap-typeahead";
-import { useSegmentQuery } from "../../queries/segmentQueries";
-import { ChartType, SegmentData } from "../../types";
+import { useSegmentQuery } from '../../queries/segmentQueries';
+import { ChartType, SegmentData } from '../../types';
 // CSS
 // https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
-import "react-bootstrap-typeahead/css/Typeahead.css";
-import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import 'react-bootstrap-typeahead/css/Typeahead.bs5.css';
 
 interface Props {
   chartType: ChartType;
@@ -17,11 +17,11 @@ interface Props {
 
 export function getSegmentNameDisplay(
   segmentData: SegmentData,
-  segmentQueryData: SegmentData[] | undefined
+  segmentQueryData: SegmentData[] | undefined,
 ): string {
   if (segmentQueryData) {
     const segment = segmentQueryData.find(
-      (s: any) => s.code === segmentData.code
+      (s: any) => s.code === segmentData.code,
     );
     if (segment) {
       return segment.name;
@@ -39,22 +39,22 @@ const SegmentSearch = (props: Props) => {
   // takes camelCaseString and splits into words
   const prettifiedName = props.segmentData.segmentName.replace(
     /([a-z0-9])([A-Z])/g,
-    "$1 $2"
+    '$1 $2',
   );
 
   const segmentQuery = useSegmentQuery(
     props.chartType,
     props.segmentData.segmentName,
     props.segmentData.code,
-    "",
-    minQueryLength
+    '',
+    minQueryLength,
   );
 
   const handleInputChange = (query: string) => {
     props.setSegmentValue({
       ...props.segmentData,
       code: query,
-      name: "",
+      name: '',
       isValid: false,
     });
   };
@@ -72,7 +72,7 @@ const SegmentSearch = (props: Props) => {
 
   const segmentNameDisplay = React.useMemo(
     () => getSegmentNameDisplay(props.segmentData, segmentQuery.data),
-    [props.segmentData, segmentQuery.data]
+    [props.segmentData, segmentQuery.data],
   );
 
   // notes: this async typeahead will be configured a little differently than normal, since we want to bind the text values at all times
@@ -81,21 +81,21 @@ const SegmentSearch = (props: Props) => {
   // 3. we only care about setting full segment info (code+name) when a selection is made
   // 4. this does result in an extra query when the full value is selected -- we could optimize but this is minor and might actually prove useful
   return (
-    <div className="mb-3 col-sm-6">
-      <label className="form-label">{prettifiedName}</label>
+    <div className='mb-3 col-sm-6'>
+      <label className='form-label'>{prettifiedName}</label>
       <AsyncTypeahead
-        id={"typeahead" + props.segmentData.segmentName}
+        id={'typeahead' + props.segmentData.segmentName}
         filterBy={() => true} // don't filter since we're doing it on the server
         isLoading={segmentQuery.isFetching}
-        labelKey="code"
+        labelKey='code'
         minLength={0} // to show "Type to search" before the user has started typing, we have to set minLength to 0. however, useSegmentQuery won't do anything until it meets minLength
         onSearch={() => {}}
         promptText={
           segmentQuery.isFetching
-            ? "Searching..."
+            ? 'Searching...'
             : !!segmentQuery.data && segmentQuery.data.length === 0
-            ? "No matches found."
-            : "Type to search..."
+              ? 'No matches found.'
+              : 'Type to search...'
         }
         onInputChange={handleInputChange}
         defaultInputValue={props.segmentData.code}
@@ -110,7 +110,7 @@ const SegmentSearch = (props: Props) => {
           </>
         )}
       />
-      <div className="form-text">{segmentNameDisplay}</div>
+      <div className='form-text'>{segmentNameDisplay}</div>
     </div>
   );
 };

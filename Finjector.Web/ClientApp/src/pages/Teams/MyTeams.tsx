@@ -1,17 +1,18 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { SearchBar } from "../../components/Shared/SearchBar";
-import { useGetMyTeams } from "../../queries/teamQueries";
-import TeamList from "../../components/Teams/TeamList";
-import FinButton from "../../components/Shared/FinButton";
-import PageTitle from "../../components/Shared/Layout/PageTitle";
-import PageBody from "../../components/Shared/Layout/PageBody";
-import { FinQueryStatus } from "../../types";
-import { useFinQueryStatus } from "../../util/error";
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+
+import FinButton from '../../components/Shared/FinButton';
+import PageBody from '../../components/Shared/Layout/PageBody';
+import PageTitle from '../../components/Shared/Layout/PageTitle';
+import { SearchBar } from '../../components/Shared/SearchBar';
+import TeamList from '../../components/Teams/TeamList';
+import { useGetMyTeams } from '../../queries/teamQueries';
+import { FinQueryStatus } from '../../types';
+import { useFinQueryStatus } from '../../util/error';
 
 const MyTeams: React.FC = () => {
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = React.useState('');
 
   const myTeamsQuery = useGetMyTeams();
 
@@ -20,17 +21,17 @@ const MyTeams: React.FC = () => {
   return (
     <div>
       <PageTitle>
-        <div className="col-12 col-md-8">
+        <div className='col-12 col-md-8'>
           <h1>
             {queryStatus.isError
-              ? "Error loading Teams"
+              ? 'Error loading Teams'
               : queryStatus.isLoading
-              ? "Scribbling in Your Teams..."
-              : "My Teams"}
+                ? 'Scribbling in Your Teams...'
+                : 'My Teams'}
           </h1>
         </div>
-        <div className="col-12 col-md-4 text-end">
-          <FinButton to="/teams/create">
+        <div className='col-12 col-md-4 text-end'>
+          <FinButton to='/teams/create'>
             <FontAwesomeIcon icon={faPlus} />
             Create New Team
           </FinButton>
@@ -38,7 +39,7 @@ const MyTeams: React.FC = () => {
       </PageTitle>
       <PageBody>
         <SearchBar
-          placeholderText="Search My Teams"
+          placeholderText='Search My Teams'
           search={search}
           setSearch={setSearch}
         />

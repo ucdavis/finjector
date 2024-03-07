@@ -1,12 +1,14 @@
-import React from "react";
-import { AeDetails, ChartType, FinQueryStatus } from "../../types";
-import { renderNameAndEmail } from "../../util/util";
-import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
-import { DetailsRow } from "./DetailsRow";
-import PpmDetailsPage from "./PpmDetails";
-import { FinError } from "../Shared/LoadingAndErrors/FinError";
-import { useFinQueryStatusHandler } from "../../util/error";
-import { ChartLoadingError } from "../Shared/LoadingAndErrors/ChartLoadingError";
+import React from 'react';
+
+import { AeDetails, ChartType, FinQueryStatus } from '../../types';
+import { useFinQueryStatusHandler } from '../../util/error';
+import { renderNameAndEmail } from '../../util/util';
+import CopyToClipboardHover from '../Shared/CopyToClipboardHover';
+import { ChartLoadingError } from '../Shared/LoadingAndErrors/ChartLoadingError';
+import { FinError } from '../Shared/LoadingAndErrors/FinError';
+
+import { DetailsRow } from './DetailsRow';
+import PpmDetailsPage from './PpmDetails';
 
 interface DetailsBodyProps {
   aeDetails: AeDetails | undefined;
@@ -26,7 +28,7 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
 
   if (queryStatusComponent)
     return (
-      <div className="chartstring-details-info">{queryStatusComponent}</div>
+      <div className='chartstring-details-info'>{queryStatusComponent}</div>
     );
 
   if (
@@ -36,10 +38,10 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
     aeDetails.chartType === ChartType.INVALID
   ) {
     return (
-      <div className="chartstring-details-info">
+      <div className='chartstring-details-info'>
         <FinError
-          title="Chart Not Found"
-          errorText="Please check that you have a valid chart ID and try again."
+          title='Chart Not Found'
+          errorText='Please check that you have a valid chart ID and try again.'
         />
       </div>
     );
@@ -47,45 +49,45 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
 
   return (
     <>
-      <div className="chartstring-details-info unique-bg">
+      <div className='chartstring-details-info unique-bg'>
         {aeDetails.segmentDetails.map((segment, i) => {
           return (
             <DetailsRow
               headerColText={segment.entity}
               key={i}
               column2={
-                <span className="fw-bold primary-font me-4">
+                <span className='fw-bold primary-font me-4'>
                   <CopyToClipboardHover
-                    value={segment.code ?? ""}
+                    value={segment.code ?? ''}
                     id={`segment-code-${i}`}
                   >
-                    {segment.code ?? ""}{" "}
+                    {segment.code ?? ''}{' '}
                   </CopyToClipboardHover>
                 </span>
               }
               column3={
                 <CopyToClipboardHover
-                  value={segment.name ?? ""}
+                  value={segment.name ?? ''}
                   id={`segment-name-${i}`}
                 >
-                  {segment?.name ?? ""}
+                  {segment?.name ?? ''}
                 </CopyToClipboardHover>
               }
             />
           );
         })}
       </div>
-      <div className="chartstring-details-info">
+      <div className='chartstring-details-info'>
         {aeDetails.chartType === ChartType.PPM && (
           <PpmDetailsPage details={aeDetails.ppmDetails} />
         )}
         <DetailsRow
-          headerColText="GL Financial Department SCM Approver(s)"
+          headerColText='GL Financial Department SCM Approver(s)'
           column2={aeDetails.approvers.map((approver, i) => {
             return (
               <div key={i}>
                 <CopyToClipboardHover
-                  value={approver.email ?? ""}
+                  value={approver.email ?? ''}
                   id={`approver-${i}`}
                 >
                   {renderNameAndEmail(approver.name, approver.email)}

@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface FinButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -22,12 +22,12 @@ const FinButton: React.FC<FinButtonProps> = ({
   // if margin is false, it will remove "ms-2"
   // if className is provided, it will add that className
   const classNameString = `btn btn-finjector 
-  ${className ?? ""}
-  ${!!color ? ` btn-${color}` : ""} 
-  ${margin ? " ms-2" : ""}
-  ${borderless ? "btn-borderless" : ""}`;
+  ${className ?? ''}
+  ${color ? ` btn-${color}` : ''} 
+  ${margin ? ' ms-2' : ''}
+  ${borderless ? 'btn-borderless' : ''}`;
 
-  if (!!to) {
+  if (to) {
     return (
       <Link to={to} className={classNameString}>
         {children}
@@ -35,7 +35,7 @@ const FinButton: React.FC<FinButtonProps> = ({
     );
   }
   return (
-    <button type="button" className={classNameString} {...props}>
+    <button type='button' className={classNameString} {...props}>
       {children}
     </button>
   );

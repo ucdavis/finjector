@@ -1,18 +1,19 @@
-import React from "react";
-import { SearchBar } from "../../components/Shared/SearchBar";
-import { useGetTeam } from "../../queries/teamQueries";
-import { useParams } from "react-router-dom";
-import FolderList from "../../components/Teams/FolderList";
-import PageBody from "../../components/Shared/Layout/PageBody";
-import { FinQueryStatus } from "../../types";
-import TeamTitle from "../../components/Teams/TeamTitle";
-import { useFinQueryStatus } from "../../util/error";
+import React from 'react';
+import { useParams } from 'react-router-dom';
+
+import PageBody from '../../components/Shared/Layout/PageBody';
+import { SearchBar } from '../../components/Shared/SearchBar';
+import FolderList from '../../components/Teams/FolderList';
+import TeamTitle from '../../components/Teams/TeamTitle';
+import { useGetTeam } from '../../queries/teamQueries';
+import { FinQueryStatus } from '../../types';
+import { useFinQueryStatus } from '../../util/error';
 
 const Team: React.FC = () => {
   // get id from url
-  const { teamId = "" } = useParams<{ teamId: string }>();
+  const { teamId = '' } = useParams<{ teamId: string }>();
 
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = React.useState('');
 
   const teamModelQuery = useGetTeam(teamId);
 
@@ -28,9 +29,9 @@ const Team: React.FC = () => {
       <PageBody>
         <SearchBar
           placeholderText={
-            !!teamModelQuery.data?.team.name
+            teamModelQuery.data?.team.name
               ? `Search Within ${teamModelQuery.data?.team.name}`
-              : "Search Within Team"
+              : 'Search Within Team'
           }
           search={search}
           setSearch={setSearch}

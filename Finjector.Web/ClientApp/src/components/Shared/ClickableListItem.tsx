@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 interface Props extends React.LiHTMLAttributes<HTMLLIElement> {
   url: string;
@@ -17,7 +17,7 @@ const ClickableListItem = ({ url, className, children }: Props) => {
     const tagName = e?.target.tagName.toLowerCase();
 
     const isActionTag =
-      tagName === "a" || tagName === "svg" || tagName === "path";
+      tagName === 'a' || tagName === 'svg' || tagName === 'path';
 
     if (!isActionTag) {
       navigate(url);

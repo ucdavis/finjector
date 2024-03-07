@@ -1,5 +1,3 @@
-import React, { useMemo } from "react";
-import { FinQueryStatus, FolderResponseModel } from "../../types";
 import {
   faPlus,
   faUserTie,
@@ -7,17 +5,21 @@ import {
   faPencil,
   faTrash,
   faPersonThroughWindow,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import DownloadChartStringsButton from "../../pages/Teams/DownloadChartStringsButton";
-import FinButton from "../Shared/FinButton";
-import FinButtonDropdown from "../Shared/FinButtonDropdown";
-import FinButtonDropdownItem from "../Shared/FinButtonDropdownItem";
-import PageInfo from "../Shared/Layout/PageInfo";
-import PageTitle from "../Shared/Layout/PageTitle";
-import LeaveFolderModal from "./LeaveFolderModal";
-import DeleteFolderModal from "./DeleteFolderModal";
-import { isPersonalOrDefault } from "../../util/teamDefinitions";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+
+import DownloadChartStringsButton from '../../pages/Teams/DownloadChartStringsButton';
+import { FinQueryStatus, FolderResponseModel } from '../../types';
+import { isPersonalOrDefault } from '../../util/teamDefinitions';
+import FinButton from '../Shared/FinButton';
+import FinButtonDropdown from '../Shared/FinButtonDropdown';
+import FinButtonDropdownItem from '../Shared/FinButtonDropdownItem';
+import PageInfo from '../Shared/Layout/PageInfo';
+import PageTitle from '../Shared/Layout/PageTitle';
+
+import DeleteFolderModal from './DeleteFolderModal';
+import LeaveFolderModal from './LeaveFolderModal';
 
 interface FolderTitleProps {
   folderModelData: FolderResponseModel | undefined;
@@ -32,12 +34,12 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
   teamId,
   folderId,
 }) => {
-  const [modalOpen, setModalOpen] = React.useState("");
+  const [modalOpen, setModalOpen] = React.useState('');
   const toggleModal = (modalType: string) => {
     setModalOpen(modalType);
   };
 
-  const combinedPermissions = useMemo(() => {
+  const combinedPermissions = React.useMemo(() => {
     // join together folder and team permissions
     const combined = [
       ...(folderModelData?.folder?.myFolderPermissions ?? []),
@@ -53,15 +55,15 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
   if (queryStatus.isLoading || queryStatus.isError || !folderModelData) {
     return (
       <PageTitle>
-        <div className="col-12 col-md-9">
+        <div className='col-12 col-md-9'>
           <h4>
             {queryStatus.isLoading
-              ? "Scribbling in Folder Details..."
-              : "Error loading Folder Details"}
+              ? 'Scribbling in Folder Details...'
+              : 'Error loading Folder Details'}
           </h4>
           <h1>Folder Details</h1>
         </div>
-        <div className="col-12 col-md-3 text-end">
+        <div className='col-12 col-md-3 text-end'>
           <FinButtonDropdown disabled={true}></FinButtonDropdown>
         </div>
       </PageTitle>
@@ -69,10 +71,10 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
   }
 
   const isFolderAdmin = folderModelData.folder.myFolderPermissions.some(
-    (p) => p === "Admin"
+    (p) => p === 'Admin',
   );
   const isTeamAdmin = folderModelData.folder.myTeamPermissions.some(
-    (p) => p === "Admin"
+    (p) => p === 'Admin',
   );
 
   const limitedFolder = isPersonalOrDefault(folderModelData.folder.name);
@@ -80,14 +82,14 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
   return (
     <>
       <PageTitle>
-        <div className="col-12 col-md-9">
+        <div className='col-12 col-md-9'>
           <h4>{folderModelData.folder.teamName}</h4>
           <h1>{folderModelData.folder.name}</h1>
         </div>
-        <div className="col-12 col-md-3 text-end">
+        <div className='col-12 col-md-3 text-end'>
           <FinButtonDropdown>
             {/* Editors & above can create new chart strings */}
-            {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
+            {combinedPermissions.some((p) => p === 'Admin' || p === 'Edit') && (
               <FinButtonDropdownItem>
                 <FinButton
                   borderless={true}
@@ -137,7 +139,7 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
                 {!!folderId && (
                   <FinButtonDropdownItem>
                     <FinButton
-                      onClick={() => toggleModal("delete")}
+                      onClick={() => toggleModal('delete')}
                       borderless={true}
                     >
                       <FontAwesomeIcon icon={faTrash} />
@@ -150,7 +152,7 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
             {!limitedFolder && !isTeamAdmin && (
               <FinButtonDropdownItem>
                 <FinButton
-                  onClick={() => toggleModal("leave")}
+                  onClick={() => toggleModal('leave')}
                   borderless={true}
                 >
                   <FontAwesomeIcon icon={faPersonThroughWindow} />
@@ -164,11 +166,11 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
                 charts={folderModelData.charts}
                 fileName={`${folderModelData.folder.name.replace(
                   / /g,
-                  "-"
+                  '-',
                 )}_finjector_export`}
-                fileType="CSV"
+                fileType='CSV'
                 borderless={true}
-                id="download-chart-btn"
+                id='download-chart-btn'
               ></DownloadChartStringsButton>
             </FinButtonDropdownItem>
           </FinButtonDropdown>
@@ -181,16 +183,16 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
           <DeleteFolderModal
             teamId={teamId}
             folderId={folderId}
-            isOpen={modalOpen === "delete"}
-            closeModal={() => toggleModal("")}
+            isOpen={modalOpen === 'delete'}
+            closeModal={() => toggleModal('')}
           />
         )}
       {!limitedFolder && !isTeamAdmin && (
         <LeaveFolderModal
           teamId={teamId}
           folderId={folderId}
-          isOpen={modalOpen === "leave"}
-          closeModal={() => toggleModal("")}
+          isOpen={modalOpen === 'leave'}
+          closeModal={() => toggleModal('')}
         />
       )}
     </>

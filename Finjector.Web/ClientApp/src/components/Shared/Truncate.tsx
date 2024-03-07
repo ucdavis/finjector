@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 interface TruncateProps {
   maxLength?: number;
   value?: string;
 }
 
-const Truncate: React.FC<TruncateProps> = ({ maxLength = 80, value = "" }) => {
+const Truncate: React.FC<TruncateProps> = ({ maxLength = 80, value = '' }) => {
   const [expanded, setExpanded] = useState(false);
   if (!value) {
     return null;
@@ -25,11 +25,11 @@ const Truncate: React.FC<TruncateProps> = ({ maxLength = 80, value = "" }) => {
     <span
       onClick={handleClick}
       style={{
-        cursor: "pointer",
+        cursor: 'pointer',
       }}
     >
       {truncatedText}
-      {!expanded && "..."}
+      {!expanded && '...'}
     </span>
   );
 };

@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import FinButton from "./FinButton";
-import { faClipboard } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { SegmentDetails } from "../../types";
+import { faClipboard } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+
+import { SegmentDetails } from '../../types';
+
+import FinButton from './FinButton';
 
 interface CopySegmentsToClipboardButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -19,15 +21,15 @@ const CopySegmentsToClipboardButton: React.FC<
   const handleCopy = () => {
     // first pull the string from the segments
     const sortedSegmentDetails = [...segments].sort(
-      (a, b) => a.order - b.order
+      (a, b) => a.order - b.order,
     );
 
     // Transform each object into a string and combine all the strings
     const str = sortedSegmentDetails
       .map(
-        (segment) => `*${segment.entity}*: ${segment.code} (${segment.name})`
+        (segment) => `*${segment.entity}*: ${segment.code} (${segment.name})`,
       )
-      .join("\n");
+      .join('\n');
 
     navigator.clipboard.writeText(str).then(() => {
       setHasCopied(true);
@@ -47,7 +49,7 @@ const CopySegmentsToClipboardButton: React.FC<
       {...props}
     >
       <FontAwesomeIcon icon={faClipboard} />
-      {children ?? (hasCopied ? "Copied!" : "Copy Details")}
+      {children ?? (hasCopied ? 'Copied!' : 'Copy Details')}
     </FinButton>
   );
 };

@@ -1,10 +1,12 @@
-import { UseQueryResult } from "@tanstack/react-query";
-import { FinError } from "../components/Shared/LoadingAndErrors/FinError";
-import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
-import { FinNotAuthorized } from "../components/Shared/LoadingAndErrors/FinNotAuthorized";
-import { FinNotFound } from "../components/Shared/LoadingAndErrors/FinNotFound";
-import { FinQueryStatus } from "../types";
-import { NotFoundError, UnauthorizedError } from "./api";
+import { UseQueryResult } from '@tanstack/react-query';
+
+import { FinError } from '../components/Shared/LoadingAndErrors/FinError';
+import FinLoader from '../components/Shared/LoadingAndErrors/FinLoader';
+import { FinNotAuthorized } from '../components/Shared/LoadingAndErrors/FinNotAuthorized';
+import { FinNotFound } from '../components/Shared/LoadingAndErrors/FinNotFound';
+import { FinQueryStatus } from '../types';
+
+import { NotFoundError, UnauthorizedError } from './api';
 
 interface FinQueryStatesProps {
   queryStatus: FinQueryStatus;
@@ -28,7 +30,7 @@ export const useFinQueryStatusHandler = ({
     return <FinLoader />;
   }
   if (isError) {
-    if (!!error) {
+    if (error) {
       // now we can handle specific error types through error.message
       if (error.message === UnauthorizedError) {
         return <FinNotAuthorized />;

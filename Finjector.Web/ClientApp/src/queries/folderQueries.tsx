@@ -1,12 +1,13 @@
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { doFetch, doFetchEmpty } from "../util/api";
-import { Folder, FolderResponseModel, NameAndDescriptionModel } from "../types";
+import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+
+import { Folder, FolderResponseModel, NameAndDescriptionModel } from '../types';
+import { doFetch, doFetchEmpty } from '../util/api';
 
 const queryClient = new QueryClient();
 
 export const useGetFolder = (id: string | undefined) =>
   useQuery({
-    queryKey: ["folders", id],
+    queryKey: ['folders', id],
     queryFn: async () => {
       return await doFetch<FolderResponseModel>(fetch(`/api/folder/${id}`));
     },
@@ -15,9 +16,9 @@ export const useGetFolder = (id: string | undefined) =>
 
 export const useGetFolderSearchList = () =>
   useQuery({
-    queryKey: ["folders"],
+    queryKey: ['folders'],
     queryFn: async () => {
-      return await doFetch<Folder[]>(fetch(`/api/folder/folderSearchList`));
+      return await doFetch<Folder[]>(fetch('/api/folder/folderSearchList'));
     },
   });
 
@@ -26,17 +27,17 @@ export const useCreateFolderMutation = (teamId: string) =>
     mutationFn: async (folder: NameAndDescriptionModel) => {
       return await doFetch<Folder>(
         fetch(`/api/folder?teamId=${teamId}`, {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify(folder),
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-        })
+        }),
       );
     },
     onSuccess: () => {
       // invalidate team query for this team so the new foldr shows up
-      queryClient.invalidateQueries({ queryKey: ["teams", teamId] });
+      queryClient.invalidateQueries({ queryKey: ['teams', teamId] });
     },
   });
 
@@ -45,18 +46,18 @@ export const useEditFolderMutation = (teamId: string, folderId: string) =>
     mutationFn: async (folder: NameAndDescriptionModel) => {
       return await doFetch<Folder>(
         fetch(`/api/folder/${folderId}`, {
-          method: "PUT",
+          method: 'PUT',
           body: JSON.stringify(folder),
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-        })
+        }),
       );
     },
     onSuccess: () => {
       // invalidate team query for this team so the new foldr shows up
-      queryClient.invalidateQueries({ queryKey: ["teams", teamId] });
-      queryClient.invalidateQueries({ queryKey: ["folders", folderId] });
+      queryClient.invalidateQueries({ queryKey: ['teams', teamId] });
+      queryClient.invalidateQueries({ queryKey: ['folders', folderId] });
     },
   });
 
@@ -65,14 +66,14 @@ export const useDeleteFolderMutation = () =>
     mutationFn: async (id: string) => {
       return await doFetchEmpty(
         fetch(`/api/folder/${id}`, {
-          method: "DELETE",
-        })
+          method: 'DELETE',
+        }),
       );
     },
     onSuccess: () => {
       // invalidate teams query so we refetch
-      queryClient.invalidateQueries({ queryKey: ["teams", "me"] });
-      queryClient.invalidateQueries({ queryKey: ["folders", "me"] });
+      queryClient.invalidateQueries({ queryKey: ['teams', 'me'] });
+      queryClient.invalidateQueries({ queryKey: ['folders', 'me'] });
     },
   });
 
@@ -81,14 +82,14 @@ export const useLeaveFolderMutation = (teamId: string) =>
     mutationFn: async (folderId: string) => {
       return await doFetchEmpty(
         fetch(`/api/folder/${folderId}/leave`, {
-          method: "POST",
-        })
+          method: 'POST',
+        }),
       );
     },
     onSuccess: () => {
       // invalidate teams query so we refetch
-      queryClient.invalidateQueries({ queryKey: ["teams", "me"] });
-      queryClient.invalidateQueries({ queryKey: ["teams", teamId] });
-      queryClient.invalidateQueries({ queryKey: ["folders", "me"] });
+      queryClient.invalidateQueries({ queryKey: ['teams', 'me'] });
+      queryClient.invalidateQueries({ queryKey: ['teams', teamId] });
+      queryClient.invalidateQueries({ queryKey: ['folders', 'me'] });
     },
   });

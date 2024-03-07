@@ -1,8 +1,8 @@
-import { Coa, FinQueryStatus, Folder } from "../../types";
-import ChartListItem from "../Shared/ChartListItem";
-import { useFinQueryStatusHandler } from "../../util/error";
-import FinEmpty from "../Shared/LoadingAndErrors/FinEmpty";
-import FinFunError from "../Shared/LoadingAndErrors/FinFunError";
+import { Coa, FinQueryStatus, Folder } from '../../types';
+import { useFinQueryStatusHandler } from '../../util/error';
+import ChartListItem from '../Shared/ChartListItem';
+import FinEmpty from '../Shared/LoadingAndErrors/FinEmpty';
+import FinFunError from '../Shared/LoadingAndErrors/FinFunError';
 
 interface Props {
   charts: Coa[] | undefined;
@@ -28,7 +28,7 @@ const ChartListSimple: React.FC<Props> = ({
   if (folder === undefined) return <FinFunError />;
   // if we have successfully loaded the folder but there are no charts (not an error)
   if (!charts || charts.length === 0)
-    return <FinEmpty title="There are no charts in this folder." />;
+    return <FinEmpty title='There are no charts in this folder.' />;
 
   const filterLowercase = filter.toLowerCase();
 
@@ -40,7 +40,7 @@ const ChartListSimple: React.FC<Props> = ({
   });
 
   return (
-    <ul className="list-group">
+    <ul className='list-group'>
       {filteredCharts.map((chart) => (
         <ChartListItem folder={folder} key={chart.id} chart={chart} />
       ))}

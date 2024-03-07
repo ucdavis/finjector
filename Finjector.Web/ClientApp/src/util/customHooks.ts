@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const usePopupStatus = (): boolean => {
   const [isWindowOpenerPopulated, setIsWindowOpenerPopulated] = useState(false);

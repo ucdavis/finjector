@@ -1,17 +1,17 @@
-import { FinQueryStatus, TeamsResponseModel } from "../../types";
-import { Link } from "react-router-dom";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFolder,
   faUsers,
   faSitemap,
   faFileLines,
-} from "@fortawesome/free-solid-svg-icons";
-import ClickableListItem from "../Shared/ClickableListItem";
-import { useFinQueryStatusHandler } from "../../util/error";
-import FinFunError from "../Shared/LoadingAndErrors/FinFunError";
-import FinEmpty from "../Shared/LoadingAndErrors/FinEmpty";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
+
+import { FinQueryStatus, TeamsResponseModel } from '../../types';
+import { useFinQueryStatusHandler } from '../../util/error';
+import ClickableListItem from '../Shared/ClickableListItem';
+import FinEmpty from '../Shared/LoadingAndErrors/FinEmpty';
+import FinFunError from '../Shared/LoadingAndErrors/FinFunError';
 
 interface Props {
   teamsInfo: TeamsResponseModel[] | undefined;
@@ -28,7 +28,7 @@ const TeamList = (props: Props) => {
 
   if (queryStatusComponent)
     return (
-      <div className="chartstring-details-info">{queryStatusComponent}</div>
+      <div className='chartstring-details-info'>{queryStatusComponent}</div>
     );
   // if query is complete, there are no errors, and still the data is undefined.
   // this shouldn't happen, but it makes the type checker happy. :)
@@ -36,7 +36,7 @@ const TeamList = (props: Props) => {
 
   if (teamsInfo.length === 0)
     return (
-      <FinEmpty title="You were not found to be a member of any teams.">
+      <FinEmpty title='You were not found to be a member of any teams.'>
         This is definitely an error, as you should be a member of your own
         Personal team. Please refresh the page and try again. If the problem
         persists, please contact support.
@@ -50,39 +50,39 @@ const TeamList = (props: Props) => {
   });
 
   return (
-    <ul className="list-group">
+    <ul className='list-group'>
       {filteredTeamsInfo.map((teamInfo) => {
         const url = `/teams/${teamInfo.team.id}`;
         return (
           <ClickableListItem
-            className="fin-row saved-list-item"
+            className='fin-row saved-list-item'
             key={teamInfo.team.id}
             url={url}
           >
-            <div className="fin-info d-flex justify-content-between align-items-center">
-              <div className="col-8 ms-2 me-auto">
-                <h3 className="row-title">{teamInfo.team.name}</h3>
-                <p className="row-subtitle">
-                  <span style={{ wordWrap: "break-word" }}>
+            <div className='fin-info d-flex justify-content-between align-items-center'>
+              <div className='col-8 ms-2 me-auto'>
+                <h3 className='row-title'>{teamInfo.team.name}</h3>
+                <p className='row-subtitle'>
+                  <span style={{ wordWrap: 'break-word' }}>
                     {teamInfo.team.description}
                   </span>
                 </p>
               </div>
-              <div className="col-4 d-flex justify-content-end">
-                <div className="stat-icon">
+              <div className='col-4 d-flex justify-content-end'>
+                <div className='stat-icon'>
                   <FontAwesomeIcon
-                    title="Folder count in team"
+                    title='Folder count in team'
                     icon={faFolder}
                   />
-                  {teamInfo.folderCount}{" "}
+                  {teamInfo.folderCount}{' '}
                 </div>
-                <div className="stat-icon">
-                  <FontAwesomeIcon title="User count in team" icon={faUsers} />
+                <div className='stat-icon'>
+                  <FontAwesomeIcon title='User count in team' icon={faUsers} />
                   {teamInfo.uniqueUserPermissionCount}
                 </div>
-                <div className="stat-icon">
+                <div className='stat-icon'>
                   <FontAwesomeIcon
-                    title="Chart string count in team"
+                    title='Chart string count in team'
                     icon={faFileLines}
                   />
 
@@ -90,9 +90,9 @@ const TeamList = (props: Props) => {
                 </div>
               </div>
             </div>
-            <div className="fin-actions">
+            <div className='fin-actions'>
               <Link
-                className="bold-link me-3 row-link-selected-action"
+                className='bold-link me-3 row-link-selected-action'
                 to={url}
               >
                 <FontAwesomeIcon icon={faSitemap} />

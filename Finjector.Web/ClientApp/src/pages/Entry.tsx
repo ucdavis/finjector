@@ -1,58 +1,59 @@
-import React, { useEffect } from "react";
-import { Navigate, useParams } from "react-router-dom";
-import ChartTypeSelector from "../components/Entry/ChartTypeSelector";
-import GlEntry from "../components/Entry/GlEntry";
-import PpmEntry from "../components/Entry/PpmEntry";
+import React, { useEffect } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
+
+import ChartTypeSelector from '../components/Entry/ChartTypeSelector';
+import CoaDisplay from '../components/Entry/CoaDisplay';
+import EntryMutationActions from '../components/Entry/EntryMutationActions';
+import FolderSearch from '../components/Entry/FolderSearch';
+import GlEntry from '../components/Entry/GlEntry';
+import NameEntry from '../components/Entry/NameEntry';
+import PpmEntry from '../components/Entry/PpmEntry';
+import PageBody from '../components/Shared/Layout/PageBody';
+import PageTitle from '../components/Shared/Layout/PageTitle';
+import { ChartDebugInfo } from '../components/Shared/LoadingAndErrors/ChartDebugInfo';
+import { useGetSavedChartWithData } from '../queries/storedChartQueries';
 import {
   Coa,
   ChartData,
   ChartType,
   SegmentData,
   FinQueryStatus,
-} from "../types";
+} from '../types';
 
 // CSS
 // https://github.com/ericgio/react-bootstrap-typeahead/issues/713 warning w/ bootstrap 5
-import "react-bootstrap-typeahead/css/Typeahead.css";
-import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import 'react-bootstrap-typeahead/css/Typeahead.bs5.css';
+import { useFinQueryStatus, useFinQueryStatusHandler } from '../util/error';
 import {
   buildInitialGlSegments,
   buildInitialPpmSegments,
-} from "../util/segmentHelpers";
-import CoaDisplay from "../components/Entry/CoaDisplay";
-import { useGetSavedChartWithData } from "../queries/storedChartQueries";
+} from '../util/segmentHelpers';
+import {
+  mapSegmentCodeToName,
+  mapSegmentQueryData,
+} from '../util/segmentMapping';
 import {
   fromGlSegmentString,
   fromPpmSegmentString,
   isGlSegmentString,
-} from "../util/segmentValidation";
-import NameEntry from "../components/Entry/NameEntry";
-import {
-  mapSegmentCodeToName,
-  mapSegmentQueryData,
-} from "../util/segmentMapping";
-import { ChartDebugInfo } from "../components/Shared/LoadingAndErrors/ChartDebugInfo";
-import { ChartLoadingError } from "../components/Shared/LoadingAndErrors/ChartLoadingError";
-import FolderSearch from "../components/Entry/FolderSearch";
-import PageTitle from "../components/Shared/Layout/PageTitle";
-import EntryMutationActions from "../components/Entry/EntryMutationActions";
-import { useFinQueryStatus, useFinQueryStatusHandler } from "../util/error";
-import PageBody from "../components/Shared/Layout/PageBody";
+} from '../util/segmentValidation';
+import { ChartLoadingError } from '../components/Shared/LoadingAndErrors/ChartLoadingError';
 
 const Entry = () => {
   const { chartId, chartSegmentString, folderId } = useParams();
-  const saveInFolderId = parseInt(folderId ?? "0");
+  const saveInFolderId = parseInt(folderId ?? '0');
 
-  const savedChartQuery = useGetSavedChartWithData(chartId || "");
+  const savedChartQuery = useGetSavedChartWithData(chartId || '');
 
   const [savedChart, setSavedChart] = React.useState<Coa>({
     id: 0,
     chartType: ChartType.PPM,
-    name: "",
-    segmentString: "",
+    name: '',
+    segmentString: '',
     folderId: saveInFolderId,
     updated: new Date(),
-    teamName: "",
+    teamName: '',
     canEdit: false,
   });
 
@@ -99,7 +100,7 @@ const Entry = () => {
       mapSegmentQueryData(
         chart.chartType,
         savedChartData,
-        savedChartQuery.data
+        savedChartQuery.data,
       );
 
       setChartData(savedChartData);
@@ -118,19 +119,19 @@ const Entry = () => {
     DefaultError: <ChartLoadingError />,
   });
 
-  if (chartSegmentString && chartSegmentString.indexOf("-") === -1) {
+  if (chartSegmentString && chartSegmentString.indexOf('-') === -1) {
     // if we have a chart segment string, but it doesn't have a dash, it's probably a chart id
     return <Navigate to={`/locator/entry/${chartSegmentString}`} />;
   }
 
   if (queryStatusComponent) {
     return (
-      <div title="main">
+      <div title='main'>
         <PageTitle
           title={
             queryStatus.isLoading
-              ? "Scribbling in form..."
-              : "Edit Chart String"
+              ? 'Scribbling in form...'
+              : 'Edit Chart String'
           }
         />
         <PageBody>{queryStatusComponent}</PageBody>
@@ -139,16 +140,16 @@ const Entry = () => {
   }
 
   return (
-    <div className="main">
+    <div className='main'>
       <PageTitle
-        title={chartId ? "Edit Chart String" : "Create Chart String"}
+        title={chartId ? 'Edit Chart String' : 'Create Chart String'}
       />
       <h2>Chart Type</h2>
       <ChartTypeSelector
         chartType={chartData.chartType}
         setChartType={changeChartType}
       />
-      <div className="mt-4 mb-4">
+      <div className='mt-4 mb-4'>
         <h2>{chartData.chartType} Chart String Details</h2>
         {chartData.chartType === ChartType.GL ? (
           <GlEntry
@@ -174,8 +175,8 @@ const Entry = () => {
         <hr />
         <CoaDisplay chartData={chartData} />
         <hr />
-        <div className="row">
-          <div className="col-md-6 mb-3">
+        <div className='row'>
+          <div className='col-md-6 mb-3'>
             <FolderSearch
               disabled={saveInFolderId !== 0 && !chartSegmentString && !chartId} // if are creating from Folder, lock it (not on edit)
               selectedFolderId={savedChart.folderId}
@@ -185,7 +186,7 @@ const Entry = () => {
               currentlySavedInFolderId={savedChartQuery.data?.chart.folderId}
             />
           </div>
-          <div className="col-md-6 mb-3">
+          <div className='col-md-6 mb-3'>
             <NameEntry
               chart={savedChart}
               updateName={(n) => setSavedChart((c) => ({ ...c, name: n }))}

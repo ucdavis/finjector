@@ -1,10 +1,11 @@
-import React from "react";
-import { useCreateTeamMutation } from "../../queries/teamQueries";
-import { useNavigate } from "react-router-dom";
-import { NameAndDescriptionModel } from "../../types";
-import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
-import PageTitle from "../../components/Shared/Layout/PageTitle";
-import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import PageTitle from '../../components/Shared/Layout/PageTitle';
+import addFinToast from '../../components/Shared/LoadingAndErrors/FinToast';
+import NameAndDescriptionForm from '../../components/Teams/NameAndDescriptionForm';
+import { useCreateTeamMutation } from '../../queries/teamQueries';
+import { NameAndDescriptionModel } from '../../types';
 
 const CreateTeam: React.FC = () => {
   const navigate = useNavigate();
@@ -19,21 +20,21 @@ const CreateTeam: React.FC = () => {
       },
       {
         onSuccess: () => {
-          addFinToast("success", "Team created successfully.");
-          navigate("/teams");
+          addFinToast('success', 'Team created successfully.');
+          navigate('/teams');
         },
         onError: (err: any) => {
-          addFinToast("error", "Error creating team.");
+          addFinToast('error', 'Error creating team.');
         },
-      }
+      },
     );
   };
 
   return (
     <div>
-      <PageTitle title="Create New Team" />
+      <PageTitle title='Create New Team' />
       <NameAndDescriptionForm
-        buttonText={(loading) => (loading ? "Creating..." : "Create New Team")}
+        buttonText={(loading) => (loading ? 'Creating...' : 'Create New Team')}
         onSubmit={handleCreate}
         loading={createTeamMutation.isPending}
       />

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import FinButton from "./FinButton";
-import { faCopy } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+
+import FinButton from './FinButton';
 
 interface CopyToClipboardButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -34,16 +35,16 @@ const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = ({
     return (
       <div id={`copy-container-${id}`}>
         <div
-          className="btn btn-link"
+          className='btn btn-link'
           id={`copy-button-${id}`}
           style={{
-            cursor: "pointer",
+            cursor: 'pointer',
           }}
           onClick={handleCopy}
           onMouseEnter={onHover}
         >
           <FontAwesomeIcon icon={faCopy} />
-          {children ?? (hasCopied ? "Copied!" : "Copy")}
+          {children ?? (hasCopied ? 'Copied!' : 'Copy')}
         </div>
       </div>
     );
@@ -58,7 +59,7 @@ const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = ({
       {...props}
     >
       <FontAwesomeIcon icon={faCopy} />
-      {children ?? (hasCopied ? "Copied!" : "Copy")}
+      {children ?? (hasCopied ? 'Copied!' : 'Copy')}
     </FinButton>
   );
 };

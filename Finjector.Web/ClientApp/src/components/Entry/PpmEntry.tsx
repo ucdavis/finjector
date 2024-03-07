@@ -1,9 +1,7 @@
-import React from "react";
+import { ChartType, PpmSegments, SegmentData } from '../../types';
 
-import { ChartType, PpmSegments, SegmentData } from "../../types";
-
-import SegmentSearch from "./SegmentSearch";
-import TaskSelector from "./TaskSelector";
+import SegmentSearch from './SegmentSearch';
+import TaskSelector from './TaskSelector';
 
 interface Props {
   segments: PpmSegments;
@@ -16,8 +14,8 @@ const PpmEntry = (props: Props) => {
   };
 
   return (
-    <div className="form-data-entry">
-      <div className="row">
+    <div className='form-data-entry'>
+      <div className='row'>
         <SegmentSearch
           chartType={ChartType.PPM}
           segmentData={props.segments.project}

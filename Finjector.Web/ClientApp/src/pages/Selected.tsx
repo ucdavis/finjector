@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
-import { Navigate, useParams } from "react-router-dom";
-import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
-import CopyToClipboardButton from "../components/Shared/CopyToClipboardButton";
-import PageTitle from "../components/Shared/Layout/PageTitle";
+import React, { useEffect } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
+
+import CopyToClipboardButton from '../components/Shared/CopyToClipboardButton';
+import CopyToClipboardHover from '../components/Shared/CopyToClipboardHover';
+import PageTitle from '../components/Shared/Layout/PageTitle';
 
 const Selected = () => {
   const { chartSegmentString } = useParams();
@@ -13,11 +14,11 @@ const Selected = () => {
     if (window.opener) {
       window.opener.postMessage(
         {
-          source: "finjector",
-          status: "success",
+          source: 'finjector',
+          status: 'success',
           data: chartSegmentString,
         },
-        "*" // send to all, we don't know the origin
+        '*', // send to all, we don't know the origin
       );
       // message sent, close the window
       window.close();
@@ -26,16 +27,16 @@ const Selected = () => {
     }
   }, [chartSegmentString]);
 
-  if (chartSegmentString && !chartSegmentString.includes("-")) {
+  if (chartSegmentString && !chartSegmentString.includes('-')) {
     // if we have a chart segment string, but it doesn't have a dash, it's probably a chart id
     return <Navigate to={`/locator/selected/${chartSegmentString}`} />;
   }
 
   return (
     <div>
-      <PageTitle title="Chart String Selected" />
+      <PageTitle title='Chart String Selected' />
       <div>
-        <CopyToClipboardHover value={chartSegmentString ?? ""} id="selected">
+        <CopyToClipboardHover value={chartSegmentString ?? ''} id='selected'>
           <code>{chartSegmentString}</code>
         </CopyToClipboardHover>
       </div>
@@ -52,8 +53,8 @@ const Selected = () => {
             with another chart string.
           </p>
           <CopyToClipboardButton
-            value={chartSegmentString ?? ""}
-            id="selected"
+            value={chartSegmentString ?? ''}
+            id='selected'
           />
         </div>
       )}

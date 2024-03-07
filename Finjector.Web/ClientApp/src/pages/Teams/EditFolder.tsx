@@ -1,15 +1,16 @@
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { FinQueryStatus, NameAndDescriptionModel } from "../../types";
-import NameAndDescriptionForm from "../../components/Teams/NameAndDescriptionForm";
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import PageBody from '../../components/Shared/Layout/PageBody';
+import PageTitle from '../../components/Shared/Layout/PageTitle';
+import addFinToast from '../../components/Shared/LoadingAndErrors/FinToast';
+import NameAndDescriptionForm from '../../components/Teams/NameAndDescriptionForm';
 import {
   useEditFolderMutation,
   useGetFolder,
-} from "../../queries/folderQueries";
-import PageTitle from "../../components/Shared/Layout/PageTitle";
-import { useFinQueryStatus, useFinQueryStatusHandler } from "../../util/error";
-import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
-import PageBody from "../../components/Shared/Layout/PageBody";
+} from '../../queries/folderQueries';
+import { FinQueryStatus, NameAndDescriptionModel } from '../../types';
+import { useFinQueryStatus, useFinQueryStatusHandler } from '../../util/error';
 
 const EditFolder: React.FC = () => {
   const { teamId, folderId } = useParams<{
@@ -24,8 +25,8 @@ const EditFolder: React.FC = () => {
   const queryStatus: FinQueryStatus = useFinQueryStatus(folderQuery);
 
   const updateFolderMutation = useEditFolderMutation(
-    teamId || "",
-    folderId || ""
+    teamId || '',
+    folderId || '',
   );
 
   const handleCreate = async (data: NameAndDescriptionModel) => {
@@ -36,13 +37,13 @@ const EditFolder: React.FC = () => {
       },
       {
         onSuccess: () => {
-          addFinToast("success", "Folder updated successfully.");
+          addFinToast('success', 'Folder updated successfully.');
           navigate(`/teams/${teamId}/folders/${folderId}`);
         },
         onError: (err: any) => {
-          addFinToast("error", "Error updating folder.");
+          addFinToast('error', 'Error updating folder.');
         },
-      }
+      },
     );
   };
 
@@ -56,8 +57,8 @@ const EditFolder: React.FC = () => {
         <PageTitle
           title={
             queryStatus.isLoading
-              ? "Scribbling in form..."
-              : "Error loading Edit Folder form"
+              ? 'Scribbling in form...'
+              : 'Error loading Edit Folder form'
           }
         />
         <PageBody>{queryStatusComponent}</PageBody>
@@ -67,14 +68,14 @@ const EditFolder: React.FC = () => {
   return (
     <div>
       <h4>{folderQuery.data?.folder.name}</h4>
-      <PageTitle title="Edit Folder" />
+      <PageTitle title='Edit Folder' />
       <PageBody>
         <NameAndDescriptionForm
           initialValues={{
-            name: folderQuery.data?.folder.name || "",
+            name: folderQuery.data?.folder.name || '',
             description: folderQuery.data?.folder.description,
           }}
-          buttonText={(loading) => (loading ? "Saving..." : "Save Changes")}
+          buttonText={(loading) => (loading ? 'Saving...' : 'Save Changes')}
           onSubmit={handleCreate}
           loading={updateFolderMutation.isPending}
         />

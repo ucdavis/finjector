@@ -4,38 +4,39 @@ import {
   GlSegments,
   PpmSegments,
   SegmentData,
-} from "../types";
+} from '../types';
+
 import {
   buildInitialGlSegments,
   buildInitialPpmSegments,
-} from "./segmentHelpers";
+} from './segmentHelpers';
 
 export const toGlSegmentString = (gl: GlSegments): string => {
   return `${getSegmentValue(gl.entity)}-${getSegmentValue(
-    gl.fund
+    gl.fund,
   )}-${getSegmentValue(gl.department)}-${getSegmentValue(
-    gl.account
+    gl.account,
   )}-${getSegmentValue(gl.purpose)}-${getSegmentValue(
-    gl.program
+    gl.program,
   )}-${getSegmentValue(gl.project)}-${getSegmentValue(
-    gl.activity
+    gl.activity,
   )}-${getSegmentValue(gl.interEntity)}-${getSegmentValue(
-    gl.flex1
+    gl.flex1,
   )}-${getSegmentValue(gl.flex2)}`;
 };
 
 export const toPpmSegmentString = (ppm: PpmSegments): string => {
   if (isPpmWithoutAward(ppm)) {
     return `${getSegmentValue(ppm.project)}-${getSegmentValue(
-      ppm.task
+      ppm.task,
     )}-${getSegmentValue(ppm.organization)}-${getSegmentValue(
-      ppm.expenditureType
+      ppm.expenditureType,
     )}`;
   }
   return `${getSegmentValue(ppm.project)}-${getSegmentValue(
-    ppm.task
+    ppm.task,
   )}-${getSegmentValue(ppm.organization)}-${getSegmentValue(
-    ppm.expenditureType
+    ppm.expenditureType,
   )}-${getSegmentValue(ppm.award)}-${getSegmentValue(ppm.fundingSource)}`;
 };
 
@@ -46,7 +47,7 @@ const isPpmWithoutAward = (ppm: PpmSegments): boolean => {
 export const isGlSegmentString = (segmentString: string): boolean => {
   return (
     segmentString.match(
-      "^[0-9]{3}[0-9AB]-[0-9A-Z]{5}-[0-9A-Z]{7}-[0-9A-Z]{6}-[0-9][0-9A-Z]-[0-9A-Z]{3}-[0-9A-Z]{10}-[0-9A-Z]{6}-0000-000000-000000$"
+      '^[0-9]{3}[0-9AB]-[0-9A-Z]{5}-[0-9A-Z]{7}-[0-9A-Z]{6}-[0-9][0-9A-Z]-[0-9A-Z]{3}-[0-9A-Z]{10}-[0-9A-Z]{6}-0000-000000-000000$',
     ) !== null
   );
 };
@@ -54,7 +55,7 @@ export const isGlSegmentString = (segmentString: string): boolean => {
 export const isPpmSegmentString = (segmentString: string): boolean => {
   return (
     segmentString.match(
-      "^[0-9A-Z]{10}-[0-9A-Z]{6}-[0-9A-Z]{7}-[0-9A-Z]{6}(-[0-9A-Z]{7}-[0-9A-Z]{5,10})?$"
+      '^[0-9A-Z]{10}-[0-9A-Z]{6}-[0-9A-Z]{7}-[0-9A-Z]{6}(-[0-9A-Z]{7}-[0-9A-Z]{5,10})?$',
     ) !== null
   );
 };
@@ -116,9 +117,9 @@ export const toSegmentString = (chartData: ChartData): string => {
 
 export const fromPpmSegmentString = (
   segmentString: string,
-  validity: boolean = false
+  validity: boolean = false,
 ): PpmSegments => {
-  const segments = segmentString.split("-");
+  const segments = segmentString.split('-');
 
   // There are two possible PPM segment strings - either 4 or 6 segment varieties.
 
@@ -132,43 +133,43 @@ export const fromPpmSegmentString = (
     return {
       project: {
         code: segments[0],
-        name: "",
-        segmentName: "project",
+        name: '',
+        segmentName: 'project',
         isValid: validity,
         default: ppmSegmentDefaults.project,
       },
       task: {
         code: segments[1],
-        name: "",
-        segmentName: "task",
+        name: '',
+        segmentName: 'task',
         isValid: validity,
         default: ppmSegmentDefaults.task,
       },
       organization: {
         code: segments[2],
-        name: "",
-        segmentName: "organization",
+        name: '',
+        segmentName: 'organization',
         isValid: validity,
         default: ppmSegmentDefaults.organization,
       },
       expenditureType: {
         code: segments[3],
-        name: "",
-        segmentName: "expenditureType",
+        name: '',
+        segmentName: 'expenditureType',
         isValid: validity,
         default: ppmSegmentDefaults.expenditureType,
       },
       award: {
-        code: "",
-        name: "",
-        segmentName: "award",
+        code: '',
+        name: '',
+        segmentName: 'award',
         isValid: true, // always valid with required only
         default: ppmSegmentDefaults.award,
       },
       fundingSource: {
-        code: "",
-        name: "",
-        segmentName: "fundingSource",
+        code: '',
+        name: '',
+        segmentName: 'fundingSource',
         isValid: true,
         default: ppmSegmentDefaults.fundingSource,
       },
@@ -177,43 +178,43 @@ export const fromPpmSegmentString = (
     return {
       project: {
         code: segments[0],
-        name: "",
-        segmentName: "project",
+        name: '',
+        segmentName: 'project',
         isValid: validity,
         default: ppmSegmentDefaults.project,
       },
       task: {
         code: segments[1],
-        name: "",
-        segmentName: "task",
+        name: '',
+        segmentName: 'task',
         isValid: validity,
         default: ppmSegmentDefaults.task,
       },
       organization: {
         code: segments[2],
-        name: "",
-        segmentName: "organization",
+        name: '',
+        segmentName: 'organization',
         isValid: validity,
         default: ppmSegmentDefaults.organization,
       },
       expenditureType: {
         code: segments[3],
-        name: "",
-        segmentName: "expenditureType",
+        name: '',
+        segmentName: 'expenditureType',
         isValid: validity,
         default: ppmSegmentDefaults.expenditureType,
       },
       award: {
         code: segments[4],
-        name: "",
-        segmentName: "award",
+        name: '',
+        segmentName: 'award',
         isValid: validity,
         default: ppmSegmentDefaults.award,
       },
       fundingSource: {
         code: segments[5],
-        name: "",
-        segmentName: "fundingSource",
+        name: '',
+        segmentName: 'fundingSource',
         isValid: validity,
         default: ppmSegmentDefaults.fundingSource,
       },
@@ -223,9 +224,9 @@ export const fromPpmSegmentString = (
 
 export const fromGlSegmentString = (
   segmentString: string,
-  validity: boolean = false
+  validity: boolean = false,
 ): GlSegments => {
-  const segments = segmentString.split("-");
+  const segments = segmentString.split('-');
 
   if (segments.length !== 11) {
     return buildInitialGlSegments();
@@ -234,78 +235,78 @@ export const fromGlSegmentString = (
   return {
     entity: {
       code: segments[0],
-      name: "",
-      segmentName: "entity",
+      name: '',
+      segmentName: 'entity',
       isValid: validity,
       default: glSegmentDefaults.entity,
     },
     fund: {
       code: segments[1],
-      name: "",
-      segmentName: "fund",
+      name: '',
+      segmentName: 'fund',
       isValid: validity,
       default: glSegmentDefaults.fund,
     },
     department: {
       code: segments[2],
-      name: "",
-      segmentName: "department",
+      name: '',
+      segmentName: 'department',
       isValid: validity,
       default: glSegmentDefaults.department,
     },
     account: {
       code: segments[3],
-      name: "",
-      segmentName: "account",
+      name: '',
+      segmentName: 'account',
       isValid: validity,
       default: glSegmentDefaults.account,
     },
     purpose: {
       code: segments[4],
-      name: "",
-      segmentName: "purpose",
+      name: '',
+      segmentName: 'purpose',
       isValid: validity,
       default: glSegmentDefaults.purpose,
     },
     program: {
       code: segments[5],
-      name: "",
-      segmentName: "program",
+      name: '',
+      segmentName: 'program',
       isValid: validity,
       default: glSegmentDefaults.program,
     },
     project: {
       code: segments[6],
-      name: "",
-      segmentName: "project",
+      name: '',
+      segmentName: 'project',
       isValid: validity,
       default: glSegmentDefaults.project,
     },
     activity: {
       code: segments[7],
-      name: "",
-      segmentName: "activity",
+      name: '',
+      segmentName: 'activity',
       isValid: validity,
       default: glSegmentDefaults.activity,
     },
     interEntity: {
       code: segments[8],
-      name: "",
-      segmentName: "interEntity",
+      name: '',
+      segmentName: 'interEntity',
       isValid: true, // always valid, as are the two flex segments
       default: glSegmentDefaults.interEntity,
     },
     flex1: {
       code: segments[9],
-      name: "",
-      segmentName: "flex1",
+      name: '',
+      segmentName: 'flex1',
       isValid: true,
       default: glSegmentDefaults.flex1,
     },
     flex2: {
       code: segments[10],
-      name: "",
-      segmentName: "flex2",
+      name: '',
+      segmentName: 'flex2',
       isValid: true,
       default: glSegmentDefaults.flex2,
     },
@@ -313,24 +314,24 @@ export const fromGlSegmentString = (
 };
 
 export const glSegmentDefaults: { [index: string]: string } = {
-  entity: "0000",
-  fund: "00000",
-  department: "0000000",
-  account: "000000",
-  purpose: "00",
-  program: "000",
-  project: "0000000000",
-  activity: "000000",
-  interEntity: "0000",
-  flex1: "000000",
-  flex2: "000000",
+  entity: '0000',
+  fund: '00000',
+  department: '0000000',
+  account: '000000',
+  purpose: '00',
+  program: '000',
+  project: '0000000000',
+  activity: '000000',
+  interEntity: '0000',
+  flex1: '000000',
+  flex2: '000000',
 };
 
 export const ppmSegmentDefaults: { [index: string]: string } = {
-  project: "0000000000",
-  task: "000000",
-  organization: "0000000",
-  expenditureType: "000000",
-  award: "0000000",
-  fundingSource: "00000",
+  project: '0000000000',
+  task: '000000',
+  organization: '0000000',
+  expenditureType: '000000',
+  award: '0000000',
+  fundingSource: '00000',
 };

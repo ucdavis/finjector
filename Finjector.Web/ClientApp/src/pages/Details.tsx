@@ -1,20 +1,21 @@
-import { useParams } from "react-router-dom";
-import { AeDetails, ChartType, FinQueryStatus } from "../types";
-import { useGetChartDetails } from "../queries/storedChartQueries";
-import { ChartDebugInfo } from "../components/Shared/LoadingAndErrors/ChartDebugInfo";
-import DetailsTitle from "../components/Details/DetailsTitle";
-import DetailsTable from "../components/Details/DetailsTable";
-import PageTitle from "../components/Shared/Layout/PageTitle";
-import DetailsAeErrors from "../components/Details/DetailsAeErrors";
-import PageBody from "../components/Shared/Layout/PageBody";
-import DetailsChartString from "../components/Details/DetailsChartString";
-import { useFinQueryStatus } from "../util/error";
+import { useParams } from 'react-router-dom';
+
+import DetailsAeErrors from '../components/Details/DetailsAeErrors';
+import DetailsChartString from '../components/Details/DetailsChartString';
+import DetailsTable from '../components/Details/DetailsTable';
+import DetailsTitle from '../components/Details/DetailsTitle';
+import PageBody from '../components/Shared/Layout/PageBody';
+import PageTitle from '../components/Shared/Layout/PageTitle';
+import { ChartDebugInfo } from '../components/Shared/LoadingAndErrors/ChartDebugInfo';
+import { useGetChartDetails } from '../queries/storedChartQueries';
+import { AeDetails, ChartType, FinQueryStatus } from '../types';
+import { useFinQueryStatus } from '../util/error';
 
 const Details = () => {
   const { chartId, chartSegmentString } = useParams();
   const chartDetailsQuery = useGetChartDetails(
-    chartSegmentString || "",
-    chartId
+    chartSegmentString || '',
+    chartId,
   );
 
   const queryStatus: FinQueryStatus = useFinQueryStatus(chartDetailsQuery);
@@ -23,15 +24,15 @@ const Details = () => {
 
   const isPpmOrGlClassName =
     aeDetails?.chartType === ChartType.PPM
-      ? "is-ppm"
+      ? 'is-ppm'
       : aeDetails?.chartType === ChartType.GL
-      ? "is-gl"
-      : queryStatus.isError
-      ? "is-error"
-      : "is-none";
+        ? 'is-gl'
+        : queryStatus.isError
+          ? 'is-error'
+          : 'is-none';
 
   return (
-    <div className="main">
+    <div className='main'>
       <PageTitle isRow={true}>
         <DetailsTitle
           aeDetails={aeDetails}

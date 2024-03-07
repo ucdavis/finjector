@@ -5,18 +5,20 @@ import {
   faUsers,
   faTrash,
   faPersonThroughWindow,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import FinButton from "../Shared/FinButton";
-import FinButtonDropdown from "../Shared/FinButtonDropdown";
-import FinButtonDropdownItem from "../Shared/FinButtonDropdownItem";
-import PageInfo from "../Shared/Layout/PageInfo";
-import PageTitle from "../Shared/Layout/PageTitle";
-import { FinQueryStatus, TeamResponseModel } from "../../types";
-import { isPersonalOrDefault } from "../../util/teamDefinitions";
-import DeleteTeamModal from "./DeleteTeamModal";
-import LeaveTeamModal from "./LeaveTeamModal";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+
+import { FinQueryStatus, TeamResponseModel } from '../../types';
+import { isPersonalOrDefault } from '../../util/teamDefinitions';
+import FinButton from '../Shared/FinButton';
+import FinButtonDropdown from '../Shared/FinButtonDropdown';
+import FinButtonDropdownItem from '../Shared/FinButtonDropdownItem';
+import PageInfo from '../Shared/Layout/PageInfo';
+import PageTitle from '../Shared/Layout/PageTitle';
+
+import DeleteTeamModal from './DeleteTeamModal';
+import LeaveTeamModal from './LeaveTeamModal';
 
 interface TeamTitleProps {
   teamModelData: TeamResponseModel | undefined;
@@ -29,7 +31,7 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
   teamId,
   queryStatus,
 }) => {
-  const [modalOpen, setModalOpen] = React.useState("");
+  const [modalOpen, setModalOpen] = React.useState('');
   const toggleModal = (modalType: string) => {
     setModalOpen(modalType);
   };
@@ -37,11 +39,11 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
   if (queryStatus.isLoading || queryStatus.isError || !teamModelData) {
     return (
       <PageTitle>
-        <div className="col-12 col-md-9">
+        <div className='col-12 col-md-9'>
           <h1>
             {queryStatus.isLoading
-              ? "Scribbling in Your Team..."
-              : "Error loading Team"}
+              ? 'Scribbling in Your Team...'
+              : 'Error loading Team'}
           </h1>
         </div>
         {/* no disabled FinButtonDropdown because it doesn't render on personal */}
@@ -50,7 +52,7 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
   }
 
   const isTeamAdmin = teamModelData.team.myTeamPermissions.some(
-    (p) => p === "Admin"
+    (p) => p === 'Admin',
   );
 
   const limitedTeam = isPersonalOrDefault(teamModelData.team.name);
@@ -58,10 +60,10 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
   return (
     <>
       <PageTitle>
-        <div className="col-12 col-md-9">
+        <div className='col-12 col-md-9'>
           <h1>{teamModelData.team.name}</h1>
         </div>
-        <div className="col-12 col-md-3 text-end">
+        <div className='col-12 col-md-3 text-end'>
           <FinButtonDropdown shouldRenderAsDropdown={!limitedTeam}>
             {/* don't show team admins if you are an admin or if it's a personal team */}
             {limitedTeam ||
@@ -102,11 +104,11 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
                 <FinButtonDropdownItem>
                   <FinButton
                     borderless={true}
-                    onClick={() => toggleModal("delete")}
+                    onClick={() => toggleModal('delete')}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                     Delete Team
-                  </FinButton>{" "}
+                  </FinButton>{' '}
                 </FinButtonDropdownItem>
               </>
             )}
@@ -115,7 +117,7 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
               <FinButtonDropdownItem>
                 <FinButton
                   borderless={true}
-                  onClick={() => toggleModal("leave")}
+                  onClick={() => toggleModal('leave')}
                 >
                   <FontAwesomeIcon icon={faPersonThroughWindow} />
                   Leave Team
@@ -130,15 +132,15 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
         <LeaveTeamModal
           teamId={teamId}
           isAdmin={isTeamAdmin !== undefined && isTeamAdmin}
-          isOpen={modalOpen === "leave"}
-          closeModal={() => toggleModal("")}
+          isOpen={modalOpen === 'leave'}
+          closeModal={() => toggleModal('')}
         />
       )}
       {!limitedTeam && isTeamAdmin && (
         <DeleteTeamModal
           teamId={teamId}
-          isOpen={modalOpen === "delete"}
-          closeModal={() => toggleModal("")}
+          isOpen={modalOpen === 'delete'}
+          closeModal={() => toggleModal('')}
         />
       )}
     </>

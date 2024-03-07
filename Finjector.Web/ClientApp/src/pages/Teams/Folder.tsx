@@ -1,21 +1,22 @@
-import React from "react";
-import { SearchBar } from "../../components/Shared/SearchBar";
-import { useParams } from "react-router-dom";
-import { useGetFolder } from "../../queries/folderQueries";
-import ChartListSimple from "../../components/Folders/ChartListSimple";
-import PageBody from "../../components/Shared/Layout/PageBody";
-import { FinQueryStatus } from "../../types";
-import FolderTitle from "../../components/Folders/FolderTitle";
-import { useFinQueryStatus } from "../../util/error";
+import React from 'react';
+import { useParams } from 'react-router-dom';
+
+import ChartListSimple from '../../components/Folders/ChartListSimple';
+import FolderTitle from '../../components/Folders/FolderTitle';
+import PageBody from '../../components/Shared/Layout/PageBody';
+import { SearchBar } from '../../components/Shared/SearchBar';
+import { useGetFolder } from '../../queries/folderQueries';
+import { FinQueryStatus } from '../../types';
+import { useFinQueryStatus } from '../../util/error';
 
 // show folder info w/ charts
 const Folder: React.FC = () => {
-  const { teamId = "", folderId = "" } = useParams<{
+  const { teamId = '', folderId = '' } = useParams<{
     teamId: string;
     folderId: string;
   }>();
 
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = React.useState('');
 
   const folderModelQuery = useGetFolder(folderId);
 
@@ -31,7 +32,7 @@ const Folder: React.FC = () => {
       />
       <PageBody>
         <SearchBar
-          placeholderText="Search Within Folder"
+          placeholderText='Search Within Folder'
           search={search}
           setSearch={setSearch}
         />

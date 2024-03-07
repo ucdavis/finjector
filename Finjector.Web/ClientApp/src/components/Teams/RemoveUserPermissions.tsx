@@ -1,6 +1,6 @@
-import { useRemoveUserMutation } from "../../queries/userQueries";
-import { CollectionResourceType } from "../../types";
-import FinButton from "../Shared/FinButton";
+import { useRemoveUserMutation } from '../../queries/userQueries';
+import { CollectionResourceType } from '../../types';
+import FinButton from '../Shared/FinButton';
 
 interface Props {
   resourceId: string;
@@ -11,7 +11,7 @@ interface Props {
 export const RemoveUserPermission = (props: Props) => {
   const removeUserMutation = useRemoveUserMutation(
     props.resourceId,
-    props.resourceType
+    props.resourceType,
   );
 
   const removeInProgress =
@@ -23,7 +23,7 @@ export const RemoveUserPermission = (props: Props) => {
 
   return (
     <FinButton onClick={handleRemovePermission} disabled={removeInProgress}>
-      {removeInProgress ? "Removing..." : "Remove"}
+      {removeInProgress ? 'Removing...' : 'Remove'}
     </FinButton>
   );
 };

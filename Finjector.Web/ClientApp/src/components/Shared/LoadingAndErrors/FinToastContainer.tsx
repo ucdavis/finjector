@@ -1,10 +1,10 @@
-import React from "react";
-import { ToastContainer } from "react-toastify";
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
 
 const FinToastContainer = () => {
   return (
     <ToastContainer
-      position="top-center"
+      position='top-center'
       autoClose={5000}
       hideProgressBar={false}
       newestOnTop={false}

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy } from "@fortawesome/free-regular-svg-icons";
-import { Tooltip } from "reactstrap";
+import { faCopy } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+import { Tooltip } from 'reactstrap';
 
 interface CopyToClipboardProps {
   value: string;
@@ -9,7 +9,7 @@ interface CopyToClipboardProps {
   id: string;
 }
 
-const copyToClipboardDefaultMessage = "copy to clipboard";
+const copyToClipboardDefaultMessage = 'copy to clipboard';
 
 const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
   value,
@@ -17,7 +17,7 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
   id,
 }) => {
   const [titleText, setTitleText] = useState<string>(
-    copyToClipboardDefaultMessage
+    copyToClipboardDefaultMessage,
   );
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -25,7 +25,7 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
   const handleCopy = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     navigator.clipboard.writeText(value).then(() => {
-      setTitleText("copied!");
+      setTitleText('copied!');
       setTimeout(() => setTitleText(copyToClipboardDefaultMessage), 2000); // Reset title after 2 seconds
     });
   };
@@ -45,22 +45,22 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
       id={`copy-container-hover-${id}`}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      className="copy-container-hover"
+      className='copy-container-hover'
     >
       <div
         id={`copy-item-container-hover-${id}`}
-        style={{ position: "relative", display: "inline-flex" }}
+        style={{ position: 'relative', display: 'inline-flex' }}
       >
         {children}
         <div
           id={`copy-button-hover-${id}`}
           style={{
-            position: "absolute",
-            right: "-20px",
+            position: 'absolute',
+            right: '-20px',
             top: 0,
-            cursor: "pointer",
+            cursor: 'pointer',
             opacity: isHovering ? 1 : 0,
-            transition: "opacity 0.2s ease-in-out",
+            transition: 'opacity 0.2s ease-in-out',
           }}
           onClick={(e) => handleCopy(e)}
         >
@@ -70,7 +70,7 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
       <Tooltip
         isOpen={tooltipOpen}
         toggle={toggleTooltip}
-        placement="top"
+        placement='top'
         target={`copy-button-hover-${id}`}
       >
         {titleText}

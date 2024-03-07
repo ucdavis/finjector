@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { NameAndDescriptionModel } from "../../types";
-import FinButton from "../Shared/FinButton";
+import { useState } from 'react';
+
+import { NameAndDescriptionModel } from '../../types';
+import FinButton from '../Shared/FinButton';
 
 interface Props {
   initialValues?: NameAndDescriptionModel;
@@ -10,7 +11,7 @@ interface Props {
 }
 
 const NameAndDescriptionForm: React.FC<Props> = ({
-  initialValues = { name: "", description: "" },
+  initialValues = { name: '', description: '' },
   buttonText,
   onSubmit,
   loading,
@@ -27,44 +28,44 @@ const NameAndDescriptionForm: React.FC<Props> = ({
   };
 
   return (
-    <div className="row">
-      <div className="col-md-7">
-        <form className="form" onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="name" className="form-label">
+    <div className='row'>
+      <div className='col-md-7'>
+        <form className='form' onSubmit={handleSubmit}>
+          <div className='mb-4'>
+            <label htmlFor='name' className='form-label'>
               Name:
             </label>
             <input
-              type="text"
-              className="form-control"
-              id="name"
-              name="name"
+              type='text'
+              className='form-control'
+              id='name'
+              name='name'
               value={formData.name}
               onChange={handleChange}
               required
               maxLength={50}
             />
-            <div className="invalid-feedback">Please provide a name.</div>
+            <div className='invalid-feedback'>Please provide a name.</div>
           </div>
 
-          <div className="mb-4">
-            <label htmlFor="description" className="form-label">
+          <div className='mb-4'>
+            <label htmlFor='description' className='form-label'>
               Description:
             </label>
             <textarea
-              className="form-control"
-              id="description"
-              name="description"
+              className='form-control'
+              id='description'
+              name='description'
               value={formData.description}
               onChange={handleChange}
               maxLength={300}
             />
-            <div className="invalid-feedback">
+            <div className='invalid-feedback'>
               Please provide a description.
             </div>
           </div>
 
-          <FinButton type="submit" margin={false} disabled={loading}>
+          <FinButton type='submit' margin={false} disabled={loading}>
             {buttonText(loading ?? false)}
           </FinButton>
         </form>

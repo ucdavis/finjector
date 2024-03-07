@@ -1,11 +1,11 @@
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { useDeleteTeamMutation } from "../../queries/teamQueries";
-import { useNavigate } from "react-router-dom";
-import FinButton from "../Shared/FinButton";
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import addFinToast from "../Shared/LoadingAndErrors/FinToast";
+import { useDeleteTeamMutation } from '../../queries/teamQueries';
+import FinButton from '../Shared/FinButton';
+import addFinToast from '../Shared/LoadingAndErrors/FinToast';
 
 interface Props {
   teamId: string;
@@ -22,12 +22,12 @@ const DeleteTeamModal = (props: Props) => {
   const handleDelete = () => {
     deleteMutation.mutate(props.teamId, {
       onSuccess: () => {
-        addFinToast("success", "Team deleted successfully.");
-        navigate("/teams");
+        addFinToast('success', 'Team deleted successfully.');
+        navigate('/teams');
         closeModal();
       },
       onError: (error) => {
-        addFinToast("error", "Error deleting team.");
+        addFinToast('error', 'Error deleting team.');
       },
     });
   };
@@ -35,7 +35,7 @@ const DeleteTeamModal = (props: Props) => {
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal}>
-        <ModalHeader tag="h2" toggle={closeModal}>
+        <ModalHeader tag='h2' toggle={closeModal}>
           Delete Team
         </ModalHeader>
         <ModalBody>
@@ -44,14 +44,14 @@ const DeleteTeamModal = (props: Props) => {
         </ModalBody>
         <ModalFooter>
           <FinButton
-            color="secondary"
+            color='secondary'
             onClick={closeModal}
             disabled={deleteMutation.isPending}
           >
             Cancel
           </FinButton>
           <FinButton
-            color="danger"
+            color='danger'
             onClick={handleDelete}
             disabled={deleteMutation.isPending}
           >

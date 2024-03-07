@@ -4,16 +4,16 @@ import {
   faFlushed,
   faFrownOpen,
   faGrinBeamSweat,
-} from "@fortawesome/free-regular-svg-icons";
+} from '@fortawesome/free-regular-svg-icons';
 import {
   faCrown,
   faFrog,
   faHatWizard,
   faPoo,
   faWandSparkles,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
 
 // this is just for fun, it's only used where it should never actually happen
 const FinFunError: React.FC = () => {
@@ -24,70 +24,70 @@ const FinFunError: React.FC = () => {
         Congratulations, you found an error that isn't supposed to happen. Lucky
         you! Here's a magic trick as your reward:
       </p>
-      <div className="row">
-        <div className="col-1">
-          <FontAwesomeIcon icon={faHatWizard} size="3x" />
+      <div className='row'>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faHatWizard} size='3x' />
         </div>
       </div>
-      <div className="row">
-        <div className="col-1">
-          <FontAwesomeIcon icon={faFaceSmile} size="3x" />
+      <div className='row'>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faFaceSmile} size='3x' />
         </div>
-        <div className="col-1">
-          <FontAwesomeIcon icon={faWandSparkles} size="3x" />
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faWandSparkles} size='3x' />
         </div>
-        <div className="col-1">
-          <FontAwesomeIcon icon={faFrog} size="3x" />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-1">
-          <FontAwesomeIcon icon={faHatWizard} size="3x" />
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faFrog} size='3x' />
         </div>
       </div>
-      <div className="row">
-        <div className="col-1">
-          <FontAwesomeIcon icon={faFrownOpen} size="3x" />
-        </div>
-        <div className="col-1">
-          <FontAwesomeIcon icon={faWandSparkles} size="3x" />
-        </div>
-        <div className="col-1">
-          <FontAwesomeIcon icon={faPoo} size="3x" />
+      <div className='row'>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faHatWizard} size='3x' />
         </div>
       </div>
-      <div className="row">
-        <div className="col-1">
-          <FontAwesomeIcon icon={faHatWizard} size="3x" />
+      <div className='row'>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faFrownOpen} size='3x' />
+        </div>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faWandSparkles} size='3x' />
+        </div>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faPoo} size='3x' />
         </div>
       </div>
-      <div className="row">
-        <div className="col-1">
-          <FontAwesomeIcon icon={faFlushed} size="3x" />
-        </div>
-        <div className="col-1"></div>
-        <div className="col-1">
-          <FontAwesomeIcon icon={faPoo} size="3x" />
+      <div className='row'>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faHatWizard} size='3x' />
         </div>
       </div>
-      <div className="row">
-        <div className="col-1">
-          <FontAwesomeIcon icon={faHatWizard} size="3x" />
+      <div className='row'>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faFlushed} size='3x' />
         </div>
-        <div className="col-1"></div>
-        <div className="col-1">
-          <FontAwesomeIcon icon={faCrown} size="3x" />
+        <div className='col-1'></div>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faPoo} size='3x' />
         </div>
       </div>
-      <div className="row">
-        <div className="col-1">
-          <FontAwesomeIcon icon={faGrinBeamSweat} size="3x" />
+      <div className='row'>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faHatWizard} size='3x' />
         </div>
-        <div className="col-1">
-          <FontAwesomeIcon icon={faWandSparkles} size="3x" />
+        <div className='col-1'></div>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faCrown} size='3x' />
         </div>
-        <div className="col-1">
-          <FontAwesomeIcon icon={faFaceKissBeam} size="3x" />
+      </div>
+      <div className='row'>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faGrinBeamSweat} size='3x' />
+        </div>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faWandSparkles} size='3x' />
+        </div>
+        <div className='col-1'>
+          <FontAwesomeIcon icon={faFaceKissBeam} size='3x' />
         </div>
       </div>
     </div>

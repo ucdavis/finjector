@@ -1,9 +1,10 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { useAdminsQuery } from "../../queries/userQueries";
-import { CollectionResourceType, FinQueryStatus } from "../../types";
-import PageTitle from "../../components/Shared/Layout/PageTitle";
-import { useFinQueryStatus, useFinQueryStatusHandler } from "../../util/error";
+import React from 'react';
+import { useParams } from 'react-router-dom';
+
+import PageTitle from '../../components/Shared/Layout/PageTitle';
+import { useAdminsQuery } from '../../queries/userQueries';
+import { CollectionResourceType, FinQueryStatus } from '../../types';
+import { useFinQueryStatus, useFinQueryStatusHandler } from '../../util/error';
 
 const AdminList: React.FC = () => {
   const { teamId, folderId } = useParams<{
@@ -11,8 +12,8 @@ const AdminList: React.FC = () => {
     folderId: string;
   }>();
 
-  const resourceId = folderId ? folderId : teamId ? teamId : "";
-  const resourceType: CollectionResourceType = folderId ? "folder" : "team";
+  const resourceId = folderId ? folderId : teamId ? teamId : '';
+  const resourceType: CollectionResourceType = folderId ? 'folder' : 'team';
 
   // query for membership
   const membershipQuery = useAdminsQuery(resourceId, resourceType);
@@ -27,11 +28,11 @@ const AdminList: React.FC = () => {
     return (
       <div>
         <PageTitle>
-          <div className="col-12 col-md-3">
+          <div className='col-12 col-md-3'>
             <h4>
               {queryStatus.isLoading
-                ? "Scribbling in Team Admins..."
-                : "Error loading Team Admins"}
+                ? 'Scribbling in Team Admins...'
+                : 'Error loading Team Admins'}
             </h4>
             <h1>View Admins</h1>
           </div>
@@ -42,17 +43,17 @@ const AdminList: React.FC = () => {
   }
 
   const resourceName =
-    membershipQuery.data.length > 0 ? membershipQuery.data[0].resourceName : "";
+    membershipQuery.data.length > 0 ? membershipQuery.data[0].resourceName : '';
 
   return (
     <div>
       <PageTitle>
-        <div className="col-12 col-md-3">
+        <div className='col-12 col-md-3'>
           <h4>{resourceName}</h4>
           <h1>View Admins</h1>
         </div>
       </PageTitle>
-      <table className="table">
+      <table className='table'>
         <thead>
           <tr>
             <th>User Name</th>
@@ -64,7 +65,7 @@ const AdminList: React.FC = () => {
         <tbody>
           {membershipQuery.data &&
             membershipQuery.data
-              .filter((m) => m.roleName === "Admin")
+              .filter((m) => m.roleName === 'Admin')
               .map((member) => (
                 <tr key={`${member.userEmail}-${member.level}`}>
                   <td>{member.userName}</td>

@@ -1,47 +1,48 @@
-import React from "react";
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { describe, it, expect } from 'vitest';
 
-import { MemoryRouter, Route, Routes } from "react-router-dom";
-import Landing from "./Landing";
-import { render, screen, waitFor } from "@testing-library/react";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { describe, it, expect } from "vitest";
-import { server } from "../../test/mocks/node";
+import { server } from '../../test/mocks/node';
+
+import Landing from './Landing';
 
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 // test main landing page
-describe("Landing", () => {
-  it("renders", () => {
+describe('Landing', () => {
+  it('renders', () => {
     // render component
     render(wrappedView());
 
     // should see the create new chart buttons
     expect(
-      screen.getByRole("link", { name: /New Chart String from Scratch/i })
+      screen.getByRole('link', { name: /New Chart String from Scratch/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /New Chart String from Paste/i })
+      screen.getByRole('link', { name: /New Chart String from Paste/i }),
     ).toBeInTheDocument();
   });
 
-  it("loads saved charts", async () => {
+  it('loads saved charts', async () => {
     // render component
     render(wrappedView());
 
     // should see list of saved charts (3 from our mock data)
     await waitFor(() => {
-      expect(screen.getByText("Chart 1")).toBeInTheDocument();
+      expect(screen.getByText('Chart 1')).toBeInTheDocument();
     });
   });
 });
 
 const wrappedView = () => (
   <QueryClientProvider client={new QueryClient()}>
-    <MemoryRouter initialEntries={[`/`]}>
+    <MemoryRouter initialEntries={['/']}>
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path='/' element={<Landing />} />
       </Routes>
     </MemoryRouter>
   </QueryClientProvider>

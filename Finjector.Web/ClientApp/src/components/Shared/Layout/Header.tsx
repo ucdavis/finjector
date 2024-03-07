@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const CenteredBullet = () => (
   <span
-    className="header-link"
+    className='header-link'
     style={{
-      marginLeft: "0.5em",
-      marginRight: "0.5em",
-      color: "white",
+      marginLeft: '0.5em',
+      marginRight: '0.5em',
+      color: 'white',
     }}
   >
     &bull;
@@ -14,26 +14,26 @@ const CenteredBullet = () => (
 );
 
 const Header = () => (
-  <div className="header">
-    <div className="container">
-      <div className="row justify-content-between">
-        <div className="col-6">
-          <Link to="/">
-            <h1 className="d-flex align-items-center">
-              <img src="/media/ucdavis-white-logo.svg" alt="" /> Finjector
+  <div className='header'>
+    <div className='container'>
+      <div className='row justify-content-between'>
+        <div className='col-6'>
+          <Link to='/'>
+            <h1 className='d-flex align-items-center'>
+              <img src='/media/ucdavis-white-logo.svg' alt='' /> Finjector
             </h1>
           </Link>
         </div>
-        <div className="col-6 text-end">
-          <Link className="header-link" to="/">
+        <div className='col-6 text-end'>
+          <Link className='header-link' to='/'>
             Chart Strings
           </Link>
           <CenteredBullet />
-          <Link className="header-link" to="/teams">
+          <Link className='header-link' to='/teams'>
             Teams
           </Link>
           <CenteredBullet />
-          <Link className="header-link" to="/help">
+          <Link className='header-link' to='/help'>
             Help
           </Link>
         </div>

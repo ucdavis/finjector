@@ -1,13 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { doFetch } from "../util/api";
-import { CollectionResourceType, PermissionsResponseModel } from "../types";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import { CollectionResourceType, PermissionsResponseModel } from '../types';
+import { doFetch } from '../util/api';
 
 // attempt to fetch user info -- if we get a 401, redirect to login
 export const useUserInfoQuery = () =>
   useQuery({
-    queryKey: ["users", "info"],
+    queryKey: ['users', 'info'],
     queryFn: async () => {
-      const res = await fetch("/api/user/info");
+      const res = await fetch('/api/user/info');
 
       if (res.ok) {
         return await res.json();
@@ -24,14 +25,14 @@ export const useUserInfoQuery = () =>
 // fetch permission info for a given team or folder
 export const usePermissionsQuery = (id: string, type: CollectionResourceType) =>
   useQuery({
-    queryKey: ["users", "permissions", type, id],
+    queryKey: ['users', 'permissions', type, id],
     queryFn: async () => {
       return await doFetch<PermissionsResponseModel[]>(
-        fetch(`/api/user/permissions/${type}/${id}`)
+        fetch(`/api/user/permissions/${type}/${id}`),
       );
     },
     retry: (failureCount, error: Error) => {
-      if (error instanceof Error && error.message.startsWith("401")) {
+      if (error instanceof Error && error.message.startsWith('401')) {
         return false;
       }
 
@@ -43,14 +44,14 @@ export const usePermissionsQuery = (id: string, type: CollectionResourceType) =>
 // fetch admin info for a given team or folder
 export const useAdminsQuery = (id: string, type: CollectionResourceType) =>
   useQuery({
-    queryKey: ["users", "admins", type, id],
+    queryKey: ['users', 'admins', type, id],
     queryFn: async () => {
       return await doFetch<PermissionsResponseModel[]>(
-        fetch(`/api/user/admins/${type}/${id}`)
+        fetch(`/api/user/admins/${type}/${id}`),
       );
     },
     retry: (failureCount, error: Error) => {
-      if (error instanceof Error && error.message.startsWith("401")) {
+      if (error instanceof Error && error.message.startsWith('401')) {
         return false;
       }
 
@@ -62,16 +63,16 @@ export const useAdminsQuery = (id: string, type: CollectionResourceType) =>
 // new mutation to add a user to a resource
 export const useAddUserMutation = (
   id: string,
-  type: CollectionResourceType
+  type: CollectionResourceType,
 ) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (data: { email: string; role: string }) => {
       const res = await fetch(`/api/user/permissions/${type}/${id}`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
@@ -84,7 +85,7 @@ export const useAddUserMutation = (
     onSuccess: () => {
       // invalidate the permissions query so we refetch
       queryClient.invalidateQueries({
-        queryKey: ["users", "permissions", type, id],
+        queryKey: ['users', 'permissions', type, id],
       });
     },
   });
@@ -93,16 +94,16 @@ export const useAddUserMutation = (
 // new mutation to remove a user from a resource
 export const useRemoveUserMutation = (
   id: string,
-  type: CollectionResourceType
+  type: CollectionResourceType,
 ) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (data: { email: string }) => {
       const res = await fetch(`/api/user/permissions/${type}/${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
@@ -116,7 +117,7 @@ export const useRemoveUserMutation = (
     onSuccess: () => {
       // invalidate the permissions query so we refetch
       queryClient.invalidateQueries({
-        queryKey: ["users", "permissions", type, id],
+        queryKey: ['users', 'permissions', type, id],
       });
     },
   });

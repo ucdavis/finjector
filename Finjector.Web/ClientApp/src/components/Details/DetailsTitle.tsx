@@ -1,12 +1,14 @@
-import React from "react";
-import { AeDetails, ChartStringEditModel, FinQueryStatus } from "../../types";
-import { faBolt, faPencil } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
-import FinButton from "../Shared/FinButton";
-import SharePopup from "./SharePopup";
-import { useParams, useNavigate } from "react-router-dom";
-import usePopupStatus from "../../util/customHooks";
+import { faBolt, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+
+import { AeDetails, ChartStringEditModel, FinQueryStatus } from '../../types';
+import usePopupStatus from '../../util/customHooks';
+import CopyToClipboardHover from '../Shared/CopyToClipboardHover';
+import FinButton from '../Shared/FinButton';
+
+import SharePopup from './SharePopup';
 
 interface DetailsHeaderProps {
   aeDetails: AeDetails | undefined;
@@ -27,7 +29,7 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
   const use = () => {
     if (chartId) {
       navigate(
-        `/teams/${teamId}/folders/${folderId}/selected/${chartId}/${aeDetails?.chartString}`
+        `/teams/${teamId}/folders/${folderId}/selected/${chartId}/${aeDetails?.chartString}`,
       );
     } else {
       navigate(`/selected/${aeDetails?.chartString}`);
@@ -44,7 +46,7 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
 
   if (isLoading) {
     return (
-      <div className="col-12 col-md-7">
+      <div className='col-12 col-md-7'>
         <h4>Team / Folder</h4>
         <h1>Scribbling in details...</h1>
       </div>
@@ -53,28 +55,28 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
 
   if (isError) {
     return (
-      <div className="col-12 col-md-7">
+      <div className='col-12 col-md-7'>
         <h4>Team / Folder</h4>
         <h1>Chart String Details</h1>
       </div>
     );
   }
 
-  const chartStringName = chartStringDetails?.name ?? "Chart String Details";
+  const chartStringName = chartStringDetails?.name ?? 'Chart String Details';
   return (
     <>
-      <div className="col-12 col-md-7">
+      <div className='col-12 col-md-7'>
         {chartStringDetails && (
           <h4>
-            {chartStringDetails.teamName} {"/ "}
+            {chartStringDetails.teamName} {'/ '}
             {chartStringDetails.folder?.name}
           </h4>
         )}
-        <CopyToClipboardHover value={chartStringName} id="ChartName">
+        <CopyToClipboardHover value={chartStringName} id='ChartName'>
           <h1>{chartStringName}</h1>
         </CopyToClipboardHover>
       </div>
-      <div className="col-12 col-md-5 text-end">
+      <div className='col-12 col-md-5 text-end'>
         {isInPopup && (
           <FinButton onClick={use}>
             <FontAwesomeIcon icon={faBolt} />
@@ -86,7 +88,7 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
           Edit Chart String
         </FinButton>
         <SharePopup
-          chartString={aeDetails?.chartString ?? ""}
+          chartString={aeDetails?.chartString ?? ''}
           segmentDetails={aeDetails?.segmentDetails ?? []}
         />
       </div>

@@ -1,16 +1,17 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { faFolder } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { groupBy } from 'lodash';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import {
   Highlighter,
   Menu,
   MenuItem,
   Typeahead,
-} from "react-bootstrap-typeahead";
-import { groupBy } from "lodash";
-import { useGetFolderSearchList } from "../../queries/folderQueries";
-import { Folder } from "../../types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFolder } from "@fortawesome/free-solid-svg-icons";
-import { InputGroup, InputGroupText } from "reactstrap";
+} from 'react-bootstrap-typeahead';
+import { InputGroup, InputGroupText } from 'reactstrap';
+
+import { useGetFolderSearchList } from '../../queries/folderQueries';
+import { Folder } from '../../types';
 
 interface FolderSearchProps {
   updateFolderId: (folderId: number) => void;
@@ -39,15 +40,15 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
     // only need to do this once, otherwise it causes weird issues on clear
     if (query.data) {
       const folder = query.data.find((f) => f.id === initialFolderId.current);
-      if (!!folder) {
+      if (folder) {
         // if it already has a folder that user has permission to save to, set it to that
         setSelectedFolder(folder);
       } else {
         // otherwise, set it to the default
         setSelectedFolder(
           query.data.find(
-            (f) => f.teamName === "Personal" && f.name === "Default"
-          )
+            (f) => f.teamName === 'Personal' && f.name === 'Default',
+          ),
         );
       }
     }
@@ -70,15 +71,15 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
       <p>Choose where you would like to store your chart string</p>
       <InputGroup aria-disabled={disabled}>
         <InputGroupText aria-disabled={disabled}>
-          {selectedFolder?.teamName ?? "Personal"}
+          {selectedFolder?.teamName ?? 'Personal'}
         </InputGroupText>
         <Typeahead
-          id={"typeahead-folder-search"}
-          filterBy={["name", "teamName"]}
+          id={'typeahead-folder-search'}
+          filterBy={['name', 'teamName']}
           ref={typeaheadRef}
           isLoading={query.isFetching}
-          labelKey="name"
-          placeholder="Default"
+          labelKey='name'
+          placeholder='Default'
           selected={selectedFolder ? [selectedFolder] : []}
           onChange={handleSelected}
           options={query.data || []} // data
@@ -87,15 +88,18 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
           renderMenu={(
             results,
             {
-              newSelectionPrefix, // we dont want to pass this to the menu or gives a warning
+              // we are extracting these out so that we don't pass them to the Menu component
+              /* eslint-disable @typescript-eslint/no-unused-vars */
+              newSelectionPrefix,
               paginationText,
               renderMenuItemChildren,
               ...menuProps
+              /* eslint-enable @typescript-eslint/no-unused-vars */
             },
-            { text }
+            { text },
           ) => {
             let index = 0;
-            const teamFolders = groupBy(results, "teamName");
+            const teamFolders = groupBy(results, 'teamName');
             const items = Object.keys(teamFolders)
               .sort()
               .map((teamName) => (
@@ -109,7 +113,7 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
                   {teamFolders[teamName].map((folder: any) => {
                     const item = (
                       <MenuItem key={index} option={folder} position={index}>
-                        <FontAwesomeIcon icon={faFolder} />{" "}
+                        <FontAwesomeIcon icon={faFolder} />{' '}
                         <span>
                           <Highlighter search={text}>{folder.name}</Highlighter>
                         </span>
@@ -127,11 +131,11 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
         />
       </InputGroup>
       {!!currentlySavedInFolderId && (
-        <div className="form-text">
-          Current Team:{" "}
+        <div className='form-text'>
+          Current Team:{' '}
           {query.data?.find((f) => f.id === currentlySavedInFolderId)?.teamName}
           <br />
-          Current Folder:{" "}
+          Current Folder:{' '}
           {query.data?.find((f) => f.id === currentlySavedInFolderId)?.name}
         </div>
       )}

@@ -1,7 +1,6 @@
-import React from "react";
+import { ChartType, GlSegments, SegmentData } from '../../types';
 
-import { ChartType, GlSegments, SegmentData } from "../../types";
-import SegmentSearch from "./SegmentSearch";
+import SegmentSearch from './SegmentSearch';
 
 interface Props {
   segments: GlSegments;
@@ -14,8 +13,8 @@ const GlEntry = (props: Props) => {
   };
 
   return (
-    <div className="form-data-entry">
-      <div className="row">
+    <div className='form-data-entry'>
+      <div className='row'>
         <SegmentSearch
           chartType={ChartType.GL}
           segmentData={props.segments.entity}

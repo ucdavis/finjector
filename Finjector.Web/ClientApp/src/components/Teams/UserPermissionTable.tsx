@@ -1,11 +1,13 @@
-import React from "react";
-import { RemoveUserPermission } from "./RemoveUserPermissions";
+import React from 'react';
+
 import {
   CollectionResourceType,
   FinQueryStatus,
   PermissionsResponseModel,
-} from "../../types";
-import { useFinQueryStatusHandler } from "../../util/error";
+} from '../../types';
+import { useFinQueryStatusHandler } from '../../util/error';
+
+import { RemoveUserPermission } from './RemoveUserPermissions';
 
 interface UserPermissionTableProps {
   membershipQueryData: PermissionsResponseModel[] | undefined;
@@ -27,7 +29,7 @@ const UserPermissionTable: React.FC<UserPermissionTableProps> = ({
   if (queryStatusComponent) return <>{queryStatusComponent}</>;
 
   return (
-    <table className="table">
+    <table className='table'>
       <thead>
         <tr>
           <th>User Name</th>

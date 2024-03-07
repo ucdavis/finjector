@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   DropdownMenuProps,
-} from "reactstrap";
+} from 'reactstrap';
 
 interface FinButtonDropdownProps extends DropdownMenuProps {
   title?: string;
@@ -32,13 +32,13 @@ const FinButtonDropdown = (props: FinButtonDropdownProps) => {
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle}>
       <DropdownToggle
-        className="btn-finjector"
+        className='btn-finjector'
         caret={true}
         disabled={disabled}
       >
         Actions
       </DropdownToggle>
-      <DropdownMenu className="dropdown-menu-finjector" end={end} {...rest}>
+      <DropdownMenu className='dropdown-menu-finjector' end={end} {...rest}>
         {title && <DropdownItem header>{title}</DropdownItem>}
         {children}
       </DropdownMenu>

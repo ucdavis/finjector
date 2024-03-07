@@ -1,27 +1,28 @@
-import React, { useState } from "react";
-import FinButton from "../../components/Shared/FinButton";
-import { faFile } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFile } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+
+import FinButton from '../../components/Shared/FinButton';
 import {
   ChartType,
   Coa,
   GlSegments,
   PpmSegments,
   SegmentData,
-} from "../../types";
+} from '../../types';
 import {
   fromGlSegmentString,
   fromPpmSegmentString,
   glSegmentDefaults,
   ppmSegmentDefaults,
-} from "../../util/segmentValidation";
+} from '../../util/segmentValidation';
 
 interface DownloadChartStringsProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   charts: Coa[];
   fileName: string;
   children?: React.ReactNode;
-  fileType: "CSV" | "XLSX";
+  fileType: 'CSV' | 'XLSX';
   borderless?: boolean;
   id: string;
 }
@@ -43,10 +44,10 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
       return;
     }
 
-    if (fileType === "CSV") {
+    if (fileType === 'CSV') {
       downloadAsCSV();
     } else {
-      throw new Error("Unsupported file type");
+      throw new Error('Unsupported file type');
     }
   };
 
@@ -55,29 +56,29 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
   };
 
   const downloadAsCSV = () => {
-    let csvContent = "data:text/csv;charset=utf-8,";
+    let csvContent = 'data:text/csv;charset=utf-8,';
 
     // sort by name
     const sortedCharts = [...charts].sort((a, b) =>
-      a.name.localeCompare(b.name)
+      a.name.localeCompare(b.name),
     );
 
     // add header row
     // columns are name, chartstring, type, and then the segments
-    csvContent += "name,chartstring,type,";
+    csvContent += 'name,chartstring,type,';
 
-    var glSegments = glSegmentDefaults;
-    var ppmSegments = ppmSegmentDefaults;
+    const glSegments = glSegmentDefaults;
+    const ppmSegments = ppmSegmentDefaults;
 
     // Add segment headers
-    csvContent += Object.keys(glSegments).join(",");
-    csvContent += ",";
-    csvContent += Object.keys(ppmSegments).join(",");
-    csvContent += "\r\n";
+    csvContent += Object.keys(glSegments).join(',');
+    csvContent += ',';
+    csvContent += Object.keys(ppmSegments).join(',');
+    csvContent += '\r\n';
 
     // add rows
     sortedCharts.forEach((chart) => {
-      const chartNameNoCommas = chart.name.replace(/,/g, "");
+      const chartNameNoCommas = chart.name.replace(/,/g, '');
 
       // add the rows in common
       csvContent += `${chartNameNoCommas},${chart.segmentString},${chart.chartType},`;
@@ -94,27 +95,27 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
             if (segment) {
               return segment.code;
             } else {
-              return "";
+              return '';
             }
           })
-          .join(",");
+          .join(',');
 
-        csvContent += ",";
+        csvContent += ',';
 
         // just add empty ppm columns
         csvContent += Object.keys(ppmSegments)
-          .map(() => "")
-          .join(",");
-        csvContent += "\r\n";
+          .map(() => '')
+          .join(',');
+        csvContent += '\r\n';
         return;
       } else if (chart.chartType === ChartType.PPM) {
         const ppmChart = fromPpmSegmentString(chart.segmentString);
 
         csvContent += Object.keys(glSegments)
-          .map(() => "")
-          .join(",");
+          .map(() => '')
+          .join(',');
 
-        csvContent += ",";
+        csvContent += ',';
 
         // go through each glSegments key and add the code
         csvContent += Object.keys(ppmSegments).map((key) => {
@@ -122,22 +123,20 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
           if (segment) {
             return segment.code;
           } else {
-            return "";
+            return '';
           }
         });
 
-        csvContent += "\r\n";
+        csvContent += '\r\n';
         return;
       }
     });
 
-    console.log(csvContent);
-
     // Create a link and download
     const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `${fileName}.${fileType.toLowerCase()}`);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `${fileName}.${fileType.toLowerCase()}`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -156,7 +155,7 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
     >
       <FontAwesomeIcon icon={faFile} />
       {children ??
-        (hasDownloaded ? "Exported!" : `Export Chart Strings (${fileType})`)}
+        (hasDownloaded ? 'Exported!' : `Export Chart Strings (${fileType})`)}
     </FinButton>
   );
 };

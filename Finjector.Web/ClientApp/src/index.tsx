@@ -1,23 +1,21 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
+import * as Sentry from '@sentry/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import {
   createRoutesFromChildren,
   matchRoutes,
   useLocation,
   useNavigationType,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-
-import * as Sentry from "@sentry/react";
-
-import "./sass/main.scss";
+import './sass/main.scss';
 
 Sentry.init({
-  dsn: "https://971a200ce756ed1caf815a8d2cd6b743@o220035.ingest.sentry.io/4506543541649408",
+  dsn: 'https://971a200ce756ed1caf815a8d2cd6b743@o220035.ingest.sentry.io/4506543541649408',
   integrations: [
     new Sentry.BrowserTracing({
       routingInstrumentation: Sentry.reactRouterV6Instrumentation(
@@ -25,7 +23,7 @@ Sentry.init({
         useLocation,
         useNavigationType,
         createRoutesFromChildren,
-        matchRoutes
+        matchRoutes,
       ),
     }),
     new Sentry.Replay({
@@ -48,19 +46,19 @@ const queryClient = new QueryClient({
     queries: {
       // as of v5, window focus listens only on `visibilityChange`, not just `focus` (which was refetching a lot)
       // refetchOnWindowFocus: false,
-      retry: process.env.NODE_ENV === "development" ? 0 : 3,
+      retry: process.env.NODE_ENV === 'development' ? 0 : 3,
     },
   },
 });
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement,
 );
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <App />
     </QueryClientProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

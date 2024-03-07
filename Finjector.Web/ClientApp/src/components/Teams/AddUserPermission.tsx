@@ -1,8 +1,9 @@
-import React from "react";
-import { Modal, ModalBody, ModalHeader } from "reactstrap";
-import { useAddUserMutation } from "../../queries/userQueries";
-import { CollectionResourceType } from "../../types";
-import FinButton from "../Shared/FinButton";
+import React from 'react';
+import { Modal, ModalBody, ModalHeader } from 'reactstrap';
+
+import { useAddUserMutation } from '../../queries/userQueries';
+import { CollectionResourceType } from '../../types';
+import FinButton from '../Shared/FinButton';
 
 interface Props {
   resourceId: string;
@@ -12,16 +13,16 @@ interface Props {
 }
 
 export const AddUserPermission = (props: Props) => {
-  const [role, setRole] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [error, setError] = React.useState("");
+  const [role, setRole] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [error, setError] = React.useState('');
 
   const addUserMutation = useAddUserMutation(
     props.resourceId,
-    props.resourceType
+    props.resourceType,
   );
 
-  const formValid = role !== "" && email !== "";
+  const formValid = role !== '' && email !== '';
 
   const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setRole(event.target.value);
@@ -43,14 +44,14 @@ export const AddUserPermission = (props: Props) => {
         onError: (err: any) => {
           setError(err.message);
         },
-      }
+      },
     );
   };
 
   const resetForm = () => {
-    setRole("");
-    setEmail("");
-    setError("");
+    setRole('');
+    setEmail('');
+    setError('');
     props.toggle();
   };
 
@@ -59,45 +60,45 @@ export const AddUserPermission = (props: Props) => {
       <ModalHeader toggle={resetForm}>Add New Role</ModalHeader>
       <ModalBody>
         <form onSubmit={handleAssignRole}>
-          <div className="mb-3">
-            <label htmlFor="role" className="form-label">
+          <div className='mb-3'>
+            <label htmlFor='role' className='form-label'>
               Role
             </label>
             <select
-              id="role"
-              className="form-select"
+              id='role'
+              className='form-select'
               value={role}
               onChange={handleRoleChange}
             >
-              <option value="">Select Role</option>
-              <option value="view">View</option>
-              <option value="edit">Edit</option>
-              <option value="admin">Admin</option>
+              <option value=''>Select Role</option>
+              <option value='view'>View</option>
+              <option value='edit'>Edit</option>
+              <option value='admin'>Admin</option>
             </select>
           </div>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
+          <div className='mb-3'>
+            <label htmlFor='email' className='form-label'>
               Email or Kerberos
             </label>
             <input
-              type="text"
-              id="email"
-              className="form-control"
-              placeholder="Enter Email or Kerberos"
+              type='text'
+              id='email'
+              className='form-control'
+              placeholder='Enter Email or Kerberos'
               value={email}
               onChange={handleEmailChange}
             />
           </div>
 
-          {error && <div className="alert alert-danger">{error}</div>}
-          <div className="text-end">
+          {error && <div className='alert alert-danger'>{error}</div>}
+          <div className='text-end'>
             <FinButton
-              type="submit"
+              type='submit'
               disabled={!formValid || addUserMutation.isPending}
             >
               {addUserMutation.isPending
-                ? "Assigning Role..."
-                : "Assign Role to User"}
+                ? 'Assigning Role...'
+                : 'Assign Role to User'}
             </FinButton>
           </div>
         </form>

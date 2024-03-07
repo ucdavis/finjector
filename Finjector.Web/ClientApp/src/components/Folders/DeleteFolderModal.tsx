@@ -1,10 +1,11 @@
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { useDeleteFolderMutation } from "../../queries/folderQueries";
-import { useNavigate } from "react-router-dom";
-import FinButton from "../Shared/FinButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import addFinToast from "../Shared/LoadingAndErrors/FinToast";
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
+import { useDeleteFolderMutation } from '../../queries/folderQueries';
+import FinButton from '../Shared/FinButton';
+import addFinToast from '../Shared/LoadingAndErrors/FinToast';
 
 interface Props {
   teamId: string;
@@ -22,19 +23,19 @@ const DeleteFolderModal = (props: Props) => {
   const handleDelete = () => {
     deleteMutation.mutate(props.folderId, {
       onSuccess: () => {
-        addFinToast("success", "Folder deleted successfully.");
-        navigate(`/teams`);
+        addFinToast('success', 'Folder deleted successfully.');
+        navigate('/teams');
         closeModal();
       },
-      onError: (error) => {
-        addFinToast("error", "Error deleting folder.");
+      onError: () => {
+        addFinToast('error', 'Error deleting folder.');
       },
     });
   };
 
   return (
     <Modal isOpen={isOpen} toggle={closeModal}>
-      <ModalHeader tag="h2" toggle={closeModal}>
+      <ModalHeader tag='h2' toggle={closeModal}>
         Delete Folder
       </ModalHeader>
       <ModalBody>
@@ -43,19 +44,19 @@ const DeleteFolderModal = (props: Props) => {
       </ModalBody>
       <ModalFooter>
         <FinButton
-          color="secondary"
+          color='secondary'
           onClick={closeModal}
           disabled={deleteMutation.isPending}
         >
           Cancel
         </FinButton>
         <FinButton
-          color="danger"
+          color='danger'
           onClick={handleDelete}
           disabled={deleteMutation.isPending}
         >
           <FontAwesomeIcon icon={faTrash} />
-          {deleteMutation.isPending ? "Deleting" : "Delete"}
+          {deleteMutation.isPending ? 'Deleting' : 'Delete'}
         </FinButton>
       </ModalFooter>
     </Modal>

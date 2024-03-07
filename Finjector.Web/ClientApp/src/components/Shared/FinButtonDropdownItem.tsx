@@ -1,5 +1,5 @@
-import React from "react";
-import { DropdownItem, DropdownItemProps } from "reactstrap";
+import React from 'react';
+import { DropdownItem, DropdownItemProps } from 'reactstrap';
 
 interface FinButtonDropdownProps extends DropdownItemProps {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ const FinButtonDropdownItem = (props: FinButtonDropdownProps) => {
   if (!shouldRenderAsDropdown) return <>{children}</>; // on personal team, default folder
 
   return (
-    <DropdownItem {...rest} tag={"div"}>
+    <DropdownItem {...rest} tag={'div'}>
       {children}
     </DropdownItem>
   );

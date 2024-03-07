@@ -1,9 +1,9 @@
-import { UseQueryResult } from "@tanstack/react-query";
+import { UseQueryResult } from '@tanstack/react-query';
 
 export type FinQueryStatus = Pick<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   UseQueryResult<any>,
-  "isLoading" | "isError" | "error"
+  'isLoading' | 'isError' | 'error'
 >;
 
 export interface Coa {
@@ -19,9 +19,9 @@ export interface Coa {
 }
 
 export enum ChartType {
-  GL = "GL",
-  PPM = "PPM",
-  INVALID = "INVALID",
+  GL = 'GL',
+  PPM = 'PPM',
+  INVALID = 'INVALID',
 }
 
 export interface Team {
@@ -43,9 +43,9 @@ export interface Folder {
   coas: Coa[];
 }
 
-export type CollectionResourceType = "team" | "folder";
+export type CollectionResourceType = 'team' | 'folder';
 
-export type PermissionType = "Admin" | "Edit" | "View";
+export type PermissionType = 'Admin' | 'Edit' | 'View';
 
 /* ----- Query specific response types ------- */
 

@@ -1,9 +1,10 @@
-import React from "react";
+import React from 'react';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
-import { Typeahead } from "react-bootstrap-typeahead";
-import { useTaskQuery } from "../../queries/segmentQueries";
-import { SegmentData } from "../../types";
-import { getSegmentNameDisplay } from "./SegmentSearch";
+import { useTaskQuery } from '../../queries/segmentQueries';
+import { SegmentData } from '../../types';
+
+import { getSegmentNameDisplay } from './SegmentSearch';
 
 interface Props {
   segmentData: SegmentData; // task segment
@@ -18,7 +19,7 @@ const TaskSelector = (props: Props) => {
 
   const taskQuery = useTaskQuery(
     props.segmentDependency.code,
-    props.segmentDependency.isValid
+    props.segmentDependency.isValid,
   );
 
   // if the segment dependency is not valid, clear the selection
@@ -29,8 +30,8 @@ const TaskSelector = (props: Props) => {
       // clear the segment data
       props.setSegmentValue({
         ...props.segmentData,
-        code: "",
-        name: "",
+        code: '',
+        name: '',
         isValid: false,
       });
     }
@@ -51,19 +52,19 @@ const TaskSelector = (props: Props) => {
 
   const segmentNameDisplay = React.useMemo(
     () => getSegmentNameDisplay(props.segmentData, taskQuery.data),
-    [props.segmentData, taskQuery.data]
+    [props.segmentData, taskQuery.data],
   );
 
   return (
-    <div className="mb-3 col-sm-6">
-      <label className="form-label">Task</label>
+    <div className='mb-3 col-sm-6'>
+      <label className='form-label'>Task</label>
       <Typeahead
-        id="task-selector"
-        labelKey="code"
+        id='task-selector'
+        labelKey='code'
         onChange={handleSelected}
         options={taskQuery.data || []}
         isLoading={taskQuery.isFetching}
-        placeholder="Choose a task..."
+        placeholder='Choose a task...'
         selected={selection}
         disabled={!props.segmentDependency?.isValid}
         renderMenuItemChildren={(option: any) => (
@@ -73,7 +74,7 @@ const TaskSelector = (props: Props) => {
           </>
         )}
       />
-      <div className="form-text">{segmentNameDisplay}</div>
+      <div className='form-text'>{segmentNameDisplay}</div>
     </div>
   );
 };

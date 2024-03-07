@@ -1,11 +1,11 @@
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { useNavigate } from "react-router-dom";
-import FinButton from "../Shared/FinButton";
+import { faPersonThroughWindow } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPersonThroughWindow } from "@fortawesome/free-solid-svg-icons";
-import { useLeaveFolderMutation } from "../../queries/folderQueries";
-import addFinToast from "../Shared/LoadingAndErrors/FinToast";
+import { useLeaveFolderMutation } from '../../queries/folderQueries';
+import FinButton from '../Shared/FinButton';
+import addFinToast from '../Shared/LoadingAndErrors/FinToast';
 
 interface Props {
   teamId: string;
@@ -24,12 +24,12 @@ const LeaveFolderModal = (props: Props) => {
   const handleLeave = () => {
     leaveMutation.mutate(props.folderId, {
       onSuccess: () => {
-        addFinToast("success", "Folder left successfully.");
-        navigate(`/teams`);
+        addFinToast('success', 'Folder left successfully.');
+        navigate('/teams');
         closeModal();
       },
-      onError: (error) => {
-        addFinToast("error", "Error leaving folder.");
+      onError: () => {
+        addFinToast('error', 'Error leaving folder.');
       },
     });
   };
@@ -37,7 +37,7 @@ const LeaveFolderModal = (props: Props) => {
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal}>
-        <ModalHeader tag="h2" toggle={closeModal}>
+        <ModalHeader tag='h2' toggle={closeModal}>
           Leave Folder
         </ModalHeader>
         <ModalBody>
@@ -45,14 +45,14 @@ const LeaveFolderModal = (props: Props) => {
         </ModalBody>
         <ModalFooter>
           <FinButton
-            color="secondary"
+            color='secondary'
             onClick={closeModal}
             disabled={leaveMutation.isPending}
           >
             Cancel
           </FinButton>
           <FinButton
-            color="danger"
+            color='danger'
             onClick={handleLeave}
             disabled={leaveMutation.isPending}
           >

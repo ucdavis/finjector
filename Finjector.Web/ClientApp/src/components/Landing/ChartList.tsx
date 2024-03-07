@@ -1,10 +1,11 @@
-import { useMemo } from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
-import ChartListItem from "../Shared/ChartListItem";
-import { ChartType, FinQueryStatus, TeamGroupedCoas } from "../../types";
-import { useFinQueryStatusHandler } from "../../util/error";
+import { faUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+
+import { ChartType, FinQueryStatus, TeamGroupedCoas } from '../../types';
+import { useFinQueryStatusHandler } from '../../util/error';
+import ChartListItem from '../Shared/ChartListItem';
 
 interface Props {
   teamGroups: TeamGroupedCoas[] | undefined;
@@ -23,22 +24,22 @@ const ChartList = (props: Props) => {
     if (!query) return teamGroups;
 
     const teamGroupsClone: TeamGroupedCoas[] = JSON.parse(
-      JSON.stringify(teamGroups)
+      JSON.stringify(teamGroups),
     );
 
     // special case -- if filter includes "GL" or "PPM" then filter out all coas except for the correct types
     const filterByType = query
-      .split(" ")
-      .find((q) => q === "gl" || q === "ppm");
+      .split(' ')
+      .find((q) => q === 'gl' || q === 'ppm');
 
     if (filterByType) {
       const filtered = filterTeamGroupsByType(teamGroupsClone, filterByType);
 
       // now strip out the "gl" or "ppm" from the query so it doesn't get picked up by the next filter
       const queryWithoutType = query
-        .split(" ")
+        .split(' ')
         .filter((q) => q !== filterByType)
-        .join(" ");
+        .join(' ');
 
       // if there isn't anything left in the query, return the filtered list
       if (queryWithoutType) {
@@ -61,10 +62,10 @@ const ChartList = (props: Props) => {
   return (
     <div>
       {filteredTeamGroups.map((teamGroup) => (
-        <div className="teamlist-wrapper" key={teamGroup.team.id}>
+        <div className='teamlist-wrapper' key={teamGroup.team.id}>
           <h2>
             <Link
-              className="no-link-style d-flex vertical-align-top"
+              className='no-link-style d-flex vertical-align-top'
               to={`/teams/${teamGroup.team.id}`}
             >
               {teamGroup.team.name}
@@ -72,24 +73,24 @@ const ChartList = (props: Props) => {
             </Link>
           </h2>
           <div
-            className="team-chart-wrapper"
+            className='team-chart-wrapper'
             key={`teamid-${teamGroup.team.id}`}
           >
             {teamGroup.folders.map((folder) => (
               <div
-                className="folder-chart-wrapper"
+                className='folder-chart-wrapper'
                 key={`folderid-${folder.id}`}
               >
                 <h3>
                   <Link
-                    className="no-link-style d-flex vertical-align-top"
+                    className='no-link-style d-flex vertical-align-top'
                     to={`/teams/${teamGroup.team.id}/folders/${folder.id}`}
                   >
                     {folder.name}
                     <FontAwesomeIcon icon={faUpRightFromSquare} />
                   </Link>
                 </h3>
-                <ul className="list-group">
+                <ul className='list-group'>
                   {folder.coas.map((chart) => (
                     <ChartListItem
                       key={chart.id}
@@ -109,7 +110,7 @@ const ChartList = (props: Props) => {
 
 function filterTeamGroupsByType(
   teamGroupsClone: TeamGroupedCoas[],
-  type: string
+  type: string,
 ): TeamGroupedCoas[] {
   return teamGroupsClone.filter((teamGroup) => {
     // Filter the folders within the team
@@ -117,7 +118,7 @@ function filterTeamGroupsByType(
       // Filter the charts within the folder
       folder.coas = folder.coas.filter((coa) => {
         // Check if chart name or segmentString matches the query
-        return type === "gl"
+        return type === 'gl'
           ? coa.chartType === ChartType.GL
           : coa.chartType === ChartType.PPM;
       });
@@ -133,7 +134,7 @@ function filterTeamGroupsByType(
 
 function filterTeamGroupsByQuery(
   teamGroupsClone: TeamGroupedCoas[],
-  query: string
+  query: string,
 ): TeamGroupedCoas[] {
   return teamGroupsClone.filter((teamGroup) => {
     // Check if team name matches the query
