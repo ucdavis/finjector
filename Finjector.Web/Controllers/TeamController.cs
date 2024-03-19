@@ -124,6 +124,7 @@ public class TeamController : ControllerBase
     public async Task<IActionResult> Create([FromBody] NameAndDescriptionModel teamModel)
     {
         var iamId = Request.GetCurrentUserIamId();
+        await _userService.EnsureUserExists(iamId);
 
         var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Iam == iamId);
 

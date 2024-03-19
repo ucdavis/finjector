@@ -19,15 +19,13 @@ public class ChartsController : ControllerBase
     private readonly IAggieEnterpriseService _aggieEnterpriseService;
     private readonly AppDbContext _dbContext;
     private readonly IIdentityService _identityService;
-    private readonly ICheckUser _checkUser;
     private readonly IUserService _userService;
 
-    public ChartsController(AppDbContext dbContext, IIdentityService identityService, ICheckUser checkUser,
+    public ChartsController(AppDbContext dbContext, IIdentityService identityService,
         IUserService userService, IAggieEnterpriseService aggieEnterpriseService)
     {
         _dbContext = dbContext;
         _identityService = identityService;
-        _checkUser = checkUser;
         _userService = userService;
         _aggieEnterpriseService = aggieEnterpriseService;
     }
@@ -70,8 +68,6 @@ public class ChartsController : ControllerBase
         {
             return Unauthorized();
         }
-
-        await _checkUser.MigrateUser(user);
 
         // get any chart that belongs to the user's folders or teams.  role doesn't matter. nested group under team and folder
         var charts = await _dbContext.Coas.Include(c => c.Folder).ThenInclude(f => f.Team).Where(c =>
