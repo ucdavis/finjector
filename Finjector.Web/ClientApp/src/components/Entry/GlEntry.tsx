@@ -36,6 +36,12 @@ const GlEntry = (props: Props) => {
 
         <SegmentSearch
           chartType={ChartType.GL}
+          segmentData={props.segments.account}
+          setSegmentValue={updateSegment}
+        ></SegmentSearch>
+
+        <SegmentSearch
+          chartType={ChartType.GL}
           segmentData={props.segments.purpose}
           setSegmentValue={updateSegment}
           minQueryLength={2}
@@ -43,19 +49,13 @@ const GlEntry = (props: Props) => {
 
         <SegmentSearch
           chartType={ChartType.GL}
-          segmentData={props.segments.account}
+          segmentData={props.segments.program}
           setSegmentValue={updateSegment}
         ></SegmentSearch>
 
         <SegmentSearch
           chartType={ChartType.GL}
           segmentData={props.segments.project}
-          setSegmentValue={updateSegment}
-        ></SegmentSearch>
-
-        <SegmentSearch
-          chartType={ChartType.GL}
-          segmentData={props.segments.program}
           setSegmentValue={updateSegment}
         ></SegmentSearch>
 
