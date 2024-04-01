@@ -26,6 +26,32 @@ describe("Landing", () => {
     ).toBeInTheDocument();
   });
 
+  //test that it renders the search/filter entry field
+  it("renders search/filter", () => {
+    // render component
+    render(wrappedView());
+
+    // should see the search/filter field
+    expect(
+      screen.getByPlaceholderText("Search my chart strings, teams and folders")
+    ).toBeInTheDocument();
+  });
+
+  // test that it renders the title
+  it("renders title", async () => {
+    // render component
+    render(wrappedView());
+
+    // should see the title
+    expect(
+      screen.getByText("Scribbling in your Chart Strings...")
+    ).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText("My Chart Strings")).toBeInTheDocument();
+    });
+  });
+
   it("loads saved charts", async () => {
     // render component
     render(wrappedView());
@@ -33,6 +59,14 @@ describe("Landing", () => {
     // should see list of saved charts (3 from our mock data)
     await waitFor(() => {
       expect(screen.getByText("Chart 1")).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Team 0")).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Folder 0")).toBeInTheDocument();
     });
   });
 });
