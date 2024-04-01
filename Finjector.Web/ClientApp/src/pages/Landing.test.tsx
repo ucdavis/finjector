@@ -71,6 +71,33 @@ describe("Landing", () => {
   });
 });
 
+//Test that the search/filter field works
+it("searches for a chart", async () => {
+  // render component
+  render(wrappedView());
+
+  // should see list of saved charts (3 from our mock data)
+  await waitFor(() => {
+    expect(screen.getByText("Chart 1")).toBeInTheDocument();
+  });
+  await waitFor(() => {
+    expect(screen.getByText("Chart 2")).toBeInTheDocument();
+  });
+
+  // search for a chart
+  const searchField = screen.getByPlaceholderText(
+    "Search my chart strings, teams and folders"
+  ) as HTMLInputElement;
+  searchField.value = "Chart 1";
+  await searchField.dispatchEvent(new Event("input"));
+
+  // should only see the chart we searched for
+  await waitFor(() => {
+    expect(screen.getByText("Chart 1")).toBeInTheDocument();
+    //Expect that the other chart is not present
+    expect(screen.queryByText("Chart 2")).toBeNull();
+  });
+});
 const wrappedView = () => (
   <QueryClientProvider client={new QueryClient()}>
     <MemoryRouter initialEntries={[`/`]}>
