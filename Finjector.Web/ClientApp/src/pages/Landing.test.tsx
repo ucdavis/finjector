@@ -104,6 +104,8 @@ it("searches for a chart", async () => {
     //Expect that the other chart is not present
     expect(screen.queryByText("Chart 1")).not.toBeInTheDocument();
   });
+  //show what the screen looks like
+  //console.log(screen.debug());
 });
 const wrappedView = () => (
   <QueryClientProvider client={new QueryClient()}>
