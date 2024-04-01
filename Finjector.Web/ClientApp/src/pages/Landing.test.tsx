@@ -6,6 +6,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { describe, it, expect } from "vitest";
 import { server } from "../../test/mocks/node";
+import userEvent from "@testing-library/user-event";
 
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
@@ -73,6 +74,8 @@ describe("Landing", () => {
 
 //Test that the search/filter field works
 it("searches for a chart", async () => {
+  const user = userEvent.setup(); // at the top of the test
+
   // render component
   render(wrappedView());
 
@@ -88,14 +91,18 @@ it("searches for a chart", async () => {
   const searchField = screen.getByPlaceholderText(
     "Search my chart strings, teams and folders"
   ) as HTMLInputElement;
-  searchField.value = "Chart 1";
-  await searchField.dispatchEvent(new Event("input"));
+
+  //type text into the search field
+  await user.type(searchField, "Chart 2");
+
+  //wait for 2 seconds. Enable this if the test fails
+  //await new Promise((r) => setTimeout(r, 2000));
 
   // should only see the chart we searched for
   await waitFor(() => {
-    expect(screen.getByText("Chart 1")).toBeInTheDocument();
+    expect(screen.getByText("Chart 2")).toBeInTheDocument();
     //Expect that the other chart is not present
-    expect(screen.queryByText("Chart 2")).toBeNull();
+    expect(screen.queryByText("Chart 1")).not.toBeInTheDocument();
   });
 });
 const wrappedView = () => (
