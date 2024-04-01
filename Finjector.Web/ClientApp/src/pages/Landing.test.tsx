@@ -7,6 +7,8 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { describe, it, expect } from "vitest";
 import { server } from "../../test/mocks/node";
 import userEvent from "@testing-library/user-event";
+import { HttpResponse, http } from "msw";
+import { fakeTeams, fakeFolders } from "../../test/mocks/mockData";
 
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
@@ -70,42 +72,73 @@ describe("Landing", () => {
       expect(screen.getByText("Folder 0")).toBeInTheDocument();
     });
   });
-});
 
-//Test that the search/filter field works
-it("searches for a chart", async () => {
-  const user = userEvent.setup(); // at the top of the test
+  it("Example to override what the mock is returning", async () => {
+    //override the mocked data to set specific values for the team and folder
+    server.use(
+      http.get("/api/charts/all", () =>
+        HttpResponse.json([
+          {
+            team: fakeTeams[2],
+            folders: [fakeFolders[2]],
+          },
+        ])
+      )
+    );
+    // render component
+    render(wrappedView());
 
-  // render component
-  render(wrappedView());
+    // should see list of saved charts (3 from our mock data)
+    await waitFor(() => {
+      expect(screen.getByText("Chart 1")).toBeInTheDocument();
+    });
 
-  // should see list of saved charts (3 from our mock data)
-  await waitFor(() => {
-    expect(screen.getByText("Chart 1")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("Team 2")).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Folder 2")).toBeInTheDocument();
+    });
+
+    //console.log(screen.debug());
   });
-  await waitFor(() => {
-    expect(screen.getByText("Chart 2")).toBeInTheDocument();
+
+  //Test that the search/filter field works
+  it("searches for a chart", async () => {
+    const user = userEvent.setup(); // at the top of the test
+
+    // render component
+    render(wrappedView());
+
+    // should see list of saved charts (3 from our mock data)
+    await waitFor(() => {
+      expect(screen.getByText("Chart 1")).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(screen.getByText("Chart 2")).toBeInTheDocument();
+    });
+
+    // search for a chart
+    const searchField = screen.getByPlaceholderText(
+      "Search my chart strings, teams and folders"
+    ) as HTMLInputElement;
+
+    //type text into the search field
+    await user.type(searchField, "Chart 2");
+
+    //wait for 2 seconds. Enable this if the test fails
+    //await new Promise((r) => setTimeout(r, 2000));
+
+    // should only see the chart we searched for
+    await waitFor(() => {
+      expect(screen.getByText("Chart 2")).toBeInTheDocument();
+      //Expect that the other chart is not present
+      expect(screen.queryByText("Chart 1")).not.toBeInTheDocument();
+    });
+    //show what the screen looks like
+    //console.log(screen.debug());
   });
-
-  // search for a chart
-  const searchField = screen.getByPlaceholderText(
-    "Search my chart strings, teams and folders"
-  ) as HTMLInputElement;
-
-  //type text into the search field
-  await user.type(searchField, "Chart 2");
-
-  //wait for 2 seconds. Enable this if the test fails
-  //await new Promise((r) => setTimeout(r, 2000));
-
-  // should only see the chart we searched for
-  await waitFor(() => {
-    expect(screen.getByText("Chart 2")).toBeInTheDocument();
-    //Expect that the other chart is not present
-    expect(screen.queryByText("Chart 1")).not.toBeInTheDocument();
-  });
-  //show what the screen looks like
-  //console.log(screen.debug());
 });
 const wrappedView = () => (
   <QueryClientProvider client={new QueryClient()}>
