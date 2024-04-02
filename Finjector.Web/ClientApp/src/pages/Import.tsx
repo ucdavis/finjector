@@ -6,6 +6,7 @@ import ImportListTeamRow from "../components/Import/ImportListTeamRow";
 import { SearchBar } from "../components/Shared/SearchBar";
 import PageTitle from "../components/Shared/Layout/PageTitle";
 import PageBody from "../components/Shared/Layout/PageBody";
+import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
 
 // Main landing screen for popup
 
@@ -72,6 +73,24 @@ const Import = () => {
       <div>
         <p>Import is only intended for use in a popup window.</p>
         <a href="/">Back to homepage</a>
+      </div>
+    );
+  }
+
+  if (teamGroupsQuery.isLoading) {
+    return (
+      <div>
+        <FinLoader />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <p>Please wait... We're testing your patience.</p>
+        </div>
       </div>
     );
   }
