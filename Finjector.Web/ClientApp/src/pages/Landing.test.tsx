@@ -62,13 +62,7 @@ describe("Landing", () => {
     // should see list of saved charts (3 from our mock data)
     await waitFor(() => {
       expect(screen.getByText("Chart 1")).toBeInTheDocument();
-    });
-
-    await waitFor(() => {
       expect(screen.getByText("Team 0")).toBeInTheDocument();
-    });
-
-    await waitFor(() => {
       expect(screen.getByText("Folder 0")).toBeInTheDocument();
     });
   });
@@ -91,13 +85,7 @@ describe("Landing", () => {
     // should see list of saved charts (3 from our mock data)
     await waitFor(() => {
       expect(screen.getByText("Chart 1")).toBeInTheDocument();
-    });
-
-    await waitFor(() => {
       expect(screen.getByText("Team 2")).toBeInTheDocument();
-    });
-
-    await waitFor(() => {
       expect(screen.getByText("Folder 2")).toBeInTheDocument();
     });
 
@@ -114,8 +102,6 @@ describe("Landing", () => {
     // should see list of saved charts (3 from our mock data)
     await waitFor(() => {
       expect(screen.getByText("Chart 1")).toBeInTheDocument();
-    });
-    await waitFor(() => {
       expect(screen.getByText("Chart 2")).toBeInTheDocument();
     });
 
