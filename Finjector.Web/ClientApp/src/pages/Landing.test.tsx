@@ -36,7 +36,8 @@ describe("Landing", () => {
 
     // should see the search/filter field
     //get the search field by name value
-    const searchField = screen.getByTestId("searchBar");
+
+    const searchField = screen.getByRole("searchbox");
     expect(searchField).toBeInTheDocument();
     //check that the search field has expected placeholder text
     expect(searchField).toHaveAttribute(
@@ -111,7 +112,7 @@ describe("Landing", () => {
     });
 
     // search for a chart
-    const searchField = screen.getByTestId("searchBar");
+    const searchField = screen.getByRole("searchbox");
 
     //type text into the search field
     await user.type(searchField, "Chart 2");
@@ -138,7 +139,7 @@ describe("Landing", () => {
     render(wrappedView());
 
     // search for a chart
-    const searchField = screen.getByTestId("searchBar");
+    const searchField = screen.getByRole("searchbox");
 
     //type text into the search field
     await user.type(searchField, "Chart 2");
@@ -161,7 +162,7 @@ describe("Landing", () => {
     render(wrappedView());
 
     // search for a chart
-    const searchField = screen.getByTestId("searchBar");
+    const searchField = screen.getByRole("searchbox");
 
     //type text into the search field
     await user.type(searchField, "Chart 2");

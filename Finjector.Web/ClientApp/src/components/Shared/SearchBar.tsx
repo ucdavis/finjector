@@ -6,7 +6,6 @@ export const SearchBar: React.FC<{
   return (
     <div className="mb-3">
       <input
-        data-testid="searchBar"
         type="search"
         className="form-control searchbar"
         placeholder={placeholderText}
