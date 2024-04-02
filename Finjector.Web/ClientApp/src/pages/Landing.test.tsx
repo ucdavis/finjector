@@ -127,9 +127,6 @@ describe("Landing", () => {
     //type text into the search field
     await user.type(searchField, "Chart 2");
 
-    //wait for 2 seconds. Enable this if the test fails
-    //await new Promise((r) => setTimeout(r, 2000));
-
     // should only see the chart we searched for
     await waitFor(() => {
       expect(screen.getByText("Chart 2")).toBeInTheDocument();
@@ -138,6 +135,56 @@ describe("Landing", () => {
     });
     //show what the screen looks like
     //console.log(screen.debug());
+  });
+
+  it("expects details and use buttons", async () => {
+    // Mock window.opener
+    Object.defineProperty(window, "opener", {
+      writable: true,
+      value: {}, // non-null object makes window.opener truthy
+    });
+
+    const user = userEvent.setup(); // at the top of the test
+    // render component
+    render(wrappedView());
+
+    // search for a chart
+    const searchField = screen.getByPlaceholderText(
+      "Search my chart strings, teams and folders"
+    ) as HTMLInputElement;
+
+    //type text into the search field
+    await user.type(searchField, "Chart 2");
+
+    await waitFor(() => {
+      expect(screen.queryByText("Details")).toBeInTheDocument();
+      expect(screen.queryByText("Use")).toBeInTheDocument();
+    });
+
+    // reset window.opener so it doesn't persist between tests
+    Object.defineProperty(window, "opener", {
+      writable: true,
+      value: null, // non-null object makes window.opener falsy
+    });
+  });
+  it("expects details but not use", async () => {
+    const user = userEvent.setup(); // at the top of the test
+
+    // render component
+    render(wrappedView());
+
+    // search for a chart
+    const searchField = screen.getByPlaceholderText(
+      "Search my chart strings, teams and folders"
+    ) as HTMLInputElement;
+
+    //type text into the search field
+    await user.type(searchField, "Chart 2");
+
+    await waitFor(() => {
+      expect(screen.queryByText("Details")).toBeInTheDocument();
+      expect(screen.queryByText("Use")).not.toBeInTheDocument();
+    });
   });
 });
 const wrappedView = () => (
