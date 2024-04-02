@@ -35,9 +35,14 @@ describe("Landing", () => {
     render(wrappedView());
 
     // should see the search/filter field
-    expect(
-      screen.getByPlaceholderText("Search my chart strings, teams and folders")
-    ).toBeInTheDocument();
+    //get the search field by name value
+    const searchField = screen.getByTestId("searchBar");
+    expect(searchField).toBeInTheDocument();
+    //check that the search field has expected placeholder text
+    expect(searchField).toHaveAttribute(
+      "placeholder",
+      "Search my chart strings, teams and folders"
+    );
   });
 
   // test that it renders the title
@@ -106,9 +111,7 @@ describe("Landing", () => {
     });
 
     // search for a chart
-    const searchField = screen.getByPlaceholderText(
-      "Search my chart strings, teams and folders"
-    ) as HTMLInputElement;
+    const searchField = screen.getByTestId("searchBar");
 
     //type text into the search field
     await user.type(searchField, "Chart 2");
@@ -135,9 +138,7 @@ describe("Landing", () => {
     render(wrappedView());
 
     // search for a chart
-    const searchField = screen.getByPlaceholderText(
-      "Search my chart strings, teams and folders"
-    ) as HTMLInputElement;
+    const searchField = screen.getByTestId("searchBar");
 
     //type text into the search field
     await user.type(searchField, "Chart 2");
@@ -160,9 +161,7 @@ describe("Landing", () => {
     render(wrappedView());
 
     // search for a chart
-    const searchField = screen.getByPlaceholderText(
-      "Search my chart strings, teams and folders"
-    ) as HTMLInputElement;
+    const searchField = screen.getByTestId("searchBar");
 
     //type text into the search field
     await user.type(searchField, "Chart 2");
