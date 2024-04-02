@@ -68,32 +68,16 @@ const Import = () => {
     }
   }, []);
 
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus: teamGroupsQuery,
+  });
+  if (queryStatusComponent) return <>{queryStatusComponent} </>;
+
   if (!isPopup) {
     return (
       <div>
         <p>Import is only intended for use in a popup window.</p>
         <a href="/">Back to homepage</a>
-      </div>
-    );
-  }
-
-  const queryStatusComponent = useFinQueryStatusHandler({
-    queryStatus: teamGroupsQuery,
-  });
-  if (queryStatusComponent) {
-    return (
-      <div>
-        {queryStatusComponent}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
-        >
-          <p>Please wait... We're testing your patience.</p>
-        </div>
       </div>
     );
   }
