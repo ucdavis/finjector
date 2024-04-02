@@ -6,7 +6,7 @@ import ImportListTeamRow from "../components/Import/ImportListTeamRow";
 import { SearchBar } from "../components/Shared/SearchBar";
 import PageTitle from "../components/Shared/Layout/PageTitle";
 import PageBody from "../components/Shared/Layout/PageBody";
-import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
+import { useFinQueryStatusHandler } from "../util/error";
 
 // Main landing screen for popup
 
@@ -77,10 +77,13 @@ const Import = () => {
     );
   }
 
-  if (teamGroupsQuery.isLoading) {
+  const queryStatusComponent = useFinQueryStatusHandler({
+    queryStatus: teamGroupsQuery,
+  });
+  if (queryStatusComponent) {
     return (
       <div>
-        <FinLoader />
+        {queryStatusComponent}
         <div
           style={{
             display: "flex",
