@@ -40,7 +40,7 @@ const Paste = () => {
       <PageTitle title="New Chart String from paste" />
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <p>Paste in a copied account number</p>
+          <p>Paste in a copied Chart String</p>
           <input
             className="form-control"
             id="coa-input"
