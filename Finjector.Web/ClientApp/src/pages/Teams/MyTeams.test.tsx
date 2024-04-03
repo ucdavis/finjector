@@ -1,10 +1,11 @@
 import React from "react";
+
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import MyTeams from "./MyTeams";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { describe, it, expect } from "vitest";
 import { server } from "../../../test/mocks/node";
+import MyTeams from "./MyTeams";
 //import { fakeTeams, fakeFolders } from "../../../test/mocks/mockData";
 
 beforeAll(() => server.listen());
@@ -12,11 +13,13 @@ beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("MyTeams", () => {
-  it("renders", () => {
+  it("renders", async () => {
     // render component
     render(wrappedView());
 
-    expect(screen.getByText("Create New Team")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("Create New Team")).toBeInTheDocument();
+    });
 
     console.log(screen.debug());
   });
@@ -97,7 +100,7 @@ const wrappedView = () => (
   <QueryClientProvider client={new QueryClient()}>
     <MemoryRouter initialEntries={[`/teams`]}>
       <Routes>
-        <Route path="/" element={<MyTeams />} />
+        <Route path="/teams" element={<MyTeams />} />
       </Routes>
     </MemoryRouter>
   </QueryClientProvider>
