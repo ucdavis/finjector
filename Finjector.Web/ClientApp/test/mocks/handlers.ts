@@ -36,16 +36,16 @@ export const handlers = [
     HttpResponse.json([
       {
         team: fakeTeams[1],
-        folderCount: 1,
+        folderCount: 3,
         uniqueUserPermissionCount: 2,
-        chartCount: 1,
+        chartCount: 4,
         admins: ["Fake User1", "Fake User2"],
       },
       {
         team: fakeTeams[0],
-        folderCount: 3,
-        uniqueUserPermissionCount: 2,
-        chartCount: 4,
+        folderCount: 1,
+        uniqueUserPermissionCount: 3,
+        chartCount: 1,
         admins: ["Fake User1", "Fake User3"],
       },
     ])

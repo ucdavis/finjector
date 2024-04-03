@@ -17,11 +17,41 @@ describe("MyTeams", () => {
     // render component
     render(wrappedView());
 
+    expect(
+      screen.getByRole("link", { name: /Create New Team/i })
+    ).toBeInTheDocument();
+  });
+
+  it("renders search box", async () => {
+    // render component
+    render(wrappedView());
+
+    const searchField = screen.getByRole("searchbox");
+    expect(searchField).toBeInTheDocument();
+    expect(searchField).toHaveAttribute("placeholder", "Search My Teams");
+  });
+
+  it("renders title", async () => {
+    // render component
+    render(wrappedView());
+
     await waitFor(() => {
-      expect(screen.getByText("Create New Team")).toBeInTheDocument();
+      expect(screen.getByText("My Teams")).toBeInTheDocument();
     });
 
     console.log(screen.debug());
+  });
+
+  it("renders teams", async () => {
+    // render component
+    render(wrappedView());
+
+    await waitFor(() => {
+      expect(screen.getByText("Team 1")).toBeInTheDocument();
+      expect(screen.getByText("Team 0")).toBeInTheDocument();
+      console.log(screen.debug(undefined, 20000));
+      //console.log(prettyDOM(document.body, 20000));
+    });
   });
 
   //   it("renders error state", () => {
