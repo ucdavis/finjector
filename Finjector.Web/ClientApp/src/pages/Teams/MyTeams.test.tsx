@@ -7,7 +7,6 @@ import { describe, it, expect } from "vitest";
 import { server } from "../../../test/mocks/node";
 import MyTeams from "./MyTeams";
 import userEvent from "@testing-library/user-event";
-//import { fakeTeams, fakeFolders } from "../../../test/mocks/mockData";
 
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
