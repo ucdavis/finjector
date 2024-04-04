@@ -63,12 +63,6 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
 
-        var user = await _userService.EnsureUserExists(iamId); //This will try to get the user from the DB, if it doesn't exist, it will create it
-
-        if (user == null)
-        {
-            return Unauthorized();
-        }
 
         // get any chart that belongs to the user's folders or teams.  role doesn't matter. nested group under team and folder
         var charts = await _dbContext.Coas.Include(c => c.Folder).ThenInclude(f => f.Team).Where(c =>
@@ -125,9 +119,6 @@ public class ChartsController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-
-        // make sure user exists in the db
-        await _userService.EnsureUserExists(iamId);
 
         // verify that user has permission to save this chart if it already exists
         if (chartViewModel.Id > 0)

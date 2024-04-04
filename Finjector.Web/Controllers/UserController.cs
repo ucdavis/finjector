@@ -3,6 +3,7 @@ using Finjector.Core.Data;
 using Finjector.Core.Domain;
 using Finjector.Core.Services;
 using Finjector.Web.Extensions;
+using Finjector.Web.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,8 +43,8 @@ public class UserController : ControllerBase
         }
 
         var dict = claims.ToDictionary(c => c.Type, c => c.Value);
-        
-        var iamId = dict.Where(a => a.Key == "ucdPersonIAMID").Select(a => a.Value).FirstOrDefault();
+
+        var iamId = dict.First(a => a.Key == IamIdClaimFallbackTransformer.ClaimType).Value;
         await _userService.EnsureUserExists(iamId);
         
 
