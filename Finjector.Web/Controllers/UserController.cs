@@ -32,7 +32,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("info")]
-    public IActionResult Info()
+    public async Task<IActionResult> Info()
     {
         var claims = _httpContextAccessor.HttpContext?.User.Claims;
 
@@ -41,7 +41,13 @@ public class UserController : ControllerBase
             return Challenge(); // trigger authentication, but claims should never be null here
         }
 
-        return Ok(claims.ToDictionary(c => c.Type, c => c.Value));
+        var dict = claims.ToDictionary(c => c.Type, c => c.Value);
+        
+        var iamId = dict.Where(a => a.Key == "ucdPersonIAMID").Select(a => a.Value).FirstOrDefault();
+        await _userService.EnsureUserExists(iamId);
+        
+
+        return Ok(dict);
     }
 
     /// <summary>
