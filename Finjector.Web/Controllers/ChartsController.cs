@@ -63,7 +63,8 @@ public class ChartsController : ControllerBase
             return Unauthorized();
         }
 
-        var user = await _identityService.GetByIam(iamId);
+        var user = await _userService.EnsureUserExists(iamId); //This will try to get the user from the DB, if it doesn't exist, it will create it
+
         if (user == null)
         {
             return Unauthorized();

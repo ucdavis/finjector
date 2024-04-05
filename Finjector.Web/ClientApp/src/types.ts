@@ -36,6 +36,7 @@ export interface Folder {
   id: number;
   name: string;
   description?: string;
+  isDefault: boolean;
   teamId: number;
   teamName: string;
   myFolderPermissions: PermissionType[];
