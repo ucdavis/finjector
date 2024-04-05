@@ -47,6 +47,7 @@ namespace Finjector.Web.Controllers
                     f.Id,
                     f.Name,
                     f.Description,
+                    f.IsDefault,
                     TeamName = f.Team.Name,
                     TeamId = f.Team.Id,
                     TeamIsPersonal = f.Team.IsPersonal,
@@ -85,6 +86,7 @@ namespace Finjector.Web.Controllers
                     f.Id,
                     f.Name,
                     f.Description,
+                    f.IsDefault,
                     TeamName = f.Team.Name,
                     TeamId = f.Team.Id,
                 })

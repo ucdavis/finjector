@@ -14,7 +14,6 @@ import FinButtonDropdownItem from "../Shared/FinButtonDropdownItem";
 import PageInfo from "../Shared/Layout/PageInfo";
 import PageTitle from "../Shared/Layout/PageTitle";
 import { FinQueryStatus, TeamResponseModel } from "../../types";
-import { isPersonalOrDefault } from "../../util/teamDefinitions";
 import DeleteTeamModal from "./DeleteTeamModal";
 import LeaveTeamModal from "./LeaveTeamModal";
 
@@ -53,7 +52,7 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
     (p) => p === "Admin"
   );
 
-  const limitedTeam = isPersonalOrDefault(teamModelData.team.name);
+  const limitedTeam = teamModelData.team.isPersonal; // personal teams are limited
 
   return (
     <>

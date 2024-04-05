@@ -17,7 +17,6 @@ import PageInfo from "../Shared/Layout/PageInfo";
 import PageTitle from "../Shared/Layout/PageTitle";
 import LeaveFolderModal from "./LeaveFolderModal";
 import DeleteFolderModal from "./DeleteFolderModal";
-import { isPersonalOrDefault } from "../../util/teamDefinitions";
 
 interface FolderTitleProps {
   folderModelData: FolderResponseModel | undefined;
@@ -75,7 +74,7 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
     (p) => p === "Admin"
   );
 
-  const limitedFolder = isPersonalOrDefault(folderModelData.folder.name);
+  const limitedFolder = folderModelData.folder.isDefault;
 
   return (
     <>
