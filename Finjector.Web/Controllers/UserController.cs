@@ -3,6 +3,7 @@ using Finjector.Core.Data;
 using Finjector.Core.Domain;
 using Finjector.Core.Services;
 using Finjector.Web.Extensions;
+using Finjector.Web.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("info")]
-    public IActionResult Info()
+    public async Task<IActionResult> Info()
     {
         var claims = _httpContextAccessor.HttpContext?.User.Claims;
 
@@ -41,7 +42,13 @@ public class UserController : ControllerBase
             return Challenge(); // trigger authentication, but claims should never be null here
         }
 
-        return Ok(claims.ToDictionary(c => c.Type, c => c.Value));
+        var dict = claims.ToDictionary(c => c.Type, c => c.Value);
+
+        var iamId = dict.First(a => a.Key == IamIdClaimFallbackTransformer.ClaimType).Value;
+        await _userService.EnsureUserExists(iamId);
+        
+
+        return Ok(dict);
     }
 
     /// <summary>
