@@ -42,6 +42,7 @@ for (let i = 0; i < 3; i++) {
     id: i,
     name: `Folder ${i}`,
     description: `Folder ${i} description`,
+    isDefault: false,
     teamId: 0,
     teamName: "Team 0",
     myFolderPermissions: ["Admin", "Edit", "View"],
@@ -50,7 +51,7 @@ for (let i = 0; i < 3; i++) {
   });
 }
 
-const fakePpmDetials: PpmDetails = {
+const fakePpmDetails: PpmDetails = {
   ppmProjectManager: {
     name: "John Doe",
     email: "jdoe@fake.com",
@@ -235,7 +236,7 @@ export {
   fakeCharts,
   fakeFolders,
   fakeTeams,
-  fakePpmDetials,
+  fakePpmDetails,
   fakeValidChart,
   fakeInvalidChart,
   fakeInvalidAeDetails,
