@@ -51,12 +51,37 @@ export const handlers = [
       },
     ]);
   }),
-  http.get("/api/team/id", () => {
-    console.log("fake teams", fakeTeams);
+  http.get("/api/team/:id", ({ params }) => {
+    // console.log("fake teams", fakeTeams);
+    // console.log("params", params);
+    const teamId = params.id;
 
+    if (teamId === "99") {
+      console.log("Returning personal team");
+      console.log("fakeTeams[3]", fakeTeams[3]);
+      return HttpResponse.json({
+        team: fakeTeams[3],
+        folders: [
+          {
+            folder: fakeFolders[0],
+            chartCount: 1,
+            uniqueUserPermissionCount: 3,
+          },
+          {
+            folder: fakeFolders[1],
+            chartCount: 2,
+            uniqueUserPermissionCount: 2,
+          },
+        ],
+      });
+    }
+    console.log("Returning team 0");
     return HttpResponse.json({
-      Team: fakeTeams[3],
-      Folders: fakeFolders,
-    }); // personal team
+      team: fakeTeams[0],
+      folders: [
+        { folder: fakeFolders[0], chartCount: 1, uniqueUserPermissionCount: 3 },
+        { folder: fakeFolders[1], chartCount: 2, uniqueUserPermissionCount: 2 },
+      ],
+    });
   }),
 ];
