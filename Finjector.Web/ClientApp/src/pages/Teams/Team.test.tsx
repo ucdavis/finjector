@@ -72,7 +72,8 @@ describe("Team", () => {
       expect(screen.getByText("Loading...")).toBeInTheDocument();
 
       await waitFor(() => {
-        //console.log(screen.debug(undefined, 20000));
+        expect(screen.getByText("Team 0")).toBeInTheDocument();
+        expect(screen.getByText("Team 0 description")).toBeInTheDocument();
       });
     });
     it("renders team 1", async () => {
@@ -82,32 +83,77 @@ describe("Team", () => {
       expect(screen.getByText("Loading...")).toBeInTheDocument();
 
       await waitFor(() => {
-        //console.log(screen.debug(undefined, 20000));
+        expect(screen.getByText("Team 1")).toBeInTheDocument();
+        expect(screen.getByText("Team 1 description")).toBeInTheDocument();
+      });
+    });
+    it("renders team 0 folder", async () => {
+      // render component
+      render(wrappedView("0"));
+
+      await waitFor(() => {
+        expect(screen.getByText("Folder 0")).toBeInTheDocument(); //These are the same for both teams 0 and 1 in the mocked data
+        expect(screen.getByText("Folder 0 description")).toBeInTheDocument();
+        expect(screen.getByText("Folder 1")).toBeInTheDocument();
+        expect(screen.getByText("Folder 1 description")).toBeInTheDocument();
+        expect(screen.queryAllByText("Go to Folder").length).toBe(2);
+      });
+    });
+    it("renders the folder links for team 0", async () => {
+      // render component
+      render(wrappedView("0"));
+
+      await waitFor(() => {
+        const folderLinks = screen.getAllByRole("link", {
+          name: "Go to Folder",
+        });
+        expect(folderLinks[0]).toBeInTheDocument();
+        expect(folderLinks[0]).toHaveAttribute("href", "/teams/0/folders/0");
+        expect(folderLinks[1]).toBeInTheDocument();
+        expect(folderLinks[1]).toHaveAttribute("href", "/teams/0/folders/1");
+      });
+    });
+    it("renders the folder links for team 1", async () => {
+      // render component
+      render(wrappedView("1"));
+
+      await waitFor(() => {
+        const folderLinks = screen.getAllByRole("link", {
+          name: "Go to Folder",
+        });
+        expect(folderLinks[0]).toBeInTheDocument();
+        expect(folderLinks[0]).toHaveAttribute("href", "/teams/1/folders/0");
+        expect(folderLinks[1]).toBeInTheDocument();
+        expect(folderLinks[1]).toHaveAttribute("href", "/teams/1/folders/1");
+      });
+    });
+    it("renders the search box for team 0", async () => {
+      // render component
+      render(wrappedView("0"));
+
+      await waitFor(() => {
+        const searchField = screen.getByRole("searchbox");
+        expect(searchField).toBeInTheDocument();
+        expect(searchField).toHaveAttribute(
+          "placeholder",
+          "Search Within Team 0"
+        );
+      });
+    });
+    it("renders the search box for team 1", async () => {
+      // render component
+      render(wrappedView("1"));
+
+      await waitFor(() => {
+        const searchField = screen.getByRole("searchbox");
+        expect(searchField).toBeInTheDocument();
+        expect(searchField).toHaveAttribute(
+          "placeholder",
+          "Search Within Team 1"
+        );
       });
     });
   });
-
-  // it("renders team name", async () => {
-  //   // render component
-  //   render(wrappedView("99"));
-  //   await waitFor(() => {
-  //     expect(screen.getByText("Personal")).toBeInTheDocument();
-  //   });
-  // });
-
-  // it("renders search box", async () => {
-  //   // render component
-  //   render(wrappedView("99"));
-  //   await waitFor(() => {
-  //     const searchField = screen.getByRole("searchbox");
-  //     expect(searchField).toBeInTheDocument();
-  //     expect(searchField).toHaveAttribute(
-  //       "placeholder",
-  //       "Search Within Personal"
-  //     ); //This should say, "Search Within Personal"
-  //   });
-  //   console.log(screen.debug(undefined, 20000));
-  // });
 });
 
 const wrappedView = (teamId: string) => (
