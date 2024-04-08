@@ -59,6 +59,17 @@ for (let i = 0; i < 3; i++) {
   });
 }
 
+fakeFolders.push({
+  id: 99,
+  name: "Personal",
+  isDefault: true,
+  teamId: 99,
+  teamName: "Personal",
+  myFolderPermissions: ["Admin", "Edit", "View"],
+  myTeamPermissions: ["Admin", "Edit", "View"],
+  coas: [...fakeCharts],
+});
+
 const fakePpmDetails: PpmDetails = {
   ppmProjectManager: {
     name: "John Doe",

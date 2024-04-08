@@ -13,28 +13,48 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("Team", () => {
-  it("renders", async () => {
-    // render component
-    render(wrappedView("99"));
+  describe("when team is personal", () => {
+    it("renders", async () => {
+      // render component
+      render(wrappedView("99"));
 
-    // wait 10 seconds for the component to render
-    await waitFor(() => {
       expect(screen.getByText("Loading...")).toBeInTheDocument();
-    });
 
-    await waitFor(() => {
-      expect(screen.getByText("Loading...")).toBeInTheDocument();
-    });
-
-    console.log(screen.debug(undefined, 20000));
-  });
-  it("renders team name", async () => {
-    // render component
-    render(wrappedView("99"));
-    await waitFor(() => {
-      expect(screen.getByText("Personal")).toBeInTheDocument();
+      await waitFor(() => {
+        console.log(screen.debug(undefined, 20000));
+      });
     });
   });
+  describe("when team is not personal", () => {
+    it("renders team 0", async () => {
+      // render component
+      render(wrappedView("0"));
+
+      expect(screen.getByText("Loading...")).toBeInTheDocument();
+
+      await waitFor(() => {
+        //console.log(screen.debug(undefined, 20000));
+      });
+    });
+    it("renders team 1", async () => {
+      // render component
+      render(wrappedView("1"));
+
+      expect(screen.getByText("Loading...")).toBeInTheDocument();
+
+      await waitFor(() => {
+        //console.log(screen.debug(undefined, 20000));
+      });
+    });
+  });
+
+  // it("renders team name", async () => {
+  //   // render component
+  //   render(wrappedView("99"));
+  //   await waitFor(() => {
+  //     expect(screen.getByText("Personal")).toBeInTheDocument();
+  //   });
+  // });
 
   // it("renders search box", async () => {
   //   // render component

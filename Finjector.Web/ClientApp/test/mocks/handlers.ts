@@ -55,6 +55,7 @@ export const handlers = [
     // console.log("fake teams", fakeTeams);
     // console.log("params", params);
     const teamId = params.id;
+    const team = fakeTeams.find((t) => t.id === parseInt(teamId as string, 10));
 
     if (teamId === "99") {
       console.log("Returning personal team");
@@ -63,21 +64,16 @@ export const handlers = [
         team: fakeTeams[3],
         folders: [
           {
-            folder: fakeFolders[0],
+            folder: fakeFolders[3],
             chartCount: 1,
             uniqueUserPermissionCount: 3,
-          },
-          {
-            folder: fakeFolders[1],
-            chartCount: 2,
-            uniqueUserPermissionCount: 2,
           },
         ],
       });
     }
-    console.log("Returning team 0");
+    console.log(`Returning team ${team?.name} `);
     return HttpResponse.json({
-      team: fakeTeams[0],
+      team: team,
       folders: [
         { folder: fakeFolders[0], chartCount: 1, uniqueUserPermissionCount: 3 },
         { folder: fakeFolders[1], chartCount: 2, uniqueUserPermissionCount: 2 },
