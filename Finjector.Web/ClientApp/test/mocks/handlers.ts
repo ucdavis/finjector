@@ -32,8 +32,9 @@ export const handlers = [
       aeDetails: aeDetailsToUse,
     });
   }),
-  http.get("/api/team", () =>
-    HttpResponse.json([
+  http.get("/api/team", () => {
+    console.log("In api/team/");
+    return HttpResponse.json([
       {
         team: fakeTeams[1],
         folderCount: 3,
@@ -48,6 +49,14 @@ export const handlers = [
         chartCount: 1,
         admins: ["Fake User1", "Fake User3"],
       },
-    ])
-  ),
+    ]);
+  }),
+  http.get("/api/team/id", () => {
+    console.log("fake teams", fakeTeams);
+
+    return HttpResponse.json({
+      Team: fakeTeams[3],
+      Folders: fakeFolders,
+    }); // personal team
+  }),
 ];
