@@ -43,55 +43,16 @@ describe("Team", () => {
       });
     });
 
-    it("renders search box", async () => {
+    it("doesn't renders search box", async () => {
       // render component
       render(wrappedView("99"));
 
       await waitFor(() => {
-        const searchField = screen.getByRole("searchbox");
-        expect(searchField).toBeInTheDocument();
-        expect(searchField).toHaveAttribute(
-          "placeholder",
-          "Search Within Personal"
-        );
+        const searchField = screen.queryByRole("searchbox");
+        expect(searchField).not.toBeInTheDocument();
       });
     });
-    it("filters folders 1", async () => {
-      const user = userEvent.setup();
-      // render component
-      render(wrappedView("99"));
 
-      await waitFor(() => {
-        expect(screen.queryByText("Default")).toBeInTheDocument();
-      });
-
-      // search for folder
-      const searchField = screen.getByRole("searchbox");
-      //type text into the search field
-      await user.type(searchField, "Default");
-
-      await waitFor(() => {
-        expect(screen.queryByText("Default")).toBeInTheDocument();
-      });
-    });
-    it("filters folders 2", async () => {
-      const user = userEvent.setup();
-      // render component
-      render(wrappedView("99"));
-
-      await waitFor(() => {
-        expect(screen.queryByText("Default")).toBeInTheDocument();
-      });
-
-      // search for folder
-      const searchField = screen.getByRole("searchbox");
-      //type text into the search field
-      await user.type(searchField, "folder 1");
-
-      await waitFor(() => {
-        expect(screen.queryByText("Default")).not.toBeInTheDocument();
-      });
-    });
     it("renders the default folder link", async () => {
       // render component
       render(wrappedView("99"));
