@@ -20,9 +20,9 @@ describe("Team", () => {
 
       expect(screen.getByText("Loading...")).toBeInTheDocument();
 
-      await waitFor(() => {
-        console.log(screen.debug(undefined, 20000));
-      });
+      // await waitFor(() => {
+      //   console.log(screen.debug(undefined, 20000));
+      // });
     });
 
     it("renders team name", async () => {
@@ -151,6 +151,64 @@ describe("Team", () => {
           "placeholder",
           "Search Within Team 1"
         );
+      });
+    });
+
+    it("filters folders for team 0", async () => {
+      const user = userEvent.setup();
+      // render component
+      render(wrappedView("0"));
+
+      await waitFor(() => {
+        expect(screen.queryByText("Folder 0")).toBeInTheDocument(); //These are the same for both teams 0 and 1 in the mocked data
+        expect(screen.queryByText("Folder 0 description")).toBeInTheDocument();
+        expect(screen.queryByText("Folder 1")).toBeInTheDocument();
+        expect(screen.queryByText("Folder 1 description")).toBeInTheDocument();
+        expect(screen.queryAllByText("Go to Folder").length).toBe(2);
+      });
+
+      // search for folder
+      const searchField = screen.getByRole("searchbox");
+      //type text into the search field
+      await user.type(searchField, "folder 0");
+
+      await waitFor(() => {
+        expect(screen.queryByText("Folder 0")).toBeInTheDocument();
+        expect(screen.queryByText("Folder 0 description")).toBeInTheDocument();
+        expect(screen.queryByText("Folder 1")).not.toBeInTheDocument();
+        expect(
+          screen.queryByText("Folder 1 description")
+        ).not.toBeInTheDocument();
+        expect(screen.queryAllByText("Go to Folder").length).toBe(1);
+      });
+    });
+
+    it("filters folders for team 0 test 2", async () => {
+      const user = userEvent.setup();
+      // render component
+      render(wrappedView("0"));
+
+      await waitFor(() => {
+        expect(screen.queryByText("Folder 0")).toBeInTheDocument(); //These are the same for both teams 0 and 1 in the mocked data
+        expect(screen.queryByText("Folder 0 description")).toBeInTheDocument();
+        expect(screen.queryByText("Folder 1")).toBeInTheDocument();
+        expect(screen.queryByText("Folder 1 description")).toBeInTheDocument();
+        expect(screen.queryAllByText("Go to Folder").length).toBe(2);
+      });
+
+      // search for folder
+      const searchField = screen.getByRole("searchbox");
+      //type text into the search field
+      await user.type(searchField, "1");
+
+      await waitFor(() => {
+        expect(screen.queryByText("Folder 0")).not.toBeInTheDocument();
+        expect(
+          screen.queryByText("Folder 0 description")
+        ).not.toBeInTheDocument();
+        expect(screen.queryByText("Folder 1")).toBeInTheDocument();
+        expect(screen.queryByText("Folder 1 description")).toBeInTheDocument();
+        expect(screen.queryAllByText("Go to Folder").length).toBe(1);
       });
     });
   });

@@ -33,7 +33,7 @@ export const handlers = [
     });
   }),
   http.get("/api/team", () => {
-    console.log("In api/team/");
+    //console.log("In api/team/");
     return HttpResponse.json([
       {
         team: fakeTeams[1],
@@ -58,8 +58,8 @@ export const handlers = [
     const team = fakeTeams.find((t) => t.id === parseInt(teamId as string, 10));
 
     if (teamId === "99") {
-      console.log("Returning personal team");
-      console.log("fakeTeams[3]", fakeTeams[3]);
+      // console.log("Returning personal team");
+      // console.log("fakeTeams[3]", fakeTeams[3]);
       return HttpResponse.json({
         team: fakeTeams[3],
         folders: [
@@ -71,7 +71,7 @@ export const handlers = [
         ],
       });
     }
-    console.log(`Returning team ${team?.name} `);
+    //console.log(`Returning team ${team?.name} `);
     return HttpResponse.json({
       team: team,
       folders: [
