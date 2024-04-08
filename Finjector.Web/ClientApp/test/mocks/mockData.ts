@@ -61,7 +61,7 @@ for (let i = 0; i < 3; i++) {
 
 fakeFolders.push({
   id: 99,
-  name: "Personal",
+  name: "Default",
   isDefault: true,
   teamId: 99,
   teamName: "Personal",
