@@ -18,6 +18,8 @@ const Team: React.FC = () => {
 
   const queryStatus: FinQueryStatus = useFinQueryStatus(teamModelQuery);
 
+  const limitedTeam = teamModelQuery.data?.team.isPersonal; // personal teams are limited
+
   return (
     <div>
       <TeamTitle
@@ -26,15 +28,17 @@ const Team: React.FC = () => {
         teamId={teamId}
       />
       <PageBody>
-        <SearchBar
-          placeholderText={
-            !!teamModelQuery.data?.team.name
-              ? `Search Within ${teamModelQuery.data?.team.name}`
-              : "Search Within Team"
-          }
-          search={search}
-          setSearch={setSearch}
-        />
+        {!limitedTeam && (
+          <SearchBar
+            placeholderText={
+              teamModelQuery.data?.team.name
+                ? `Search Within ${teamModelQuery.data?.team.name}`
+                : "Search Within Team"
+            }
+            search={search}
+            setSearch={setSearch}
+          />
+        )}
         <FolderList
           teamModel={teamModelQuery.data}
           filter={search}
