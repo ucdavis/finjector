@@ -22,6 +22,14 @@ for (let i = 0; i < 3; i++) {
   });
 }
 
+// make a personal team
+fakeTeams.push({
+  id: 99,
+  name: "Personal",
+  isPersonal: true,
+  myTeamPermissions: ["Admin", "Edit", "View"],
+});
+
 // make 3 fake charts
 for (let i = 0; i < 3; i++) {
   fakeCharts.push({
@@ -50,6 +58,17 @@ for (let i = 0; i < 3; i++) {
     coas: [...fakeCharts],
   });
 }
+
+fakeFolders.push({
+  id: 99,
+  name: "Default",
+  isDefault: true,
+  teamId: 99,
+  teamName: "Personal",
+  myFolderPermissions: ["Admin", "Edit", "View"],
+  myTeamPermissions: ["Admin", "Edit", "View"],
+  coas: [...fakeCharts],
+});
 
 const fakePpmDetails: PpmDetails = {
   ppmProjectManager: {

@@ -32,8 +32,9 @@ export const handlers = [
       aeDetails: aeDetailsToUse,
     });
   }),
-  http.get("/api/team", () =>
-    HttpResponse.json([
+  http.get("/api/team", () => {
+    //console.log("In api/team/");
+    return HttpResponse.json([
       {
         team: fakeTeams[1],
         folderCount: 3,
@@ -48,6 +49,35 @@ export const handlers = [
         chartCount: 1,
         admins: ["Fake User1", "Fake User3"],
       },
-    ])
-  ),
+    ]);
+  }),
+  http.get("/api/team/:id", ({ params }) => {
+    // console.log("fake teams", fakeTeams);
+    // console.log("params", params);
+    const teamId = params.id;
+    const team = fakeTeams.find((t) => t.id === parseInt(teamId as string, 10));
+
+    if (teamId === "99") {
+      // console.log("Returning personal team");
+      // console.log("fakeTeams[3]", fakeTeams[3]);
+      return HttpResponse.json({
+        team: fakeTeams[3],
+        folders: [
+          {
+            folder: fakeFolders[3],
+            chartCount: 1,
+            uniqueUserPermissionCount: 3,
+          },
+        ],
+      });
+    }
+    //console.log(`Returning team ${team?.name} `);
+    return HttpResponse.json({
+      team: team,
+      folders: [
+        { folder: fakeFolders[0], chartCount: 1, uniqueUserPermissionCount: 3 },
+        { folder: fakeFolders[1], chartCount: 2, uniqueUserPermissionCount: 2 },
+      ],
+    });
+  }),
 ];
