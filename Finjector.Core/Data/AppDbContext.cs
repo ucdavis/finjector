@@ -31,13 +31,10 @@ namespace Finjector.Core.Data
         public virtual DbSet<Team> Teams { get; set; } = null!;
         public virtual DbSet<TeamPermission> TeamPermissions { get; set; } = null!;
 
-        public virtual DbSet<CoaDetail> CoaDetails { get; set; } = null!;
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             Coa.OnModelCreating(builder);
-            CoaDetail.OnModelCreating(builder);
             Folder.OnModelCreating(builder);
             FolderPermission.OnModelCreating(builder);
             Team.OnModelCreating(builder);
