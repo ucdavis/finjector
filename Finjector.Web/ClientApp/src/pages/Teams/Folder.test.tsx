@@ -46,7 +46,9 @@ describe("Folder", () => {
       render(wrappedView("99", "99"));
 
       await waitFor(() => {
-        expect(screen.getByText("Actions")).toBeInTheDocument();
+        expect(
+          screen.getByRole("button", { name: /actions/i })
+        ).toBeInTheDocument();
       });
     });
     it("renders the new chart string here button", async () => {
@@ -64,6 +66,22 @@ describe("Folder", () => {
         });
         expect(link).toBeInTheDocument();
         expect(link).toHaveAttribute("href", "/teams/99/folders/99/entry");
+      });
+    });
+    it("renders the export button", async () => {
+      const user = userEvent.setup();
+      // render component
+      render(wrappedView("99", "99"));
+
+      const button = screen.getByRole("button", { name: /actions/i });
+
+      user.click(button);
+
+      await waitFor(() => {
+        const link = screen.getByRole("button", {
+          name: /export chart strings \(csv\)/i,
+        });
+        expect(link).toBeInTheDocument();
       });
     });
   });
