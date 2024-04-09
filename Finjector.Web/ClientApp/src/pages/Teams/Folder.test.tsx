@@ -93,7 +93,6 @@ describe("Folder", () => {
       expect(screen.queryAllByRole("link")).toHaveLength(0);
 
       const button = screen.getByRole("button", { name: /actions/i });
-
       user.click(button);
 
       await waitFor(() => {

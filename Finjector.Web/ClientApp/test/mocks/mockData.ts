@@ -30,6 +30,36 @@ fakeTeams.push({
   myTeamPermissions: ["Admin", "Edit", "View"],
 });
 
+//Permission specific teams
+fakeTeams.push({
+  id: 10,
+  name: "Team 10",
+  description: "Team 10 description with View permission only",
+  isPersonal: false,
+  myTeamPermissions: ["View"],
+});
+fakeTeams.push({
+  id: 11,
+  name: "Team 11",
+  description: "Team 11 description with View and Edit permissions",
+  isPersonal: false,
+  myTeamPermissions: ["Edit", "View"],
+});
+fakeTeams.push({
+  id: 12,
+  name: "Team 12",
+  description: "Team 12 description with Edit permission only",
+  isPersonal: false,
+  myTeamPermissions: ["Edit"],
+});
+fakeTeams.push({
+  id: 13,
+  name: "Team 13",
+  description: "Team 13 description with Admin permission only",
+  isPersonal: false,
+  myTeamPermissions: ["Admin"],
+});
+
 // make 3 fake charts
 for (let i = 0; i < 3; i++) {
   fakeCharts.push({
