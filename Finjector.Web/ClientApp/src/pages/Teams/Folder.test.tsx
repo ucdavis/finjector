@@ -108,6 +108,24 @@ describe("Folder", () => {
         expect(buttons[1]).toHaveTextContent("Export Chart Strings (CSV)");
       });
     });
+
+    //Test COAs have details and use links where appropriate
+    //Test search/filter
+  });
+  describe("when team is not personal and folder is not Default", () => {
+    it("renders", async () => {
+      // render component
+      render(wrappedView("0", "1"));
+
+      expect(screen.getByText("Loading...")).toBeInTheDocument();
+
+      //console.log(screen.debug(undefined, 20000));
+    });
+
+    //Test description shows
+    //Test various folder permissions and the actions it shows
+    //Test COAs have details and use links where appropriate
+    //Test search/filter
   });
 });
 
