@@ -8,6 +8,7 @@ using Finjector.Core.Services;
 using Finjector.Core.Extensions;
 using Finjector.Web.Handlers;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Finjector.Web.Controllers;
 
@@ -165,9 +166,16 @@ public class ChartsController : ControllerBase
         chart.Name = chartViewModel.Name;
         chart.ChartType = chartViewModel.ChartType;
         chart.Updated = DateTime.UtcNow;
-
-        await _dbContext.SaveChangesAsync();
-
+        try
+        {
+            await _dbContext.SaveChangesAsync();
+        } 
+        catch (Exception ex)
+        {
+            //var error = ex.Message;
+            Log.Error(ex, "Error saving chart");
+            throw;
+        }
         return Ok(chart);
     }
 
