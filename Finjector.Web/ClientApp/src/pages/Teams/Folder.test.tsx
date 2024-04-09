@@ -49,87 +49,25 @@ describe("Folder", () => {
         expect(screen.getByText("Actions")).toBeInTheDocument();
       });
     });
+    it("renders the new chart string here button", async () => {
+      const user = userEvent.setup();
+      // render component
+      render(wrappedView("99", "99"));
+
+      const button = screen.getByRole("button", { name: /actions/i });
+
+      user.click(button);
+
+      await waitFor(() => {
+        const link = screen.getByRole("link", {
+          name: /New Chart String Here/i,
+        });
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveAttribute("href", "/teams/99/folders/99/entry");
+      });
+    });
   });
 });
-
-// describe("Folder", () => {
-//   it("renders folder title and search bar", async () => {
-//     (useParams as jest.Mock).mockReturnValue({
-//       teamId: "99",
-//       folderId: "123",
-//     });
-
-//     (useGetFolder as jest.Mock).mockReturnValue({
-//       data: {
-//         charts: [],
-//         folder: {
-//           id: "123",
-//           name: "Folder 1",
-//         },
-//       },
-//       isLoading: false,
-//       isError: false,
-//     });
-
-//     render(
-//       <QueryClientProvider client={new QueryClient()}>
-//         <MemoryRouter initialEntries={["/teams/99/folders/123"]}>
-//           <Routes>
-//             <Route
-//               path="/teams/:teamId/folders/:folderId"
-//               element={<Folder />}
-//             />
-//           </Routes>
-//         </MemoryRouter>
-//       </QueryClientProvider>
-//     );
-
-//     expect(screen.getByText("Folder 1")).toBeInTheDocument();
-//     expect(
-//       screen.getByPlaceholderText("Search Within Folder")
-//     ).toBeInTheDocument();
-//   });
-
-//   it("renders chart list", async () => {
-//     (useParams as jest.Mock).mockReturnValue({
-//       teamId: "99",
-//       folderId: "123",
-//     });
-
-//     (useGetFolder as jest.Mock).mockReturnValue({
-//       data: {
-//         charts: [
-//           { id: "1", name: "Chart 1" },
-//           { id: "2", name: "Chart 2" },
-//         ],
-//         folder: {
-//           id: "123",
-//           name: "Folder 1",
-//         },
-//       },
-//       isLoading: false,
-//       isError: false,
-//     });
-
-//     render(
-//       <QueryClientProvider client={new QueryClient()}>
-//         <MemoryRouter initialEntries={["/teams/99/folders/123"]}>
-//           <Routes>
-//             <Route
-//               path="/teams/:teamId/folders/:folderId"
-//               element={<Folder />}
-//             />
-//           </Routes>
-//         </MemoryRouter>
-//       </QueryClientProvider>
-//     );
-
-//     await waitFor(() => {
-//       expect(screen.getByText("Chart 1")).toBeInTheDocument();
-//       expect(screen.getByText("Chart 2")).toBeInTheDocument();
-//     });
-//   });
-// });
 
 const wrappedView = (teamId: string, folderId: string) => (
   <QueryClientProvider client={new QueryClient()}>
