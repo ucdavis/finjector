@@ -189,7 +189,9 @@ try
             var context = services.GetRequiredService<AppDbContext>();
             var initialize = new DbInitializer(context);
             initialize.Initialize().GetAwaiter().GetResult();
-            //context.Database.Migrate();
+#if RELEASE
+            context.Database.Migrate();
+#endif
         }
         catch (Exception ex)
         {
