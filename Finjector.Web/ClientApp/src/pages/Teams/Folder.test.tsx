@@ -84,6 +84,30 @@ describe("Folder", () => {
         expect(link).toBeInTheDocument();
       });
     });
+    it("does not render the other buttons in the action menu", async () => {
+      const user = userEvent.setup();
+      // render component
+      render(wrappedView("99", "99"));
+
+      expect(screen.queryAllByRole("button")).toHaveLength(1);
+      expect(screen.queryAllByRole("link")).toHaveLength(0);
+
+      const button = screen.getByRole("button", { name: /actions/i });
+
+      user.click(button);
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole("link", {
+            name: /New Chart String Here/i,
+          })
+        ).toBeInTheDocument();
+        const buttons = screen.queryAllByRole("button");
+        expect(buttons).toHaveLength(2);
+        expect(buttons[0]).toHaveTextContent("Actions");
+        expect(buttons[1]).toHaveTextContent("Export Chart Strings (CSV)");
+      });
+    });
   });
 });
 
