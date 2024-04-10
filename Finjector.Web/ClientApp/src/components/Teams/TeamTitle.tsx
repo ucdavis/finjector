@@ -52,6 +52,10 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
     (p) => p === "Admin"
   );
 
+  const isTeamEditor = teamModelData.team.myTeamPermissions.some(
+    (p) => p === "Edit"
+  );
+
   const limitedTeam = teamModelData.team.isPersonal; // personal teams are limited
 
   return (
@@ -72,6 +76,20 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
                   </FinButton>
                 </FinButtonDropdownItem>
               ))}
+            {!limitedTeam && isTeamEditor && !isTeamAdmin && (
+              <>
+                {" "}
+                <FinButtonDropdownItem>
+                  <FinButton
+                    borderless={true}
+                    to={`/teams/${teamId}/folders/create`}
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                    Create New Folder
+                  </FinButton>
+                </FinButtonDropdownItem>
+              </>
+            )}
             {!limitedTeam && isTeamAdmin && (
               <>
                 <FinButtonDropdownItem>
