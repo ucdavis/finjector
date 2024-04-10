@@ -216,12 +216,54 @@ describe("Folder", () => {
         });
       });
     });
+    it("renders the COA for PPM", async () => {
+      const user = userEvent.setup();
+      // render component
+      render(wrappedView("99", "99"));
+
+      const searchField = screen.getByRole("searchbox");
+      //type text into the search field
+      await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
+
+      await waitFor(() => {
+        expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        expect(
+          screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
+        ).toBeInTheDocument();
+        expect(screen.queryByText("PPM")).toBeInTheDocument();
+        expect(screen.queryByText("GL")).not.toBeInTheDocument();
+      });
+    });
+    it("renders the COA for GL", async () => {
+      const user = userEvent.setup();
+      // render component
+      render(wrappedView("99", "99"));
+
+      const searchField = screen.getByRole("searchbox");
+      //type text into the search field
+      await user.type(
+        searchField,
+        "3111-69882-ADNO001-480000-00-000-0000000000-000000-0000-000000-000000"
+      );
+
+      await waitFor(() => {
+        expect(screen.queryByText("Chart 1")).toBeInTheDocument();
+        expect(
+          screen.queryByText(
+            "3111-69882-ADNO001-480000-00-000-0000000000-000000-0000-000000-000000"
+          )
+        ).toBeInTheDocument();
+        expect(screen.queryByText("GL")).toBeInTheDocument();
+        expect(screen.queryByText("PPM")).not.toBeInTheDocument();
+      });
+    });
+
     it("renders the list of COAs when not in popup mode 1", async () => {
       const user = userEvent.setup();
       // render component
       render(wrappedView("99", "99"));
 
-      // search for folder
+      // search for coa
       const searchField = screen.getByRole("searchbox");
       //type text into the search field
       await user.type(searchField, "Chart");
