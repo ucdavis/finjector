@@ -640,12 +640,17 @@ describe("Team", () => {
       });
     });
     describe("Admin only permissions", () => {
-      it("renders the actions button for team 13", async () => {
+      let teamNumber: string;
+      beforeEach(async () => {
+        teamNumber = "13";
         // render component
-        render(wrappedView("13"));
-
+        render(wrappedView(teamNumber));
         await waitFor(() => {
-          expect(screen.getByText("Team 13")).toBeInTheDocument();
+          expect(screen.getByText(`Team ${teamNumber}`)).toBeInTheDocument();
+        });
+      });
+      it("renders the actions button for team 13", async () => {
+        await waitFor(() => {
           expect(
             screen.getByRole("button", {
               name: /actions/i,
@@ -655,12 +660,6 @@ describe("Team", () => {
       });
       it("does not renders view team admin action for team 13", async () => {
         const user = userEvent.setup();
-        // render component
-        render(wrappedView("13"));
-
-        await waitFor(() => {
-          expect(screen.getByText("Team 13")).toBeInTheDocument();
-        });
 
         const button = screen.getByRole("button", { name: /actions/i });
         user.click(button);
@@ -675,12 +674,6 @@ describe("Team", () => {
       });
       it("renders leave team action for team 13", async () => {
         const user = userEvent.setup();
-        // render component
-        render(wrappedView("13"));
-
-        await waitFor(() => {
-          expect(screen.getByText("Team 13")).toBeInTheDocument();
-        });
 
         const button = screen.getByRole("button", { name: /actions/i });
         user.click(button);
@@ -695,12 +688,6 @@ describe("Team", () => {
       });
       it("renders create new folder action for team 13", async () => {
         const user = userEvent.setup();
-        // render component
-        render(wrappedView("13"));
-
-        await waitFor(() => {
-          expect(screen.getByText("Team 13")).toBeInTheDocument();
-        });
 
         const button = screen.getByRole("button", { name: /actions/i });
         user.click(button);
@@ -715,12 +702,6 @@ describe("Team", () => {
       });
       it("renders edit team action for team 13", async () => {
         const user = userEvent.setup();
-        // render component
-        render(wrappedView("13"));
-
-        await waitFor(() => {
-          expect(screen.getByText("Team 13")).toBeInTheDocument();
-        });
 
         const button = screen.getByRole("button", { name: /actions/i });
         user.click(button);
@@ -735,12 +716,6 @@ describe("Team", () => {
       });
       it("renders manage team users action for team 13", async () => {
         const user = userEvent.setup();
-        // render component
-        render(wrappedView("13"));
-
-        await waitFor(() => {
-          expect(screen.getByText("Team 13")).toBeInTheDocument();
-        });
 
         const button = screen.getByRole("button", { name: /actions/i });
         user.click(button);
@@ -755,12 +730,6 @@ describe("Team", () => {
       });
       it("renders delete team action for team 13", async () => {
         const user = userEvent.setup();
-        // render component
-        render(wrappedView("13"));
-
-        await waitFor(() => {
-          expect(screen.getByText("Team 13")).toBeInTheDocument();
-        });
 
         const button = screen.getByRole("button", { name: /actions/i });
         user.click(button);
