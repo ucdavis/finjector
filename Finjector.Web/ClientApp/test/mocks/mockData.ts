@@ -74,6 +74,17 @@ for (let i = 0; i < 3; i++) {
   });
 }
 
+fakeCharts.push({
+  id: 99,
+  name: "Chart 99",
+  segmentString: "KL0733ATC1-TASK01-ADNO001-501090",
+  chartType: ChartType.PPM,
+  folderId: 0,
+  updated: new Date(),
+  teamName: "Team 0",
+  canEdit: true,
+});
+
 // make 3 fake folders
 for (let i = 0; i < 3; i++) {
   fakeFolders.push({

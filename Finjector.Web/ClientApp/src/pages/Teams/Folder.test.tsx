@@ -108,8 +108,187 @@ describe("Folder", () => {
       });
     });
 
-    //Test COAs have details and use links where appropriate
-    //Test search/filter
+    it("renders the search bar", async () => {
+      // render component
+      render(wrappedView("99", "99"));
+
+      await waitFor(() => {
+        expect(
+          screen.getByPlaceholderText("Search Within Folder")
+        ).toBeInTheDocument();
+      });
+    });
+    describe("Search/Filter tests", () => {
+      it("filters the list of COAs 1", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("99", "99"));
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 0")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 1")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 2")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        });
+
+        // search for coa
+        const searchField = screen.getByRole("searchbox");
+        //type text into the search field
+        await user.type(searchField, "Chart 1");
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 0")).not.toBeInTheDocument();
+          expect(screen.queryByText("Chart 1")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 2")).not.toBeInTheDocument();
+        });
+      });
+
+      it("filters the list of COAs 2", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("99", "99"));
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 0")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 1")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 2")).toBeInTheDocument();
+        });
+
+        // search for coa
+        const searchField = screen.getByRole("searchbox");
+        //type text into the search field
+        await user.type(searchField, "3111"); //search for a chart string
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 0")).not.toBeInTheDocument();
+          expect(screen.queryByText("Chart 1")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 2")).not.toBeInTheDocument();
+        });
+      });
+
+      it("filters the list of COAs 3", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("99", "99"));
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 0")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 1")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 2")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        });
+
+        // search for coa
+        const searchField = screen.getByRole("searchbox");
+        //type text into the search field
+        await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090"); //search for a chart string
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 0")).not.toBeInTheDocument();
+          expect(screen.queryByText("Chart 1")).not.toBeInTheDocument();
+          expect(screen.queryByText("Chart 2")).not.toBeInTheDocument();
+          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        });
+      });
+
+      it("filters the list of COAs 4", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("99", "99"));
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 0")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 1")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 2")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        });
+
+        // search for coa
+        const searchField = screen.getByRole("searchbox");
+        //type text into the search field
+        await user.type(searchField, "KL0733ATC1-XXXXXX-ADNO001-501090"); //search for a chart string that doesn't exist
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 0")).not.toBeInTheDocument();
+          expect(screen.queryByText("Chart 1")).not.toBeInTheDocument();
+          expect(screen.queryByText("Chart 2")).not.toBeInTheDocument();
+          expect(screen.queryByText("Chart 99")).not.toBeInTheDocument();
+        });
+      });
+    });
+    it("renders the list of COAs when not in popup mode 1", async () => {
+      const user = userEvent.setup();
+      // render component
+      render(wrappedView("99", "99"));
+
+      // search for folder
+      const searchField = screen.getByRole("searchbox");
+      //type text into the search field
+      await user.type(searchField, "Chart");
+
+      await waitFor(() => {
+        expect(screen.queryByText("Chart 0")).toBeInTheDocument();
+        expect(
+          screen.queryByText(
+            "3110-69882-ADNO001-480000-00-000-0000000000-000000-0000-000000-000000"
+          )
+        ).toBeInTheDocument();
+
+        expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        expect(
+          screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
+        ).toBeInTheDocument();
+
+        expect(screen.queryAllByText("Details").length).toBeGreaterThan(1);
+        expect(screen.queryByText("Use")).not.toBeInTheDocument();
+      });
+    });
+    it("renders the list of COAs when not in popup mode 2", async () => {
+      const user = userEvent.setup();
+      // render component
+      render(wrappedView("99", "99"));
+
+      // search for folder
+      const searchField = screen.getByRole("searchbox");
+      //type text into the search field
+      await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
+
+      await waitFor(() => {
+        expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        expect(
+          screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
+        ).toBeInTheDocument();
+
+        expect(screen.queryByText("Details")).toBeInTheDocument();
+        expect(screen.queryByText("Use")).not.toBeInTheDocument();
+      });
+    });
+    it("renders the list of COAs when in popup mode", async () => {
+      // Mock window.opener
+      Object.defineProperty(window, "opener", {
+        writable: true,
+        value: {}, // non-null object makes window.opener truthy
+      });
+
+      const user = userEvent.setup();
+      // render component
+      render(wrappedView("99", "99"));
+
+      // search for folder
+      const searchField = screen.getByRole("searchbox");
+      //type text into the search field
+      await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
+
+      await waitFor(() => {
+        expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        expect(
+          screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
+        ).toBeInTheDocument();
+
+        expect(screen.queryByText("Details")).toBeInTheDocument();
+        expect(screen.queryByText("Use")).toBeInTheDocument();
+      });
+    });
   });
   describe("when team is not personal and folder is not Default", () => {
     it("renders", async () => {
