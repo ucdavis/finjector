@@ -639,6 +639,141 @@ describe("Team", () => {
         });
       });
     });
+    describe("Admin only permissions", () => {
+      it("renders the actions button for team 13", async () => {
+        // render component
+        render(wrappedView("13"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 13")).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /actions/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("does not renders view team admin action for team 13", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("13"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 13")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /view team admins/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("renders leave team action for team 13", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("13"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 13")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /leave team/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders create new folder action for team 13", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("13"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 13")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("link", {
+              name: /create new folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders edit team action for team 13", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("13"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 13")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /edit team/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders manage team users action for team 13", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("13"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 13")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /manage team users/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders delete team action for team 13", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("13"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 13")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("button", {
+              name: /delete team/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+    });
   });
 });
 
