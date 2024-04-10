@@ -131,6 +131,11 @@ public class TeamController : ControllerBase
             return BadRequest("User not found");
         }
 
+        if(teamModel.Name.Trim().Equals("Personal", StringComparison.OrdinalIgnoreCase))
+        {
+            return BadRequest("'Personal' Team name is reserved for internal use.");
+        }
+
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -186,6 +191,11 @@ public class TeamController : ControllerBase
         if (team == null)
         {
             return NotFound();
+        }
+
+        if (teamModel.Name.Trim().Equals("Personal", StringComparison.OrdinalIgnoreCase))
+        {
+            return BadRequest("'Personal' Team name is reserved for internal use.");
         }
 
         if (!ModelState.IsValid)
