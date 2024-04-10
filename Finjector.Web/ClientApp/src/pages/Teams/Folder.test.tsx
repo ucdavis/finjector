@@ -120,8 +120,41 @@ describe("Folder", () => {
 
       //console.log(screen.debug(undefined, 20000));
     });
+    it("renders the team name", async () => {
+      // render component
+      render(wrappedView("0", "1"));
 
-    //Test description shows
+      await waitFor(() => {
+        expect(screen.getByText("Team 0")).toBeInTheDocument();
+      });
+    });
+    it("renders the folder name", async () => {
+      // render component
+      render(wrappedView("0", "1"));
+
+      await waitFor(() => {
+        expect(screen.getByText("Folder 1")).toBeInTheDocument();
+      });
+    });
+    it("renders the folder description", async () => {
+      // render component
+      render(wrappedView("0", "1"));
+
+      await waitFor(() => {
+        expect(screen.getByText("Folder 1 description")).toBeInTheDocument();
+      });
+    });
+    it("renders the actions button", async () => {
+      // render component
+      render(wrappedView("0", "1"));
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole("button", { name: /actions/i })
+        ).toBeInTheDocument();
+      });
+    });
+
     //Test various folder permissions and the actions it shows
     //Test COAs have details and use links where appropriate
     //Test search/filter

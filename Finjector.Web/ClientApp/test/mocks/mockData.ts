@@ -100,6 +100,77 @@ fakeFolders.push({
   coas: [...fakeCharts],
 });
 
+// folders with different permissions
+fakeFolders.push({
+  id: 10,
+  name: "Folder 10",
+  description: "Folder 10 description with View permission only",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["View"],
+  myTeamPermissions: ["View"],
+  coas: [...fakeCharts],
+});
+fakeFolders.push({
+  id: 11,
+  name: "Folder 11",
+  description: "Folder 11 description with View and Edit permissions",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["Edit", "View"],
+  myTeamPermissions: ["Edit", "View"],
+  coas: [...fakeCharts],
+});
+fakeFolders.push({
+  id: 12,
+  name: "Folder 12",
+  description: "Folder 12 description with Edit permission only",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["Edit"],
+  myTeamPermissions: ["Edit"],
+  coas: [...fakeCharts],
+});
+fakeFolders.push({
+  id: 13,
+  name: "Folder 13",
+  description: "Folder 13 description with Admin permission only",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["Admin"],
+  myTeamPermissions: ["Admin"],
+  coas: [...fakeCharts],
+});
+fakeFolders.push({
+  id: 14,
+  name: "Folder 14",
+  description:
+    "Folder 14 description with Admin team and view folder permission only",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["Admin"],
+  myTeamPermissions: ["View"],
+  coas: [...fakeCharts],
+});
+
+fakeFolders.push({
+  id: 15,
+  name: "Folder 15",
+  description:
+    "Folder 15 description with Edit team and view folder permission only",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["Edit"],
+  myTeamPermissions: ["View"],
+  coas: [...fakeCharts],
+});
+
 const fakePpmDetails: PpmDetails = {
   ppmProjectManager: {
     name: "John Doe",
