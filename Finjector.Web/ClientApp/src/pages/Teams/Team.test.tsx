@@ -258,7 +258,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -278,7 +278,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -298,7 +298,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -318,7 +318,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -338,7 +338,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -358,7 +358,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -393,7 +393,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -413,7 +413,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -433,7 +433,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -453,7 +453,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -473,7 +473,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -493,7 +493,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -528,7 +528,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -548,7 +548,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -568,7 +568,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -588,7 +588,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -608,7 +608,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -628,7 +628,7 @@ describe("Team", () => {
         });
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -662,7 +662,7 @@ describe("Team", () => {
         const user = userEvent.setup();
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -676,7 +676,7 @@ describe("Team", () => {
         const user = userEvent.setup();
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -690,7 +690,7 @@ describe("Team", () => {
         const user = userEvent.setup();
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -704,7 +704,7 @@ describe("Team", () => {
         const user = userEvent.setup();
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -718,7 +718,7 @@ describe("Team", () => {
         const user = userEvent.setup();
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(
@@ -732,7 +732,7 @@ describe("Team", () => {
         const user = userEvent.setup();
 
         const button = screen.getByRole("button", { name: /actions/i });
-        user.click(button);
+        await user.click(button);
 
         await waitFor(() => {
           expect(

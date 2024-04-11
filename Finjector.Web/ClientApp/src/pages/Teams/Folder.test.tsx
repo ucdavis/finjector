@@ -7,7 +7,6 @@ import { describe, it, expect } from "vitest";
 import { server } from "../../../test/mocks/node";
 import Folder from "./Folder";
 import userEvent from "@testing-library/user-event";
-import { l } from "vite/dist/node/types.d-jgA8ss1A";
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -59,7 +58,7 @@ describe("Folder", () => {
 
       const button = screen.getByRole("button", { name: /actions/i });
 
-      user.click(button);
+      await user.click(button);
 
       await waitFor(() => {
         const link = screen.getByRole("link", {
@@ -76,7 +75,7 @@ describe("Folder", () => {
 
       const button = screen.getByRole("button", { name: /actions/i });
 
-      user.click(button);
+      await user.click(button);
 
       await waitFor(() => {
         const link = screen.getByRole("button", {
@@ -94,7 +93,7 @@ describe("Folder", () => {
       expect(screen.queryAllByRole("link")).toHaveLength(0);
 
       const button = screen.getByRole("button", { name: /actions/i });
-      user.click(button);
+      await user.click(button);
 
       await waitFor(() => {
         expect(
@@ -508,7 +507,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             const link = screen.getByRole("link", {
@@ -525,7 +524,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -539,7 +538,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -553,7 +552,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -567,7 +566,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -582,7 +581,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -597,7 +596,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -630,7 +629,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             const link = screen.getByRole("link", {
@@ -647,7 +646,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -661,7 +660,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -675,7 +674,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             const link = screen.queryByRole("link", {
@@ -692,7 +691,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -707,7 +706,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -722,7 +721,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -755,7 +754,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             const link = screen.getByRole("link", {
@@ -772,7 +771,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -786,7 +785,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -800,7 +799,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             const link = screen.queryByRole("link", {
@@ -817,7 +816,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -832,7 +831,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -847,7 +846,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             expect(
@@ -881,7 +880,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             const link = screen.queryByRole("link", {
@@ -899,7 +898,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             const link = screen.getByRole("link", {
@@ -917,7 +916,7 @@ describe("Folder", () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
-          user.click(button);
+          await user.click(button);
 
           await waitFor(() => {
             const link = screen.getByRole("link", {
