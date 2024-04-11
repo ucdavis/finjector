@@ -401,7 +401,143 @@ describe("Folder", () => {
         ).toBeInTheDocument();
       });
     });
+    describe("Coa Display tests", () => {
+      const teamId = "0";
+      const folderId = "1";
+      beforeEach(async () => {
+        // render component
+        render(wrappedView(teamId, folderId));
+        await waitFor(() => {
+          expect(
+            screen.getByPlaceholderText("Search Within Folder")
+          ).toBeInTheDocument();
+          expect(screen.getByText("Folder 1 description")).toBeInTheDocument();
+        });
+      });
 
+      it("renders the COA for PPM", async () => {
+        const user = userEvent.setup();
+
+        const searchField = screen.getByRole("searchbox");
+        //type text into the search field
+        await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
+          expect(
+            screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
+          ).toBeInTheDocument();
+          expect(screen.queryByText("PPM")).toBeInTheDocument();
+          expect(screen.queryByText("GL")).not.toBeInTheDocument();
+        });
+      });
+      it("renders the COA for GL", async () => {
+        const user = userEvent.setup();
+
+        const searchField = screen.getByRole("searchbox");
+        //type text into the search field
+        await user.type(
+          searchField,
+          "3111-69882-ADNO001-480000-00-000-0000000000-000000-0000-000000-000000"
+        );
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 1")).toBeInTheDocument();
+          expect(
+            screen.queryByText(
+              "3111-69882-ADNO001-480000-00-000-0000000000-000000-0000-000000-000000"
+            )
+          ).toBeInTheDocument();
+          expect(screen.queryByText("GL")).toBeInTheDocument();
+          expect(screen.queryByText("PPM")).not.toBeInTheDocument();
+        });
+      });
+
+      it("renders the list of COAs when not in popup mode 1", async () => {
+        const user = userEvent.setup();
+
+        // search for coa
+        const searchField = screen.getByRole("searchbox");
+        //type text into the search field
+        await user.type(searchField, "Chart");
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 0")).toBeInTheDocument();
+          expect(
+            screen.queryByText(
+              "3110-69882-ADNO001-480000-00-000-0000000000-000000-0000-000000-000000"
+            )
+          ).toBeInTheDocument();
+
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
+          expect(
+            screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
+          ).toBeInTheDocument();
+
+          expect(screen.queryAllByText("Details").length).toBeGreaterThan(1);
+          expect(screen.queryByText("Use")).not.toBeInTheDocument();
+        });
+      });
+      it("renders the list of COAs when not in popup mode 2", async () => {
+        const user = userEvent.setup();
+
+        // search for folder
+        const searchField = screen.getByRole("searchbox");
+        //type text into the search field
+        await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
+          expect(
+            screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
+          ).toBeInTheDocument();
+
+          const link = screen.getByRole("link", { name: /details/i });
+          expect(link).toBeInTheDocument();
+          expect(link).toHaveAttribute(
+            "href",
+            `/teams/${teamId}/folders/${folderId}/details/98/KL0733ATC1-TASK01-ADNO001-501090`
+          );
+
+          expect(screen.queryByText("Details")).toBeInTheDocument();
+          expect(screen.queryByText("Use")).not.toBeInTheDocument();
+        });
+      });
+      it("renders the list of COAs when in popup mode", async () => {
+        // Mock window.opener
+        Object.defineProperty(window, "opener", {
+          writable: true,
+          value: {}, // non-null object makes window.opener truthy
+        });
+
+        const user = userEvent.setup();
+
+        // search for folder
+        const searchField = screen.getByRole("searchbox");
+        //type text into the search field
+        await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
+
+        await waitFor(() => {
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
+          expect(
+            screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
+          ).toBeInTheDocument();
+
+          const link = screen.getByRole("link", { name: /details/i });
+          expect(link).toBeInTheDocument();
+          expect(link).toHaveAttribute(
+            "href",
+            `/teams/${teamId}/folders/${folderId}/details/98/KL0733ATC1-TASK01-ADNO001-501090`
+          );
+        });
+
+        // reset window.opener so it doesn't persist between tests
+        Object.defineProperty(window, "opener", {
+          writable: true,
+          value: null, // non-null object makes window.opener falsy
+        });
+      });
+    });
     describe("Search/Filter tests", () => {
       const teamId = "0";
       const folderId = "1";
