@@ -26,7 +26,53 @@ describe("EditTeam tests", () => {
     await waitFor(() => {
       expect(screen.getByText("Edit Team")).toBeInTheDocument();
     });
-    console.log(screen.debug(undefined, 100000));
+  });
+  it("renders the team name", async () => {
+    await waitFor(() => {
+      expect(screen.getByText(`Team ${teamNumber}`)).toBeInTheDocument();
+    });
+  });
+  it("renders the team description", async () => {
+    await waitFor(() => {
+      expect(
+        screen.getByText(`Team ${teamNumber} description`)
+      ).toBeInTheDocument();
+    });
+  });
+  it("renders the name label", async () => {
+    await waitFor(() => {
+      expect(screen.getByText(/name:/i)).toBeInTheDocument();
+    });
+  });
+  it("renders the description label", async () => {
+    await waitFor(() => {
+      expect(screen.getByText(/description:/i)).toBeInTheDocument();
+    });
+  });
+  it("renders the name input field", () => {
+    const nameInput = screen.getByRole("textbox", {
+      name: /name:/i,
+    });
+
+    expect(nameInput).toBeInTheDocument();
+    expect(nameInput).toHaveValue(`Team ${teamNumber}`);
+    expect(nameInput).toBeEnabled();
+  });
+  it("renders the description input field", () => {
+    const descriptionInput = screen.getByRole("textbox", {
+      name: /description:/i,
+    });
+
+    expect(descriptionInput).toBeInTheDocument();
+    expect(descriptionInput).toHaveValue(`Team ${teamNumber} description`);
+    expect(descriptionInput).toBeEnabled();
+  });
+
+  it("renders the save button", () => {
+    const saveButton = screen.getByRole("button", { name: /save/i });
+
+    expect(saveButton).toBeInTheDocument();
+    expect(saveButton).toBeEnabled();
   });
 });
 
