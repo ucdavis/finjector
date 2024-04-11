@@ -30,6 +30,36 @@ fakeTeams.push({
   myTeamPermissions: ["Admin", "Edit", "View"],
 });
 
+//Permission specific teams
+fakeTeams.push({
+  id: 10,
+  name: "Team 10",
+  description: "Team 10 description with View permission only",
+  isPersonal: false,
+  myTeamPermissions: ["View"],
+});
+fakeTeams.push({
+  id: 11,
+  name: "Team 11",
+  description: "Team 11 description with View and Edit permissions",
+  isPersonal: false,
+  myTeamPermissions: ["Edit", "View"],
+});
+fakeTeams.push({
+  id: 12,
+  name: "Team 12",
+  description: "Team 12 description with Edit permission only",
+  isPersonal: false,
+  myTeamPermissions: ["Edit"],
+});
+fakeTeams.push({
+  id: 13,
+  name: "Team 13",
+  description: "Team 13 description with Admin permission only",
+  isPersonal: false,
+  myTeamPermissions: ["Admin"],
+});
+
 // make 3 fake charts
 for (let i = 0; i < 3; i++) {
   fakeCharts.push({
@@ -43,6 +73,17 @@ for (let i = 0; i < 3; i++) {
     canEdit: true,
   });
 }
+
+fakeCharts.push({
+  id: 98,
+  name: "Chart 98",
+  segmentString: "KL0733ATC1-TASK01-ADNO001-501090",
+  chartType: ChartType.PPM,
+  folderId: 0,
+  updated: new Date(),
+  teamName: "Team 0",
+  canEdit: true,
+});
 
 // make 3 fake folders
 for (let i = 0; i < 3; i++) {
@@ -67,6 +108,77 @@ fakeFolders.push({
   teamName: "Personal",
   myFolderPermissions: ["Admin", "Edit", "View"],
   myTeamPermissions: ["Admin", "Edit", "View"],
+  coas: [...fakeCharts],
+});
+
+// folders with different permissions
+fakeFolders.push({
+  id: 10,
+  name: "Folder 10",
+  description: "Folder 10 description with View permission only",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["View"],
+  myTeamPermissions: ["View"],
+  coas: [...fakeCharts],
+});
+fakeFolders.push({
+  id: 11,
+  name: "Folder 11",
+  description: "Folder 11 description with View and Edit permissions",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["Edit", "View"],
+  myTeamPermissions: ["Edit", "View"],
+  coas: [...fakeCharts],
+});
+fakeFolders.push({
+  id: 12,
+  name: "Folder 12",
+  description: "Folder 12 description with Edit permission only",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["Edit"],
+  myTeamPermissions: ["Edit"],
+  coas: [...fakeCharts],
+});
+fakeFolders.push({
+  id: 13,
+  name: "Folder 13",
+  description: "Folder 13 description with Admin permission only",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["Admin"],
+  myTeamPermissions: ["Admin"],
+  coas: [...fakeCharts],
+});
+fakeFolders.push({
+  id: 14,
+  name: "Folder 14",
+  description:
+    "Folder 14 description with Admin team and view folder permission only",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["View"],
+  myTeamPermissions: ["Admin"],
+  coas: [...fakeCharts],
+});
+
+fakeFolders.push({
+  id: 15,
+  name: "Folder 15",
+  description:
+    "Folder 15 description with Edit team and view folder permission only",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["View"],
+  myTeamPermissions: ["Edit"],
   coas: [...fakeCharts],
 });
 

@@ -5,6 +5,7 @@ import {
   fakeInvalidAeDetails,
   fakeValidChart,
   fakeValidAeDetails,
+  fakeCharts,
 } from "./mockData";
 
 export const handlers = [
@@ -78,6 +79,16 @@ export const handlers = [
         { folder: fakeFolders[0], chartCount: 1, uniqueUserPermissionCount: 3 },
         { folder: fakeFolders[1], chartCount: 2, uniqueUserPermissionCount: 2 },
       ],
+    });
+  }),
+  http.get("/api/folder/:id", ({ params }) => {
+    const folderId = params.id;
+    const folder = fakeFolders.find(
+      (f) => f.id === parseInt(folderId as string, 10)
+    );
+    return HttpResponse.json({
+      folder: folder,
+      charts: fakeCharts,
     });
   }),
 ];

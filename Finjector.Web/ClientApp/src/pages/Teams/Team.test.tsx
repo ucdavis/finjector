@@ -63,6 +63,17 @@ describe("Team", () => {
         expect(folderLink).toHaveAttribute("href", "/teams/99/folders/99");
       });
     });
+    it("does not render the actions button", async () => {
+      // render component
+      render(wrappedView("99"));
+
+      await waitFor(() => {
+        const actionsButton = screen.queryByRole("button", {
+          name: /actions/i,
+        });
+        expect(actionsButton).not.toBeInTheDocument();
+      });
+    });
   });
   describe("when team is not personal", () => {
     it("renders team 0", async () => {
@@ -209,6 +220,527 @@ describe("Team", () => {
         expect(screen.queryByText("Folder 1")).toBeInTheDocument();
         expect(screen.queryByText("Folder 1 description")).toBeInTheDocument();
         expect(screen.queryAllByText("Go to Folder").length).toBe(1);
+      });
+    });
+    it("renders the actions button for team 0", async () => {
+      // render component
+      render(wrappedView("0"));
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole("button", {
+            name: /actions/i,
+          })
+        ).toBeInTheDocument();
+      });
+    });
+    describe("View only permissions", () => {
+      it("renders the actions button for team 10", async () => {
+        // render component
+        render(wrappedView("10"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 10")).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /actions/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders view team admin action for team 10", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("10"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 10")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("link", {
+              name: /view team admins/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders leave team action for team 10", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("10"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 10")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /leave team/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("does not render create new folder action for team 10", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("10"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 10")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /create new folder/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("does not render edit team action for team 10", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("10"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 10")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /edit team/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("does not render manage team users action for team 10", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("10"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 10")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /manage team users/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("does not render delete team action for team 10", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("10"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 10")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("button", {
+              name: /delete team/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+    });
+    describe("View and Edit permissions", () => {
+      it("renders the actions button for team 11", async () => {
+        // render component
+        render(wrappedView("11"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 11")).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /actions/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders view team admin action for team 11", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("11"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 11")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("link", {
+              name: /view team admins/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders leave team action for team 11", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("11"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 11")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /leave team/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders create new folder action for team 11", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("11"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 11")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("link", {
+              name: /create new folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("does not render edit team action for team 11", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("11"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 11")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /edit team/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("does not render manage team users action for team 11", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("11"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 11")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /manage team users/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("does not render delete team action for team 11", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("11"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 11")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("button", {
+              name: /delete team/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+    });
+    describe("Edit only permissions", () => {
+      it("renders the actions button for team 12", async () => {
+        // render component
+        render(wrappedView("12"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 12")).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /actions/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders view team admin action for team 12", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("12"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 12")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("link", {
+              name: /view team admins/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders leave team action for team 12", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("12"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 12")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /leave team/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders create new folder action for team 12", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("12"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 12")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("link", {
+              name: /create new folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("does not render edit team action for team 12", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("12"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 12")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /edit team/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("does not render manage team users action for team 12", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("12"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 12")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /manage team users/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("does not render delete team action for team 12", async () => {
+        const user = userEvent.setup();
+        // render component
+        render(wrappedView("12"));
+
+        await waitFor(() => {
+          expect(screen.getByText("Team 12")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("button", {
+              name: /delete team/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+    });
+    describe("Admin only permissions", () => {
+      let teamNumber: string;
+      beforeEach(async () => {
+        teamNumber = "13";
+        // render component
+        render(wrappedView(teamNumber));
+        await waitFor(() => {
+          expect(screen.getByText(`Team ${teamNumber}`)).toBeInTheDocument();
+        });
+      });
+      it("renders the actions button for team 13", async () => {
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /actions/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("does not renders view team admin action for team 13", async () => {
+        const user = userEvent.setup();
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /view team admins/i,
+            })
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("renders leave team action for team 13", async () => {
+        const user = userEvent.setup();
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /leave team/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders create new folder action for team 13", async () => {
+        const user = userEvent.setup();
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("link", {
+              name: /create new folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders edit team action for team 13", async () => {
+        const user = userEvent.setup();
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /edit team/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders manage team users action for team 13", async () => {
+        const user = userEvent.setup();
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("link", {
+              name: /manage team users/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("renders delete team action for team 13", async () => {
+        const user = userEvent.setup();
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.queryByRole("button", {
+              name: /delete team/i,
+            })
+          ).toBeInTheDocument();
+        });
       });
     });
   });
