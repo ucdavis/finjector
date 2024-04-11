@@ -7,6 +7,7 @@ import { describe, it, expect } from "vitest";
 import { server } from "../../../test/mocks/node";
 import Folder from "./Folder";
 import userEvent from "@testing-library/user-event";
+import { l } from "vite/dist/node/types.d-jgA8ss1A";
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -681,8 +682,135 @@ describe("Folder", () => {
               name: /new chart string here/i,
             });
             expect(link).toBeInTheDocument();
-            expect(link).toHaveAttribute("href", "/teams/0/folders/11/entry");
-            //console.log(screen.debug(undefined, 20000));
+            expect(link).toHaveAttribute(
+              "href",
+              `/teams/${teamId}/folders/${folderId}/entry`
+            );
+          });
+        });
+        it("does not render edit folder in the action menu with view only permissions", async () => {
+          const user = userEvent.setup();
+
+          const button = screen.getByRole("button", { name: /actions/i });
+          user.click(button);
+
+          await waitFor(() => {
+            expect(
+              screen.queryByRole("link", {
+                name: /edit folder/i,
+              })
+            ).not.toBeInTheDocument();
+          });
+        });
+
+        it("does not render delete folder in the action menu with view only permissions", async () => {
+          const user = userEvent.setup();
+
+          const button = screen.getByRole("button", { name: /actions/i });
+          user.click(button);
+
+          await waitFor(() => {
+            expect(
+              screen.queryByRole("button", {
+                name: /delete folder/i,
+              })
+            ).not.toBeInTheDocument();
+          });
+        });
+
+        it("does not render manage permissions link in the action menu with view only permissions", async () => {
+          const user = userEvent.setup();
+
+          const button = screen.getByRole("button", { name: /actions/i });
+          user.click(button);
+
+          await waitFor(() => {
+            expect(
+              screen.queryByRole("link", {
+                name: /manage permissions/i,
+              })
+            ).not.toBeInTheDocument();
+          });
+        });
+      });
+
+      describe("Edit only Permissions tests", () => {
+        const teamId = "0";
+        const folderId = "12";
+        beforeEach(async () => {
+          // render component
+          render(wrappedView(teamId, folderId));
+          await waitFor(() => {
+            expect(
+              screen.getByRole("button", { name: /actions/i })
+            ).toBeInTheDocument();
+            expect(
+              screen.getByText(
+                "Folder 12 description with Edit permission only"
+              )
+            ).toBeInTheDocument();
+          });
+        });
+        it("renders view folder admins with view and edit permissions", async () => {
+          const user = userEvent.setup();
+
+          const button = screen.getByRole("button", { name: /actions/i });
+          user.click(button);
+
+          await waitFor(() => {
+            const link = screen.getByRole("link", {
+              name: /view folder admins/i,
+            });
+            expect(link).toBeInTheDocument();
+            expect(link).toHaveAttribute(
+              "href",
+              `/teams/${teamId}/folders/${folderId}/admins`
+            );
+          });
+        });
+        it("renders leave folder button with view and edit permissions", async () => {
+          const user = userEvent.setup();
+
+          const button = screen.getByRole("button", { name: /actions/i });
+          user.click(button);
+
+          await waitFor(() => {
+            expect(
+              screen.getByRole("button", {
+                name: /leave folder/i,
+              })
+            ).toBeInTheDocument();
+          });
+        });
+        it("renders export chart strings button with view and edit permissions", async () => {
+          const user = userEvent.setup();
+
+          const button = screen.getByRole("button", { name: /actions/i });
+          user.click(button);
+
+          await waitFor(() => {
+            expect(
+              screen.getByRole("button", {
+                name: /export chart strings \(csv\)/i,
+              })
+            ).toBeInTheDocument();
+          });
+        });
+        it("renders new chart string here link in the action menu with view and edit permissions", async () => {
+          const user = userEvent.setup();
+
+          const button = screen.getByRole("button", { name: /actions/i });
+          user.click(button);
+
+          await waitFor(() => {
+            const link = screen.queryByRole("link", {
+              name: /new chart string here/i,
+            });
+            expect(link).toBeInTheDocument();
+            expect(link).toHaveAttribute(
+              "href",
+              `/teams/${teamId}/folders/${folderId}/entry`
+            );
           });
         });
         it("does not render edit folder in the action menu with view only permissions", async () => {
@@ -749,30 +877,69 @@ describe("Folder", () => {
           });
         });
 
-        it("renders edit folder in the action menu with admin only permissions", async () => {
+        it("renders new chart string here link in the action menu with admin permissions", async () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
           user.click(button);
 
           await waitFor(() => {
-            expect(
-              screen.queryByRole("link", {
-                name: /edit folder/i,
-              })
-            ).toBeInTheDocument();
+            const link = screen.queryByRole("link", {
+              name: /new chart string here/i,
+            });
+            expect(link).toBeInTheDocument();
+            expect(link).toHaveAttribute(
+              "href",
+              `/teams/${teamId}/folders/${folderId}/entry`
+            );
           });
         });
-        it("renders manage users in the action menu with admin only permissions", async () => {
+
+        it("renders manage permissions in the action menu with admin permissions", async () => {
           const user = userEvent.setup();
 
           const button = screen.getByRole("button", { name: /actions/i });
           user.click(button);
 
           await waitFor(() => {
+            const link = screen.getByRole("link", {
+              name: /manage permissions/i,
+            });
+            expect(link).toBeInTheDocument();
+            expect(link).toHaveAttribute(
+              "href",
+              `/teams/${teamId}/folders/${folderId}/permissions`
+            );
+          });
+        });
+
+        it("renders edit folder in the action menu with admin permissions", async () => {
+          const user = userEvent.setup();
+
+          const button = screen.getByRole("button", { name: /actions/i });
+          user.click(button);
+
+          await waitFor(() => {
+            const link = screen.getByRole("link", {
+              name: /edit folder/i,
+            });
+            expect(link).toBeInTheDocument();
+            expect(link).toHaveAttribute(
+              "href",
+              `/teams/${teamId}/folders/${folderId}/edit`
+            );
+          });
+        });
+        it("renders delete folder in the action menu with admin permissions", async () => {
+          const user = userEvent.setup();
+
+          const button = screen.getByRole("button", { name: /actions/i });
+          await user.click(button);
+
+          await waitFor(() => {
             expect(
-              screen.queryByRole("link", {
-                name: /manage permissions/i,
+              screen.queryByRole("button", {
+                name: /delete folder/i,
               })
             ).toBeInTheDocument();
           });
