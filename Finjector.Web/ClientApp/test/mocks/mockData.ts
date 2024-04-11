@@ -75,8 +75,8 @@ for (let i = 0; i < 3; i++) {
 }
 
 fakeCharts.push({
-  id: 99,
-  name: "Chart 99",
+  id: 98,
+  name: "Chart 98",
   segmentString: "KL0733ATC1-TASK01-ADNO001-501090",
   chartType: ChartType.PPM,
   folderId: 0,

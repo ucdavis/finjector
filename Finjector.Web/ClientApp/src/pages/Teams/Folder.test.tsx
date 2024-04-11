@@ -128,7 +128,7 @@ describe("Folder", () => {
           expect(screen.queryByText("Chart 0")).toBeInTheDocument();
           expect(screen.queryByText("Chart 1")).toBeInTheDocument();
           expect(screen.queryByText("Chart 2")).toBeInTheDocument();
-          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         });
 
         // search for coa
@@ -175,7 +175,7 @@ describe("Folder", () => {
           expect(screen.queryByText("Chart 0")).toBeInTheDocument();
           expect(screen.queryByText("Chart 1")).toBeInTheDocument();
           expect(screen.queryByText("Chart 2")).toBeInTheDocument();
-          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         });
 
         // search for coa
@@ -187,7 +187,7 @@ describe("Folder", () => {
           expect(screen.queryByText("Chart 0")).not.toBeInTheDocument();
           expect(screen.queryByText("Chart 1")).not.toBeInTheDocument();
           expect(screen.queryByText("Chart 2")).not.toBeInTheDocument();
-          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         });
       });
 
@@ -200,7 +200,7 @@ describe("Folder", () => {
           expect(screen.queryByText("Chart 0")).toBeInTheDocument();
           expect(screen.queryByText("Chart 1")).toBeInTheDocument();
           expect(screen.queryByText("Chart 2")).toBeInTheDocument();
-          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         });
 
         // search for coa
@@ -212,7 +212,7 @@ describe("Folder", () => {
           expect(screen.queryByText("Chart 0")).not.toBeInTheDocument();
           expect(screen.queryByText("Chart 1")).not.toBeInTheDocument();
           expect(screen.queryByText("Chart 2")).not.toBeInTheDocument();
-          expect(screen.queryByText("Chart 99")).not.toBeInTheDocument();
+          expect(screen.queryByText("Chart 98")).not.toBeInTheDocument();
         });
       });
     });
@@ -226,7 +226,7 @@ describe("Folder", () => {
       await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
 
       await waitFor(() => {
-        expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         expect(
           screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
         ).toBeInTheDocument();
@@ -276,7 +276,7 @@ describe("Folder", () => {
           )
         ).toBeInTheDocument();
 
-        expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         expect(
           screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
         ).toBeInTheDocument();
@@ -296,10 +296,17 @@ describe("Folder", () => {
       await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
 
       await waitFor(() => {
-        expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         expect(
           screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
         ).toBeInTheDocument();
+
+        const link = screen.getByRole("link", { name: /details/i });
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveAttribute(
+          "href",
+          "/teams/99/folders/99/details/98/KL0733ATC1-TASK01-ADNO001-501090"
+        );
 
         expect(screen.queryByText("Details")).toBeInTheDocument();
         expect(screen.queryByText("Use")).not.toBeInTheDocument();
@@ -322,13 +329,25 @@ describe("Folder", () => {
       await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
 
       await waitFor(() => {
-        expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+        expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         expect(
           screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
         ).toBeInTheDocument();
 
+        const link = screen.getByRole("link", { name: /details/i });
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveAttribute(
+          "href",
+          "/teams/99/folders/99/details/98/KL0733ATC1-TASK01-ADNO001-501090"
+        );
+
         expect(screen.queryByText("Details")).toBeInTheDocument();
         expect(screen.queryByText("Use")).toBeInTheDocument();
+      });
+      // reset window.opener so it doesn't persist between tests
+      Object.defineProperty(window, "opener", {
+        writable: true,
+        value: null, // non-null object makes window.opener falsy
       });
     });
   });
@@ -403,7 +422,7 @@ describe("Folder", () => {
           expect(screen.queryByText("Chart 0")).toBeInTheDocument();
           expect(screen.queryByText("Chart 1")).toBeInTheDocument();
           expect(screen.queryByText("Chart 2")).toBeInTheDocument();
-          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         });
 
         // search for coa
@@ -445,7 +464,7 @@ describe("Folder", () => {
           expect(screen.queryByText("Chart 0")).toBeInTheDocument();
           expect(screen.queryByText("Chart 1")).toBeInTheDocument();
           expect(screen.queryByText("Chart 2")).toBeInTheDocument();
-          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         });
 
         // search for coa
@@ -457,7 +476,7 @@ describe("Folder", () => {
           expect(screen.queryByText("Chart 0")).not.toBeInTheDocument();
           expect(screen.queryByText("Chart 1")).not.toBeInTheDocument();
           expect(screen.queryByText("Chart 2")).not.toBeInTheDocument();
-          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         });
       });
 
@@ -468,7 +487,7 @@ describe("Folder", () => {
           expect(screen.queryByText("Chart 0")).toBeInTheDocument();
           expect(screen.queryByText("Chart 1")).toBeInTheDocument();
           expect(screen.queryByText("Chart 2")).toBeInTheDocument();
-          expect(screen.queryByText("Chart 99")).toBeInTheDocument();
+          expect(screen.queryByText("Chart 98")).toBeInTheDocument();
         });
 
         // search for coa
@@ -480,7 +499,7 @@ describe("Folder", () => {
           expect(screen.queryByText("Chart 0")).not.toBeInTheDocument();
           expect(screen.queryByText("Chart 1")).not.toBeInTheDocument();
           expect(screen.queryByText("Chart 2")).not.toBeInTheDocument();
-          expect(screen.queryByText("Chart 99")).not.toBeInTheDocument();
+          expect(screen.queryByText("Chart 98")).not.toBeInTheDocument();
         });
       });
     });
