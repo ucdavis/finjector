@@ -95,6 +95,7 @@ public class TeamController : ControllerBase
             return NotFound();
         }
 
+
         // get all folders in this team that user has access to, and include count of team members and coas
         var folders = await _dbContext.Folders.Where(f =>
                 f.FolderPermissions.Any(fp => fp.User.Iam == iamId) ||
@@ -103,7 +104,8 @@ public class TeamController : ControllerBase
             .GroupBy(f => new { f.Id, f.Name, f.Description })
             .Select(f => new
             {
-                Folder = new {
+                Folder = new
+                {
                     f.Key.Id,
                     f.Key.Name,
                     f.Key.Description,
@@ -112,7 +114,7 @@ public class TeamController : ControllerBase
                 // select permissions for folder plus team
                 UniqueUserPermissionCount = f.SelectMany(c => c.Team.TeamPermissions.Select(t => t.UserId).Union(c.FolderPermissions.Select(p => p.UserId))).Distinct()
                     .Count(),
-                
+
             })
             .OrderBy(g => g.Folder.Name)
             .ToListAsync();
@@ -124,14 +126,14 @@ public class TeamController : ControllerBase
     public async Task<IActionResult> Create([FromBody] NameAndDescriptionModel teamModel)
     {
         var iamId = Request.GetCurrentUserIamId();
-        var user =  await _userService.EnsureUserExists(iamId);
+        var user = await _userService.EnsureUserExists(iamId);
 
         if (user == null)
         {
             return BadRequest("User not found");
         }
 
-        if(teamModel.Name.Trim().Equals("Personal", StringComparison.OrdinalIgnoreCase))
+        if (teamModel.Name.Trim().Equals("Personal", StringComparison.OrdinalIgnoreCase))
         {
             return BadRequest("'Personal' Team name is reserved for internal use.");
         }
@@ -193,6 +195,11 @@ public class TeamController : ControllerBase
             return NotFound();
         }
 
+        if(team.IsPersonal)
+        {
+            return BadRequest("Cannot update personal team.");
+        }
+
         if (teamModel.Name.Trim().Equals("Personal", StringComparison.OrdinalIgnoreCase))
         {
             return BadRequest("'Personal' Team name is reserved for internal use.");
@@ -234,6 +241,10 @@ public class TeamController : ControllerBase
         {
             return NotFound();
         }
+        if(team.IsPersonal)
+        {
+            return BadRequest("Cannot delete personal team.");
+        }
 
         Log.Information("User {userId} Deleting team {teamId} {teamName}", iamId, team.Id, team.Name);
 
@@ -265,6 +276,12 @@ public class TeamController : ControllerBase
             .Where(tp => tp.TeamId == id && tp.Role.Name == Role.Codes.Admin)
             .Include(teamPermission => teamPermission.User)
             .ToListAsync();
+
+        var teamCheck = await _dbContext.Teams.SingleAsync(t => t.Id == id);
+        if (teamCheck == null || teamCheck.IsPersonal) 
+        {
+            return BadRequest("Cannot leave personal team.");
+        }
 
         // if they are the only team admin, then just delete the team
         if (teamAdmins.Count == 1 && teamAdmins[0].User.Iam == iamId)
