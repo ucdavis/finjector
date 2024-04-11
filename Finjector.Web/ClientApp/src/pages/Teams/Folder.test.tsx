@@ -341,6 +341,13 @@ describe("Folder", () => {
           "/teams/99/folders/99/details/98/KL0733ATC1-TASK01-ADNO001-501090"
         );
 
+        const link2 = screen.getByRole("link", { name: /use/i });
+        expect(link2).toBeInTheDocument();
+        expect(link2).toHaveAttribute(
+          "href",
+          "/teams/99/folders/99/selected/98/KL0733ATC1-TASK01-ADNO001-501090"
+        );
+
         expect(screen.queryByText("Details")).toBeInTheDocument();
         expect(screen.queryByText("Use")).toBeInTheDocument();
       });
