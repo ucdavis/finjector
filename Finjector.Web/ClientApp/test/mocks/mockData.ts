@@ -164,8 +164,8 @@ fakeFolders.push({
   isDefault: false,
   teamId: 0,
   teamName: "Team 0",
-  myFolderPermissions: ["Admin"],
-  myTeamPermissions: ["View"],
+  myFolderPermissions: ["View"],
+  myTeamPermissions: ["Admin"],
   coas: [...fakeCharts],
 });
 
@@ -177,8 +177,8 @@ fakeFolders.push({
   isDefault: false,
   teamId: 0,
   teamName: "Team 0",
-  myFolderPermissions: ["Edit"],
-  myTeamPermissions: ["View"],
+  myFolderPermissions: ["View"],
+  myTeamPermissions: ["Edit"],
   coas: [...fakeCharts],
 });
 
