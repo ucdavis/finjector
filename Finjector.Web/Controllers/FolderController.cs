@@ -58,8 +58,8 @@ namespace Finjector.Web.Controllers
                 })
                 .AsSplitQuery()
                 .SingleOrDefaultAsync(f => f.Id == id);
-            
-            if(folder == null)
+
+            if (folder == null)
             {
                 return NotFound();
             }
@@ -76,10 +76,10 @@ namespace Finjector.Web.Controllers
             var iamId = Request.GetCurrentUserIamId();
 
             var folders = await _dbContext.Folders
-               .Where(f => f.IsActive 
+               .Where(f => f.IsActive
                     && (f.FolderPermissions.Any(fp => fp.User.Iam == iamId &&
-                        (fp.Role.Name == Role.Codes.Admin || fp.Role.Name == Role.Codes.Edit)) 
-                    || f.Team.TeamPermissions.Any(tp =>  tp.User.Iam == iamId &&
+                        (fp.Role.Name == Role.Codes.Admin || fp.Role.Name == Role.Codes.Edit))
+                    || f.Team.TeamPermissions.Any(tp => tp.User.Iam == iamId &&
                         (tp.Role.Name == Role.Codes.Admin || tp.Role.Name == Role.Codes.Edit))))
                 .Select(f => new
                 {
@@ -112,11 +112,15 @@ namespace Finjector.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             var folder = await _dbContext.Folders.FindAsync(id);
             if (folder == null)
             {
                 return NotFound();
+            }
+            if (folder.IsDefault)
+            {
+                return BadRequest("Cannot update default folder");
             }
 
             folder.Name = model.Name;
@@ -159,6 +163,10 @@ namespace Finjector.Web.Controllers
             if (team == null)
             {
                 return NotFound();
+            }
+            if(team.IsPersonal)
+            {
+                return BadRequest("Cannot create folder in personal team");
             }
 
             var folder = new Folder
@@ -207,6 +215,11 @@ namespace Finjector.Web.Controllers
                 return NotFound();
             }
 
+            if (folder.IsDefault)
+            {
+                return BadRequest("Cannot delete default folder");
+            }
+
             Log.Information("User {userId} Deleting folder {folderId} {folderName}", iamId, folder.Id, folder.Name);
 
             folder.IsActive = false;
@@ -215,7 +228,7 @@ namespace Finjector.Web.Controllers
 
             return NoContent();
         }
-        
+
         /// <summary>
         /// remove your permissions from a folder
         /// if you still have access via the team that's fine
@@ -233,16 +246,23 @@ namespace Finjector.Web.Controllers
             {
                 return Unauthorized();
             }
-            
+
+            var folder = await _dbContext.Folders.SingleOrDefaultAsync(f => f.Id == id);
+            if(folder == null || folder.IsDefault) 
+            {
+                return BadRequest("Cannot leave default folder");
+            }
+
             // find their folder permissions
             var folderPermissions = await _dbContext.FolderPermissions
                 .Where(fp => fp.Folder.Id == id && fp.User.Iam == iamId)
                 .ToListAsync();
 
+
             Log.Information("User {userId} Leaving folder {folderId}", iamId, id);
 
             _dbContext.FolderPermissions.RemoveRange(folderPermissions);
-            
+
             await _dbContext.SaveChangesAsync();
 
             return NoContent();
