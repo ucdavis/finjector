@@ -70,7 +70,7 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
         }
       />
       <DetailsRow
-        headerColText="POET String"
+        headerColText="POETAF String"
         column2={
           <CopyToClipboardHover value={details.poetString} id="poetString">
             {details.poetString}
