@@ -138,7 +138,8 @@ namespace Finjector.Core.Services
                 await SetExtraPpmSegmentDetails(aeDetails, data);
                 await SetAwardSpecificPpmGlInfo(aeDetails, data);
                 await SetPpmPostingSegmentDetails(aeDetails, data);
-                SetPpmDetails(aeDetails, data);
+                SetPpmDetails(aeDetails, data, ppmSegments);
+                
 
                 return aeDetails;
             }
@@ -586,7 +587,7 @@ namespace Finjector.Core.Services
             }
         }
 
-        private void SetPpmDetails(AeDetails aeDetails, IDisplayDetailsPpmResult data)
+        private void SetPpmDetails(AeDetails aeDetails, IDisplayDetailsPpmResult data, PpmSegments ppmSegments)
         {
             aeDetails.PpmDetails = new PpmDetails();
 
@@ -627,6 +628,8 @@ namespace Finjector.Core.Services
                 aeDetails.PpmDetails.ProjectStatus = data.PpmProjectByNumber.ProjectStatus;
                 aeDetails.PpmDetails.ProjectTypeName = data.PpmProjectByNumber.ProjectTypeName;
             }
+            aeDetails.PpmDetails.PoetString = $"{ppmSegments?.Project}-{ppmSegments?.Organization}-{ppmSegments?.ExpenditureType}-{ppmSegments?.Task}-{data.PpmSegmentStringValidate.Segments.Award ?? "0000000"}-{data.PpmSegmentStringValidate.Segments.FundingSource ?? "00000"}";
+
         }
         
         public FinancialChartStringType GetChartType(string segmentString)

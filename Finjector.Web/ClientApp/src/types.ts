@@ -167,6 +167,7 @@ export interface PpmDetails {
   projectCompletionDate: string;
   projectStatus: string;
   projectTypeName: string;
+  poetString: string;
 }
 
 export interface SegmentDetails {

@@ -194,6 +194,7 @@ const fakePpmDetails: PpmDetails = {
   projectCompletionDate: "2022-12-31",
   projectStatus: "In Progress",
   projectTypeName: "New Project",
+  poetString: "Fake-POET-String",
 };
 
 // let's just assign the first chart to be valid and the second to be invalid
@@ -278,6 +279,7 @@ const fakeInvalidAeDetails: AeDetails = {
     projectCompletionDate: "2022-12-31",
     projectStatus: "In Progress",
     projectTypeName: "New Project",
+    poetString: "Fake-POET-String",
   },
   hasWarnings: false,
 };
@@ -359,6 +361,7 @@ const fakeValidAeDetails: AeDetails = {
     projectCompletionDate: "2022-12-31",
     projectStatus: "In Progress",
     projectTypeName: "New Project",
+    poetString: "Fake-POET-String",
   },
   hasWarnings: false,
 };
