@@ -59,6 +59,14 @@ export const isPpmSegmentString = (segmentString: string): boolean => {
   );
 };
 
+export const isPoetSegmentString = (segmentString: string): boolean => {
+  return (
+    segmentString.match(
+      "^[0-9A-Z]{10}-[0-9A-Z]{7}-[0-9A-Z]{6}-[0-9A-Z]{6}(-[0-9A-Z]{7}-[0-9A-Z]{5,10})?$"
+    ) !== null
+  );
+};
+
 export const getSegmentValue = (segment: SegmentData): string => {
   return segment.isValid ? segment.code : segment.default;
 };
@@ -121,6 +129,7 @@ export const fromPpmSegmentString = (
   const segments = segmentString.split("-");
 
   // There are two possible PPM segment strings - either 4 or 6 segment varieties.
+  // Adding POETAF and need to switch of PTOE
 
   if (segments.length !== 4 && segments.length !== 6) {
     return buildInitialPpmSegments();
@@ -138,21 +147,21 @@ export const fromPpmSegmentString = (
         default: ppmSegmentDefaults.project,
       },
       task: {
-        code: segments[1],
+        code: isPoetSegmentString(segmentString) ? segments[3] : segments[1],
         name: "",
         segmentName: "task",
         isValid: validity,
         default: ppmSegmentDefaults.task,
       },
       organization: {
-        code: segments[2],
+        code: isPoetSegmentString(segmentString) ? segments[1] : segments[2],
         name: "",
         segmentName: "organization",
         isValid: validity,
         default: ppmSegmentDefaults.organization,
       },
       expenditureType: {
-        code: segments[3],
+        code: isPoetSegmentString(segmentString) ? segments[2] : segments[3],
         name: "",
         segmentName: "expenditureType",
         isValid: validity,
@@ -183,21 +192,21 @@ export const fromPpmSegmentString = (
         default: ppmSegmentDefaults.project,
       },
       task: {
-        code: segments[1],
+        code: isPoetSegmentString(segmentString) ? segments[3] : segments[1],
         name: "",
         segmentName: "task",
         isValid: validity,
         default: ppmSegmentDefaults.task,
       },
       organization: {
-        code: segments[2],
+        code: isPoetSegmentString(segmentString) ? segments[1] : segments[2],
         name: "",
         segmentName: "organization",
         isValid: validity,
         default: ppmSegmentDefaults.organization,
       },
       expenditureType: {
-        code: segments[3],
+        code: isPoetSegmentString(segmentString) ? segments[2] : segments[3],
         name: "",
         segmentName: "expenditureType",
         isValid: validity,
