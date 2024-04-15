@@ -15,25 +15,33 @@ describe("EditFolder tests", () => {
   let teamNumber: string;
   let folderNumber: string;
   beforeEach(async () => {
-    teamNumber = "1";
+    teamNumber = "0";
     folderNumber = "2";
     // render component
     render(wrappedView(teamNumber, folderNumber));
     await waitFor(() => {
-      expect(screen.getByText(`Folder ${folderNumber}`)).toBeInTheDocument();
+      expect(screen.getByText(/Edit Folder/i)).toBeInTheDocument();
     });
   });
 
   it("renders", async () => {
     await waitFor(() => {
-      expect(screen.getByText("Edit Folder")).toBeInTheDocument();
+      expect(screen.getByText(/Edit Folder/i)).toBeInTheDocument();
     });
   });
-  it("renders the folder name", async () => {
+  it("renders the team and folder name", async () => {
     await waitFor(() => {
-      expect(screen.getByText(`Folder ${folderNumber}`)).toBeInTheDocument();
+      expect(
+        screen.getByText(`Team ${teamNumber} / Folder ${folderNumber}`)
+      ).toBeInTheDocument();
     });
   });
+  it("renders the edit folder title", async () => {
+    await waitFor(() => {
+      expect(screen.getByText(/Edit Folder/i)).toBeInTheDocument();
+    });
+  });
+
   it("renders the folder description", async () => {
     await waitFor(() => {
       expect(
