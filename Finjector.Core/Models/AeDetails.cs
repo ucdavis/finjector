@@ -91,6 +91,8 @@ namespace Finjector.Core.Models
         public string? ProjectStatus { get; set; } = string.Empty;
 
         public string? ProjectTypeName { get; set; } = string.Empty;
+
+        public string PoetString { get; set; } = string.Empty;
     }
 
 }

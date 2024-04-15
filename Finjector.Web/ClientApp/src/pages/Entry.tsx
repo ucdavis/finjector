@@ -25,6 +25,7 @@ import {
   fromGlSegmentString,
   fromPpmSegmentString,
   isGlSegmentString,
+  isPoetSegmentString,
 } from "../util/segmentValidation";
 import NameEntry from "../components/Entry/NameEntry";
 import {
@@ -72,6 +73,8 @@ const Entry = () => {
           : buildInitialPpmSegments(),
     };
   });
+
+  const isPoet = chartSegmentString && isPoetSegmentString(chartSegmentString);
 
   // if we load up new data, update the chart
   useEffect(() => {
@@ -172,7 +175,14 @@ const Entry = () => {
           />
         )}
         <hr />
+        {isPoet && (
+          <div className="alert alert-warning" role="alert">
+            This is a POET format and has been converted. Please verify values
+            before saving.
+          </div>
+        )}
         <CoaDisplay chartData={chartData} />
+
         <hr />
         <div className="row">
           <div className="col-md-6 mb-3">

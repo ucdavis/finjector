@@ -2,6 +2,7 @@ import React, { SyntheticEvent, useEffect } from "react";
 import {
   isGlSegmentString,
   isPpmSegmentString,
+  isPoetSegmentString,
 } from "../util/segmentValidation";
 
 import { useNavigate } from "react-router-dom";
@@ -17,7 +18,10 @@ const Paste = () => {
 
   // when coa changes, validate it and show errors if any
   useEffect(() => {
-    const coaValid = isGlSegmentString(coa) || isPpmSegmentString(coa);
+    const coaValid =
+      isGlSegmentString(coa) ||
+      isPpmSegmentString(coa) ||
+      isPoetSegmentString(coa);
 
     if (coaValid || coa === "") {
       setError("");
@@ -53,6 +57,12 @@ const Paste = () => {
       {error && (
         <div className={`alert alert-danger`} role="alert">
           {error}
+        </div>
+      )}
+      {isPoetSegmentString(coa) && (
+        <div className={`alert alert-info`} role="alert">
+          This appears to be a POET segment string. We can try importing and
+          converting it to a PPM string.
         </div>
       )}
       <div className="d-grid">
