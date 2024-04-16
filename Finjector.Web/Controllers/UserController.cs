@@ -94,6 +94,11 @@ public class UserController : ControllerBase
         }
         else
         {
+            var folderName = await _dbContext.Folders
+                .Where(folder => folder.Id == id)
+                .Select(f => f.Name)
+                .SingleOrDefaultAsync() ?? "Unknown Folder";
+
             var teamPermissions = await _dbContext.Folders
                 .Where(folder => folder.Id == id)
                 .SelectMany(f => f.Team.TeamPermissions)
@@ -101,12 +106,14 @@ public class UserController : ControllerBase
                 {
                     Level = "team",
                     RoleName = tp.Role.Name,
-                    ResourceName = tp.Team.Name,
+                    ResourceName = $"{tp.Team.Name ?? "Unknown Team"} / {folderName}",
                     UserName = tp.User.Name,
                     UserEmail = tp.User.Email
                 })
                 .AsNoTracking()
                 .ToArrayAsync();
+
+            var localResource = teamPermissions.FirstOrDefault()?.ResourceName ?? "Unknown Team / Unknown Folder";
 
             var folderPermissions = await _dbContext.FolderPermissions
                 .Where(fp => fp.FolderId == id)
@@ -114,7 +121,7 @@ public class UserController : ControllerBase
                 {
                     Level = "folder",
                     RoleName = fp.Role.Name,
-                    ResourceName = fp.Folder.Name,
+                    ResourceName = localResource,
                     UserName = fp.User.Name,
                     UserEmail = fp.User.Email
                 })
