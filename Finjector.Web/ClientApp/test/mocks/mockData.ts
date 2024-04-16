@@ -5,11 +5,35 @@ import {
   Folder,
   AeDetails,
   PpmDetails,
+  PermissionsResponseModel,
 } from "../../src/types";
 
 const fakeCharts: Coa[] = [];
 const fakeTeams: Team[] = [];
 const fakeFolders: Folder[] = [];
+const fakeTeamPermissionResponseModels: PermissionsResponseModel[] = [];
+const fakeFolderPermissionResponseModels: PermissionsResponseModel[] = [];
+
+//make 3 fake permission response models
+for (let i = 0; i < 3; i++) {
+  fakeTeamPermissionResponseModels.push({
+    level: "team",
+    resourceName: `Team 1`,
+    roleName: `Role ${i}`,
+    userName: `User ${i}`,
+    userEmail: `fake${i}@faker.com`,
+  });
+}
+
+for (let i = 0; i < 3; i++) {
+  fakeFolderPermissionResponseModels.push({
+    level: "folder",
+    resourceName: `Folder 1`,
+    roleName: `Role ${i}`,
+    userName: `User ${i}`,
+    userEmail: `fake${i}@faker.com`,
+  });
+}
 
 // make 3 fake teams
 for (let i = 0; i < 3; i++) {
@@ -375,4 +399,6 @@ export {
   fakeInvalidChart,
   fakeInvalidAeDetails,
   fakeValidAeDetails,
+  fakeTeamPermissionResponseModels,
+  fakeFolderPermissionResponseModels,
 };
