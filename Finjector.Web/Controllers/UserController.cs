@@ -46,7 +46,7 @@ public class UserController : ControllerBase
 
         var iamId = dict.First(a => a.Key == IamIdClaimFallbackTransformer.ClaimType).Value;
         await _userService.EnsureUserExists(iamId);
-        
+
 
         return Ok(dict);
     }
@@ -94,6 +94,11 @@ public class UserController : ControllerBase
         }
         else
         {
+            var folderName = await _dbContext.Folders
+                .Where(folder => folder.Id == id)
+                .Select(f => f.Name)
+                .SingleOrDefaultAsync() ?? "Unknown Folder";
+
             var teamPermissions = await _dbContext.Folders
                 .Where(folder => folder.Id == id)
                 .SelectMany(f => f.Team.TeamPermissions)
@@ -101,12 +106,14 @@ public class UserController : ControllerBase
                 {
                     Level = "team",
                     RoleName = tp.Role.Name,
-                    ResourceName = tp.Team.Name,
+                    ResourceName = $"{tp.Team.Name ?? "Unknown Team"} / {folderName}",
                     UserName = tp.User.Name,
                     UserEmail = tp.User.Email
                 })
                 .AsNoTracking()
                 .ToArrayAsync();
+
+            var localResource = teamPermissions.FirstOrDefault()?.ResourceName ?? "Unknown Team / Unknown Folder";
 
             var folderPermissions = await _dbContext.FolderPermissions
                 .Where(fp => fp.FolderId == id)
@@ -114,7 +121,7 @@ public class UserController : ControllerBase
                 {
                     Level = "folder",
                     RoleName = fp.Role.Name,
-                    ResourceName = fp.Folder.Name,
+                    ResourceName = localResource,
                     UserName = fp.User.Name,
                     UserEmail = fp.User.Email
                 })
@@ -127,7 +134,7 @@ public class UserController : ControllerBase
             return Ok(permissions);
         }
     }
-    
+
     /// <summary>
     /// get the admins for a given resource. Can be accessed by anyone who can view the resource, unlike permissions
     /// NOTE: if folder, returns permissions for the containing team as well, using the "level" discriminator
@@ -171,6 +178,12 @@ public class UserController : ControllerBase
         }
         else
         {
+            // Team permissions will always have a value, but the folder might not, that means the team name is shown, not the folder name (or team / folder as I'm changing it to)
+            var folderName = await _dbContext.Folders
+                .Where(folder => folder.Id == id)
+                .Select(f => f.Name)
+                .SingleOrDefaultAsync() ?? "Unknown Folder";
+
             var teamPermissions = await _dbContext.Folders
                 .Where(folder => folder.Id == id)
                 .SelectMany(f => f.Team.TeamPermissions)
@@ -178,12 +191,14 @@ public class UserController : ControllerBase
                 {
                     Level = "team",
                     RoleName = tp.Role.Name,
-                    ResourceName = tp.Team.Name,
+                    ResourceName = $"{tp.Team.Name ?? "Unknown Team"} / {folderName}",
                     UserName = tp.User.Name,
                     UserEmail = tp.User.Email
                 })
                 .AsNoTracking()
                 .ToArrayAsync();
+
+            var localResource = teamPermissions.FirstOrDefault()?.ResourceName ?? "Unknown Team / Unknown Folder";
 
             var folderPermissions = await _dbContext.FolderPermissions
                 .Where(fp => fp.FolderId == id)
@@ -191,7 +206,7 @@ public class UserController : ControllerBase
                 {
                     Level = "folder",
                     RoleName = fp.Role.Name,
-                    ResourceName = fp.Folder.Name,
+                    ResourceName = localResource,
                     UserName = fp.User.Name,
                     UserEmail = fp.User.Email
                 })
@@ -283,7 +298,7 @@ public class UserController : ControllerBase
                 RoleId = role.Id
             };
 
-            Log.Information("User {iamId} Adding team permission {@teamPermission} User Added {userId}",iamId , teamPermission, user.Iam);
+            Log.Information("User {iamId} Adding team permission {@teamPermission} User Added {userId}", iamId, teamPermission, user.Iam);
 
             await _dbContext.TeamPermissions.AddAsync(teamPermission);
             await _dbContext.SaveChangesAsync();
@@ -400,7 +415,7 @@ public class UserController : ControllerBase
             : await _userService.VerifyFolderAccess(id, iamId, Role.Codes.Admin);
         return hasAdminPermissions;
     }
-    
+
     /// <summary>
     /// anyone with a role can view admins, even if they only have a role in a subfolder
     /// </summary>
