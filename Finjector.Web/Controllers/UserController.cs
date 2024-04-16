@@ -191,7 +191,7 @@ public class UserController : ControllerBase
                 .AsNoTracking()
                 .ToArrayAsync();
 
-            var localResource = teamPermissions.FirstOrDefault(tp => tp.ResourceName == folderName)?.ResourceName ?? "Unknown Team / Unknown Folder";
+            var localResource = teamPermissions.FirstOrDefault()?.ResourceName ?? "Unknown Team / Unknown Folder";
 
             var folderPermissions = await _dbContext.FolderPermissions
                 .Where(fp => fp.FolderId == id)
