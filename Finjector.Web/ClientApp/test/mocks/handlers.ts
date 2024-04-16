@@ -6,7 +6,10 @@ import {
   fakeValidChart,
   fakeValidAeDetails,
   fakeCharts,
+  fakeTeamPermissionResponseModels,
+  fakeFolderPermissionResponseModels,
 } from "./mockData";
+import { f } from "msw/lib/core/HttpResponse-_514VQ9z";
 
 export const handlers = [
   // http.get("/api/charts/all", () => HttpResponse.json(fakeCharts)),
@@ -90,5 +93,17 @@ export const handlers = [
       folder: folder,
       charts: fakeCharts,
     });
+  }),
+  http.get("/api/user/admins/:type/:id", ({ params }) => {
+    //const id = params.id;
+    const type = params.type;
+    //console.log("In api/user/admins/:type/:id", id, type);
+    if (type === "team") {
+      //console.log(fakeTeamPermissionResponseModels);
+      return HttpResponse.json(fakeTeamPermissionResponseModels);
+    } else {
+      //console.log(fakeFolderPermissionResponseModels);
+      return HttpResponse.json(fakeFolderPermissionResponseModels);
+    }
   }),
 ];

@@ -5,11 +5,73 @@ import {
   Folder,
   AeDetails,
   PpmDetails,
+  PermissionsResponseModel,
 } from "../../src/types";
 
 const fakeCharts: Coa[] = [];
 const fakeTeams: Team[] = [];
 const fakeFolders: Folder[] = [];
+const fakeTeamPermissionResponseModels: PermissionsResponseModel[] = [];
+const fakeFolderPermissionResponseModels: PermissionsResponseModel[] = [];
+
+//make 3 fake permission response models
+for (let i = 0; i < 3; i++) {
+  fakeTeamPermissionResponseModels.push({
+    level: "team",
+    resourceName: `Team 1`,
+    roleName: "Admin",
+    userName: `User ${i}`,
+    userEmail: `fake${i}@faker.com`,
+  });
+}
+//Only Admin shows on view admins page
+fakeTeamPermissionResponseModels.push({
+  level: "team",
+  resourceName: "Team 1",
+  roleName: "Edit",
+  userName: "User 3",
+  userEmail: "fake4@faker.com",
+});
+fakeTeamPermissionResponseModels.push({
+  level: "team",
+  resourceName: "Team 1",
+  roleName: "View",
+  userName: "User 4",
+  userEmail: "fake4@faker.com",
+});
+
+for (let i = 0; i < 3; i++) {
+  fakeFolderPermissionResponseModels.push({
+    level: "folder",
+    resourceName: `Team 1 / Folder 1`,
+    roleName: "Admin",
+    userName: `User ${i}`,
+    userEmail: `fake${i}@faker.com`,
+  });
+}
+
+fakeFolderPermissionResponseModels.push({
+  level: "team",
+  resourceName: "Team 1 / Folder 1",
+  roleName: "Admin",
+  userName: "User 3",
+  userEmail: "fake3@faker.com",
+});
+
+fakeFolderPermissionResponseModels.push({
+  level: "folder",
+  resourceName: "Team 1 / Folder 1",
+  roleName: "Edit",
+  userName: "User 4",
+  userEmail: "fake4@faker.com",
+});
+fakeFolderPermissionResponseModels.push({
+  level: "folder",
+  resourceName: "Team 1 / Folder 1",
+  roleName: "View",
+  userName: "User 5",
+  userEmail: "fake5@faker.com",
+});
 
 // make 3 fake teams
 for (let i = 0; i < 3; i++) {
@@ -375,4 +437,6 @@ export {
   fakeInvalidChart,
   fakeInvalidAeDetails,
   fakeValidAeDetails,
+  fakeTeamPermissionResponseModels,
+  fakeFolderPermissionResponseModels,
 };
