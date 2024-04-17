@@ -106,10 +106,14 @@ export const handlers = [
       return HttpResponse.json(fakeFolderPermissionResponseModels);
     }
   }),
-  http.post("/api/folder?teamId", ({ request }) => {
-    const bdy = request.body as unknown as NameAndDescriptionModel;
-    console.log("In api/folder?teamId", bdy);
+  http.post("/api/folder?teamId", async ({ request }) => {
     console.log("request", request);
+
+    console.log("Url", request.url.toString());
+    //get the value of the teamId query parameter
+    const url = new URL(request.url);
+    const teamId = url.searchParams.get("teamId");
+    console.log("teamId", teamId);
 
     return HttpResponse.json(fakeFolders[0]);
   }),
