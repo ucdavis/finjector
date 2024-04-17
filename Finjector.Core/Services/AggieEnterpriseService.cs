@@ -630,6 +630,7 @@ namespace Finjector.Core.Services
             }
             aeDetails.PpmDetails.PoetString = $"{ppmSegments?.Project}-{ppmSegments?.Organization}-{ppmSegments?.ExpenditureType}-{ppmSegments?.Task}-{data.PpmSegmentStringValidate.Segments.Award ?? "0000000"}-{data.PpmSegmentStringValidate.Segments.FundingSource ?? "00000"}";
 
+            aeDetails.PpmDetails.GlRevenueTransferString = $"{entity}-{fund}-{dept}-775B15-80-{program}-{project}-{activity}-0000-000000-000000";
         }
         
         public FinancialChartStringType GetChartType(string segmentString)

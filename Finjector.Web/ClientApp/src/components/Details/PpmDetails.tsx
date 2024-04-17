@@ -77,6 +77,17 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
           </CopyToClipboardHover>
         }
       />
+      <DetailsRow
+        headerColText="GL Revenue Transfer String"
+        column2={
+          <CopyToClipboardHover
+            value={details.glRevenueTransferString}
+            id="glRevenueTransferString"
+          >
+            {details.glRevenueTransferString}
+          </CopyToClipboardHover>
+        }
+      />
     </>
   );
 };
