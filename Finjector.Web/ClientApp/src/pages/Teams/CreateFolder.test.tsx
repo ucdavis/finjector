@@ -146,23 +146,19 @@ describe("CreateFolder tests", () => {
         user.click(saveButton);
       });
 
-      //expect toasts to be displayed?
       await waitFor(() => {
         const saveButton = screen.getByRole("button", {
           name: /create new folder/i,
         });
-        expect(saveButton).toBeInTheDocument();
 
+        expect(saveButton).toBeInTheDocument();
+        expect(saveButton).toBeEnabled();
         expect(
           screen.queryByText("It Redirected Yay!")
         ).not.toBeInTheDocument();
-        //expect(screen.getByText("Error creating folder.")).toBeInTheDocument();
-        // expect(
-        //   screen.getByText("Folder created successfully.")
-        // ).toBeInTheDocument();
       });
 
-      //console.log(screen.debug(undefined, 100000));
+      console.log(screen.debug(undefined, 100000));
     });
 
     it("calls the save function when the save button is clicked", async () => {
