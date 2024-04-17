@@ -107,13 +107,18 @@ export const handlers = [
     }
   }),
   http.post("/api/folder?teamId", async ({ request }) => {
-    console.log("request", request);
+    //console.log("request", request);
 
-    console.log("Url", request.url.toString());
+    //console.log("Url", request.url.toString());
     //get the value of the teamId query parameter
     const url = new URL(request.url);
     const teamId = url.searchParams.get("teamId");
-    console.log("teamId", teamId);
+    //console.log("teamId", teamId);
+
+    if (teamId === "1") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
 
     return HttpResponse.json(fakeFolders[0]);
   }),

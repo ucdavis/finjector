@@ -33,6 +33,7 @@ const CreateFolder: React.FC = () => {
           navigate(`/teams/${teamId}`);
         },
         onError: (err: any) => {
+          //console.log("Error triggered");
           addFinToast("error", "Error creating folder.");
         },
       }

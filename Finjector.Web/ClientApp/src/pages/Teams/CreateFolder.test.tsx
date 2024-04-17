@@ -13,141 +13,232 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("CreateFolder tests", () => {
-  const teamId = "2";
-  beforeEach(() => {
-    render(wrappedView(teamId));
-  });
-  it("renders", async () => {
-    await waitFor(() => {
-      expect(
-        screen.getByRole("heading", {
+  describe("render tests", () => {
+    const teamId = "2";
+    beforeEach(() => {
+      render(wrappedView(teamId));
+    });
+    it("renders", async () => {
+      await waitFor(() => {
+        expect(
+          screen.getByRole("heading", {
+            name: /create new folder/i,
+          })
+        ).toBeInTheDocument();
+        //console.log(screen.debug(undefined, 10000));
+      });
+    });
+    it("renders the team name", async () => {
+      await waitFor(() => {
+        expect(screen.getByText(`Team ${teamId}`)).toBeInTheDocument();
+      });
+    });
+
+    it("renders the name label", async () => {
+      await waitFor(() => {
+        expect(screen.getByText(/name:/i)).toBeInTheDocument();
+      });
+    });
+    it("renders the description label", async () => {
+      await waitFor(() => {
+        expect(screen.getByText(/description:/i)).toBeInTheDocument();
+      });
+    });
+    it("renders the name input field", async () => {
+      await waitFor(() => {
+        const nameInput = screen.getByRole("textbox", {
+          name: /name:/i,
+        });
+
+        expect(nameInput).toBeInTheDocument();
+        expect(nameInput).toHaveValue("");
+        expect(nameInput).toBeEnabled();
+      });
+    });
+    it("renders the description input field", async () => {
+      await waitFor(() => {
+        const descriptionInput = screen.getByRole("textbox", {
+          name: /description:/i,
+        });
+
+        expect(descriptionInput).toBeInTheDocument();
+        expect(descriptionInput).toHaveValue("");
+        expect(descriptionInput).toBeEnabled();
+      });
+    });
+    it("renders the save button", async () => {
+      await waitFor(() => {
+        const saveButton = screen.getByRole("button", {
           name: /create new folder/i,
-        })
-      ).toBeInTheDocument();
-      console.log(screen.debug(undefined, 10000));
+        });
+
+        expect(saveButton).toBeInTheDocument();
+        expect(saveButton).toBeEnabled();
+      });
     });
   });
-  it("renders the team name", async () => {
-    await waitFor(() => {
-      expect(screen.getByText(`Team ${teamId}`)).toBeInTheDocument();
-    });
-  });
+  describe("action tests", () => {
+    it("returns an error", async () => {
+      const user = userEvent.setup();
 
-  it("renders the name label", async () => {
-    await waitFor(() => {
-      expect(screen.getByText(/name:/i)).toBeInTheDocument();
-    });
-  });
-  it("renders the description label", async () => {
-    await waitFor(() => {
-      expect(screen.getByText(/description:/i)).toBeInTheDocument();
-    });
-  });
-  it("renders the name input field", async () => {
-    await waitFor(() => {
-      const nameInput = screen.getByRole("textbox", {
-        name: /name:/i,
+      render(wrappedView("1")); //teamId 1 will return an error
+
+      await waitFor(() => {
+        const nameInput = screen.getByRole("textbox", {
+          name: /name:/i,
+        });
+        expect(nameInput).toBeInTheDocument();
+        expect(nameInput).toBeEnabled();
+        user.type(nameInput, "Test Folder");
       });
 
-      expect(nameInput).toBeInTheDocument();
-      expect(nameInput).toHaveValue("");
-      expect(nameInput).toBeEnabled();
-    });
-  });
-  it("renders the description input field", async () => {
-    await waitFor(() => {
-      const descriptionInput = screen.getByRole("textbox", {
-        name: /description:/i,
+      await waitFor(() => {
+        const nameInput = screen.getByRole("textbox", {
+          name: /name:/i,
+        });
+        //expect name and description to be populated
+        expect(nameInput).toBeInTheDocument();
+        expect(nameInput).toHaveValue("Test Folder");
       });
 
-      expect(descriptionInput).toBeInTheDocument();
-      expect(descriptionInput).toHaveValue("");
-      expect(descriptionInput).toBeEnabled();
-    });
-  });
-  it("renders the save button", async () => {
-    await waitFor(() => {
-      const saveButton = screen.getByRole("button", {
-        name: /create new folder/i,
+      //Need to do this after checking that the name above is populated.
+      await waitFor(() => {
+        const descriptionInput = screen.getByRole("textbox", {
+          name: /description:/i,
+        });
+        expect(descriptionInput).toBeInTheDocument();
+        expect(descriptionInput).toBeEnabled();
+        user.type(descriptionInput, "Test Description");
       });
 
-      expect(saveButton).toBeInTheDocument();
-      expect(saveButton).toBeEnabled();
-    });
-  });
-  it("calls the save function when the save button is clicked", async () => {
-    const user = userEvent.setup();
+      await waitFor(() => {
+        const nameInput = screen.getByRole("textbox", {
+          name: /name:/i,
+        });
+        //expect name and description to be populated
+        expect(nameInput).toBeInTheDocument();
+        expect(nameInput).toHaveValue("Test Folder");
 
-    await waitFor(() => {
-      const nameInput = screen.getByRole("textbox", {
-        name: /name:/i,
-      });
-      expect(nameInput).toBeInTheDocument();
-      expect(nameInput).toBeEnabled();
-      user.type(nameInput, "Test Folder");
-    });
-
-    await waitFor(() => {
-      const nameInput = screen.getByRole("textbox", {
-        name: /name:/i,
-      });
-      //expect name and description to be populated
-      expect(nameInput).toBeInTheDocument();
-      expect(nameInput).toHaveValue("Test Folder");
-    });
-
-    //Need to do this after checking that the name above is populated.
-    await waitFor(() => {
-      const descriptionInput = screen.getByRole("textbox", {
-        name: /description:/i,
-      });
-      expect(descriptionInput).toBeInTheDocument();
-      expect(descriptionInput).toBeEnabled();
-      user.type(descriptionInput, "Test Description");
-    });
-
-    await waitFor(() => {
-      const nameInput = screen.getByRole("textbox", {
-        name: /name:/i,
-      });
-      //expect name and description to be populated
-      expect(nameInput).toBeInTheDocument();
-      expect(nameInput).toHaveValue("Test Folder");
-
-      const descriptionInput = screen.getByRole("textbox", {
-        name: /description:/i,
-      });
-      expect(descriptionInput).toBeInTheDocument();
-      expect(descriptionInput).toHaveValue("Test Description");
-    });
-
-    //console.log(screen.debug(undefined, 100000));
-
-    await waitFor(() => {
-      const saveButton = screen.getByRole("button", {
-        name: /create new folder/i,
+        const descriptionInput = screen.getByRole("textbox", {
+          name: /description:/i,
+        });
+        expect(descriptionInput).toBeInTheDocument();
+        expect(descriptionInput).toHaveValue("Test Description");
       });
 
-      expect(saveButton).toBeInTheDocument();
-      expect(saveButton).toBeEnabled();
-    });
+      //console.log(screen.debug(undefined, 100000));
 
-    await waitFor(() => {
-      const saveButton = screen.getByRole("button", {
-        name: /create new folder/i,
+      await waitFor(() => {
+        const saveButton = screen.getByRole("button", {
+          name: /create new folder/i,
+        });
+
+        expect(saveButton).toBeInTheDocument();
+        expect(saveButton).toBeEnabled();
       });
-      expect(saveButton).toBeInTheDocument();
 
-      user.click(saveButton);
+      await waitFor(() => {
+        const saveButton = screen.getByRole("button", {
+          name: /create new folder/i,
+        });
+        expect(saveButton).toBeInTheDocument();
+
+        user.click(saveButton);
+      });
+
+      //expect toasts to be displayed?
+      await waitFor(() => {
+        const saveButton = screen.getByRole("button", {
+          name: /create new folder/i,
+        });
+        expect(saveButton).toBeInTheDocument();
+
+        expect(
+          screen.queryByText("It Redirected Yay!")
+        ).not.toBeInTheDocument();
+        //expect(screen.getByText("Error creating folder.")).toBeInTheDocument();
+        // expect(
+        //   screen.getByText("Folder created successfully.")
+        // ).toBeInTheDocument();
+      });
+
+      //console.log(screen.debug(undefined, 100000));
     });
 
-    await waitFor(() => {
-      expect(
-        screen.getByText(/folder created successfully/i)
-      ).toBeInTheDocument();
-    });
+    it("calls the save function when the save button is clicked", async () => {
+      const user = userEvent.setup();
 
-    console.log(screen.debug(undefined, 100000));
+      render(wrappedView("2"));
+
+      await waitFor(() => {
+        const nameInput = screen.getByRole("textbox", {
+          name: /name:/i,
+        });
+        expect(nameInput).toBeInTheDocument();
+        expect(nameInput).toBeEnabled();
+        user.type(nameInput, "Test Folder");
+      });
+
+      await waitFor(() => {
+        const nameInput = screen.getByRole("textbox", {
+          name: /name:/i,
+        });
+        //expect name and description to be populated
+        expect(nameInput).toBeInTheDocument();
+        expect(nameInput).toHaveValue("Test Folder");
+      });
+
+      //Need to do this after checking that the name above is populated.
+      await waitFor(() => {
+        const descriptionInput = screen.getByRole("textbox", {
+          name: /description:/i,
+        });
+        expect(descriptionInput).toBeInTheDocument();
+        expect(descriptionInput).toBeEnabled();
+        user.type(descriptionInput, "Test Description");
+      });
+
+      await waitFor(() => {
+        const nameInput = screen.getByRole("textbox", {
+          name: /name:/i,
+        });
+        //expect name and description to be populated
+        expect(nameInput).toBeInTheDocument();
+        expect(nameInput).toHaveValue("Test Folder");
+
+        const descriptionInput = screen.getByRole("textbox", {
+          name: /description:/i,
+        });
+        expect(descriptionInput).toBeInTheDocument();
+        expect(descriptionInput).toHaveValue("Test Description");
+      });
+
+      //console.log(screen.debug(undefined, 100000));
+
+      await waitFor(() => {
+        const saveButton = screen.getByRole("button", {
+          name: /create new folder/i,
+        });
+
+        expect(saveButton).toBeInTheDocument();
+        expect(saveButton).toBeEnabled();
+      });
+
+      await waitFor(() => {
+        const saveButton = screen.getByRole("button", {
+          name: /create new folder/i,
+        });
+        expect(saveButton).toBeInTheDocument();
+
+        user.click(saveButton);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText("It Redirected Yay!")).toBeInTheDocument();
+      });
+
+      //console.log(screen.debug(undefined, 100000));
+    });
   });
 });
 
@@ -159,6 +250,7 @@ const wrappedView = (teamId: string) => (
           path="/teams/:teamId/folders/create"
           element={<CreateFolder />}
         />
+        <Route path="/teams/:teamId" element={<div>It Redirected Yay!</div>} />
       </Routes>
     </MemoryRouter>
   </QueryClientProvider>
