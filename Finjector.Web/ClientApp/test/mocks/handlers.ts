@@ -9,7 +9,7 @@ import {
   fakeTeamPermissionResponseModels,
   fakeFolderPermissionResponseModels,
 } from "./mockData";
-import { f } from "msw/lib/core/HttpResponse-_514VQ9z";
+import { NameAndDescriptionModel } from "../../src/types";
 
 export const handlers = [
   // http.get("/api/charts/all", () => HttpResponse.json(fakeCharts)),
@@ -105,5 +105,12 @@ export const handlers = [
       //console.log(fakeFolderPermissionResponseModels);
       return HttpResponse.json(fakeFolderPermissionResponseModels);
     }
+  }),
+  http.post("/api/folder?teamId", ({ request }) => {
+    const bdy = request.body as unknown as NameAndDescriptionModel;
+    console.log("In api/folder?teamId", bdy);
+    console.log("request", request);
+
+    return HttpResponse.json(fakeFolders[0]);
   }),
 ];
