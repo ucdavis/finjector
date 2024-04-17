@@ -257,6 +257,7 @@ const fakePpmDetails: PpmDetails = {
   projectStatus: "In Progress",
   projectTypeName: "New Project",
   poetString: "Fake-POET-String",
+  glRevenueTransferString: "Fake-Gl-Transfer-String",
 };
 
 // let's just assign the first chart to be valid and the second to be invalid
@@ -342,6 +343,7 @@ const fakeInvalidAeDetails: AeDetails = {
     projectStatus: "In Progress",
     projectTypeName: "New Project",
     poetString: "Fake-POET-String",
+    glRevenueTransferString: "Fake-Gl-Transfer-String",
   },
   hasWarnings: false,
 };
@@ -424,6 +426,7 @@ const fakeValidAeDetails: AeDetails = {
     projectStatus: "In Progress",
     projectTypeName: "New Project",
     poetString: "Fake-POET-String",
+    glRevenueTransferString: "Fake-Gl-Transfer-String",
   },
   hasWarnings: false,
 };
