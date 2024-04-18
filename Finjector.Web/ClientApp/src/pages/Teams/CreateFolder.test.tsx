@@ -132,16 +132,8 @@ describe("CreateFolder tests", () => {
         const saveButton = screen.getByRole("button", {
           name: /create new folder/i,
         });
-
         expect(saveButton).toBeInTheDocument();
         expect(saveButton).toBeEnabled();
-      });
-
-      await waitFor(() => {
-        const saveButton = screen.getByRole("button", {
-          name: /create new folder/i,
-        });
-        expect(saveButton).toBeInTheDocument();
 
         user.click(saveButton);
       });
