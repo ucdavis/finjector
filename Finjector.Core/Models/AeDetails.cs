@@ -93,6 +93,8 @@ namespace Finjector.Core.Models
         public string? ProjectTypeName { get; set; } = string.Empty;
 
         public string PoetString { get; set; } = string.Empty;
+
+        public string? GlRevenueTransferString { get; set; } = string.Empty;
     }
 
 }

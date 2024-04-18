@@ -168,6 +168,7 @@ export interface PpmDetails {
   projectStatus: string;
   projectTypeName: string;
   poetString: string;
+  glRevenueTransferString: string;
 }
 
 export interface SegmentDetails {
