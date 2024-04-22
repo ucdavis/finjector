@@ -115,7 +115,7 @@ export const handlers = [
     const teamId = url.searchParams.get("teamId");
     console.log("teamId", teamId);
 
-    if (teamId === "1") {
+    if (teamId === "999") {
       console.log("Returning error");
       return HttpResponse.error();
     }

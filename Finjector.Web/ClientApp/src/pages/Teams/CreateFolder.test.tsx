@@ -90,7 +90,7 @@ describe("CreateFolder tests", () => {
     it("returns an error", async () => {
       const user = userEvent.setup();
 
-      render(wrappedView("1")); //teamId 1 will return an error
+      render(wrappedView("999")); //teamId 999 will return an error
 
       //Verify fields are available and enabled
       await waitFor(() => {
