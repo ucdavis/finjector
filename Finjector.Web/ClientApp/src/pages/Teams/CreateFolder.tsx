@@ -22,7 +22,7 @@ const CreateFolder: React.FC = () => {
   const createFolderMutation = useCreateFolderMutation(teamId || "");
 
   const handleCreate = async (data: NameAndDescriptionModel) => {
-    await createFolderMutation.mutateAsync(
+    createFolderMutation.mutate(
       {
         name: data.name,
         description: data.description,
@@ -32,7 +32,9 @@ const CreateFolder: React.FC = () => {
           addFinToast("success", "Folder created successfully.");
           navigate(`/teams/${teamId}`);
         },
-        onError: (err: any) => {
+        onError: () => {
+          //console.log("Error triggered");
+
           addFinToast("error", "Error creating folder.");
         },
       }

@@ -9,7 +9,7 @@ import {
   fakeTeamPermissionResponseModels,
   fakeFolderPermissionResponseModels,
 } from "./mockData";
-import { f } from "msw/lib/core/HttpResponse-_514VQ9z";
+import { NameAndDescriptionModel } from "../../src/types";
 
 export const handlers = [
   // http.get("/api/charts/all", () => HttpResponse.json(fakeCharts)),
@@ -105,5 +105,21 @@ export const handlers = [
       //console.log(fakeFolderPermissionResponseModels);
       return HttpResponse.json(fakeFolderPermissionResponseModels);
     }
+  }),
+  http.post("/api/folder", async ({ request }) => {
+    //console.log("request", request);
+
+    //console.log("Url", request.url.toString());
+    //get the value of the teamId query parameter
+    const url = new URL(request.url);
+    const teamId = url.searchParams.get("teamId");
+    console.log("teamId", teamId);
+
+    if (teamId === "999") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+
+    return HttpResponse.json(fakeFolders[0]);
   }),
 ];

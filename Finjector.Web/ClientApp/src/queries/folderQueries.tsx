@@ -35,7 +35,7 @@ export const useCreateFolderMutation = (teamId: string) =>
       );
     },
     onSuccess: () => {
-      // invalidate team query for this team so the new foldr shows up
+      // invalidate team query for this team so the new folder shows up
       queryClient.invalidateQueries({ queryKey: ["teams", teamId] });
     },
   });
