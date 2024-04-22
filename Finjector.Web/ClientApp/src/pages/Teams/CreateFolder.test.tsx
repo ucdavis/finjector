@@ -3,10 +3,11 @@ import React from "react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { server } from "../../../test/mocks/node";
 import CreateFolder from "./CreateFolder";
 import userEvent from "@testing-library/user-event";
+import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -78,6 +79,14 @@ describe("CreateFolder tests", () => {
     });
   });
   describe("action tests", () => {
+    beforeEach(() => {
+      vi.mock("../../components/Shared/LoadingAndErrors/FinToast", () => ({
+        default: vi.fn(),
+      }));
+    });
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
     it("returns an error", async () => {
       const user = userEvent.setup();
 
@@ -148,6 +157,10 @@ describe("CreateFolder tests", () => {
         expect(
           screen.queryByText("It Redirected Yay!")
         ).not.toBeInTheDocument();
+      });
+
+      await waitFor(() => {
+        expect(addFinToast).toBeCalledWith("error", "Error creating folder.");
       });
 
       console.log(screen.debug(undefined, 100000));
@@ -222,6 +235,10 @@ describe("CreateFolder tests", () => {
       });
 
       await waitFor(() => {
+        expect(addFinToast).toBeCalledWith(
+          "success",
+          "Folder created successfully."
+        );
         expect(screen.getByText("It Redirected Yay!")).toBeInTheDocument();
       });
 
