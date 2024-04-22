@@ -122,4 +122,19 @@ export const handlers = [
 
     return HttpResponse.json(fakeFolders[0]);
   }),
+  http.post("/api/team", async ({ request }) => {
+    //console.log("request", request);
+    //get the body
+    const body = await request.json();
+    //console.log("body", body);
+    //get the name and description from the body source
+    const { name } = body as NameAndDescriptionModel;
+    //console.log("name", name);
+    if (name === "Personal") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+
+    return HttpResponse.json(fakeTeams[0]);
+  }),
 ];
