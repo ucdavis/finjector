@@ -3,10 +3,11 @@ import React from "react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { server } from "../../../test/mocks/node";
 import Folder from "./Folder";
 import userEvent from "@testing-library/user-event";
+import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -1364,6 +1365,15 @@ describe("Folder", () => {
     //todo: the view admins link
     //todo: click on details button/row
     //ignore the use one for now
+
+    beforeEach(() => {
+      vi.mock("../../components/Shared/LoadingAndErrors/FinToast", () => ({
+        default: vi.fn(),
+      }));
+    });
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
     it("redirects to team admins page when view folder admins is clicked", async () => {
       const teamId = "0";
       const folderId = "10"; //View only folder permissions
@@ -1632,6 +1642,110 @@ describe("Folder", () => {
           ).not.toBeInTheDocument();
         });
       });
+      it("closes dialog box when close is clicked", async () => {
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /delete folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const deleteButton = screen.getByRole("button", {
+          name: /delete folder/i,
+        });
+        await user.click(deleteButton);
+
+        //Verify dialog box is open
+        await waitFor(() => {
+          expect(
+            screen.getByText(
+              "Are you sure you want to delete this folder? This folder, and any Chart Strings within it will be removed."
+            )
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /delete/i,
+            })
+          ).toBeInTheDocument();
+        });
+
+        const closeButton = screen.getByRole("button", {
+          name: /close/i,
+        });
+        await user.click(closeButton);
+        await waitFor(() => {
+          expect(
+            screen.getByText("Folder 13 description with Admin permission only")
+          ).toBeInTheDocument();
+          expect(
+            screen.queryByRole("heading", {
+              name: /delete folder/i,
+            })
+          ).not.toBeInTheDocument();
+          expect(
+            screen.queryByText(
+              "Are you sure you want to delete this folder? This folder, and any Chart Strings within it will be removed."
+            )
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("deletes folder when delete is clicked", async () => {
+        //Ok, this one calls the toast, so need to set that up.
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /delete folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const deleteButton = screen.getByRole("button", {
+          name: /delete folder/i,
+        });
+        await user.click(deleteButton);
+
+        //Verify dialog box is open
+        await waitFor(() => {
+          expect(
+            screen.getByText(
+              "Are you sure you want to delete this folder? This folder, and any Chart Strings within it will be removed."
+            )
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /delete/i,
+            })
+          ).toBeInTheDocument();
+        });
+
+        const deleteFolderButton = screen.getByRole("button", {
+          name: /delete/i,
+        });
+        await user.click(deleteFolderButton);
+        await waitFor(() => {
+          expect(addFinToast).toBeCalledWith(
+            "success",
+            "Folder deleted successfully."
+          );
+
+          expect(screen.getByText("Redirected to teams")).toBeInTheDocument();
+        });
+      });
     });
   });
 });
@@ -1657,6 +1771,7 @@ const wrappedView = (teamId: string, folderId: string) => (
           path="/teams/:teamId/folders/:folderId/edit"
           element={<div>Redirected to edit folder</div>}
         />
+        <Route path="/teams/" element={<div>Redirected to teams</div>} />
       </Routes>
     </MemoryRouter>
   </QueryClientProvider>

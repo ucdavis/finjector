@@ -138,6 +138,17 @@ export const handlers = [
 
     return HttpResponse.json(fakeFolders[0]);
   }),
+  http.delete("/api/folder/:id", async ({ request }) => {
+    //get the id from the url
+    const url = new URL(request.url);
+    const folderId = url.pathname.split("/").pop();
+    ///console.log("folderId", folderId);
+    if (folderId === "999") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+    return HttpResponse.json({});
+  }),
   http.post("/api/team", async ({ request }) => {
     //console.log("request", request);
     //get the body
