@@ -1518,61 +1518,119 @@ describe("Folder", () => {
         ).toBeInTheDocument();
       });
     });
-    it("calls dialog box when delete folder is clicked", async () => {
+    describe("delete folder tests", () => {
       const teamId = "0";
       const folderId = "13"; // Admin role
       const user = userEvent.setup();
 
-      render(wrappedView(teamId, folderId));
-      await waitFor(() => {
-        expect(
-          screen.getByRole("button", { name: /actions/i })
-        ).toBeInTheDocument();
-        expect(
-          screen.getByText("Folder 13 description with Admin permission only")
-        ).toBeInTheDocument();
+      beforeEach(async () => {
+        render(wrappedView(teamId, folderId));
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", { name: /actions/i })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByText("Folder 13 description with Admin permission only")
+          ).toBeInTheDocument();
+        });
       });
+      it("calls dialog box when delete folder is clicked", async () => {
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
 
-      const button = screen.getByRole("button", { name: /actions/i });
-      await user.click(button);
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /delete folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const deleteButton = screen.getByRole("button", {
+          name: /delete folder/i,
+        });
+        await user.click(deleteButton);
+        await waitFor(() => {
+          expect(
+            screen.getByRole("heading", {
+              name: /delete folder/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /close/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByText(
+              "Are you sure you want to delete this folder? This folder, and any Chart Strings within it will be removed."
+            )
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /delete/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("closes dialog box when cancel is clicked", async () => {
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
 
-      await waitFor(() => {
-        expect(
-          screen.getByRole("button", {
-            name: /delete folder/i,
-          })
-        ).toBeInTheDocument();
-      });
-      const deleteButton = screen.getByRole("button", {
-        name: /delete folder/i,
-      });
-      await user.click(deleteButton);
-      await waitFor(() => {
-        expect(
-          screen.getByRole("heading", {
-            name: /delete folder/i,
-          })
-        ).toBeInTheDocument();
-        expect(
-          screen.getByRole("button", {
-            name: /close/i,
-          })
-        ).toBeInTheDocument();
-        expect(
-          screen.getByText(
-            "Are you sure you want to delete this folder? This folder, and any Chart Strings within it will be removed."
-          )
-        ).toBeInTheDocument();
-        expect(
-          screen.getByRole("button", {
-            name: /cancel/i,
-          })
-        ).toBeInTheDocument();
-        expect(
-          screen.getByRole("button", {
-            name: /delete/i,
-          })
-        ).toBeInTheDocument();
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /delete folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const deleteButton = screen.getByRole("button", {
+          name: /delete folder/i,
+        });
+        await user.click(deleteButton);
+
+        //Verify dialog box is open
+        await waitFor(() => {
+          expect(
+            screen.getByText(
+              "Are you sure you want to delete this folder? This folder, and any Chart Strings within it will be removed."
+            )
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /delete/i,
+            })
+          ).toBeInTheDocument();
+        });
+
+        const cancelButton = screen.getByRole("button", {
+          name: /cancel/i,
+        });
+        await user.click(cancelButton);
+        await waitFor(() => {
+          expect(
+            screen.getByText("Folder 13 description with Admin permission only")
+          ).toBeInTheDocument();
+          expect(
+            screen.queryByRole("heading", {
+              name: /delete folder/i,
+            })
+          ).not.toBeInTheDocument();
+          expect(
+            screen.queryByText(
+              "Are you sure you want to delete this folder? This folder, and any Chart Strings within it will be removed."
+            )
+          ).not.toBeInTheDocument();
+        });
       });
     });
   });
