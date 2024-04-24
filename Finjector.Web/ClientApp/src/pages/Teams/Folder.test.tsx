@@ -1361,8 +1361,6 @@ describe("Folder", () => {
     });
   });
   describe("action tests", () => {
-    //todo: New chart string here, manage permissions, edit folder, delete folder, leave folder
-    //todo: the view admins link
     //todo: click on details button/row
     //ignore the use one for now
 
@@ -1814,6 +1812,305 @@ describe("Folder", () => {
               "Error deleting folder."
             );
           });
+        });
+      });
+    });
+    describe("leave folder tests", () => {
+      it("calls dialog box when leave folder is clicked", async () => {
+        const teamId = "0";
+        const folderId = "10"; //View only folder permissions
+        const user = userEvent.setup();
+
+        render(wrappedView(teamId, folderId));
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", { name: /actions/i })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByText("Folder 10 description with View permission only")
+          ).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /leave folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const leaveButton = screen.getByRole("button", {
+          name: /leave folder/i,
+        });
+        await user.click(leaveButton);
+        await waitFor(() => {
+          expect(
+            screen.getByRole("heading", {
+              name: /leave folder/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /close/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByText("Are you sure you want to leave this folder?")
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /leave/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("closes dialog box when cancel is clicked", async () => {
+        const teamId = "0";
+        const folderId = "10"; //View only folder permissions
+        const user = userEvent.setup();
+
+        render(wrappedView(teamId, folderId));
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", { name: /actions/i })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByText("Folder 10 description with View permission only")
+          ).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /leave folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const leaveButton = screen.getByRole("button", {
+          name: /leave folder/i,
+        });
+        await user.click(leaveButton);
+
+        //Verify dialog box is open
+        await waitFor(() => {
+          expect(
+            screen.getByText("Are you sure you want to leave this folder?")
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /leave/i,
+            })
+          ).toBeInTheDocument();
+        });
+
+        const cancelButton = screen.getByRole("button", {
+          name: /cancel/i,
+        });
+        await user.click(cancelButton);
+        await waitFor(() => {
+          expect(
+            screen.getByText("Folder 10 description with View permission only")
+          ).toBeInTheDocument();
+          expect(
+            screen.queryByRole("heading", {
+              name: /leave folder/i,
+            })
+          ).not.toBeInTheDocument();
+          expect(
+            screen.queryByText("Are you sure you want to leave this folder?")
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("closes dialog box when close is clicked", async () => {
+        const teamId = "0";
+        const folderId = "10"; //View only folder permissions
+        const user = userEvent.setup();
+
+        render(wrappedView(teamId, folderId));
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", { name: /actions/i })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByText("Folder 10 description with View permission only")
+          ).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /leave folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const leaveButton = screen.getByRole("button", {
+          name: /leave folder/i,
+        });
+        await user.click(leaveButton);
+
+        //Verify dialog box is open
+        await waitFor(() => {
+          expect(
+            screen.getByText("Are you sure you want to leave this folder?")
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /leave/i,
+            })
+          ).toBeInTheDocument();
+        });
+
+        const closeButton = screen.getByRole("button", {
+          name: /close/i,
+        });
+        await user.click(closeButton);
+        await waitFor(() => {
+          expect(
+            screen.getByText("Folder 10 description with View permission only")
+          ).toBeInTheDocument();
+          expect(
+            screen.queryByRole("heading", {
+              name: /leave folder/i,
+            })
+          ).not.toBeInTheDocument();
+          expect(
+            screen.queryByText("Are you sure you want to leave this folder?")
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("leaves folder when leave is clicked", async () => {
+        const teamId = "0";
+        const folderId = "10"; //View only folder permissions
+        const user = userEvent.setup();
+
+        render(wrappedView(teamId, folderId));
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", { name: /actions/i })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByText("Folder 10 description with View permission only")
+          ).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /leave folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const leaveButton = screen.getByRole("button", {
+          name: /leave folder/i,
+        });
+        await user.click(leaveButton);
+
+        //Verify dialog box is open
+        await waitFor(() => {
+          expect(
+            screen.getByText("Are you sure you want to leave this folder?")
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /leave/i,
+            })
+          ).toBeInTheDocument();
+        });
+
+        const leaveFolderButton = screen.getByRole("button", {
+          name: /leave/i,
+        });
+        await user.click(leaveFolderButton);
+        await waitFor(() => {
+          expect(addFinToast).toBeCalledWith(
+            "success",
+            "Folder left successfully."
+          );
+
+          expect(screen.getByText("Redirected to teams")).toBeInTheDocument();
+        });
+      });
+      it("generates an error toast when leave folder fails", async () => {
+        const teamId = "0";
+        const folderId = "998"; // error testing
+        const user = userEvent.setup();
+
+        render(wrappedView(teamId, folderId));
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", { name: /actions/i })
+          ).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /leave folder/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const leaveButton = screen.getByRole("button", {
+          name: /leave folder/i,
+        });
+        await user.click(leaveButton);
+
+        //Verify dialog box is open
+        await waitFor(() => {
+          expect(
+            screen.getByText("Are you sure you want to leave this folder?")
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /leave/i,
+            })
+          ).toBeInTheDocument();
+        });
+
+        const leaveFolderButton = screen.getByRole("button", {
+          name: /leave/i,
+        });
+        await user.click(leaveFolderButton);
+        await waitFor(() => {
+          expect(addFinToast).toBeCalledWith("error", "Error leaving folder.");
         });
       });
     });

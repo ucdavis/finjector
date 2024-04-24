@@ -122,6 +122,17 @@ export const handlers = [
 
     return HttpResponse.json(fakeFolders[0]);
   }),
+  http.post("/api/folder/:folderId/leave", async ({ request }) => {
+    const url = new URL(request.url);
+    //console.log("url", url.pathname);
+    const folderId = url.pathname.split("/").at(-2);
+    console.log("folderId", folderId);
+    if (folderId === "998") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+    return HttpResponse.json({});
+  }),
   http.put("/api/folder/:id", async ({ request }) => {
     //console.log("request", request);
 
