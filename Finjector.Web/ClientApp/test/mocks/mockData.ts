@@ -253,6 +253,18 @@ fakeFolders.push({
   coas: [...fakeCharts],
 });
 
+fakeFolders.push({
+  id: 999,
+  name: "Folder 999",
+  description: "Folder 999 for testing errors",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["Admin"],
+  myTeamPermissions: ["Admin"],
+  coas: [...fakeCharts],
+});
+
 const fakePpmDetails: PpmDetails = {
   ppmProjectManager: {
     name: "John Doe",
