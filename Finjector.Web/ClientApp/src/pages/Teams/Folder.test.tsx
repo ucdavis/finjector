@@ -1361,9 +1361,6 @@ describe("Folder", () => {
     });
   });
   describe("action tests", () => {
-    //todo: click on details button/row
-    //ignore the use one for now
-
     beforeEach(() => {
       vi.mock("../../components/Shared/LoadingAndErrors/FinToast", () => ({
         default: vi.fn(),
@@ -2114,6 +2111,83 @@ describe("Folder", () => {
         });
       });
     });
+    it("redirects to the details page when the details button is clicked", async () => {
+      const teamId = "99";
+      const folderId = "99"; //View only folder permissions
+      const user = userEvent.setup();
+
+      render(wrappedView(teamId, folderId));
+      await waitFor(() => {
+        expect(screen.getByText("Default")).toBeInTheDocument();
+      });
+      // search for folder
+      const searchField = screen.getByRole("searchbox");
+      //type text into the search field
+      await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
+
+      await waitFor(() => {
+        expect(screen.queryByText("Chart 98")).toBeInTheDocument();
+        expect(
+          screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
+        ).toBeInTheDocument();
+
+        const link = screen.getByRole("link", { name: /details/i });
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveAttribute(
+          "href",
+          `/teams/${teamId}/folders/${folderId}/details/98/KL0733ATC1-TASK01-ADNO001-501090`
+        );
+
+        expect(screen.queryByText("Details")).toBeInTheDocument();
+      });
+
+      const link = screen.getByRole("link", { name: /details/i });
+      await user.click(link);
+      await waitFor(() => {
+        expect(
+          screen.getByText("Redirected to folder details")
+        ).toBeInTheDocument();
+      });
+    });
+
+    it("redirects to the details page when the chart row is clicked", async () => {
+      const teamId = "99";
+      const folderId = "99"; //View only folder permissions
+      const user = userEvent.setup();
+
+      render(wrappedView(teamId, folderId));
+      await waitFor(() => {
+        expect(screen.getByText("Default")).toBeInTheDocument();
+      });
+      // search for folder
+      const searchField = screen.getByRole("searchbox");
+      //type text into the search field
+      await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
+
+      await waitFor(() => {
+        expect(screen.queryByText("Chart 98")).toBeInTheDocument();
+        expect(
+          screen.queryByText("KL0733ATC1-TASK01-ADNO001-501090")
+        ).toBeInTheDocument();
+
+        const link = screen.getByRole("link", { name: /details/i });
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveAttribute(
+          "href",
+          `/teams/${teamId}/folders/${folderId}/details/98/KL0733ATC1-TASK01-ADNO001-501090`
+        );
+
+        expect(screen.queryByText("Details")).toBeInTheDocument();
+      });
+
+      const link = screen.queryByText("Chart 98") as HTMLElement;
+      await user.click(link);
+      await waitFor(() => {
+        expect(
+          screen.getByText("Redirected to folder details")
+        ).toBeInTheDocument();
+      });
+    });
   });
 });
 
@@ -2139,6 +2213,10 @@ const wrappedView = (teamId: string, folderId: string) => (
           element={<div>Redirected to edit folder</div>}
         />
         <Route path="/teams/" element={<div>Redirected to teams</div>} />
+        <Route
+          path="/teams/:teamId/folders/:folderId/details/:chartId/:chartName"
+          element={<div>Redirected to folder details</div>}
+        />
       </Routes>
     </MemoryRouter>
   </QueryClientProvider>
