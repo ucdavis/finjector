@@ -28,7 +28,7 @@ const DeleteFolderModal = (props: Props) => {
         navigate(`/teams`);
         closeModal();
       },
-      onError: (error) => {
+      onError: () => {
         addFinToast("error", "Error deleting folder.");
       },
     });
