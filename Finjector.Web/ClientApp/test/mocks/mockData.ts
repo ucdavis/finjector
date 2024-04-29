@@ -93,6 +93,14 @@ fakeTeams.push({
 });
 
 fakeTeams.push({
+  id: 997,
+  name: "Team 997",
+  description: "Team 997 Error Testing",
+  isPersonal: false,
+  myTeamPermissions: ["Admin", "Edit", "View"],
+});
+
+fakeTeams.push({
   id: 998,
   name: "Team 998",
   description: "Team 998 Error Testing",

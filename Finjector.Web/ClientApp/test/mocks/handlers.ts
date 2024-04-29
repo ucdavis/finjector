@@ -202,4 +202,15 @@ export const handlers = [
     }
     return HttpResponse.json({});
   }),
+  http.delete("/api/team/:id", async ({ request }) => {
+    //get the id from the url
+    const url = new URL(request.url);
+    const teamId = url.pathname.split("/").pop();
+    //console.log("teamId", teamId);
+    if (teamId === "997") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+    return HttpResponse.json({});
+  }),
 ];

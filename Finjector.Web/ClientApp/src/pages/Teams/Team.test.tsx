@@ -760,7 +760,6 @@ describe("Team", () => {
     });
   });
   describe("action tests", () => {
-    //TODO: , manage team users, delete team, leave team, create new folder, edit team
     beforeEach(() => {
       vi.mock("../../components/Shared/LoadingAndErrors/FinToast", () => ({
         default: vi.fn(),
@@ -800,6 +799,100 @@ describe("Team", () => {
       await waitFor(() => {
         expect(
           screen.getByText("Redirected to team admins")
+        ).toBeInTheDocument();
+      });
+    });
+    it("routes to create new folder", async () => {
+      const teamId = "0";
+      const user = userEvent.setup();
+
+      render(wrappedView(teamId));
+      await waitFor(() => {
+        expect(
+          screen.getByRole("button", { name: /actions/i })
+        ).toBeInTheDocument();
+        expect(screen.getByText("Team 0 description")).toBeInTheDocument();
+      });
+
+      const button = screen.getByRole("button", { name: /actions/i });
+      await user.click(button);
+
+      await waitFor(() => {
+        const link = screen.getByRole("link", {
+          name: /create new folder/i,
+        });
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveAttribute("href", `/teams/${teamId}/folders/create`);
+      });
+      const link = screen.getByRole("link", {
+        name: /create new folder/i,
+      });
+      await user.click(link);
+      await waitFor(() => {
+        expect(
+          screen.getByText("Redirected to create folder")
+        ).toBeInTheDocument();
+      });
+    });
+    it("routes to edit team", async () => {
+      const teamId = "0";
+      const user = userEvent.setup();
+
+      render(wrappedView(teamId));
+      await waitFor(() => {
+        expect(
+          screen.getByRole("button", { name: /actions/i })
+        ).toBeInTheDocument();
+        expect(screen.getByText("Team 0 description")).toBeInTheDocument();
+      });
+
+      const button = screen.getByRole("button", { name: /actions/i });
+      await user.click(button);
+
+      await waitFor(() => {
+        const link = screen.getByRole("link", {
+          name: /edit team/i,
+        });
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveAttribute("href", `/teams/${teamId}/edit`);
+      });
+      const link = screen.getByRole("link", {
+        name: /edit team/i,
+      });
+      await user.click(link);
+      await waitFor(() => {
+        expect(screen.getByText("Redirected to edit team")).toBeInTheDocument();
+      });
+    });
+    it("routes to manage team users", async () => {
+      const teamId = "0";
+      const user = userEvent.setup();
+
+      render(wrappedView(teamId));
+      await waitFor(() => {
+        expect(
+          screen.getByRole("button", { name: /actions/i })
+        ).toBeInTheDocument();
+        expect(screen.getByText("Team 0 description")).toBeInTheDocument();
+      });
+
+      const button = screen.getByRole("button", { name: /actions/i });
+      await user.click(button);
+
+      await waitFor(() => {
+        const link = screen.getByRole("link", {
+          name: /manage team users/i,
+        });
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveAttribute("href", `/teams/${teamId}/permissions`);
+      });
+      const link = screen.getByRole("link", {
+        name: /manage team users/i,
+      });
+      await user.click(link);
+      await waitFor(() => {
+        expect(
+          screen.getByText("Redirected to manage team users")
         ).toBeInTheDocument();
       });
     });
@@ -1098,6 +1191,306 @@ describe("Team", () => {
         });
       });
     });
+    describe("delete team tests", () => {
+      it("calls dialog box when delete team is clicked", async () => {
+        const teamId = "0";
+        const user = userEvent.setup();
+
+        render(wrappedView(teamId));
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", { name: /actions/i })
+          ).toBeInTheDocument();
+          expect(screen.getByText("Team 0 description")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /delete team/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const deleteButton = screen.getByRole("button", {
+          name: /delete team/i,
+        });
+        await user.click(deleteButton);
+        await waitFor(() => {
+          expect(
+            screen.getByRole("heading", {
+              name: /delete team/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /close/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByText(
+              "Are you sure you want to delete this team? This team, any folders within it will be removed."
+            )
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /delete/i,
+            })
+          ).toBeInTheDocument();
+        });
+      });
+      it("closes dialog box when cancel is clicked", async () => {
+        const teamId = "0";
+        const user = userEvent.setup();
+
+        render(wrappedView(teamId));
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", { name: /actions/i })
+          ).toBeInTheDocument();
+          expect(screen.getByText("Team 0 description")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /delete team/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const deleteButton = screen.getByRole("button", {
+          name: /delete team/i,
+        });
+        await user.click(deleteButton);
+
+        //Verify dialog box is open
+        await waitFor(() => {
+          expect(
+            screen.getByText(
+              "Are you sure you want to delete this team? This team, any folders within it will be removed."
+            )
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /delete/i,
+            })
+          ).toBeInTheDocument();
+        });
+
+        const cancelButton = screen.getByRole("button", {
+          name: /cancel/i,
+        });
+        await user.click(cancelButton);
+        await waitFor(() => {
+          expect(screen.getByText("Team 0 description")).toBeInTheDocument();
+          expect(
+            screen.queryByRole("heading", {
+              name: /delete team/i,
+            })
+          ).not.toBeInTheDocument();
+          expect(
+            screen.queryByText(
+              "Are you sure you want to delete this team? This team, any folders within it will be removed."
+            )
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("closes dialog box when close is clicked", async () => {
+        const teamId = "0";
+        const user = userEvent.setup();
+
+        render(wrappedView(teamId));
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", { name: /actions/i })
+          ).toBeInTheDocument();
+          expect(screen.getByText("Team 0 description")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /delete team/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const deleteButton = screen.getByRole("button", {
+          name: /delete team/i,
+        });
+        await user.click(deleteButton);
+
+        //Verify dialog box is open
+        await waitFor(() => {
+          expect(
+            screen.getByText(
+              "Are you sure you want to delete this team? This team, any folders within it will be removed."
+            )
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /delete/i,
+            })
+          ).toBeInTheDocument();
+        });
+
+        const closeButton = screen.getByRole("button", {
+          name: /close/i,
+        });
+        await user.click(closeButton);
+        await waitFor(() => {
+          expect(screen.getByText("Team 0 description")).toBeInTheDocument();
+          expect(
+            screen.queryByRole("heading", {
+              name: /delete team/i,
+            })
+          ).not.toBeInTheDocument();
+          expect(
+            screen.queryByText(
+              "Are you sure you want to delete this team? This team, any folders within it will be removed."
+            )
+          ).not.toBeInTheDocument();
+        });
+      });
+      it("deletes team when delete is clicked", async () => {
+        const teamId = "0";
+        const user = userEvent.setup();
+
+        render(wrappedView(teamId));
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", { name: /actions/i })
+          ).toBeInTheDocument();
+          expect(screen.getByText("Team 0 description")).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /delete team/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const deleteButton = screen.getByRole("button", {
+          name: /delete team/i,
+        });
+        await user.click(deleteButton);
+
+        //Verify dialog box is open
+        await waitFor(() => {
+          expect(
+            screen.getByText(
+              "Are you sure you want to delete this team? This team, any folders within it will be removed."
+            )
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /delete/i,
+            })
+          ).toBeInTheDocument();
+        });
+
+        const deleteTeamButton = screen.getByRole("button", {
+          name: /delete/i,
+        });
+        await user.click(deleteTeamButton);
+        await waitFor(() => {
+          expect(addFinToast).toBeCalledWith(
+            "success",
+            "Team deleted successfully."
+          );
+
+          expect(screen.getByText("Redirected to teams")).toBeInTheDocument();
+        });
+      });
+      it("generates an error toast when delete team fails", async () => {
+        const teamId = "997";
+
+        const user = userEvent.setup();
+
+        render(wrappedView(teamId));
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", { name: /actions/i })
+          ).toBeInTheDocument();
+        });
+
+        const button = screen.getByRole("button", { name: /actions/i });
+        await user.click(button);
+
+        await waitFor(() => {
+          expect(
+            screen.getByRole("button", {
+              name: /delete team/i,
+            })
+          ).toBeInTheDocument();
+        });
+        const deleteButton = screen.getByRole("button", {
+          name: /delete team/i,
+        });
+        await user.click(deleteButton);
+
+        //Verify dialog box is open
+        await waitFor(() => {
+          expect(
+            screen.getByText(
+              "Are you sure you want to delete this team? This team, any folders within it will be removed."
+            )
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /cancel/i,
+            })
+          ).toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /delete/i,
+            })
+          ).toBeInTheDocument();
+        });
+
+        const deleteTeamButton = screen.getByRole("button", {
+          name: /delete/i,
+        });
+        await user.click(deleteTeamButton);
+        await waitFor(() => {
+          expect(addFinToast).toBeCalledWith("error", "Error deleting team.");
+          expect(
+            screen.queryByText("Redirected to teams")
+          ).not.toBeInTheDocument();
+        });
+      });
+    });
   });
 });
 
@@ -1111,6 +1504,18 @@ const wrappedView = (teamId: string) => (
           element={<div>Redirected to team admins</div>}
         />
         <Route path="/teams" element={<div>Redirected to teams</div>} />
+        <Route
+          path="/teams/:teamId/folders/create"
+          element={<div>Redirected to create folder</div>}
+        />
+        <Route
+          path="/teams/:teamId/edit"
+          element={<div>Redirected to edit team</div>}
+        />
+        <Route
+          path="/teams/:teamId/permissions"
+          element={<div>Redirected to manage team users</div>}
+        />
       </Routes>
     </MemoryRouter>
   </QueryClientProvider>
