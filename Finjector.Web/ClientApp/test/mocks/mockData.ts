@@ -92,6 +92,14 @@ fakeTeams.push({
   myTeamPermissions: ["Admin", "Edit", "View"],
 });
 
+fakeTeams.push({
+  id: 998,
+  name: "Team 998",
+  description: "Team 998 Error Testing",
+  isPersonal: false,
+  myTeamPermissions: ["View"],
+});
+
 // make a team to return errors (BAD)
 fakeTeams.push({
   id: 999,

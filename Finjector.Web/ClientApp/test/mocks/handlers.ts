@@ -191,4 +191,15 @@ export const handlers = [
 
     return HttpResponse.json(fakeTeams[0]);
   }),
+  http.post("/api/team/:id/leave", async ({ request }) => {
+    const url = new URL(request.url);
+    //console.log("url", url.pathname);
+    const teamId = url.pathname.split("/").at(-2);
+    console.log("id", teamId);
+    if (teamId === "998") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+    return HttpResponse.json({});
+  }),
 ];
