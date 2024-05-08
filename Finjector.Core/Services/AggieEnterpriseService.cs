@@ -409,7 +409,7 @@ namespace Finjector.Core.Services
             {
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 7,
+                    Order = 6,
                     Entity = "Funding Source",
                     Code = data.PpmSegmentStringValidate.Segments.FundingSource,
                     Name = string.Empty
@@ -420,7 +420,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 8,
+                    Order = 7,
                     Entity = "GL Entity",
                     Code = data.PpmProjectByNumber.LegalEntityCode,
                 };
@@ -447,20 +447,18 @@ namespace Finjector.Core.Services
 
                     if(!string.IsNullOrWhiteSpace( awardResult.AwardStatus?.ToString()))
                     {
-                        var segment = new SegmentDetails
+                        if(aeDetails.PpmDetails == null)
                         {
-                            Order = 6, //We want this right after the award
-                            Entity = "Award Status",
-                            Code = awardResult.AwardStatus.ToString(),
-                        };
-                        aeDetails.SegmentDetails.Add(segment);
+                            aeDetails.PpmDetails = new PpmDetails();
+                        }
+                        aeDetails.PpmDetails.AwardStatus = awardResult.AwardStatus.ToString();
                     }
 
                     if (awardResult.GlFundCode != null)
                     {
                         var segment = new SegmentDetails
                         {
-                            Order = 9,
+                            Order = 8,
                             Entity = "GL Fund",
                             Code = awardResult.GlFundCode,
                         };
@@ -477,7 +475,7 @@ namespace Finjector.Core.Services
                     {
                         var segment = new SegmentDetails
                         {
-                            Order = 10,
+                            Order = 9,
                             Entity = "GL Purpose",
                             Code = awardResult.GlPurposeCode,
                         };
@@ -512,7 +510,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 11,
+                    Order = 10,
                     Entity = "GL Posting Fund",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingFundCode,
                 };
@@ -528,7 +526,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 12,
+                    Order = 11,
                     Entity = "GL Posting Purpose",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingPurposeCode,
                 };
@@ -545,7 +543,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 13,
+                    Order = 12,
                     Entity = "GL Posting Program",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingProgramCode,
                 };
@@ -561,7 +559,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 14,
+                    Order = 13,
                     Entity = "GL Posting Activity",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingActivityCode,
                 };
@@ -581,7 +579,7 @@ namespace Finjector.Core.Services
 
                     var segment = new SegmentDetails
                     {
-                        Order = 15,
+                        Order = 14,
                         Entity = "GL Financial Department",
                         Code = parts[0].Trim(),
                         Name = parts[1].Trim()
@@ -593,7 +591,7 @@ namespace Finjector.Core.Services
                     aeDetails.Warnings.Add("Unable to get GL Financial Department");
                     var segment = new SegmentDetails
                     {
-                        Order = 15,
+                        Order = 14,
                         Entity = "GL Financial Department",
                         Code = data.PpmProjectByNumber.ProjectOrganizationName,
                         Name = string.Empty
@@ -605,7 +603,10 @@ namespace Finjector.Core.Services
 
         private void SetPpmDetails(AeDetails aeDetails, IDisplayDetailsPpmResult data, PpmSegments ppmSegments)
         {
-            aeDetails.PpmDetails = new PpmDetails();
+            if (aeDetails.PpmDetails == null) //We might set this if there is an award
+            {
+                aeDetails.PpmDetails = new PpmDetails();
+            }
 
             var entity = data.PpmProjectByNumber?.LegalEntityCode ?? "0000";
             var fund = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingFundCode ?? "00000";
