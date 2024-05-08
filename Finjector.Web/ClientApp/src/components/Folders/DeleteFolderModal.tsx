@@ -22,11 +22,13 @@ const DeleteFolderModal = (props: Props) => {
   const handleDelete = () => {
     deleteMutation.mutate(props.folderId, {
       onSuccess: () => {
+        //we don't want to redirect to the teams/teamId here because the user may not have permissions to the team, just the folder.
+        //We could pass this in as a prop if we wanted to redirect to the team, but it isn't worth it.
         addFinToast("success", "Folder deleted successfully.");
         navigate(`/teams`);
         closeModal();
       },
-      onError: (error) => {
+      onError: () => {
         addFinToast("error", "Error deleting folder.");
       },
     });

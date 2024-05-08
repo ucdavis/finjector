@@ -11,8 +11,8 @@ const CreateTeam: React.FC = () => {
 
   const createTeamMutation = useCreateTeamMutation();
 
-  const handleCreate = async (data: NameAndDescriptionModel) => {
-    await createTeamMutation.mutateAsync(
+  const handleCreate = (data: NameAndDescriptionModel) => {
+    createTeamMutation.mutate(
       {
         name: data.name,
         description: data.description,
@@ -22,7 +22,7 @@ const CreateTeam: React.FC = () => {
           addFinToast("success", "Team created successfully.");
           navigate("/teams");
         },
-        onError: (err: any) => {
+        onError: () => {
           addFinToast("error", "Error creating team.");
         },
       }

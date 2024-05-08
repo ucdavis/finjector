@@ -28,8 +28,8 @@ const EditFolder: React.FC = () => {
     folderId || ""
   );
 
-  const handleCreate = async (data: NameAndDescriptionModel) => {
-    await updateFolderMutation.mutateAsync(
+  const handleCreate = (data: NameAndDescriptionModel) => {
+    updateFolderMutation.mutate(
       {
         name: data.name,
         description: data.description,
@@ -39,7 +39,7 @@ const EditFolder: React.FC = () => {
           addFinToast("success", "Folder updated successfully.");
           navigate(`/teams/${teamId}/folders/${folderId}`);
         },
-        onError: (err: any) => {
+        onError: () => {
           addFinToast("error", "Error updating folder.");
         },
       }
