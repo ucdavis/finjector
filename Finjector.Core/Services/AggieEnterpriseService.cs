@@ -108,6 +108,8 @@ namespace Finjector.Core.Services
                 SetGlSegmentDetails(aeDetails, glSegments, data);
                 SetGlOrgApprovers(aeDetails, data);
 
+                aeDetails.SegmentDetails = aeDetails.SegmentDetails.OrderBy(s => s.Order).ToList();
+
                 return aeDetails;
             }
             if(aeDetails.ChartStringType == FinancialChartStringType.Ppm)
@@ -140,6 +142,7 @@ namespace Finjector.Core.Services
                 await SetPpmPostingSegmentDetails(aeDetails, data);
                 SetPpmDetails(aeDetails, data, ppmSegments);
                 
+                aeDetails.SegmentDetails = aeDetails.SegmentDetails.OrderBy(s => s.Order).ToList();
 
                 return aeDetails;
             }
@@ -401,6 +404,7 @@ namespace Finjector.Core.Services
                 });
             }
 
+
             if (!string.IsNullOrWhiteSpace(data.PpmSegmentStringValidate.Segments.FundingSource))
             {
                 aeDetails.SegmentDetails.Add(new SegmentDetails
@@ -440,6 +444,16 @@ namespace Finjector.Core.Services
                 if (awardResult != null) //&& awardResult.EligibleForUse
                 {
                     awardDetail.Name = awardResult.Name;
+
+                    if(!string.IsNullOrWhiteSpace( awardResult.AwardStatus?.ToString()))
+                    {
+                        if(aeDetails.PpmDetails == null)
+                        {
+                            aeDetails.PpmDetails = new PpmDetails();
+                        }
+                        aeDetails.PpmDetails.AwardStatus = awardResult.AwardStatus.ToString();
+                    }
+
                     if (awardResult.GlFundCode != null)
                     {
                         var segment = new SegmentDetails
@@ -589,7 +603,10 @@ namespace Finjector.Core.Services
 
         private void SetPpmDetails(AeDetails aeDetails, IDisplayDetailsPpmResult data, PpmSegments ppmSegments)
         {
-            aeDetails.PpmDetails = new PpmDetails();
+            if (aeDetails.PpmDetails == null) //We might set this if there is an award
+            {
+                aeDetails.PpmDetails = new PpmDetails();
+            }
 
             var entity = data.PpmProjectByNumber?.LegalEntityCode ?? "0000";
             var fund = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingFundCode ?? "00000";

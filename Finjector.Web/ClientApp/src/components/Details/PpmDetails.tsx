@@ -69,6 +69,16 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
           </CopyToClipboardHover>
         }
       />
+      {details.awardStatus && (
+        <DetailsRow
+          headerColText="Award Status"
+          column2={
+            <CopyToClipboardHover value={details.awardStatus} id="awardStatus">
+              {details.awardStatus}
+            </CopyToClipboardHover>
+          }
+        />
+      )}
       <DetailsRow
         headerColText="POETAF String"
         column2={
