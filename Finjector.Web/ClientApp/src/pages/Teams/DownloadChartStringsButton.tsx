@@ -66,8 +66,8 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
     // columns are name, chartstring, type, and then the segments
     csvContent += "name,chartstring,type,";
 
-    var glSegments = glSegmentDefaults;
-    var ppmSegments = ppmSegmentDefaults;
+    const glSegments = glSegmentDefaults;
+    const ppmSegments = ppmSegmentDefaults;
 
     // Add segment headers
     csvContent += Object.keys(glSegments).join(",");

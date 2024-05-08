@@ -28,7 +28,7 @@ const LeaveFolderModal = (props: Props) => {
         navigate(`/teams`);
         closeModal();
       },
-      onError: (error) => {
+      onError: () => {
         addFinToast("error", "Error leaving folder.");
       },
     });

@@ -19,8 +19,8 @@ const EditTeam: React.FC = () => {
 
   const updateTeamMutation = useUpdateTeamMutation(teamId || "");
 
-  const handleCreate = async (data: NameAndDescriptionModel) => {
-    await updateTeamMutation.mutateAsync(
+  const handleCreate = (data: NameAndDescriptionModel) => {
+    updateTeamMutation.mutate(
       {
         name: data.name,
         description: data.description,
@@ -30,7 +30,7 @@ const EditTeam: React.FC = () => {
           addFinToast("success", "Team updated successfully.");
           navigate(`/teams/${teamId}`);
         },
-        onError: (err: any) => {
+        onError: () => {
           addFinToast("error", "Error updating team.");
         },
       }

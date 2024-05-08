@@ -195,7 +195,7 @@ public class TeamController : ControllerBase
             return NotFound();
         }
 
-        if(team.IsPersonal)
+        if (team.IsPersonal)
         {
             return BadRequest("Cannot update personal team.");
         }
@@ -241,7 +241,7 @@ public class TeamController : ControllerBase
         {
             return NotFound();
         }
-        if(team.IsPersonal)
+        if (team.IsPersonal)
         {
             return BadRequest("Cannot delete personal team.");
         }
@@ -278,7 +278,7 @@ public class TeamController : ControllerBase
             .ToListAsync();
 
         var teamCheck = await _dbContext.Teams.SingleAsync(t => t.Id == id);
-        if (teamCheck == null || teamCheck.IsPersonal) 
+        if (teamCheck == null || teamCheck.IsPersonal)
         {
             return BadRequest("Cannot leave personal team.");
         }

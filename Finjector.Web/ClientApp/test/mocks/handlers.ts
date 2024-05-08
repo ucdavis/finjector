@@ -122,4 +122,95 @@ export const handlers = [
 
     return HttpResponse.json(fakeFolders[0]);
   }),
+  http.post("/api/folder/:folderId/leave", async ({ request }) => {
+    const url = new URL(request.url);
+    //console.log("url", url.pathname);
+    const folderId = url.pathname.split("/").at(-2);
+    console.log("folderId", folderId);
+    if (folderId === "998") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+    return HttpResponse.json({});
+  }),
+  http.put("/api/folder/:id", async ({ request }) => {
+    //console.log("request", request);
+
+    //get the body
+    const body = await request.json();
+    //console.log("body", body);
+    //get the name and description from the body source
+    const { name } = body as NameAndDescriptionModel;
+    console.log("name", name);
+    if (name === "TEST ERROR") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+
+    return HttpResponse.json(fakeFolders[0]);
+  }),
+  http.delete("/api/folder/:id", async ({ request }) => {
+    //get the id from the url
+    const url = new URL(request.url);
+    const folderId = url.pathname.split("/").pop();
+    ///console.log("folderId", folderId);
+    if (folderId === "999") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+    return HttpResponse.json({});
+  }),
+  http.post("/api/team", async ({ request }) => {
+    //console.log("request", request);
+    //get the body
+    const body = await request.json();
+    //console.log("body", body);
+    //get the name and description from the body source
+    const { name } = body as NameAndDescriptionModel;
+    //console.log("name", name);
+    if (name === "Personal") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+
+    return HttpResponse.json(fakeTeams[0]);
+  }),
+  http.put("/api/team/:id", async ({ request }) => {
+    //console.log("request", request);
+
+    //get the body
+    const body = await request.json();
+    //console.log("body", body);
+    //get the name and description from the body source
+    const { name } = body as NameAndDescriptionModel;
+    //console.log("name", name);
+    if (name === "TEST ERROR") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+
+    return HttpResponse.json(fakeTeams[0]);
+  }),
+  http.post("/api/team/:id/leave", async ({ request }) => {
+    const url = new URL(request.url);
+    //console.log("url", url.pathname);
+    const teamId = url.pathname.split("/").at(-2);
+    console.log("id", teamId);
+    if (teamId === "998") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+    return HttpResponse.json({});
+  }),
+  http.delete("/api/team/:id", async ({ request }) => {
+    //get the id from the url
+    const url = new URL(request.url);
+    const teamId = url.pathname.split("/").pop();
+    //console.log("teamId", teamId);
+    if (teamId === "997") {
+      console.log("Returning error");
+      return HttpResponse.error();
+    }
+    return HttpResponse.json({});
+  }),
 ];

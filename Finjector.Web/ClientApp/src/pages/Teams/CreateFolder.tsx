@@ -21,7 +21,7 @@ const CreateFolder: React.FC = () => {
 
   const createFolderMutation = useCreateFolderMutation(teamId || "");
 
-  const handleCreate = async (data: NameAndDescriptionModel) => {
+  const handleCreate = (data: NameAndDescriptionModel) => {
     createFolderMutation.mutate(
       {
         name: data.name,

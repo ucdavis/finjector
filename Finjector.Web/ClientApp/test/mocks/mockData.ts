@@ -92,6 +92,22 @@ fakeTeams.push({
   myTeamPermissions: ["Admin", "Edit", "View"],
 });
 
+fakeTeams.push({
+  id: 997,
+  name: "Team 997",
+  description: "Team 997 Error Testing",
+  isPersonal: false,
+  myTeamPermissions: ["Admin", "Edit", "View"],
+});
+
+fakeTeams.push({
+  id: 998,
+  name: "Team 998",
+  description: "Team 998 Error Testing",
+  isPersonal: false,
+  myTeamPermissions: ["View"],
+});
+
 // make a team to return errors (BAD)
 fakeTeams.push({
   id: 999,
@@ -250,6 +266,30 @@ fakeFolders.push({
   teamName: "Team 0",
   myFolderPermissions: ["View"],
   myTeamPermissions: ["Edit"],
+  coas: [...fakeCharts],
+});
+
+fakeFolders.push({
+  id: 999,
+  name: "Folder 999",
+  description: "Folder 999 for testing errors",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["Admin"],
+  myTeamPermissions: ["Admin"],
+  coas: [...fakeCharts],
+});
+
+fakeFolders.push({
+  id: 998,
+  name: "Folder 998",
+  description: "Folder 998 for testing errors",
+  isDefault: false,
+  teamId: 0,
+  teamName: "Team 0",
+  myFolderPermissions: ["View"],
+  myTeamPermissions: ["View"],
   coas: [...fakeCharts],
 });
 
