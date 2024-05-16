@@ -69,6 +69,32 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
           </CopyToClipboardHover>
         }
       />
+      {details.awardStartDate && (
+        <DetailsRow
+          headerColText="Award Start Date"
+          column2={
+            <CopyToClipboardHover
+              value={details.awardStartDate}
+              id="awardStartDate"
+            >
+              {details.awardStartDate}
+            </CopyToClipboardHover>
+          }
+        />
+      )}
+      {details.awardEndDate && (
+        <DetailsRow
+          headerColText="Award End Date"
+          column2={
+            <CopyToClipboardHover
+              value={details.awardEndDate}
+              id="awardEndDate"
+            >
+              {details.awardEndDate}
+            </CopyToClipboardHover>
+          }
+        />
+      )}
       {details.awardStatus && (
         <DetailsRow
           headerColText="Award Status"
