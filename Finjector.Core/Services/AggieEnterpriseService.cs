@@ -440,6 +440,11 @@ namespace Finjector.Core.Services
             var awardDetail = aeDetails.SegmentDetails.SingleOrDefault(s => s.Entity == "Award");
             if (awardDetail != null)
             {
+                if (aeDetails.PpmDetails == null)
+                {
+                    aeDetails.PpmDetails = new PpmDetails();
+                }
+
                 var awardResult = await GetAward(awardDetail.Code);
                 if (awardResult != null) //&& awardResult.EligibleForUse
                 {
@@ -447,11 +452,15 @@ namespace Finjector.Core.Services
 
                     if(!string.IsNullOrWhiteSpace( awardResult.AwardStatus?.ToString()))
                     {
-                        if(aeDetails.PpmDetails == null)
-                        {
-                            aeDetails.PpmDetails = new PpmDetails();
-                        }
                         aeDetails.PpmDetails.AwardStatus = awardResult.AwardStatus.ToString();
+                    }
+                    if(!string.IsNullOrWhiteSpace(awardResult.StartDate))
+                    {
+                        aeDetails.PpmDetails.AwardStartDate = awardResult.StartDate;
+                    }
+                    if(!string.IsNullOrWhiteSpace(awardResult.EndDate))
+                    {
+                        aeDetails.PpmDetails.AwardEndDate = awardResult.EndDate;
                     }
 
                     if (awardResult.GlFundCode != null)
