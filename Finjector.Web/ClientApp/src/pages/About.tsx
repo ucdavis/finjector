@@ -145,8 +145,16 @@ const About = () => {
                   https://computing.caes.ucdavis.edu/documentation/finjector
                 </a>
               </p>
-              You can submit a support ticket:{" "}
-              <a href="https://caeshelp.ucdavis.edu/?appname=Finjector">here</a>
+              <p>
+                You can enter feedback here:{" "}
+                <a href="https://feedback.ucdavis.edu/app/finjector">here</a>
+              </p>
+              <p>
+                You can submit a support ticket:{" "}
+                <a href="https://caeshelp.ucdavis.edu/?appname=Finjector">
+                  here
+                </a>
+              </p>
             </div>
           </div>
         </div>
