@@ -120,7 +120,7 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
       )}
       {details.awardInfo && (
         <DetailsRow
-          headerColText="Award Info"
+          headerColText="SPONSOR AWARD NUMBER"
           column2={
             <CopyToClipboardHover value={details.awardInfo} id="awardInfo">
               {details.awardInfo}
