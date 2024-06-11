@@ -31,7 +31,7 @@ namespace Finjector.Core.Services
         Task<IEnumerable<SearchResult>> Organization(string query);
         Task<IEnumerable<SearchResult>> ExpenditureType(string query);
         Task<IEnumerable<SearchResult>> Award(string query);
-        Task<IPpmAward_PpmAwardByNumber?> GetAward(string query);
+        Task<IPpmAward_PpmAwardByPpmAwardNumber?> GetAward(string query);
         Task<IEnumerable<SearchResult>> FundingSource(string query);
         Task<IPpmSegmentStringValidate_PpmSegmentStringValidate> PpmValidate(string segmentString);
     }
@@ -362,7 +362,7 @@ namespace Finjector.Core.Services
         {
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
-                Order = 1,
+                Order = 10,
                 Entity = "Project",
                 Code = data.PpmProjectByNumber?.ProjectNumber ?? ppmSegments.Project,
                 Name = data.PpmProjectByNumber?.Name
@@ -370,21 +370,21 @@ namespace Finjector.Core.Services
 
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
-                Order = 2,
+                Order = 20,
                 Entity = "Task",
                 Code = data.PpmTaskByProjectNumberAndTaskNumber?.TaskNumber ?? ppmSegments.Task,
                 Name = data.PpmTaskByProjectNumberAndTaskNumber?.Name
             });
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
-                Order = 3,
+                Order = 30,
                 Entity = "Expenditure Organization",
                 Code = data.PpmOrganization?.Code ?? ppmSegments.Organization,
                 Name = data.PpmOrganization?.Name
             });
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
-                Order = 4,
+                Order = 40,
                 Entity = "Expenditure Type",
                 Code = data.PpmExpenditureTypeByCode?.Code ?? ppmSegments.ExpenditureType,
                 Name = data.PpmExpenditureTypeByCode?.Name
@@ -397,7 +397,7 @@ namespace Finjector.Core.Services
             {
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 5,
+                    Order = 50,
                     Entity = "Award",
                     Code = data.PpmSegmentStringValidate.Segments.Award,
                     Name = string.Empty
@@ -409,7 +409,7 @@ namespace Finjector.Core.Services
             {
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 6,
+                    Order = 60,
                     Entity = "Funding Source",
                     Code = data.PpmSegmentStringValidate.Segments.FundingSource,
                     Name = string.Empty
@@ -420,7 +420,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 7,
+                    Order = 70,
                     Entity = "GL Entity",
                     Code = data.PpmProjectByNumber.LegalEntityCode,
                 };
@@ -467,7 +467,7 @@ namespace Finjector.Core.Services
                     {
                         var segment = new SegmentDetails
                         {
-                            Order = 8,
+                            Order = 80,
                             Entity = "GL Fund",
                             Code = awardResult.GlFundCode,
                         };
@@ -484,7 +484,7 @@ namespace Finjector.Core.Services
                     {
                         var segment = new SegmentDetails
                         {
-                            Order = 9,
+                            Order = 90,
                             Entity = "GL Purpose",
                             Code = awardResult.GlPurposeCode,
                         };
@@ -519,7 +519,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 10,
+                    Order = 100,
                     Entity = "GL Posting Fund",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingFundCode,
                 };
@@ -535,7 +535,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 11,
+                    Order = 110,
                     Entity = "GL Posting Purpose",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingPurposeCode,
                 };
@@ -552,7 +552,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 12,
+                    Order = 120,
                     Entity = "GL Posting Program",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingProgramCode,
                 };
@@ -568,7 +568,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 13,
+                    Order = 130,
                     Entity = "GL Posting Activity",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingActivityCode,
                 };
@@ -588,7 +588,7 @@ namespace Finjector.Core.Services
 
                     var segment = new SegmentDetails
                     {
-                        Order = 14,
+                        Order = 140,
                         Entity = "GL Financial Department",
                         Code = parts[0].Trim(),
                         Name = parts[1].Trim()
@@ -600,7 +600,7 @@ namespace Finjector.Core.Services
                     aeDetails.Warnings.Add("Unable to get GL Financial Department");
                     var segment = new SegmentDetails
                     {
-                        Order = 14,
+                        Order = 140,
                         Entity = "GL Financial Department",
                         Code = data.PpmProjectByNumber.ProjectOrganizationName,
                         Name = string.Empty
@@ -962,24 +962,24 @@ namespace Finjector.Core.Services
         {
             var filter = new PpmAwardFilterInput() { Name = new StringFilterInput { Contains = query } };
 
-            var result = await _apiClient.PpmAwardSearch.ExecuteAsync(filter, query.ToUpperTrim());
+            var result = await _apiClient.PpmAwardSearch.ExecuteAsync(filter, query.ToUpperTrim()); //Safe trim the query?
 
             var data = result.ReadData();
 
             var searchResults =
                 data.PpmAwardSearch.Data.Where(a => a.EligibleForUse).Select(
-                    d => new SearchResult(d.AwardNumber ?? string.Empty, d.Name ?? string.Empty));
+                    d => new SearchResult(d.PpmAwardNumber ?? string.Empty, d.Name ?? string.Empty));
 
-            if (data.PpmAwardByNumber is { EligibleForUse: true })
+            if (data.PpmAwardByPpmAwardNumber.Any(a => a.EligibleForUse))
             {
-                searchResults = searchResults.Append(new SearchResult(data.PpmAwardByNumber.AwardNumber ?? string.Empty,
-                    data.PpmAwardByNumber.Name ?? string.Empty));
+                searchResults = searchResults.Append(new SearchResult(data.PpmAwardByPpmAwardNumber.FirstOrDefault(a => a.EligibleForUse)?.PpmAwardNumber ?? string.Empty,
+                    data.PpmAwardByPpmAwardNumber.FirstOrDefault(a => a.EligibleForUse)?.Name ?? string.Empty));
             }
 
             return searchResults.DistinctBy(p => p.Code);
         }
 
-        public async Task<IPpmAward_PpmAwardByNumber?> GetAward(string? query)
+        public async Task<IPpmAward_PpmAwardByPpmAwardNumber?> GetAward(string? query)
         {
             if(string.IsNullOrWhiteSpace(query))
             {
@@ -989,7 +989,7 @@ namespace Finjector.Core.Services
 
             var data = result.ReadData();
 
-            return data.PpmAwardByNumber;
+            return data.PpmAwardByPpmAwardNumber.FirstOrDefault();
         }
 
         public async Task<IEnumerable<SearchResult>> FundingSource(string query)

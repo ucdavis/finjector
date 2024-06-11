@@ -98,6 +98,15 @@ namespace Finjector.Core.Models
         public string PoetString { get; set; } = string.Empty;
 
         public string? GlRevenueTransferString { get; set; } = string.Empty;
+
+        public List<PpmRoles> Roles { get; set; } = new List<PpmRoles>();
+    }
+
+    public class PpmRoles
+    {
+        public string RoleName { get; set; } = string.Empty;
+        public int Order { get; set; }
+        public List<Approver> Approvers { get; set; } = new List<Approver>();
     }
 
 }
