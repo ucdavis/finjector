@@ -25,6 +25,19 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
           </CopyToClipboardHover>
         }
       />
+      {details.projectDescription && (
+        <DetailsRow
+          headerColText="Project Description"
+          column2={
+            <CopyToClipboardHover
+              value={details.projectDescription}
+              id="projectDescription"
+            >
+              {details.projectDescription}
+            </CopyToClipboardHover>
+          }
+        />
+      )}
       <DetailsRow
         headerColText="Project Type"
         column2={
@@ -126,6 +139,28 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
           }
         />
       )}
+      {details.roles &&
+        details.roles.map((role, i) => {
+          return (
+            <div key={i}>
+              <DetailsRow
+                headerColText={role.roleName}
+                column2={role.approvers.map((approver, j) => {
+                  return (
+                    <div key={j}>
+                      <CopyToClipboardHover
+                        value={approver.email ?? ""}
+                        id={`approver-${i}-${j}`}
+                      >
+                        {renderNameAndEmail(approver.name, approver.email)}
+                      </CopyToClipboardHover>
+                    </div>
+                  );
+                })}
+              />
+            </div>
+          );
+        })}
     </>
   );
 };

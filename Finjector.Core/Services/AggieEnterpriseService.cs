@@ -143,6 +143,10 @@ namespace Finjector.Core.Services
                 SetPpmDetails(aeDetails, data, ppmSegments);
                 
                 aeDetails.SegmentDetails = aeDetails.SegmentDetails.OrderBy(s => s.Order).ToList();
+                if (aeDetails.PpmDetails?.Roles != null)
+                {
+                    aeDetails.PpmDetails.Roles = aeDetails.PpmDetails.Roles.OrderBy(r => r.Order).ToList();
+                }
 
                 return aeDetails;
             }
@@ -405,6 +409,7 @@ namespace Finjector.Core.Services
             }
 
 
+
             if (!string.IsNullOrWhiteSpace(data.PpmSegmentStringValidate.Segments.FundingSource))
             {
                 aeDetails.SegmentDetails.Add(new SegmentDetails
@@ -463,6 +468,17 @@ namespace Finjector.Core.Services
                         aeDetails.PpmDetails.AwardEndDate = awardResult.EndDate;
                     }
 
+                    if(!string.IsNullOrWhiteSpace( awardResult.AwardNumber))
+                    {
+                        aeDetails.SegmentDetails.Add(new SegmentDetails
+                        {
+                            Order = 55,
+                            Entity = "Award Name",
+                            Code = awardResult.AwardNumber,
+                            Name = string.Empty
+                        });
+                    }
+
                     if (awardResult.GlFundCode != null)
                     {
                         var segment = new SegmentDetails
@@ -496,6 +512,32 @@ namespace Finjector.Core.Services
                         }
                         aeDetails.SegmentDetails.Add(segment);
                     }
+
+                    if (awardResult.Personnel.Any())
+                    {
+                            var counter = 200;
+                            var awardMembers = awardResult.Personnel.GroupBy(a => a.RoleName).OrderBy(a => a.Key);
+                            foreach (var awardMember in awardMembers)
+                            {
+                                var ppmRole = new PpmRoles
+                                {
+                                    RoleName = $"Award: {awardMember.Key}",
+                                    Order = counter++,
+                                };
+                                foreach (var member in awardMember.OrderBy(a => a.Person?.LastName))
+                                {
+                                    ppmRole.Approvers.Add(new Approver
+                                    {
+                                        FirstName = member.Person?.FirstName,
+                                        LastName = member.Person?.LastName,
+                                        Email = member.Person?.Email
+                                    });
+                                }
+
+                                aeDetails.PpmDetails.Roles.Add(ppmRole);
+                            }
+                        }
+                    
                 }
 
             }
@@ -661,7 +703,37 @@ namespace Finjector.Core.Services
             {
                 aeDetails.PpmDetails.GlRevenueTransferString = $"{entity}-{fund}-{dept}-775B15-80-{program}-{project}-{activity}-0000-000000-000000";
             }
-            
+
+            if (data.PpmProjectByNumber?.Description != null && data.PpmProjectByNumber.Description != data.PpmProjectByNumber.Name)
+            {
+                aeDetails.PpmDetails.ProjectDescription = data.PpmProjectByNumber.Description;
+            }
+            if(data.PpmProjectByNumber?.TeamMembers != null)
+            {
+                var counter = 100;
+                var teamMembers = data.PpmProjectByNumber.TeamMembers.GroupBy(a => a.RoleName).OrderBy(a => a.Key);
+                foreach (var teamMember in teamMembers)
+                {
+                    var ppmRole = new PpmRoles
+                    {
+                        RoleName = $"Project: {teamMember.Key}",
+                        Order = counter++,
+                    };
+                    foreach (var member in teamMember.OrderBy(a => a.Person?.LastName))
+                    {
+                        ppmRole.Approvers.Add(new Approver
+                        {
+                            FirstName = member.Person?.FirstName,
+                            LastName = member.Person?.LastName,
+                            Email = member.Person?.Email
+                        });
+                    }
+
+                    aeDetails.PpmDetails.Roles.Add(ppmRole);
+                }
+            }
+
+
         }
         
         public FinancialChartStringType GetChartType(string segmentString)

@@ -99,6 +99,8 @@ namespace Finjector.Core.Models
 
         public string? GlRevenueTransferString { get; set; } = string.Empty;
 
+        public string? ProjectDescription { get; set; } = string.Empty;
+
         public List<PpmRoles> Roles { get; set; } = new List<PpmRoles>();
     }
 
