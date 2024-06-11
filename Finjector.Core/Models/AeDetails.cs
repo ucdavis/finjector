@@ -93,6 +93,8 @@ namespace Finjector.Core.Models
         public string? AwardStartDate { get; set; } = string.Empty;
         public string? AwardEndDate { get; set; } = string.Empty;
 
+        public string? AwardInfo { get; set; } = string.Empty;
+
         public string? ProjectTypeName { get; set; } = string.Empty;
 
         public string PoetString { get; set; } = string.Empty;

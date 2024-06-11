@@ -470,13 +470,7 @@ namespace Finjector.Core.Services
 
                     if(!string.IsNullOrWhiteSpace( awardResult.AwardNumber))
                     {
-                        aeDetails.SegmentDetails.Add(new SegmentDetails
-                        {
-                            Order = 55,
-                            Entity = "Award Name",
-                            Code = awardResult.AwardNumber,
-                            Name = string.Empty
-                        });
+                        aeDetails.PpmDetails.AwardInfo = awardResult.AwardNumber;
                     }
 
                     if (awardResult.GlFundCode != null)

@@ -174,6 +174,7 @@ export interface PpmDetails {
   projectCompletionDate: string;
   projectStatus: string;
   awardStatus?: string;
+  awardInfo?: string;
   awardStartDate?: string;
   awardEndDate?: string;
   projectTypeName: string;
