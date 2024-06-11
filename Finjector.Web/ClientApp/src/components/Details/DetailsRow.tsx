@@ -29,7 +29,7 @@ export const DetailsRow: React.FC<DetailsRowProps> = ({
   );
 
   return (
-    <div className="row" {...props}>
+    <div className="row shade-hover-row" {...props}>
       <div className="col-3 chartstring-info-title">
         <h4>{headerColText}</h4>
       </div>
