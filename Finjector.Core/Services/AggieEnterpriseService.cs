@@ -515,7 +515,8 @@ namespace Finjector.Core.Services
                             {
                                 var ppmRole = new PpmRoles
                                 {
-                                    RoleName = $"Award: {awardMember.Key}",
+                                    RoleName = awardMember.Key,
+                                    Type = "A",
                                     Order = counter++,
                                 };
                                 foreach (var member in awardMember.OrderBy(a => a.Person?.LastName))
@@ -710,7 +711,8 @@ namespace Finjector.Core.Services
                 {
                     var ppmRole = new PpmRoles
                     {
-                        RoleName = $"Project: {teamMember.Key}",
+                        RoleName = teamMember.Key,
+                        Type = "P",
                         Order = counter++,
                     };
                     foreach (var member in teamMember.OrderBy(a => a.Person?.LastName))

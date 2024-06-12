@@ -110,6 +110,7 @@ namespace Finjector.Core.Models
     {
         public string RoleName { get; set; } = string.Empty;
         public int Order { get; set; }
+        public string Type { get; set; } = string.Empty; //(P)roject, (A)ward
         public List<Approver> Approvers { get; set; } = new List<Approver>();
     }
 

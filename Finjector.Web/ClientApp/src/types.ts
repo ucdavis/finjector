@@ -164,6 +164,7 @@ export interface ChartStringAndAeDetails {
 export interface PpmRoles {
   order: number;
   roleName: string;
+  type: string;
   approvers: Approver[];
 }
 
