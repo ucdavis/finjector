@@ -307,6 +307,22 @@ const fakePpmDetails: PpmDetails = {
   projectTypeName: "New Project",
   poetString: "Fake-POET-String",
   glRevenueTransferString: "Fake-Gl-Transfer-String",
+  projectDescription: "This is a fake project description.",
+  roles: [
+    {
+      order: 1,
+      roleName: "Role 1",
+      type: "P",
+      approvers: [
+        {
+          firstName: "Jane",
+          lastName: "Smith",
+          email: "test@test.com",
+          name: "Smith, Jane",
+        },
+      ],
+    },
+  ],
 };
 
 // let's just assign the first chart to be valid and the second to be invalid
