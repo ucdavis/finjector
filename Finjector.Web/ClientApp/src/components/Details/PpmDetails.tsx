@@ -25,19 +25,6 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
           </CopyToClipboardHover>
         }
       />
-      {details.projectDescription && (
-        <DetailsRow
-          headerColText="Project Description"
-          column2={
-            <CopyToClipboardHover
-              value={details.projectDescription}
-              id="projectDescription"
-            >
-              {details.projectDescription}
-            </CopyToClipboardHover>
-          }
-        />
-      )}
       <DetailsRow
         headerColText="Project Type"
         column2={
