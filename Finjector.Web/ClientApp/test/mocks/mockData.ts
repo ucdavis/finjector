@@ -409,6 +409,22 @@ const fakeInvalidAeDetails: AeDetails = {
     projectTypeName: "New Project",
     poetString: "Fake-POET-String",
     glRevenueTransferString: "Fake-Gl-Transfer-String",
+    projectDescription: "This is a fake project description.",
+    roles: [
+      {
+        order: 1,
+        roleName: "Role 1",
+        type: "P",
+        approvers: [
+          {
+            firstName: "Jane",
+            lastName: "Smith",
+            email: "test@test.com",
+            name: "Smith, Jane",
+          },
+        ],
+      },
+    ],
   },
   hasWarnings: false,
 };
@@ -492,6 +508,22 @@ const fakeValidAeDetails: AeDetails = {
     projectTypeName: "New Project",
     poetString: "Fake-POET-String",
     glRevenueTransferString: "Fake-Gl-Transfer-String",
+    projectDescription: "This is a fake project description.",
+    roles: [
+      {
+        order: 1,
+        roleName: "Role 1",
+        type: "P",
+        approvers: [
+          {
+            firstName: "Jane",
+            lastName: "Smith",
+            email: "test@test.com",
+            name: "Smith, Jane",
+          },
+        ],
+      },
+    ],
   },
   hasWarnings: false,
 };
