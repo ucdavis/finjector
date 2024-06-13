@@ -294,12 +294,12 @@ fakeFolders.push({
 });
 
 const fakePpmDetails: PpmDetails = {
-  ppmProjectManager: {
-    name: "John Doe",
-    email: "jdoe@fake.com",
-    firstName: "John",
-    lastName: "Doe",
-  },
+  // ppmProjectManager: {
+  //   name: "John Doe",
+  //   email: "jdoe@fake.com",
+  //   firstName: "John",
+  //   lastName: "Doe",
+  // },
   ppmGlString: "GL123456",
   projectStartDate: "2022-01-01",
   projectCompletionDate: "2022-12-31",
@@ -396,12 +396,12 @@ const fakeInvalidAeDetails: AeDetails = {
     },
   ],
   ppmDetails: {
-    ppmProjectManager: {
-      name: "Jane Smith",
-      email: "jsmith@fake.com",
-      firstName: "Jane",
-      lastName: "Smith",
-    },
+    // ppmProjectManager: {
+    //   name: "Jane Smith",
+    //   email: "jsmith@fake.com",
+    //   firstName: "Jane",
+    //   lastName: "Smith",
+    // },
     ppmGlString: "GL654321",
     projectStartDate: "2022-01-01",
     projectCompletionDate: "2022-12-31",
@@ -495,12 +495,12 @@ const fakeValidAeDetails: AeDetails = {
     },
   ],
   ppmDetails: {
-    ppmProjectManager: {
-      name: "Jane Smith",
-      email: "jsmith@fake.com",
-      firstName: "Jane",
-      lastName: "Smith",
-    },
+    // ppmProjectManager: {
+    //   name: "Jane Smith",
+    //   email: "jsmith@fake.com",
+    //   firstName: "Jane",
+    //   lastName: "Smith",
+    // },
     ppmGlString: "GL654321",
     projectStartDate: "2022-01-01",
     projectCompletionDate: "2022-12-31",

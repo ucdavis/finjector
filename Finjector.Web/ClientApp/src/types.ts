@@ -169,7 +169,7 @@ export interface PpmRoles {
 }
 
 export interface PpmDetails {
-  ppmProjectManager: Approver;
+  //ppmProjectManager: Approver;
   ppmGlString: string;
   projectStartDate: string;
   projectCompletionDate: string;
