@@ -1,4 +1,4 @@
-﻿
+
 
 using AggieEnterpriseApi.Validation;
 
@@ -65,12 +65,12 @@ namespace Finjector.Core.Models
         public string? LastName { get; set; } = string.Empty;
         public string? Email { get; set; } = string.Empty;
 
-        public string? FullName { get;set; } = string.Empty;
+        public string? FullName { get; set; } = string.Empty;
         public string Name
         {
             get
             {
-                if(!string.IsNullOrWhiteSpace(FullName))
+                if (!string.IsNullOrWhiteSpace(FullName))
                 {
                     return FullName;
                 }
@@ -82,7 +82,7 @@ namespace Finjector.Core.Models
 
     public class PpmDetails
     {
-        public Approver PpmProjectManager { get; set; } = new Approver();
+        //public Approver PpmProjectManager { get; set; } = new Approver();
         public string PpmGlString { get; set; } = string.Empty;
 
         public string? ProjectStartDate { get; set; } = string.Empty;

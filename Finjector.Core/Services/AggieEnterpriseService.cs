@@ -1,4 +1,4 @@
-﻿using Finjector.Core.Models;
+using Finjector.Core.Models;
 using Finjector.Core.Extensions;
 using Microsoft.Extensions.Options;
 using AggieEnterpriseApi;
@@ -663,24 +663,6 @@ namespace Finjector.Core.Services
             var project = data.PpmProjectByNumber?.ProjectNumber ?? "0000000000";
             var activity = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingActivityCode ?? "000000";
 
-
-            try
-            {
-                if (data.PpmProjectByNumber != null && data.PpmProjectByNumber.PrimaryProjectManagerName != null)
-                {
-                    //Can't parse this into first and last because the hyphnated name is not consistent and it can have sufixes
-                    aeDetails.PpmDetails.PpmProjectManager = new Approver
-                    {
-                        FullName = data.PpmProjectByNumber.PrimaryProjectManagerName,    
-                        Email = data.PpmProjectByNumber.PrimaryProjectManagerEmail
-                    };
-                }
-            }
-            catch (Exception)
-            {
-                aeDetails.Warnings.Add("Unable to get Project Manager");
-                aeDetails.PpmDetails.PpmProjectManager = new Approver();
-            }
 
 
             aeDetails.PpmDetails.PpmGlString = $"{entity}-{fund}-{dept}-{account}-{purpose}-{program}-{project}-{activity}-0000-000000-000000";
