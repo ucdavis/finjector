@@ -1,4 +1,4 @@
-﻿using Finjector.Core.Models;
+using Finjector.Core.Models;
 using Finjector.Core.Extensions;
 using Microsoft.Extensions.Options;
 using AggieEnterpriseApi;
@@ -31,7 +31,7 @@ namespace Finjector.Core.Services
         Task<IEnumerable<SearchResult>> Organization(string query);
         Task<IEnumerable<SearchResult>> ExpenditureType(string query);
         Task<IEnumerable<SearchResult>> Award(string query);
-        Task<IPpmAward_PpmAwardByNumber?> GetAward(string query);
+        Task<IPpmAward_PpmAwardByPpmAwardNumber?> GetAward(string query);
         Task<IEnumerable<SearchResult>> FundingSource(string query);
         Task<IPpmSegmentStringValidate_PpmSegmentStringValidate> PpmValidate(string segmentString);
     }
@@ -58,17 +58,29 @@ namespace Finjector.Core.Services
                 return aeDetails;
             }
 
-            var hadLowercase = segmentString.Trim().ToUpper() != segmentString.Trim();
+            segmentString = segmentString.Trim();
 
-            segmentString = segmentString.Trim().ToUpper();
-            var saveSegmentString = segmentString;
-            segmentString = await TryToConvertKfsAccount(aeDetails, segmentString);
-
-            //We only want this warning for COAs, not KFS accounts
-            if(hadLowercase && saveSegmentString == segmentString)
+            var isValidPpm = false;
+            if (System.Text.RegularExpressions.Regex.IsMatch(segmentString, @"^[0-9A-Z]{10}-[0-9A-Z]{6}-[0-9A-Z]{7}-[0-9A-Z]{6}(-[0-9A-Z]{7}-[0-9A-Za-z]{5,10})?$"))
             {
-                aeDetails.Warnings.Add("Chart String had lowercase characters. Lowercase characters are not valid in chart string segments.");
+                isValidPpm = true;
             }
+
+            if(!isValidPpm)
+            {
+                var hadLowercase = segmentString.Trim().ToUpper() != segmentString.Trim();
+
+                segmentString = segmentString.Trim().ToUpper();
+                var saveSegmentString = segmentString;
+                segmentString = await TryToConvertKfsAccount(aeDetails, segmentString);
+
+                //We only want this warning for COAs, not KFS accounts
+                if (hadLowercase && saveSegmentString == segmentString)
+                {
+                    aeDetails.Warnings.Add("Chart String had lowercase characters. Lowercase characters are not valid in chart string segments.");
+                }
+            }
+
 
             aeDetails.ChartString = segmentString;
 
@@ -143,6 +155,10 @@ namespace Finjector.Core.Services
                 SetPpmDetails(aeDetails, data, ppmSegments);
                 
                 aeDetails.SegmentDetails = aeDetails.SegmentDetails.OrderBy(s => s.Order).ToList();
+                if (aeDetails.PpmDetails?.Roles != null)
+                {
+                    aeDetails.PpmDetails.Roles = aeDetails.PpmDetails.Roles.OrderBy(r => r.Order).ToList();
+                }
 
                 return aeDetails;
             }
@@ -362,7 +378,7 @@ namespace Finjector.Core.Services
         {
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
-                Order = 1,
+                Order = 10,
                 Entity = "Project",
                 Code = data.PpmProjectByNumber?.ProjectNumber ?? ppmSegments.Project,
                 Name = data.PpmProjectByNumber?.Name
@@ -370,21 +386,21 @@ namespace Finjector.Core.Services
 
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
-                Order = 2,
+                Order = 20,
                 Entity = "Task",
                 Code = data.PpmTaskByProjectNumberAndTaskNumber?.TaskNumber ?? ppmSegments.Task,
                 Name = data.PpmTaskByProjectNumberAndTaskNumber?.Name
             });
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
-                Order = 3,
+                Order = 30,
                 Entity = "Expenditure Organization",
                 Code = data.PpmOrganization?.Code ?? ppmSegments.Organization,
                 Name = data.PpmOrganization?.Name
             });
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
-                Order = 4,
+                Order = 40,
                 Entity = "Expenditure Type",
                 Code = data.PpmExpenditureTypeByCode?.Code ?? ppmSegments.ExpenditureType,
                 Name = data.PpmExpenditureTypeByCode?.Name
@@ -397,7 +413,7 @@ namespace Finjector.Core.Services
             {
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 5,
+                    Order = 50,
                     Entity = "Award",
                     Code = data.PpmSegmentStringValidate.Segments.Award,
                     Name = string.Empty
@@ -405,11 +421,12 @@ namespace Finjector.Core.Services
             }
 
 
+
             if (!string.IsNullOrWhiteSpace(data.PpmSegmentStringValidate.Segments.FundingSource))
             {
                 aeDetails.SegmentDetails.Add(new SegmentDetails
                 {
-                    Order = 6,
+                    Order = 60,
                     Entity = "Funding Source",
                     Code = data.PpmSegmentStringValidate.Segments.FundingSource,
                     Name = string.Empty
@@ -420,7 +437,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 7,
+                    Order = 70,
                     Entity = "GL Entity",
                     Code = data.PpmProjectByNumber.LegalEntityCode,
                 };
@@ -463,11 +480,16 @@ namespace Finjector.Core.Services
                         aeDetails.PpmDetails.AwardEndDate = awardResult.EndDate;
                     }
 
+                    if(!string.IsNullOrWhiteSpace( awardResult.AwardNumber))
+                    {
+                        aeDetails.PpmDetails.AwardInfo = awardResult.AwardNumber;
+                    }
+
                     if (awardResult.GlFundCode != null)
                     {
                         var segment = new SegmentDetails
                         {
-                            Order = 8,
+                            Order = 80,
                             Entity = "GL Fund",
                             Code = awardResult.GlFundCode,
                         };
@@ -484,7 +506,7 @@ namespace Finjector.Core.Services
                     {
                         var segment = new SegmentDetails
                         {
-                            Order = 9,
+                            Order = 90,
                             Entity = "GL Purpose",
                             Code = awardResult.GlPurposeCode,
                         };
@@ -496,6 +518,33 @@ namespace Finjector.Core.Services
                         }
                         aeDetails.SegmentDetails.Add(segment);
                     }
+
+                    if (awardResult.Personnel.Any())
+                    {
+                            var counter = 200;
+                            var awardMembers = awardResult.Personnel.Distinct().GroupBy(a => a.RoleName).OrderBy(a => a.Key);
+                            foreach (var awardMember in awardMembers)
+                            {
+                                var ppmRole = new PpmRoles
+                                {
+                                    RoleName = awardMember.Key,
+                                    Type = "A",
+                                    Order = counter++,
+                                };
+                                foreach (var member in awardMember.OrderBy(a => a.Person?.LastName))
+                                {
+                                    ppmRole.Approvers.Add(new Approver
+                                    {
+                                        FirstName = member.Person?.FirstName,
+                                        LastName = member.Person?.LastName,
+                                        Email = member.Person?.Email
+                                    });
+                                }
+
+                                aeDetails.PpmDetails.Roles.Add(ppmRole);
+                            }
+                        }
+                    
                 }
 
             }
@@ -519,7 +568,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 10,
+                    Order = 100,
                     Entity = "GL Posting Fund",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingFundCode,
                 };
@@ -535,7 +584,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 11,
+                    Order = 110,
                     Entity = "GL Posting Purpose",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingPurposeCode,
                 };
@@ -552,7 +601,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 12,
+                    Order = 120,
                     Entity = "GL Posting Program",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingProgramCode,
                 };
@@ -568,7 +617,7 @@ namespace Finjector.Core.Services
             {
                 var segment = new SegmentDetails
                 {
-                    Order = 13,
+                    Order = 130,
                     Entity = "GL Posting Activity",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingActivityCode,
                 };
@@ -588,7 +637,7 @@ namespace Finjector.Core.Services
 
                     var segment = new SegmentDetails
                     {
-                        Order = 14,
+                        Order = 140,
                         Entity = "GL Financial Department",
                         Code = parts[0].Trim(),
                         Name = parts[1].Trim()
@@ -600,7 +649,7 @@ namespace Finjector.Core.Services
                     aeDetails.Warnings.Add("Unable to get GL Financial Department");
                     var segment = new SegmentDetails
                     {
-                        Order = 14,
+                        Order = 140,
                         Entity = "GL Financial Department",
                         Code = data.PpmProjectByNumber.ProjectOrganizationName,
                         Name = string.Empty
@@ -627,24 +676,6 @@ namespace Finjector.Core.Services
             var activity = data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingActivityCode ?? "000000";
 
 
-            try
-            {
-                if (data.PpmProjectByNumber != null && data.PpmProjectByNumber.PrimaryProjectManagerName != null)
-                {
-                    //Can't parse this into first and last because the hyphnated name is not consistent and it can have sufixes
-                    aeDetails.PpmDetails.PpmProjectManager = new Approver
-                    {
-                        FullName = data.PpmProjectByNumber.PrimaryProjectManagerName,    
-                        Email = data.PpmProjectByNumber.PrimaryProjectManagerEmail
-                    };
-                }
-            }
-            catch (Exception)
-            {
-                aeDetails.Warnings.Add("Unable to get Project Manager");
-                aeDetails.PpmDetails.PpmProjectManager = new Approver();
-            }
-
 
             aeDetails.PpmDetails.PpmGlString = $"{entity}-{fund}-{dept}-{account}-{purpose}-{program}-{project}-{activity}-0000-000000-000000";
             if (data.PpmProjectByNumber != null)
@@ -661,7 +692,38 @@ namespace Finjector.Core.Services
             {
                 aeDetails.PpmDetails.GlRevenueTransferString = $"{entity}-{fund}-{dept}-775B15-80-{program}-{project}-{activity}-0000-000000-000000";
             }
-            
+
+            if (data.PpmProjectByNumber?.Description != null && data.PpmProjectByNumber.Description != data.PpmProjectByNumber.Name)
+            {
+                aeDetails.PpmDetails.ProjectDescription = data.PpmProjectByNumber.Description;
+            }
+            if(data.PpmProjectByNumber?.TeamMembers != null)
+            {
+                var counter = 100;
+                var teamMembers = data.PpmProjectByNumber.TeamMembers.GroupBy(a => a.RoleName).OrderBy(a => a.Key);
+                foreach (var teamMember in teamMembers)
+                {
+                    var ppmRole = new PpmRoles
+                    {
+                        RoleName = teamMember.Key,
+                        Type = "P",
+                        Order = counter++,
+                    };
+                    foreach (var member in teamMember.OrderBy(a => a.Person?.LastName))
+                    {
+                        ppmRole.Approvers.Add(new Approver
+                        {
+                            FirstName = member.Person?.FirstName,
+                            LastName = member.Person?.LastName,
+                            Email = member.Person?.Email
+                        });
+                    }
+
+                    aeDetails.PpmDetails.Roles.Add(ppmRole);
+                }
+            }
+
+
         }
         
         public FinancialChartStringType GetChartType(string segmentString)
@@ -962,24 +1024,24 @@ namespace Finjector.Core.Services
         {
             var filter = new PpmAwardFilterInput() { Name = new StringFilterInput { Contains = query } };
 
-            var result = await _apiClient.PpmAwardSearch.ExecuteAsync(filter, query.ToUpperTrim());
+            var result = await _apiClient.PpmAwardSearch.ExecuteAsync(filter, query.ToUpperTrim()); //Safe trim the query?
 
             var data = result.ReadData();
 
             var searchResults =
                 data.PpmAwardSearch.Data.Where(a => a.EligibleForUse).Select(
-                    d => new SearchResult(d.AwardNumber ?? string.Empty, d.Name ?? string.Empty));
+                    d => new SearchResult(d.PpmAwardNumber ?? string.Empty, d.Name ?? string.Empty));
 
-            if (data.PpmAwardByNumber is { EligibleForUse: true })
+            if (data.PpmAwardByPpmAwardNumber.Any(a => a.EligibleForUse))
             {
-                searchResults = searchResults.Append(new SearchResult(data.PpmAwardByNumber.AwardNumber ?? string.Empty,
-                    data.PpmAwardByNumber.Name ?? string.Empty));
+                searchResults = searchResults.Append(new SearchResult(data.PpmAwardByPpmAwardNumber.FirstOrDefault(a => a.EligibleForUse)?.PpmAwardNumber ?? string.Empty,
+                    data.PpmAwardByPpmAwardNumber.FirstOrDefault(a => a.EligibleForUse)?.Name ?? string.Empty));
             }
 
             return searchResults.DistinctBy(p => p.Code);
         }
 
-        public async Task<IPpmAward_PpmAwardByNumber?> GetAward(string? query)
+        public async Task<IPpmAward_PpmAwardByPpmAwardNumber?> GetAward(string? query)
         {
             if(string.IsNullOrWhiteSpace(query))
             {
@@ -989,7 +1051,7 @@ namespace Finjector.Core.Services
 
             var data = result.ReadData();
 
-            return data.PpmAwardByNumber;
+            return data.PpmAwardByPpmAwardNumber.FirstOrDefault();
         }
 
         public async Task<IEnumerable<SearchResult>> FundingSource(string query)

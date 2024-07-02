@@ -294,12 +294,6 @@ fakeFolders.push({
 });
 
 const fakePpmDetails: PpmDetails = {
-  ppmProjectManager: {
-    name: "John Doe",
-    email: "jdoe@fake.com",
-    firstName: "John",
-    lastName: "Doe",
-  },
   ppmGlString: "GL123456",
   projectStartDate: "2022-01-01",
   projectCompletionDate: "2022-12-31",
@@ -307,6 +301,22 @@ const fakePpmDetails: PpmDetails = {
   projectTypeName: "New Project",
   poetString: "Fake-POET-String",
   glRevenueTransferString: "Fake-Gl-Transfer-String",
+  projectDescription: "This is a fake project description.",
+  roles: [
+    {
+      order: 1,
+      roleName: "Role 1",
+      type: "P",
+      approvers: [
+        {
+          firstName: "Jane",
+          lastName: "Smith",
+          email: "test@test.com",
+          name: "Smith, Jane",
+        },
+      ],
+    },
+  ],
 };
 
 // let's just assign the first chart to be valid and the second to be invalid
@@ -380,12 +390,6 @@ const fakeInvalidAeDetails: AeDetails = {
     },
   ],
   ppmDetails: {
-    ppmProjectManager: {
-      name: "Jane Smith",
-      email: "jsmith@fake.com",
-      firstName: "Jane",
-      lastName: "Smith",
-    },
     ppmGlString: "GL654321",
     projectStartDate: "2022-01-01",
     projectCompletionDate: "2022-12-31",
@@ -393,6 +397,22 @@ const fakeInvalidAeDetails: AeDetails = {
     projectTypeName: "New Project",
     poetString: "Fake-POET-String",
     glRevenueTransferString: "Fake-Gl-Transfer-String",
+    projectDescription: "This is a fake project description.",
+    roles: [
+      {
+        order: 1,
+        roleName: "Role 1",
+        type: "P",
+        approvers: [
+          {
+            firstName: "Jane",
+            lastName: "Smith",
+            email: "test@test.com",
+            name: "Smith, Jane",
+          },
+        ],
+      },
+    ],
   },
   hasWarnings: false,
 };
@@ -463,12 +483,6 @@ const fakeValidAeDetails: AeDetails = {
     },
   ],
   ppmDetails: {
-    ppmProjectManager: {
-      name: "Jane Smith",
-      email: "jsmith@fake.com",
-      firstName: "Jane",
-      lastName: "Smith",
-    },
     ppmGlString: "GL654321",
     projectStartDate: "2022-01-01",
     projectCompletionDate: "2022-12-31",
@@ -476,6 +490,22 @@ const fakeValidAeDetails: AeDetails = {
     projectTypeName: "New Project",
     poetString: "Fake-POET-String",
     glRevenueTransferString: "Fake-Gl-Transfer-String",
+    projectDescription: "This is a fake project description.",
+    roles: [
+      {
+        order: 1,
+        roleName: "Role 1",
+        type: "P",
+        approvers: [
+          {
+            firstName: "Jane",
+            lastName: "Smith",
+            email: "test@test.com",
+            name: "Smith, Jane",
+          },
+        ],
+      },
+    ],
   },
   hasWarnings: false,
 };

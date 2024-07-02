@@ -1,4 +1,5 @@
 import { UseQueryResult } from "@tanstack/react-query";
+import exp from "constants";
 
 export type FinQueryStatus = Pick<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -160,18 +161,27 @@ export interface ChartStringAndAeDetails {
   aeDetails: AeDetails;
 }
 
+export interface PpmRoles {
+  order: number;
+  roleName: string;
+  type: string;
+  approvers: Approver[];
+}
+
 export interface PpmDetails {
-  ppmProjectManager: Approver;
   ppmGlString: string;
   projectStartDate: string;
   projectCompletionDate: string;
   projectStatus: string;
   awardStatus?: string;
+  awardInfo?: string;
   awardStartDate?: string;
   awardEndDate?: string;
   projectTypeName: string;
   poetString: string;
   glRevenueTransferString: string;
+  projectDescription: string;
+  roles: PpmRoles[];
 }
 
 export interface SegmentDetails {
