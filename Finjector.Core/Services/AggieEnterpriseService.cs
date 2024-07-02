@@ -522,7 +522,7 @@ namespace Finjector.Core.Services
                     if (awardResult.Personnel.Any())
                     {
                             var counter = 200;
-                            var awardMembers = awardResult.Personnel.GroupBy(a => a.RoleName).OrderBy(a => a.Key);
+                            var awardMembers = awardResult.Personnel.Distinct().GroupBy(a => a.RoleName).OrderBy(a => a.Key);
                             foreach (var awardMember in awardMembers)
                             {
                                 var ppmRole = new PpmRoles
