@@ -54,7 +54,7 @@ export const isGlSegmentString = (segmentString: string): boolean => {
 export const isPpmSegmentString = (segmentString: string): boolean => {
   return (
     segmentString.match(
-      "^[0-9A-Z]{10}-[0-9A-Z]{6}-[0-9A-Z]{7}-[0-9A-Z]{6}(-[0-9A-Z]{7}-[0-9A-Z]{5,10})?$"
+      "^[0-9A-Z]{10}-[0-9A-Z]{6}-[0-9A-Z]{7}-[0-9A-Z]{6}(-[0-9A-Z]{7}-[0-9A-Za-z]{5,10})?$"
     ) !== null
   );
 };
