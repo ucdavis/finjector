@@ -58,17 +58,29 @@ namespace Finjector.Core.Services
                 return aeDetails;
             }
 
-            var hadLowercase = segmentString.Trim().ToUpper() != segmentString.Trim();
+            segmentString = segmentString.Trim();
 
-            segmentString = segmentString.Trim().ToUpper();
-            var saveSegmentString = segmentString;
-            segmentString = await TryToConvertKfsAccount(aeDetails, segmentString);
-
-            //We only want this warning for COAs, not KFS accounts
-            if(hadLowercase && saveSegmentString == segmentString)
+            var isValidPpm = false;
+            if (System.Text.RegularExpressions.Regex.IsMatch(segmentString, @"^[0-9A-Z]{10}-[0-9A-Z]{6}-[0-9A-Z]{7}-[0-9A-Z]{6}(-[0-9A-Z]{7}-[0-9A-Za-z]{5,10})?$"))
             {
-                aeDetails.Warnings.Add("Chart String had lowercase characters. Lowercase characters are not valid in chart string segments.");
+                isValidPpm = true;
             }
+
+            if(!isValidPpm)
+            {
+                var hadLowercase = segmentString.Trim().ToUpper() != segmentString.Trim();
+
+                segmentString = segmentString.Trim().ToUpper();
+                var saveSegmentString = segmentString;
+                segmentString = await TryToConvertKfsAccount(aeDetails, segmentString);
+
+                //We only want this warning for COAs, not KFS accounts
+                if (hadLowercase && saveSegmentString == segmentString)
+                {
+                    aeDetails.Warnings.Add("Chart String had lowercase characters. Lowercase characters are not valid in chart string segments.");
+                }
+            }
+
 
             aeDetails.ChartString = segmentString;
 
