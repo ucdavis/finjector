@@ -485,6 +485,11 @@ namespace Finjector.Core.Services
                         aeDetails.PpmDetails.AwardInfo = awardResult.AwardNumber;
                     }
 
+                    if(!string.IsNullOrWhiteSpace(awardResult.CloseDate))
+                    {
+                        aeDetails.PpmDetails.AwardCloseDate = awardResult.CloseDate;
+                    }
+
                     if (awardResult.GlFundCode != null)
                     {
                         var segment = new SegmentDetails

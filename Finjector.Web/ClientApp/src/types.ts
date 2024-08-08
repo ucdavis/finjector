@@ -177,6 +177,7 @@ export interface PpmDetails {
   awardInfo?: string;
   awardStartDate?: string;
   awardEndDate?: string;
+  awardCloseDate?: string;
   projectTypeName: string;
   poetString: string;
   glRevenueTransferString: string;
