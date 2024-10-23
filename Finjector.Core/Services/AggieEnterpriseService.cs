@@ -695,7 +695,7 @@ namespace Finjector.Core.Services
 
             if (aeDetails.PpmDetails.ProjectTypeName?.Equals("Internal", StringComparison.OrdinalIgnoreCase) ?? false)
             {
-                aeDetails.PpmDetails.GlRevenueTransferString = $"{entity}-{fund}-{dept}-775B15-80-{program}-{project}-{activity}-0000-000000-000000";
+                aeDetails.PpmDetails.GlRevenueTransferString = $"{entity}-{fund}-{dept}-775B15-00-{program}-{project}-{activity}-0000-000000-000000";
             }
 
             if (data.PpmProjectByNumber?.Description != null && data.PpmProjectByNumber.Description != data.PpmProjectByNumber.Name)
