@@ -22,8 +22,11 @@ if (!certificateName) {
   process.exit(-1);
 }
 
+
 export const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
 export const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
+
+console.log(`If certificate expires, delete the files here for Certificate: ${certFilePath}`);
 
 // make sure we don't do this in Azure DevOps environment
 if (
