@@ -37,12 +37,8 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
               )}
             </div>
           </div>
-          <CopyToClipboardHover
-            value={chartStringFromUrl ?? "0000-00000-0000-00000-0000"}
-            id="copyPpmGlStringLoadingErr"
-          >
-            <h1>{chartStringFromUrl ?? "0000-00000-0000-00000-0000"}</h1>
-          </CopyToClipboardHover>
+          {/* Don't put the copy to clipboard on hover here, it can cause an error if it is clicked before everything loads */}
+          <h1>{chartStringFromUrl ?? "0000-00000-0000-00000-0000"}</h1>
         </div>
       </div>
     );
