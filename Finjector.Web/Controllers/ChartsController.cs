@@ -9,6 +9,7 @@ using Finjector.Core.Extensions;
 using Finjector.Web.Handlers;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using AggieEnterpriseApi.Validation;
 
 namespace Finjector.Web.Controllers;
 
@@ -44,9 +45,9 @@ public class ChartsController : ControllerBase
         }
 
         var rtValue = await _dbContext.Coas.Where(c => c.Id == id).Select(ChartStringEditModel.Projection()).SingleOrDefaultAsync();
-        if(rtValue == null)
+        if (rtValue == null)
         {
-               return NotFound();
+            return NotFound();
         }
         rtValue.CanEdit = await _userService.VerifyChartAccess(id, iamId, Role.Codes.Edit);
 
@@ -100,9 +101,9 @@ public class ChartsController : ControllerBase
                     .OrderBy(g2 => g2.Name)
             })
             .OrderByDescending(g => g.Team.IsPersonal)
-            .ThenBy(g => g.Team.Name)            
+            .ThenBy(g => g.Team.Name)
             .ToList();
-        
+
         return Ok(groupedCharts);
     }
 
@@ -169,7 +170,7 @@ public class ChartsController : ControllerBase
         try
         {
             await _dbContext.SaveChangesAsync();
-        } 
+        }
         catch (Exception ex)
         {
             //var error = ex.Message;
@@ -228,11 +229,12 @@ public class ChartsController : ControllerBase
         chartStringDetails.CanEdit = await _userService.VerifyChartAccess(chartId, iamId, Role.Codes.Edit);
 
         var aeDetails = await _aggieEnterpriseService.GetAeDetailsAsync(chartStringDetails.SegmentString);
-        
-        var rtValue = new {
+
+        var rtValue = new
+        {
             chartStringDetails,
             aeDetails
-        };   
+        };
 
         return Ok(rtValue);
     }
@@ -242,11 +244,54 @@ public class ChartsController : ControllerBase
     public async Task<IActionResult> DetailsByString([FromQuery] string chartString)
     {
         var aeDetails = await _aggieEnterpriseService.GetAeDetailsAsync(chartString);
-        var rtValue = new {
+        var rtValue = new
+        {
             aeDetails
         };
 
         return Ok(rtValue);
+    }
+    
+    [HttpGet("validateChartString")]
+    public async Task<IActionResult> ValidateChartString(string chartString)
+    {
+        var chartType =  _aggieEnterpriseService.GetChartType(chartString);
+
+        if (chartType == FinancialChartStringType.Gl)
+        {
+            var glvalue = await _aggieEnterpriseService.GlValidate(chartString);
+            if (glvalue.ValidationResponse.Valid)
+            {
+                if(glvalue.Warnings == null || glvalue.Warnings.Any())
+                {
+                    return Ok("Warning");
+                }
+                return Ok("Valid");
+            }
+            else
+            {
+                return Ok("Invalid");
+            }
+        }
+        if(chartType == FinancialChartStringType.Ppm)
+        {
+            var ppmValue = await _aggieEnterpriseService.PpmValidate(chartString);
+            if (ppmValue.ValidationResponse.Valid)
+            {
+                if(ppmValue.Warnings == null || ppmValue.Warnings.Any())
+                {
+                    return Ok("Warning");
+                }
+                return Ok("Valid");
+            }
+            else
+            {
+                return Ok("Invalid");
+            }
+        }
+
+
+        return Ok("Unknown" );
     }
 
     

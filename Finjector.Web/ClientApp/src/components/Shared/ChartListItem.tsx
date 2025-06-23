@@ -1,7 +1,17 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Coa, ChartType, Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBolt, faScroll } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBolt,
+  faCheck,
+  faScroll,
+  faSpinner,
+  faInfoCircle,
+  faQuestionCircle,
+  faTimesCircle,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import CopyToClipboardHover from "./CopyToClipboardHover";
 import usePopupStatus from "../../util/customHooks";
 import ClickableListItem from "./ClickableListItem";
@@ -17,6 +27,30 @@ const ChartListItem = ({ chart, folder }: Props) => {
   const destination = isInPopup ? "selected" : "details";
   const url = `/teams/${folder.teamId}/folders/${folder.id}/${destination}/${chart.id}/${chart.segmentString}`;
 
+  const validationUrl = `/api/charts/validateChartString?chartString=${chart.segmentString}`;
+
+  // State for chartState
+  const [chartState, setChartState] = useState("Undefined");
+
+  const handleMouseEnter = async () => {
+    if (chartState === "Undefined") {
+      setChartState("Checking");
+      try {
+        const response = await fetch(validationUrl);
+
+        if (response.status === 200) {
+          const data = await response.text();
+          // possible values: Unknown, Invalid, Valid, Warning
+          setChartState(data); // Assuming the response is a string like "ValidFaked"
+        } else {
+          setChartState("Unknown");
+        }
+      } catch {
+        setChartState("error");
+      }
+    }
+  };
+
   return (
     <ClickableListItem
       className={`chartstring-row ${
@@ -24,10 +58,41 @@ const ChartListItem = ({ chart, folder }: Props) => {
       } d-flex justify-content-between align-items-center`}
       key={chart.id}
       url={url}
+      onMouseEnter={handleMouseEnter}
     >
       <div className="col-9 ms-2 me-auto">
         <div className="chartstring-type">
           <span>{chart.chartType}</span>
+          {chartState === "Checking" && (
+            <span>
+              {" "}
+              <FontAwesomeIcon icon={faSpinner} /> Checking...
+            </span>
+          )}
+          {chartState === "Valid" && (
+            <span className="text-secondary">
+              {" "}
+              <FontAwesomeIcon icon={faCheckCircle} /> Valid
+            </span>
+          )}
+          {chartState === "Invalid" && (
+            <span className="text-danger">
+              {" "}
+              <FontAwesomeIcon icon={faTimesCircle} /> Invalid
+            </span>
+          )}
+          {chartState === "Warning" && (
+            <span className="text-warning">
+              {" "}
+              <FontAwesomeIcon icon={faInfoCircle} /> Warning
+            </span>
+          )}
+          {chartState === "Unknown" && (
+            <span className="text-danger">
+              {" "}
+              <FontAwesomeIcon icon={faQuestionCircle} /> Unknown
+            </span>
+          )}
         </div>
         <div className="fw-bold "> {chart.name}</div>
         {!isInPopup && (
