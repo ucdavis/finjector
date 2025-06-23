@@ -15,6 +15,7 @@ import {
 import CopyToClipboardHover from "./CopyToClipboardHover";
 import usePopupStatus from "../../util/customHooks";
 import ClickableListItem from "./ClickableListItem";
+import { Badge } from "reactstrap";
 
 interface Props {
   chart: Coa;
@@ -64,33 +65,41 @@ const ChartListItem = ({ chart, folder }: Props) => {
         <div className="chartstring-type">
           <span>{chart.chartType}</span>
           {chartState === "Checking" && (
-            <span>
+            <span className="primary-font">
               {" "}
               <FontAwesomeIcon icon={faSpinner} /> Checking...
             </span>
           )}
           {chartState === "Valid" && (
-            <span className="text-secondary">
+            <span className="listBadge">
               {" "}
-              <FontAwesomeIcon icon={faCheckCircle} /> Valid
+              <Badge color={"success"} pill={true}>
+                Valid
+              </Badge>
             </span>
           )}
           {chartState === "Invalid" && (
-            <span className="text-danger">
+            <span className="listBadge">
               {" "}
-              <FontAwesomeIcon icon={faTimesCircle} /> Invalid
+              <Badge color={"danger"} pill={true}>
+                Invalid
+              </Badge>
             </span>
           )}
           {chartState === "Warning" && (
-            <span className="text-warning">
+            <span className="listBadge">
               {" "}
-              <FontAwesomeIcon icon={faInfoCircle} /> Warning
+              <Badge color={"warning"} pill={true} className={"ms-1"}>
+                Warning
+              </Badge>
             </span>
           )}
           {chartState === "Unknown" && (
-            <span className="text-danger">
+            <span className="listBadge">
               {" "}
-              <FontAwesomeIcon icon={faQuestionCircle} /> Unknown
+              <Badge color={"danger"} pill={true}>
+                Unknown Validation
+              </Badge>
             </span>
           )}
         </div>
