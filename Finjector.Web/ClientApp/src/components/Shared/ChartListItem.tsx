@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Coa, ChartType, Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBolt, faScroll } from "@fortawesome/free-solid-svg-icons";
+import { faBolt, faScroll, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import CopyToClipboardHover from "./CopyToClipboardHover";
 import usePopupStatus from "../../util/customHooks";
 import ClickableListItem from "./ClickableListItem";
@@ -66,6 +66,13 @@ const ChartListItem = ({ chart, folder }: Props) => {
       <div className="col-9 ms-2 me-auto">
         <div className="chartstring-type">
           <span>{chart.chartType}</span>
+          {chartState === "Checking" && (
+            <span className="primary-font">
+              {" "}
+              <FontAwesomeIcon icon={faSpinner} /> Checking...
+            </span>
+          )}
+
           {chartState === "Valid" && (
             <span className="listBadge">
               {" "}
