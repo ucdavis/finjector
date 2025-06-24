@@ -2,16 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Coa, ChartType, Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBolt,
-  faCheck,
-  faScroll,
-  faSpinner,
-  faInfoCircle,
-  faQuestionCircle,
-  faTimesCircle,
-  faCheckCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBolt, faScroll } from "@fortawesome/free-solid-svg-icons";
 import CopyToClipboardHover from "./CopyToClipboardHover";
 import usePopupStatus from "../../util/customHooks";
 import ClickableListItem from "./ClickableListItem";
@@ -32,23 +23,33 @@ const ChartListItem = ({ chart, folder }: Props) => {
 
   // State for chartState
   const [chartState, setChartState] = useState("Undefined");
+  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  const handleMouseEnter = async () => {
-    if (chartState === "Undefined") {
-      setChartState("Checking");
-      try {
-        const response = await fetch(validationUrl);
+  const handleMouseEnter = () => {
+    const timeout = setTimeout(async () => {
+      if (chartState === "Undefined") {
+        setChartState("Checking");
+        try {
+          const response = await fetch(validationUrl);
 
-        if (response.status === 200) {
-          const data = await response.text();
-          // possible values: Unknown, Invalid, Valid, Warning
-          setChartState(data); // Assuming the response is a string like "ValidFaked"
-        } else {
-          setChartState("Unknown");
+          if (response.status === 200) {
+            const data = await response.text();
+            setChartState(data);
+          } else {
+            setChartState("Unknown");
+          }
+        } catch {
+          setChartState("error");
         }
-      } catch {
-        setChartState("error");
       }
+    }, 1000); // 1-second delay
+    setHoverTimeout(timeout);
+  };
+
+  const handleMouseLeave = () => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      setHoverTimeout(null);
     }
   };
 
@@ -60,16 +61,11 @@ const ChartListItem = ({ chart, folder }: Props) => {
       key={chart.id}
       url={url}
       onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="col-9 ms-2 me-auto">
         <div className="chartstring-type">
           <span>{chart.chartType}</span>
-          {chartState === "Checking" && (
-            <span className="primary-font">
-              {" "}
-              <FontAwesomeIcon icon={faSpinner} /> Checking...
-            </span>
-          )}
           {chartState === "Valid" && (
             <span className="listBadge">
               {" "}
