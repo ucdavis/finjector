@@ -134,7 +134,9 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
     console.log(csvContent);
 
     // Create a link and download
-    const encodedUri = encodeURI(csvContent);
+    const csvData = csvContent.replace(/^data:text\/csv;charset=utf-8,/, "");
+    const encodedUri = "data:text/csv;charset=utf-8," + encodeURIComponent(csvData);
+
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", `${fileName}.${fileType.toLowerCase()}`);
