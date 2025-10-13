@@ -8,6 +8,7 @@ import PageTitle from "../components/Shared/Layout/PageTitle";
 import DetailsAeErrors from "../components/Details/DetailsAeErrors";
 import PageBody from "../components/Shared/Layout/PageBody";
 import DetailsChartString from "../components/Details/DetailsChartString";
+import DetailsQrCode from "../components/Details/DetailsQrCode";
 import { useFinQueryStatus } from "../util/error";
 
 const Details = () => {
@@ -56,6 +57,7 @@ const Details = () => {
             queryStatus={queryStatus}
           />
         </div>
+        <DetailsQrCode chartSegmentString={chartSegmentString} />
       </PageBody>
       <ChartDebugInfo chartDetails={chartDetailsQuery.data} />
     </div>
