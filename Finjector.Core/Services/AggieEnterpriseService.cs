@@ -1052,11 +1052,46 @@ namespace Finjector.Core.Services
             {
                 return null;
             }
-            var result = await _apiClient.PpmAward.ExecuteAsync(query.ToUpperTrim());
+            try
+            {
+                var result = await _apiClient.PpmAward.ExecuteAsync(query.ToUpperTrim());
 
-            var data = result.ReadData();
 
-            return data.PpmAwardByPpmAwardNumber.FirstOrDefault();
+                var data = result.ReadData();
+
+                return data.PpmAwardByPpmAwardNumber.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error fetching award {query}: {ex.Message}");
+                var rtValue = new localPpmAwardDetails
+                {
+                    PpmAwardNumber = query,
+                    Name = "Error fetching award details"
+                };
+                return rtValue;
+            }
+        }
+
+        public class localPpmAwardDetails : IPpmAward_PpmAwardByPpmAwardNumber
+        {
+            public bool EligibleForUse { get; set; }
+            public string? PpmAwardNumber { get; set; }
+            public string? Name { get; set; }
+            public string? AwardStatus { get; set; }
+            public string? StartDate { get; set; }
+            public string? EndDate { get; set; }
+            public string? CloseDate { get; set; }
+            public string? GlFundCode { get; set; }
+            public string? GlPurposeCode { get; set; }
+
+            public long Id => 1;
+
+            public string AwardNumber => PpmAwardNumber;
+
+            public IReadOnlyList<IPpmAward_PpmAwardByPpmAwardNumber_Personnel> Personnel => new List<IPpmAward_PpmAwardByPpmAwardNumber_Personnel>();
+
+            PpmAwardStatus? IPpmAward_PpmAwardByPpmAwardNumber.AwardStatus => new PpmAwardStatus();
         }
 
         public async Task<IEnumerable<SearchResult>> FundingSource(string query)
