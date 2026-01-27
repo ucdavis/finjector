@@ -3,61 +3,21 @@ import { Link } from "react-router-dom";
 import { Badge } from "reactstrap";
 import FinButton from "../components/Shared/FinButton";
 import PageTitle from "../components/Shared/Layout/PageTitle";
-
-interface ChartValidationResult {
-  chartString: string;
-  isValid: boolean;
-  isWarning: boolean;
-  errorMessage: string;
-}
+import {
+  ChartValidationResult,
+  useValidateBulkChartsMutation,
+} from "../queries/bulkQueries";
 
 const BulkValidate = () => {
   const [chartStrings, setChartStrings] = useState<string>("");
-  const [results, setResults] = useState<ChartValidationResult[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const validateMutation = useValidateBulkChartsMutation();
 
-  const handleValidate = async () => {
+  const handleValidate = () => {
     if (!chartStrings.trim()) {
-      setError("Please enter chart strings to validate.");
       return;
     }
 
-    setIsLoading(true);
-    setError("");
-    setResults([]);
-
-    try {
-      const response = await fetch(
-        `/api/bulk?chartStrings=${encodeURIComponent(chartStrings)}`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        // Try to get the error message from the response body
-        const errorText = await response.text();
-        setError(errorText || `${response.status} ${response.statusText}`);
-        setIsLoading(false);
-        return;
-      }
-
-      const data = await response.json();
-      setResults(data);
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "An error occurred during validation."
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    validateMutation.mutate(chartStrings);
   };
 
   const getIconForResult = (result: ChartValidationResult) => {
@@ -105,18 +65,21 @@ const BulkValidate = () => {
 
       <FinButton
         onClick={handleValidate}
-        disabled={isLoading || !chartStrings.trim()}
+        disabled={validateMutation.isPending || !chartStrings.trim()}
       >
-        {isLoading ? "Validating..." : "Validate Chart Strings"}
+        {validateMutation.isPending
+          ? "Validating..."
+          : "Validate Chart Strings"}
       </FinButton>
 
-      {error && (
+      {validateMutation.isError && (
         <div className="alert alert-danger mt-3" role="alert">
-          {error}
+          {validateMutation.error?.message ||
+            "An error occurred during validation."}
         </div>
       )}
 
-      {results.length > 0 && (
+      {validateMutation.isSuccess && validateMutation.data && (
         <div className="mt-4">
           <h4>Validation Results</h4>
           <table className="table table-striped">
@@ -128,7 +91,7 @@ const BulkValidate = () => {
               </tr>
             </thead>
             <tbody>
-              {results.map((result, index) => (
+              {validateMutation.data.map((result, index) => (
                 <tr key={index}>
                   <td>{getIconForResult(result)}</td>
                   <td>

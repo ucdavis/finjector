@@ -29,7 +29,7 @@ namespace Finjector.Web.Controllers
             {
                 return BadRequest("No chart strings provided.");
             }
-            if (chartStringList.Count > 200)
+            if (chartStringList.Count > 10)
             {
                 return BadRequest("Too many chart strings provided. Maximum is 200.");
             }
@@ -73,8 +73,8 @@ namespace Finjector.Web.Controllers
                                 result.ErrorMessage = string.Join("; ", validationResponse.Warnings);
                             }
                         }
-                        //result.IsWarning = true; //For debugging warnings
-                        //result.ErrorMessage = "Totaly fake warning";
+                        result.IsWarning = true; //For debugging warnings
+                        result.ErrorMessage = "Totaly fake warning";
                         results.Add(result);
                         continue;
                     }

@@ -14,6 +14,24 @@ export const doFetch = async <T>(fetchCall: Promise<Response>): Promise<T> => {
   return await res.json();
 };
 
+// This is a version of doFetch that attempts to read the response body text on error
+export const doFetchWithTextError = async <T>(
+  fetchCall: Promise<Response>
+): Promise<T> => {
+  const res = await fetchCall;
+
+  if (!res.ok) {
+    if (res.status === 401) {
+      throw new Error(UnauthorizedError);
+    }
+    // Try to get the error message from the response body
+    const errorText = await res.text();
+    throw new Error(errorText || `${res.status} ${res.statusText}`);
+  }
+
+  return await res.json();
+};
+
 // This is a version of doFetch that doesn't expect a response body
 export const doFetchEmpty = async (
   fetchCall: Promise<Response>
