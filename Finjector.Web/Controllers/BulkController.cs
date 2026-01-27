@@ -73,8 +73,8 @@ namespace Finjector.Web.Controllers
                                 result.ErrorMessage = string.Join("; ", validationResponse.Warnings);
                             }
                         }
-                        result.IsWarning = true;
-                        result.ErrorMessage = "Totaly fake warning";
+                        //result.IsWarning = true; //For debugging warnings
+                        //result.ErrorMessage = "Totaly fake warning";
                         results.Add(result);
                         continue;
                     }
