@@ -12,6 +12,7 @@ import About from "./pages/About";
 import Selected from "./pages/Selected";
 import Entry from "./pages/Entry";
 import Paste from "./pages/Paste";
+import BulkValidate from "./pages/BulkValidate";
 import Details from "./pages/Details";
 import Header from "./components/Shared/Layout/Header";
 import MyTeams from "./pages/Teams/MyTeams";
@@ -214,6 +215,11 @@ const router = sentryRouter([
         path: "/paste",
         element: <Paste />,
         handle: { title: "Paste", hideBreadcrumbs: true },
+      },
+      {
+        path: "/bulk",
+        element: <BulkValidate />,
+        handle: { title: "Bulk Validate", hideBreadcrumbs: true },
       },
       {
         path: "/selected",
