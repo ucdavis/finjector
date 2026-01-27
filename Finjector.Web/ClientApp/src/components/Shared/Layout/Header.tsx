@@ -33,6 +33,10 @@ const Header = () => (
             Teams
           </Link>
           <CenteredBullet />
+          <Link className="header-link" to="/bulk">
+            Bulk Validate
+          </Link>
+          <CenteredBullet />
           <Link className="header-link" to="/help">
             Help
           </Link>
