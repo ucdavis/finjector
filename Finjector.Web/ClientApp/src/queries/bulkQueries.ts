@@ -12,12 +12,13 @@ export const useValidateBulkChartsMutation = () =>
   useMutation({
     mutationFn: async (chartStrings: string) => {
       return await doFetchWithTextError<ChartValidationResult[]>(
-        fetch(`/api/bulk?chartStrings=${encodeURIComponent(chartStrings)}`, {
+        fetch(`/api/bulk`, {
           method: "POST",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({ chartStrings }),
         })
       );
     },

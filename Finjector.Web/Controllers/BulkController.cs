@@ -19,10 +19,10 @@ namespace Finjector.Web.Controllers
         private readonly IAggieEnterpriseService _aggieEnterpriseService;
 
         [HttpPost]
-        public async Task<IActionResult> Validate(string chartStrings)
+        public async Task<IActionResult> Validate([FromBody] BulkValidationRequest request)
         {
             // parse chartStrings into list splitting by comma, spaces, or newlines
-            var chartStringList = chartStrings.Split(new[] { ',', ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
+            var chartStringList = request.ChartStrings.Split(new[] { ',', ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
 
             if (chartStringList.Count == 0)
             {
@@ -116,6 +116,11 @@ namespace Finjector.Web.Controllers
             var results = await Task.WhenAll(tasks);
 
             return Ok(results);
+        }
+
+        public class BulkValidationRequest
+        {
+            public string ChartStrings { get; set; } = string.Empty;
         }
 
         public class ChartValidationResult
