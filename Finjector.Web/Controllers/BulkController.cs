@@ -21,7 +21,6 @@ namespace Finjector.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Validate(string chartStrings)
         {
-            var results = new List<ChartValidationResult>();
             // parse chartStrings into list splitting by comma, spaces, or newlines
             var chartStringList = chartStrings.Split(new[] { ',', ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
 
@@ -29,12 +28,12 @@ namespace Finjector.Web.Controllers
             {
                 return BadRequest("No chart strings provided.");
             }
-            if (chartStringList.Count > 10)
+            if (chartStringList.Count > 200)
             {
                 return BadRequest("Too many chart strings provided. Maximum is 200.");
             }
 
-            foreach (var chartString in chartStringList)
+            var tasks = chartStringList.Select(async chartString =>
             {
                 var result = new ChartValidationResult
                 {
@@ -47,8 +46,7 @@ namespace Finjector.Web.Controllers
                     {
                         result.IsValid = false;
                         result.ErrorMessage = "Invalid chart string format.";
-                        results.Add(result);
-                        continue;
+                        return result;
                     }
                     if (chartType == FinancialChartStringType.Gl)
                     {
@@ -75,8 +73,7 @@ namespace Finjector.Web.Controllers
                         }
                         result.IsWarning = true; //For debugging warnings
                         result.ErrorMessage = "Totaly fake warning";
-                        results.Add(result);
-                        continue;
+                        return result;
                     }
                     if (chartType == FinancialChartStringType.Ppm)
                     {
@@ -101,22 +98,22 @@ namespace Finjector.Web.Controllers
                                 result.ErrorMessage = string.Join("; ", validationResponse.Warnings);
                             }
                         }
-                        results.Add(result);
-                        continue;
+                        return result;
                     }
                     result.IsValid = false;
                     result.ErrorMessage = "Unknown Error.";
-                    results.Add(result);
+                    return result;
 
                 }
                 catch (Exception ex)
                 {
                     result.IsValid = false;
                     result.ErrorMessage = "Unknown Error";
+                    return result;
                 }
-                results.Add(result);
-            }
+            });
 
+            var results = await Task.WhenAll(tasks);
 
             return Ok(results);
         }
