@@ -281,6 +281,10 @@ public class UserService : IUserService
                     // Rollback this transaction and re-query for the user
                     await transaction.RollbackAsync();
 
+                    // Detach the user entity from change tracker to prevent EF from trying to re-insert it
+                    // The entity is still in Added state even after rollback, so we must detach it
+                    _dbContext.Entry(user).State = EntityState.Detached;
+
                     // User was created by another request, fetch it
                     user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Iam == iamId);
 
