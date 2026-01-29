@@ -44,9 +44,9 @@ public class ChartsController : ControllerBase
         }
 
         var rtValue = await _dbContext.Coas.Where(c => c.Id == id).Select(ChartStringEditModel.Projection()).SingleOrDefaultAsync();
-        if(rtValue == null)
+        if (rtValue == null)
         {
-               return NotFound();
+            return NotFound();
         }
         rtValue.CanEdit = await _userService.VerifyChartAccess(id, iamId, Role.Codes.Edit);
 
@@ -100,9 +100,9 @@ public class ChartsController : ControllerBase
                     .OrderBy(g2 => g2.Name)
             })
             .OrderByDescending(g => g.Team.IsPersonal)
-            .ThenBy(g => g.Team.Name)            
+            .ThenBy(g => g.Team.Name)
             .ToList();
-        
+
         return Ok(groupedCharts);
     }
 
@@ -140,6 +140,8 @@ public class ChartsController : ControllerBase
         else
         {
             // new chart, no folder specified, so just save in the user's default folder
+            // ensure the user exists and has a personal folder (important for popup usage)
+            await _userService.EnsureUserExists(iamId);
         }
 
         // use the requested folder if specified, otherwise use the user's default folder
@@ -169,7 +171,7 @@ public class ChartsController : ControllerBase
         try
         {
             await _dbContext.SaveChangesAsync();
-        } 
+        }
         catch (Exception ex)
         {
             //var error = ex.Message;
@@ -228,11 +230,12 @@ public class ChartsController : ControllerBase
         chartStringDetails.CanEdit = await _userService.VerifyChartAccess(chartId, iamId, Role.Codes.Edit);
 
         var aeDetails = await _aggieEnterpriseService.GetAeDetailsAsync(chartStringDetails.SegmentString);
-        
-        var rtValue = new {
+
+        var rtValue = new
+        {
             chartStringDetails,
             aeDetails
-        };   
+        };
 
         return Ok(rtValue);
     }
@@ -242,12 +245,13 @@ public class ChartsController : ControllerBase
     public async Task<IActionResult> DetailsByString([FromQuery] string chartString)
     {
         var aeDetails = await _aggieEnterpriseService.GetAeDetailsAsync(chartString);
-        var rtValue = new {
+        var rtValue = new
+        {
             aeDetails
         };
 
         return Ok(rtValue);
     }
 
-    
+
 }
