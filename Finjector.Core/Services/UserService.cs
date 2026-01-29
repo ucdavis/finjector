@@ -249,12 +249,13 @@ public class UserService : IUserService
     // Ensure the user already exists and has a personal team w/ default folder
     public async Task<User> EnsureUserExists(string iamId)
     {
-        var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Iam == iamId);
-
         await using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
         try
         {
+            // Lookup user inside transaction to ensure atomicity
+            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Iam == iamId);
+
             if (user == null)
             {
                 // user not found in database, so create them via IAM
@@ -268,7 +269,53 @@ public class UserService : IUserService
 
                 // we have a user from IAM, so add them to our database
                 await _dbContext.Users.AddAsync(user);
-                await _dbContext.SaveChangesAsync();
+
+                try
+                {
+                    await _dbContext.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("IX_Users_Iam") == true ||
+                                                    ex.InnerException?.Message.Contains("duplicate key") == true)
+                {
+                    // Handle race condition: another request created the user concurrently
+                    // Rollback this transaction and re-query for the user
+                    await transaction.RollbackAsync();
+
+                    // User was created by another request, fetch it
+                    user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Iam == iamId);
+
+                    if (user == null)
+                    {
+                        throw new Exception($"User with IamID {iamId} should exist but was not found after unique constraint violation");
+                    }
+
+                    // Start a new transaction for the team creation check
+                    await using var newTransaction = await _dbContext.Database.BeginTransactionAsync();
+
+                    try
+                    {
+                        // Check if user has personal team
+                        var existingTeam = await _dbContext.Teams.Where(a => a.Owner.Iam == user.Iam && a.IsPersonal)
+                            .SingleOrDefaultAsync();
+
+                        if (existingTeam != null)
+                        {
+                            await newTransaction.CommitAsync();
+                            return user;
+                        }
+
+                        // Create personal team if it doesn't exist
+                        await CreatePersonalTeamForUser(user);
+                        await _dbContext.SaveChangesAsync();
+                        await newTransaction.CommitAsync();
+                        return user;
+                    }
+                    catch
+                    {
+                        await newTransaction.RollbackAsync();
+                        throw;
+                    }
+                }
             }
 
             // now we have a valid user in the db
@@ -279,29 +326,12 @@ public class UserService : IUserService
 
             if (teams != null)
             {
+                await transaction.CommitAsync();
                 return user;
             }
 
             // user doesn't have a personal team, create one for them
-            var team = new Team
-            {
-                Name = Team.PersonalTeamName,
-                Owner = user,
-                IsPersonal = true
-            };
-            team.TeamPermissions.Add(new TeamPermission
-            {
-                Role = await _dbContext.Roles.SingleAsync(r => r.Name == Role.Codes.Admin),
-                User = user
-            });
-            team.Folders.Add(new Folder
-            {
-                Name = Folder.DefaultFolderName,
-                IsDefault = true,
-                Team = team
-            });
-
-            _dbContext.Teams.Add(team);
+            await CreatePersonalTeamForUser(user);
             await _dbContext.SaveChangesAsync();
 
             await transaction.CommitAsync();
@@ -313,5 +343,28 @@ public class UserService : IUserService
             await transaction.RollbackAsync();
             throw;
         }
+    }
+
+    private async Task CreatePersonalTeamForUser(User user)
+    {
+        var team = new Team
+        {
+            Name = Team.PersonalTeamName,
+            Owner = user,
+            IsPersonal = true
+        };
+        team.TeamPermissions.Add(new TeamPermission
+        {
+            Role = await _dbContext.Roles.SingleAsync(r => r.Name == Role.Codes.Admin),
+            User = user
+        });
+        team.Folders.Add(new Folder
+        {
+            Name = Folder.DefaultFolderName,
+            IsDefault = true,
+            Team = team
+        });
+
+        _dbContext.Teams.Add(team);
     }
 }
