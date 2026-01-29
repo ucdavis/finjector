@@ -1,5 +1,6 @@
 using Finjector.Core.Data;
 using Finjector.Core.Domain;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Finjector.Core.Services;
@@ -274,10 +275,11 @@ public class UserService : IUserService
                 {
                     await _dbContext.SaveChangesAsync();
                 }
-                catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("IX_Users_Iam") == true ||
-                                                    ex.InnerException?.Message.Contains("duplicate key") == true)
+                catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx &&
+                                                    (sqlEx.Number == 2601 || sqlEx.Number == 2627))
                 {
                     // Handle race condition: another request created the user concurrently
+                    // 2601 = unique constraint violation, 2627 = primary key violation
                     // Rollback this transaction and re-query for the user
                     await transaction.RollbackAsync();
 
