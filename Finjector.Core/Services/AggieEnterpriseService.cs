@@ -727,8 +727,8 @@ namespace Finjector.Core.Services
                     aeDetails.PpmDetails.Roles.Add(ppmRole);
                 }
             }
-            aeDetails.PpmDetails.TaskStartDate = data.PpmTaskByProjectNumberAndTaskNumber?.TaskStartDate;
-            aeDetails.PpmDetails.TaskEndDate = data.PpmTaskByProjectNumberAndTaskNumber?.TaskFinishDate;
+            aeDetails.PpmDetails.TaskStartDate = data.PpmTaskByProjectNumberAndTaskNumber?.TaskStartDate ?? string.Empty;
+            aeDetails.PpmDetails.TaskEndDate = data.PpmTaskByProjectNumberAndTaskNumber?.TaskFinishDate ?? string.Empty;
 
         }
         
