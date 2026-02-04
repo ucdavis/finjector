@@ -132,6 +132,25 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
           }
         />
       )}
+      <DetailsRow
+        headerColText="Task Start Date"
+        column2={
+          <CopyToClipboardHover
+            value={details.taskStartDate}
+            id="taskStartDate"
+          >
+            {details.taskStartDate}
+          </CopyToClipboardHover>
+        }
+      />
+      <DetailsRow
+        headerColText="Task End Date"
+        column2={
+          <CopyToClipboardHover value={details.taskEndDate} id="taskEndDate">
+            {details.taskEndDate}
+          </CopyToClipboardHover>
+        }
+      />
       {details.roles &&
         details.roles
           .filter((role) => role.type === "A")

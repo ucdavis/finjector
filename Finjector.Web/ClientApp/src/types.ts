@@ -182,6 +182,8 @@ export interface PpmDetails {
   poetString: string;
   glRevenueTransferString: string;
   projectDescription: string;
+  taskStartDate: string;
+  taskEndDate: string;
   roles: PpmRoles[];
 }
 
