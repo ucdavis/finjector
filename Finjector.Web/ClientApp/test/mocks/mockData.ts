@@ -300,6 +300,8 @@ const fakePpmDetails: PpmDetails = {
   projectStatus: "In Progress",
   projectTypeName: "New Project",
   poetString: "Fake-POET-String",
+  taskStartDate: "2022-01-01",
+  taskEndDate: "2022-12-31",
   glRevenueTransferString: "Fake-Gl-Transfer-String",
   projectDescription: "This is a fake project description.",
   roles: [
@@ -396,6 +398,8 @@ const fakeInvalidAeDetails: AeDetails = {
     projectStatus: "In Progress",
     projectTypeName: "New Project",
     poetString: "Fake-POET-String",
+    taskStartDate: "2022-01-01",
+    taskEndDate: "2022-12-31",
     glRevenueTransferString: "Fake-Gl-Transfer-String",
     projectDescription: "This is a fake project description.",
     roles: [
@@ -491,6 +495,8 @@ const fakeValidAeDetails: AeDetails = {
     poetString: "Fake-POET-String",
     glRevenueTransferString: "Fake-Gl-Transfer-String",
     projectDescription: "This is a fake project description.",
+    taskStartDate: "2022-01-01",
+    taskEndDate: "2022-12-31",
     roles: [
       {
         order: 1,
