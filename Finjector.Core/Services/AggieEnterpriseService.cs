@@ -11,7 +11,7 @@ namespace Finjector.Core.Services
 {
     public interface IAggieEnterpriseService
     {
-        //Returns Chart type (includes invalid value)
+        //Returns Chart type (includes invalid value).
         FinancialChartStringType GetChartType(string segmentString);
 
         Task<AeDetails> GetAeDetailsAsync(string segmentString);
