@@ -105,6 +105,9 @@ namespace Finjector.Core.Models
 
         public string? ProjectDescription { get; set; } = string.Empty;
 
+        public string? TaskStartDate { get; set; } = string.Empty;
+        public string? TaskEndDate { get; set; } = string.Empty;
+
         public List<PpmRoles> Roles { get; set; } = new List<PpmRoles>();
     }
 
