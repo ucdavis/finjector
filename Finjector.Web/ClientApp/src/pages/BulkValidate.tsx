@@ -7,6 +7,7 @@ import {
   ChartValidationResult,
   useValidateBulkChartsMutation,
 } from "../queries/bulkQueries";
+import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
 
 const BulkValidate = () => {
   const [chartStrings, setChartStrings] = useState<string>("");
@@ -71,6 +72,8 @@ const BulkValidate = () => {
           ? "Validating..."
           : "Validate Chart Strings"}
       </FinButton>
+
+      {validateMutation.isPending && <FinLoader />}
 
       {validateMutation.isError && (
         <div className="alert alert-danger mt-3" role="alert">

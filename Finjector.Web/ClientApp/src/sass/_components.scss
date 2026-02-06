@@ -239,47 +239,43 @@ hr {
 .wrapper {
   text-align: center;
 }
+.loading-wrapper {
+  --draw-duration: 2s;
+}
+
+/* draw the squiggle */
 .squiggle-path {
   stroke-dasharray: 180;
   stroke-dashoffset: 180;
-  animation: dash 2s infinite;
+  animation: squiggle-draw var(--draw-duration) linear infinite;
 }
 
-@keyframes dash {
+@keyframes squiggle-draw {
   to {
     stroke-dashoffset: 0;
   }
 }
+
 .pencil-write {
-  animation: slide-right 2s infinite;
-  /*   transform: translate(69%,18%); */
+  offset-path: path(
+    "M21.5347885,110.643483 C24.1429585,108.013924 32.7534636,102.835692 36.456245,102.754805 C43.8920617,102.592372 43.1605994,109.903857 50.5613229,110.643483 C57.9620464,111.383109 63.1692896,100.086266 72.855638,101.054317 C82.5419865,102.022368 94.3544996,111.301349 103.927012,113.070378 C113.499525,114.839408 107.511021,102.754805 123.082117,102.754805 C138.653212,102.754805 160.007863,112.053482 164.946533,113.070378 C169.885203,114.087275 172.730849,112.420376 175.21577,100.653835"
+  );
+
+  offset-distance: 0%;
+  offset-rotate: 0deg;
+
+  transform: translate(-11px, -62px);
+
+  animation: pencil-follow var(--draw-duration) linear infinite;
+  will-change: offset-distance;
 }
-@keyframes slide-right {
-  0% {
-    transform: translate(2%, 25%);
-  }
-  12% {
-    transform: translate(10%, 20%);
-  }
-  16% {
-    transform: translate(16%, 23%);
-  }
-  20% {
-    transform: translate(25%, 20%);
-  }
-  38% {
-    transform: translate(40%, 25%);
-  }
-  42% {
-    transform: translate(45%, 21%);
-  }
-  53% {
-    transform: translate(67%, 25%);
-  }
-  100% {
-    transform: translate(69%, 18%);
+
+@keyframes pencil-follow {
+  to {
+    offset-distance: 100%;
   }
 }
+
 #float-emptystate {
   animation: floater 2s infinite;
 }
@@ -416,5 +412,5 @@ span.font-reg {
 }
 
 .shade-hover-row:hover {
-    background-color: #f5f5f5; /* Change this to the color you want */
+  background-color: #f5f5f5; /* Change this to the color you want */
 }
