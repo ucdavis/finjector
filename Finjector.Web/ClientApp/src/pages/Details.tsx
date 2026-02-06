@@ -9,7 +9,6 @@ import DetailsAeErrors from "../components/Details/DetailsAeErrors";
 import PageBody from "../components/Shared/Layout/PageBody";
 import DetailsChartString from "../components/Details/DetailsChartString";
 import { useFinQueryStatus } from "../util/error";
-import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
 
 const Details = () => {
   const { chartId, chartSegmentString } = useParams();
@@ -33,7 +32,6 @@ const Details = () => {
 
   return (
     <div className="main">
-      <FinLoader />
       <PageTitle isRow={true}>
         <DetailsTitle
           aeDetails={aeDetails}
