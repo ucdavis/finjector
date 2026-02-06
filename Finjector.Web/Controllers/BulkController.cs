@@ -68,7 +68,7 @@ namespace Finjector.Web.Controllers
                             if (validationResponse.Warnings != null && validationResponse.Warnings.Count > 0)
                             {
                                 result.IsWarning = true;
-                                result.ErrorMessage = string.Join("; ", validationResponse.Warnings);
+                                result.ErrorMessage = string.Join("; ", validationResponse.Warnings.Select(a => a.Warning).ToArray());
                             }
                         }
                         //result.IsWarning = true; //For debugging warnings
@@ -95,7 +95,7 @@ namespace Finjector.Web.Controllers
                             if (validationResponse.Warnings != null && validationResponse.Warnings.Count > 0)
                             {
                                 result.IsWarning = true;
-                                result.ErrorMessage = string.Join("; ", validationResponse.Warnings);
+                                result.ErrorMessage = string.Join("; ", validationResponse.Warnings.Select(a => a.Warning).ToArray());
                             }
                         }
                         return result;
