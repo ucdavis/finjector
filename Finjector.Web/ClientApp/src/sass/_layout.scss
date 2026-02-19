@@ -26,28 +26,31 @@ body {
   }
 }
 .header {
-  background-color: $primary-color;
-  background-image: url("https://registration.ucdavis.edu/Images/Media/gunrock_banner_final.svg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding: 12px 0;
-  margin-bottom: 2%;
-  a {
-    text-decoration: none;
-    border-bottom: none !important;
-  }
-  h1 {
-    font-size: 1.3rem;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-family: $sans-reg;
-    color: #fff;
-    margin-bottom: 0;
-    letter-spacing: 0.08rem;
-    img {
-      margin-right: 4px;
+    background-color: $primary-color;
+    background-image: url("https://finjector.ucdavis.edu/media/gunrock_banner_final.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 12px 0;
+    margin-bottom: 2%;
+
+    a {
+        text-decoration: none;
+        border-bottom: none !important;
     }
-  }
+
+    h1 {
+        font-size: 1.3rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-family: $sans-reg;
+        color: #fff;
+        margin-bottom: 0;
+        letter-spacing: 0.08rem;
+
+        img {
+            margin-right: 4px;
+        }
+    }
 }
 // nav
 .simple-nav {
