@@ -1,4 +1,4 @@
-﻿using AggieEnterpriseApi.Validation;
+using AggieEnterpriseApi.Validation;
 using Finjector.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -68,7 +68,7 @@ namespace Finjector.Web.Controllers
                             if (validationResponse.Warnings != null && validationResponse.Warnings.Count > 0)
                             {
                                 result.IsWarning = true;
-                                result.ErrorMessage = string.Join("; ", validationResponse.Warnings.Select(a => a.Warning).ToArray());
+                                result.ErrorMessage = string.Join("; ", validationResponse.Warnings.Where(a => a?.Warning is { Length: > 0 }).Select(a => a!.Warning!));
                             }
                         }
                         //result.IsWarning = true; //For debugging warnings
@@ -95,7 +95,7 @@ namespace Finjector.Web.Controllers
                             if (validationResponse.Warnings != null && validationResponse.Warnings.Count > 0)
                             {
                                 result.IsWarning = true;
-                                result.ErrorMessage = string.Join("; ", validationResponse.Warnings.Select(a => a.Warning).ToArray());
+                                result.ErrorMessage = string.Join("; ", validationResponse.Warnings.Where(a => a?.Warning is { Length: > 0 }).Select(a => a!.Warning!));
                             }
                         }
                         return result;
@@ -105,7 +105,7 @@ namespace Finjector.Web.Controllers
                     return result;
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     result.IsValid = false;
                     result.ErrorMessage = "Unknown Error";
@@ -133,3 +133,4 @@ namespace Finjector.Web.Controllers
         }
     }
 }
+
