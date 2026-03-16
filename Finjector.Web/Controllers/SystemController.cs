@@ -1,7 +1,8 @@
-﻿using Finjector.Core.Data;
+using Finjector.Core.Data;
 using Finjector.Core.Models;
 using Finjector.Core.Services;
 using Finjector.Web.Handlers;
+using Finjector.Web.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +30,7 @@ public class SystemController : Controller
     [Authorize(Policy = AccessCodes.SystemAccess)]
     public async Task<IActionResult> Emulate(string id)
     {
-        var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
+        var iamId = Request.GetCurrentUserIamId();
         var currentUser = await _userService.EnsureUserExists(iamId);
         Log.Information($"Emulation attempted for {id} by {currentUser.Name}");
         var lookupVal = id.Trim();
@@ -80,4 +81,5 @@ public class SystemController : Controller
         return LocalRedirect("/");
     }
 }
+
 

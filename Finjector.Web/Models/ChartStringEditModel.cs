@@ -1,4 +1,4 @@
-﻿using Finjector.Core.Domain;
+using Finjector.Core.Domain;
 using System.Linq.Expressions;
 
 namespace Finjector.Web.Models
@@ -10,7 +10,7 @@ namespace Finjector.Web.Models
         public string Name { get; set; } = "";
         public string ChartType { get; set; } = "";
         public int FolderId { get; set; }
-        public Folder Folder { get; set; }
+        public Folder Folder { get; set; } = null!;
         public DateTime Updated { get; set; }
         public string TeamName { get; set; } = "";
         public bool CanEdit { get; set; } = false;
@@ -34,3 +34,4 @@ namespace Finjector.Web.Models
 
 
 }
+

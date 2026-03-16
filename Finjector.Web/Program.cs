@@ -39,7 +39,7 @@ var loggerConfig = new LoggerConfiguration()
     .MinimumLevel.Override("System", LogEventLevel.Warning)
     .Enrich.FromLogContext()
     .Enrich.WithClientIp()
-    .Enrich.WithClientAgent()
+    .Enrich.WithRequestHeader("User-Agent", "UserAgent")
     .Enrich.WithExceptionDetails()
     .Enrich.WithProperty("Application", loggingSection.GetValue<string>("AppName"))
     .Enrich.WithProperty("AppEnvironment", loggingSection.GetValue<string>("Environment"))
@@ -116,9 +116,12 @@ try
     builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<IAggieEnterpriseService, AggieEnterpriseService>();
 
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' was not found.");
+
     builder.Services.AddDbContextPool<AppDbContext, AppDbContextSqlServer>((serviceProvider, o) =>
     {
-        o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        o.UseSqlServer(connectionString,
                 sqlOptions =>
                 {
                     sqlOptions.MigrationsAssembly("Finjector.Core");
@@ -217,3 +220,4 @@ finally
 {
     Log.CloseAndFlush();
 }
+

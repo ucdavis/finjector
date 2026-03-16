@@ -7,6 +7,7 @@ using Finjector.Web.Models;
 using Finjector.Core.Services;
 using Finjector.Core.Extensions;
 using Finjector.Web.Handlers;
+using Finjector.Web.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -35,7 +36,7 @@ public class ChartsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetChart(int id)
     {
-        var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
+        var iamId = Request.GetCurrentUserIamId();
 
         // verify that user has permission to view this chart
         if (await _userService.VerifyChartAccess(id, iamId, Role.Codes.View) == false)
@@ -57,7 +58,7 @@ public class ChartsController : ControllerBase
     [HttpGet("all")]
     public async Task<IActionResult> AllCharts()
     {
-        var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
+        var iamId = Request.GetCurrentUserIamId();
 
         if (iamId == null)
         {
@@ -109,7 +110,7 @@ public class ChartsController : ControllerBase
     [HttpPost("save")]
     public async Task<IActionResult> SaveChart([FromBody] ChartViewModel chartViewModel)
     {
-        var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
+        var iamId = Request.GetCurrentUserIamId();
 
         if (iamId == null)
         {
@@ -182,7 +183,7 @@ public class ChartsController : ControllerBase
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteChart(int id)
     {
-        var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
+        var iamId = Request.GetCurrentUserIamId();
 
         // make sure they are allowed to delete this chart
         if (await _userService.VerifyChartAccess(id, iamId, Role.Codes.Edit) == false)
@@ -210,7 +211,7 @@ public class ChartsController : ControllerBase
     public async Task<IActionResult> DetailsById([FromQuery] int chartId)
     {
 
-        var iamId = Request.HttpContext.User.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
+        var iamId = Request.GetCurrentUserIamId();
 
         // verify that user has permission to view this chart
         if (await _userService.VerifyChartAccess(chartId, iamId, Role.Codes.View) == false)

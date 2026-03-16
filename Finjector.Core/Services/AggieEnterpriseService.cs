@@ -1077,8 +1077,8 @@ namespace Finjector.Core.Services
         public class localPpmAwardDetails : IPpmAward_PpmAwardByPpmAwardNumber
         {
             public bool EligibleForUse { get; set; }
-            public string? PpmAwardNumber { get; set; }
-            public string? Name { get; set; }
+            public string PpmAwardNumber { get; set; } = string.Empty;
+            public string Name { get; set; } = string.Empty;
             public string? AwardStatus { get; set; }
             public string? StartDate { get; set; }
             public string? EndDate { get; set; }
@@ -1128,3 +1128,4 @@ namespace Finjector.Core.Services
         }
     }
 }
+

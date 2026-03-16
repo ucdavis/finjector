@@ -19,10 +19,10 @@ variables:
 steps:
 
 - task: UseDotNet@2
-  displayName: 'Use .NET 6 sdk'
+  displayName: 'Use .NET 10 sdk'
   inputs:
     packageType: 'sdk'
-    version: '6.x'
+    version: '10.x'
 
 - task: NodeTool@0
   inputs:
@@ -67,3 +67,4 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
