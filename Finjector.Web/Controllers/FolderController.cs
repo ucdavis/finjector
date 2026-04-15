@@ -80,7 +80,15 @@ namespace Finjector.Web.Controllers
                 return Unauthorized();
             }
 
-            await _userService.EnsureUserExists(iamId);
+            try
+            {
+                await _userService.EnsureUserExists(iamId);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unable to ensure user exists for folder search list request. iamId: {iamId}", iamId);
+                return Unauthorized();
+            }
 
             var folders = await _dbContext.Folders
                .Where(f => f.IsActive
