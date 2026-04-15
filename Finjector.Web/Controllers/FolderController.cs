@@ -75,6 +75,13 @@ namespace Finjector.Web.Controllers
         {
             var iamId = Request.GetCurrentUserIamId();
 
+            if (string.IsNullOrWhiteSpace(iamId))
+            {
+                return Unauthorized();
+            }
+
+            await _userService.EnsureUserExists(iamId);
+
             var folders = await _dbContext.Folders
                .Where(f => f.IsActive
                     && (f.FolderPermissions.Any(fp => fp.User.Iam == iamId &&
