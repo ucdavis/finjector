@@ -112,10 +112,12 @@ public class ChartsController : ControllerBase
     {
         var iamId = Request.GetCurrentUserIamId();
 
-        if (iamId == null)
+        if (string.IsNullOrWhiteSpace(iamId))
         {
             return Unauthorized();
         }
+
+        await _userService.EnsureUserExists(iamId);
 
         if (!ModelState.IsValid)
         {
