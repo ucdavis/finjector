@@ -418,6 +418,7 @@ const fakeInvalidAeDetails: AeDetails = {
       },
     ],
   },
+  fundPurpose: "",
   hasWarnings: false,
 };
 
@@ -513,6 +514,7 @@ const fakeValidAeDetails: AeDetails = {
       },
     ],
   },
+  fundPurpose: "Instruction",
   hasWarnings: false,
 };
 

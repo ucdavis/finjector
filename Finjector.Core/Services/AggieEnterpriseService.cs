@@ -116,6 +116,7 @@ namespace Finjector.Core.Services
 
                 SetGlValidationInfo(aeDetails, data);
                 SetGlSegmentDetails(aeDetails, glSegments, data);
+                SetFundPurpose(aeDetails, data.ErpFund?.FundPurpose);
                 SetGlOrgApprovers(aeDetails, data);
 
                 aeDetails.SegmentDetails = aeDetails.SegmentDetails.OrderBy(s => s.Order).ToList();
@@ -447,6 +448,7 @@ namespace Finjector.Core.Services
                         if (fundData != null)
                         {
                             segment.Name = fundData.Name;
+                            SetFundPurpose(aeDetails, fundData.FundPurpose);
                         }
 
                         aeDetails.SegmentDetails.Add(segment);
@@ -526,6 +528,7 @@ namespace Finjector.Core.Services
                 if (fundData != null)
                 {
                     segment.Name = fundData.Name;
+                    SetFundPurpose(aeDetails, fundData.FundPurpose);
                 }
                 aeDetails.SegmentDetails.Add(segment);
             }
@@ -675,6 +678,14 @@ namespace Finjector.Core.Services
             aeDetails.PpmDetails.TaskEndDate = data.PpmTaskByProjectNumberAndTaskNumber?.TaskFinishDate;
 
         }
+
+        private static void SetFundPurpose(AeDetails aeDetails, string? fundPurpose)
+        {
+            if (!string.IsNullOrWhiteSpace(fundPurpose))
+            {
+                aeDetails.FundPurpose = fundPurpose;
+            }
+        }
         
         public FinancialChartStringType GetChartType(string segmentString)
         {
@@ -704,11 +715,11 @@ namespace Finjector.Core.Services
             var data = result.ReadData();
 
             var searchResults = data.ErpFundSearch.Data.Where(a => a.EligibleForUse)
-                .Select(d => new SearchResult(d.Code, d.Name));
+                .Select(d => new SearchResult(d.Code, d.Name, d.FundPurpose));
 
             if (data.ErpFund is { EligibleForUse: true })
             {
-                searchResults = searchResults.Append(new SearchResult(data.ErpFund.Code, data.ErpFund.Name));
+                searchResults = searchResults.Append(new SearchResult(data.ErpFund.Code, data.ErpFund.Name, data.ErpFund.FundPurpose));
             }
 
             return searchResults.DistinctBy(p => p.Code);

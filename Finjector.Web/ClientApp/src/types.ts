@@ -142,6 +142,7 @@ export interface AeDetails {
   approvers: Approver[];
   hasWarnings: boolean;
   ppmDetails: PpmDetails;
+  fundPurpose?: string | null;
 }
 
 export interface ChartStringEditModel {
