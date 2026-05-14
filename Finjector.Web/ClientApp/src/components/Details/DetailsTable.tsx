@@ -79,6 +79,19 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
         {aeDetails.chartType === ChartType.PPM && (
           <PpmDetailsPage details={aeDetails.ppmDetails} />
         )}
+        {aeDetails.fundPurpose && (
+          <DetailsRow
+            headerColText="Fund Purpose"
+            column2={
+              <CopyToClipboardHover
+                value={aeDetails.fundPurpose}
+                id="fundPurpose"
+              >
+                {aeDetails.fundPurpose}
+              </CopyToClipboardHover>
+            }
+          />
+        )}
         <DetailsRow
           headerColText="GL Financial Department SCM Approver(s)"
           column2={aeDetails.approvers.map((approver, i) => {

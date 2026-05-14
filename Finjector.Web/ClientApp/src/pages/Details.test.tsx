@@ -75,6 +75,17 @@ describe("Details", () => {
       screen.getByText(fakeValidAeDetails.segmentDetails[0].name || "")
     ).toBeInTheDocument();
   });
+  it("shows fund purpose when present", async () => {
+    render(wrappedView(fakeValidChart.segmentString));
+
+    await waitFor(() => {
+      expect(screen.getByText("Fund Purpose")).toBeInTheDocument();
+    });
+
+    expect(
+      screen.getByText(fakeValidAeDetails.fundPurpose || "")
+    ).toBeInTheDocument();
+  });
 });
 
 const wrappedView = (segmentString: string) => (

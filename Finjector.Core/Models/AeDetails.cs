@@ -46,6 +46,7 @@ namespace Finjector.Core.Models
         
         public PpmDetails? PpmDetails { get; set; }
 
+        public string? FundPurpose { get; set; } = string.Empty;
 
         public bool HasWarnings { get {  return Warnings.Count > 0; } }
 
