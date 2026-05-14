@@ -71,11 +71,9 @@ namespace Finjector.Core.Services
                 var hadLowercase = segmentString.Trim().ToUpper() != segmentString.Trim();
 
                 segmentString = segmentString.Trim().ToUpper();
-                var saveSegmentString = segmentString;
-                segmentString = await TryToConvertKfsAccount(aeDetails, segmentString);
 
-                //We only want this warning for COAs, not KFS accounts
-                if (hadLowercase && saveSegmentString == segmentString)
+                //Warn
+                if (hadLowercase)
                 {
                     aeDetails.Warnings.Add("Chart String had lowercase characters. Lowercase characters are not valid in chart string segments.");
                 }
@@ -166,61 +164,7 @@ namespace Finjector.Core.Services
             aeDetails.Errors.Add("Unknow Error");
             aeDetails.IsValid = false;
             return aeDetails;
-        }
-
-        private async Task<string> TryToConvertKfsAccount(AeDetails aeDetails, string segmentString)
-        {
-            //Try to convert KFS. Eventually remove this.
-            try
-            {
-                var saveSegmentString = segmentString;
-                var parts = segmentString.Split('-');
-                if (parts.Count() < 4 && parts[0].Length == 1)
-                {
-                    var chart = parts[0];
-                    var accountPart = parts[1];
-                    var subAcct = parts.Length > 2 ? parts[2] : null;
-
-                    var kfsResult = await _apiClient.KfsConvertAccount.ExecuteAsync(chart, accountPart, subAcct);
-                    var data = kfsResult.ReadData();
-
-                    if (data.KfsConvertAccount.GlSegments != null)
-                    {
-                        var tempGlSegments = new GlSegments(data.KfsConvertAccount.GlSegments);
-                        if (string.IsNullOrWhiteSpace(tempGlSegments.Account))
-                        {
-                            tempGlSegments.Account = "000000";
-                        }
-
-                        segmentString = tempGlSegments.ToSegmentString();
-                        aeDetails.Warnings.Add($"Converted {saveSegmentString} to GL");
-                    }
-                    else
-                    {
-                        if (data.KfsConvertAccount.PpmSegments != null)
-                        {
-                            //rtValue.IsPPm = true; //Maybe want to return and store this?
-                            var tempPpmSegments = new PpmSegments(data.KfsConvertAccount.PpmSegments);
-                            if (string.IsNullOrWhiteSpace(tempPpmSegments.ExpenditureType))
-                            {
-                                tempPpmSegments.ExpenditureType = "000000";
-                            }
-
-                            segmentString = tempPpmSegments.ToSegmentString();
-                            aeDetails.Warnings.Add($"Converted {saveSegmentString} to PPM");
-                        }
-                    }
-                }
-
-
-            }
-            catch (Exception)
-            {
-                //swallow it
-            }
-
-            return segmentString;
-        }
+        }     
 
         private void SetGlValidationInfo(AeDetails aeDetails, IDisplayDetailsGlResult data)
         {
