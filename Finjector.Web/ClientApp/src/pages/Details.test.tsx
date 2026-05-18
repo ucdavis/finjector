@@ -105,6 +105,7 @@ describe("Details", () => {
     });
 
     expect(screen.getByText("Gift")).toBeInTheDocument();
+    expect(screen.queryByText("Endowment")).not.toBeInTheDocument();
   });
 });
 
