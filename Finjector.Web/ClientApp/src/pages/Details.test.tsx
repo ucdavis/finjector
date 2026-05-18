@@ -8,6 +8,7 @@ import { server } from "../../test/mocks/node";
 import {
   fakeCharts,
   fakeInvalidChart,
+  fakePpmChart,
   fakeValidAeDetails,
   fakeValidChart,
 } from "../../test/mocks/mockData";
@@ -85,6 +86,25 @@ describe("Details", () => {
     expect(
       screen.getByText(fakeValidAeDetails.fundPurpose || "")
     ).toBeInTheDocument();
+  });
+  it("shows gift badges after the GL fund label", async () => {
+    render(wrappedView(fakeValidChart.segmentString));
+
+    await waitFor(() => {
+      expect(screen.getByText("Fund")).toBeInTheDocument();
+    });
+
+    expect(screen.getByText("Gift")).toBeInTheDocument();
+    expect(screen.getByText("Endowment")).toBeInTheDocument();
+  });
+  it("shows gift badges after the PPM GL posting fund label", async () => {
+    render(wrappedView(fakePpmChart.segmentString));
+
+    await waitFor(() => {
+      expect(screen.getByText("GL Posting Fund")).toBeInTheDocument();
+    });
+
+    expect(screen.getByText("Gift")).toBeInTheDocument();
   });
 });
 
