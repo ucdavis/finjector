@@ -324,6 +324,7 @@ const fakePpmDetails: PpmDetails = {
 // let's just assign the first chart to be valid and the second to be invalid
 const fakeValidChart = { ...fakeCharts[0] };
 const fakeInvalidChart = { ...fakeCharts[1] };
+const fakePpmChart = { ...fakeCharts[3] };
 
 const fakeInvalidAeDetails: AeDetails = {
   isValid: false,
@@ -441,6 +442,8 @@ const fakeValidAeDetails: AeDetails = {
       entity: "Fund",
       code: "73830",
       name: null,
+      giftFund: true,
+      endowmentGiftFund: true,
     },
     {
       order: 3,
@@ -518,11 +521,37 @@ const fakeValidAeDetails: AeDetails = {
   hasWarnings: false,
 };
 
+const fakePpmAeDetails: AeDetails = {
+  ...fakeValidAeDetails,
+  chartType: "PPM",
+  chartString: fakePpmChart.segmentString,
+  chartStringType: ChartType.PPM,
+  segmentDetails: [
+    {
+      order: 10,
+      entity: "Project",
+      code: "KL0733ATC1",
+      name: "Fake PPM Project",
+    },
+    {
+      order: 100,
+      entity: "GL Posting Fund",
+      code: "73830",
+      name: "Fake Posting Fund",
+      giftFund: true,
+      endowmentGiftFund: false,
+    },
+  ],
+  ppmDetails: fakePpmDetails,
+};
+
 export {
   fakeCharts,
   fakeFolders,
   fakeTeams,
   fakePpmDetails,
+  fakePpmChart,
+  fakePpmAeDetails,
   fakeValidChart,
   fakeInvalidChart,
   fakeInvalidAeDetails,

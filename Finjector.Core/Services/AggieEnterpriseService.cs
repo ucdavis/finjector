@@ -218,7 +218,9 @@ namespace Finjector.Core.Services
                 Order = 2,
                 Entity = "Fund",
                 Code = data.ErpFund?.Code ?? glSegments.Fund,
-                Name = data.ErpFund?.Name
+                Name = data.ErpFund?.Name,
+                GiftFund = data.ErpFund?.GiftFund ?? false,
+                EndowmentGiftFund = data.ErpFund?.EndowmentGiftFund ?? false,
             });
             aeDetails.SegmentDetails.Add(new SegmentDetails
             {
@@ -443,13 +445,7 @@ namespace Finjector.Core.Services
                             Entity = "GL Fund",
                             Code = awardResult.GlFundCode,
                         };
-                        var fundResult = await Fund(segment.Code);
-                        var fundData = fundResult.Where(a => a.Code == segment.Code).FirstOrDefault();
-                        if (fundData != null)
-                        {
-                            segment.Name = fundData.Name;
-                            SetFundPurpose(aeDetails, fundData.FundPurpose);
-                        }
+                        await SetPpmFundDetails(aeDetails, segment);
 
                         aeDetails.SegmentDetails.Add(segment);
                     }
@@ -523,13 +519,7 @@ namespace Finjector.Core.Services
                     Entity = "GL Posting Fund",
                     Code = data.PpmTaskByProjectNumberAndTaskNumber.GlPostingFundCode,
                 };
-                var fundResult = await Fund(segment.Code);
-                var fundData = fundResult.Where(a => a.Code == segment.Code).FirstOrDefault();
-                if (fundData != null)
-                {
-                    segment.Name = fundData.Name;
-                    SetFundPurpose(aeDetails, fundData.FundPurpose);
-                }
+                await SetPpmFundDetails(aeDetails, segment);
                 aeDetails.SegmentDetails.Add(segment);
             }
             if (data.PpmTaskByProjectNumberAndTaskNumber?.GlPostingPurposeCode != null)
@@ -686,6 +676,26 @@ namespace Finjector.Core.Services
                 aeDetails.FundPurpose = fundPurpose;
             }
         }
+
+        private async Task SetPpmFundDetails(AeDetails aeDetails, SegmentDetails segment)
+        {
+            if (string.IsNullOrWhiteSpace(segment.Code))
+            {
+                return;
+            }
+
+            var result = await _apiClient.FundDetails.ExecuteAsync(segment.Code);
+            var data = result.ReadData();
+            if (data?.ErpFund == null)
+            {
+                return;
+            }
+
+            segment.Name = data.ErpFund.Name;
+            segment.GiftFund = data.ErpFund.GiftFund;
+            segment.EndowmentGiftFund = data.ErpFund.EndowmentGiftFund;
+            SetFundPurpose(aeDetails, data.ErpFund.FundPurpose);
+        }
         
         public FinancialChartStringType GetChartType(string segmentString)
         {
@@ -715,11 +725,11 @@ namespace Finjector.Core.Services
             var data = result.ReadData();
 
             var searchResults = data.ErpFundSearch.Data.Where(a => a.EligibleForUse)
-                .Select(d => new SearchResult(d.Code, d.Name, d.FundPurpose));
+                .Select(d => new SearchResult(d.Code, d.Name));
 
             if (data.ErpFund is { EligibleForUse: true })
             {
-                searchResults = searchResults.Append(new SearchResult(data.ErpFund.Code, data.ErpFund.Name, data.ErpFund.FundPurpose));
+                searchResults = searchResults.Append(new SearchResult(data.ErpFund.Code, data.ErpFund.Name));
             }
 
             return searchResults.DistinctBy(p => p.Code);

@@ -3,6 +3,8 @@ import {
   fakeTeams,
   fakeFolders,
   fakeInvalidAeDetails,
+  fakePpmAeDetails,
+  fakePpmChart,
   fakeValidChart,
   fakeValidAeDetails,
   fakeCharts,
@@ -30,6 +32,9 @@ export const handlers = [
 
     if (segmentString === fakeValidChart.segmentString) {
       aeDetailsToUse = fakeValidAeDetails;
+    }
+    if (segmentString === fakePpmChart.segmentString) {
+      aeDetailsToUse = fakePpmAeDetails;
     }
 
     return HttpResponse.json({

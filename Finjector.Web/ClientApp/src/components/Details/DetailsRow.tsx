@@ -1,7 +1,7 @@
 import React from "react";
 
 interface DetailsRowProps extends React.HTMLAttributes<HTMLDivElement> {
-  headerColText: string | null;
+  headerColText: React.ReactNode;
   column2: React.ReactNode;
   column3?: React.ReactNode;
 }

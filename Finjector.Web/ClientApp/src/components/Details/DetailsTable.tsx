@@ -45,13 +45,34 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
     );
   }
 
+  const renderSegmentHeader = (segment: AeDetails["segmentDetails"][number]) => {
+    const showFundBadges =
+      (aeDetails.chartType === ChartType.GL && segment.entity === "Fund") ||
+      (aeDetails.chartType === ChartType.PPM &&
+        segment.entity === "GL Posting Fund");
+
+    if (!showFundBadges || (!segment.giftFund && !segment.endowmentGiftFund)) {
+      return segment.entity;
+    }
+
+    return (
+      <span className="d-inline-flex align-items-center gap-2 flex-wrap">
+        <span>{segment.entity}</span>
+        {segment.giftFund && <span className="badge bg-primary">Gift</span>}
+        {segment.endowmentGiftFund && (
+          <span className="badge bg-secondary">Endowment</span>
+        )}
+      </span>
+    );
+  };
+
   return (
     <>
       <div className="chartstring-details-info unique-bg">
         {aeDetails.segmentDetails.map((segment, i) => {
           return (
             <DetailsRow
-              headerColText={segment.entity}
+              headerColText={renderSegmentHeader(segment)}
               key={i}
               column2={
                 <span className="fw-bold primary-font me-4">

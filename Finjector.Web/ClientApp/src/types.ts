@@ -193,6 +193,8 @@ export interface SegmentDetails {
   entity: string | null;
   code: string | null;
   name: string | null;
+  giftFund?: boolean;
+  endowmentGiftFund?: boolean;
 }
 
 export interface Approver {
