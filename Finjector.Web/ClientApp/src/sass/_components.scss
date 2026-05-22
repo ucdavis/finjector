@@ -297,6 +297,7 @@ hr {
 }
 .chartstring-validation-icon {
   margin-left: 6px;
+  pointer-events: none;
 }
 .is-ppm {
   border-left: 6px solid $ppm !important;
