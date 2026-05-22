@@ -5,6 +5,7 @@ import {
   faBan,
   faBolt,
   faCheck,
+  faQuestion,
   faScroll,
   faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
@@ -52,15 +53,22 @@ const ChartListItem = ({ chart, folder }: Props) => {
       return null;
     }
 
-    if (
-      validationQuery.isError ||
-      validationQuery.data?.validationResponse.valid === false
-    ) {
+    if (validationQuery.data?.validationResponse.valid === false) {
       return (
         <FontAwesomeIcon
           icon={faBan}
           className="chartstring-validation-icon"
           title="Invalid"
+        />
+      );
+    }
+
+    if (validationQuery.isError) {
+      return (
+        <FontAwesomeIcon
+          icon={faQuestion}
+          className="chartstring-validation-icon"
+          title="Unknown"
         />
       );
     }
@@ -89,7 +97,13 @@ const ChartListItem = ({ chart, folder }: Props) => {
       );
     }
 
-    return null;
+    return (
+      <FontAwesomeIcon
+        icon={faQuestion}
+        className="chartstring-validation-icon"
+        title="Unknown"
+      />
+    );
   };
 
   return (
