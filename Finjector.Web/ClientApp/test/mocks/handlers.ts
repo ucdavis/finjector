@@ -13,6 +13,42 @@ import {
 } from "./mockData";
 import { NameAndDescriptionModel } from "../../src/types";
 
+const getValidateResponse = (segmentString: string | null) => {
+  if (segmentString === fakeInvalidAeDetails.chartString) {
+    return {
+      segmentString,
+      segments: {},
+      validationResponse: {
+        valid: false,
+        errorMessages: fakeInvalidAeDetails.errors,
+      },
+      warnings: [],
+    };
+  }
+
+  if (segmentString === fakePpmChart.segmentString) {
+    return {
+      segmentString,
+      segments: {},
+      validationResponse: {
+        valid: true,
+        errorMessages: [],
+      },
+      warnings: [],
+    };
+  }
+
+  return {
+    segmentString,
+    segments: {},
+    validationResponse: {
+      valid: true,
+      errorMessages: [],
+    },
+    warnings: [],
+  };
+};
+
 export const handlers = [
   // http.get("/api/charts/all", () => HttpResponse.json(fakeCharts)),
   http.get("/api/user/info", () => HttpResponse.json({})),
@@ -40,6 +76,18 @@ export const handlers = [
     return HttpResponse.json({
       aeDetails: aeDetailsToUse,
     });
+  }),
+  http.get("/api/glsearch/validate", ({ request }) => {
+    const url = new URL(request.url);
+    return HttpResponse.json(
+      getValidateResponse(url.searchParams.get("segmentString"))
+    );
+  }),
+  http.get("/api/ppmsearch/validate", ({ request }) => {
+    const url = new URL(request.url);
+    return HttpResponse.json(
+      getValidateResponse(url.searchParams.get("segmentString"))
+    );
   }),
   http.get("/api/team", () => {
     //console.log("In api/team/");

@@ -71,6 +71,8 @@ export const useSegmentValidateQuery = (
       );
     },
     enabled,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   });
 
 export interface ValidationResponse {
@@ -82,4 +84,10 @@ export interface SegmentValidateQueryResponse {
   segmentString: string;
   segments: { [key: string]: string }; // dictionary of segment name to segment value
   validationResponse: ValidationResponse;
+  warnings?: SegmentValidateWarning[];
+}
+
+export interface SegmentValidateWarning {
+  segmentName?: string;
+  warning?: string;
 }
