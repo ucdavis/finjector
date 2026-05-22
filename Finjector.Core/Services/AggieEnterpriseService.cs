@@ -396,6 +396,23 @@ namespace Finjector.Core.Services
                 }
                 aeDetails.SegmentDetails.Add(segment);
             }
+
+            if (!string.IsNullOrWhiteSpace(data.PpmProjectByNumber?.GlPostingEntityCode))
+            {
+                var segment = new SegmentDetails
+                {
+                    Order = 71,
+                    Entity = "PPM Project Entity",
+                    Code = data.PpmProjectByNumber.GlPostingEntityCode,
+                };
+                var entityResult = await Entity(segment.Code);
+                var entityData = entityResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+                if (entityData != null)
+                {
+                    segment.Name = entityData.Name;
+                }
+                aeDetails.SegmentDetails.Add(segment);
+            }
         }
 
         private async Task SetAwardSpecificPpmGlInfo(AeDetails aeDetails, IDisplayDetailsPpmResult data)

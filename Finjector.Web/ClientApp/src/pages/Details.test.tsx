@@ -107,6 +107,16 @@ describe("Details", () => {
     expect(screen.getByText("Gift")).toBeInTheDocument();
     expect(screen.queryByText("Endowment")).not.toBeInTheDocument();
   });
+  it("shows PPM project entity under GL entity", async () => {
+    render(wrappedView(fakePpmChart.segmentString));
+
+    await waitFor(() => {
+      expect(screen.getByText("PPM Project Entity")).toBeInTheDocument();
+    });
+
+    expect(screen.getByText("3120")).toBeInTheDocument();
+    expect(screen.getByText("UC Davis Health")).toBeInTheDocument();
+  });
 });
 
 const wrappedView = (segmentString: string) => (
