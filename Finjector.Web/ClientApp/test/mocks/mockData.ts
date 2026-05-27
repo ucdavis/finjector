@@ -534,6 +534,12 @@ const fakePpmAeDetails: AeDetails = {
       name: "Fake PPM Project",
     },
     {
+      order: 70,
+      entity: "GL Entity",
+      code: "3110",
+      name: "UC Davis Campus",
+    },
+    {
       order: 100,
       entity: "GL Posting Fund",
       code: "73830",

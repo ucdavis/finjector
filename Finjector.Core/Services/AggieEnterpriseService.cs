@@ -380,13 +380,31 @@ namespace Finjector.Core.Services
                 });
             }
 
-            if (data.PpmProjectByNumber?.LegalEntityCode != null)
+            //Legal entity wasn't the correct one. We will display that as a Project Entity below.
+            //if (data.PpmProjectByNumber?.LegalEntityCode != null)
+            //{
+            //    var segment = new SegmentDetails
+            //    {
+            //        Order = 70,
+            //        Entity = "GL Entity",
+            //        Code = data.PpmProjectByNumber.LegalEntityCode,
+            //    };
+            //    var entityResult = await Entity(segment.Code);
+            //    var entityData = entityResult.Where(a => a.Code == segment.Code).FirstOrDefault();
+            //    if (entityData != null)
+            //    {
+            //        segment.Name = entityData.Name;
+            //    }
+            //    aeDetails.SegmentDetails.Add(segment);
+            //}
+
+            if (!string.IsNullOrWhiteSpace(data.PpmProjectByNumber?.GlPostingEntityCode))
             {
                 var segment = new SegmentDetails
                 {
                     Order = 70,
                     Entity = "GL Entity",
-                    Code = data.PpmProjectByNumber.LegalEntityCode,
+                    Code = data.PpmProjectByNumber.GlPostingEntityCode,
                 };
                 var entityResult = await Entity(segment.Code);
                 var entityData = entityResult.Where(a => a.Code == segment.Code).FirstOrDefault();
@@ -626,6 +644,7 @@ namespace Finjector.Core.Services
                 aeDetails.PpmDetails.ProjectCompletionDate = data.PpmProjectByNumber.ProjectCompletionDate;
                 aeDetails.PpmDetails.ProjectStatus = data.PpmProjectByNumber.ProjectStatus;
                 aeDetails.PpmDetails.ProjectTypeName = data.PpmProjectByNumber.ProjectTypeName;
+                aeDetails.PpmDetails.ProjectEntity = data.PpmProjectByNumber.LegalEntityCode;
             }
             aeDetails.PpmDetails.PoetString = $"{ppmSegments?.Project}-{ppmSegments?.Organization}-{ppmSegments?.ExpenditureType}-{ppmSegments?.Task}-{data.PpmSegmentStringValidate.Segments.Award ?? "0000000"}-{data.PpmSegmentStringValidate.Segments.FundingSource ?? "00000"}";
 
