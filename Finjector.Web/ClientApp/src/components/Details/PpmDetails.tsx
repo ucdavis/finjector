@@ -83,15 +83,15 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
           </CopyToClipboardHover>
         }
       />
-      {details.awardStartDate && (
+      {details.projectEntity && (
         <DetailsRow
-          headerColText="Award Start Date"
+          headerColText="Project Entity"
           column2={
             <CopyToClipboardHover
-              value={details.awardStartDate}
-              id="awardStartDate"
+              value={details.projectEntity}
+              id="projectEntity"
             >
-              {details.awardStartDate}
+              {details.projectEntity}
             </CopyToClipboardHover>
           }
         />
