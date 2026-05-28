@@ -380,7 +380,6 @@ namespace Finjector.Core.Services
                 });
             }
 
-            //Legal entity wasn't the correct one. We will display that as a Project Entity below.
             if (!string.IsNullOrWhiteSpace(data.PpmProjectByNumber?.GlPostingEntityCode))
             {
                 var segment = new SegmentDetails
@@ -627,7 +626,6 @@ namespace Finjector.Core.Services
                 aeDetails.PpmDetails.ProjectCompletionDate = data.PpmProjectByNumber.ProjectCompletionDate;
                 aeDetails.PpmDetails.ProjectStatus = data.PpmProjectByNumber.ProjectStatus;
                 aeDetails.PpmDetails.ProjectTypeName = data.PpmProjectByNumber.ProjectTypeName;
-                aeDetails.PpmDetails.ProjectEntity = data.PpmProjectByNumber.LegalEntityCode;
             }
             aeDetails.PpmDetails.PoetString = $"{ppmSegments?.Project}-{ppmSegments?.Organization}-{ppmSegments?.ExpenditureType}-{ppmSegments?.Task}-{data.PpmSegmentStringValidate.Segments.Award ?? "0000000"}-{data.PpmSegmentStringValidate.Segments.FundingSource ?? "00000"}";
 
