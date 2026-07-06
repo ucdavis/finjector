@@ -24,6 +24,7 @@ interface DownloadChartStringsProps
   fileType: "CSV" | "XLSX";
   borderless?: boolean;
   id: string;
+  onDownloaded?: () => void;
 }
 
 const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
@@ -33,6 +34,7 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
   borderless,
   children,
   id,
+  onDownloaded,
   ...props
 }) => {
   const [hasDownloaded, setHasDownloaded] = useState<boolean>(false);
@@ -135,7 +137,8 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
 
     // Create a link and download
     const csvData = csvContent.replace(/^data:text\/csv;charset=utf-8,/, "");
-    const encodedUri = "data:text/csv;charset=utf-8," + encodeURIComponent(csvData);
+    const encodedUri =
+      "data:text/csv;charset=utf-8," + encodeURIComponent(csvData);
 
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
@@ -145,6 +148,7 @@ const DownloadChartStringsButton: React.FC<DownloadChartStringsProps> = ({
     document.body.removeChild(link);
 
     setHasDownloaded(true);
+    onDownloaded?.();
   };
 
   return (

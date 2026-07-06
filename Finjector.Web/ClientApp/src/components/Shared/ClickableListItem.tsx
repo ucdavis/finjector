@@ -15,12 +15,10 @@ const ClickableListItem = React.forwardRef<HTMLLIElement, Props>(
 
       if (selection && selection.toString()) return;
 
-      // we don't want to navigate if they clicked a link or icon button
+      // we don't want to navigate if they clicked an interactive control
       const target = e.target as HTMLElement;
-      const tagName = target.tagName.toLowerCase();
 
-      const isActionTag =
-        tagName === "a" || tagName === "svg" || tagName === "path";
+      const isActionTag = !!target.closest("a, button, input, label");
 
       if (!isActionTag) {
         navigate(url);

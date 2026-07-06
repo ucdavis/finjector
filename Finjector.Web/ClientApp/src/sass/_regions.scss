@@ -48,6 +48,43 @@
   border-radius: 4px;
   border: 1px solid $borders !important;
   padding: 8px;
+  &.has-selection.is-ppm,
+  &.has-selection.is-gl {
+    border-left: 1px solid $borders !important;
+  }
+  &.has-selection.is-ppm .chartstring-row-color-indicator {
+    background-color: $ppm;
+  }
+  &.has-selection.is-gl .chartstring-row-color-indicator {
+    background-color: $gl;
+  }
+  .chartstring-row-main {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .chartstring-row-actions {
+    flex: 0 0 auto;
+  }
+  .chartstring-row-select {
+    align-self: stretch;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: -8px 0 -8px -8px;
+    min-width: 30px;
+    input {
+      accent-color: $primary-color;
+      cursor: pointer;
+      height: 18px;
+      width: 18px;
+    }
+  }
+  .chartstring-row-color-indicator {
+    align-self: stretch;
+    flex: 0 0 6px;
+    margin: -8px 0;
+  }
 }
 .fin-row {
   border-radius: 4px;
