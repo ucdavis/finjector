@@ -28,6 +28,13 @@ const Folder: React.FC = () => {
   const removeChartMutation = useRemoveChart();
   const saveChartMutation = useSaveChart();
 
+  React.useEffect(() => {
+    setSearch("");
+    setSelectedChartIds([]);
+    setDeletedChartIds([]);
+    setRecentlyDeletedCharts([]);
+  }, [teamId, folderId]);
+
   const queryStatus: FinQueryStatus = useFinQueryStatus(folderModelQuery);
 
   const charts = React.useMemo(
