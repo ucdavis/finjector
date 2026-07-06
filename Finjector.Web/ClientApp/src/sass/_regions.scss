@@ -44,10 +44,86 @@
     }
   }
 }
+.chartstring-selection-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  margin: 0 0 8px -42px;
+  width: 34px;
+}
+.chartstring-selection-toggle input,
+.chartstring-row-select input {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 22px 22px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 34px;
+  margin: 0;
+  width: 34px;
+}
+.chartstring-selection-toggle input:checked,
+.chartstring-row-select input:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333333' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+}
+.chartstring-selection-toggle input:focus-visible,
+.chartstring-row-select input:focus-visible {
+  outline: 2px solid $primary-color;
+  outline-offset: 2px;
+}
 .chartstring-row {
   border-radius: 4px;
   border: 1px solid $borders !important;
   padding: 8px;
+  &.has-selection.is-ppm,
+  &.has-selection.is-gl {
+    border-left: 1px solid $borders !important;
+  }
+  &.has-selection.is-ppm .chartstring-row-color-indicator {
+    background-color: $ppm;
+  }
+  &.has-selection.is-gl .chartstring-row-color-indicator {
+    background-color: $gl;
+  }
+  .chartstring-row-main {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .chartstring-row-actions {
+    flex: 0 0 auto;
+  }
+  &.has-selection {
+    position: relative;
+  }
+  .chartstring-row-select {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    left: -42px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 0.15s ease-in-out;
+    width: 34px;
+    &.is-selected,
+    &:focus-within {
+      opacity: 1;
+    }
+  }
+  &:hover .chartstring-row-select {
+    opacity: 1;
+  }
+  .chartstring-row-color-indicator {
+    align-self: stretch;
+    flex: 0 0 6px;
+    margin: -8px 0 -8px -8px;
+  }
 }
 .fin-row {
   border-radius: 4px;

@@ -1,3 +1,4 @@
+import React from "react";
 import { Coa, FinQueryStatus, Folder } from "../../types";
 import ChartListItem from "../Shared/ChartListItem";
 import { useFinQueryStatusHandler } from "../../util/error";
@@ -9,6 +10,10 @@ interface Props {
   folder: Folder | undefined;
   filter: string;
   queryStatus: FinQueryStatus;
+  selectedChartIds: number[];
+  onChartSelectionChange: (chartId: number, selected: boolean) => void;
+  onSelectAllVisibleCharts: (chartIds: number[]) => void;
+  onUnselectVisibleCharts: (chartIds: number[]) => void;
 }
 
 const ChartListSimple: React.FC<Props> = ({
@@ -16,10 +21,37 @@ const ChartListSimple: React.FC<Props> = ({
   folder,
   filter,
   queryStatus,
+  selectedChartIds,
+  onChartSelectionChange,
+  onSelectAllVisibleCharts,
+  onUnselectVisibleCharts,
 }) => {
   const queryStatusComponent = useFinQueryStatusHandler({
     queryStatus,
   });
+  const selectVisibleCheckboxRef = React.useRef<HTMLInputElement>(null);
+  const filterLowercase = filter.toLowerCase();
+
+  const filteredCharts = (charts ?? []).filter((chart) => {
+    return (
+      chart.name.toLowerCase().includes(filterLowercase) ||
+      chart.segmentString.toLowerCase().includes(filterLowercase)
+    );
+  });
+
+  const canSelectChartStrings =
+    folder !== undefined &&
+    (folder.teamIsPersonal === true ||
+      folder.myFolderPermissions.some((p) => p === "Admin" || p === "Edit") ||
+      folder.myTeamPermissions.some((p) => p === "Admin" || p === "Edit"));
+
+  const visibleChartIds = filteredCharts.map((chart) => chart.id);
+  const selectedVisibleChartCount = visibleChartIds.filter((chartId) =>
+    selectedChartIds.includes(chartId),
+  ).length;
+  const allVisibleChartsSelected =
+    visibleChartIds.length > 0 &&
+    selectedVisibleChartCount === visibleChartIds.length;
 
   if (queryStatusComponent) return <>{queryStatusComponent}</>;
 
@@ -30,21 +62,42 @@ const ChartListSimple: React.FC<Props> = ({
   if (!charts || charts.length === 0)
     return <FinEmpty title="There are no charts in this folder." />;
 
-  const filterLowercase = filter.toLowerCase();
+  const toggleVisibleChartSelection = () => {
+    if (allVisibleChartsSelected) {
+      onUnselectVisibleCharts(visibleChartIds);
+      return;
+    }
 
-  const filteredCharts = charts.filter((chart) => {
-    return (
-      chart.name.toLowerCase().includes(filterLowercase) ||
-      chart.segmentString.toLowerCase().includes(filterLowercase)
-    );
-  });
+    onSelectAllVisibleCharts(visibleChartIds);
+  };
 
   return (
-    <ul className="list-group">
-      {filteredCharts.map((chart) => (
-        <ChartListItem folder={folder} key={chart.id} chart={chart} />
-      ))}
-    </ul>
+    <>
+      {canSelectChartStrings && (
+        <div className="chartstring-selection-toggle">
+          <input
+            ref={selectVisibleCheckboxRef}
+            type="checkbox"
+            aria-label="Select visible chart strings"
+            checked={allVisibleChartsSelected}
+            disabled={visibleChartIds.length === 0}
+            onChange={toggleVisibleChartSelection}
+          />
+        </div>
+      )}
+      <ul className="list-group">
+        {filteredCharts.map((chart) => (
+          <ChartListItem
+            folder={folder}
+            key={chart.id}
+            chart={chart}
+            showMultiSelect={canSelectChartStrings}
+            isSelected={selectedChartIds.includes(chart.id)}
+            onSelectionChange={onChartSelectionChange}
+          />
+        ))}
+      </ul>
+    </>
   );
 };
 

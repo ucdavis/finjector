@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { Coa, ChartType, Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,9 +18,18 @@ import { useSegmentValidateQuery } from "../../queries/segmentQueries";
 interface Props {
   chart: Coa;
   folder: Folder;
+  showMultiSelect?: boolean;
+  isSelected?: boolean;
+  onSelectionChange?: (chartId: number, selected: boolean) => void;
 }
 
-const ChartListItem = ({ chart, folder }: Props) => {
+const ChartListItem = ({
+  chart,
+  folder,
+  showMultiSelect = false,
+  isSelected = false,
+  onSelectionChange,
+}: Props) => {
   const isInPopup = usePopupStatus();
   const { ref, isVisible } = useIsVisible<HTMLLIElement>();
 
@@ -106,16 +116,43 @@ const ChartListItem = ({ chart, folder }: Props) => {
     );
   };
 
+  const stopRowNavigation = (event: React.MouseEvent) => {
+    event.stopPropagation();
+  };
+
   return (
     <ClickableListItem
       ref={ref}
       className={`chartstring-row ${
         chart.chartType === ChartType.PPM ? "is-ppm" : "is-gl"
+      } ${
+        showMultiSelect ? "has-selection" : ""
       } d-flex justify-content-between align-items-center`}
       key={chart.id}
       url={url}
     >
-      <div className="col-9 ms-2 me-auto">
+      {showMultiSelect && (
+        <div
+          className={`chartstring-row-select ${
+            isSelected ? "is-selected" : ""
+          }`}
+          onClick={stopRowNavigation}
+        >
+          <input
+            type="checkbox"
+            aria-label={`Select ${chart.name}`}
+            checked={isSelected}
+            onClick={stopRowNavigation}
+            onChange={(event) =>
+              onSelectionChange?.(chart.id, event.target.checked)
+            }
+          />
+        </div>
+      )}
+      {showMultiSelect && (
+        <span className="chartstring-row-color-indicator" aria-hidden="true" />
+      )}
+      <div className="chartstring-row-main ms-2 me-auto">
         <div className="chartstring-type">
           <span>{chart.chartType}</span>
           {getValidationStatus()}
@@ -135,7 +172,7 @@ const ChartListItem = ({ chart, folder }: Props) => {
           <span style={{ wordWrap: "break-word" }}>{chart.segmentString}</span>
         )}
       </div>
-      <div className="col-3 text-end chartstring-row-actions">
+      <div className="text-end chartstring-row-actions">
         <Link
           to={`/teams/${folder.teamId}/folders/${folder.id}/details/${chart.id}/${chart.segmentString}`}
           className={`btn btn-link ${

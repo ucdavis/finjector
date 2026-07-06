@@ -60,6 +60,12 @@ export const handlers = [
       },
     ])
   ),
+  http.delete("/api/charts/delete/:id", () => HttpResponse.json({})),
+  http.post("/api/charts/save", async ({ request }) => {
+    const chart = await request.json();
+
+    return HttpResponse.json({ ...(chart as object), id: 1000 });
+  }),
   http.get("/api/charts/details/string", ({ request }) => {
     const url = new URL(request.url);
     const segmentString = url.searchParams.get("chartString");

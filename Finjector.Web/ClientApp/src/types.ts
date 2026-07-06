@@ -40,6 +40,7 @@ export interface Folder {
   isDefault: boolean;
   teamId: number;
   teamName: string;
+  teamIsPersonal?: boolean;
   myFolderPermissions: PermissionType[];
   myTeamPermissions: PermissionType[];
   coas: Coa[];

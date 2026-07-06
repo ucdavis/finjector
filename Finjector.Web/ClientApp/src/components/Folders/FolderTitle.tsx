@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { FinQueryStatus, FolderResponseModel } from "../../types";
+import { Coa, FinQueryStatus, FolderResponseModel } from "../../types";
 import {
   faPlus,
   faUserTie,
@@ -7,6 +7,7 @@ import {
   faPencil,
   faTrash,
   faPersonThroughWindow,
+  faRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DownloadChartStringsButton from "../../pages/Teams/DownloadChartStringsButton";
@@ -23,6 +24,13 @@ interface FolderTitleProps {
   queryStatus: FinQueryStatus;
   teamId: string;
   folderId: string;
+  selectedCharts?: Coa[];
+  recentlyDeletedChartCount?: number;
+  selectedActionPending?: boolean;
+  undoDeletePending?: boolean;
+  onDeleteSelectedCharts?: () => void;
+  onUndoDeleteCharts?: () => void;
+  onSelectedChartsExported?: () => void;
 }
 
 const FolderTitle: React.FC<FolderTitleProps> = ({
@@ -30,6 +38,13 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
   queryStatus,
   teamId,
   folderId,
+  selectedCharts = [],
+  recentlyDeletedChartCount = 0,
+  selectedActionPending = false,
+  undoDeletePending = false,
+  onDeleteSelectedCharts,
+  onUndoDeleteCharts,
+  onSelectedChartsExported,
 }) => {
   const [modalOpen, setModalOpen] = React.useState("");
   const toggleModal = (modalType: string) => {
@@ -68,13 +83,26 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
   }
 
   const isFolderAdmin = folderModelData.folder.myFolderPermissions.some(
-    (p) => p === "Admin"
+    (p) => p === "Admin",
   );
   const isTeamAdmin = folderModelData.folder.myTeamPermissions.some(
-    (p) => p === "Admin"
+    (p) => p === "Admin",
   );
 
   const limitedFolder = folderModelData.folder.isDefault;
+  const selectedChartCount = selectedCharts.length;
+  const selectedChartLabel =
+    selectedChartCount === 1 ? "Chart String" : "Chart Strings";
+  const deletedChartLabel =
+    recentlyDeletedChartCount === 1 ? "Chart String" : "Chart Strings";
+  const exportFileName = `${folderModelData.folder.name.replace(
+    / /g,
+    "-",
+  )}_finjector_export`;
+  const selectedExportFileName = `${folderModelData.folder.name.replace(
+    / /g,
+    "-",
+  )}_selected_finjector_export`;
 
   return (
     <>
@@ -97,19 +125,57 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
                 </FinButton>
               </FinButtonDropdownItem>
             )}
-            {/* don't show team admins if you are an admin or if it's a personal team */}
-            {limitedFolder ||
-              (!isFolderAdmin && !isTeamAdmin && (
+            {selectedChartCount > 0 && (
+              <>
+                <FinButtonDropdownItem>
+                  <DownloadChartStringsButton
+                    charts={selectedCharts}
+                    fileName={selectedExportFileName}
+                    fileType="CSV"
+                    borderless={true}
+                    id="download-selected-chart-btn"
+                    onDownloaded={onSelectedChartsExported}
+                  >
+                    Export {selectedChartCount} Selected {selectedChartLabel}{" "}
+                    (CSV)
+                  </DownloadChartStringsButton>
+                </FinButtonDropdownItem>
                 <FinButtonDropdownItem>
                   <FinButton
+                    onClick={onDeleteSelectedCharts}
                     borderless={true}
-                    to={`/teams/${teamId}/folders/${folderId}/admins`}
+                    disabled={selectedActionPending}
                   >
-                    <FontAwesomeIcon icon={faUserTie} />
-                    View Folder Admins
+                    <FontAwesomeIcon icon={faTrash} />
+                    Delete {selectedChartCount} {selectedChartLabel}
                   </FinButton>
                 </FinButtonDropdownItem>
-              ))}
+              </>
+            )}
+            {recentlyDeletedChartCount > 0 && (
+              <FinButtonDropdownItem>
+                <FinButton
+                  onClick={onUndoDeleteCharts}
+                  borderless={true}
+                  disabled={undoDeletePending}
+                >
+                  <FontAwesomeIcon icon={faRotateLeft} />
+                  Undo Delete {recentlyDeletedChartCount} {deletedChartLabel}
+                </FinButton>
+              </FinButtonDropdownItem>
+            )}
+            {/* don't show team admins if you are an admin or if it's a personal team */}
+            {!limitedFolder && !isFolderAdmin && !isTeamAdmin && (
+              <FinButtonDropdownItem>
+                <FinButton
+                  borderless={true}
+                  to={`/teams/${teamId}/folders/${folderId}/admins`}
+                >
+                  <FontAwesomeIcon icon={faUserTie} />
+                  View Folder Admins
+                </FinButton>
+              </FinButtonDropdownItem>
+            )}
 
             {/* Admins can manage permissions */}
             {!limitedFolder && (isFolderAdmin || isTeamAdmin) && (
@@ -161,13 +227,11 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
             <FinButtonDropdownItem>
               <DownloadChartStringsButton
                 charts={folderModelData.charts}
-                fileName={`${folderModelData.folder.name.replace(
-                  / /g,
-                  "-"
-                )}_finjector_export`}
+                fileName={exportFileName}
                 fileType="CSV"
                 borderless={true}
                 id="download-chart-btn"
+                onDownloaded={onSelectedChartsExported}
               ></DownloadChartStringsButton>
             </FinButtonDropdownItem>
           </FinButtonDropdown>

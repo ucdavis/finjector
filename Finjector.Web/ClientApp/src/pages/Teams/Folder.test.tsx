@@ -310,8 +310,12 @@ describe("Folder", () => {
         // render component
         render(wrappedView("99", "99"));
 
-        expect(screen.queryAllByRole("button")).toHaveLength(1);
-        expect(screen.queryAllByRole("link")).toHaveLength(0);
+        expect(
+          screen.getByRole("button", { name: /actions/i })
+        ).toBeInTheDocument();
+        expect(
+          screen.queryByRole("link", { name: /view folder admins/i })
+        ).not.toBeInTheDocument();
 
         const button = screen.getByRole("button", { name: /actions/i });
         await user.click(button);
@@ -322,10 +326,23 @@ describe("Folder", () => {
               name: /New Chart String Here/i,
             })
           ).toBeInTheDocument();
-          const buttons = screen.queryAllByRole("button");
-          expect(buttons).toHaveLength(2);
-          expect(buttons[0]).toHaveTextContent("Actions");
-          expect(buttons[1]).toHaveTextContent("Export Chart Strings (CSV)");
+          expect(
+            screen.queryByRole("link", { name: /view folder admins/i })
+          ).not.toBeInTheDocument();
+          expect(
+            screen.queryByRole("link", { name: /manage permissions/i })
+          ).not.toBeInTheDocument();
+          expect(
+            screen.queryByRole("link", { name: /edit folder/i })
+          ).not.toBeInTheDocument();
+          expect(
+            screen.queryByRole("button", { name: /delete folder/i })
+          ).not.toBeInTheDocument();
+          expect(
+            screen.getByRole("button", {
+              name: /export chart strings \(csv\)/i,
+            })
+          ).toBeInTheDocument();
         });
       });
 
@@ -1360,6 +1377,232 @@ describe("Folder", () => {
       });
     });
   });
+  describe("chart selection", () => {
+    it("renders chart selection checkboxes in a personal folder", async () => {
+      render(wrappedView("99", "99"));
+
+      await waitFor(() => {
+        expect(
+          screen.getAllByRole("checkbox", { name: /select chart/i })
+        ).toHaveLength(4);
+      });
+    });
+
+    it("does not render chart selection checkboxes with view only permissions", async () => {
+      render(wrappedView("0", "10"));
+
+      await waitFor(() => {
+        expect(
+          screen.getByText("Folder 10 description with View permission only")
+        ).toBeInTheDocument();
+      });
+
+      expect(
+        screen.queryByRole("checkbox", { name: /select chart/i })
+      ).not.toBeInTheDocument();
+    });
+
+    it("renders chart selection checkboxes with folder edit permissions", async () => {
+      render(wrappedView("0", "11"));
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            "Folder 11 description with View and Edit permissions"
+          )
+        ).toBeInTheDocument();
+        expect(
+          screen.getAllByRole("checkbox", { name: /select chart/i })
+        ).toHaveLength(4);
+      });
+    });
+
+    it("renders chart selection checkboxes with inherited team edit permissions", async () => {
+      render(wrappedView("0", "15"));
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            "Folder 15 description with Edit team and view folder permission only"
+          )
+        ).toBeInTheDocument();
+        expect(
+          screen.getAllByRole("checkbox", { name: /select chart/i })
+        ).toHaveLength(4);
+      });
+    });
+
+    it("renders chart selection checkboxes with admin permissions", async () => {
+      render(wrappedView("0", "13"));
+
+      await waitFor(() => {
+        expect(
+          screen.getByText("Folder 13 description with Admin permission only")
+        ).toBeInTheDocument();
+        expect(
+          screen.getAllByRole("checkbox", { name: /select chart/i })
+        ).toHaveLength(4);
+      });
+    });
+
+    it("selects filtered visible chart strings with the top checkbox", async () => {
+      const user = userEvent.setup();
+
+      render(wrappedView("99", "99"));
+      await waitFor(() => {
+        expect(screen.getByText("Default")).toBeInTheDocument();
+      });
+
+      const searchField = screen.getByRole("searchbox");
+      await user.type(searchField, "Chart 1");
+
+      const visibleSelectionCheckbox = screen.getByRole("checkbox", {
+        name: /select visible chart strings/i,
+      });
+      await user.click(visibleSelectionCheckbox);
+
+      expect(
+        screen.getByRole("checkbox", { name: /select chart 1/i })
+      ).toBeChecked();
+      expect(visibleSelectionCheckbox).toBeChecked();
+
+      await user.clear(searchField);
+
+      expect(
+        screen.getByRole("checkbox", { name: /select chart 0/i })
+      ).not.toBeChecked();
+      expect(
+        screen.getByRole("checkbox", { name: /select chart 1/i })
+      ).toBeChecked();
+      expect(visibleSelectionCheckbox).not.toBeChecked();
+      expect(visibleSelectionCheckbox).not.toHaveProperty(
+        "indeterminate",
+        true
+      );
+    });
+
+    it("unselects filtered visible chart strings with the top checkbox", async () => {
+      const user = userEvent.setup();
+
+      render(wrappedView("99", "99"));
+      await waitFor(() => {
+        expect(screen.getByText("Default")).toBeInTheDocument();
+      });
+
+      const visibleSelectionCheckbox = screen.getByRole("checkbox", {
+        name: /select visible chart strings/i,
+      });
+      await user.click(visibleSelectionCheckbox);
+      await user.click(visibleSelectionCheckbox);
+
+      screen
+        .getAllByRole("checkbox", { name: /select chart/i })
+        .forEach((checkbox) => expect(checkbox).not.toBeChecked());
+      expect(visibleSelectionCheckbox).not.toBeChecked();
+    });
+
+    it("does not redirect when a chart selection checkbox is clicked", async () => {
+      const user = userEvent.setup();
+
+      render(wrappedView("99", "99"));
+      await waitFor(() => {
+        expect(screen.getByText("Default")).toBeInTheDocument();
+      });
+
+      const searchField = screen.getByRole("searchbox");
+      await user.type(searchField, "KL0733ATC1-TASK01-ADNO001-501090");
+
+      const checkbox = await screen.findByRole("checkbox", {
+        name: /select chart 98/i,
+      });
+      await user.click(checkbox);
+
+      expect(checkbox).toBeChecked();
+      expect(
+        screen.queryByText("Redirected to folder details")
+      ).not.toBeInTheDocument();
+    });
+    it("does not show selected chart string actions when no chart strings are selected", async () => {
+      const user = userEvent.setup();
+
+      render(wrappedView("99", "99"));
+      await waitFor(() => {
+        expect(screen.getByText("Default")).toBeInTheDocument();
+      });
+
+      await user.click(screen.getByRole("button", { name: /actions/i }));
+
+      expect(
+        screen.queryByRole("button", {
+          name: /export \d+ selected chart strings? \(csv\)/i,
+        })
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: /delete \d+ chart strings?/i })
+      ).not.toBeInTheDocument();
+    });
+
+    it("shows selected chart string actions with the selected count", async () => {
+      const user = userEvent.setup();
+
+      render(wrappedView("99", "99"));
+      await waitFor(() => {
+        expect(screen.getByText("Default")).toBeInTheDocument();
+      });
+
+      await user.click(
+        screen.getByRole("checkbox", { name: /select chart 98/i })
+      );
+      await user.click(screen.getByRole("button", { name: /actions/i }));
+
+      expect(
+        screen.getByRole("button", {
+          name: /export 1 selected chart string \(csv\)/i,
+        })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /delete 1 chart string/i })
+      ).toBeInTheDocument();
+    });
+
+    it("deletes selected chart strings and restores them with undo", async () => {
+      const user = userEvent.setup();
+
+      render(wrappedView("99", "99"));
+      await waitFor(() => {
+        expect(screen.getByText("Default")).toBeInTheDocument();
+      });
+
+      await user.click(
+        screen.getByRole("checkbox", { name: /select chart 98/i })
+      );
+      await user.click(screen.getByRole("button", { name: /actions/i }));
+      await user.click(
+        screen.getByRole("button", { name: /delete 1 chart string/i })
+      );
+
+      await waitFor(() => {
+        expect(screen.queryByText("Chart 98")).not.toBeInTheDocument();
+      });
+
+      await user.click(screen.getByRole("button", { name: /actions/i }));
+      expect(
+        screen.getByRole("button", { name: /undo delete 1 chart string/i })
+      ).toBeInTheDocument();
+
+      await user.click(
+        screen.getByRole("button", { name: /undo delete 1 chart string/i })
+      );
+
+      await waitFor(() => {
+        expect(screen.getByText("Chart 98")).toBeInTheDocument();
+        expect(
+          screen.queryByRole("button", { name: /undo delete 1 chart string/i })
+        ).not.toBeInTheDocument();
+      });
+    });
+  });
+
   describe("action tests", () => {
     beforeEach(() => {
       vi.mock("../../components/Shared/LoadingAndErrors/FinToast", () => ({
