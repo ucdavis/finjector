@@ -33,14 +33,14 @@ const Folder: React.FC = () => {
   const charts = React.useMemo(
     () =>
       (folderModelQuery.data?.charts ?? []).filter(
-        (chart) => !deletedChartIds.includes(chart.id),
+        (chart) => !deletedChartIds.includes(chart.id)
       ),
-    [deletedChartIds, folderModelQuery.data?.charts],
+    [deletedChartIds, folderModelQuery.data?.charts]
   );
 
   const selectedCharts = React.useMemo(
     () => charts.filter((chart) => selectedChartIds.includes(chart.id)),
-    [charts, selectedChartIds],
+    [charts, selectedChartIds]
   );
 
   const clearUndoDelete = () => {
@@ -63,17 +63,19 @@ const Folder: React.FC = () => {
   const selectAllVisibleCharts = (chartIds: number[]) => {
     clearUndoDelete();
     setSelectedChartIds((current) =>
-      Array.from(new Set([...current, ...chartIds])),
+      Array.from(new Set([...current, ...chartIds]))
     );
   };
 
-  const unselectAllCharts = () => {
+  const unselectVisibleCharts = (chartIds: number[]) => {
     clearUndoDelete();
-    setSelectedChartIds([]);
+    setSelectedChartIds((current) =>
+      current.filter((chartId) => !chartIds.includes(chartId))
+    );
   };
 
   const updateSearch: React.Dispatch<React.SetStateAction<string>> = (
-    value,
+    value
   ) => {
     clearUndoDelete();
     setSearch(value);
@@ -90,11 +92,11 @@ const Folder: React.FC = () => {
 
     try {
       await Promise.all(
-        chartsToDelete.map((chart) => removeChartMutation.mutateAsync(chart)),
+        chartsToDelete.map((chart) => removeChartMutation.mutateAsync(chart))
       );
 
       setDeletedChartIds((current) =>
-        Array.from(new Set([...current, ...chartsToDelete.map((c) => c.id)])),
+        Array.from(new Set([...current, ...chartsToDelete.map((c) => c.id)]))
       );
       setRecentlyDeletedCharts(chartsToDelete);
       setSelectedChartIds([]);
@@ -102,7 +104,9 @@ const Folder: React.FC = () => {
         "success",
         `${chartsToDelete.length} chart string${
           chartsToDelete.length === 1 ? "" : "s"
-        } deleted.`,
+        } deleted. You can undelete ${
+          chartsToDelete.length === 1 ? "it" : "them"
+        } from Actions until you do something else.`
       );
       await folderModelQuery.refetch();
     } catch {
@@ -124,21 +128,21 @@ const Folder: React.FC = () => {
             id: 0,
             folderId: chart.folderId ?? folder?.id,
             folder: undefined,
-          }),
-        ),
+          })
+        )
       );
 
       setDeletedChartIds((current) =>
         current.filter(
-          (chartId) => !chartsToRestore.some((chart) => chart.id === chartId),
-        ),
+          (chartId) => !chartsToRestore.some((chart) => chart.id === chartId)
+        )
       );
       setRecentlyDeletedCharts([]);
       addFinToast(
         "success",
         `${chartsToRestore.length} chart string${
           chartsToRestore.length === 1 ? "" : "s"
-        } restored.`,
+        } restored.`
       );
       await folderModelQuery.refetch();
     } catch {
@@ -175,7 +179,7 @@ const Folder: React.FC = () => {
           selectedChartIds={selectedChartIds}
           onChartSelectionChange={updateChartSelection}
           onSelectAllVisibleCharts={selectAllVisibleCharts}
-          onUnselectAllCharts={unselectAllCharts}
+          onUnselectVisibleCharts={unselectVisibleCharts}
         />
       </PageBody>
     </div>

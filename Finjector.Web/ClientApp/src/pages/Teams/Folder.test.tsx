@@ -1445,7 +1445,7 @@ describe("Folder", () => {
       });
     });
 
-    it("selects all visible chart strings", async () => {
+    it("selects filtered visible chart strings with the top checkbox", async () => {
       const user = userEvent.setup();
 
       render(wrappedView("99", "99"));
@@ -1456,18 +1456,32 @@ describe("Folder", () => {
       const searchField = screen.getByRole("searchbox");
       await user.type(searchField, "Chart 1");
 
-      const selectAllButton = screen.getByRole("button", {
-        name: /select all visible/i,
+      const visibleSelectionCheckbox = screen.getByRole("checkbox", {
+        name: /select visible chart strings/i,
       });
-      await user.click(selectAllButton);
+      await user.click(visibleSelectionCheckbox);
 
       expect(
         screen.getByRole("checkbox", { name: /select chart 1/i })
       ).toBeChecked();
-      expect(selectAllButton).toBeDisabled();
+      expect(visibleSelectionCheckbox).toBeChecked();
+
+      await user.clear(searchField);
+
+      expect(
+        screen.getByRole("checkbox", { name: /select chart 0/i })
+      ).not.toBeChecked();
+      expect(
+        screen.getByRole("checkbox", { name: /select chart 1/i })
+      ).toBeChecked();
+      expect(visibleSelectionCheckbox).not.toBeChecked();
+      expect(visibleSelectionCheckbox).not.toHaveProperty(
+        "indeterminate",
+        true
+      );
     });
 
-    it("unselects all chart strings", async () => {
+    it("unselects filtered visible chart strings with the top checkbox", async () => {
       const user = userEvent.setup();
 
       render(wrappedView("99", "99"));
@@ -1475,14 +1489,16 @@ describe("Folder", () => {
         expect(screen.getByText("Default")).toBeInTheDocument();
       });
 
-      await user.click(
-        screen.getByRole("button", { name: /select all visible/i })
-      );
-      await user.click(screen.getByRole("button", { name: /unselect all/i }));
+      const visibleSelectionCheckbox = screen.getByRole("checkbox", {
+        name: /select visible chart strings/i,
+      });
+      await user.click(visibleSelectionCheckbox);
+      await user.click(visibleSelectionCheckbox);
 
       screen
         .getAllByRole("checkbox", { name: /select chart/i })
         .forEach((checkbox) => expect(checkbox).not.toBeChecked());
+      expect(visibleSelectionCheckbox).not.toBeChecked();
     });
 
     it("does not redirect when a chart selection checkbox is clicked", async () => {

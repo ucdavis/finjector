@@ -132,7 +132,12 @@ const ChartListItem = ({
       url={url}
     >
       {showMultiSelect && (
-        <label className="chartstring-row-select" onClick={stopRowNavigation}>
+        <div
+          className={`chartstring-row-select ${
+            isSelected ? "is-selected" : ""
+          }`}
+          onClick={stopRowNavigation}
+        >
           <input
             type="checkbox"
             aria-label={`Select ${chart.name}`}
@@ -142,7 +147,7 @@ const ChartListItem = ({
               onSelectionChange?.(chart.id, event.target.checked)
             }
           />
-        </label>
+        </div>
       )}
       {showMultiSelect && (
         <span className="chartstring-row-color-indicator" aria-hidden="true" />
