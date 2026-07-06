@@ -4,6 +4,7 @@ import ChartListItem from "../Shared/ChartListItem";
 import { useFinQueryStatusHandler } from "../../util/error";
 import FinEmpty from "../Shared/LoadingAndErrors/FinEmpty";
 import FinFunError from "../Shared/LoadingAndErrors/FinFunError";
+import usePopupStatus from "../../util/customHooks";
 
 interface Props {
   charts: Coa[] | undefined;
@@ -29,6 +30,7 @@ const ChartListSimple: React.FC<Props> = ({
   const queryStatusComponent = useFinQueryStatusHandler({
     queryStatus,
   });
+  const isInPopup = usePopupStatus();
   const selectVisibleCheckboxRef = React.useRef<HTMLInputElement>(null);
   const filterLowercase = filter.toLowerCase();
 
@@ -72,7 +74,11 @@ const ChartListSimple: React.FC<Props> = ({
   };
 
   return (
-    <>
+    <div
+      className={`chartstring-list${isInPopup ? " is-in-popup" : ""}${
+        canSelectChartStrings ? " has-selection" : ""
+      }`}
+    >
       {canSelectChartStrings && (
         <div className="chartstring-selection-toggle">
           <input
@@ -97,7 +103,7 @@ const ChartListSimple: React.FC<Props> = ({
           />
         ))}
       </ul>
-    </>
+    </div>
   );
 };
 
