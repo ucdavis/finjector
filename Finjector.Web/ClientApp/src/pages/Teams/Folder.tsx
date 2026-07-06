@@ -90,26 +90,35 @@ const Folder: React.FC = () => {
 
     const chartsToDelete = [...selectedCharts];
 
-    try {
-      await Promise.all(
-        chartsToDelete.map((chart) => removeChartMutation.mutateAsync(chart))
-      );
+    const deleteResults = await Promise.allSettled(
+      chartsToDelete.map((chart) => removeChartMutation.mutateAsync(chart))
+    );
+    const deletedCharts = chartsToDelete.filter(
+      (_, index) => deleteResults[index].status === "fulfilled"
+    );
 
+    if (deletedCharts.length > 0) {
       setDeletedChartIds((current) =>
-        Array.from(new Set([...current, ...chartsToDelete.map((c) => c.id)]))
+        Array.from(new Set([...current, ...deletedCharts.map((c) => c.id)]))
       );
-      setRecentlyDeletedCharts(chartsToDelete);
-      setSelectedChartIds([]);
+      setRecentlyDeletedCharts(deletedCharts);
+      setSelectedChartIds((current) =>
+        current.filter(
+          (chartId) => !deletedCharts.some((chart) => chart.id === chartId)
+        )
+      );
       addFinToast(
         "success",
-        `${chartsToDelete.length} chart string${
-          chartsToDelete.length === 1 ? "" : "s"
+        `${deletedCharts.length} chart string${
+          deletedCharts.length === 1 ? "" : "s"
         } deleted. You can undelete ${
-          chartsToDelete.length === 1 ? "it" : "them"
+          deletedCharts.length === 1 ? "it" : "them"
         } from Actions until you do something else.`
       );
       await folderModelQuery.refetch();
-    } catch {
+    }
+
+    if (deletedCharts.length < chartsToDelete.length) {
       addFinToast("error", "Error deleting selected chart strings.");
     }
   };
@@ -120,32 +129,38 @@ const Folder: React.FC = () => {
     const chartsToRestore = [...recentlyDeletedCharts];
     const folder = folderModelQuery.data?.folder;
 
-    try {
-      await Promise.all(
-        chartsToRestore.map((chart) =>
-          saveChartMutation.mutateAsync({
-            ...chart,
-            id: 0,
-            folderId: chart.folderId ?? folder?.id,
-            folder: undefined,
-          })
-        )
-      );
+    const restoreResults = await Promise.allSettled(
+      chartsToRestore.map((chart) =>
+        saveChartMutation.mutateAsync({
+          ...chart,
+          id: 0,
+          folderId: chart.folderId ?? folder?.id,
+          folder: undefined,
+        })
+      )
+    );
+    const restoredCharts = chartsToRestore.filter(
+      (_, index) => restoreResults[index].status === "fulfilled"
+    );
+    const restoredChartIds = new Set(restoredCharts.map((chart) => chart.id));
 
+    if (restoredCharts.length > 0) {
       setDeletedChartIds((current) =>
-        current.filter(
-          (chartId) => !chartsToRestore.some((chart) => chart.id === chartId)
-        )
+        current.filter((chartId) => !restoredChartIds.has(chartId))
       );
-      setRecentlyDeletedCharts([]);
+      setRecentlyDeletedCharts((current) =>
+        current.filter((chart) => !restoredChartIds.has(chart.id))
+      );
       addFinToast(
         "success",
-        `${chartsToRestore.length} chart string${
-          chartsToRestore.length === 1 ? "" : "s"
+        `${restoredCharts.length} chart string${
+          restoredCharts.length === 1 ? "" : "s"
         } restored.`
       );
       await folderModelQuery.refetch();
-    } catch {
+    }
+
+    if (restoredCharts.length < chartsToRestore.length) {
       addFinToast("error", "Error restoring deleted chart strings.");
     }
   };
