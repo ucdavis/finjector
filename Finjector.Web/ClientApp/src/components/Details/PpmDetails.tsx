@@ -39,6 +39,20 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
               </div>
             );
           })}
+      {details.walterLink && (
+        <DetailsRow
+          headerColText="Open Project In Walter"
+          column2={
+            <a
+              href={details.walterLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {details.walterLink}
+            </a>
+          }
+        />
+      )}
       <DetailsRow
         headerColText="Project Type"
         column2={

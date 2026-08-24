@@ -9,6 +9,7 @@ import {
   fakeCharts,
   fakeInvalidChart,
   fakePpmChart,
+  fakePpmDetails,
   fakeValidAeDetails,
   fakeValidChart,
 } from "../../test/mocks/mockData";
@@ -106,6 +107,19 @@ describe("Details", () => {
 
     expect(screen.getByText("Gift")).toBeInTheDocument();
     expect(screen.queryByText("Endowment")).not.toBeInTheDocument();
+  });
+  it("shows the Walter project link in a new tab when present", async () => {
+    const walterLink = fakePpmDetails.walterLink!;
+    render(wrappedView(fakePpmChart.segmentString));
+
+    await waitFor(() => {
+      expect(screen.getByText("Open Project In Walter")).toBeInTheDocument();
+    });
+
+    const link = screen.getByRole("link", { name: walterLink });
+    expect(link).toHaveAttribute("href", walterLink);
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
 });
 

@@ -186,6 +186,7 @@ export interface PpmDetails {
   projectDescription: string;
   taskStartDate: string;
   taskEndDate: string;
+  walterLink?: string | null;
   roles: PpmRoles[];
 }
 

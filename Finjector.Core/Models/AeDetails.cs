@@ -112,6 +112,8 @@ namespace Finjector.Core.Models
         public string? TaskStartDate { get; set; } = string.Empty;
         public string? TaskEndDate { get; set; } = string.Empty;
 
+        public string? WalterLink { get; set; } = string.Empty;
+
         public List<PpmRoles> Roles { get; set; } = new List<PpmRoles>();
     }
 

@@ -215,6 +215,8 @@ public class ChartsController : ControllerBase
 
         var iamId = Request.GetCurrentUserIamId();
 
+        var employeeId = User.FindFirstValue(IamIdClaimFallbackTransformer.EmployeeIdClaimType);
+
         // verify that user has permission to view this chart
         if (await _userService.VerifyChartAccess(chartId, iamId, Role.Codes.View) == false)
         {
@@ -230,7 +232,7 @@ public class ChartsController : ControllerBase
 
         chartStringDetails.CanEdit = await _userService.VerifyChartAccess(chartId, iamId, Role.Codes.Edit);
 
-        var aeDetails = await _aggieEnterpriseService.GetAeDetailsAsync(chartStringDetails.SegmentString);
+        var aeDetails = await _aggieEnterpriseService.GetAeDetailsAsync(chartStringDetails.SegmentString, employeeId);
         
         var rtValue = new {
             chartStringDetails,
@@ -244,7 +246,9 @@ public class ChartsController : ControllerBase
     [HttpGet("details/string")]
     public async Task<IActionResult> DetailsByString([FromQuery] string chartString)
     {
-        var aeDetails = await _aggieEnterpriseService.GetAeDetailsAsync(chartString);
+        var employeeId = User.FindFirstValue(IamIdClaimFallbackTransformer.EmployeeIdClaimType);
+
+        var aeDetails = await _aggieEnterpriseService.GetAeDetailsAsync(chartString, employeeId);
         var rtValue = new {
             aeDetails
         };
