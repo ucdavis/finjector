@@ -684,9 +684,16 @@ namespace Finjector.Core.Services
             aeDetails.PpmDetails.TaskStartDate = data.PpmTaskByProjectNumberAndTaskNumber?.TaskStartDate;
             aeDetails.PpmDetails.TaskEndDate = data.PpmTaskByProjectNumberAndTaskNumber?.TaskFinishDate;
 
-            if(_externalAppsOptions.ShowWalter && showWalterLink && !string.IsNullOrWhiteSpace(data.PpmProjectByNumber?.ProjectNumber))
+            var projectNumber = data.PpmProjectByNumber?.ProjectNumber;
+            if (_externalAppsOptions.ShowWalter
+                && showWalterLink
+                && !string.IsNullOrWhiteSpace(projectNumber)
+                && Uri.TryCreate($"{_externalAppsOptions.WalterUrl.TrimEnd('/')}/", UriKind.Absolute, out var walterBaseUri)
+                && (walterBaseUri.Scheme == Uri.UriSchemeHttp || walterBaseUri.Scheme == Uri.UriSchemeHttps))
             {
-                aeDetails.PpmDetails.WalterLink = $"{_externalAppsOptions.WalterUrl}{data.PpmProjectByNumber.ProjectNumber}";
+                aeDetails.PpmDetails.WalterLink = new Uri(
+                    walterBaseUri,
+                    Uri.EscapeDataString(projectNumber)).AbsoluteUri;
             }
             else
             {
