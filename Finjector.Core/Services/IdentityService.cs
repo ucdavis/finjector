@@ -17,6 +17,8 @@ namespace Finjector.Core.Services
         Task<User?> GetByEmail(string email);
 
         Task<User?> GetEmailOrKerb(string emailOrKerb);
+
+        Task<string?> GetEmployeeIdByIam(string iamId);
     }
 
     public class IdentityService : IIdentityService
@@ -129,6 +131,22 @@ namespace Finjector.Core.Services
 
 
             return user;
+        }
+
+        public async Task<string?> GetEmployeeIdByIam(string iamId)
+        {
+            var clientws = new IetClient(_authOptions.IamKey);
+            var ucdKerbResult = await clientws.Kerberos.Search(KerberosSearchField.iamId, iamId);
+            if (ucdKerbResult.ResponseData.Results.Length == 0)
+            {
+                return null;
+            }
+            if (ucdKerbResult.ResponseData.Results.Length != 1)
+            {
+                return null;
+            }
+            var ucdKerbPerson = ucdKerbResult.ResponseData.Results.First();
+            return ucdKerbPerson.EmployeeId;
         }
 
         public async Task<User?> GetEmailOrKerb(string emailOrKerb)

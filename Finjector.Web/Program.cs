@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 using Finjector.Web.Models;
 using Finjector.Core.Models;
@@ -63,6 +64,7 @@ try
 
     // Add services to the container.
     builder.Services.Configure<FinancialOptions>(builder.Configuration.GetSection("Financial"));
+    builder.Services.Configure<ExternalAppsOptions>(builder.Configuration.GetSection("ExternalApps"));
     builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Authentication"));
     builder.Services.Configure<SystemOptions>(builder.Configuration.GetSection("System"));
 
@@ -102,6 +104,37 @@ try
         oidc.TokenValidationParameters = new TokenValidationParameters
         {
             NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+        };
+        oidc.Events.OnTokenValidated = async context =>
+        {
+            if (context.Principal?.HasClaim(claim =>
+                    claim.Type == IamIdClaimFallbackTransformer.EmployeeIdClaimType) == true)
+            {
+                return;
+            }
+
+            var iamId = context.Principal?.FindFirstValue(IamIdClaimFallbackTransformer.ClaimType);
+            if (string.IsNullOrWhiteSpace(iamId))
+            {
+                return;
+            }
+
+            try
+            {
+                var identityService = context.HttpContext.RequestServices.GetRequiredService<IIdentityService>();
+                var employeeId = await identityService.GetEmployeeIdByIam(iamId);
+
+                if (!string.IsNullOrWhiteSpace(employeeId) &&
+                    context.Principal?.Identity is ClaimsIdentity identity &&
+                    !identity.HasClaim(claim => claim.Type == IamIdClaimFallbackTransformer.EmployeeIdClaimType))
+                {
+                    identity.AddClaim(new Claim(IamIdClaimFallbackTransformer.EmployeeIdClaimType, employeeId));
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Unable to add employee ID claim for user with IAM ID {IamId}", iamId);
+            }
         };
     });
     builder.Services.AddAuthorization(options =>

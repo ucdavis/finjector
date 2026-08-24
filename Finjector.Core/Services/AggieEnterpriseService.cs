@@ -14,7 +14,7 @@ namespace Finjector.Core.Services
         //Returns Chart type (includes invalid value).
         FinancialChartStringType GetChartType(string segmentString);
 
-        Task<AeDetails> GetAeDetailsAsync(string segmentString);
+        Task<AeDetails> GetAeDetailsAsync(string segmentString, string? employeeId);
         Task<IEnumerable<SearchResult>> Entity(string query);
         Task<IEnumerable<SearchResult>> Fund(string query);
         Task<IEnumerable<SearchResult>> Department(string query);
@@ -39,17 +39,24 @@ namespace Finjector.Core.Services
     public class AggieEnterpriseService : IAggieEnterpriseService
     {
         private readonly FinancialOptions _financialOptions;
+        private readonly ExternalAppsOptions _externalAppsOptions;
         private IAggieEnterpriseClient _apiClient;
         private const string FiscalOfficer = "Fiscal Officer Approver";
 
-        public AggieEnterpriseService(IOptions<FinancialOptions> options)
+        public string? EmployeeId { get; set; }
+
+        public AggieEnterpriseService(
+            IOptions<FinancialOptions> financialOptions,
+            IOptions<ExternalAppsOptions> externalAppsOptions)
         {
-            _financialOptions = options.Value;
+            _financialOptions = financialOptions.Value;
+            _externalAppsOptions = externalAppsOptions.Value;
             _apiClient = GraphQlClient.Get(_financialOptions.ApiUrl!, _financialOptions.TokenEndpoint!, _financialOptions.ConsumerKey!, _financialOptions.ConsumerSecret!, $"{_financialOptions.ScopeApp}-{_financialOptions.ScopeEnv}");
         }
 
-        public async Task<AeDetails> GetAeDetailsAsync(string segmentString)
+        public async Task<AeDetails> GetAeDetailsAsync(string segmentString, string? employeeId)
         {
+            EmployeeId = employeeId;
             AeDetails aeDetails = new AeDetails();
             if(string.IsNullOrWhiteSpace(segmentString))
             {
@@ -639,6 +646,9 @@ namespace Finjector.Core.Services
             {
                 aeDetails.PpmDetails.ProjectDescription = data.PpmProjectByNumber.Description;
             }
+
+            var showWalterLink = false;
+
             if(data.PpmProjectByNumber?.TeamMembers != null)
             {
                 var counter = 100;
@@ -659,6 +669,13 @@ namespace Finjector.Core.Services
                             LastName = member.Person?.LastName,
                             Email = member.Person?.Email
                         });
+                        if(member.Person?.EmployeeId != null 
+                            && member.Person?.EmployeeId == EmployeeId
+                            && (string.Equals(teamMember.Key, "Principal Investigator", StringComparison.OrdinalIgnoreCase)
+                                || string.Equals(teamMember.Key, "Project Manager", StringComparison.OrdinalIgnoreCase)))
+                        {
+                            showWalterLink = true;
+                        }
                     }
 
                     aeDetails.PpmDetails.Roles.Add(ppmRole);
@@ -667,6 +684,14 @@ namespace Finjector.Core.Services
             aeDetails.PpmDetails.TaskStartDate = data.PpmTaskByProjectNumberAndTaskNumber?.TaskStartDate;
             aeDetails.PpmDetails.TaskEndDate = data.PpmTaskByProjectNumberAndTaskNumber?.TaskFinishDate;
 
+            if(_externalAppsOptions.ShowWalter && showWalterLink && !string.IsNullOrWhiteSpace(data.PpmProjectByNumber?.ProjectNumber))
+            {
+                aeDetails.PpmDetails.WalterLink = $"{_externalAppsOptions.WalterUrl}{data.PpmProjectByNumber.ProjectNumber}";
+            }
+            else
+            {
+                aeDetails.PpmDetails.WalterLink = null;
+            }
         }
 
         private static void SetFundPurpose(AeDetails aeDetails, string? fundPurpose)

@@ -55,16 +55,31 @@ public class SystemController : Controller
             }
         }
 
-        var identity = new ClaimsIdentity(new[]
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Kerberos),
+            new Claim(ClaimTypes.Name, user.Kerberos),
+            new Claim(ClaimTypes.GivenName, user.FirstName),
+            new Claim(ClaimTypes.Surname, user.LastName),
+            new Claim("name", user.Name),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(IamIdClaimFallbackTransformer.ClaimType, user.Iam),
+        };
+
+        try
+        {
+            var employeeId = await _identityService.GetEmployeeIdByIam(user.Iam);
+            if (!string.IsNullOrWhiteSpace(employeeId))
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Kerberos),
-                new Claim(ClaimTypes.Name, user.Kerberos),
-                new Claim(ClaimTypes.GivenName, user.FirstName),
-                new Claim(ClaimTypes.Surname, user.LastName),
-                new Claim("name", user.Name),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim("ucdPersonIAMID", user.Iam),
-            }, CookieAuthenticationDefaults.AuthenticationScheme);
+                claims.Add(new Claim(IamIdClaimFallbackTransformer.EmployeeIdClaimType, employeeId));
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, "Unable to add employee ID claim for emulated user with IAM ID {IamId}", user.Iam);
+        }
+
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
         // kill old login
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

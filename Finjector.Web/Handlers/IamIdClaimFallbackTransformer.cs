@@ -10,6 +10,7 @@ namespace Finjector.Web.Handlers
     public class IamIdClaimFallbackTransformer : IClaimsTransformation
     {
         public const string ClaimType = "ucdPersonIAMID";
+        public const string EmployeeIdClaimType = "employeeId";
         private readonly AuthOptions _authOptions;
 
         public IamIdClaimFallbackTransformer(IOptions<AuthOptions> authOptions)
@@ -52,10 +53,18 @@ namespace Finjector.Web.Handlers
             }
 
             var ucdKerbPerson = ucdKerbResult.ResponseData.Results.First();
-            principal.AddIdentity(new ClaimsIdentity(new[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimType, ucdKerbPerson.IamId)
-            }));
+            };
+
+            if (!string.IsNullOrWhiteSpace(ucdKerbPerson.EmployeeId) &&
+                !principal.HasClaim(claim => claim.Type == EmployeeIdClaimType))
+            {
+                claims.Add(new Claim(EmployeeIdClaimType, ucdKerbPerson.EmployeeId));
+            }
+
+            principal.AddIdentity(new ClaimsIdentity(claims));
 
             return principal;
         }

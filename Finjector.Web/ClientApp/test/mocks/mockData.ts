@@ -314,6 +314,7 @@ const fakePpmDetails: PpmDetails = {
   taskEndDate: "2022-12-31",
   glRevenueTransferString: "Fake-Gl-Transfer-String",
   projectDescription: "This is a fake project description.",
+  walterLink: "https://walter.ucdavis.edu/projects/by-number/KL0733ATC1",
   roles: [
     {
       order: 1,
