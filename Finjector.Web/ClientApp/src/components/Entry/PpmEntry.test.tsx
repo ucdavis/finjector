@@ -47,6 +47,14 @@ const project: SegmentData = {
   glPostingDepartmentCode: organization.code,
 };
 
+const task: SegmentData = {
+  segmentName: "task",
+  code: "100001",
+  name: "First project task",
+  default: "000000",
+  isValid: false,
+};
+
 beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
 beforeEach(() => {
   server.resetHandlers();
@@ -100,6 +108,9 @@ const renderEntry = (
         <output data-testid="expenditure-type-state">
           {JSON.stringify(segments.expenditureType)}
         </output>
+        <output data-testid="task-state">
+          {JSON.stringify(segments.task)}
+        </output>
       </>
     );
   };
@@ -118,6 +129,9 @@ const readOrganization = (): SegmentData =>
 
 const readExpenditureType = (): SegmentData =>
   JSON.parse(screen.getByTestId("expenditure-type-state").textContent || "{}");
+
+const readTask = (): SegmentData =>
+  JSON.parse(screen.getByTestId("task-state").textContent || "{}");
 
 const selectProject = async (
   user: ReturnType<typeof userEvent.setup>,
@@ -157,6 +171,16 @@ const waitForDefaultExpenditureType = async (client: QueryClient) => {
   await waitFor(() => {
     expect(
       client.getQueryState(["defaultExpenditureType", project.code])?.status
+    ).toBe("success");
+    expect(client.isFetching()).toBe(0);
+  });
+};
+
+const waitForTaskLookup = async (client: QueryClient) => {
+  await waitFor(() => {
+    expect(
+      client.getQueryState(["segments", ChartType.PPM, "task", project.code])
+        ?.status
     ).toBe("success");
     expect(client.isFetching()).toBe(0);
   });
@@ -502,4 +526,167 @@ describe("PPM project default expenditure type", () => {
       screen.getByPlaceholderText("Search for expenditureType...")
     ).toHaveValue("");
   });
+});
+
+describe("PPM project task selection", () => {
+  const otherTask = { ...task, code: "200002", name: "Second project task" };
+  const otherProject = {
+    ...project,
+    code: "P200000002",
+    name: "Second project",
+  };
+
+  it("automatically selects the only task with its code, name, and validity", async () => {
+    server.use(
+      http.get("/api/ppmsearch/tasksByProject", () => HttpResponse.json([task]))
+    );
+    const { user } = renderEntry();
+
+    await selectProject(user);
+
+    await waitFor(() => {
+      expect(readTask()).toMatchObject({
+        code: task.code,
+        name: task.name,
+        isValid: true,
+      });
+      expect(screen.getByPlaceholderText("Choose a task...")).toHaveValue(
+        task.code
+      );
+      expect(screen.getByText(task.name)).toBeInTheDocument();
+    });
+  });
+
+  it("leaves task empty when the project returns no tasks", async () => {
+    const { client, user } = renderEntry();
+
+    await selectProject(user);
+    await waitForTaskLookup(client);
+
+    expect(readTask()).toMatchObject({ code: "", name: "", isValid: false });
+    expect(screen.getByPlaceholderText("Choose a task...")).toHaveValue("");
+  });
+
+  it("leaves multiple tasks for manual selection", async () => {
+    server.use(
+      http.get("/api/ppmsearch/tasksByProject", () =>
+        HttpResponse.json([task, otherTask])
+      )
+    );
+    const { client, user } = renderEntry();
+
+    await selectProject(user);
+    await waitForTaskLookup(client);
+
+    const input = screen.getByPlaceholderText("Choose a task...");
+    expect(readTask()).toMatchObject({ code: "", isValid: false });
+    expect(input).toHaveValue("");
+
+    await user.click(input);
+    await user.click(
+      await screen.findByRole("option", { name: new RegExp(otherTask.code) })
+    );
+
+    expect(readTask()).toMatchObject({
+      code: otherTask.code,
+      name: otherTask.name,
+      isValid: true,
+    });
+    expect(input).toHaveValue(otherTask.code);
+    expect(screen.getByText(otherTask.name)).toBeInTheDocument();
+  });
+
+  it("selects the new project's only task after changing projects", async () => {
+    server.use(
+      http.get("/api/ppmsearch/project", () =>
+        HttpResponse.json([project, otherProject])
+      ),
+      http.get("/api/ppmsearch/tasksByProject", ({ request }) => {
+        const projectNumber = new URL(request.url).searchParams.get(
+          "projectNumber"
+        );
+        return HttpResponse.json([
+          projectNumber === project.code ? task : otherTask,
+        ]);
+      })
+    );
+    const { user } = renderEntry();
+
+    await selectProject(user);
+    await waitFor(() => expect(readTask().code).toBe(task.code));
+    await selectProject(user, otherProject);
+
+    await waitFor(() => {
+      expect(readTask()).toMatchObject({
+        code: otherTask.code,
+        name: otherTask.name,
+        isValid: true,
+      });
+      expect(screen.getByPlaceholderText("Choose a task...")).toHaveValue(
+        otherTask.code
+      );
+      expect(screen.getByText(otherTask.name)).toBeInTheDocument();
+    });
+  });
+
+  it.each([
+    { result: "no tasks", tasks: [] as SegmentData[] },
+    {
+      result: "multiple tasks",
+      tasks: [otherTask, { ...otherTask, code: "200003" }],
+    },
+  ])(
+    "ignores an old project's delayed single task after switching to a project with $result",
+    async ({ tasks }) => {
+      let finishLookup!: () => void;
+      const pendingLookup = new Promise<void>((resolve) => {
+        finishLookup = resolve;
+      });
+      server.use(
+        http.get("/api/ppmsearch/project", () =>
+          HttpResponse.json([project, otherProject])
+        ),
+        http.get("/api/ppmsearch/tasksByProject", async ({ request }) => {
+          const projectNumber = new URL(request.url).searchParams.get(
+            "projectNumber"
+          );
+          if (projectNumber === project.code) {
+            await pendingLookup;
+            return HttpResponse.json([task]);
+          }
+          return HttpResponse.json(tasks);
+        })
+      );
+      const { client, user } = renderEntry();
+
+      await selectProject(user);
+      await waitFor(() => {
+        expect(
+          client.getQueryState([
+            "segments",
+            ChartType.PPM,
+            "task",
+            project.code,
+          ])?.fetchStatus
+        ).toBe("fetching");
+      });
+      await selectProject(user, otherProject);
+      await waitFor(() => {
+        expect(
+          client.getQueryState([
+            "segments",
+            ChartType.PPM,
+            "task",
+            otherProject.code,
+          ])?.status
+        ).toBe("success");
+      });
+      finishLookup();
+      await waitForTaskLookup(client);
+
+      expect(readTask()).toMatchObject({ code: "", name: "", isValid: false });
+      expect(screen.getByPlaceholderText("Choose a task...")).toHaveValue("");
+      expect(screen.queryByText(task.name)).not.toBeInTheDocument();
+    }
+  );
 });

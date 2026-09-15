@@ -36,6 +36,34 @@ const TaskSelector = (props: Props) => {
     }
   }, [props, props.segmentDependency.isValid, selection.length]);
 
+  React.useEffect(() => {
+    if (
+      !props.segmentDependency.isValid ||
+      taskQuery.isFetching ||
+      !taskQuery.isSuccess ||
+      taskQuery.data.length !== 1
+    ) {
+      return;
+    }
+
+    const task = taskQuery.data[0];
+    if (
+      props.segmentData.code === task.code &&
+      props.segmentData.name === task.name &&
+      props.segmentData.isValid
+    ) {
+      return;
+    }
+
+    setSelection([task]);
+    props.setSegmentValue({
+      ...props.segmentData,
+      code: task.code,
+      name: task.name,
+      isValid: true,
+    });
+  }, [props, taskQuery.data, taskQuery.isFetching, taskQuery.isSuccess]);
+
   const handleSelected = (selected: any) => {
     setSelection(selected);
 
