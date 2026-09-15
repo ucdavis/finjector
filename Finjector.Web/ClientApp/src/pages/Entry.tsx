@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams, useSearchParams } from "react-router-dom";
 import ChartTypeSelector from "../components/Entry/ChartTypeSelector";
 import GlEntry from "../components/Entry/GlEntry";
 import PpmEntry from "../components/Entry/PpmEntry";
@@ -26,6 +26,7 @@ import {
   fromPpmSegmentString,
   isGlSegmentString,
   isPoetSegmentString,
+  isPpmProjectNumber,
 } from "../util/segmentValidation";
 import NameEntry from "../components/Entry/NameEntry";
 import {
@@ -42,6 +43,15 @@ import PageBody from "../components/Shared/Layout/PageBody";
 
 const Entry = () => {
   const { chartId, chartSegmentString, folderId } = useParams();
+  const [searchParams] = useSearchParams();
+  const projectCode = searchParams.get("project")?.trim().toUpperCase() || "";
+  const initialProjectCode =
+    !chartId &&
+    !chartSegmentString &&
+    !folderId &&
+    isPpmProjectNumber(projectCode)
+      ? projectCode
+      : undefined;
   const saveInFolderId = parseInt(folderId ?? "0");
 
   const savedChartQuery = useGetSavedChartWithData(chartId || "");
@@ -61,6 +71,10 @@ const Entry = () => {
   const [chartData, setChartData] = React.useState<ChartData>(() => {
     const initializeFromGlSegmentString =
       chartSegmentString && isGlSegmentString(chartSegmentString);
+    const initialPpmSegments = buildInitialPpmSegments();
+    if (initialProjectCode) {
+      initialPpmSegments.project.code = initialProjectCode;
+    }
 
     return {
       chartType: initializeFromGlSegmentString ? ChartType.GL : ChartType.PPM,
@@ -70,7 +84,7 @@ const Entry = () => {
       ppmSegments:
         chartSegmentString && !initializeFromGlSegmentString
           ? mapSegmentCodeToName(fromPpmSegmentString(chartSegmentString, true))
-          : buildInitialPpmSegments(),
+          : initialPpmSegments,
     };
   });
 
@@ -166,6 +180,7 @@ const Entry = () => {
         ) : (
           <PpmEntry
             segments={chartData.ppmSegments}
+            initialProjectCode={initialProjectCode}
             setSegment={(name: string, segment: SegmentData) =>
               setChartData((c) => ({
                 ...c,

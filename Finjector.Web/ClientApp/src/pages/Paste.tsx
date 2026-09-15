@@ -3,6 +3,7 @@ import {
   isGlSegmentString,
   isPpmSegmentString,
   isPoetSegmentString,
+  isPpmProjectNumber,
 } from "../util/segmentValidation";
 
 import { useNavigate } from "react-router-dom";
@@ -13,29 +14,36 @@ const Paste = () => {
   const navigate = useNavigate();
 
   const [coa, setCoa] = React.useState<string>("");
+  const value = coa.trim();
+  const projectOnly = isPpmProjectNumber(value);
 
   const [error, setError] = React.useState<string>("");
 
   // when coa changes, validate it and show errors if any
   useEffect(() => {
     const coaValid =
-      isGlSegmentString(coa) ||
-      isPpmSegmentString(coa) ||
-      isPoetSegmentString(coa);
+      isGlSegmentString(value) ||
+      isPpmSegmentString(value) ||
+      isPoetSegmentString(value) ||
+      projectOnly;
 
-    if (coaValid || coa === "") {
+    if (coaValid || value === "") {
       setError("");
     } else {
       setError(
-        "Chart String does not appear to be a valid GL or PPM segment string"
+        "Enter a valid GL or PPM chart string, or a 10-character PPM project number"
       );
     }
-  }, [coa]);
+  }, [value, projectOnly]);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    if (error === "" && coa !== "") {
-      navigate(`/entry/${coa}`);
+    if (error === "" && value !== "") {
+      navigate(
+        projectOnly
+          ? `/entry?project=${encodeURIComponent(value.toUpperCase())}`
+          : `/entry/${encodeURIComponent(value)}`
+      );
     }
   };
 
@@ -44,7 +52,9 @@ const Paste = () => {
       <PageTitle title="New Chart String from paste" />
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <p>Paste in a copied Chart String</p>
+          <label className="form-label" htmlFor="coa-input">
+            Paste in a copied Chart String or PPM project number
+          </label>
           <input
             className="form-control"
             id="coa-input"
@@ -59,7 +69,7 @@ const Paste = () => {
           {error}
         </div>
       )}
-      {isPoetSegmentString(coa) && (
+      {isPoetSegmentString(value) && (
         <div className={`alert alert-info`} role="alert">
           This appears to be a POET segment string. We can try importing and
           converting it to a PPM string.
@@ -68,7 +78,7 @@ const Paste = () => {
       <div className="d-grid">
         <FinButton
           className="btn btn-primary"
-          disabled={error !== "" || coa === ""}
+          disabled={error !== "" || value === ""}
           onClick={handleSubmit}
           margin={false}
         >
