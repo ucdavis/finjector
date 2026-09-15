@@ -7,7 +7,7 @@ import { http, HttpResponse } from "msw";
 import { describe, expect, it, vi } from "vitest";
 import { server } from "../../test/mocks/node";
 import { fakeFolders } from "../../test/mocks/mockData";
-import { ChartType, SegmentData } from "../types";
+import { ChartType, Coa, SegmentData } from "../types";
 import Entry from "./Entry";
 import Paste from "./Paste";
 
@@ -93,6 +93,10 @@ const renderPaste = (initialEntry = "/paste", renderEntryPage = true) => {
           <Route
             path="/entry/:chartSegmentString"
             element={renderEntryPage ? <Entry /> : <></>}
+          />
+          <Route
+            path="/teams/:teamId/folders/:folderId/entry/:chartId/:chartSegmentString"
+            element={<Entry />}
           />
           <Route path="/locator/entry/:id" element={<p>Chart locator</p>} />
         </Routes>
@@ -327,4 +331,192 @@ describe("Existing pasted chart routes", () => {
       expect(screen.getByText("Chart locator")).toBeInTheDocument();
     }
   );
+});
+
+describe("Saved PPM task preservation", () => {
+  const unavailableTaskCode = "900099";
+  const secondTask = { ...task, code: "100002", name: "Another eligible task" };
+
+  const mockSavedChart = (
+    eligibleTasks: SegmentData[],
+    projectValid = true,
+    initialTaskCode = unavailableTaskCode
+  ) => {
+    const savedChart: Coa = {
+      id: 4242,
+      chartType: ChartType.PPM,
+      name: "Existing PPM chart",
+      segmentString: `${project.code}-${unavailableTaskCode}-${organization.code}-${expenditureType.code}`,
+      folderId: fakeFolders[0].id,
+      folder: fakeFolders[0],
+      teamName: "Existing team",
+      updated: new Date("2026-09-15T12:00:00Z"),
+      canEdit: true,
+    };
+    const defaultLookup = vi.fn(() => HttpResponse.json([expenditureType]));
+    const saveRequest = vi.fn(() => HttpResponse.json(savedChart));
+    server.use(
+      http.get("/api/charts/4242", () => HttpResponse.json(savedChart)),
+      http.get("/api/ppmsearch/tasksByProject", () =>
+        HttpResponse.json(eligibleTasks)
+      ),
+      http.get("/api/ppmsearch/defaultExpenditureType", defaultLookup),
+      http.post("/api/charts/save", saveRequest),
+      http.get("/api/ppmsearch/validate", ({ request }) => {
+        const segmentString =
+          new URL(request.url).searchParams.get("segmentString") || "";
+        const taskValid = segmentString.split("-")[1] !== unavailableTaskCode;
+        return HttpResponse.json({
+          segmentString,
+          segments: {
+            ...(projectValid ? { project: project.code } : {}),
+            ...(taskValid ? { task: segmentString.split("-")[1] } : {}),
+            organization: organization.code,
+            expenditureType: expenditureType.code,
+          },
+          validationResponse: {
+            valid: projectValid && taskValid,
+            errorMessages: taskValid
+              ? []
+              : ["The saved task is no longer available."],
+          },
+          warnings: [],
+        });
+      })
+    );
+    return {
+      path: `/teams/1/folders/${savedChart.folderId}/entry/${savedChart.id}/${project.code}-${initialTaskCode}-${organization.code}-${expenditureType.code}`,
+      defaultLookup,
+      saveRequest,
+    };
+  };
+
+  const waitForSavedChart = async (client: QueryClient) => {
+    await waitFor(() => {
+      expect(client.getQueryState(["charts", "saved", "4242"])?.status).toBe(
+        "success"
+      );
+      expect(client.isFetching()).toBe(0);
+    });
+  };
+
+  it.each([
+    { result: "zero", tasks: [] as SegmentData[] },
+    { result: "one different", tasks: [task] },
+    { result: "multiple", tasks: [task, secondTask] },
+  ])(
+    "keeps an unavailable saved task invalid and visible with $result eligible tasks",
+    async ({ tasks }) => {
+      const { path, defaultLookup, saveRequest } = mockSavedChart(tasks);
+      const { client } = renderPaste(path);
+      await waitForSavedChart(client);
+
+      expect(screen.getByPlaceholderText("Choose a task...")).toHaveValue(
+        unavailableTaskCode
+      );
+      expect(
+        screen.getByText("Chart String is not yet valid")
+      ).toBeInTheDocument();
+      expect(defaultLookup).not.toHaveBeenCalled();
+      expect(saveRequest).not.toHaveBeenCalled();
+    }
+  );
+
+  it("keeps the saved task when validation does not recognize the project", async () => {
+    const { path, defaultLookup, saveRequest } = mockSavedChart([], false);
+    const { client } = renderPaste(path);
+    await waitForSavedChart(client);
+
+    const input = screen.getByPlaceholderText("Choose a task...");
+    expect(input).toHaveValue(unavailableTaskCode);
+    expect(input).toBeDisabled();
+    expect(
+      screen.getByText("Chart String is not yet valid")
+    ).toBeInTheDocument();
+    expect(defaultLookup).not.toHaveBeenCalled();
+    expect(saveRequest).not.toHaveBeenCalled();
+  });
+
+  it("updates the task input when the loaded saved value differs from the URL", async () => {
+    const { path } = mockSavedChart([], true, task.code);
+    const { client } = renderPaste(path);
+    await waitForSavedChart(client);
+
+    expect(screen.getByPlaceholderText("Choose a task...")).toHaveValue(
+      unavailableTaskCode
+    );
+    expect(
+      screen.getByText("Chart String is not yet valid")
+    ).toBeInTheDocument();
+  });
+
+  it.each([
+    { result: "one", tasks: [task] },
+    { result: "multiple", tasks: [task, secondTask] },
+  ])(
+    "lets the user replace the unavailable saved task with $result eligible tasks",
+    async ({ tasks }) => {
+      const { path, saveRequest } = mockSavedChart(tasks);
+      const { client, user } = renderPaste(path);
+      await waitForSavedChart(client);
+
+      const input = screen.getByPlaceholderText("Choose a task...");
+      await user.clear(input);
+      expect(input).toHaveValue("");
+      await user.type(input, task.code.slice(0, 3));
+      expect(input).toHaveValue(task.code.slice(0, 3));
+      await user.type(input, task.code.slice(3));
+      expect(input).toHaveValue(task.code);
+      expect(
+        screen.getByText("Chart String is not yet valid")
+      ).toBeInTheDocument();
+      await user.click(
+        await screen.findByRole("option", { name: new RegExp(task.code) })
+      );
+
+      expect(input).toHaveValue(task.code);
+      expect(screen.getByText(task.name)).toBeInTheDocument();
+      expect(
+        await screen.findByText("Chart String is valid")
+      ).toBeInTheDocument();
+      expect(saveRequest).not.toHaveBeenCalled();
+    }
+  );
+
+  it("clears the old saved task on a project change and selects the new sole task", async () => {
+    const { path, saveRequest } = mockSavedChart([]);
+    server.use(
+      http.get("/api/ppmsearch/tasksByProject", ({ request }) =>
+        HttpResponse.json(
+          new URL(request.url).searchParams.get("projectNumber") ===
+            project.code
+            ? []
+            : [secondTask]
+        )
+      )
+    );
+    const { client, user } = renderPaste(path);
+    await waitForSavedChart(client);
+
+    const taskInput = screen.getByPlaceholderText("Choose a task...");
+    expect(taskInput).toHaveValue(unavailableTaskCode);
+    const projectInput = screen.getByPlaceholderText("Search for project...");
+    await user.clear(projectInput);
+    expect(screen.getByPlaceholderText("Choose a task...")).toHaveValue("");
+    await user.type(projectInput, otherProject.code);
+    await user.click(
+      await screen.findByRole("option", { name: new RegExp(otherProject.code) })
+    );
+
+    await waitFor(() =>
+      expect(screen.getByPlaceholderText("Choose a task...")).toHaveValue(
+        secondTask.code
+      )
+    );
+    expect(screen.getByText(secondTask.name)).toBeInTheDocument();
+    expect(
+      await screen.findByText("Chart String is valid")
+    ).toBeInTheDocument();
+    expect(saveRequest).not.toHaveBeenCalled();
+  });
 });
