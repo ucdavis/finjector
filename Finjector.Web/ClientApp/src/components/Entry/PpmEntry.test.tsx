@@ -24,6 +24,20 @@ const existingOrganization: SegmentData = {
   isValid: true,
 };
 
+const expenditureType: SegmentData = {
+  segmentName: "expenditureType",
+  code: "599999",
+  name: "Configured expenditure type",
+  default: "000000",
+  isValid: true,
+};
+
+const existingExpenditureType: SegmentData = {
+  ...expenditureType,
+  code: "500001",
+  name: "Existing expenditure type",
+};
+
 const project: SegmentData = {
   segmentName: "project",
   code: "P100000001",
@@ -41,12 +55,21 @@ beforeEach(() => {
     http.get("/api/ppmsearch/tasksByProject", () => HttpResponse.json([])),
     http.get("/api/ppmsearch/organization", () =>
       HttpResponse.json([existingOrganization, organization])
+    ),
+    http.get("/api/ppmsearch/defaultExpenditureType", () =>
+      HttpResponse.json([])
+    ),
+    http.get("/api/ppmsearch/expenditureType", () =>
+      HttpResponse.json([expenditureType, existingExpenditureType])
     )
   );
 });
 afterAll(() => server.close());
 
-const renderEntry = (initialOrganization?: SegmentData) => {
+const renderEntry = (
+  initialOrganization?: SegmentData,
+  initialExpenditureType?: SegmentData
+) => {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
@@ -55,6 +78,9 @@ const renderEntry = (initialOrganization?: SegmentData) => {
     const [segments, setSegments] = React.useState(() => ({
       ...buildInitialPpmSegments(),
       ...(initialOrganization ? { organization: initialOrganization } : {}),
+      ...(initialExpenditureType
+        ? { expenditureType: initialExpenditureType }
+        : {}),
     }));
 
     return (
@@ -71,6 +97,9 @@ const renderEntry = (initialOrganization?: SegmentData) => {
         <output data-testid="project-state">
           {JSON.stringify(segments.project)}
         </output>
+        <output data-testid="expenditure-type-state">
+          {JSON.stringify(segments.expenditureType)}
+        </output>
       </>
     );
   };
@@ -86,6 +115,9 @@ const renderEntry = (initialOrganization?: SegmentData) => {
 
 const readOrganization = (): SegmentData =>
   JSON.parse(screen.getByTestId("organization-state").textContent || "{}");
+
+const readExpenditureType = (): SegmentData =>
+  JSON.parse(screen.getByTestId("expenditure-type-state").textContent || "{}");
 
 const selectProject = async (
   user: ReturnType<typeof userEvent.setup>,
@@ -116,6 +148,15 @@ const waitForOrganizationLookup = async (client: QueryClient) => {
         organization.code,
         "",
       ])?.status
+    ).toBe("success");
+    expect(client.isFetching()).toBe(0);
+  });
+};
+
+const waitForDefaultExpenditureType = async (client: QueryClient) => {
+  await waitFor(() => {
+    expect(
+      client.getQueryState(["defaultExpenditureType", project.code])?.status
     ).toBe("success");
     expect(client.isFetching()).toBe(0);
   });
@@ -261,6 +302,204 @@ describe("PPM project organization selection", () => {
     expect(readOrganization()).toMatchObject({ code: "", isValid: false });
     expect(
       screen.getByPlaceholderText("Search for organization...")
+    ).toHaveValue("");
+  });
+});
+
+describe("PPM project default expenditure type", () => {
+  beforeEach(() => {
+    server.use(
+      http.get("/api/ppmsearch/defaultExpenditureType", () =>
+        HttpResponse.json([expenditureType])
+      )
+    );
+  });
+
+  it("uses the configured code and name alongside the project organization", async () => {
+    const { user } = renderEntry();
+
+    await selectProject(user);
+
+    await waitFor(() => {
+      expect(readExpenditureType()).toMatchObject({
+        code: "599999",
+        name: expenditureType.name,
+        isValid: true,
+      });
+      expect(
+        screen.getByPlaceholderText("Search for expenditureType...")
+      ).toHaveValue("599999");
+      expect(screen.getByText(expenditureType.name)).toBeInTheDocument();
+      expect(readOrganization()).toMatchObject({
+        code: organization.code,
+        isValid: true,
+      });
+    });
+  });
+
+  it("leaves expenditure type empty when the backend returns no default", async () => {
+    server.use(
+      http.get("/api/ppmsearch/defaultExpenditureType", () =>
+        HttpResponse.json([])
+      )
+    );
+    const { client, user } = renderEntry();
+
+    await selectProject(user);
+    await waitForDefaultExpenditureType(client);
+
+    expect(readExpenditureType()).toMatchObject({ code: "", isValid: false });
+    expect(
+      screen.getByPlaceholderText("Search for expenditureType...")
+    ).toHaveValue("");
+  });
+
+  it.each([
+    { state: "selected", initialExpenditureType: existingExpenditureType },
+    {
+      state: "partially typed",
+      initialExpenditureType: {
+        ...expenditureType,
+        code: "5",
+        name: "",
+        isValid: false,
+      },
+    },
+  ])(
+    "preserves an already $state expenditure type without requesting a default",
+    async ({ initialExpenditureType }) => {
+      const defaultLookup = vi.fn(() => HttpResponse.json([expenditureType]));
+      server.use(
+        http.get("/api/ppmsearch/defaultExpenditureType", defaultLookup)
+      );
+      const { client, user } = renderEntry(undefined, initialExpenditureType);
+
+      await selectProject(user);
+      await waitFor(() => expect(client.isFetching()).toBe(0));
+
+      expect(readExpenditureType()).toEqual(initialExpenditureType);
+      expect(
+        screen.getByPlaceholderText("Search for expenditureType...")
+      ).toHaveValue(initialExpenditureType.code);
+      expect(defaultLookup).not.toHaveBeenCalled();
+    }
+  );
+
+  it("applies the expenditure default when the project has no department code", async () => {
+    server.use(
+      http.get("/api/ppmsearch/project", () =>
+        HttpResponse.json([{ ...project, glPostingDepartmentCode: null }])
+      )
+    );
+    const { client, user } = renderEntry();
+
+    await selectProject(user);
+    await waitForDefaultExpenditureType(client);
+
+    expect(readExpenditureType()).toMatchObject({
+      code: expenditureType.code,
+      name: expenditureType.name,
+      isValid: true,
+    });
+    expect(readOrganization()).toMatchObject({ code: "", isValid: false });
+  });
+
+  it("preserves text entered while the default expenditure lookup is pending", async () => {
+    let finishLookup!: () => void;
+    const pendingLookup = new Promise<void>((resolve) => {
+      finishLookup = resolve;
+    });
+    const defaultLookup = vi.fn(async () => {
+      await pendingLookup;
+      return HttpResponse.json([expenditureType]);
+    });
+    server.use(
+      http.get("/api/ppmsearch/defaultExpenditureType", defaultLookup)
+    );
+    const { client, user } = renderEntry();
+
+    await selectProject(user);
+    await waitFor(() => expect(defaultLookup).toHaveBeenCalledOnce());
+    await user.type(
+      screen.getByPlaceholderText("Search for expenditureType..."),
+      "5"
+    );
+    finishLookup();
+    await waitForDefaultExpenditureType(client);
+
+    expect(readExpenditureType()).toMatchObject({
+      code: "5",
+      name: "",
+      isValid: false,
+    });
+    expect(
+      screen.getByPlaceholderText("Search for expenditureType...")
+    ).toHaveValue("5");
+  });
+
+  it.each(["clearing", "changing"])(
+    "ignores a delayed expenditure default after %s the project",
+    async (action) => {
+      const otherProject = {
+        ...project,
+        code: "P200000002",
+        name: "Second project",
+      };
+      let finishLookup!: () => void;
+      const pendingLookup = new Promise<void>((resolve) => {
+        finishLookup = resolve;
+      });
+      const defaultLookup = vi
+        .fn(async () => HttpResponse.json<SegmentData[]>([]))
+        .mockImplementationOnce(async () => {
+          await pendingLookup;
+          return HttpResponse.json([expenditureType]);
+        });
+      server.use(
+        http.get("/api/ppmsearch/project", () =>
+          HttpResponse.json([project, otherProject])
+        ),
+        http.get("/api/ppmsearch/defaultExpenditureType", defaultLookup)
+      );
+      const { client, user } = renderEntry();
+
+      await selectProject(user);
+      await waitFor(() => expect(defaultLookup).toHaveBeenCalledOnce());
+      if (action === "clearing") {
+        await user.clear(screen.getByPlaceholderText("Search for project..."));
+      } else {
+        await selectProject(user, otherProject);
+      }
+      finishLookup();
+      await waitForDefaultExpenditureType(client);
+
+      expect(readExpenditureType()).toMatchObject({ code: "", isValid: false });
+      expect(
+        screen.getByPlaceholderText("Search for expenditureType...")
+      ).toHaveValue("");
+    }
+  );
+
+  it("refreshes a cached default before filling it on project reselection", async () => {
+    const { client, user } = renderEntry();
+    await selectProject(user);
+    await waitForDefaultExpenditureType(client);
+    expect(readExpenditureType().code).toBe(expenditureType.code);
+
+    const defaultLookup = vi.fn(() => HttpResponse.json([]));
+    server.use(
+      http.get("/api/ppmsearch/defaultExpenditureType", defaultLookup)
+    );
+    await user.clear(
+      screen.getByPlaceholderText("Search for expenditureType...")
+    );
+    await selectProject(user);
+    await waitFor(() => expect(defaultLookup).toHaveBeenCalledOnce());
+    await waitForDefaultExpenditureType(client);
+
+    expect(readExpenditureType()).toMatchObject({ code: "", isValid: false });
+    expect(
+      screen.getByPlaceholderText("Search for expenditureType...")
     ).toHaveValue("");
   });
 });

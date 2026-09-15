@@ -1,7 +1,10 @@
 import React from "react";
 
 import { ChartType, PpmSegments, SegmentData } from "../../types";
-import { useSegmentQuery } from "../../queries/segmentQueries";
+import {
+  useDefaultExpenditureTypeQuery,
+  useSegmentQuery,
+} from "../../queries/segmentQueries";
 
 import SegmentSearch from "./SegmentSearch";
 import TaskSelector from "./TaskSelector";
@@ -14,6 +17,11 @@ interface Props {
 const PpmEntry = (props: Props) => {
   const [selectedProject, setSelectedProject] =
     React.useState<SegmentData | null>(null);
+  const [expenditureTypeProject, setExpenditureTypeProject] =
+    React.useState<string | null>(null);
+  const defaultExpenditureTypeQuery = useDefaultExpenditureTypeQuery(
+    expenditureTypeProject
+  );
   const departmentCode = selectedProject?.glPostingDepartmentCode?.trim() || "";
   const organizationQuery = useSegmentQuery(
     ChartType.PPM,
@@ -61,8 +69,53 @@ const PpmEntry = (props: Props) => {
     organizationQuery.isError,
   ]);
 
+  React.useEffect(() => {
+    if (!expenditureTypeProject) {
+      return;
+    }
+
+    if (
+      props.segments.expenditureType.code ||
+      props.segments.project.code !== expenditureTypeProject ||
+      !props.segments.project.isValid
+    ) {
+      setExpenditureTypeProject(null);
+      return;
+    }
+
+    // Wait for the current setting rather than applying a cached default.
+    if (defaultExpenditureTypeQuery.isFetching) {
+      return;
+    }
+
+    if (defaultExpenditureTypeQuery.isSuccess) {
+      const expenditureType = defaultExpenditureTypeQuery.data[0];
+      if (expenditureType) {
+        props.setSegment("expenditureType", {
+          ...props.segments.expenditureType,
+          code: expenditureType.code,
+          name: expenditureType.name,
+          isValid: true,
+        });
+      }
+      setExpenditureTypeProject(null);
+    } else if (defaultExpenditureTypeQuery.isError) {
+      setExpenditureTypeProject(null);
+    }
+  }, [
+    props,
+    expenditureTypeProject,
+    defaultExpenditureTypeQuery.data,
+    defaultExpenditureTypeQuery.isFetching,
+    defaultExpenditureTypeQuery.isSuccess,
+    defaultExpenditureTypeQuery.isError,
+  ]);
+
   const updateSegment = (value: SegmentData) => {
     if (value.segmentName === "project") {
+      setExpenditureTypeProject(
+        value.isValid && !props.segments.expenditureType.code ? value.code : null
+      );
       setSelectedProject(
         value.isValid &&
           value.glPostingDepartmentCode?.trim() &&
@@ -72,6 +125,8 @@ const PpmEntry = (props: Props) => {
       );
     } else if (value.segmentName === "organization") {
       setSelectedProject(null);
+    } else if (value.segmentName === "expenditureType") {
+      setExpenditureTypeProject(null);
     }
     props.setSegment(value.segmentName, value);
   };
