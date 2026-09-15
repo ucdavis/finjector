@@ -2,6 +2,8 @@ namespace Finjector.Core.Models
 {
     public class FinancialOptions
     {
+        public string? DefaultPpmExpenditureTypeCode { get; set; }
+
         public string? ApiUrl { get; set; }
         public string? ApiToken { get; set; }
 

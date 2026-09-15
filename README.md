@@ -78,6 +78,19 @@ $("#ccoa-picker").on("click",
 
 Finjector is just a popup window so you don't really need our tiny helper JS script.  It will help you popup a window that's a nice size and well centered, and will take care of validating and destructuring the window `message` response, so we do recommend you use it.  But you can always take a look at the code and just handle it yourself.
 
+## PPM entry defaults
+
+`Financial:DefaultPpmExpenditureTypeCode` in `Finjector.Web/appsettings.json`
+defaults to `532304`. When a project is selected on `/entry`, an empty
+Expenditure Type is filled with the matching eligible code and name from Aggie
+Enterprise. Existing values and text the user is entering are preserved.
+
+To override the default in production, set the application environment variable
+`Financial__DefaultPpmExpenditureTypeCode` to the desired code, restart the app,
+and reload the page. This is a server setting and does not require rebuilding
+the client. Set it to an empty value to disable the default. Missing or
+ineligible expenditure types leave the field empty for manual selection.
+
 ## Development: How to run it
 
 You'll need user-secrets from 1pass.

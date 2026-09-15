@@ -51,6 +51,9 @@ export const isGlSegmentString = (segmentString: string): boolean => {
   );
 };
 
+export const isPpmProjectNumber = (projectNumber: string): boolean =>
+  /^[0-9A-Z]{10}$/i.test(projectNumber);
+
 export const isPpmSegmentString = (segmentString: string): boolean => {
   return (
     segmentString.match(

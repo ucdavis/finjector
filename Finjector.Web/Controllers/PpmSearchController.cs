@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Finjector.Core.Services;
+using Finjector.Core.Models;
+using Microsoft.Extensions.Options;
 
 namespace Finjector.Web.Controllers;
 
@@ -10,10 +12,13 @@ namespace Finjector.Web.Controllers;
 public class PpmSearchController : ControllerBase
 {
     private IAggieEnterpriseService _aggieEnterpriseService;
+    private readonly IOptionsSnapshot<FinancialOptions> _financialOptions;
 
-    public PpmSearchController(IAggieEnterpriseService aggieEnterpriseService)
+    public PpmSearchController(IAggieEnterpriseService aggieEnterpriseService,
+        IOptionsSnapshot<FinancialOptions> financialOptions)
     {
         _aggieEnterpriseService = aggieEnterpriseService;
+        _financialOptions = financialOptions;
     }
 
     [HttpGet("project")]
@@ -63,6 +68,20 @@ public class PpmSearchController : ControllerBase
     public async Task<IActionResult> ExpenditureType(string query)
     {
         return Ok(await _aggieEnterpriseService.ExpenditureType(query));
+    }
+
+    [HttpGet("defaultExpenditureType")]
+    public async Task<IActionResult> DefaultExpenditureType()
+    {
+        var code = _financialOptions.Value.DefaultPpmExpenditureTypeCode?.Trim();
+        if (string.IsNullOrEmpty(code))
+        {
+            return Ok(Array.Empty<SearchResult>());
+        }
+
+        var results = await _aggieEnterpriseService.ExpenditureType(code);
+        return Ok(results.Where(result =>
+            string.Equals(result.Code, code, StringComparison.OrdinalIgnoreCase)).ToArray());
     }
 
     [HttpGet("award")]

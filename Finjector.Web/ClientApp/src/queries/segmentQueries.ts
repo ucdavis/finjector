@@ -25,6 +25,15 @@ export const useSegmentQuery = (
     staleTime: 1000 * 60, // don't requery same search term for 1 minute
   });
 
+// Resolve the runtime-configured default only after a project is selected.
+export const useDefaultExpenditureTypeQuery = (projectNumber: string | null) =>
+  useQuery({
+    queryKey: ["defaultExpenditureType", projectNumber],
+    queryFn: () =>
+      doFetch<SegmentData[]>(fetch("/api/ppmsearch/defaultExpenditureType")),
+    enabled: !!projectNumber,
+  });
+
 // grab all tasks for the given project
 export const useTaskQuery = (projectNumber: string, projectValid: boolean) =>
   useQuery({

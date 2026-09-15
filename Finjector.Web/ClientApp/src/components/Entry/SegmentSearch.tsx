@@ -66,6 +66,7 @@ const SegmentSearch = (props: Props) => {
         code: selected[0].code,
         name: selected[0].name,
         isValid: true,
+        glPostingDepartmentCode: selected[0].glPostingDepartmentCode,
       });
     }
   };
@@ -98,7 +99,10 @@ const SegmentSearch = (props: Props) => {
             : "Type to search..."
         }
         onInputChange={handleInputChange}
-        defaultInputValue={props.segmentData.code}
+        defaultInputValue={
+          props.segmentData.isValid ? undefined : props.segmentData.code
+        }
+        selected={props.segmentData.isValid ? [props.segmentData] : []}
         onChange={handleSelected}
         useCache={false}
         options={segmentQuery.data || []} // data

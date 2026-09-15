@@ -912,13 +912,19 @@ namespace Finjector.Core.Services
             var data = result.ReadData();
 
             var searchResults = data.PpmProjectSearch.Data
-                .Select(d => new SearchResult(d.ProjectNumber, d.Name));
+                .Select(d => new SearchResult(d.ProjectNumber, d.Name)
+                {
+                    GlPostingDepartmentCode = d.GlPostingDepartmentCode
+                });
 
             if (data.PpmProjectByNumber != null)
             {
                 searchResults =
                     searchResults.Append(new SearchResult(data.PpmProjectByNumber.ProjectNumber,
-                        data.PpmProjectByNumber.Name));
+                        data.PpmProjectByNumber.Name)
+                    {
+                        GlPostingDepartmentCode = data.PpmProjectByNumber.GlPostingDepartmentCode
+                    });
             }
 
             return searchResults.DistinctBy(p => p.Code);

@@ -124,6 +124,7 @@ export interface SegmentData {
   segmentName: string;
   default: string;
   isValid: boolean;
+  glPostingDepartmentCode?: string | null;
 }
 
 export interface ChartData {
