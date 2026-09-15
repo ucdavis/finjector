@@ -12,50 +12,33 @@ interface Props {
 }
 
 const TaskSelector = (props: Props) => {
-  const [selection, setSelection] = React.useState<SegmentData[]>([
-    props.segmentData,
-  ]);
-
+  const taskDefaultChecked = React.useRef(false);
   const taskQuery = useTaskQuery(
     props.segmentDependency.code,
     props.segmentDependency.isValid
   );
 
-  // if the segment dependency is not valid, clear the selection
   React.useEffect(() => {
-    if (!props.segmentDependency.isValid && selection.length > 0) {
-      setSelection([]);
-
-      // clear the segment data
-      props.setSegmentValue({
-        ...props.segmentData,
-        code: "",
-        name: "",
-        isValid: false,
-      });
-    }
-  }, [props, props.segmentDependency.isValid, selection.length]);
+    taskDefaultChecked.current = false;
+  }, [props.segmentDependency.code, props.segmentDependency.isValid]);
 
   React.useEffect(() => {
     if (
+      taskDefaultChecked.current ||
       !props.segmentDependency.isValid ||
       taskQuery.isFetching ||
-      !taskQuery.isSuccess ||
-      taskQuery.data.length !== 1
+      !taskQuery.isSuccess
     ) {
+      return;
+    }
+
+    // Defaults are considered once per project, preserving saved and edited tasks.
+    taskDefaultChecked.current = true;
+    if (props.segmentData.code || taskQuery.data.length !== 1) {
       return;
     }
 
     const task = taskQuery.data[0];
-    if (
-      props.segmentData.code === task.code &&
-      props.segmentData.name === task.name &&
-      props.segmentData.isValid
-    ) {
-      return;
-    }
-
-    setSelection([task]);
     props.setSegmentValue({
       ...props.segmentData,
       code: task.code,
@@ -65,16 +48,14 @@ const TaskSelector = (props: Props) => {
   }, [props, taskQuery.data, taskQuery.isFetching, taskQuery.isSuccess]);
 
   const handleSelected = (selected: any) => {
-    setSelection(selected);
-
-    if (selected.length > 0) {
-      props.setSegmentValue({
-        ...props.segmentData,
-        code: selected[0].code,
-        name: selected[0].name,
-        isValid: true,
-      });
-    }
+    taskDefaultChecked.current = true;
+    const task = selected[0];
+    props.setSegmentValue({
+      ...props.segmentData,
+      code: task?.code || "",
+      name: task?.name || "",
+      isValid: !!task,
+    });
   };
 
   const segmentNameDisplay = React.useMemo(
@@ -86,13 +67,14 @@ const TaskSelector = (props: Props) => {
     <div className="mb-3 col-sm-6">
       <label className="form-label">Task</label>
       <Typeahead
+        key={props.segmentDependency.code}
         id="task-selector"
         labelKey="code"
         onChange={handleSelected}
         options={taskQuery.data || []}
         isLoading={taskQuery.isFetching}
         placeholder="Choose a task..."
-        selected={selection}
+        selected={props.segmentData.code ? [props.segmentData] : []}
         disabled={!props.segmentDependency?.isValid}
         renderMenuItemChildren={(option: any) => (
           <>

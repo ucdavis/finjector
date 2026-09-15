@@ -129,6 +129,15 @@ const PpmEntry = (props: Props) => {
   const updateSegment = React.useCallback(
     (value: SegmentData) => {
       if (value.segmentName === "project") {
+        // Clear the dependent task for a project edit, not saved-chart loading.
+        if (value.code !== props.segments.project.code) {
+          props.setSegment("task", {
+            ...props.segments.task,
+            code: "",
+            name: "",
+            isValid: false,
+          });
+        }
         setPendingProjectCode("");
         setProjectImportError("");
         setExpenditureTypeProject(
