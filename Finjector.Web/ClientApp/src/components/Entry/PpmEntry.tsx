@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ChartType, PpmSegments, SegmentData } from "../../types";
+import { useSegmentQuery } from "../../queries/segmentQueries";
 
 import SegmentSearch from "./SegmentSearch";
 import TaskSelector from "./TaskSelector";
@@ -11,7 +12,67 @@ interface Props {
 }
 
 const PpmEntry = (props: Props) => {
+  const [selectedProject, setSelectedProject] =
+    React.useState<SegmentData | null>(null);
+  const departmentCode = selectedProject?.glPostingDepartmentCode?.trim() || "";
+  const organizationQuery = useSegmentQuery(
+    ChartType.PPM,
+    "organization",
+    departmentCode,
+    "",
+    1
+  );
+
+  React.useEffect(() => {
+    if (!selectedProject) {
+      return;
+    }
+
+    // Recheck after the lookup so a later project or manual entry takes priority.
+    if (
+      props.segments.organization.code ||
+      props.segments.project.code !== selectedProject.code ||
+      !props.segments.project.isValid
+    ) {
+      setSelectedProject(null);
+      return;
+    }
+
+    const organization = organizationQuery.data?.find(
+      (segment) => segment.code === departmentCode
+    );
+    if (organization) {
+      props.setSegment("organization", {
+        ...props.segments.organization,
+        code: organization.code,
+        name: organization.name,
+        isValid: true,
+      });
+      setSelectedProject(null);
+    } else if (organizationQuery.isSuccess || organizationQuery.isError) {
+      setSelectedProject(null);
+    }
+  }, [
+    props,
+    selectedProject,
+    departmentCode,
+    organizationQuery.data,
+    organizationQuery.isSuccess,
+    organizationQuery.isError,
+  ]);
+
   const updateSegment = (value: SegmentData) => {
+    if (value.segmentName === "project") {
+      setSelectedProject(
+        value.isValid &&
+          value.glPostingDepartmentCode?.trim() &&
+          !props.segments.organization.code
+          ? value
+          : null
+      );
+    } else if (value.segmentName === "organization") {
+      setSelectedProject(null);
+    }
     props.setSegment(value.segmentName, value);
   };
 

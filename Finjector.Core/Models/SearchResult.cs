@@ -10,5 +10,6 @@ namespace Finjector.Core.Models
 
         public string Code { get; set; }
         public string Name { get; set; }
+        public string? GlPostingDepartmentCode { get; set; }
     }
 }
