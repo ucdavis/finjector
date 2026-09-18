@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faFileLines, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { SearchBar } from "../../components/Shared/SearchBar";
 import { useGetMyTeams } from "../../queries/teamQueries";
 import TeamList from "../../components/Teams/TeamList";
@@ -30,6 +30,10 @@ const MyTeams: React.FC = () => {
           </h1>
         </div>
         <div className="col-12 col-md-4 text-end">
+          <FinButton to="/teams/access-report">
+            <FontAwesomeIcon icon={faFileLines} />
+            User Access Report
+          </FinButton>
           <FinButton to="/teams/create">
             <FontAwesomeIcon icon={faPlus} />
             Create New Team

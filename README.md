@@ -91,6 +91,31 @@ and reload the page. This is a server setting and does not require rebuilding
 the client. Set it to an empty value to disable the default. Missing or
 ineligible expenditure types leave the field empty for manual selection.
 
+## User access report
+
+Open **My Teams > User Access Report** to review access across the teams and
+folders you administer. The **Actions > User Access Report** option on a team
+or folder limits the report to that location. Search the report to narrow the
+displayed assignments, then use **Export CSV** to download the visible rows.
+
+Team administrators can report on the team and its active folders. Folder
+administrators can report on their folders, including permissions inherited
+from the parent team; this does not expose other folders or a separate team
+membership report. Personal teams follow the same permission rules.
+
+Each row shows an assigned role and its source. Direct folder permissions and
+inherited team permissions are listed separately, so a user can appear more
+than once for a folder. Access is cumulative: Admin takes precedence over Edit,
+then View. The report includes existing permission assignments even if the user
+record is marked inactive, because those assignments still grant access.
+Inactive teams and folders are excluded. Use **Refresh** to load current access.
+
+The report endpoint is `GET /api/user/permissions/report`, with optional `teamId`
+and `folderId` filters. It enforces the caller's admin scope on the server.
+Backend regression checks run with
+`dotnet run --project tests/AccessReportChecks/AccessReportChecks.csproj`; they
+check permission boundaries and SQL translation without connecting to a database.
+
 ## Development: How to run it
 
 You'll need user-secrets from 1pass.

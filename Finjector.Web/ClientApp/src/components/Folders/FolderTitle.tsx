@@ -8,6 +8,7 @@ import {
   faTrash,
   faPersonThroughWindow,
   faRotateLeft,
+  faFileLines,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DownloadChartStringsButton from "../../pages/Teams/DownloadChartStringsButton";
@@ -113,6 +114,17 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
         </div>
         <div className="col-12 col-md-3 text-end">
           <FinButtonDropdown>
+            {(isFolderAdmin || isTeamAdmin) && (
+              <FinButtonDropdownItem>
+                <FinButton
+                  borderless={true}
+                  to={`/teams/${teamId}/folders/${folderId}/access-report`}
+                >
+                  <FontAwesomeIcon icon={faFileLines} />
+                  User Access Report
+                </FinButton>
+              </FinButtonDropdownItem>
+            )}
             {/* Editors & above can create new chart strings */}
             {combinedPermissions.some((p) => p === "Admin" || p === "Edit") && (
               <FinButtonDropdownItem>

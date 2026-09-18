@@ -4,7 +4,9 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { describe, it, expect, vi } from "vitest";
+import { http, HttpResponse } from "msw";
 import { server } from "../../../test/mocks/node";
+import { fakeFolders } from "../../../test/mocks/mockData";
 import Folder from "./Folder";
 import userEvent from "@testing-library/user-event";
 import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
@@ -14,6 +16,58 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("Folder", () => {
+  describe("user access report navigation", () => {
+    it.each([
+      { folderPermission: "Admin", teamPermission: "View", isDefault: false },
+      { folderPermission: "View", teamPermission: "Admin", isDefault: false },
+      { folderPermission: "Admin", teamPermission: "View", isDefault: true },
+      { folderPermission: "View", teamPermission: "Admin", isDefault: true },
+    ])(
+      "links to the folder report for folder $folderPermission, team $teamPermission, default $isDefault",
+      async ({ folderPermission, teamPermission, isDefault }) => {
+        server.use(
+          http.get("/api/folder/0", () =>
+            HttpResponse.json({
+              folder: {
+                ...fakeFolders[0],
+                myFolderPermissions: [folderPermission],
+                myTeamPermissions: [teamPermission],
+                isDefault,
+              },
+              charts: [],
+            })
+          )
+        );
+        render(wrappedView("0", "0"));
+
+        await waitFor(() =>
+          expect(screen.getByRole("button", { name: /actions/i })).toBeEnabled()
+        );
+        await userEvent.click(screen.getByRole("button", { name: /actions/i }));
+
+        expect(
+          screen.getByRole("link", { name: "User Access Report" })
+        ).toHaveAttribute("href", "/teams/0/folders/0/access-report");
+      }
+    );
+
+    it.each(["10", "11", "12", "15"])(
+      "hides the report for folder %s without folder or team Admin permission",
+      async (folderId) => {
+        render(wrappedView("0", folderId));
+
+        await waitFor(() =>
+          expect(screen.getByRole("button", { name: /actions/i })).toBeEnabled()
+        );
+        await userEvent.click(screen.getByRole("button", { name: /actions/i }));
+
+        expect(
+          screen.queryByRole("link", { name: "User Access Report" })
+        ).not.toBeInTheDocument();
+      }
+    );
+  });
+
   describe("render tests", () => {
     describe("pop up tests", () => {
       describe("Not in popup mode personal", () => {

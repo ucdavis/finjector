@@ -4,7 +4,9 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { describe, it, expect, vi } from "vitest";
+import { http, HttpResponse } from "msw";
 import { server } from "../../../test/mocks/node";
+import { fakeTeams } from "../../../test/mocks/mockData";
 import Team from "./Team";
 import userEvent from "@testing-library/user-event";
 import addFinToast from "../../components/Shared/LoadingAndErrors/FinToast";
@@ -14,6 +16,71 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("Team", () => {
+  describe("user access report navigation", () => {
+    it.each([
+      { permission: "Admin", canViewAccessReport: false },
+      { permission: "View", canViewAccessReport: true },
+    ])(
+      "links to the team report for $permission with report access $canViewAccessReport",
+      async ({ permission, canViewAccessReport }) => {
+        server.use(
+          http.get("/api/team/0", () =>
+            HttpResponse.json({
+              team: {
+                ...fakeTeams[0],
+                myTeamPermissions: [permission],
+                canViewAccessReport,
+              },
+              folders: [
+                {
+                  folder: { id: 1, name: "Managed Folder" },
+                  chartCount: 0,
+                  uniqueUserPermissionCount: 1,
+                },
+              ],
+            })
+          )
+        );
+        render(wrappedView("0"));
+
+        await userEvent.click(
+          await screen.findByRole("button", { name: /actions/i })
+        );
+
+        expect(
+          screen.getByRole("link", { name: "User Access Report" })
+        ).toHaveAttribute("href", "/teams/0/access-report");
+      }
+    );
+
+    it.each(["View", "Edit"])(
+      "hides the report when the user only has %s permission",
+      async (permission) => {
+        server.use(
+          http.get("/api/team/0", () =>
+            HttpResponse.json({
+              team: {
+                ...fakeTeams[0],
+                myTeamPermissions: [permission],
+                canViewAccessReport: false,
+              },
+              folders: [],
+            })
+          )
+        );
+        render(wrappedView("0"));
+
+        await userEvent.click(
+          await screen.findByRole("button", { name: /actions/i })
+        );
+
+        expect(
+          screen.queryByRole("link", { name: "User Access Report" })
+        ).not.toBeInTheDocument();
+      }
+    );
+  });
+
   describe("renders tests", () => {
     describe("when team is personal", () => {
       it("renders", async () => {

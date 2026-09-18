@@ -86,6 +86,10 @@ public class TeamController : ControllerBase
                 t.Name,
                 t.Description,
                 t.IsPersonal,
+                CanViewAccessReport =
+                    t.TeamPermissions.Any(tp => tp.User.Iam == iamId && tp.Role.Name == Role.Codes.Admin) ||
+                    t.Folders.Any(f => f.IsActive && f.FolderPermissions.Any(fp =>
+                        fp.User.Iam == iamId && fp.Role.Name == Role.Codes.Admin)),
                 MyTeamPermissions = t.TeamPermissions.Where(tp => tp.User.Iam == iamId).Select(p => p.Role.Name)
             })
             .SingleOrDefaultAsync(t => t.Id == id);

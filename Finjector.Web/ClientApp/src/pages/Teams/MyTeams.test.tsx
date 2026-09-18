@@ -13,6 +13,14 @@ beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("MyTeams", () => {
+  it("links to the combined user access report", async () => {
+    render(wrappedView());
+
+    expect(
+      await screen.findByRole("link", { name: "User Access Report" })
+    ).toHaveAttribute("href", "/teams/access-report");
+  });
+
   describe("renders", () => {
     it("renders", async () => {
       // render component
