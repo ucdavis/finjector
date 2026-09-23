@@ -31,6 +31,7 @@ export interface Team {
   description?: string;
   isPersonal: boolean;
   myTeamPermissions: PermissionType[];
+  canViewAccessReport?: boolean;
 }
 
 export interface Folder {

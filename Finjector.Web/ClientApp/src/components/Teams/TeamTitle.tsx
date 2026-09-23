@@ -5,6 +5,7 @@ import {
   faUsers,
   faTrash,
   faPersonThroughWindow,
+  faFileLines,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -56,6 +57,9 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
     (p) => p === "Edit"
   );
 
+  const canViewAccessReport =
+    isTeamAdmin || teamModelData.team.canViewAccessReport;
+
   const limitedTeam = teamModelData.team.isPersonal; // personal teams are limited
 
   return (
@@ -66,6 +70,14 @@ const TeamTitle: React.FC<TeamTitleProps> = ({
         </div>
         <div className="col-12 col-md-3 text-end">
           <FinButtonDropdown shouldRenderAsDropdown={!limitedTeam}>
+            {!limitedTeam && canViewAccessReport && (
+              <FinButtonDropdownItem>
+                <FinButton borderless={true} to={`/teams/${teamId}/access-report`}>
+                  <FontAwesomeIcon icon={faFileLines} />
+                  User Access Report
+                </FinButton>
+              </FinButtonDropdownItem>
+            )}
             {/* don't show team admins if you are an admin or if it's a personal team */}
             {limitedTeam ||
               (!isTeamAdmin && (

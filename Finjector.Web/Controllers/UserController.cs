@@ -4,6 +4,8 @@ using Finjector.Core.Domain;
 using Finjector.Core.Services;
 using Finjector.Web.Extensions;
 using Finjector.Web.Handlers;
+using Finjector.Web.Models.Reports;
+using Finjector.Web.Services.Reports;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +51,37 @@ public class UserController : ControllerBase
 
 
         return Ok(dict);
+    }
+
+    /// <summary>
+    /// Report direct and inherited access for teams and folders administered by the current user.
+    /// </summary>
+    [HttpGet("permissions/report")]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+    [ProducesResponseType(typeof(IEnumerable<UserAccessReportRow>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> AccessReport(
+        [FromQuery] int? teamId = null,
+        [FromQuery] int? folderId = null,
+        CancellationToken cancellationToken = default)
+    {
+        var iamId = _httpContextAccessor.HttpContext?.User
+            .FindFirst(IamIdClaimFallbackTransformer.ClaimType)?.Value;
+
+        if (string.IsNullOrWhiteSpace(iamId))
+        {
+            return Unauthorized();
+        }
+
+        if (teamId is <= 0 || folderId is <= 0)
+        {
+            return BadRequest("Team and folder IDs must be greater than zero.");
+        }
+
+        var report = await UserAccessReportService.BuildQuery(
+                _dbContext.Teams.AsNoTracking(), _dbContext.Folders.AsNoTracking(), iamId, teamId, folderId)
+            .ToArrayAsync(cancellationToken);
+
+        return Ok(report);
     }
 
     /// <summary>

@@ -19,6 +19,7 @@ import MyTeams from "./pages/Teams/MyTeams";
 import Team from "./pages/Teams/Team";
 import Folder from "./pages/Teams/Folder";
 import UserManagement from "./pages/Teams/UserManagement";
+import UserAccessReport from "./pages/Teams/UserAccessReport";
 import CreateTeam from "./pages/Teams/CreateTeam";
 import CreateFolder from "./pages/Teams/CreateFolder";
 import AdminList from "./pages/Teams/AdminList";
@@ -97,6 +98,11 @@ const router = sentryRouter([
         children: [
           { index: true, element: <MyTeams />, handle: { title: "My Teams" } },
           {
+            path: "access-report",
+            element: <UserAccessReport />,
+            handle: { title: "User Access Report" },
+          },
+          {
             path: "create",
             element: <CreateTeam />,
             handle: { title: "Create Team" },
@@ -130,6 +136,11 @@ const router = sentryRouter([
                 handle: { title: "User Management" },
               },
               {
+                path: "access-report",
+                element: <UserAccessReport />,
+                handle: { title: "User Access Report" },
+              },
+              {
                 path: "admins",
                 element: <AdminList />,
                 handle: { title: "Admin List" },
@@ -151,6 +162,11 @@ const router = sentryRouter([
                     path: "permissions",
                     element: <UserManagement />,
                     handle: { title: "User Management" },
+                  },
+                  {
+                    path: "access-report",
+                    element: <UserAccessReport />,
+                    handle: { title: "User Access Report" },
                   },
                   {
                     path: "admins",
