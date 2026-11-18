@@ -9,6 +9,7 @@ declare global {
 
 const Example: React.FC = () => {
   const [importedCharts, setImportedCharts] = React.useState<string[]>([]);
+  const [status, setStatus] = React.useState("");
 
   const openFinjector = async (e: any) => {
     e.preventDefault();
@@ -22,6 +23,7 @@ const Example: React.FC = () => {
       const input = document.getElementById("ccoa-input") as HTMLInputElement;
 
       input.value = result.data;
+      setStatus("Full chart string updated.");
     }
   };
 
@@ -36,16 +38,17 @@ const Example: React.FC = () => {
       setImportedCharts(
         result.data.map((chart: any) => `${chart.name}: ${chart.chartString}`)
       );
+      setStatus(`Imported ${result.data.length} chart strings.`);
     }
   };
 
   return (
-    <main className="form-signin w-100 m-auto">
+    <div className="form-signin w-100 m-auto">
       <h1>For Example / Test Use Only</h1>
       <form onSubmit={openFinjector}>
-        <h1 className="h3 mb-3 fw-normal">
+        <h2 className="h3 mb-3 fw-normal">
           Please enter your account information
-        </h1>
+        </h2>
 
         <div className="input-group">
           <div className="form-floating">
@@ -53,9 +56,10 @@ const Example: React.FC = () => {
               type="text"
               className="form-control"
               id="ccoa-input"
-              placeholder="GL or PPM accepted"
+              aria-describedby="ccoa-help"
+              placeholder=" "
             />
-            <label htmlFor="floatingInput">Full Chart String</label>
+            <label htmlFor="ccoa-input">Full Chart String</label>
           </div>
           <button
             type="button"
@@ -67,7 +71,7 @@ const Example: React.FC = () => {
           </button>
         </div>
         <small id="ccoa-help" className="form-text text-muted">
-          Example PPM account: K30APSD227-TASK01-APLS002-770000
+          Enter a GL or PPM chart string. Example PPM account: K30APSD227-TASK01-APLS002-770000
         </small>
 
         <hr />
@@ -80,6 +84,7 @@ const Example: React.FC = () => {
           Import
         </FinButton>
 
+        <p role="status" className="visually-hidden">{status}</p>
         <ul>
           {importedCharts.map((chart, index) => (
             <li key={index}>{chart}</li>
@@ -91,7 +96,7 @@ const Example: React.FC = () => {
           Fake Submit
         </button>
       </form>
-    </main>
+    </div>
   );
 };
 

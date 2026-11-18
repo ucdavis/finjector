@@ -32,7 +32,7 @@ const NameAndDescriptionForm: React.FC<Props> = ({
         <form className="form" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="name" className="form-label">
-              Name:
+              Name: <span className="fw-normal">(required)</span>
             </label>
             <input
               type="text"
@@ -44,7 +44,6 @@ const NameAndDescriptionForm: React.FC<Props> = ({
               required
               maxLength={50}
             />
-            <div className="invalid-feedback">Please provide a name.</div>
           </div>
 
           <div className="mb-4">
@@ -59,9 +58,6 @@ const NameAndDescriptionForm: React.FC<Props> = ({
               onChange={handleChange}
               maxLength={300}
             />
-            <div className="invalid-feedback">
-              Please provide a description.
-            </div>
           </div>
 
           <FinButton type="submit" margin={false} disabled={loading}>

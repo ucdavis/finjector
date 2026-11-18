@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import CopyToClipboardHover from "../components/Shared/CopyToClipboardHover";
 import CopyToClipboardButton from "../components/Shared/CopyToClipboardButton";
 import PageTitle from "../components/Shared/Layout/PageTitle";
 
@@ -35,9 +34,7 @@ const Selected = () => {
     <div>
       <PageTitle title="Chart String Selected" />
       <div>
-        <CopyToClipboardHover value={chartSegmentString ?? ""} id="selected">
-          <code>{chartSegmentString}</code>
-        </CopyToClipboardHover>
+        <code className="text-break">{chartSegmentString}</code>
       </div>
       {hasOpener ? (
         <p>Finjector will close this window shortly.</p>

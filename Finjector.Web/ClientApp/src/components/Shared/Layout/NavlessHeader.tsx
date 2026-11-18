@@ -1,14 +1,10 @@
 const NavlessHeader = () => (
-  <div className="header">
+  <header className="header">
     <div className="container">
-      <div className="row justify-content-between">
-        <div className="col-6">
-          <h1 className="d-flex align-items-center">
-            <img src="/media/ucdavis-white-logo.svg" alt="" /> Finjector
-          </h1>
-        </div>
-      </div>
+      <span className="brand">
+        <img src="/media/ucdavis-white-logo.svg" alt="UC Davis" /> Finjector
+      </span>
     </div>
-  </div>
+  </header>
 );
 export default NavlessHeader;

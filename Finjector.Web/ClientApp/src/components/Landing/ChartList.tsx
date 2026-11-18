@@ -57,9 +57,16 @@ const ChartList = (props: Props) => {
   });
   if (queryStatusComponent) return <>{queryStatusComponent}</>;
   // we don't have to check if the teamGroups is empty, they will always have Personal
+  const chartCount = filteredTeamGroups.reduce(
+    (count, group) => group.folders.reduce((total, folder) => total + folder.coas.length, count),
+    0
+  );
 
   return (
     <div>
+      <p role="status" className={query ? "mb-2" : "visually-hidden"}>
+        {query && `${chartCount} chart ${chartCount === 1 ? "string" : "strings"} found.`}
+      </p>
       {filteredTeamGroups.map((teamGroup) => (
         <div className="teamlist-wrapper" key={teamGroup.team.id}>
           <h2>

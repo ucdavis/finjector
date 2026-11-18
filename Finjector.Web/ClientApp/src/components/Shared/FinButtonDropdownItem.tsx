@@ -1,20 +1,18 @@
 import React from "react";
-import { DropdownItem, DropdownItemProps } from "reactstrap";
-
-interface FinButtonDropdownProps extends DropdownItemProps {
+interface FinButtonDropdownProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   shouldRenderAsDropdown?: boolean;
 }
 
 const FinButtonDropdownItem = (props: FinButtonDropdownProps) => {
-  const { children, shouldRenderAsDropdown = true, ...rest } = props;
+  const { children, shouldRenderAsDropdown = true, className = "", ...rest } = props;
 
   if (!shouldRenderAsDropdown) return <>{children}</>; // on personal team, default folder
 
   return (
-    <DropdownItem {...rest} tag={"div"}>
+    <div className={`dropdown-item ${className}`} {...rest}>
       {children}
-    </DropdownItem>
+    </div>
   );
 };
 

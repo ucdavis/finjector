@@ -16,6 +16,30 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("Team", () => {
+  it("supports keyboard navigation and restores Actions focus after closing a dialog", async () => {
+    const user = userEvent.setup();
+    render(wrappedView("10"));
+    const actions = await screen.findByRole("button", { name: "Actions" });
+    actions.focus();
+    await user.keyboard("{Enter}");
+    await user.tab();
+    expect(screen.getByRole("link", { name: "View Team Admins" })).toHaveFocus();
+    await user.keyboard("{Escape}");
+    expect(actions).toHaveFocus();
+    expect(actions).toHaveAttribute("aria-expanded", "false");
+
+    await user.keyboard("{Enter}");
+    await user.tab();
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Leave Team" })).toHaveFocus();
+    await user.keyboard("{Enter}");
+    expect(await screen.findByRole("dialog", { name: "Leave Team" })).toBeInTheDocument();
+    screen.getByRole("button", { name: "Cancel" }).focus();
+    await user.keyboard("{Enter}");
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    expect(actions).toHaveFocus();
+  });
+
   describe("user access report navigation", () => {
     it.each([
       { permission: "Admin", canViewAccessReport: false },
@@ -127,7 +151,7 @@ describe("Team", () => {
         render(wrappedView("99"));
 
         await waitFor(() => {
-          const folderLink = screen.getByRole("link", { name: "Go to Folder" });
+          const folderLink = screen.getByRole("link", { name: "Go to Folder: Default" });
           expect(folderLink).toBeInTheDocument();
           expect(folderLink).toHaveAttribute("href", "/teams/99/folders/99");
         });
@@ -185,7 +209,7 @@ describe("Team", () => {
 
         await waitFor(() => {
           const folderLinks = screen.getAllByRole("link", {
-            name: "Go to Folder",
+            name: /^Go to Folder: Folder \d+$/,
           });
           expect(folderLinks[0]).toBeInTheDocument();
           expect(folderLinks[0]).toHaveAttribute("href", "/teams/0/folders/0");
@@ -199,7 +223,7 @@ describe("Team", () => {
 
         await waitFor(() => {
           const folderLinks = screen.getAllByRole("link", {
-            name: "Go to Folder",
+            name: /^Go to Folder: Folder \d+$/,
           });
           expect(folderLinks[0]).toBeInTheDocument();
           expect(folderLinks[0]).toHaveAttribute("href", "/teams/1/folders/0");
@@ -1205,7 +1229,7 @@ describe("Team", () => {
           expect(screen.getByText("Redirected to teams")).toBeInTheDocument();
         });
       });
-      it("generates an error toast when leave team fails", async () => {
+      it("announces an error in the dialog when leave team fails", async () => {
         const teamId = "998";
 
         const user = userEvent.setup();
@@ -1254,7 +1278,7 @@ describe("Team", () => {
         });
         await user.click(leaveFolderButton);
         await waitFor(() => {
-          expect(addFinToast).toBeCalledWith("error", "Error leaving team.");
+          expect(screen.getByRole("alert")).toHaveTextContent("Error leaving team.");
         });
       });
     });
@@ -1500,7 +1524,7 @@ describe("Team", () => {
           expect(screen.getByText("Redirected to teams")).toBeInTheDocument();
         });
       });
-      it("generates an error toast when delete team fails", async () => {
+      it("announces an error in the dialog when delete team fails", async () => {
         const teamId = "997";
 
         const user = userEvent.setup();
@@ -1551,7 +1575,7 @@ describe("Team", () => {
         });
         await user.click(deleteTeamButton);
         await waitFor(() => {
-          expect(addFinToast).toBeCalledWith("error", "Error deleting team.");
+          expect(screen.getByRole("alert")).toHaveTextContent("Error deleting team.");
           expect(
             screen.queryByText("Redirected to teams")
           ).not.toBeInTheDocument();

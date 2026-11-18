@@ -1,8 +1,11 @@
+import { useEffect, useRef } from "react";
 import {
   Navigate,
   Outlet,
   RouterProvider,
   createBrowserRouter,
+  useLocation,
+  useMatches,
 } from "react-router-dom";
 
 import { useUserInfoQuery } from "./queries/userQueries";
@@ -37,27 +40,35 @@ import "react-toastify/dist/ReactToastify.css";
 
 const RedirectHome = () => <Navigate to="/" />;
 
-function Layout() {
-  return (
-    <>
-      <Header />
-      <div className="container">
-        <Breadcrumbs />
-        <Outlet />
-      </div>
-      <FinToastContainer />
-    </>
-  );
-}
+function Layout({ showNavigation = true }) {
+  const { pathname } = useLocation();
+  const matches = useMatches();
+  const handle = matches[matches.length - 1].handle as { title?: string } | undefined;
+  const title = handle?.title || "My Chart Strings";
+  const mainRef = useRef<HTMLElement>(null);
+  const previousPath = useRef(pathname);
 
-function NavlessLayout() {
+  useEffect(() => {
+    document.title = `${title} | Finjector`;
+    if (previousPath.current !== pathname) {
+      mainRef.current?.focus();
+      previousPath.current = pathname;
+    }
+  }, [pathname, title]);
+
   return (
     <>
-      <NavlessHeader />
+      <a className="skip-link visually-hidden-focusable" href="#main-content">
+        Skip to main content
+      </a>
+      {showNavigation ? <Header /> : <NavlessHeader />}
       <div className="container">
-        <Outlet />
+        <FinToastContainer />
+        {showNavigation && <Breadcrumbs />}
+        <main ref={mainRef} id="main-content" tabIndex={-1} aria-label={title}>
+          <Outlet />
+        </main>
       </div>
-      <FinToastContainer />
     </>
   );
 }
@@ -67,9 +78,8 @@ const sentryRouter = wrapCreateBrowserRouter(createBrowserRouter);
 const router = sentryRouter([
   {
     path: "/import",
-    element: <NavlessLayout />,
-    handle: { title: "Import" },
-    children: [{ index: true, element: <Import /> }],
+    element: <Layout showNavigation={false} />,
+    children: [{ index: true, element: <Import />, handle: { title: "Import" } }],
   },
   {
     path: "/",
@@ -266,7 +276,9 @@ function App() {
     return (
       <>
         <NavlessHeader />
-        <FinLoader />
+        <main>
+          <FinLoader />
+        </main>
       </>
     );
   }

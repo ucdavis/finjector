@@ -12,28 +12,19 @@ export const DetailsRow: React.FC<DetailsRowProps> = ({
   column3,
   ...props
 }) => {
-  const columns = !column3 ? ( // if only 2 columns
-    <>
-      <div className="col-9 chartstring-details-info-right">{column2}</div>
-    </>
-  ) : (
-    // if 3
-    <>
-      <div className="col-3 col-md-2 chartstring-details-info-right">
-        {column2}
-      </div>
-      <div className="col-6">
-        <div className="chartstring-details-info-right">{column3}</div>
-      </div>
-    </>
-  );
-
   return (
-    <div className="row shade-hover-row" {...props}>
-      <div className="col-3 chartstring-info-title">
-        <h4>{headerColText}</h4>
-      </div>
-      {columns}
+    <div className="row shade-hover-row text-break" {...props}>
+      <dt className="col-sm-3 chartstring-info-title">{headerColText}</dt>
+      <dd
+        className={`${column3 ? "col-sm-3 col-md-2" : "col-sm-9"} chartstring-details-info-right mb-0`}
+      >
+        {column2}
+      </dd>
+      {column3 && (
+        <dd className="col-sm-6 col-md-7 chartstring-details-info-right mb-0">
+          {column3}
+        </dd>
+      )}
     </div>
   );
 };

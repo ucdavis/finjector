@@ -92,19 +92,19 @@
   background-color: #fff;
   color: $primary-font;
   box-shadow: $box-shadow;
-  border: 1px solid $borders;
+  border: 1px solid $control-border;
   border-left: 3px solid $gl;
   &:hover {
     background-color: $gl-bg !important;
-    color: $gl !important;
-    border-color: $gl !important;
+    color: $gl-text !important;
+    border-color: $gl-text !important;
     border-left: 3px solid $gl;
   }
 }
 .btn-ppm {
   background-color: #fff;
   color: $primary-font;
-  border: 1px solid $borders;
+  border: 1px solid $control-border;
   border-left: 3px solid $ppm;
   &:hover {
     background-color: $ppm-bg !important;
@@ -120,25 +120,25 @@
 }
 .btn-gl.btn-outline-active {
   background-color: $gl !important;
-  color: #fff !important;
-  border-color: $gl !important;
+  color: $primary-font !important;
+  border-color: $gl-text !important;
 }
 .california-bg {
   background-color: transparentize($california, 0.9);
   a {
     color: $california;
     &:hover {
-      color: transparentize($california, 0.9);
+      color: darken($california, 10%);
     }
   }
 }
 .sunflower-bg {
   background-color: transparentize(#d5b804, 0.9);
   a {
-    color: #d5b804;
+    color: $gl-text;
 
     &:hover {
-      color: transparentize(#d5b804, 0.9);
+      color: darken($gl-text, 10%);
     }
   }
 }
@@ -148,7 +148,7 @@
     color: $merlot;
 
     &:hover {
-      color: transparentize($merlot, 0.9);
+      color: darken($merlot, 10%);
     }
   }
 }
@@ -156,6 +156,11 @@
 .dropdown-item:active {
   background-color: transparentize($primary-color, 0.75);
   color: $primary-font;
+}
+.rbt-menu .dropdown-item,
+.rbt-menu .dropdown-header {
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 // forms
@@ -165,7 +170,7 @@ label {
 }
 .form-select {
   background-color: $primary-bg;
-  border: 1px solid $borders;
+  border: 1px solid $control-border;
   color: $primary-font;
   &:focus {
     border-color: $primary-color;
@@ -177,7 +182,7 @@ hr {
 }
 .form-control {
   background-color: $primary-bg;
-  border: 1px solid $borders;
+  border: 1px solid $control-border;
   color: $primary-font;
 }
 .form-control:disabled {
@@ -217,6 +222,7 @@ hr {
 .loading-wrapper {
   margin: 0 auto;
   width: 300px;
+  max-width: 100%;
   text-align: center;
   p {
     color: $secondary-font;
@@ -229,6 +235,7 @@ hr {
 .emptygraphic-wrapper {
   margin: 0 auto;
   width: 300px;
+  max-width: 100%;
   text-align: center;
   p {
     color: $secondary-font;
@@ -247,7 +254,7 @@ hr {
 .squiggle-path {
   stroke-dasharray: 180;
   stroke-dashoffset: 180;
-  animation: squiggle-draw var(--draw-duration) linear infinite;
+  animation: squiggle-draw var(--draw-duration) linear 2 forwards;
 }
 
 @keyframes squiggle-draw {
@@ -266,7 +273,7 @@ hr {
 
   transform: translate(-11px, -62px);
 
-  animation: pencil-follow var(--draw-duration) linear infinite;
+  animation: pencil-follow var(--draw-duration) linear 2 forwards;
   will-change: offset-distance;
 }
 
@@ -277,7 +284,15 @@ hr {
 }
 
 #float-emptystate {
-  animation: floater 2s infinite;
+  animation: floater 2s 2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .squiggle-path, .pencil-write, #float-emptystate {
+    animation: none;
+  }
+  .squiggle-path {
+    stroke-dashoffset: 0;
+  }
 }
 @keyframes floater {
   0% {
@@ -306,7 +321,7 @@ hr {
   }
   .unique-bg {
     background-color: $ppm-bg;
-    h4 {
+    dt {
       color: $ppm;
     }
   }
@@ -314,12 +329,12 @@ hr {
 .is-gl {
   border-left: 6px solid $gl !important;
   .chartstring-type {
-    color: $gl;
+    color: $gl-text;
   }
   .unique-bg {
     background-color: $gl-bg;
-    h4 {
-      color: $gl;
+    dt {
+      color: $gl-text;
     }
   }
 }
@@ -335,6 +350,19 @@ hr {
 
 .copy-container-hover {
   display: inline;
+  overflow-wrap: anywhere;
+}
+.copy-inline-button {
+  min-width: 24px;
+  min-height: 24px;
+  margin-inline-start: 0.25rem;
+  padding: 0.125rem;
+  border: 0;
+  background: transparent;
+  color: $primary-color;
+  svg {
+    margin: 0;
+  }
 }
 
 .main {
@@ -368,7 +396,7 @@ hr {
   &:hover {
     &.is-gl {
       .row-link-selected-action {
-        color: $gl;
+        color: $gl-text;
       }
     }
     &.is-ppm {
@@ -379,7 +407,7 @@ hr {
   }
 }
 span.gl-color {
-  color: $gl;
+  color: $gl-text;
 }
 span.ppm-color {
   color: $ppm;
@@ -388,6 +416,18 @@ span.font-reg {
   font-family: $sans-reg;
 }
 // Toastify
+.Toastify__toast-container.fin-notifications {
+  position: static;
+  transform: none;
+  width: min(100%, 40rem);
+  margin: 0 auto 1rem;
+  padding: 0;
+}
+.fin-notifications .Toastify__close-button {
+  min-width: 32px;
+  min-height: 32px;
+  opacity: 0.8;
+}
 :root {
   --toastify-color-success: #25681a !important;
   --toastify-color-error: #74011d !important;
@@ -396,12 +436,15 @@ span.font-reg {
 }
 
 .dropdown-menu-finjector {
+  max-width: calc(100vw - 2rem);
   padding-top: 0;
   padding-bottom: 0;
   border-color: $borders;
   border-radius: 2px;
   .btn-finjector {
     padding: 12px 16px;
+    white-space: normal;
+    overflow-wrap: anywhere;
     &:hover {
       background-color: rgba(0, 0, 0, 0.00001);
     }
@@ -417,4 +460,16 @@ span.font-reg {
 
 .shade-hover-row:hover {
   background-color: #f5f5f5; /* Change this to the color you want */
+}
+
+:focus-visible,
+.btn-check:focus-visible + .btn {
+  outline: 3px solid #0047ba !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #fff !important;
+}
+@media (forced-colors: active) {
+  :focus-visible, .btn-check:focus-visible + .btn {
+    outline-color: Highlight !important;
+  }
 }

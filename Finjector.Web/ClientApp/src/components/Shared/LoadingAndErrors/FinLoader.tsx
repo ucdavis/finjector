@@ -1,6 +1,7 @@
 export const FinLoader = () => (
-  <div className="loading-wrapper">
+  <div className="loading-wrapper" role="status">
     <svg
+      aria-hidden="true"
       width="230px"
       height="200px"
       viewBox="0 0 230 200"

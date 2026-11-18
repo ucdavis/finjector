@@ -1,48 +1,26 @@
-import { Link } from "react-router-dom";
-
-const CenteredBullet = () => (
-  <span
-    className="header-link"
-    style={{
-      marginLeft: "0.5em",
-      marginRight: "0.5em",
-      color: "white",
-    }}
-  >
-    &bull;
-  </span>
-);
+import { Link, NavLink } from "react-router-dom";
 
 const Header = () => (
-  <div className="header">
-    <div className="container">
-      <div className="row justify-content-between">
-        <div className="col-6">
-          <Link to="/">
-            <h1 className="d-flex align-items-center">
-              <img src="/media/ucdavis-white-logo.svg" alt="" /> Finjector
-            </h1>
-          </Link>
-        </div>
-        <div className="col-6 text-end">
-          <Link className="header-link" to="/">
-            Chart Strings
-          </Link>
-          <CenteredBullet />
-          <Link className="header-link" to="/teams">
-            Teams
-          </Link>
-          <CenteredBullet />
-          <Link className="header-link" to="/bulk">
-            Bulk Validate
-          </Link>
-          <CenteredBullet />
-          <Link className="header-link" to="/help">
-            Help
-          </Link>
-        </div>
-      </div>
+  <header className="header">
+    <div className="container d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <Link className="brand" to="/">
+        <img src="/media/ucdavis-white-logo.svg" alt="UC Davis" /> Finjector
+      </Link>
+      <nav aria-label="Primary">
+        <NavLink className="header-link" to="/" end>
+          Chart Strings
+        </NavLink>
+        <NavLink className="header-link" to="/teams">
+          Teams
+        </NavLink>
+        <NavLink className="header-link" to="/bulk">
+          Bulk Validate
+        </NavLink>
+        <NavLink className="header-link" to="/help">
+          Help
+        </NavLink>
+      </nav>
     </div>
-  </div>
+  </header>
 );
 export default Header;

@@ -1,8 +1,6 @@
 import React from "react";
 import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
-import CopyToClipboardButton from "../Shared/CopyToClipboardButton";
 import { Badge } from "reactstrap";
-import usePopupStatus from "../../util/customHooks";
 import { AeDetails, ChartType, FinQueryStatus } from "../../types";
 
 interface DetailsChartStringProps {
@@ -16,14 +14,12 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
   aeDetails,
   queryStatus: { isLoading, isError },
 }) => {
-  const isInPopup = usePopupStatus();
-
   // this handles errors from the query, not errors from AE
   if (isLoading || isError || !aeDetails) {
     return (
       <div className="chartstring-details-title d-flex justify-content-between align-items-center">
-        <div className="col-11">
-          <div className="chartstring-type">
+        <div className="w-100">
+          <div className="chartstring-type" role="status">
             <span>PPM or GL </span>
             <div className="div">
               {isLoading ? (
@@ -37,8 +33,7 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
               )}
             </div>
           </div>
-          {/* Don't put the copy to clipboard on hover here, it can cause an error if it is clicked before everything loads */}
-          <h1>{chartStringFromUrl ?? "0000-00000-0000-00000-0000"}</h1>
+          <h2 className="text-break">{chartStringFromUrl ?? "Chart string"}</h2>
         </div>
       </div>
     );
@@ -55,8 +50,8 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
 
   return (
     <div className="chartstring-details-title d-flex justify-content-between align-items-center">
-      <div className="col-11">
-        <div className="chartstring-type">
+      <div className="w-100">
+        <div className="chartstring-type" role="status">
           <span>{chartType} </span>
           <div className="div">
             {isValid && (
@@ -76,19 +71,12 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
             )}
           </div>
         </div>
-        <CopyToClipboardHover value={chartString} id="copyPpmGlString">
-          <h1>{chartString}</h1>
-        </CopyToClipboardHover>
+        <h2 aria-labelledby="chart-string-heading" className="text-break">
+          <CopyToClipboardHover value={chartString} id="copyPpmGlString">
+            <span id="chart-string-heading">{chartString}</span>
+          </CopyToClipboardHover>
+        </h2>
       </div>
-      {!isInPopup && (
-        <div className="col-1">
-          <CopyToClipboardButton
-            value={chartString}
-            id="copyPpmGlStringButton"
-            link={true}
-          />
-        </div>
-      )}
     </div>
   );
 };

@@ -44,11 +44,11 @@ const EditTeam: React.FC = () => {
   if (queryStatusComponent)
     return (
       <div>
-        <h4>
+        <p className="h5 mb-1">
           {queryStatus.isLoading
             ? "Scribbling in form details..."
             : "Error loading Edit Team form"}
-        </h4>
+        </p>
         <PageTitle title="Edit Team" />
         <PageBody>{queryStatusComponent}</PageBody>
       </div>
@@ -56,7 +56,7 @@ const EditTeam: React.FC = () => {
 
   return (
     <div>
-      <h4>{teamInfoQuery.data?.team.name}</h4>
+      <p className="h5 mb-1">{teamInfoQuery.data?.team.name}</p>
       <PageTitle title="Edit Team" />
       <PageBody>
         <NameAndDescriptionForm

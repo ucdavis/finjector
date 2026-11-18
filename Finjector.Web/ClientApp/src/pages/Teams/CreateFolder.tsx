@@ -48,19 +48,19 @@ const CreateFolder: React.FC = () => {
   if (queryStatusComponent)
     return (
       <div>
-        <h4>
+        <p className="h5 mb-1">
           {queryStatus.isLoading
             ? "Scribbling in form details..."
             : "Error loading Create folder form"}
-        </h4>
-        <PageTitle title="Edit Team" />
+        </p>
+        <PageTitle title="Create New Folder" />
         <PageBody>{queryStatusComponent}</PageBody>
       </div>
     );
 
   return (
     <div>
-      <h4>{teamInfoQuery.data?.team.name}</h4>
+      <p className="h5 mb-1">{teamInfoQuery.data?.team.name}</p>
       <PageTitle title="Create New Folder" />
       <NameAndDescriptionForm
         buttonText={(loading) =>

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Finjector Demo</title>
+    <title>Two Chart String Lookups | Finjector Demo</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -30,6 +30,13 @@
         .form-signin {
             max-width: 630px;
             padding: 15px;
+            overflow-wrap: anywhere;
+        }
+        .form-signin .form-control { border-color: #737980; }
+        .form-signin .form-text { color: #565e64 !important; }
+        .form-signin :focus-visible {
+            outline: 3px solid #0047ba;
+            outline-offset: 2px;
         }
 
         .form-signin .form-floating:focus-within {
@@ -109,23 +116,23 @@
 
             <div class="input-group">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="ccoa-input" placeholder="GL or PPM accepted">
-                    <label for="floatingInput">Full Chart String</label>
+                    <input type="text" class="form-control" id="ccoa-input" aria-describedby="ccoa-help" placeholder=" ">
+                    <label for="ccoa-input">First Full Chart String</label>
                 </div>
-                <button type="submit" class="btn btn-secondary" id="lookup">Lookup</button>
+                <button type="button" class="btn btn-secondary" id="lookup" aria-label="Lookup first chart string">Lookup</button>
             </div>
-            <small id="ccoa-help" class="form-text text-muted">Example PPM account:
+            <small id="ccoa-help" class="form-text text-muted">Enter a GL or PPM chart string. Example PPM account:
                 K30APSD227-TASK01-APLS002-770000</small>
 
             <hr />
             <div class="input-group">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="ccoa-input2" placeholder="GL or PPM accepted">
-                    <label for="floatingInput">Full Chart String</label>
+                    <input type="text" class="form-control" id="ccoa-input2" aria-describedby="ccoa-help2" placeholder=" ">
+                    <label for="ccoa-input2">Second Full Chart String</label>
                 </div>
-                <button type="submit" class="btn btn-secondary" id="lookup2">Lookup</button>
+                <button type="button" class="btn btn-secondary" id="lookup2" aria-label="Lookup second chart string">Lookup</button>
             </div>
-            <small id="ccoa-help" class="form-text text-muted">Example PPM account:
+            <small id="ccoa-help2" class="form-text text-muted">Enter a GL or PPM chart string. Example PPM account:
                 K30APSD227-TASK01-APLS002-770000</small>
 
             <hr />
@@ -148,6 +155,7 @@
                 .then(response => {
                     if (response.status === "success") {
                         ccoaInput.value = response.data;
+                        ccoaInput.focus();
                     }
                 })
         });
@@ -160,6 +168,7 @@
                 .then(response => {
                     if (response.status === "success") {
                         ccoaInput2.value = response.data;
+                        ccoaInput2.focus();
                     }
                 })
         });

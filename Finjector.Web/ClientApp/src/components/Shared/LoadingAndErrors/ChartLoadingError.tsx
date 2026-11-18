@@ -23,7 +23,7 @@ export const ChartLoadingError = () => {
   const removeMutation = useRemoveChart();
 
   const remove = () => {
-    if (chartIdAsNumber > 0) {
+    if (chartIdAsNumber > 0 && window.confirm("Permanently remove this saved chart string?")) {
       removeMutation.mutate({ id: chartIdAsNumber } as Coa, {
         onSuccess: () => {
           addFinToast("success", "Chart string removed successfully.");

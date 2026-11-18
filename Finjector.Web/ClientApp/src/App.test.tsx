@@ -1,6 +1,7 @@
 import React from "react";
 
 import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import App from "./App";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { beforeAll, afterAll } from "vitest";
@@ -68,6 +69,18 @@ describe("App", () => {
       const link = screen.getByRole("link", { name: /Help/i });
       expect(link).toHaveAttribute("href", "/help");
     });
+  });
+
+  it("names the landing page and puts its keyboard bypass first", async () => {
+    const user = userEvent.setup();
+    render(wrappedView());
+    const main = await screen.findByRole("main", { name: "My Chart Strings" });
+    await user.tab();
+    const skipLink = screen.getByRole("link", { name: "Skip to main content" });
+    expect(skipLink).toHaveFocus();
+    expect(skipLink).toHaveAttribute("href", `#${main.id}`);
+
+    expect(document.title).toBe("My Chart Strings | Finjector");
   });
 });
 

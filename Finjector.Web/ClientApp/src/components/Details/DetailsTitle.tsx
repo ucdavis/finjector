@@ -45,7 +45,7 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
   if (isLoading) {
     return (
       <div className="col-12 col-md-7">
-        <h4>Team / Folder</h4>
+        <p className="mb-1">Team / Folder</p>
         <h1>Scribbling in details...</h1>
       </div>
     );
@@ -54,7 +54,7 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
   if (isError) {
     return (
       <div className="col-12 col-md-7">
-        <h4>Team / Folder</h4>
+        <p className="mb-1">Team / Folder</p>
         <h1>Chart String Details</h1>
       </div>
     );
@@ -65,14 +65,16 @@ const DetailsTitle: React.FC<DetailsHeaderProps> = ({
     <>
       <div className="col-12 col-md-7">
         {chartStringDetails && (
-          <h4>
+          <p className="mb-1">
             {chartStringDetails.teamName} {"/ "}
             {chartStringDetails.folder?.name}
-          </h4>
+          </p>
         )}
-        <CopyToClipboardHover value={chartStringName} id="ChartName">
-          <h1>{chartStringName}</h1>
-        </CopyToClipboardHover>
+        <h1 aria-labelledby="chart-name-heading" className="text-break">
+          <CopyToClipboardHover value={chartStringName} id="ChartName">
+            <span id="chart-name-heading">{chartStringName}</span>
+          </CopyToClipboardHover>
+        </h1>
       </div>
       <div className="col-12 col-md-5 text-end">
         {isInPopup && (

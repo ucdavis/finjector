@@ -31,7 +31,6 @@ const ChartListSimple: React.FC<Props> = ({
     queryStatus,
   });
   const isInPopup = usePopupStatus();
-  const selectVisibleCheckboxRef = React.useRef<HTMLInputElement>(null);
   const filterLowercase = filter.toLowerCase();
 
   const filteredCharts = (charts ?? []).filter((chart) => {
@@ -79,17 +78,27 @@ const ChartListSimple: React.FC<Props> = ({
         canSelectChartStrings ? " has-selection" : ""
       }`}
     >
+      <div role="status">
+        {filter && (filteredCharts.length
+          ? `Matching chart strings: ${filteredCharts.length}`
+          : "No chart strings match your search.")}
+      </div>
       {canSelectChartStrings && (
-        <div className="chartstring-selection-toggle">
+        <label className="chartstring-selection-toggle">
           <input
-            ref={selectVisibleCheckboxRef}
+            ref={(input) => {
+              if (input) {
+                input.indeterminate =
+                  selectedVisibleChartCount > 0 && !allVisibleChartsSelected;
+              }
+            }}
             type="checkbox"
-            aria-label="Select visible chart strings"
             checked={allVisibleChartsSelected}
             disabled={visibleChartIds.length === 0}
             onChange={toggleVisibleChartSelection}
           />
-        </div>
+          Select visible chart strings
+        </label>
       )}
       <ul className="list-group">
         {filteredCharts.map((chart) => (

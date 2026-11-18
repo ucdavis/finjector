@@ -148,7 +148,12 @@ const UserAccessReport: React.FC = () => {
             ) : filteredRows.length === 0 ? (
               <p>No permissions match your search.</p>
             ) : (
-              <div className="table-responsive">
+              <div
+                className="table-responsive"
+                role="region"
+                aria-label="User access report results"
+                tabIndex={0}
+              >
                 <table className="table">
                   <caption className="visually-hidden">
                     User access permissions for {scope}

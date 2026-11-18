@@ -15,6 +15,13 @@ import usePopupStatus, { useIsVisible } from "../../util/customHooks";
 import ClickableListItem from "./ClickableListItem";
 import { useSegmentValidateQuery } from "../../queries/segmentQueries";
 
+const validationIcons = {
+  Invalid: faBan,
+  Unknown: faQuestion,
+  Warning: faTriangleExclamation,
+  Valid: faCheck,
+};
+
 interface Props {
   chart: Coa;
   folder: Folder;
@@ -46,17 +53,11 @@ const ChartListItem = ({
     shouldValidate
   );
 
-  const getValidationStatus = () => {
+  const getValidationStatus = (): keyof typeof validationIcons | null => {
     if (!isVisible) return null;
 
     if (chart.chartType === ChartType.INVALID) {
-      return (
-        <FontAwesomeIcon
-          icon={faBan}
-          className="chartstring-validation-icon"
-          title="Invalid"
-        />
-      );
+      return "Invalid";
     }
 
     if (validationQuery.isLoading || validationQuery.isFetching) {
@@ -64,23 +65,11 @@ const ChartListItem = ({
     }
 
     if (validationQuery.data?.validationResponse.valid === false) {
-      return (
-        <FontAwesomeIcon
-          icon={faBan}
-          className="chartstring-validation-icon"
-          title="Invalid"
-        />
-      );
+      return "Invalid";
     }
 
     if (validationQuery.isError) {
-      return (
-        <FontAwesomeIcon
-          icon={faQuestion}
-          className="chartstring-validation-icon"
-          title="Unknown"
-        />
-      );
+      return "Unknown";
     }
 
     if (
@@ -88,37 +77,12 @@ const ChartListItem = ({
       validationQuery.data?.warnings &&
       validationQuery.data.warnings.length > 0
     ) {
-      return (
-        <FontAwesomeIcon
-          icon={faTriangleExclamation}
-          className="chartstring-validation-icon"
-          title="Warning"
-        />
-      );
+      return "Warning";
     }
 
-    if (validationQuery.data?.validationResponse.valid) {
-      return (
-        <FontAwesomeIcon
-          icon={faCheck}
-          className="chartstring-validation-icon"
-          title="Valid"
-        />
-      );
-    }
-
-    return (
-      <FontAwesomeIcon
-        icon={faQuestion}
-        className="chartstring-validation-icon"
-        title="Unknown"
-      />
-    );
+    return validationQuery.data?.validationResponse.valid ? "Valid" : "Unknown";
   };
-
-  const stopRowNavigation = (event: React.MouseEvent) => {
-    event.stopPropagation();
-  };
+  const validationStatus = getValidationStatus();
 
   return (
     <ClickableListItem
@@ -132,22 +96,20 @@ const ChartListItem = ({
       url={url}
     >
       {showMultiSelect && (
-        <div
+        <label
           className={`chartstring-row-select ${
             isSelected ? "is-selected" : ""
           }`}
-          onClick={stopRowNavigation}
         >
           <input
             type="checkbox"
-            aria-label={`Select ${chart.name}`}
+            aria-label={`Select ${chart.name || chart.segmentString}`}
             checked={isSelected}
-            onClick={stopRowNavigation}
             onChange={(event) =>
               onSelectionChange?.(chart.id, event.target.checked)
             }
           />
-        </div>
+        </label>
       )}
       {showMultiSelect && (
         <span className="chartstring-row-color-indicator" aria-hidden="true" />
@@ -155,7 +117,12 @@ const ChartListItem = ({
       <div className="chartstring-row-main ms-2 me-auto">
         <div className="chartstring-type">
           <span>{chart.chartType}</span>
-          {getValidationStatus()}
+          {validationStatus && (
+            <span>
+              <FontAwesomeIcon className="chartstring-validation-icon" icon={validationIcons[validationStatus]} />
+              {" "}{validationStatus}
+            </span>
+          )}
         </div>
         <div className="fw-bold "> {chart.name}</div>
         {!isInPopup && (
@@ -174,6 +141,7 @@ const ChartListItem = ({
       </div>
       <div className="text-end chartstring-row-actions">
         <Link
+          aria-label={`Details for ${chart.name || chart.segmentString}`}
           to={`/teams/${folder.teamId}/folders/${folder.id}/details/${chart.id}/${chart.segmentString}`}
           className={`btn btn-link ${
             destination === "details" ? "row-link-selected-action" : ""
@@ -184,6 +152,7 @@ const ChartListItem = ({
         </Link>
         {isInPopup && (
           <Link
+            aria-label={`Use ${chart.name || chart.segmentString}`}
             to={`/teams/${folder.teamId}/folders/${folder.id}/selected/${chart.id}/${chart.segmentString}`}
             className={`btn btn-link ${
               destination === "selected" ? "row-link-selected-action" : ""

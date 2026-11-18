@@ -66,9 +66,9 @@ const EditFolder: React.FC = () => {
 
   return (
     <div>
-      <h4>
+      <p className="h5 mb-1">
         {folderQuery.data?.folder.teamName} / {folderQuery.data?.folder.name}
-      </h4>
+      </p>
       <PageTitle title="Edit Folder" />
       <PageBody>
         <NameAndDescriptionForm

@@ -49,10 +49,8 @@ const BulkValidate = () => {
 
       <div className="mb-3">
         <label htmlFor="chart-strings-input" className="form-label">
-          <p>
-            Paste in chart strings separated by commas, spaces, or newlines
-            (maximum 200):
-          </p>
+          Paste in chart strings separated by commas, spaces, or newlines
+          (maximum 200)
         </label>
         <textarea
           className="form-control"
@@ -75,6 +73,11 @@ const BulkValidate = () => {
 
       {validateMutation.isPending && <FinLoader />}
 
+      <div role="status" className="visually-hidden">
+        {validateMutation.isSuccess &&
+          `Validation complete. Results for ${validateMutation.data.length} chart strings are available below.`}
+      </div>
+
       {validateMutation.isError && (
         <div className="alert alert-danger mt-3" role="alert">
           {validateMutation.error?.message ||
@@ -84,13 +87,13 @@ const BulkValidate = () => {
 
       {validateMutation.isSuccess && validateMutation.data && (
         <div className="mt-4">
-          <h4>Validation Results</h4>
-          <table className="table table-striped">
+          <h2 id="validation-results-heading">Validation Results</h2>
+          <table className="table table-striped text-break" aria-labelledby="validation-results-heading">
             <thead>
               <tr>
-                <th>Status</th>
-                <th>Chart String</th>
-                <th>Message</th>
+                <th scope="col">Status</th>
+                <th scope="col">Chart String</th>
+                <th scope="col">Message</th>
               </tr>
             </thead>
             <tbody>

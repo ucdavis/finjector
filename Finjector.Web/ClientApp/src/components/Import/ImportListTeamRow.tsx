@@ -23,11 +23,11 @@ const ImportListTeamRow = (props: ImportListTeamRowProps) => {
 
   return (
     <li className="fin-row saved-list-item">
-      <div className="fin-info d-flex justify-content-between align-items-center">
-        <div className="col-7 ms-2">
-          <h3 className="row-title">{props.teamGroup.team.name}</h3>
+      <div className="fin-info d-flex flex-wrap align-items-center">
+        <div className="col-12 col-md-7 px-2 text-break">
+          <h2 className="row-title h5">{props.teamGroup.team.name}</h2>
         </div>
-        <div className="col-2">
+        <div className="col-4 col-md-2">
           <div className="stat-icon team-coa-counter">
             <FontAwesomeIcon
               title="Chart string count in team"
@@ -39,8 +39,12 @@ const ImportListTeamRow = (props: ImportListTeamRowProps) => {
             )}
           </div>
         </div>
-        <div className="col-3 text-end">
-          <FinButton className="me-1" onClick={importChartStrings}>
+        <div className="col-8 col-md-3 text-end">
+          <FinButton
+            className="me-1"
+            aria-label={`Import Team: ${props.teamGroup.team.name}`}
+            onClick={importChartStrings}
+          >
             <FontAwesomeIcon icon={faFileExport} />
             Import Team
           </FinButton>

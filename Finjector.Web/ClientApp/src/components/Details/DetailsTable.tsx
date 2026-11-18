@@ -68,7 +68,7 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
 
   return (
     <>
-      <div className="chartstring-details-info unique-bg">
+      <dl className="chartstring-details-info unique-bg mb-0">
         {aeDetails.segmentDetails.map((segment, i) => {
           return (
             <DetailsRow
@@ -95,8 +95,8 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
             />
           );
         })}
-      </div>
-      <div className="chartstring-details-info">
+      </dl>
+      <dl className="chartstring-details-info mb-0">
         {aeDetails.chartType === ChartType.PPM && (
           <PpmDetailsPage details={aeDetails.ppmDetails} />
         )}
@@ -128,7 +128,7 @@ const DetailsTable: React.FC<DetailsBodyProps> = ({
             );
           })}
         />
-      </div>
+      </dl>
     </>
   );
 };

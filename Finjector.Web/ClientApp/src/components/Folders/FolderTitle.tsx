@@ -69,11 +69,11 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
     return (
       <PageTitle>
         <div className="col-12 col-md-9">
-          <h4>
+          <p className="h5 mb-1">
             {queryStatus.isLoading
               ? "Scribbling in Folder Details..."
               : "Error loading Folder Details"}
-          </h4>
+          </p>
           <h1>Folder Details</h1>
         </div>
         <div className="col-12 col-md-3 text-end">
@@ -109,7 +109,7 @@ const FolderTitle: React.FC<FolderTitleProps> = ({
     <>
       <PageTitle>
         <div className="col-12 col-md-9">
-          <h4>{folderModelData.folder.teamName}</h4>
+          <p className="h5 mb-1">{folderModelData.folder.teamName}</p>
           <h1>{folderModelData.folder.name}</h1>
         </div>
         <div className="col-12 col-md-3 text-end">

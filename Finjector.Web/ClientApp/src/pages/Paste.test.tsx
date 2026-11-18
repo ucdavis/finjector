@@ -150,15 +150,15 @@ describe("Paste a PPM project", () => {
           `/entry?project=${project.code}`
         );
         expect(
-          screen.getByPlaceholderText("Search for project...")
+          screen.getByRole("combobox", { name: "project" })
         ).toHaveValue(project.code);
         expect(
-          screen.getByPlaceholderText("Search for organization...")
+          screen.getByRole("combobox", { name: "organization" })
         ).toHaveValue(organization.code);
         expect(
-          screen.getByPlaceholderText("Search for expenditureType...")
+          screen.getByRole("combobox", { name: "expenditure Type" })
         ).toHaveValue(expenditureType.code);
-        expect(screen.getByPlaceholderText("Choose a task...")).toHaveValue(
+        expect(screen.getByRole("combobox", { name: "Task" })).toHaveValue(
           task.code
         );
       });
@@ -288,6 +288,9 @@ describe("Paste a PPM project", () => {
 
       expect(screen.getByRole("button", { name: "NEXT" })).toBeDisabled();
       expect(screen.getByRole("alert")).toBeInTheDocument();
+      expect(screen.getByRole("textbox")).toHaveAccessibleDescription(
+        /Enter a valid GL or PPM chart string/
+      );
       expect(screen.getByTestId("location")).toHaveTextContent("/paste");
     }
   );

@@ -29,6 +29,13 @@
         .form-signin {
             max-width: 630px;
             padding: 15px;
+            overflow-wrap: anywhere;
+        }
+        .form-signin .form-control { border-color: #737980; }
+        .form-signin .form-text { color: #565e64 !important; }
+        .form-signin :focus-visible {
+            outline: 3px solid #0047ba;
+            outline-offset: 2px;
         }
 
         .form-signin .form-floating:focus-within {
@@ -108,12 +115,12 @@
 
             <div class="input-group">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="ccoa-input" placeholder="GL or PPM accepted">
-                    <label for="floatingInput">Full Chart String</label>
+                    <input type="text" class="form-control" id="ccoa-input" aria-describedby="ccoa-help" placeholder=" ">
+                    <label for="ccoa-input">Full Chart String</label>
                 </div>
-                <button type="submit" class="btn btn-secondary" id="lookup">Lookup</button>
+                <button type="button" class="btn btn-secondary" id="lookup">Lookup</button>
             </div>
-            <small id="ccoa-help" class="form-text text-muted">Example PPM account:
+            <small id="ccoa-help" class="form-text text-muted">Enter a GL or PPM chart string. Example PPM account:
                 K30APSD227-TASK01-APLS002-770000</small>
 
             <hr />
@@ -133,6 +140,7 @@
                 .then(response => {
                     if (response.status === "success") {
                         ccoaInput.value = response.data;
+                        ccoaInput.focus();
                     }
                 })
         });

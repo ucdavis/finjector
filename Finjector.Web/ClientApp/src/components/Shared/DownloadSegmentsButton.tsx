@@ -73,16 +73,22 @@ const DownloadSegmentsButton: React.FC<DownloadSegmentsButtonProps> = ({
   };
 
   return (
-    <FinButton
-      id={`download-button-${id}`}
-      onClick={handleDownload}
-      onMouseEnter={onHover}
-      margin={true}
-      {...props}
-    >
-      <FontAwesomeIcon icon={faFile} />
-      {children ?? (hasDownloaded ? "Downloaded!" : `Download as ${fileType}`)}
-    </FinButton>
+    <>
+      <FinButton
+        id={`download-button-${id}`}
+        onClick={handleDownload}
+        onMouseEnter={onHover}
+        onFocus={onHover}
+        margin={true}
+        {...props}
+      >
+        <FontAwesomeIcon icon={faFile} />
+        {children ?? `Download as ${fileType}`}
+      </FinButton>
+      <span role="status" className={hasDownloaded ? "small" : "visually-hidden"}>
+        {hasDownloaded && "Download started."}
+      </span>
+    </>
   );
 };
 

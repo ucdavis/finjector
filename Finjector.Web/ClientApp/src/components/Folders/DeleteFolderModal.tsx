@@ -28,20 +28,33 @@ const DeleteFolderModal = (props: Props) => {
         navigate(`/teams`);
         closeModal();
       },
-      onError: () => {
-        addFinToast("error", "Error deleting folder.");
-      },
     });
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={closeModal}>
+    <Modal
+      isOpen={isOpen}
+      toggle={closeModal}
+      trapFocus
+      onClosed={deleteMutation.reset}
+      labelledBy="delete-folder-title"
+      modalTransition={{
+        timeout: 300,
+        "aria-modal": true,
+        "aria-describedby": "delete-folder-description",
+      }}
+    >
       <ModalHeader tag="h2" toggle={closeModal}>
-        Delete Folder
+        <span id="delete-folder-title">Delete Folder</span>
       </ModalHeader>
-      <ModalBody>
+      <ModalBody id="delete-folder-description">
         Are you sure you want to delete this folder? This folder, and any Chart
         Strings within it will be removed.
+        {deleteMutation.isError && (
+          <p className="alert alert-danger mt-2 mb-0" role="alert">
+            Error deleting folder.
+          </p>
+        )}
       </ModalBody>
       <ModalFooter>
         <FinButton

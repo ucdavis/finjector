@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Highlighter,
   Menu,
@@ -11,6 +11,7 @@ import { Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder } from "@fortawesome/free-solid-svg-icons";
 import { InputGroup, InputGroupText } from "reactstrap";
+import { renderSearchInput } from "./SegmentSearch";
 
 interface FolderSearchProps {
   updateFolderId: (folderId: number) => void;
@@ -66,14 +67,20 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
 
   return (
     <>
-      <h2>Folder</h2>
-      <p>Choose where you would like to store your chart string</p>
+      <h2 id="folder-label">Folder</h2>
+      <p id="folder-help">Choose where you would like to store your chart string.</p>
       <InputGroup aria-disabled={disabled}>
-        <InputGroupText aria-disabled={disabled}>
+        <InputGroupText id="folder-team">
+          <span className="visually-hidden">Team: </span>
           {selectedFolder?.teamName ?? "Personal"}
         </InputGroupText>
         <Typeahead
-          id={"typeahead-folder-search"}
+          id="typeahead-folder-search"
+          inputProps={{
+            "aria-labelledby": "folder-label",
+            "aria-describedby": "folder-help folder-team",
+          }}
+          renderInput={renderSearchInput}
           filterBy={["name", "teamName"]}
           ref={typeaheadRef}
           isLoading={query.isFetching}
@@ -95,20 +102,28 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
             { text }
           ) => {
             let index = 0;
-            const teamFolders = groupBy(results, "teamName");
+            const paginationOption = results.find(
+              (option) => typeof option !== "string" && option.paginationOption
+            );
+            const teamFolders = groupBy(
+              results.filter((option) => option !== paginationOption),
+              "teamName"
+            );
             const items = Object.keys(teamFolders)
               .sort()
               .map((teamName) => (
-                <Fragment key={teamName}>
-                  {index !== 0 && <Menu.Divider />}
-                  <Menu.Header>
-                    <h5>
-                      Team: <Highlighter search={text}>{teamName}</Highlighter>
-                    </h5>
-                  </Menu.Header>
+                <div role="group" aria-label={teamName} key={teamName}>
+                  <div className="dropdown-header" aria-hidden="true">
+                    Team: <Highlighter search={text}>{teamName}</Highlighter>
+                  </div>
                   {teamFolders[teamName].map((folder: any) => {
                     const item = (
-                      <MenuItem key={index} option={folder} position={index}>
+                      <MenuItem
+                        key={folder.id}
+                        option={folder}
+                        position={index}
+                        label={`${folder.name}, team ${teamName}`}
+                      >
                         <FontAwesomeIcon icon={faFolder} />{" "}
                         <span>
                           <Highlighter search={text}>{folder.name}</Highlighter>
@@ -119,10 +134,19 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
                     index += 1;
                     return item;
                   })}
-                </Fragment>
+                </div>
               ));
 
-            return <Menu {...menuProps}>{items}</Menu>;
+            if (paginationOption) {
+              items.push(
+                <MenuItem key="folder-pagination" option={paginationOption} position={index}>
+                  {paginationText}
+                </MenuItem>
+              );
+            }
+            return (
+              <Menu {...menuProps} aria-label="Folders">{items}</Menu>
+            );
           }}
         />
       </InputGroup>

@@ -28,20 +28,33 @@ const LeaveFolderModal = (props: Props) => {
         navigate(`/teams`);
         closeModal();
       },
-      onError: () => {
-        addFinToast("error", "Error leaving folder.");
-      },
     });
   };
 
   return (
     <>
-      <Modal isOpen={isOpen} toggle={closeModal}>
+      <Modal
+        isOpen={isOpen}
+        toggle={closeModal}
+        trapFocus
+        onClosed={leaveMutation.reset}
+        labelledBy="leave-folder-title"
+        modalTransition={{
+          timeout: 300,
+          "aria-modal": true,
+          "aria-describedby": "leave-folder-description",
+        }}
+      >
         <ModalHeader tag="h2" toggle={closeModal}>
-          Leave Folder
+          <span id="leave-folder-title">Leave Folder</span>
         </ModalHeader>
-        <ModalBody>
+        <ModalBody id="leave-folder-description">
           <p>Are you sure you want to leave this folder?</p>
+          {leaveMutation.isError && (
+            <p className="alert alert-danger mt-2 mb-0" role="alert">
+              Error leaving folder.
+            </p>
+          )}
         </ModalBody>
         <ModalFooter>
           <FinButton
