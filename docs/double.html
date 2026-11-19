@@ -141,37 +141,28 @@
     </main>
 
     <script>
-        const lookup = document.getElementById('lookup');
-        const ccoaInput = document.getElementById('ccoa-input');
+        function bindLookup(inputId, buttonId) {
+            const input = document.getElementById(inputId);
+            const button = document.getElementById(buttonId);
 
-        const lookup2 = document.getElementById('lookup2');
-        const ccoaInput2 = document.getElementById('ccoa-input2');
+            button.addEventListener('click', async () => {
+                const response = await window.Finjector.findChartSegmentString("https://localhost:3000/");
+                if (response.status === "success") {
+                    input.value = response.data;
+                    input.focus();
+                }
+            });
 
-        lookup.addEventListener('click', (e) => {
-            e.preventDefault();
-            const ccoa = ccoaInput.value;
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' && !event.isComposing) {
+                    event.preventDefault();
+                    button.click();
+                }
+            });
+        }
 
-            window.Finjector.findChartSegmentString("https://localhost:3000/")
-                .then(response => {
-                    if (response.status === "success") {
-                        ccoaInput.value = response.data;
-                        ccoaInput.focus();
-                    }
-                })
-        });
-
-        lookup2.addEventListener('click', (e) => {
-            e.preventDefault();
-            const ccoa = ccoaInput2.value;
-
-            window.Finjector.findChartSegmentString("https://localhost:3000/")
-                .then(response => {
-                    if (response.status === "success") {
-                        ccoaInput2.value = response.data;
-                        ccoaInput2.focus();
-                    }
-                })
-        });
+        bindLookup('ccoa-input', 'lookup');
+        bindLookup('ccoa-input2', 'lookup2');
     </script>
 
 </body>

@@ -1,10 +1,11 @@
 import React from "react";
+import { transferableAbortController } from "node:util";
 
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { beforeAll, afterAll } from "vitest";
+import { beforeAll, afterAll, vi } from "vitest";
 import { server } from "../test/mocks/node";
 
 beforeAll(() => server.listen());
@@ -81,6 +82,42 @@ describe("App", () => {
     expect(skipLink).toHaveAttribute("href", `#${main.id}`);
 
     expect(document.title).toBe("My Chart Strings | Finjector");
+  });
+
+  it("keeps the header in view when navigating from chart details", async () => {
+    const user = userEvent.setup();
+    render(wrappedView());
+    const detailsLink = await screen.findByRole("link", {
+      name: "Details for Chart 1",
+    });
+    const main = screen.getByRole("main");
+    const focus = vi.spyOn(main, "focus");
+    const scroll = vi.spyOn(window, "scrollTo").mockImplementation(() => {});
+    // The router uses Node's Request in jsdom, which requires a native Node signal.
+    const abort = vi
+      .spyOn(globalThis, "AbortController")
+      .mockImplementation(transferableAbortController);
+    try {
+      await user.click(detailsLink);
+      await screen.findByRole("main", { name: "Chart String Details" });
+      scroll.mockClear();
+      focus.mockClear();
+
+      await user.click(screen.getByRole("link", { name: "Bulk Validate" }));
+      expect(await screen.findByRole("main", { name: "Bulk Validate" })).toHaveFocus();
+      expect(focus).toHaveBeenCalledWith({ preventScroll: true });
+      expect(scroll).toHaveBeenCalledWith(0, 0);
+
+      scroll.mockClear();
+      window.history.back();
+      await screen.findByRole("main", { name: "Chart String Details" });
+      expect(scroll).not.toHaveBeenCalled();
+      await user.click(screen.getByRole("link", { name: "Chart Strings" }));
+    } finally {
+      abort.mockRestore();
+      focus.mockRestore();
+      scroll.mockRestore();
+    }
   });
 });
 

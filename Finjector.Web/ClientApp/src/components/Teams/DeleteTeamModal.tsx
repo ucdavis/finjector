@@ -18,6 +18,7 @@ const DeleteTeamModal = (props: Props) => {
   const navigate = useNavigate();
 
   const deleteMutation = useDeleteTeamMutation();
+  const dismiss = deleteMutation.isPending ? undefined : closeModal;
 
   const handleDelete = () => {
     deleteMutation.mutate(props.teamId, {
@@ -33,7 +34,7 @@ const DeleteTeamModal = (props: Props) => {
     <>
       <Modal
         isOpen={isOpen}
-        toggle={closeModal}
+        toggle={dismiss}
         trapFocus
         onClosed={deleteMutation.reset}
         labelledBy="delete-team-title"
@@ -43,10 +44,13 @@ const DeleteTeamModal = (props: Props) => {
           "aria-describedby": "delete-team-description",
         }}
       >
-        <ModalHeader tag="h2" toggle={closeModal}>
+        <ModalHeader tag="h2" toggle={dismiss}>
           <span id="delete-team-title">Delete Team</span>
         </ModalHeader>
-        <ModalBody id="delete-team-description">
+        <ModalBody
+          id="delete-team-description"
+          tabIndex={deleteMutation.isPending ? 0 : undefined}
+        >
           Are you sure you want to delete this team? This team, any folders
           within it will be removed.
           {deleteMutation.isError && (

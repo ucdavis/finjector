@@ -20,6 +20,7 @@ const LeaveFolderModal = (props: Props) => {
   const navigate = useNavigate();
 
   const leaveMutation = useLeaveFolderMutation(props.teamId);
+  const dismiss = leaveMutation.isPending ? undefined : closeModal;
 
   const handleLeave = () => {
     leaveMutation.mutate(props.folderId, {
@@ -35,7 +36,7 @@ const LeaveFolderModal = (props: Props) => {
     <>
       <Modal
         isOpen={isOpen}
-        toggle={closeModal}
+        toggle={dismiss}
         trapFocus
         onClosed={leaveMutation.reset}
         labelledBy="leave-folder-title"
@@ -45,10 +46,13 @@ const LeaveFolderModal = (props: Props) => {
           "aria-describedby": "leave-folder-description",
         }}
       >
-        <ModalHeader tag="h2" toggle={closeModal}>
+        <ModalHeader tag="h2" toggle={dismiss}>
           <span id="leave-folder-title">Leave Folder</span>
         </ModalHeader>
-        <ModalBody id="leave-folder-description">
+        <ModalBody
+          id="leave-folder-description"
+          tabIndex={leaveMutation.isPending ? 0 : undefined}
+        >
           <p>Are you sure you want to leave this folder?</p>
           {leaveMutation.isError && (
             <p className="alert alert-danger mt-2 mb-0" role="alert">

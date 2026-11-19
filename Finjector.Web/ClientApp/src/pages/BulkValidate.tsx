@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Badge } from "reactstrap";
+import ChartValidationStatus, {
+  ChartValidationState,
+} from "../components/Shared/ChartValidationStatus";
 import FinButton from "../components/Shared/FinButton";
 import PageTitle from "../components/Shared/Layout/PageTitle";
 import {
@@ -8,6 +10,11 @@ import {
   useValidateBulkChartsMutation,
 } from "../queries/bulkQueries";
 import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
+
+const getValidationStatus = (result: ChartValidationResult): ChartValidationState => {
+  if (!result.isValid) return "Invalid";
+  return result.isWarning ? "Warning" : "Valid";
+};
 
 const BulkValidate = () => {
   const [chartStrings, setChartStrings] = useState<string>("");
@@ -19,28 +26,6 @@ const BulkValidate = () => {
     }
 
     validateMutation.mutate(chartStrings);
-  };
-
-  const getIconForResult = (result: ChartValidationResult) => {
-    if (!result.isValid) {
-      return (
-        <Badge color="danger" pill={true}>
-          Invalid
-        </Badge>
-      );
-    }
-    if (result.isWarning) {
-      return (
-        <Badge color="warning" pill={true}>
-          Warning
-        </Badge>
-      );
-    }
-    return (
-      <Badge color="success" pill={true}>
-        Valid
-      </Badge>
-    );
   };
 
   return (
@@ -99,7 +84,9 @@ const BulkValidate = () => {
             <tbody>
               {validateMutation.data.map((result, index) => (
                 <tr key={index}>
-                  <td>{getIconForResult(result)}</td>
+                  <td>
+                    <ChartValidationStatus status={getValidationStatus(result)} />
+                  </td>
                   <td>
                     <code>
                       <Link

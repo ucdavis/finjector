@@ -336,7 +336,7 @@ describe("Existing pasted chart routes", () => {
   );
 });
 
-describe("Saved PPM task preservation", () => {
+describe("Saved PPM chart editing", () => {
   const unavailableTaskCode = "900099";
   const secondTask = { ...task, code: "100002", name: "Another eligible task" };
 
@@ -402,6 +402,31 @@ describe("Saved PPM task preservation", () => {
       expect(client.isFetching()).toBe(0);
     });
   };
+
+  it("confirms the saved chart and folder after changing the draft", async () => {
+    const { path } = mockSavedChart([task]);
+    const { client, user } = renderPaste(path);
+    await waitForSavedChart(client);
+    const name = screen.getByRole("textbox", { name: /name \(required\)/i });
+    await user.clear(name);
+    await user.type(name, "Unsaved name");
+    const folder = screen.getByRole("combobox", { name: "Folder" });
+    await user.clear(folder);
+    await user.type(folder, "Folder 1");
+    await user.click(await screen.findByRole("option", { name: "Folder 1, team Team 0" }));
+    expect(folder).toHaveValue("Folder 1");
+
+    const confirm = vi.spyOn(window, "confirm").mockReturnValue(false);
+    try {
+      await user.click(screen.getByRole("button", { name: "Remove" }));
+      expect(confirm).toHaveBeenCalledWith(
+        'Remove the chart string "Existing PPM chart" from "Existing team / Folder 0"?'
+      );
+      expect(screen.getByTestId("location").textContent).toBe(path);
+    } finally {
+      confirm.mockRestore();
+    }
+  });
 
   it.each([
     { result: "zero", tasks: [] as SegmentData[] },

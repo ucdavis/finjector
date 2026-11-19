@@ -105,8 +105,11 @@ const ChartListItem = ({
         <span className="chartstring-row-color-indicator" aria-hidden="true" />
       )}
       <div className="chartstring-row-main ms-2 me-auto">
-        <div className="chartstring-type">
-          <span>{chart.chartType}</span>
+        <div className="d-flex flex-wrap align-items-center gap-2">
+          <span className="chartstring-type">{chart.chartType}</span>
+          {validationStatus && (
+            <ChartValidationStatus status={validationStatus} />
+          )}
         </div>
         <div className="fw-bold "> {chart.name}</div>
         {!isInPopup && (
@@ -124,9 +127,6 @@ const ChartListItem = ({
         )}
       </div>
       <div className="text-end chartstring-row-actions d-flex align-items-center gap-2">
-        {validationStatus && (
-          <ChartValidationStatus status={validationStatus} />
-        )}
         <Link
           aria-label={`Details for ${chart.name || chart.segmentString}`}
           to={`/teams/${folder.teamId}/folders/${folder.id}/details/${chart.id}/${chart.segmentString}`}
