@@ -1,6 +1,6 @@
 import React from "react";
 import CopyToClipboardHover from "../Shared/CopyToClipboardHover";
-import { Badge } from "reactstrap";
+import ChartValidationStatus from "../Shared/ChartValidationStatus";
 import { AeDetails, ChartType, FinQueryStatus } from "../../types";
 
 interface DetailsChartStringProps {
@@ -18,22 +18,19 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
   if (isLoading || isError || !aeDetails) {
     return (
       <div className="chartstring-details-title d-flex justify-content-between align-items-center">
-        <div className="w-100">
-          <div className="chartstring-type" role="status">
-            <span>PPM or GL </span>
-            <div className="div">
-              {isLoading ? (
-                <Badge color="secondary" pill={true} className="me-1">
-                  Loading...
-                </Badge>
-              ) : (
-                <Badge color="danger" pill={true} className="me-1">
-                  Error
-                </Badge>
-              )}
-            </div>
-          </div>
-          <h2 className="text-break">{chartStringFromUrl ?? "Chart string"}</h2>
+        <div className="text-break">
+          <div className="chartstring-type">PPM or GL</div>
+          <h2 className="text-break mb-0">
+            {chartStringFromUrl ?? "Chart string"}
+          </h2>
+        </div>
+        <div
+          className="chartstring-type d-flex align-items-center gap-2 flex-shrink-0 text-end ms-3"
+          role="status"
+        >
+          <ChartValidationStatus
+            status={isLoading ? "Loading..." : "Unknown"}
+          />
         </div>
       </div>
     );
@@ -50,32 +47,20 @@ const DetailsChartString: React.FC<DetailsChartStringProps> = ({
 
   return (
     <div className="chartstring-details-title d-flex justify-content-between align-items-center">
-      <div className="w-100">
-        <div className="chartstring-type" role="status">
-          <span>{chartType} </span>
-          <div className="div">
-            {isValid && (
-              <Badge color={"success"} pill={true}>
-                Valid
-              </Badge>
-            )}
-            {!isValid && (
-              <Badge color={"danger"} pill={true}>
-                Error
-              </Badge>
-            )}
-            {aeWarnings.length > 0 && (
-              <Badge color={"warning"} pill={true} className={"ms-1"}>
-                Warning
-              </Badge>
-            )}
-          </div>
-        </div>
-        <h2 aria-labelledby="chart-string-heading" className="text-break">
+      <div className="text-break">
+        <div className="chartstring-type">{chartType}</div>
+        <h2 aria-labelledby="chart-string-heading" className="text-break mb-0">
           <CopyToClipboardHover value={chartString} id="copyPpmGlString">
             <span id="chart-string-heading">{chartString}</span>
           </CopyToClipboardHover>
         </h2>
+      </div>
+      <div
+        className="chartstring-type d-flex align-items-center gap-2 flex-shrink-0 text-end ms-3"
+        role="status"
+      >
+        <ChartValidationStatus status={isValid ? "Valid" : "Invalid"} />
+        {aeWarnings.length > 0 && <ChartValidationStatus status="Warning" />}
       </div>
     </div>
   );

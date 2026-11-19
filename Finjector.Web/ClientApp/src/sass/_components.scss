@@ -314,9 +314,18 @@ hr {
   margin-left: 6px;
   pointer-events: none;
 }
+.chart-validation-status {
+  color: $primary-font;
+  &.is-valid {
+    color: #25681a;
+  }
+  &.is-invalid {
+    color: #74011d;
+  }
+}
 .is-ppm {
   border-left: 6px solid $ppm !important;
-  .chartstring-type {
+  .chartstring-type:not(.chart-validation-status) {
     color: $ppm;
   }
   .unique-bg {
@@ -328,7 +337,7 @@ hr {
 }
 .is-gl {
   border-left: 6px solid $gl !important;
-  .chartstring-type {
+  .chartstring-type:not(.chart-validation-status) {
     color: $gl-text;
   }
   .unique-bg {

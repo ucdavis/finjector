@@ -25,10 +25,10 @@ $secondary-font: rgba(31, 31, 31, 0.7); //
 $tertiary-font: rgba(31, 31, 31, 0.48); //
 
 $gl: #d9a611;
-$gl-text: #775600;
+$gl-text: $primary-font;
 $ppm: $gunrock;
 
-$gl-bg: transparentize(#d9a611, 0.96);
+$gl-bg: transparentize($gl, 0.96);
 $ppm-bg: transparentize($gunrock, 0.96);
 
 $box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),

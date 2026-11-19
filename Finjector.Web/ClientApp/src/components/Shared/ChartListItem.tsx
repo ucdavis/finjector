@@ -2,25 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Coa, ChartType, Folder } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBan,
-  faBolt,
-  faCheck,
-  faQuestion,
-  faScroll,
-  faTriangleExclamation,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBolt, faScroll } from "@fortawesome/free-solid-svg-icons";
 import CopyToClipboardHover from "./CopyToClipboardHover";
 import usePopupStatus, { useIsVisible } from "../../util/customHooks";
 import ClickableListItem from "./ClickableListItem";
 import { useSegmentValidateQuery } from "../../queries/segmentQueries";
 
-const validationIcons = {
-  Invalid: faBan,
-  Unknown: faQuestion,
-  Warning: faTriangleExclamation,
-  Valid: faCheck,
-};
+import ChartValidationStatus, {
+  ChartValidationState,
+} from "./ChartValidationStatus";
 
 interface Props {
   chart: Coa;
@@ -53,7 +43,7 @@ const ChartListItem = ({
     shouldValidate
   );
 
-  const getValidationStatus = (): keyof typeof validationIcons | null => {
+  const getValidationStatus = (): ChartValidationState | null => {
     if (!isVisible) return null;
 
     if (chart.chartType === ChartType.INVALID) {
@@ -117,12 +107,6 @@ const ChartListItem = ({
       <div className="chartstring-row-main ms-2 me-auto">
         <div className="chartstring-type">
           <span>{chart.chartType}</span>
-          {validationStatus && (
-            <span>
-              <FontAwesomeIcon className="chartstring-validation-icon" icon={validationIcons[validationStatus]} />
-              {" "}{validationStatus}
-            </span>
-          )}
         </div>
         <div className="fw-bold "> {chart.name}</div>
         {!isInPopup && (
@@ -139,7 +123,10 @@ const ChartListItem = ({
           <span style={{ wordWrap: "break-word" }}>{chart.segmentString}</span>
         )}
       </div>
-      <div className="text-end chartstring-row-actions">
+      <div className="text-end chartstring-row-actions d-flex align-items-center gap-2">
+        {validationStatus && (
+          <ChartValidationStatus status={validationStatus} />
+        )}
         <Link
           aria-label={`Details for ${chart.name || chart.segmentString}`}
           to={`/teams/${folder.teamId}/folders/${folder.id}/details/${chart.id}/${chart.segmentString}`}
