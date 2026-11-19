@@ -352,6 +352,27 @@ hr {
   display: inline;
   overflow-wrap: anywhere;
 }
+.copy-value-button {
+  min-height: 24px;
+  min-width: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
 .copy-inline-button {
   min-width: 24px;
   min-height: 24px;
@@ -417,10 +438,12 @@ span.font-reg {
 }
 // Toastify
 .Toastify__toast-container.fin-notifications {
-  position: static;
-  transform: none;
-  width: min(100%, 40rem);
-  margin: 0 auto 1rem;
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(calc(100% - 2rem), 40rem);
+  margin: 0;
   padding: 0;
 }
 .fin-notifications .Toastify__close-button {

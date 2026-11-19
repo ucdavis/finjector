@@ -9,6 +9,7 @@ import { server } from "../../test/mocks/node";
 import userEvent from "@testing-library/user-event";
 import { HttpResponse, http } from "msw";
 import { fakeTeams, fakeFolders } from "../../test/mocks/mockData";
+import FinToastContainer from "../components/Shared/LoadingAndErrors/FinToastContainer";
 
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
@@ -79,9 +80,11 @@ describe("Landing", () => {
     const chartName = await screen.findByText("Chart 1");
     const row = within(chartName.closest("li")!);
     const copy = row.getByRole("button", { name: /^Copy .+ to clipboard$/ });
+    expect(copy.querySelector("svg")).toBeNull();
     copy.focus();
     await user.keyboard("{Enter}");
-    expect(await row.findByText("Copied to clipboard.")).toHaveAttribute("role", "status");
+    expect(await navigator.clipboard.readText()).toBe(copy.textContent?.replace(/^Copy | to clipboard$/g, ""));
+    expect(await screen.findByText("Copied to clipboard.")).toHaveAttribute("role", "status");
     expect(copy).toHaveFocus();
     expect(row.getByRole("link", { name: "Details for Chart 1" })).toBeInTheDocument();
   });
@@ -188,6 +191,7 @@ describe("Landing", () => {
 });
 const wrappedView = () => (
   <QueryClientProvider client={new QueryClient()}>
+    <FinToastContainer />
     <MemoryRouter initialEntries={[`/`]}>
       <Routes>
         <Route path="/" element={<Landing />} />

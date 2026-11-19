@@ -1,5 +1,5 @@
 import React from "react";
-import CopyToClipboardButton from "./CopyToClipboardButton";
+import { toast } from "react-toastify";
 
 interface CopyToClipboardProps {
   value: string;
@@ -12,18 +12,37 @@ const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
   children,
   id,
 }) => {
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      toast.success("Copied to clipboard.", {
+        role: "status",
+        autoClose: 3000,
+        icon: false,
+      });
+    } catch {
+      toast.error("Copy failed. Check your browser’s clipboard permissions.", {
+        role: "alert",
+        icon: false,
+      });
+    }
+  };
+
   return (
     <span className="copy-container-hover">
-      {children}
-      {value && (
-        <CopyToClipboardButton
-          id={`hover-${id}`}
-          compact
-          value={value}
-          aria-label={`Copy ${value} to clipboard`}
+      {value ? (
+        <button
+          type="button"
+          id={`copy-button-hover-${id}`}
+          className="copy-value-button"
+          onClick={handleCopy}
           title="Copy to clipboard"
-        />
-      )}
+        >
+          <span className="visually-hidden">Copy </span>
+          {children}
+          <span className="visually-hidden"> to clipboard</span>
+        </button>
+      ) : children}
     </span>
   );
 };

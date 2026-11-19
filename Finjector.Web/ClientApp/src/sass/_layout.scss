@@ -27,8 +27,7 @@ body {
 }
 .header {
   background-color: $primary-color;
-  background-image: linear-gradient(rgba(9, 30, 46, 0.62), rgba(9, 30, 46, 0.62)),
-    url("/media/gunrock_banner_final.svg");
+  background-image: url("/media/gunrock_banner_final.svg");
   background-size: cover;
   padding: 12px 0;
   margin-bottom: 2%;
@@ -54,7 +53,9 @@ body {
     }
   }
   .header-link {
-    padding-block: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background-color: rgba(0, 0, 0, 0.44);
+    border-radius: 0.25rem;
     color: #fff;
     &:hover, &[aria-current="page"] {
       text-decoration: underline;
