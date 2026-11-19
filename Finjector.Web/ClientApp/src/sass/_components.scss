@@ -452,8 +452,14 @@ span.font-reg {
   left: 50%;
   transform: translateX(-50%);
   width: min(calc(100% - 2rem), 40rem);
+  max-height: min(50vh, 18rem);
+  overflow-y: auto;
+  overflow-anchor: none;
   margin: 0;
   padding: 0;
+}
+.fin-notifications .Toastify__toast {
+  touch-action: pan-y;
 }
 .fin-notifications .Toastify__close-button {
   min-width: 32px;

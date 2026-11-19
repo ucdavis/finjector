@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   Highlighter,
   Menu,
@@ -95,7 +95,7 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
             results,
             {
               newSelectionPrefix, // we dont want to pass this to the menu or gives a warning
-              paginationText,
+              paginationText = "Show more folders",
               renderMenuItemChildren,
               ...menuProps
             },
@@ -112,7 +112,8 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
             const items = Object.keys(teamFolders)
               .sort()
               .map((teamName) => (
-                <div role="group" aria-label={teamName} key={teamName}>
+                // The typeahead scrolls each active option's immediate parent.
+                <Fragment key={teamName}>
                   <div className="dropdown-header" aria-hidden="true">
                     Team: <Highlighter search={text}>{teamName}</Highlighter>
                   </div>
@@ -134,7 +135,7 @@ const FolderSearch: React.FC<FolderSearchProps> = ({
                     index += 1;
                     return item;
                   })}
-                </div>
+                </Fragment>
               ));
 
             if (paginationOption) {

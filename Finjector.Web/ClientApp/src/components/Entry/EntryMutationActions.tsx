@@ -18,13 +18,14 @@ const landingPage = "/landing";
 interface Props {
   chartData: ChartData;
   savedChart: Coa;
+  originalChart?: Coa;
 }
 
 const EntryMutationActions = (props: Props) => {
   const navigate = useNavigate();
   const isInPopup = usePopupStatus();
 
-  const { chartData, savedChart } = props;
+  const { chartData, savedChart, originalChart } = props;
 
   const saveMutation = useSaveChart();
   const removeMutation = useRemoveChart();
@@ -72,11 +73,14 @@ const EntryMutationActions = (props: Props) => {
     });
   };
 
-  const remove = () => {
-    if (!window.confirm(`Remove the chart string "${savedChart.name}" from this folder?`)) {
+  const remove = (chart: Coa) => {
+    const folder = chart.folder
+      ? `"${chart.teamName} / ${chart.folder.name}"`
+      : "its saved folder";
+    if (!window.confirm(`Remove the chart string "${chart.name}" from ${folder}?`)) {
       return;
     }
-    removeMutation.mutate(props.savedChart, {
+    removeMutation.mutate(chart, {
       onSuccess: () => {
         addFinToast("success", "Chart string removed successfully.");
         navigate(landingPage);
@@ -121,11 +125,11 @@ const EntryMutationActions = (props: Props) => {
     // if we are coming from a saved chart string
     return (
       <div className="d-flex flex-wrap gap-2 justify-content-between">
-        {savedChart.canEdit && (
+        {originalChart?.canEdit && (
           <FinButton
             className="flex-fill"
             disabled={removeMutation.isPending || saveMutation.isPending}
-            onClick={remove}
+            onClick={() => remove(originalChart)}
             margin={false}
           >
             <FontAwesomeIcon icon={faTrash} />

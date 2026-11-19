@@ -1,7 +1,7 @@
 import React from "react";
 
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { describe, it, expect, vi } from "vitest";
 import { http, HttpResponse } from "msw";
@@ -1283,6 +1283,39 @@ describe("Team", () => {
       });
     });
     describe("delete team tests", () => {
+      it("keeps the dialog open until the delete request completes", async () => {
+        let finishRequest!: () => void;
+        const pending = new Promise<void>((resolve) => {
+          finishRequest = resolve;
+        });
+        server.use(
+          http.delete("/api/team/0", async () => {
+            await pending;
+            return new HttpResponse(null, { status: 204 });
+          })
+        );
+
+        const user = userEvent.setup();
+        render(wrappedView("0"));
+        await user.click(await screen.findByRole("button", { name: "Actions" }));
+        await user.click(screen.getByRole("button", { name: "Delete Team" }));
+        const dialog = await screen.findByRole("dialog", { name: "Delete Team" });
+        await user.click(screen.getByRole("button", { name: "Delete" }));
+
+        try {
+          expect(screen.getByRole("button", { name: "Cancel" })).toBeDisabled();
+          expect(screen.queryByRole("button", { name: "Close" })).toBeNull();
+          fireEvent.keyUp(dialog, { key: "Escape", keyCode: 27 });
+          await user.click(dialog);
+          await waitFor(() => expect(dialog).toHaveClass("show"));
+          await user.tab();
+          expect(document.activeElement).toHaveAttribute("id", dialog.getAttribute("aria-describedby"));
+        } finally {
+          finishRequest();
+        }
+        expect(await screen.findByText("Redirected to teams")).toBeInTheDocument();
+      });
+
       it("calls dialog box when delete team is clicked", async () => {
         const teamId = "0";
         const user = userEvent.setup();

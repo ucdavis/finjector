@@ -19,6 +19,7 @@ const LeaveTeamModal = (props: Props) => {
   const navigate = useNavigate();
 
   const leaveMutation = useLeaveTeamMutation();
+  const dismiss = leaveMutation.isPending ? undefined : closeModal;
 
   const handleLeave = () => {
     leaveMutation.mutate(props.teamId, {
@@ -34,7 +35,7 @@ const LeaveTeamModal = (props: Props) => {
     <>
       <Modal
         isOpen={isOpen}
-        toggle={closeModal}
+        toggle={dismiss}
         trapFocus
         onClosed={leaveMutation.reset}
         labelledBy="leave-team-title"
@@ -44,10 +45,13 @@ const LeaveTeamModal = (props: Props) => {
           "aria-describedby": "leave-team-description",
         }}
       >
-        <ModalHeader tag="h2" toggle={closeModal}>
+        <ModalHeader tag="h2" toggle={dismiss}>
           <span id="leave-team-title">Leave Team</span>
         </ModalHeader>
-        <ModalBody id="leave-team-description">
+        <ModalBody
+          id="leave-team-description"
+          tabIndex={leaveMutation.isPending ? 0 : undefined}
+        >
           Are you sure you want to leave this team?
           {isAdmin && (
             <p>

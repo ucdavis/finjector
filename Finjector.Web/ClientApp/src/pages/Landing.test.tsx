@@ -8,7 +8,7 @@ import { describe, it, expect } from "vitest";
 import { server } from "../../test/mocks/node";
 import userEvent from "@testing-library/user-event";
 import { HttpResponse, http } from "msw";
-import { fakeTeams, fakeFolders } from "../../test/mocks/mockData";
+import { fakeCharts, fakeTeams, fakeFolders } from "../../test/mocks/mockData";
 import FinToastContainer from "../components/Shared/LoadingAndErrors/FinToastContainer";
 
 beforeAll(() => server.listen());
@@ -83,8 +83,9 @@ describe("Landing", () => {
     expect(copy.querySelector("svg")).toBeNull();
     copy.focus();
     await user.keyboard("{Enter}");
-    expect(await navigator.clipboard.readText()).toBe(copy.textContent?.replace(/^Copy | to clipboard$/g, ""));
-    expect(await screen.findByText("Copied to clipboard.")).toHaveAttribute("role", "status");
+    expect(await navigator.clipboard.readText()).toBe(fakeCharts[1].segmentString);
+    const confirmation = await screen.findByText("Copied to clipboard.");
+    expect(confirmation.closest('[role="status"]')).toBeInTheDocument();
     expect(copy).toHaveFocus();
     expect(row.getByRole("link", { name: "Details for Chart 1" })).toBeInTheDocument();
   });

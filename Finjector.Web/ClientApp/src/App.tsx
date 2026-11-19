@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import {
   Navigate,
   Outlet,
@@ -6,6 +6,7 @@ import {
   createBrowserRouter,
   useLocation,
   useMatches,
+  useNavigationType,
 } from "react-router-dom";
 
 import { useUserInfoQuery } from "./queries/userQueries";
@@ -42,19 +43,23 @@ const RedirectHome = () => <Navigate to="/" />;
 
 function Layout({ showNavigation = true }) {
   const { pathname } = useLocation();
+  const navigationType = useNavigationType();
   const matches = useMatches();
   const handle = matches[matches.length - 1].handle as { title?: string } | undefined;
   const title = handle?.title || "My Chart Strings";
   const mainRef = useRef<HTMLElement>(null);
   const previousPath = useRef(pathname);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.title = `${title} | Finjector`;
     if (previousPath.current !== pathname) {
-      mainRef.current?.focus();
+      mainRef.current?.focus({ preventScroll: true });
+      if (navigationType !== "POP") {
+        window.scrollTo(0, 0);
+      }
       previousPath.current = pathname;
     }
-  }, [pathname, title]);
+  }, [navigationType, pathname, title]);
 
   return (
     <>

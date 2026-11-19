@@ -18,6 +18,7 @@ const DeleteFolderModal = (props: Props) => {
   const navigate = useNavigate();
 
   const deleteMutation = useDeleteFolderMutation();
+  const dismiss = deleteMutation.isPending ? undefined : closeModal;
 
   const handleDelete = () => {
     deleteMutation.mutate(props.folderId, {
@@ -34,7 +35,7 @@ const DeleteFolderModal = (props: Props) => {
   return (
     <Modal
       isOpen={isOpen}
-      toggle={closeModal}
+      toggle={dismiss}
       trapFocus
       onClosed={deleteMutation.reset}
       labelledBy="delete-folder-title"
@@ -44,10 +45,13 @@ const DeleteFolderModal = (props: Props) => {
         "aria-describedby": "delete-folder-description",
       }}
     >
-      <ModalHeader tag="h2" toggle={closeModal}>
+      <ModalHeader tag="h2" toggle={dismiss}>
         <span id="delete-folder-title">Delete Folder</span>
       </ModalHeader>
-      <ModalBody id="delete-folder-description">
+      <ModalBody
+        id="delete-folder-description"
+        tabIndex={deleteMutation.isPending ? 0 : undefined}
+      >
         Are you sure you want to delete this folder? This folder, and any Chart
         Strings within it will be removed.
         {deleteMutation.isError && (
