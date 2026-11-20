@@ -10,11 +10,13 @@ interface Props {
 const NameEntry = (props: Props) => {
   return (
     <>
-      <h2>Name</h2>
+      <h2 id="chart-name-label">Name (required)</h2>
       <div className="chart-type">
-        <p>Give your chart string a name to remember it by</p>
+        <p id="chart-name-help">Give your chart string a name to remember it by.</p>
         <Input
           required
+          aria-labelledby="chart-name-label"
+          aria-describedby="chart-name-help"
           type="text"
           className="form-control"
           valid={props.chart.name.length > 0}

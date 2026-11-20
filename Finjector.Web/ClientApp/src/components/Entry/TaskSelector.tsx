@@ -3,7 +3,11 @@ import React from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { useTaskQuery } from "../../queries/segmentQueries";
 import { SegmentData } from "../../types";
-import { getSegmentNameDisplay } from "./SegmentSearch";
+import {
+  getSegmentNameDisplay,
+  renderSearchInput,
+  renderSegmentMenu,
+} from "./SegmentSearch";
 
 interface Props {
   segmentData: SegmentData; // task segment
@@ -65,10 +69,17 @@ const TaskSelector = (props: Props) => {
 
   return (
     <div className="mb-3 col-sm-6">
-      <label className="form-label">Task</label>
+      <label className="form-label" htmlFor="task-input">
+        Task
+      </label>
       <Typeahead
         key={props.segmentDependency.code}
         id="task-selector"
+        inputProps={{
+          id: "task-input",
+          "aria-describedby": "task-help",
+        }}
+        renderInput={renderSearchInput}
         labelKey="code"
         onChange={handleSelected}
         options={taskQuery.data || []}
@@ -76,14 +87,15 @@ const TaskSelector = (props: Props) => {
         placeholder="Choose a task..."
         selected={props.segmentData.code ? [props.segmentData] : []}
         disabled={!props.segmentDependency?.isValid}
-        renderMenuItemChildren={(option: any) => (
-          <>
-            <h5>{option.code}</h5>
-            <span>{option.name}</span>
-          </>
-        )}
+        renderMenu={renderSegmentMenu}
       />
-      <div className="form-text">{segmentNameDisplay}</div>
+      <div id="task-help" className="form-text">
+        {!props.segmentDependency.isValid
+          ? "Choose a project to see its tasks."
+          : taskQuery.isError
+          ? "Unable to load tasks for this project. Try again."
+          : segmentNameDisplay}
+      </div>
     </div>
   );
 };

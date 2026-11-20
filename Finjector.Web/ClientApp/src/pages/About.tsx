@@ -8,7 +8,7 @@ const About = () => {
 
   // wait until we get user info to render
   if (userInfoQuery.isLoading) {
-    return <div>Loading...</div>;
+    return <div role="status">Loading...</div>;
   }
 
   return (
@@ -29,7 +29,6 @@ const About = () => {
             <br />
             <code>0000000000-000000-0000000-000000</code>
           </p>
-          <p></p>
           <p>
             Chart strings can be either
             <span className="gl-color fw-bold"> GL </span>
@@ -62,29 +61,25 @@ const About = () => {
             <div className="card-body">
               <p>
                 This resource is a good place to learn about Aggie Enterprise
-                and the segments that make up a chart string:
-                <p>
-                  <a
-                    href="https://financeandbusiness.ucdavis.edu/finance/chart-of-accounts/redesign"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Segment Design & Definitions
-                  </a>
-                </p>
+                and the segments that make up a chart string:{" "}
+                <a
+                  href="https://financeandbusiness.ucdavis.edu/finance/chart-of-accounts/redesign"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Segment Design &amp; Definitions
+                </a>
               </p>
               <p>
                 If you have questions about chart string validation errors you
-                may submit a help ticket to Aggie Enterprise here:
-                <p>
-                  <a
-                    target="_blank"
-                    rel="noreferrer"
-                    href="https://ucdavisit.service-now.com/servicehub?id=ucd_cat_item&sys_id=69aaee7a1bf7291094087bff034bcb48"
-                  >
-                    Aggie Enterprise Help Form
-                  </a>
-                </p>
+                may submit a help ticket using the{" "}
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://ucdavisit.service-now.com/servicehub?id=ucd_cat_item&sys_id=69aaee7a1bf7291094087bff034bcb48"
+                >
+                  Aggie Enterprise Help Form
+                </a>.
               </p>
               <p>
                 <span className="fw-bold">Note!</span> They do not run Finjector
@@ -116,43 +111,38 @@ const About = () => {
                 string from the campus data source.
               </p>
               <p>
-                Welcome:{" "}
                 <a
                   target="_blank"
                   rel="noreferrer"
                   href="https://computing.caes.ucdavis.edu/documentation/finjector/welcome"
                 >
-                  https://computing.caes.ucdavis.edu/documentation/finjector/welcome
+                  Welcome to Finjector
                 </a>
               </p>
               <p>
-                FAQ:{" "}
                 <a
                   target="_blank"
                   rel="noreferrer"
                   href="https://computing.caes.ucdavis.edu/documentation/finjector/faq"
                 >
-                  https://computing.caes.ucdavis.edu/documentation/finjector/faq
+                  Frequently asked questions
                 </a>
               </p>
               <p>
-                Documentation:{" "}
                 <a
                   target="_blank"
                   rel="noreferrer"
                   href="https://computing.caes.ucdavis.edu/documentation/finjector"
                 >
-                  https://computing.caes.ucdavis.edu/documentation/finjector
+                  Finjector documentation
                 </a>
               </p>
               <p>
-                You can enter feedback here:{" "}
-                <a href="https://feedback.ucdavis.edu/app/finjector">here</a>
+                <a href="https://feedback.ucdavis.edu/app/finjector">Give feedback on Finjector</a>
               </p>
               <p>
-                You can submit a support ticket:{" "}
                 <a href="https://caeshelp.ucdavis.edu/?appname=Finjector">
-                  here
+                  Submit a Finjector support ticket
                 </a>
               </p>
             </div>

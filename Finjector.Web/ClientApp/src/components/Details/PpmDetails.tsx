@@ -16,27 +16,26 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
           .filter((role) => role.type === "P")
           .map((role, i) => {
             return (
-              <div key={i}>
-                <DetailsRow
-                  headerColText={
-                    role.roleName.startsWith("Project")
-                      ? role.roleName
-                      : `Project ${role.roleName}`
-                  }
-                  column2={role.approvers.map((approver, j) => {
-                    return (
-                      <div key={j}>
-                        <CopyToClipboardHover
-                          value={approver.email ?? ""}
-                          id={`approver-${i}-${j}`}
-                        >
-                          {renderNameAndEmail(approver.name, approver.email)}
-                        </CopyToClipboardHover>
-                      </div>
-                    );
-                  })}
-                />
-              </div>
+              <DetailsRow
+                key={i}
+                headerColText={
+                  role.roleName.startsWith("Project")
+                    ? role.roleName
+                    : `Project ${role.roleName}`
+                }
+                column2={role.approvers.map((approver, j) => {
+                  return (
+                    <div key={j}>
+                      <CopyToClipboardHover
+                        value={approver.email ?? ""}
+                        id={`project-approver-${i}-${j}`}
+                      >
+                        {renderNameAndEmail(approver.name, approver.email)}
+                      </CopyToClipboardHover>
+                    </div>
+                  );
+                })}
+              />
             );
           })}
       {details.walterLink && (
@@ -174,23 +173,22 @@ const PpmDetailsPage: React.FC<PpmDetailsProps> = ({ details }) => {
           .filter((role) => role.type === "A")
           .map((role, i) => {
             return (
-              <div key={i}>
-                <DetailsRow
-                  headerColText={`Award ${role.roleName}`}
-                  column2={role.approvers.map((approver, j) => {
-                    return (
-                      <div key={j}>
-                        <CopyToClipboardHover
-                          value={approver.email ?? ""}
-                          id={`approver-${i}-${j}`}
-                        >
-                          {renderNameAndEmail(approver.name, approver.email)}
-                        </CopyToClipboardHover>
-                      </div>
-                    );
-                  })}
-                />
-              </div>
+              <DetailsRow
+                key={i}
+                headerColText={`Award ${role.roleName}`}
+                column2={role.approvers.map((approver, j) => {
+                  return (
+                    <div key={j}>
+                      <CopyToClipboardHover
+                        value={approver.email ?? ""}
+                        id={`award-approver-${i}-${j}`}
+                      >
+                        {renderNameAndEmail(approver.name, approver.email)}
+                      </CopyToClipboardHover>
+                    </div>
+                  );
+                })}
+              />
             );
           })}
       {details.awardInfo && (

@@ -58,33 +58,37 @@ const Paste = () => {
           <input
             className="form-control"
             id="coa-input"
+            aria-invalid={!!error}
+            aria-describedby={
+              error ? "coa-error" : isPoetSegmentString(value) ? "coa-conversion" : undefined
+            }
             value={coa}
             onChange={(e) => setCoa(e.target.value)}
             placeholder="ex: 1311-63031-9300531-508210-44-G29-CM00000039-510139-0000-000000-000000"
           ></input>
         </div>
+        {error && (
+          <div id="coa-error" className="alert alert-danger" role="alert">
+            {error}
+          </div>
+        )}
+        {isPoetSegmentString(value) && (
+          <div id="coa-conversion" className="alert alert-info" role="status">
+            This appears to be a POET segment string. We can try importing and
+            converting it to a PPM string.
+          </div>
+        )}
+        <div className="d-grid">
+          <FinButton
+            className="btn btn-primary"
+            disabled={error !== "" || value === ""}
+            type="submit"
+            margin={false}
+          >
+            NEXT
+          </FinButton>
+        </div>
       </form>
-      {error && (
-        <div className={`alert alert-danger`} role="alert">
-          {error}
-        </div>
-      )}
-      {isPoetSegmentString(value) && (
-        <div className={`alert alert-info`} role="alert">
-          This appears to be a POET segment string. We can try importing and
-          converting it to a PPM string.
-        </div>
-      )}
-      <div className="d-grid">
-        <FinButton
-          className="btn btn-primary"
-          disabled={error !== "" || value === ""}
-          onClick={handleSubmit}
-          margin={false}
-        >
-          NEXT
-        </FinButton>
-      </div>
     </div>
   );
 };

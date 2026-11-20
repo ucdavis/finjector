@@ -216,7 +216,7 @@ const PpmEntry = (props: Props) => {
   return (
     <div className="form-data-entry">
       {projectImportError && (
-        <div className="alert alert-danger" role="alert">
+        <div id="project-import-error" className="alert alert-danger" role="alert">
           {projectImportError}
         </div>
       )}
@@ -224,6 +224,7 @@ const PpmEntry = (props: Props) => {
         <SegmentSearch
           chartType={ChartType.PPM}
           segmentData={props.segments.project}
+          errorId={projectImportError ? "project-import-error" : undefined}
           setSegmentValue={updateSegment}
         ></SegmentSearch>
 

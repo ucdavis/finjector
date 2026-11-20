@@ -28,11 +28,11 @@ const AdminList: React.FC = () => {
       <div>
         <PageTitle>
           <div className="col-12 col-md-3">
-            <h4>
+            <p className="h5 mb-1">
               {queryStatus.isLoading
                 ? "Scribbling in Team Admins..."
                 : "Error loading Team Admins"}
-            </h4>
+            </p>
             <h1>View Admins</h1>
           </div>
         </PageTitle>
@@ -48,33 +48,41 @@ const AdminList: React.FC = () => {
     <div>
       <PageTitle>
         <div className="col-12 col-md-3">
-          <h4>{resourceName}</h4>
+          <p className="h5 mb-1">{resourceName}</p>
           <h1>View Admins</h1>
         </div>
       </PageTitle>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>User Name</th>
-            <th>User Email</th>
-            <th>Level</th>
-            <th>Role Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {membershipQuery.data &&
-            membershipQuery.data
-              .filter((m) => m.roleName === "Admin")
-              .map((member) => (
-                <tr key={`${member.userEmail}-${member.level}`}>
-                  <td>{member.userName}</td>
-                  <td>{member.userEmail}</td>
-                  <td>{member.level}</td>
-                  <td>{member.roleName}</td>
-                </tr>
-              ))}
-        </tbody>
-      </table>
+      <div
+        className="table-responsive"
+        role="region"
+        aria-label="Administrators"
+        tabIndex={0}
+      >
+        <table className="table">
+          <caption className="visually-hidden">Administrators</caption>
+          <thead>
+            <tr>
+              <th scope="col">User Name</th>
+              <th scope="col">User Email</th>
+              <th scope="col">Level</th>
+              <th scope="col">Role Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {membershipQuery.data &&
+              membershipQuery.data
+                .filter((m) => m.roleName === "Admin")
+                .map((member) => (
+                  <tr key={`${member.userEmail}-${member.level}`}>
+                    <td>{member.userName}</td>
+                    <td>{member.userEmail}</td>
+                    <td>{member.level}</td>
+                    <td>{member.roleName}</td>
+                  </tr>
+                ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

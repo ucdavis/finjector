@@ -23,6 +23,10 @@ const FinFunError: React.FC = () => {
       <p>
         Congratulations, you found an error that isn't supposed to happen. Lucky
         you! Here's a magic trick as your reward:
+        <span className="visually-hidden">
+          {" "}A wizard waves a wand at a frog, gets an unexpected pile of
+          poop, then crowns it and blows a kiss.
+        </span>
       </p>
       <div className="row">
         <div className="col-1">

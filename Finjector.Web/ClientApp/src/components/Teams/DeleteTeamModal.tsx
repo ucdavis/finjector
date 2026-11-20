@@ -18,6 +18,7 @@ const DeleteTeamModal = (props: Props) => {
   const navigate = useNavigate();
 
   const deleteMutation = useDeleteTeamMutation();
+  const dismiss = deleteMutation.isPending ? undefined : closeModal;
 
   const handleDelete = () => {
     deleteMutation.mutate(props.teamId, {
@@ -26,21 +27,37 @@ const DeleteTeamModal = (props: Props) => {
         navigate("/teams");
         closeModal();
       },
-      onError: (error) => {
-        addFinToast("error", "Error deleting team.");
-      },
     });
   };
 
   return (
     <>
-      <Modal isOpen={isOpen} toggle={closeModal}>
-        <ModalHeader tag="h2" toggle={closeModal}>
-          Delete Team
+      <Modal
+        isOpen={isOpen}
+        toggle={dismiss}
+        trapFocus
+        onClosed={deleteMutation.reset}
+        labelledBy="delete-team-title"
+        modalTransition={{
+          timeout: 300,
+          "aria-modal": true,
+          "aria-describedby": "delete-team-description",
+        }}
+      >
+        <ModalHeader tag="h2" toggle={dismiss}>
+          <span id="delete-team-title">Delete Team</span>
         </ModalHeader>
-        <ModalBody>
+        <ModalBody
+          id="delete-team-description"
+          tabIndex={deleteMutation.isPending ? 0 : undefined}
+        >
           Are you sure you want to delete this team? This team, any folders
           within it will be removed.
+          {deleteMutation.isError && (
+            <p className="alert alert-danger mt-2 mb-0" role="alert">
+              Error deleting team.
+            </p>
+          )}
         </ModalBody>
         <ModalFooter>
           <FinButton

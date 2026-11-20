@@ -2,13 +2,14 @@ import React from "react";
 
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Landing from "./Landing";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { describe, it, expect } from "vitest";
 import { server } from "../../test/mocks/node";
 import userEvent from "@testing-library/user-event";
 import { HttpResponse, http } from "msw";
-import { fakeTeams, fakeFolders } from "../../test/mocks/mockData";
+import { fakeCharts, fakeTeams, fakeFolders } from "../../test/mocks/mockData";
+import FinToastContainer from "../components/Shared/LoadingAndErrors/FinToastContainer";
 
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
@@ -71,6 +72,22 @@ describe("Landing", () => {
       expect(screen.getByText("Team 0")).toBeInTheDocument();
       expect(screen.getByText("Folder 0")).toBeInTheDocument();
     });
+  });
+
+  it("copies a chart with the keyboard while keeping the list open", async () => {
+    const user = userEvent.setup();
+    render(wrappedView());
+    const chartName = await screen.findByText("Chart 1");
+    const row = within(chartName.closest("li")!);
+    const copy = row.getByRole("button", { name: /^Copy .+ to clipboard$/ });
+    expect(copy.querySelector("svg")).toBeNull();
+    copy.focus();
+    await user.keyboard("{Enter}");
+    expect(await navigator.clipboard.readText()).toBe(fakeCharts[1].segmentString);
+    const confirmation = await screen.findByText("Copied to clipboard.");
+    expect(confirmation.closest('[role="status"]')).toBeInTheDocument();
+    expect(copy).toHaveFocus();
+    expect(row.getByRole("link", { name: "Details for Chart 1" })).toBeInTheDocument();
   });
 
   it("Example to override what the mock is returning", async () => {
@@ -175,6 +192,7 @@ describe("Landing", () => {
 });
 const wrappedView = () => (
   <QueryClientProvider client={new QueryClient()}>
+    <FinToastContainer />
     <MemoryRouter initialEntries={[`/`]}>
       <Routes>
         <Route path="/" element={<Landing />} />

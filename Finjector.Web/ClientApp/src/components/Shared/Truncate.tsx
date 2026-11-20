@@ -22,15 +22,15 @@ const Truncate: React.FC<TruncateProps> = ({ maxLength = 80, value = "" }) => {
   };
 
   return (
-    <span
+    <button
+      type="button"
+      aria-expanded={expanded}
+      className="border-0 bg-transparent p-0 text-start text-decoration-underline"
       onClick={handleClick}
-      style={{
-        cursor: "pointer",
-      }}
     >
       {truncatedText}
       {!expanded && "..."}
-    </span>
+    </button>
   );
 };
 

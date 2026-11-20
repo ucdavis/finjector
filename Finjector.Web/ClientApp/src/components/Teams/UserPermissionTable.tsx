@@ -27,38 +27,46 @@ const UserPermissionTable: React.FC<UserPermissionTableProps> = ({
   if (queryStatusComponent) return <>{queryStatusComponent}</>;
 
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>User Name</th>
-          <th>User Email</th>
-          <th>Level</th>
-          <th>Role Name</th>
-          <th>Remove Role</th>
-        </tr>
-      </thead>
-      <tbody>
-        {membershipQueryData &&
-          membershipQueryData.map((member) => (
-            <tr key={`${member.userEmail}-${member.level}`}>
-              <td>{member.userName}</td>
-              <td>{member.userEmail}</td>
-              <td>{member.level}</td>
-              <td>{member.roleName}</td>
-              <td>
-                {resourceType === member.level && (
-                  <RemoveUserPermission
-                    key={`${member.userName}-${member.level}`}
-                    resourceId={resourceId}
-                    resourceType={resourceType}
-                    userEmail={member.userEmail}
-                  />
-                )}
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
+    <div
+      className="table-responsive"
+      role="region"
+      aria-label="User permissions"
+      tabIndex={0}
+    >
+      <table className="table">
+        <caption className="visually-hidden">User permissions</caption>
+        <thead>
+          <tr>
+            <th scope="col">User Name</th>
+            <th scope="col">User Email</th>
+            <th scope="col">Level</th>
+            <th scope="col">Role Name</th>
+            <th scope="col">Remove Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          {membershipQueryData &&
+            membershipQueryData.map((member) => (
+              <tr key={`${member.userEmail}-${member.level}`}>
+                <td>{member.userName}</td>
+                <td>{member.userEmail}</td>
+                <td>{member.level}</td>
+                <td>{member.roleName}</td>
+                <td>
+                  {resourceType === member.level && (
+                    <RemoveUserPermission
+                      key={`${member.userName}-${member.level}`}
+                      resourceId={resourceId}
+                      resourceType={resourceType}
+                      userEmail={member.userEmail}
+                    />
+                  )}
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

@@ -13,7 +13,7 @@ body {
 
 .container {
   padding: 0;
-  width: 96%;
+  width: calc(100% - 2rem);
   max-width: 1440px;
   @include breakpoint(sm) {
     width: 92%;
@@ -26,31 +26,62 @@ body {
   }
 }
 .header {
-    background-color: $primary-color;
-    background-image: url("https://finjector.ucdavis.edu/media/gunrock_banner_final.svg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 12px 0;
-    margin-bottom: 2%;
+  background-color: $primary-color;
+  background-image: url("/media/gunrock_banner_final.svg");
+  background-size: cover;
+  padding: 12px 0;
+  margin-bottom: 2%;
 
-    a {
-        text-decoration: none;
-        border-bottom: none !important;
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font: 1.3rem $sans-reg;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08rem;
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    padding: 0.375rem;
+    background-color: #fff;
+    border-radius: 0.625rem;
+    @media (max-width: 24rem) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      width: 100%;
     }
-
-    h1 {
-        font-size: 1.3rem;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-family: $sans-reg;
-        color: #fff;
-        margin-bottom: 0;
-        letter-spacing: 0.08rem;
-
-        img {
-            margin-right: 4px;
-        }
+  }
+  .header-link {
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.25rem;
+    color: $bodega;
+    text-align: center;
+    text-underline-offset: 0.2em;
+    &:hover {
+      background-color: mix($bodega, #fff, 8%);
+      text-decoration: underline;
     }
+    &[aria-current="page"] {
+      text-decoration: underline;
+      text-decoration-thickness: 0.15em;
+    }
+  }
+}
+
+.skip-link:focus {
+  position: absolute;
+  z-index: 10;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #fff;
+}
+main {
+  overflow-wrap: anywhere;
 }
 // nav
 .simple-nav {

@@ -18,11 +18,11 @@ const ImportListFolderRow = (props: ImportListFolderRowProps) => {
   };
 
   return (
-    <div className="import-folder-row d-flex align-items-center justify-content-between">
-      <div className="col-7">
+    <div className="import-folder-row d-flex flex-wrap align-items-center">
+      <div className="col-12 col-md-7 text-break">
         <h3 className="mb-0 ms-2">{props.folder.name}</h3>
       </div>
-      <div className="col-2">
+      <div className="col-4 col-md-2">
         <div className="stat-icon">
           <FontAwesomeIcon
             title="Chart string count in folder"
@@ -31,8 +31,12 @@ const ImportListFolderRow = (props: ImportListFolderRowProps) => {
           {props.folder.coas.length}
         </div>
       </div>
-      <div className="col-3 text-end">
-        <FinButton className="ms-2 btn-borderless" onClick={importChartStrings}>
+      <div className="col-8 col-md-3 text-end">
+        <FinButton
+          className="ms-2 btn-borderless"
+          aria-label={`Import Folder: ${props.folder.name}`}
+          onClick={importChartStrings}
+        >
           <FontAwesomeIcon icon={faFileExport} />
           Import Folder
         </FinButton>

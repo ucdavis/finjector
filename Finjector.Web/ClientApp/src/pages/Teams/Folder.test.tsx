@@ -1529,10 +1529,7 @@ describe("Folder", () => {
         screen.getByRole("checkbox", { name: /select chart 1/i })
       ).toBeChecked();
       expect(visibleSelectionCheckbox).not.toBeChecked();
-      expect(visibleSelectionCheckbox).not.toHaveProperty(
-        "indeterminate",
-        true
-      );
+      expect(visibleSelectionCheckbox).toBePartiallyChecked();
     });
 
     it("unselects filtered visible chart strings with the top checkbox", async () => {
@@ -1855,6 +1852,11 @@ describe("Folder", () => {
           });
           await user.click(deleteButton);
           await waitFor(() => {
+            const dialog = screen.getByRole("dialog", { name: "Delete Folder" });
+            expect(dialog).toHaveAttribute("aria-modal", "true");
+            expect(dialog).toHaveAccessibleDescription(
+              /are you sure you want to delete this folder/i
+            );
             expect(
               screen.getByRole("heading", {
                 name: /delete folder/i,
@@ -2046,7 +2048,7 @@ describe("Folder", () => {
         });
       });
       describe("can't delete folder", () => {
-        it("generates an error toast when delete folder fails", async () => {
+        it("announces an error in the dialog when delete folder fails", async () => {
           //this one needs to be moved outside the describe block because it uses a different folder
           const teamId = "0";
           const folderId = "999"; // error testing
@@ -2101,8 +2103,7 @@ describe("Folder", () => {
           });
           await user.click(deleteFolderButton);
           await waitFor(() => {
-            expect(addFinToast).toBeCalledWith(
-              "error",
+            expect(screen.getByRole("alert")).toHaveTextContent(
               "Error deleting folder."
             );
           });
@@ -2355,7 +2356,7 @@ describe("Folder", () => {
           expect(screen.getByText("Redirected to teams")).toBeInTheDocument();
         });
       });
-      it("generates an error toast when leave folder fails", async () => {
+      it("announces an error in the dialog when leave folder fails", async () => {
         const teamId = "0";
         const folderId = "998"; // error testing
         const user = userEvent.setup();
@@ -2404,7 +2405,7 @@ describe("Folder", () => {
         });
         await user.click(leaveFolderButton);
         await waitFor(() => {
-          expect(addFinToast).toBeCalledWith("error", "Error leaving folder.");
+          expect(screen.getByRole("alert")).toHaveTextContent("Error leaving folder.");
         });
       });
     });

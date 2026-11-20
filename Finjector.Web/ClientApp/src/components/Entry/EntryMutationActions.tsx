@@ -18,13 +18,14 @@ const landingPage = "/landing";
 interface Props {
   chartData: ChartData;
   savedChart: Coa;
+  originalChart?: Coa;
 }
 
 const EntryMutationActions = (props: Props) => {
   const navigate = useNavigate();
   const isInPopup = usePopupStatus();
 
-  const { chartData, savedChart } = props;
+  const { chartData, savedChart, originalChart } = props;
 
   const saveMutation = useSaveChart();
   const removeMutation = useRemoveChart();
@@ -72,8 +73,14 @@ const EntryMutationActions = (props: Props) => {
     });
   };
 
-  const remove = () => {
-    removeMutation.mutate(props.savedChart, {
+  const remove = (chart: Coa) => {
+    const folder = chart.folder
+      ? `"${chart.teamName} / ${chart.folder.name}"`
+      : "its saved folder";
+    if (!window.confirm(`Remove the chart string "${chart.name}" from ${folder}?`)) {
+      return;
+    }
+    removeMutation.mutate(chart, {
       onSuccess: () => {
         addFinToast("success", "Chart string removed successfully.");
         navigate(landingPage);
@@ -117,12 +124,12 @@ const EntryMutationActions = (props: Props) => {
   if (savedChart.id) {
     // if we are coming from a saved chart string
     return (
-      <div className="d-flex justify-content-between">
-        {savedChart.canEdit && (
+      <div className="d-flex flex-wrap gap-2 justify-content-between">
+        {originalChart?.canEdit && (
           <FinButton
             className="flex-fill"
             disabled={removeMutation.isPending || saveMutation.isPending}
-            onClick={remove}
+            onClick={() => remove(originalChart)}
             margin={false}
           >
             <FontAwesomeIcon icon={faTrash} />
@@ -137,7 +144,7 @@ const EntryMutationActions = (props: Props) => {
             removeMutation.isPending
           }
           onClick={copy}
-          margin={savedChart.canEdit} // only have a margin if it is one of multiple buttons
+          margin={false}
         >
           <FontAwesomeIcon icon={faClone} />
           Duplicate
@@ -151,6 +158,7 @@ const EntryMutationActions = (props: Props) => {
               removeMutation.isPending
             }
             onClick={save}
+            margin={false}
           >
             <FontAwesomeIcon icon={faBookmark} />
             Save
@@ -160,6 +168,7 @@ const EntryMutationActions = (props: Props) => {
           <FinButton
             className="flex-fill"
             onClick={use}
+            margin={false}
             // it looks ugly and is confusing to press "use" when another action is in process
             // but i think since Use is our main action, we should allow it if another action is hanging
             // disabled={saveMutation.isPending || removeMutation.isPending}

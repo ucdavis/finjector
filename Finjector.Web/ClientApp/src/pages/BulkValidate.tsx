@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Badge } from "reactstrap";
+import ChartValidationStatus, {
+  ChartValidationState,
+} from "../components/Shared/ChartValidationStatus";
 import FinButton from "../components/Shared/FinButton";
 import PageTitle from "../components/Shared/Layout/PageTitle";
 import {
@@ -8,6 +10,11 @@ import {
   useValidateBulkChartsMutation,
 } from "../queries/bulkQueries";
 import FinLoader from "../components/Shared/LoadingAndErrors/FinLoader";
+
+const getValidationStatus = (result: ChartValidationResult): ChartValidationState => {
+  if (!result.isValid) return "Invalid";
+  return result.isWarning ? "Warning" : "Valid";
+};
 
 const BulkValidate = () => {
   const [chartStrings, setChartStrings] = useState<string>("");
@@ -21,38 +28,14 @@ const BulkValidate = () => {
     validateMutation.mutate(chartStrings);
   };
 
-  const getIconForResult = (result: ChartValidationResult) => {
-    if (!result.isValid) {
-      return (
-        <Badge color="danger" pill={true}>
-          Invalid
-        </Badge>
-      );
-    }
-    if (result.isWarning) {
-      return (
-        <Badge color="warning" pill={true}>
-          Warning
-        </Badge>
-      );
-    }
-    return (
-      <Badge color="success" pill={true}>
-        Valid
-      </Badge>
-    );
-  };
-
   return (
     <div className="main">
       <PageTitle title="Bulk Chart String Validation" />
 
       <div className="mb-3">
         <label htmlFor="chart-strings-input" className="form-label">
-          <p>
-            Paste in chart strings separated by commas, spaces, or newlines
-            (maximum 200):
-          </p>
+          Paste in chart strings separated by commas, spaces, or newlines
+          (maximum 200)
         </label>
         <textarea
           className="form-control"
@@ -75,6 +58,11 @@ const BulkValidate = () => {
 
       {validateMutation.isPending && <FinLoader />}
 
+      <div role="status" className="visually-hidden">
+        {validateMutation.isSuccess &&
+          `Validation complete. Results for ${validateMutation.data.length} chart strings are available below.`}
+      </div>
+
       {validateMutation.isError && (
         <div className="alert alert-danger mt-3" role="alert">
           {validateMutation.error?.message ||
@@ -84,19 +72,21 @@ const BulkValidate = () => {
 
       {validateMutation.isSuccess && validateMutation.data && (
         <div className="mt-4">
-          <h4>Validation Results</h4>
-          <table className="table table-striped">
+          <h2 id="validation-results-heading">Validation Results</h2>
+          <table className="table table-striped text-break" aria-labelledby="validation-results-heading">
             <thead>
               <tr>
-                <th>Status</th>
-                <th>Chart String</th>
-                <th>Message</th>
+                <th scope="col">Status</th>
+                <th scope="col">Chart String</th>
+                <th scope="col">Message</th>
               </tr>
             </thead>
             <tbody>
               {validateMutation.data.map((result, index) => (
                 <tr key={index}>
-                  <td>{getIconForResult(result)}</td>
+                  <td>
+                    <ChartValidationStatus status={getValidationStatus(result)} />
+                  </td>
                   <td>
                     <code>
                       <Link

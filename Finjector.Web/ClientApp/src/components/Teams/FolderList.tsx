@@ -37,7 +37,7 @@ const FolderList: React.FC<Props> = ({ teamModel, filter, queryStatus }) => {
     return f.folder.name.toLowerCase().includes(filterLowercase);
   });
 
-  return (
+  const list = (
     <ul className="list-group">
       {filteredFolderInfo.map((folderInfo) => {
         const url = `/teams/${teamModel.team.id}/folders/${folderInfo.folder.id}`;
@@ -47,16 +47,16 @@ const FolderList: React.FC<Props> = ({ teamModel, filter, queryStatus }) => {
             key={folderInfo.folder.id}
             url={url}
           >
-            <div className="fin-info d-flex justify-content-between align-items-center">
-              <div className="col-8 ms-2 me-auto">
-                <h3 className="row-title">{folderInfo.folder.name}</h3>
+            <div className="fin-info d-flex flex-wrap align-items-center">
+              <div className="col-12 col-md-8 px-2 text-break">
+                <h2 className="row-title h5">{folderInfo.folder.name}</h2>
                 <p className="row-subtitle">
                   <span style={{ wordWrap: "break-word" }}>
                     {folderInfo.folder.description}
                   </span>
                 </p>
               </div>
-              <div className="col-4 d-flex justify-content-end">
+              <div className="col-12 col-md-4 d-flex flex-wrap justify-content-md-end mt-2 mt-md-0">
                 <div className="stat-icon">
                   <FontAwesomeIcon
                     title="User count in folder"
@@ -77,6 +77,7 @@ const FolderList: React.FC<Props> = ({ teamModel, filter, queryStatus }) => {
               <Link
                 className="bold-link me-3 row-link-selected-action"
                 to={url}
+                aria-label={`Go to Folder: ${folderInfo.folder.name}`}
               >
                 <FontAwesomeIcon icon={faFolder} />
                 Go to Folder
@@ -86,6 +87,17 @@ const FolderList: React.FC<Props> = ({ teamModel, filter, queryStatus }) => {
         );
       })}
     </ul>
+  );
+
+  return (
+    <>
+      <div role="status">
+        {filter && (filteredFolderInfo.length
+          ? `Matching folders: ${filteredFolderInfo.length}`
+          : "No folders match your search.")}
+      </div>
+      {list}
+    </>
   );
 };
 

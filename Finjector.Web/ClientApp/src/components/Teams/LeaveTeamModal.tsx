@@ -19,6 +19,7 @@ const LeaveTeamModal = (props: Props) => {
   const navigate = useNavigate();
 
   const leaveMutation = useLeaveTeamMutation();
+  const dismiss = leaveMutation.isPending ? undefined : closeModal;
 
   const handleLeave = () => {
     leaveMutation.mutate(props.teamId, {
@@ -27,24 +28,40 @@ const LeaveTeamModal = (props: Props) => {
         navigate("/teams");
         closeModal();
       },
-      onError: () => {
-        addFinToast("error", "Error leaving team.");
-      },
     });
   };
 
   return (
     <>
-      <Modal isOpen={isOpen} toggle={closeModal}>
-        <ModalHeader tag="h2" toggle={closeModal}>
-          Leave Team
+      <Modal
+        isOpen={isOpen}
+        toggle={dismiss}
+        trapFocus
+        onClosed={leaveMutation.reset}
+        labelledBy="leave-team-title"
+        modalTransition={{
+          timeout: 300,
+          "aria-modal": true,
+          "aria-describedby": "leave-team-description",
+        }}
+      >
+        <ModalHeader tag="h2" toggle={dismiss}>
+          <span id="leave-team-title">Leave Team</span>
         </ModalHeader>
-        <ModalBody>
+        <ModalBody
+          id="leave-team-description"
+          tabIndex={leaveMutation.isPending ? 0 : undefined}
+        >
           Are you sure you want to leave this team?
           {isAdmin && (
             <p>
               You are an admin for this team. If you leave and there are no
               other admins, the team will be deleted.
+            </p>
+          )}
+          {leaveMutation.isError && (
+            <p className="alert alert-danger mt-2 mb-0" role="alert">
+              Error leaving team.
             </p>
           )}
         </ModalBody>

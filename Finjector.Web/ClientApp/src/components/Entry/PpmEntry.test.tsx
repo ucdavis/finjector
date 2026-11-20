@@ -142,7 +142,7 @@ const selectProject = async (
   await user.type(input, selectedProject.code);
   await user.click(
     await screen.findByRole("option", {
-      name: new RegExp(selectedProject.code),
+      name: `${selectedProject.code} ${selectedProject.name}`,
     })
   );
   await waitFor(() => {

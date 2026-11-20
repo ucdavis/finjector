@@ -5,10 +5,11 @@ const FinToastContainer = () => {
   return (
     <ToastContainer
       position="top-center"
+      className="fin-notifications"
       autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick={true}
+      hideProgressBar
+      newestOnTop
+      closeOnClick={false}
       rtl={false}
       draggable={true}
       pauseOnHover={true}

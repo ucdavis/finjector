@@ -76,6 +76,7 @@ const Import = () => {
   if (!isPopup) {
     return (
       <div>
+        <PageTitle title="Import Team or Folder" />
         <p>Import is only intended for use in a popup window.</p>
         <a href="/">Back to homepage</a>
       </div>
@@ -91,6 +92,11 @@ const Import = () => {
           setSearch={setSearch}
           placeholderText="Search Teams or Folders to import"
         />
+        <div role="status">
+          {search && (filteredTeamGroups.length
+            ? `Matching teams: ${filteredTeamGroups.length}`
+            : "No teams or folders match your search.")}
+        </div>
         <ul className="list-group">
           {filteredTeamGroups?.map((teamGroup) => {
             return (

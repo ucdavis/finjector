@@ -55,6 +55,7 @@ const Entry = () => {
   const saveInFolderId = parseInt(folderId ?? "0");
 
   const savedChartQuery = useGetSavedChartWithData(chartId || "");
+  const originalChart = savedChartQuery.data?.chart;
 
   const [savedChart, setSavedChart] = React.useState<Coa>({
     id: 0,
@@ -94,12 +95,8 @@ const Entry = () => {
   useEffect(() => {
     if (savedChartQuery.data) {
       const { chart } = savedChartQuery.data;
-      if (!chart.canEdit) {
-        // if user can't edit this folder, set to 0 (will use personal/default)
-        // don't edit the chart.folder object so we can still display the team/folder name
-        chart.folderId = 0;
-      }
-      setSavedChart(chart);
+      // Use the personal default for a read-only chart's draft.
+      setSavedChart(chart.canEdit ? chart : { ...chart, folderId: 0 });
 
       const savedChartData: ChartData = {
         chartType: chart.chartType,
@@ -207,7 +204,7 @@ const Entry = () => {
               updateFolderId={(folderId) =>
                 setSavedChart((c) => ({ ...c, folderId }))
               }
-              currentlySavedInFolderId={savedChartQuery.data?.chart.folderId}
+              currentlySavedInFolderId={originalChart?.canEdit ? originalChart.folderId : undefined}
             />
           </div>
           <div className="col-md-6 mb-3">
@@ -217,7 +214,11 @@ const Entry = () => {
             />
           </div>
         </div>
-        <EntryMutationActions chartData={chartData} savedChart={savedChart} />
+        <EntryMutationActions
+          chartData={chartData}
+          savedChart={savedChart}
+          originalChart={originalChart}
+        />
       </div>
       <ChartDebugInfo chartData={chartData} />
     </div>

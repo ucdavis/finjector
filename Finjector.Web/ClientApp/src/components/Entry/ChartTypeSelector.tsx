@@ -13,8 +13,10 @@ const ChartTypeSelector = (props: Props) => {
 
   return (
     <>
-      <div className="chart-type">
-        <p>Select which type of chart string you will build</p>
+      <fieldset className="chart-type">
+        <legend className="float-none fs-6">
+          Select which type of chart string you will build
+        </legend>
         <input
           type="radio"
           className="btn-check"
@@ -24,13 +26,13 @@ const ChartTypeSelector = (props: Props) => {
           checked={chartType === ChartType.GL}
           onChange={() => setChartType(ChartType.GL)}
         />
-        {/* should these be actual buttons? -river */}
         <label
           className={`btn btn-finjector btn-gl me-3 ${
             chartType === ChartType.GL ? activeClass : ""
           }`}
           htmlFor="option1"
         >
+          {chartType === ChartType.GL && <span aria-hidden="true">✓ </span>}
           GL
         </label>
 
@@ -49,9 +51,10 @@ const ChartTypeSelector = (props: Props) => {
           }`}
           htmlFor="option2"
         >
+          {chartType === ChartType.PPM && <span aria-hidden="true">✓ </span>}
           PPM
         </label>
-      </div>
+      </fieldset>
     </>
   );
 };

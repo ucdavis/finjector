@@ -3,12 +3,13 @@ import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import { useAddUserMutation } from "../../queries/userQueries";
 import { CollectionResourceType } from "../../types";
 import FinButton from "../Shared/FinButton";
+import addFinToast from "../Shared/LoadingAndErrors/FinToast";
 
 interface Props {
   resourceId: string;
   resourceType: CollectionResourceType;
   active: boolean;
-  toggle: () => void;
+  onClose: () => void;
 }
 
 export const AddUserPermission = (props: Props) => {
@@ -20,8 +21,6 @@ export const AddUserPermission = (props: Props) => {
     props.resourceId,
     props.resourceType
   );
-
-  const formValid = role !== "" && email !== "";
 
   const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setRole(event.target.value);
@@ -38,6 +37,7 @@ export const AddUserPermission = (props: Props) => {
       { role, email },
       {
         onSuccess: () => {
+          addFinToast("success", `Assigned the ${role} role to ${email}.`);
           resetForm();
         },
         onError: (err: any) => {
@@ -51,20 +51,30 @@ export const AddUserPermission = (props: Props) => {
     setRole("");
     setEmail("");
     setError("");
-    props.toggle();
+    props.onClose();
   };
 
   return (
-    <Modal isOpen={props.active} toggle={resetForm}>
-      <ModalHeader toggle={resetForm}>Add New Role</ModalHeader>
+    <Modal
+      isOpen={props.active}
+      toggle={resetForm}
+      trapFocus
+      labelledBy="add-role-title"
+      modalTransition={{ timeout: 300, "aria-modal": true }}
+    >
+      <ModalHeader tag="h2" toggle={resetForm}>
+        <span id="add-role-title">Add New Role</span>
+      </ModalHeader>
       <ModalBody>
         <form onSubmit={handleAssignRole}>
+          <p>Both fields are required.</p>
           <div className="mb-3">
             <label htmlFor="role" className="form-label">
               Role
             </label>
             <select
               id="role"
+              required
               className="form-select"
               value={role}
               onChange={handleRoleChange}
@@ -82,6 +92,7 @@ export const AddUserPermission = (props: Props) => {
             <input
               type="text"
               id="email"
+              required
               className="form-control"
               placeholder="Enter Email or Kerberos"
               value={email}
@@ -89,12 +100,13 @@ export const AddUserPermission = (props: Props) => {
             />
           </div>
 
-          {error && <div className="alert alert-danger">{error}</div>}
+          {error && (
+            <div role="alert" className="alert alert-danger">
+              {error}
+            </div>
+          )}
           <div className="text-end">
-            <FinButton
-              type="submit"
-              disabled={!formValid || addUserMutation.isPending}
-            >
+            <FinButton type="submit" disabled={addUserMutation.isPending}>
               {addUserMutation.isPending
                 ? "Assigning Role..."
                 : "Assign Role to User"}

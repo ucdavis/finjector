@@ -49,7 +49,7 @@ const TeamList = (props: Props) => {
     return teamInfo.team.name.toLowerCase().includes(filterLowercase);
   });
 
-  return (
+  const list = (
     <ul className="list-group">
       {filteredTeamsInfo.map((teamInfo) => {
         const url = `/teams/${teamInfo.team.id}`;
@@ -59,16 +59,16 @@ const TeamList = (props: Props) => {
             key={teamInfo.team.id}
             url={url}
           >
-            <div className="fin-info d-flex justify-content-between align-items-center">
-              <div className="col-8 ms-2 me-auto">
-                <h3 className="row-title">{teamInfo.team.name}</h3>
+            <div className="fin-info d-flex flex-wrap align-items-center">
+              <div className="col-12 col-md-8 px-2 text-break">
+                <h2 className="row-title h5">{teamInfo.team.name}</h2>
                 <p className="row-subtitle">
                   <span style={{ wordWrap: "break-word" }}>
                     {teamInfo.team.description}
                   </span>
                 </p>
               </div>
-              <div className="col-4 d-flex justify-content-end">
+              <div className="col-12 col-md-4 d-flex flex-wrap justify-content-md-end mt-2 mt-md-0">
                 <div className="stat-icon">
                   <FontAwesomeIcon
                     title="Folder count in team"
@@ -94,6 +94,7 @@ const TeamList = (props: Props) => {
               <Link
                 className="bold-link me-3 row-link-selected-action"
                 to={url}
+                aria-label={`Go to Team: ${teamInfo.team.name}`}
               >
                 <FontAwesomeIcon icon={faSitemap} />
                 Go to Team
@@ -103,6 +104,17 @@ const TeamList = (props: Props) => {
         );
       })}
     </ul>
+  );
+
+  return (
+    <>
+      <div role="status">
+        {props.filter && (filteredTeamsInfo.length
+          ? `Matching teams: ${filteredTeamsInfo.length}`
+          : "No teams match your search.")}
+      </div>
+      {list}
+    </>
   );
 };
 

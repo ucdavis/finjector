@@ -1,7 +1,8 @@
 import React from "react";
 
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { describe, it, expect } from "vitest";
 import { server } from "../../test/mocks/node";
@@ -58,6 +59,24 @@ describe("Details", () => {
     await waitFor(() => {
       expect(screen.getByText("Valid")).toBeInTheDocument();
     });
+  });
+  it("opens the named share dialog and returns focus to Share on Escape", async () => {
+    const user = userEvent.setup();
+    render(wrappedView(fakeValidChart.segmentString));
+    const share = await screen.findByRole("button", { name: "Share" });
+    share.focus();
+    await user.keyboard("{Enter}");
+
+    const dialog = await screen.findByRole("dialog", { name: "Share Chart String" });
+    expect(dialog).toBeVisible();
+    expect(dialog).toHaveAttribute("aria-modal", "true");
+    expect(
+      screen.getByRole("textbox", { name: "Chart string link" })
+    ).toHaveValue(`${window.location.origin}/details/${fakeValidChart.segmentString}`);
+
+    // Reactstrap reads the legacy keyCode that browsers include on keyup.
+    fireEvent.keyUp(dialog, { key: "Escape", keyCode: 27 });
+    await waitFor(() => expect(share).toHaveFocus());
   });
   it("shows chart details", async () => {
     // render component

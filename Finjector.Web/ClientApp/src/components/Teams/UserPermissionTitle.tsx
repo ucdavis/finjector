@@ -27,17 +27,15 @@ const UserPermissionTitle: React.FC<UserPermissionTitleProps> = ({
 }) => {
   const [addPermissionActive, setAddPermissionActive] = React.useState(false);
 
-  const toggleAddPermission = () => setAddPermissionActive((p) => !p);
-
   if (queryStatus.isLoading || queryStatus.isError || !membershipQueryData)
     return (
       <PageTitle>
         <div className="col-12 col-md-3">
-          <h4>
+          <p className="h5 mb-1">
             {queryStatus.isLoading
               ? "Scribbling in Permissions..."
               : "Error loading Permissions"}
-          </h4>
+          </p>
           <h1>Manage {folderId ? "Folder" : "Team"} Permissions</h1>
         </div>
       </PageTitle>
@@ -49,12 +47,12 @@ const UserPermissionTitle: React.FC<UserPermissionTitleProps> = ({
     <>
       <PageTitle>
         <div className="col-12 col-md-3">
-          <h4>{resourceName}</h4>
+          <p className="h5 mb-1">{resourceName}</p>
           <h1>Manage {folderId ? "Folder" : "Team"} Permissions</h1>
         </div>
 
         <div className="col-9 col-md-9 text-end">
-          <FinButton onClick={toggleAddPermission}>
+          <FinButton onClick={() => setAddPermissionActive(true)}>
             <FontAwesomeIcon icon={faPlus} />
             Add New Role
           </FinButton>
@@ -64,7 +62,7 @@ const UserPermissionTitle: React.FC<UserPermissionTitleProps> = ({
         resourceId={resourceId}
         resourceType={resourceType}
         active={addPermissionActive}
-        toggle={toggleAddPermission}
+        onClose={() => setAddPermissionActive(false)}
       />
     </>
   );

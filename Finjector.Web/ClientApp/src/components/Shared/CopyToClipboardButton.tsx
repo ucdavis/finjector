@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FinButton from "./FinButton";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface CopyToClipboardButtonProps
@@ -9,6 +10,7 @@ interface CopyToClipboardButtonProps
   children?: React.ReactNode;
   id: string;
   link?: boolean;
+  compact?: boolean;
 }
 
 const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = ({
@@ -16,50 +18,49 @@ const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = ({
   children,
   id,
   link,
+  compact = false,
   ...props
 }) => {
-  const [hasCopied, setHasCopied] = useState<boolean>(false);
+  const [status, setStatus] = useState<"" | "copied" | "failed">("");
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(value).then(() => {
-      setHasCopied(true);
-    });
+  const handleCopy = async () => {
+    setStatus("");
+    try {
+      await navigator.clipboard.writeText(value);
+      setStatus("copied");
+    } catch {
+      setStatus("failed");
+    }
   };
-
-  const onHover = () => {
-    setHasCopied(false);
-  };
-
-  if (link) {
-    return (
-      <div id={`copy-container-${id}`}>
-        <div
-          className="btn btn-link"
-          id={`copy-button-${id}`}
-          style={{
-            cursor: "pointer",
-          }}
-          onClick={handleCopy}
-          onMouseEnter={onHover}
-        >
-          <FontAwesomeIcon icon={faCopy} />
-          {children ?? (hasCopied ? "Copied!" : "Copy")}
-        </div>
-      </div>
-    );
-  }
+  const content = (
+    <>
+      <FontAwesomeIcon icon={status === "copied" ? faCheck : faCopy} />
+      {!compact && (children ?? "Copy")}
+    </>
+  );
 
   return (
-    <FinButton
-      id={`copy-button-${id}`}
-      onClick={handleCopy}
-      onMouseEnter={onHover}
-      margin={false}
-      {...props}
-    >
-      <FontAwesomeIcon icon={faCopy} />
-      {children ?? (hasCopied ? "Copied!" : "Copy")}
-    </FinButton>
+    <>
+      {compact || link ? (
+        <button
+          type="button"
+          id={`copy-button-${id}`}
+          className={compact ? "copy-inline-button" : "btn btn-link"}
+          onClick={handleCopy}
+          {...props}
+        >
+          {content}
+        </button>
+      ) : (
+        <FinButton id={`copy-button-${id}`} onClick={handleCopy} margin={false} {...props}>
+          {content}
+        </FinButton>
+      )}
+      <span role="status" className={status === "failed" ? "small" : "visually-hidden"}>
+        {status === "copied" && "Copied to clipboard."}
+        {status === "failed" && "Copy failed. Check your browser’s clipboard permissions."}
+      </span>
+    </>
   );
 };
 

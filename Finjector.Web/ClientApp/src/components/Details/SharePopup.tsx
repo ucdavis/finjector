@@ -30,9 +30,15 @@ const SharePopup: React.FC<SharePopupProps> = ({
         <FontAwesomeIcon icon={faPaperPlane} />
         Share
       </FinButton>
-      <Modal isOpen={modal} toggle={toggle}>
+      <Modal
+        isOpen={modal}
+        toggle={toggle}
+        trapFocus
+        labelledBy="share-chart-title"
+        modalTransition={{ timeout: 300, "aria-modal": true }}
+      >
         <ModalHeader tag="h2" toggle={toggle}>
-          Share Chart String
+          <span id="share-chart-title">Share Chart String</span>
         </ModalHeader>
         <ModalBody>
           <p>
@@ -40,8 +46,10 @@ const SharePopup: React.FC<SharePopupProps> = ({
             does not need access to your team or folder to view the detailed
             information.
           </p>
+          <label htmlFor="share-chart-url" className="form-label">Chart string link</label>
           <InputGroup>
             <Input
+              id="share-chart-url"
               className="custom-input-height"
               value={url}
               readOnly={true}

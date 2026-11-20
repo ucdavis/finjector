@@ -47,7 +47,7 @@ const CoaDisplay = (props: Props) => {
     }
 
     return (
-      <div className={`alert alert-${alertType}`} role="alert">
+      <div className={`alert alert-${alertType}`} role="status">
         {message}
       </div>
     );

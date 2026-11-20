@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy } from "@fortawesome/free-regular-svg-icons";
-import { Tooltip } from "reactstrap";
+import React from "react";
+import { toast } from "react-toastify";
 
 interface CopyToClipboardProps {
   value: string;
@@ -9,73 +7,43 @@ interface CopyToClipboardProps {
   id: string;
 }
 
-const copyToClipboardDefaultMessage = "copy to clipboard";
-
 const CopyToClipboardHover: React.FC<CopyToClipboardProps> = ({
   value,
   children,
   id,
 }) => {
-  const [titleText, setTitleText] = useState<string>(
-    copyToClipboardDefaultMessage
-  );
-  const [isHovering, setIsHovering] = useState<boolean>(false);
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-
-  const handleCopy = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.preventDefault();
-    navigator.clipboard.writeText(value).then(() => {
-      setTitleText("copied!");
-      setTimeout(() => setTitleText(copyToClipboardDefaultMessage), 2000); // Reset title after 2 seconds
-    });
-  };
-
-  const toggleTooltip = () => {
-    if (!tooltipOpen) {
-      setTooltipOpen(true);
-      setIsHovering(true);
-    } else {
-      setTooltipOpen(false);
-      setIsHovering(false);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      toast.success("Copied to clipboard.", {
+        role: "status",
+        autoClose: 3000,
+        icon: false,
+      });
+    } catch {
+      toast.error("Copy failed. Check your browser’s clipboard permissions.", {
+        role: "alert",
+        icon: false,
+      });
     }
   };
 
   return (
-    <div
-      id={`copy-container-hover-${id}`}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-      className="copy-container-hover"
-    >
-      <div
-        id={`copy-item-container-hover-${id}`}
-        style={{ position: "relative", display: "inline-flex" }}
-      >
-        {children}
-        <div
+    <span className="copy-container-hover">
+      {value ? (
+        <button
+          type="button"
           id={`copy-button-hover-${id}`}
-          style={{
-            position: "absolute",
-            right: "-20px",
-            top: 0,
-            cursor: "pointer",
-            opacity: isHovering ? 1 : 0,
-            transition: "opacity 0.2s ease-in-out",
-          }}
-          onClick={(e) => handleCopy(e)}
+          className="copy-value-button"
+          onClick={handleCopy}
+          title="Copy to clipboard"
         >
-          <FontAwesomeIcon icon={faCopy} />
-        </div>
-      </div>
-      <Tooltip
-        isOpen={tooltipOpen}
-        toggle={toggleTooltip}
-        placement="top"
-        target={`copy-button-hover-${id}`}
-      >
-        {titleText}
-      </Tooltip>
-    </div>
+          <span className="visually-hidden">Copy </span>
+          {children}
+          <span className="visually-hidden"> to clipboard</span>
+        </button>
+      ) : children}
+    </span>
   );
 };
 
